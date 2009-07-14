@@ -22,6 +22,8 @@ runtime plugin/debug.vim
 runtime plugin/xpreplace.vim
 runtime plugin/mapstack.vim
 
+let s:log = CreateLogger( 'debug' )
+
 
 " Script scope variables {{{
 let s:sessionPrototype = {
@@ -66,7 +68,7 @@ fun! s:sessionPrototype.popup(start_col, ...) "{{{
     " if multi items matched, whether to invoke call back or just show popup
     let doCallback = a:0 == 0 || a:1
 
-    call Debug("doCallback=".doCallback)
+    call s:log.Debug("doCallback=".doCallback)
 
     let sess = self
 
@@ -77,7 +79,7 @@ fun! s:sessionPrototype.popup(start_col, ...) "{{{
     let sess.currentList = s:filterCompleteList(sess)
     let sess.longest     = s:LongestPrefix(sess)
 
-    call Debug("sess=".string(sess))
+    call s:log.Debug("sess=".string(sess))
 
     let actionList = []
 
@@ -96,14 +98,14 @@ fun! s:sessionPrototype.popup(start_col, ...) "{{{
 
 
     if len(sess.currentList) == 0
-        call Debug("no matching")
+        call s:log.Debug("no matching")
 
         let sess.matched = ''
         let sess.matchedCallback = 'onEmpty'
         let actionList += ['callback']
 
     elseif len(sess.currentList) == 1
-        call Debug("only 1 item matched")
+        call s:log.Debug("only 1 item matched")
 
         let sess.matched = type(sess.currentList[0]) == type({}) ? sess.currentList[0].word : sess.currentList[0]
         let sess.matchedCallback = 'onOneMatch'
@@ -113,7 +115,7 @@ fun! s:sessionPrototype.popup(start_col, ...) "{{{
         " If the typed text matches all items with case ignored, Try to find
         " the first matched item.
 
-        call Debug("try to call callback")
+        call s:log.Debug("try to call callback")
 
         let sess.matched = ''
         for item in sess.currentList
@@ -135,7 +137,7 @@ fun! s:sessionPrototype.popup(start_col, ...) "{{{
 
     else
 
-        call Debug("no match and list is not empty")
+        call s:log.Debug("no match and list is not empty")
         let actionList += [ 'popup', 'fixPopup' ]
 
     endif
@@ -145,7 +147,7 @@ fun! s:sessionPrototype.popup(start_col, ...) "{{{
     " Both popup and callback need this session
     let b:__xpp_current_session = sess
 
-    call Debug("actionList=".string(actionList))
+    call s:log.Debug("actionList=".string(actionList))
 
     return "\<C-r>=XPPprocess(" . string(actionList) . ")\<cr>"
 
@@ -193,7 +195,7 @@ fun! XPPprocess(list) "{{{
     endif
 
     if !exists("b:__xpp_current_session")
-        call Error("session does not exist!")
+        call s:log.Error("session does not exist!")
         return ""
     endif
 
@@ -204,8 +206,8 @@ fun! XPPprocess(list) "{{{
     let nextList = a:list[ 1 : ]
     let postAction = ""
 
-    call Debug("actionName=".actionName)
-    call Debug("postAction=".postAction)
+    call s:log.Debug("actionName=".actionName)
+    call s:log.Debug("postAction=".postAction)
 
     
 
@@ -242,7 +244,7 @@ fun! XPPprocess(list) "{{{
             let i += 1
         endfor
 
-        call Debug("j=".j)
+        call s:log.Debug("j=".j)
 
 
         if j != -1
@@ -251,7 +253,7 @@ fun! XPPprocess(list) "{{{
 
     elseif actionName == 'callback'
 
-        call Debug("callback is:".sess.matchedCallback)
+        call s:log.Debug("callback is:".sess.matchedCallback)
         call s:End()
 
         if has_key(sess.callback, sess.matchedCallback)
@@ -269,7 +271,7 @@ fun! XPPprocess(list) "{{{
         let  postAction .= "\<C-r>=XPPprocess(" . string( nextList ) . ")\<cr>"
     endif
 
-    call Log("postAction=" . postAction)
+    call s:log.Log("postAction=" . postAction)
 
     return postAction
     
@@ -286,19 +288,19 @@ fun! XPPfixPopupOption() "{{{
     " Selection is only made by user's pressing <C-p> or <C-n>
 
 
-    call Log("start")
+    call s:log.Log("start")
 
     if !s:PopupCheck()
         return ""
     endif
 
-    call Log("check is ok")
+    call s:log.Log("check is ok")
 
     let sess = b:__xpp_current_session
 
     let current = getline(".")[ sess.col - 1 : col(".") - 2 ]
 
-    call Log("current typed:".current)
+    call s:log.Log("current typed:".current)
 
     if current != sess.longest
         return "\<C-p>\<C-r>=XPPfixPopupOption()\<cr>"
@@ -310,13 +312,13 @@ fun! XPPfixPopupOption() "{{{
 endfunction "}}}
 
 fun! XPPfixFinalize() "{{{
-    call Log("start")
+    call s:log.Log("start")
 
     let sess = b:__xpp_current_session
 
     let current = getline(".")[ sess.col - 1 : col(".") - 2 ]
 
-    call Log("current typed:".current)
+    call s:log.Log("current typed:".current)
 
     if current == sess.longest
         return "\<C-p>\<C-r>=XPPfixFinalize()\<cr>"
@@ -354,7 +356,7 @@ fun! XPPcallback() "{{{
     let sess = b:__xpp_current_session
     call s:End()
 
-    call Debug("callback is:".sess.matchedCallback)
+    call s:log.Debug("callback is:".sess.matchedCallback)
 
     if has_key(sess.callback, sess.matchedCallback)
         let post = sess.callback[ sess.matchedCallback ](sess)
@@ -380,7 +382,7 @@ fun! XPPshorten() "{{{
 
     let current = getline(".")[ sess.col - 1 : col(".") - 2 ]
 
-    call Log("current typed=".current)
+    call s:log.Log("current typed=".current)
 
     " <bs> pressed when no content can be removed any more.
     if current == ''
@@ -395,16 +397,16 @@ fun! XPPshorten() "{{{
 
 
     let prefixMap = ( sess.ignoreCase ) ? sess.prefixIndex.lower : sess.prefixIndex.ori
-    call Log("prefix map:".string(prefixMap))
+    call s:log.Log("prefix map:".string(prefixMap))
 
     let shorterKey = s:FindShorter(prefixMap, ( sess.ignoreCase ? substitute(current, '.', '\l&', 'g') : current ))
-    call Log("shorterKey=".shorterKey)
+    call s:log.Log("shorterKey=".shorterKey)
 
 
     let action = actions . repeat( "\<bs>", len(current) - len(shorterKey) ) . "\<C-r>=XPPrepopup(0)\<cr>"
     " let action = actions . repeat( "\<bs>", len(current) - len(shorterKey) )
 
-    call Log("action=".action)
+    call s:log.Log("action=".action)
 
     return action
 
@@ -446,7 +448,7 @@ endfunction "}}}
 
 fun! XPPcorrectPos() "{{{
     let p = getpos(".")[1:2]
-    call Debug("before correct pos, line=".getline("."))
+    call s:log.Debug("before correct pos, line=".getline("."))
     if p != s:pos
         unlet s:pos
         return "\<bs>"
@@ -495,12 +497,12 @@ fun! s:PopupCheck(...) "{{{
     " Return 0 if check failed that popup can not continue.
     " @param : a:1      to check popup menu or not. default : check popup menu
 
-    call Log("start")
+    call s:log.Log("start")
 
     let checkPum = ( a:0 == 0 || a:1 )
 
     if !exists("b:__xpp_current_session")
-        call Log("buffer session does not exist, to end popup")
+        call s:log.Log("buffer session does not exist, to end popup")
         call s:End()
         return 0
     endif
@@ -508,12 +510,12 @@ fun! s:PopupCheck(...) "{{{
     let sess = b:__xpp_current_session
 
     if sess.line != line(".") || col(".") < sess.col || (checkPum && !pumvisible())
-        call Log("invalid position: line=".line("."), 'col='.col("."), 'sess.col='.sess.col, 'pum visibile='.pumvisible())
+        call s:log.Log("invalid position: line=".line("."), 'col='.col("."), 'sess.col='.sess.col, 'pum visibile='.pumvisible())
         call s:End()
         return 0
     endif
 
-    call Log("popup check is ok")
+    call s:log.Log("popup check is ok")
     return 1
 endfunction "}}}
 
@@ -558,7 +560,7 @@ fun! s:LongestPrefix(sess) "{{{
         let longest = a:sess.prefix . longest[ len(a:sess.prefix) : ]
     endif
 
-    call Log("longest=".longest)
+    call s:log.Log("longest=".longest)
 
     return longest
 endfunction "}}}
@@ -567,7 +569,7 @@ fun! s:filterCompleteList(sess) "{{{
     let list = []
     let pattern = '^\V' . ( a:sess.ignoreCase ? '\c' : '\C' ) . a:sess.prefix
 
-    call Log("sess.list=".string(a:sess.list))
+    call s:log.Log("sess.list=".string(a:sess.list))
 
     for item in a:sess.list
         let key = ( type(item) == type({}) ) ? item.word : item
@@ -577,7 +579,7 @@ fun! s:filterCompleteList(sess) "{{{
         endif
     endfor
 
-    call Log("filtered list:".string(list))
+    call s:log.Log("filtered list:".string(list))
 
     return list
 endfunction "}}}
@@ -588,7 +590,7 @@ fun! s:FindShorter(map, key) "{{{
     let nmatch = has_key(a:map, key) ? a:map[key] : 1
 
     if !has_key( a:map, key[ : -2 ] )
-        call Log("no match")
+        call s:log.Log("no match")
         return key[ : -2 ]
     endif
 
