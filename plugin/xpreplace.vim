@@ -4,6 +4,7 @@ endif
 let g:__XPREPLACE_VIM__ = 1
 
 
+runtime plugin/debug.vim
 runtime plugin/mapstack.vim
 
 " test range

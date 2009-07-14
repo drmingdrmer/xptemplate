@@ -5,6 +5,7 @@ let g:__XPTEMPLATE_CONF_VIM__ = 1
 
   " finish
 
+runtime plugin/debug.vim
 
 let s:escapeHead   = '\v(\\*)\V'
 let s:unescapeHead = '\v(\\*)\1\\?\V'

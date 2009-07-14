@@ -5,6 +5,7 @@ let g:__POSITION_VIM__ = 1
 
 " deprecated
 finish
+runtime plugin/debug.vim
 
 " Position object 
 "   

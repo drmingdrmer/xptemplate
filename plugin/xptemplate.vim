@@ -74,6 +74,7 @@ let s:log = CreateLogger( 'debug' )
 
 
 " runtime plugin/position.vim
+runtime plugin/debug.vim
 runtime plugin/mapstack.vim
 runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim

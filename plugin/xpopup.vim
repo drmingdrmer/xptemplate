@@ -18,6 +18,7 @@ let g:__XPOPUP_VIM__ = 1
 
 
 " TODO popup fix:select it if strictly matched
+runtime plugin/debug.vim
 runtime plugin/xpreplace.vim
 runtime plugin/mapstack.vim
 

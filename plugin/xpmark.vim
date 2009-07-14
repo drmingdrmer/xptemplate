@@ -8,6 +8,7 @@ com! XPMgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPMgetSID
 delc XPMgetSID
 
+runtime plugin/debug.vim
 
 
 " probe mark
