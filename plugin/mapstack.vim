@@ -20,6 +20,8 @@ let g:__MAPSTACK_VIM__ = 1
 
 runtime plugin/debug.vim
 
+let s:log = CreateLogger( 'debug' )
+
 fun! s:InitStacks() "{{{
   let b:__setting_stack__ = []
   let b:__map_stack__ = []
@@ -141,7 +143,7 @@ fun! g:MapPop(expected) "{{{
     throw "Err_XPT:try to restore unexpected mapping expected :" . string(a:expected) . " but :" . string(info)
   endif
 
-  call Debug("map info:".string(info))
+  call s:log.Debug("map info:".string(info))
 
   if empty(info)
     return

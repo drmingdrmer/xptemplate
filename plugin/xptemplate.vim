@@ -1208,7 +1208,7 @@ fun! s:addItemToRenderContext( ctx, item ) "{{{
         " call insert( ctx.itemList, item, 0 )
         call add( ctx.firstList, item )
 
-        call Log( 'item insert to the head of itemList:' . string( item ) )
+        call s:log.Log( 'item insert to the head of itemList:' . string( item ) )
         return
 
     endif
@@ -1641,7 +1641,7 @@ fun! s:gotoNextItem() "{{{
     let renderContext = s:getRenderContext()
     let xmark = renderContext.marks
 
-    call Log( 'renderContext=' . string( renderContext ) )
+    call s:log.Log( 'renderContext=' . string( renderContext ) )
     let xp = renderContext.tmpl.ptn
 
     let placeHolder = s:extractOneItem()
