@@ -23,8 +23,8 @@ let s:insertPattern = '[i]'
 " TODO joining lines cause marks lost
 
 
-" let s:log = CreateLogger( 'debug' )
-let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
+" let s:log = CreateLogger( 'warn' )
 
 fun! XPMadd( name, pos, ... ) "{{{
     " @param name       mark name

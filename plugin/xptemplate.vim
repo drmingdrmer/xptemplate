@@ -17,6 +17,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO bug:coherent place holders span mark
 " TODO ontime filter
 " TODO ontime repetition
 " TODO use i^gu to protect template
@@ -66,8 +67,8 @@ com! XPTgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPTgetSID
 delc XPTgetSID
 
-" let s:log = CreateLogger( 'debug' )
-let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
+" let s:log = CreateLogger( 'warn' )
 
 
 
@@ -1554,14 +1555,16 @@ fun! s:ApplyPostFilter() "{{{
 
     if has_key(posts, name)
         let postFilter = posts[ name ]
-
-    elseif renderContext.leadingPlaceHolder.postFilter != ''
-        let postFilter = renderContext.leadingPlaceHolder.postFilter
-
+    
     else
         let hasPostFilter = 0
 
     endif
+
+
+    " elseif renderContext.leadingPlaceHolder.postFilter != ''
+        " let postFilter = renderContext.leadingPlaceHolder.postFilter
+
 
 
     call s:log.Log("name:".name)
@@ -2528,7 +2531,15 @@ fun! s:updateFollowingPlaceHoldersWith( contentTyped ) "{{{
     let phList = ctx.item.placeHolders
     let phList = ctx.leadingPlaceHolder.isKey ? phList : phList[1:]
     for ph in phList
-        call XPreplace( XPMpos( ph.mark.start ), XPMpos( ph.mark.end ), a:contentTyped )
+        if ph.ontimeFilter != ''
+            let ontimeResult = s:Eval( ph.ontimeFilter, { 'typed' : a:contentTyped } )
+            " TODO ontime filter action support?
+        else
+            let ontimeResult = a:contentTyped
+        endif
+
+
+        call XPreplace( XPMpos( ph.mark.start ), XPMpos( ph.mark.end ), ontimeResult )
 
         call s:log.Debug( 'after update 1 place holder:', s:textBetween( XPMpos( ctx.marks.tmpl.start ), XPMpos( ctx.marks.tmpl.end ) ) )
     endfor
