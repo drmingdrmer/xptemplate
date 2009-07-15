@@ -7,6 +7,10 @@ if exists("g:__XPTEMPLATETEST_VIM__")
 endif
 let g:__XPTEMPLATETEST_VIM__ = 1
 
+runtime plugin/debug.vim
+let s:log = CreateLogger( 'debug' )
+
+
 " TODO indent test 
 
 " test suite support
@@ -15,6 +19,8 @@ let s:phases = [ 1, 2, 3, 4 ]
 let [ s:DEFAULT, s:TYPED, s:CHAR_AROUND, s:NESTED ] = s:phases
 let s:FIRST_PHASE = s:phases[ 0 ]
 let s:LAST_PHASE = s:phases[ -1 ]
+
+
 
 " com! XPTSlow redraw! | sleep 100m
 com! XPTSlow echo
@@ -146,7 +152,7 @@ fun! s:XPTtest(ft) "{{{
     let b:tmplToTest = tmplList
     " let b:tmplToTest = []
     " for v in tmplList
-        " if v.name =~ 'invoke_' 
+        " if v.item.name =~ 'invoke_' 
             " let b:tmplToTest += [ v ]
             " break
         " endif
@@ -191,11 +197,11 @@ endfunction "}}}
 
 
 fun! TestProcess() "{{{
-    " call Log( "TestProcess, mode=".mode()." popup=".pumvisible() )
+    call s:log.Log( "mode=".mode()." popup=".pumvisible() )
     XPTSlow
 
     if b:testProcessing == 0
-        " call Log("processing = 0, to start new")
+        call s:log.Log("processing = 0, to start new")
         call s:StartNewTemplate()
 
         XPTSlow
@@ -205,7 +211,7 @@ fun! TestProcess() "{{{
         " Insert mode or select mode.
         " If it is in normal mode, maybe something else is going. In normal mode,
         " just ignore it
-        " call Log("processing, mode=".mode())
+        call s:log.Log("processing, mode=".mode())
         if mode() =~? "[is]"
             call s:FillinTemplate()
         endif
@@ -272,12 +278,16 @@ fun! s:StartNewTemplate() "{{{
 
     if s:TYPED == b:testPhase
         let charAround =  " =\<left>\<left>" 
+
     elseif s:CHAR_AROUND == b:testPhase
         let charAround =  "-  =\<left>\<left>" 
+
     elseif s:NESTED == b:testPhase
         let charAround =  "- " 
+
     else
         let charAround = ''
+
     endif
 
 
@@ -293,18 +303,18 @@ fun! s:StartNewTemplate() "{{{
 endfunction "}}}
 
 fun! s:FillinTemplate() "{{{
-    let x = g:X()
-    let ctx = x.curctx
+    let x = XPTbufData()
+    let ctx = x.renderContext
 
-    " call Log("FillinTemplate:phase:".ctx.phase)
+    call s:log.Log("phase:" . ctx.phase)
 
     if ctx.phase == 'fillin' 
 
         XPTSlow
 
         " repitition, expandable or super repetition
-        if ctx.name =~ '\V..'
-            let b:itemSteps += [ ctx.name ]
+        if ctx.item.name =~ '\V..'
+            let b:itemSteps += [ ctx.item.name ]
 
             " keep at most 5 steps
             if len( b:itemSteps ) > 5 
@@ -313,7 +323,7 @@ fun! s:FillinTemplate() "{{{
         endif
 
 
-        if len(b:itemSteps) >= 3 && b:itemSteps[-3] == ctx.name
+        if len(b:itemSteps) >= 3 && b:itemSteps[-3] == ctx.item.name
             " too many repetition 
             call s:XPTcancel()
 
@@ -323,7 +333,7 @@ fun! s:FillinTemplate() "{{{
 
         elseif b:testPhase == s:TYPED
             " pseudo type
-            call s:XPTtype(substitute(ctx.name, '\W', '', 'g')."_TYPED")
+            call s:XPTtype(substitute(ctx.item.name, '\W', '', 'g')."_TYPED")
 
         " elseif b:testPhase == s:CHAR_AROUND
         " elseif b:testPhase == s:NESTED

@@ -17,29 +17,26 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO snippet-file scope XSET
-" TODO snippets bundle and bundle selection
 " TODO test more : char before snippet, char after, last cursor position,
 " TODO use i^gu to protect template
 " expected mode() when cursor stopped to wait for input
-" TODO item popup: repopup
 " TODO highlight all pending item instead of using mark
 " TODO protect register while template rendering
 " TODO implement wrapping in more natural way. nested maybe.
 " TODO hidden template or used only internally.
+" TODO snippets bundle and bundle selection
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 " TODO snippets bundle and bundle selection
+" TODO snippet-file scope XSET
 " TODO block context check
-" TODO $BRACKETSTYLE caused indent problem. Readjust \n
 " TODO eval default value in-time
 " TODO expandable has to be adjuested
 " TODO in windows & in select mode to trigger wrapped or normal?
-" TODO auto crash
-" TODO nested repetition in expandable
 " TODO change on previous item
 " TODO ontime filter
 " TODO lock key variables
 " TODO as function call template
+" TODO item popup: repopup
 " TODO undo
 " TODO wrapping on different visual mode
 " TODO prefixed template trigger
@@ -458,13 +455,18 @@ fun! XPTemplatePreWrap(wrap) "{{{
     endif
 
     let ppr = s:Popup("", x.wrapStartPos)
+
     call s:log.Log("popup result:".string(ppr))
-    if has_key( ppr, 'action' )
-        call s:ApplyPopupKeys()
-        return ppr.action
-    else
-        return XPTemplateStart(0)
-    endif
+    return ppr
+
+
+
+    " if has_key( ppr, 'action' )
+        " call s:ApplyPopupKeys()
+        " return ppr.action
+    " else
+        " return XPTemplateStart(0)
+    " endif
 endfunction "}}}
 
 fun! XPTemplateStart(pos, ...) " {{{
@@ -1665,9 +1667,7 @@ fun! s:gotoNextItem() "{{{
     call s:log.Log( "all marks:" . XPMallMark() )
 
 
-    let renderContext.phase = 'inititem'
     let postaction = s:initItem()
-    let renderContext.phase = 'fillin'
 
     call s:log.Log( 'after initItem, postaction='.postaction )
 
@@ -1933,6 +1933,7 @@ endfunction "}}}
 " return type action
 fun! s:initItem() " {{{
     let renderContext = s:getRenderContext()
+    let renderContext.phase = 'inititem'
 
     " apply default value
     if has_key(renderContext.tmpl.setting.defaultValues, renderContext.item.name)
@@ -1953,6 +1954,8 @@ fun! s:selectCurrent( renderContext )
     let marks = ph.isKey ? ph.editMark : ph.mark
 
     let [ ctl, cbr ] = [ XPMpos( marks.start ), XPMpos( marks.end ) ]
+
+    let a:renderContext.phase = 'fillin'
 
     if ctl == cbr 
         return ''
@@ -2745,6 +2748,7 @@ call <SID>Link('TmplRange GetRangeBetween textBetween GetStaticRange LeftPos')
 
 
 com! XPTreload call XPTreload()
+com! XPTcrash call <SID>crash()
 
 
 fun! String( d, ... )
