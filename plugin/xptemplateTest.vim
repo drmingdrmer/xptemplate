@@ -8,7 +8,8 @@ endif
 let g:__XPTEMPLATETEST_VIM__ = 1
 
 runtime plugin/debug.vim
-let s:log = CreateLogger( 'debug' )
+" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'warn' )
 
 
 " TODO indent test 
@@ -333,7 +334,7 @@ fun! s:FillinTemplate() "{{{
 
         elseif b:testPhase == s:TYPED
             " pseudo type
-            call s:XPTtype(substitute(ctx.item.name, '\W', '', 'g')."_TYPED")
+            call s:XPTtype(substitute(ctx.item.name, '\W', '', 'g') . "_TYPED")
 
         " elseif b:testPhase == s:CHAR_AROUND
         " elseif b:testPhase == s:NESTED

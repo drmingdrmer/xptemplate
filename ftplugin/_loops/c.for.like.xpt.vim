@@ -26,7 +26,7 @@ for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRACKETSTYLE^{
 
 
 XPT forr hint=for\ (..;..;--)
-for (`i^ = `n^; `i^ >`^=^ `end^; --`i^)`$BRACKETSTYLE^{
+for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$BRACKETSTYLE^{
   `cursor^
 }
 

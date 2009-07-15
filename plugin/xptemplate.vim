@@ -17,7 +17,8 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO test more : char before snippet, char after, last cursor position,
+" TODO ontime filter
+" TODO ontime repetition
 " TODO use i^gu to protect template
 " expected mode() when cursor stopped to wait for input
 " TODO highlight all pending item instead of using mark
@@ -33,11 +34,11 @@
 " TODO expandable has to be adjuested
 " TODO in windows & in select mode to trigger wrapped or normal?
 " TODO change on previous item
-" TODO ontime filter
 " TODO lock key variables
 " TODO as function call template
 " TODO item popup: repopup
 " TODO undo
+" TODO test more : char before snippet, char after, last cursor position,
 " TODO wrapping on different visual mode
 " TODO prefixed template trigger
 " TODO class-style
@@ -65,8 +66,8 @@ com! XPTgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPTgetSID
 delc XPTgetSID
 
-let s:log = CreateLogger( 'debug' )
-" let s:log = CreateLogger( 'warn' )
+" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'warn' )
 
 
 
@@ -1074,7 +1075,7 @@ fun! s:createPlaceHolder( ctx, nameInfo, valueInfo ) "{{{
     let placeHolder = { 
                 \ 'name'        : name, 
                 \ 'isKey'       : (a:nameInfo[0] != a:nameInfo[1]), 
-                \ 'postFilter'  : '', 
+                \ 'ontimeFilter': '', 
                 \ }
 
 
@@ -1095,7 +1096,7 @@ fun! s:createPlaceHolder( ctx, nameInfo, valueInfo ) "{{{
         let val = s:clearMinimalIndent( val, indent( a:valueInfo[0][0] ) )
 
 
-        let placeHolder.postFilter = val
+        let placeHolder.ontimeFilter = val
 
         call s:log.Debug("placeHolder post filter:key=val : " . name . "=" . val)
     endif
@@ -1491,6 +1492,10 @@ fun! s:finishCurrentAndGotoNextItem(flag) " {{{
     let x = s:bufData()
     let ctx = s:getRenderContext()
     let marks = ctx.leadingPlaceHolder.mark
+
+    " if typing and <tab> pressed together, no update called
+    " TODO do not call this if no need to update
+    call s:XPTupdate()
 
     let ctx.phase = 'post'
 

@@ -13,13 +13,17 @@ call extend(s:v, {'$TRUE': '1', '$FALSE' : '0', '$NULL' : 'NULL', '$INDENT_HELPE
 XPTemplateDef
 
 XPT enum hint=enum\ {\ ..\ }
-enum `enumName^
+XSET var=
+enum `name^
 {
-    `elem^`
-    `...^,
-    `subElem^`
-    `...^
+    `element^`
+    `elm?^
 } `var^^;
+..XPT
+XSETm elm?|post
+,
+`element^`
+`elm?^XSETm END
 
 
 XPT struct hint=struct\ {\ ..\ }
