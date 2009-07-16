@@ -26,6 +26,13 @@ let s:insertPattern = '[i]'
 let s:log = CreateLogger( 'debug' )
 " let s:log = CreateLogger( 'warn' )
 
+
+" fun! XPMrange( namePre, start, end )
+    " call XPMadd( a:namePre . '_start', a:start, 'l' )
+    " call XPMadd( a:namePre . '_end',   a:end,   'r' )
+" endfunction
+
+
 fun! XPMadd( name, pos, ... ) "{{{
     " @param name       mark name
     "
