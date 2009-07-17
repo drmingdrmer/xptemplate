@@ -1165,12 +1165,12 @@ fun! s:buildMarksOfPlaceHolder(ctx, item, placeHolder, nameInfo, valueInfo) "{{{
         let nameInfo[1][1] -= shift
         call s:log.Debug( 'nameInfo.1 decr=' . shift )
 
-        let shift = (nameInfo[1][0] == nameInfo[2][0]) * shift + 1
+        let shift = (nameInfo[1][0] == nameInfo[2][0]) * (shift + 1)
         let nameInfo[2][1] -= shift
         call s:log.Debug( 'nameInfo.2 decr=' . shift )
 
         if nameInfo[2] != nameInfo[3]
-            let shift = nameInfo[2][0] == nameInfo[3][0] * shift + 1
+            let shift = (nameInfo[2][0] == nameInfo[3][0]) * (shift + 1)
             let nameInfo[3][1] -= shift
             call s:log.Debug( 'nameInfo.3 decr=' . shift )
         endif
@@ -2661,7 +2661,7 @@ fun! s:XPTupdate(...) "{{{
 
 
     let currentPosMark = '````'
-    call XPMhere( currentPosMark )
+    call XPMhere( currentPosMark, 'l' )
 
     " in most cases there is no line break
     if len( renderContext.lastContent ) == len( typedContent ) && typedContent !~ '\n' && renderContext.lastContent !~ '\n'

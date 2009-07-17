@@ -30,7 +30,7 @@ endfunction
 XPTemplateDef
 
 XPT for hint=for\ (..;..;++)
-for (`i^ = `0^; `i^ < `len^; ++`i^) `$BRACKETSTYLE^{
+for (`-`i`-^ = `0^; `i^ < `len^; ++`i^) `$BRACKETSTYLE^{
   `cursor^
 }
 ..XPT

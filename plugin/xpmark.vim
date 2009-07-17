@@ -43,9 +43,11 @@ fun! XPMadd( name, pos, prefer ) "{{{
     let prefer = a:prefer == 'l' ? 0 : 1
     let d.marks[ a:name ] = a:pos + [ len( getline( a:pos[0] ) ), prefer ]
 
+
+
 endfunction "}}}
 
-fun! XPMhere( name, a:prefer ) "{{{
+fun! XPMhere( name, prefer ) "{{{
     call XPMadd( a:name, [ line( "." ), col( "." ) ], a:prefer )
 endfunction "}}}
 
@@ -66,7 +68,8 @@ endfunction
 fun! XPMflush() "{{{
     let d = s:bufData()
     let d.marks = {}
-    let d.markHistory[ changenr() ] = d.marks
+    let d.orderedMarks = []
+    let d.markHistory[ changenr() ] = { 'dict' : d.marks, 'list': d.orderedMarks }
 endfunction "}}}
 
 fun! XPMgoto( name ) "{{{
@@ -251,7 +254,9 @@ fun! s:snapshot() dict "{{{
     endwhile
 
     let self.marks = copy( self.marks )
-    let self.markHistory[ nr ] = self.marks
+    let self.orderedMarks = copy( self.orderedMarks )
+    let self.markHistory[ nr ] = { 'dict' : self.marks, 'list': self.orderedMarks }
+
 
 endfunction "}}}
 
@@ -268,10 +273,12 @@ fun! s:handleUndoRedo() dict "{{{
 
 
         if has_key( self.markHistory, nr )
-            let self.marks = self.markHistory[ nr ]
+            let self.marks = self.markHistory[ nr ].dict
+            let self.orderedMarks = self.markHistory[ nr ].list
         else
             call s:log.Info( 'u : no ' . nr . ' in markHistory, create new mark set' )
             let self.marks = {}
+            let self.orderedMarks = []
         endif
 
         return 1
@@ -284,10 +291,12 @@ fun! s:handleUndoRedo() dict "{{{
         call s:log.Log( "redo" )
 
         if has_key( self.markHistory, nr )
-            let self.marks = self.markHistory[ nr ]
+            let self.marks = self.markHistory[ nr ].dict
+            let self.orderedMarks = self.markHistory[ nr ].list
         else
             call s:log.Info( "<C-r> no " . nr . ' in markHistory, create new mark set' )
             let self.marks = {}
+            let self.orderedMarks = []
         endif
 
         return 1
@@ -644,6 +653,7 @@ endfunction " }}}
 " TODO call back
 fun! s:removeMark(name) dict "{{{
     call s:log.Log( "removed mark:" . a:name )
+    call filter( self.orderedMarks, 'v:val != ' . string( a:name ) )
     call remove( self.marks, a:name )
 endfunction "}}}
 
@@ -670,6 +680,7 @@ fun! s:initBufData() "{{{
     let b:_xpmark = { 
                 \ 'updateStrategy'       : 'auto', 
                 \ 'stat'                 : {},
+                \ 'orderedMarks'         : [],
                 \ 'marks'                : {},
                 \ 'markHistory'          : {}, 
                 \ 'lastMode'             : 'n',
@@ -679,7 +690,9 @@ fun! s:initBufData() "{{{
                 \ 'changenrRange'        : [nr, nr], 
                 \ }
 
-    let b:_xpmark.markHistory[ nr ] = b:_xpmark.marks
+    let b:_xpmark.markHistory[ nr ] = { 'dict' : b:_xpmark.marks, 'list' : b:_xpmark.orderedMarks }
+
+
 
     call extend( b:_xpmark, s:prototype, 'force' )
 
