@@ -43,9 +43,10 @@ fun! XPMadd( name, pos, prefer ) "{{{
     let prefer = a:prefer == 'l' ? 0 : 1
     let d.marks[ a:name ] = a:pos + [ len( getline( a:pos[0] ) ), prefer ]
 
-
+    call d.addMarkOrder( a:name )
 
 endfunction "}}}
+
 
 fun! XPMhere( name, prefer ) "{{{
     call XPMadd( a:name, [ line( "." ), col( "." ) ], a:prefer )
@@ -56,14 +57,14 @@ fun! XPMremove( name ) "{{{
     call d.removeMark( a:name )
 endfunction "}}}
 
-fun! XPMremoveMarkStartWith(prefix) 
+fun! XPMremoveMarkStartWith(prefix) "{{{
     let d = s:bufData()
     for key in keys( d.marks )
         if key =~# '^\V' . a:prefix
             call d.removeMark( key )
         endif
     endfor
-endfunction
+endfunction "}}}
 
 fun! XPMflush() "{{{
     let d = s:bufData()
@@ -86,6 +87,14 @@ fun! XPMpos( name ) "{{{
         return d.marks[ a:name ][ : 1 ]
     endif
     return [0, 0]
+endfunction "}}}
+
+" TODO set likely between in xpt
+fun! XPMsetLikelyBetween( start, end ) "{{{
+    let d = s:bufData()
+    Assert has_key( d.marks, a:start )
+    Assert has_key( d.marks, a:end )
+    let d.changeLikelyBetween = { 'start' : a:start, 'end' : a:end }
 endfunction "}}}
 
 fun! XPMsetUpdateStrategy( mode ) "{{{
@@ -186,13 +195,14 @@ fun! XPMupdate(...) " {{{
     return ''
 endfunction "}}}
 
-fun! XPMupdateStat()
+fun! XPMupdateStat() "{{{
     call s:log.Log( " --------step--------- " )
 
     let d = s:bufData()
 
     call d.saveCurrentStat()
-endfunction
+endfunction "}}}
+
 fun! XPMupdateCursorStat(...) "{{{
     call s:log.Log( " --------step--------- " )
 
@@ -202,12 +212,16 @@ fun! XPMupdateCursorStat(...) "{{{
 
 endfunction "}}}
 
+fun! XPMsetBufSortFunction( funcRef ) "{{{
+    let b:_xpm_compare = a:funcRef
+endfunction "}}}
 
 fun! XPMallMark() "{{{
     let d = s:bufData()
 
     let msg = ''
-    for name in sort( keys( d.marks ) )
+    " for name in sort( keys( d.marks ) )
+    for name in d.orderedMarks
         let msg .= name . repeat( '-', 30-len( name ) ) . " : " . substitute( string( d.marks[ name ] ), '\<\d\>', ' &', 'g' ) . "\n"
     endfor
     return msg
@@ -657,23 +671,76 @@ fun! s:removeMark(name) dict "{{{
     call remove( self.marks, a:name )
 endfunction "}}}
 
-let s:prototype = {}
-fun! s:Member(name) "{{{
-    let s:prototype[ a:name ] = function( '<SNR>' . s:sid . a:name )
+fun! s:addMarkOrder( name ) dict "{{{
+    let markToAdd = self.marks[ a:name ]
+
+    let nPos = markToAdd[0] * 10000 + markToAdd[1]
+
+    let i = 0
+    for n in self.orderedMarks
+        let mark = self.marks[ n ]
+        let nMark = mark[0] * 10000 + mark[1]
+        call s:log.Debug( 'nMark=' . nMark, 'nPos=' . nPos )
+        if nMark == nPos
+            let cmp = self.compare( a:name, n )
+            if cmp == 0
+                throw 'XPM : overlapped mark:' . a:name . '=' . string(markToAdd) . ' and ' . n . '=' . string( mark ) 
+
+            elseif cmp > 0
+                continue
+
+            else
+                call insert( self.orderedMarks, a:name, i )
+                return
+
+            endif
+
+
+        elseif nPos < nMark
+            
+            call insert( self.orderedMarks, a:name, i )
+            return
+
+        endif
+
+        let i += 1
+    endfor
+
+    call add ( self.orderedMarks, a:name )
+
 endfunction "}}}
 
-call s:Member( 'isUpdateNeeded' )
-call s:Member( 'initCurrentStat' )
-call s:Member( 'snapshot' )
-call s:Member( 'handleUndoRedo' )
-call s:Member( 'insertModeUpdate' )
-call s:Member( 'normalModeUpdate' )
-call s:Member( 'saveCurrentStat' )
-call s:Member( 'saveCurrentCursorStat' )
-call s:Member( 'updateMarksAfterLine' )
-call s:Member( 'updateForLinewiseDeletion' )
-call s:Member( 'updateWithNewChangeRange' )
-call s:Member( 'removeMark' )
+fun! s:compare( a, b ) dict "{{{
+    if exists( 'b:_xpm_compare' )
+        return b:_xpm_compare( self, a:a, a:b )
+    else
+        return s:defaultCompare( self, a:a, a:b )
+    endif
+endfunction "}}}
+
+let s:prototype = {}
+fun! s:Members(...) "{{{
+    for name in a:000
+        let s:prototype[ name ] = function( '<SNR>' . s:sid . name )
+    endfor
+endfunction "}}}
+
+call s:Members(
+            \    'isUpdateNeeded',
+            \    'initCurrentStat',
+            \    'snapshot',
+            \    'handleUndoRedo',
+            \    'insertModeUpdate',
+            \    'normalModeUpdate',
+            \    'saveCurrentStat',
+            \    'saveCurrentCursorStat',
+            \    'updateMarksAfterLine',
+            \    'updateForLinewiseDeletion',
+            \    'updateWithNewChangeRange',
+            \    'removeMark',
+            \    'addMarkOrder',
+            \    'compare',
+            \)
 
 fun! s:initBufData() "{{{
     let nr = changenr()
@@ -683,6 +750,7 @@ fun! s:initBufData() "{{{
                 \ 'orderedMarks'         : [],
                 \ 'marks'                : {},
                 \ 'markHistory'          : {}, 
+                \ 'changeLikelyBetween'  : { 'start' : '', 'end' : '' }, 
                 \ 'lastMode'             : 'n',
                 \ 'lastPositionAndLength': [ line( '.' ), col( '.' ), len( getline( '.' ) ) ],
                 \ 'lastTotalLine'        : line( '$' ),
@@ -712,6 +780,13 @@ fun! s:bufData() "{{{
     return b:_xpmark
 endfunction "}}}
 
+fun! s:defaultCompare(d, markA, markB) "{{{
+    let [ ma, mb ] = [ a:d.marks[ a:markA ], a:d.marks[ a:markB ] ]
+    let nMarkA = ma[0] * 10000 + ma[1]
+    let nMarkB = mb[0] * 10000 + mb[1]
+
+    return (nMarkA - nMarkB) != 0 ? (nMarkA - nMarkB) : (a:d.marks[ a:markA ][3] - a:d.marks[ a:markB ][3])
+endfunction "}}}
 
 fun! PrintDebug()
     let d = s:bufData()
