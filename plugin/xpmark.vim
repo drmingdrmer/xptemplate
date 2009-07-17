@@ -27,31 +27,26 @@ let s:log = CreateLogger( 'debug' )
 " let s:log = CreateLogger( 'warn' )
 
 
-" fun! XPMrange( namePre, start, end )
-    " call XPMadd( a:namePre . '_start', a:start, 'l' )
-    " call XPMadd( a:namePre . '_end',   a:end,   'r' )
-" endfunction
 
-
-fun! XPMadd( name, pos, ... ) "{{{
+fun! XPMadd( name, pos, prefer ) "{{{
     " @param name       mark name
     "
     " @param pos        list of [ line, column ]
     "
-    " @param a:1        'l' or 'r' to indicate this mark is left-prefered or
+    " @param prefer     'l' or 'r' to indicate this mark is left-prefered or
     "                   right-prefered. Typing on a left-prefered mark add text
     "                   after mark, before mark for right-prefered.
     "                   Default : 'l' left-prefered
 
     call s:log.Log( "add mark of name " . string( a:name ) . ' at ' . string( a:pos ) )
     let d = s:bufData()
-    let prefer = (a:0 == 0 || a:1 == 'l') ? 0 : 1
+    let prefer = a:prefer == 'l' ? 0 : 1
     let d.marks[ a:name ] = a:pos + [ len( getline( a:pos[0] ) ), prefer ]
 
 endfunction "}}}
 
-fun! XPMhere( name, ... ) "{{{
-    call XPMadd( a:name, [ line( "." ), col( "." ) ], ( (a:0 == 0) ? 'l' : a:1 ) )
+fun! XPMhere( name, a:prefer ) "{{{
+    call XPMadd( a:name, [ line( "." ), col( "." ) ], a:prefer )
 endfunction "}}}
 
 fun! XPMremove( name ) "{{{
