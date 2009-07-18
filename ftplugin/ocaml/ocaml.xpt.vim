@@ -55,6 +55,16 @@ module `name^ `^^ = struct
     `cursor^
 end
 
+XPT while hint=while\ ..\ do\ ..\ done
+while `cond^ do
+    `cursor^
+done
+
+XPT for hint=for\ ..\ to\ ..\ do\ ..\ done
+XSET side=Choose(['to', 'downto'])
+for `var^ = `val^ `side^ `expr^ do
+    `cursor^
+done
 
 XPT class hint=class\ ..\ =\ object\ ..\ end
 class `_^^ `name^ =
@@ -110,10 +120,24 @@ type `_^^ `typename^ =
     ; `otherfield^ : `othertype^ (** `desc^ *)`...^
     }
 
+XPT fun hint=(fun\ ..\ ->\ ..)
+(fun `args^ -> `cursor^)
             
 XPT try hint=try\ ..\ with\ ..\ ->\ ..
 try `expr^
 with `exc^ -> `rez^`...^
    | `exc2^ -> `rez2^`...^
 
+XPT ty hint=..\ ->\ ..
+`t^`...^ -> `t2^`...^
+
+XPT func hint=let\ ..\ :\ ..\ =\ fun\ ..\ ->
+let `funName^ : `ty^ =
+fun `args^ ->
+    `cursor^;
+
+XPT begin hint=begin\ ..\ end
+begin
+    `cursor^
+end
 
