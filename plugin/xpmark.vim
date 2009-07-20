@@ -758,17 +758,14 @@ fun! XPMupdateWithMarkRangeChanging( startMark, endMark, changeStart, changeEnd 
     Assert endIndex >= 0
 
 
+    call d.updateMarksAfter( [ endIndex, len( d.orderedMarks ) ], a:changeStart, a:changeEnd )
 
     let [ i, len ] = [ startIndex - 1, endIndex - 1 ]
 
-
     while i < len
         let i += 1
-
-        if d.orderedMarks[ i ] == a:startMark
-
-
-
+        let mark = d.orderedMarks[ i ]
+        call d.removeMark( mark )
     endwhile
 
 
@@ -924,14 +921,16 @@ fun! s:compare( a, b ) dict "{{{
     endif
 endfunction "}}}
 
-let s:prototype = {}
-fun! s:Members(...) "{{{
+fun! s:ClassPrototype(...) "{{{
+    let p = {}
     for name in a:000
-        let s:prototype[ name ] = function( '<SNR>' . s:sid . name )
+        let p[ name ] = function( '<SNR>' . s:sid . name )
     endfor
+
+    return p
 endfunction "}}}
 
-call s:Members(
+let s:prototype =  s:ClassPrototype(
             \    'isUpdateNeeded',
             \    'initCurrentStat',
             \    'snapshot',

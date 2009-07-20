@@ -86,6 +86,13 @@ call XPRaddPostJob( 'XPMupdateSpecificChangedRange' )
 " call XPMsetUpdateStrategy( 'auto' ) 
 call XPMsetUpdateStrategy( 'normalMode' ) 
 
+
+fun! XPTmarkCompare( o, markA, markB )
+
+endfunction
+
+call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
+
 " escape rule:
 " 0 a
 " 1 \a

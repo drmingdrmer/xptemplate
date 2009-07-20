@@ -60,22 +60,20 @@ fun! XPRendSession() "{{{
 endfunction "}}}
 
 " no option parameter, marks are always updated
-fun! XPreplaceByMarkInter( startMark, endMark, replacement )
+fun! XPreplaceByMarkInternal( startMark, endMark, replacement ) "{{{
     let [ start, end ] = [ XPMpos( a:startMark ), XPMpos( a:endMark ) ]
     if start == [0, 0] || end == [0, 0]
         throw a:startMark . ' or ' . a:endMark . 'is invalid'
     endif
 
-    call s:log.Debug( 'XPreplaceByMarkInter parameters:' . string( [ a:startMark, a:endMark, a:replacement ] ) )
+    call s:log.Debug( 'XPreplaceByMarkInternal parameters:' . string( [ a:startMark, a:endMark, a:replacement ] ) )
 
     let pos = XPreplaceInternal( start, end, replacement, { 'doJobs' : 0 } )
 
-
-
-
+    call XPMupdateWithMarkRangeChanging( a:startMark, a:endMark, start, pos )
 
     return pos
-endfunction
+endfunction "}}}
 
 " For internal use only, the caller is reponsible to set settings correctly.
 fun! XPreplaceInternal(start, end, replacement, option) "{{{
@@ -87,6 +85,8 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     call s:log.Debug( 'XPreplaceInternal parameters:' . string( [ a:start, a:end, a:replacement, option ] ) )
 
     " TODO use assertion to ensure settings
+
+    Assert exists( 'b:_xpr_session' )
 
     Assert &l:virtualedit == 'all' 
     Assert &l:whichwrap == 'b,s,h,l,<,>,~,[,]' 
