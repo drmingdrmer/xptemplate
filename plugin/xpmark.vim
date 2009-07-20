@@ -9,6 +9,7 @@ XPMgetSID
 delc XPMgetSID
 
 runtime plugin/debug.vim
+runtime plugin/xpreplace.vim
 
 
 " probe mark
@@ -25,6 +26,8 @@ let s:insertPattern = '[i]'
 
 let s:log = CreateLogger( 'debug' )
 " let s:log = CreateLogger( 'warn' )
+
+
 
 
 
@@ -542,23 +545,147 @@ fun! s:updateWithNewChangeRange( changeStart, changeEnd ) dict "{{{
     call s:log.Log( "parameters : " . string( [ a:changeStart, a:changeEnd ] ) )
     call s:log.Debug( 'self:' . string( self ) )
 
-    let diffOfLine = self.stat.totalLine - self.lastTotalLine
 
     let bChangeEnd = [ a:changeEnd[0] - self.stat.totalLine, 
                 \ a:changeEnd[1] - len( getline( a:changeEnd[0] ) ) ]
 
-    let lineNrOfChangeEndInLastStat = a:changeEnd[0] - diffOfLine
+
+    " try to find out the marks most likely to be 
+
+    let likelyIndexes = self.findLikelyRange( a:changeStart, bChangeEnd )
+    if likelyIndexes == [ -1, -1 ]
+        " no likely marks matches
+
+        let indexes = [0, len( self.orderedMarks )]
+        call self.updateMarks( indexes, a:changeStart, a:changeEnd )
+
+    else
+        let len = len( self.orderedMarks )
+        let i = likelyIndexes[0]
+        let j = likelyIndexes[1]
+        call self.updateMarksBefore( [0, i + 1], a:changeStart, a:changeEnd )
+        call self.updateMarks( [i+1, j],   a:changeStart, a:changeEnd )
+        call self.updateMarksAfter( [j+1, len], a:changeStart, a:changeEnd )
+
+    endif
+
+
+endfunction "}}}
+
+fun! s:updateMarksBefore( indexRange, changeStart, changeEnd ) dict "{{{
+    let lineLengthCS    = len( getline( a:changeStart[0] ) )
+
+    call s:log.Log( string( a:changeEnd ), self.stat.totalLine )
+
+    let [ iStart, iEnd ] = [ a:indexRange[0] - 1, a:indexRange[1] - 1 ]
+    while iStart < iEnd
+        let iStart += 1
+
+        let name = self.orderedMarks[ iStart ]
+
+        let mark = self.marks[ name ]
+        let bMark = [ mark[0] - self.lastTotalLine, mark[1] - mark[2] ]
+
+        call s:log.Debug( "mark:" . name . ' is ' . string( mark ) )
+        call s:log.Debug( "bMark:" . string( bMark ) )
+
+        if mark[0] < a:changeStart[0] 
+            " before changed lines
+            call s:log.Debug( "before change" )
+            continue
+
+        elseif mark[0] == a:changeStart[0] && mark[1] - 1 < a:changeStart[1]
+            " change spans only right part of mark
+            " update length only
+
+            call s:log.Debug( 'span right part' )
+            let self.marks[ name ] = [ mark[0], mark[1], lineLengthCS, mark[3] ]
+
+        else
+            call s:log.Error( 'mark should be before, but it is after start of change' )
+
+        endif
+
+        call s:log.Debug( "updated mark : " . (has_key( self.marks, name ) ? string( self.marks[ name ] ) : '' ) )
+
+    endwhile
+
+endfunction "}}}
+
+fun! s:updateMarksAfter( indexRange, changeStart, changeEnd ) dict "{{{
+    let bChangeEnd = [ a:changeEnd[0] - self.stat.totalLine, 
+                \ a:changeEnd[1] - len( getline( a:changeEnd[0] ) ) ]
+
+    let diffOfLine = self.stat.totalLine - self.lastTotalLine
 
     let lineLengthCS    = len( getline( a:changeStart[0] ) )
     let lineLengthCE    = len( getline( a:changeEnd[0] ) )
 
     call s:log.Log( string( a:changeEnd ), self.stat.totalLine )
     call s:log.Debug( "diffOfLine :" . diffOfLine )
-    call s:log.Debug( "lineNrOfChangeEndInLastStat :" . lineNrOfChangeEndInLastStat )
     call s:log.Debug( "bChangeEnd:" . string( bChangeEnd ) )
 
-    for [name, mark] in items( self.marks )
+    let lineNrOfChangeEndInLastStat = a:changeEnd[0] - diffOfLine
+    call s:log.Debug( "lineNrOfChangeEndInLastStat :" . lineNrOfChangeEndInLastStat )
 
+    let [ iStart, iEnd ] = [ a:indexRange[0] - 1, a:indexRange[1] - 1 ]
+
+    while iStart < iEnd
+        let iStart += 1
+
+        let name = self.orderedMarks[ iStart ]
+
+        let mark = self.marks[ name ]
+        let bMark = [ mark[0] - self.lastTotalLine, mark[1] - mark[2] ]
+
+        call s:log.Debug( "mark:" . name . ' is ' . string( mark ) )
+        call s:log.Debug( "bMark:" . string( bMark ) )
+
+        if mark[0] > lineNrOfChangeEndInLastStat
+            " after changed lines
+            let self.marks[ name ] = [ mark[0] + diffOfLine, mark[1], mark[2], mark[3] ]
+            call s:log.Debug( 'after change:' . string( mark ) )
+
+        elseif bMark[0] == bChangeEnd[0] && bMark[1] >= bChangeEnd[1]
+            " change spans only left part of mark 
+            call s:log.Debug( 'span left part' )
+            let self.marks[ name ] = [ a:changeEnd[0], bMark[1] + lineLengthCE, lineLengthCE, mark[3] ]
+
+        else
+            call s:log.Error( 'mark should be After changes, but it is before them.' )
+
+        endif
+
+        call s:log.Debug( "updated mark : " . (has_key( self.marks, name ) ? string( self.marks[ name ] ) : '' ) )
+
+    endwhile
+
+endfunction "}}}
+
+fun! s:updateMarks( indexRange, changeStart, changeEnd ) dict "{{{
+    let bChangeEnd = [ a:changeEnd[0] - self.stat.totalLine, 
+                \ a:changeEnd[1] - len( getline( a:changeEnd[0] ) ) ]
+
+    let diffOfLine = self.stat.totalLine - self.lastTotalLine
+
+    let lineLengthCS    = len( getline( a:changeStart[0] ) )
+    let lineLengthCE    = len( getline( a:changeEnd[0] ) )
+
+    call s:log.Log( string( a:changeEnd ), self.stat.totalLine )
+    call s:log.Debug( "diffOfLine :" . diffOfLine )
+    call s:log.Debug( "bChangeEnd:" . string( bChangeEnd ) )
+
+    let lineNrOfChangeEndInLastStat = a:changeEnd[0] - diffOfLine
+    call s:log.Debug( "lineNrOfChangeEndInLastStat :" . lineNrOfChangeEndInLastStat )
+
+    let [ iStart, iEnd ] = [ a:indexRange[0] - 1, a:indexRange[1] - 1 ]
+
+    while iStart < iEnd
+        let iStart += 1
+
+        let name = self.orderedMarks[ iStart ]
+
+        let mark = self.marks[ name ]
         let bMark = [ mark[0] - self.lastTotalLine, mark[1] - mark[2] ]
 
         call s:log.Debug( "mark:" . name . ' is ' . string( mark ) )
@@ -592,7 +719,7 @@ fun! s:updateWithNewChangeRange( changeStart, changeEnd ) dict "{{{
 
 
             endif
-            
+
         elseif mark[0] == a:changeStart[0] && mark[1] - 1 < a:changeStart[1]
             " change spans only right part of mark
             " update length only
@@ -615,7 +742,82 @@ fun! s:updateWithNewChangeRange( changeStart, changeEnd ) dict "{{{
 
         call s:log.Debug( "updated mark : " . (has_key( self.marks, name ) ? string( self.marks[ name ] ) : '' ) )
 
-    endfor
+    endwhile
+
+endfunction "}}}
+
+" XXX 
+fun! XPMupdateWithMarkRangeChanging( startMark, endMark, changeStart, changeEnd ) "{{{
+    let d = s:bufData()
+
+
+    let startIndex = index( d:orderedMarks, a:startMark )
+    Assert startIndex >= 0
+
+    let endIndex = index( d:orderedMarks, a:startMark, startIndex + 1 )
+    Assert endIndex >= 0
+
+
+
+    let [ i, len ] = [ startIndex - 1, endIndex - 1 ]
+
+
+    while i < len
+        let i += 1
+
+        if d.orderedMarks[ i ] == a:startMark
+
+
+
+    endwhile
+
+
+
+endfunction "}}}
+
+
+fun! s:findLikelyRange(changeStart, bChangeEnd) dict "{{{
+    if self.changeLikelyBetween.start == ''
+                \ || self.changeLikelyBetween.end == ''
+        return [ -1, -1 ]
+    endif
+
+
+    let [ likelyStart, likelyEnd ] = [ self.marks[ self.changeLikelyBetween.start ], 
+                \ self.marks[ self.changeLikelyBetween.end ] ]
+
+    let bLikelyEnd = [ likelyEnd[0] - self.lastTotalLine, 
+                \ likelyEnd[1] - likelyEnd ]
+
+    let nChangeStart = a:changeStart[0] * 10000 + a:changeStart[1]
+    let nLikelyStart = likelyStart[0] * 10000 + likelyStart[1]
+
+    let nbChangeEnd = a:bChangeEnd[0] * 10000 + a:bChangeEnd[1]
+    let nbLikelyEnd = bLikelyEnd[0] * 10000 + bLikelyEnd[1]
+
+    if nChangeStart >= nLikelyStart && nbChangeEnd <= nbLikelyEnd
+        call s:log.Log( 'change happened between the intent marks' )
+
+        let re = []
+        let [i, len] = [0, len( self.orderedMarks )]
+        while i < len
+            if self.orderedMarks[ i ] == self.changeLikelyBetween.start
+                call add( re, i )
+            elseif self.orderedMarks[ i ] == self.changeLikelyBetween.end
+                call add( re, i )
+                return re
+            endif
+
+            let i += 1
+        endwhile
+
+        call s:log.Error( string( self.changeLikelyBetween ) . ' : end mark is not found!' )
+
+    else
+        return [ -1, -1 ]
+
+    endif
+
 endfunction "}}}
 
 
@@ -667,6 +869,10 @@ endfunction " }}}
 " TODO call back
 fun! s:removeMark(name) dict "{{{
     call s:log.Log( "removed mark:" . a:name )
+    if self.changeLikelyBetween.start == a:name 
+                \ || self.changeLikelyBetween.end == a:name
+        let self.changeLikelyBetween = { 'start' : '', 'end' : '' }
+    endif
     call filter( self.orderedMarks, 'v:val != ' . string( a:name ) )
     call remove( self.marks, a:name )
 endfunction "}}}
@@ -738,7 +944,11 @@ call s:Members(
             \    'updateForLinewiseDeletion',
             \    'updateWithNewChangeRange',
             \    'removeMark',
+            \    'findLikelyRange', 
             \    'addMarkOrder',
+            \    'updateMarks', 
+            \    'updateMarksBefore', 
+            \    'updateMarksAfter', 
             \    'compare',
             \)
 

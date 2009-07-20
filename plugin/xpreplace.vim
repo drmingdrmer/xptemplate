@@ -6,6 +6,7 @@ let g:__XPREPLACE_VIM__ = 1
 
 runtime plugin/debug.vim
 runtime plugin/mapstack.vim
+runtime plugin/xpmark.vim
 
 " test range
 " 000000000000000000000000000000000000000
@@ -23,13 +24,67 @@ runtime plugin/mapstack.vim
 " let s:log = CreateLogger( 'debug' )
 let s:log = CreateLogger( 'warn' )
 
+fun! XPRstartSession() "{{{
+    if exists( 'b:_xpr_session' )
+        return
+    endif
+
+    let b:_xpr_session = {}
+
+
+    call SettingPush( '&l:ve', 'all' )
+    call SettingPush( '&l:ww', 'b,s,h,l,<,>,~,[,]' )
+    call SettingPush( '&l:selection', 'exclusive' )
+    call SettingPush( '&l:selectmode', '' )
+
+    let b:_xpr_session.savedReg = @"
+    let @" = 'XPreplaceInited'
+
+
+
+endfunction "}}}
+
+fun! XPRendSession() "{{{
+    if !exists( 'b:_xpr_session' )
+        return
+    endif
+
+    let @" = b:_xpr_session.savedReg
+
+    call SettingPop()
+    call SettingPop()
+    call SettingPop()
+    call SettingPop()
+
+    unlet b:_xpr_session
+endfunction "}}}
+
+" no option parameter, marks are always updated
+fun! XPreplaceByMarkInter( startMark, endMark, replacement )
+    let [ start, end ] = [ XPMpos( a:startMark ), XPMpos( a:endMark ) ]
+    if start == [0, 0] || end == [0, 0]
+        throw a:startMark . ' or ' . a:endMark . 'is invalid'
+    endif
+
+    call s:log.Debug( 'XPreplaceByMarkInter parameters:' . string( [ a:startMark, a:endMark, a:replacement ] ) )
+
+    let pos = XPreplaceInternal( start, end, replacement, { 'doJobs' : 0 } )
+
+
+
+
+
+    return pos
+endfunction
 
 " For internal use only, the caller is reponsible to set settings correctly.
-fun! XPreplaceInternal(start, end, replacement, ...) "{{{
+fun! XPreplaceInternal(start, end, replacement, option) "{{{
     " Cursor stays just after replacement
 
-    let doJobs = a:0 == 0 || a:1
-    call s:log.Debug( 'XPreplaceInternal parameters:' . string( [ a:start, a:end, a:replacement, doJobs ] ) )
+    let option = { 'doJobs' : 1 }
+    call extend( option, a:option, 'force' )
+
+    call s:log.Debug( 'XPreplaceInternal parameters:' . string( [ a:start, a:end, a:replacement, option ] ) )
 
     " TODO use assertion to ensure settings
 
@@ -43,7 +98,7 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
 
 
 
-    if doJobs
+    if option.doJobs
         " TODO not good
         call s:doPreJob(a:start, a:end, a:replacement)
     endif
@@ -91,7 +146,7 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
     let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
 
 
-    if doJobs
+    if option.doJobs
         call s:doPostJob( a:start, positionAfterReplacement, a:replacement )
     endif
 
@@ -99,32 +154,22 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
 
 endfunction "}}}
 
+" fun! XPreplace
 fun! XPreplace(start, end, replacement, ...) "{{{
     " Cursor stays just after replacement
 
-    let doJobs = a:0 == 0 || a:1
+    let option = { 'doJobs' : 1 }
+    if a:0 == 1
+        call extend(option, a:0, 'force')
+    endif
+
     call s:log.Debug( 'XPreplace parameters:' . string( [ a:start, a:end, a:replacement ] ) )
 
-    " TODO use assertion to ensure settings
+    call XPRstartSession()
 
-    call SettingPush( '&l:ve', 'all' )
-    call SettingPush( '&l:ww', 'b,s,h,l,<,>,~,[,]' )
-    call SettingPush( '&l:selection', 'exclusive' )
-    call SettingPush( '&l:selectmode', '' )
+    let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, option )
 
-    let savedReg = @"
-    let @" = 'XPreplaceInited'
-
-
-    let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, doJobs )
-
-
-    let @" = savedReg
-
-    call SettingPop()
-    call SettingPop()
-    call SettingPop()
-    call SettingPop()
+    call XPRendSession()
 
 
     return positionAfterReplacement
