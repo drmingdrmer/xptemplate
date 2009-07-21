@@ -87,11 +87,18 @@ call XPRaddPostJob( 'XPMupdateSpecificChangedRange' )
 call XPMsetUpdateStrategy( 'normalMode' ) 
 
 
-fun! XPTmarkCompare( o, markA, markB )
+fun! XPTmarkCompare( o, markToAdd, oldMark )
+    call s:log.Log( 'compare : ' . a:markToAdd . ' and ' . a:oldMark )
+    let renderContext = s:getRenderContext()
+    if has_key( renderContext, 'buildingMarkRange' ) 
+                \&& renderContext.buildingMarkRange.end ==  a:oldMark
+        call s:log.Debug( a:markToAdd . ' < ' . a:oldMark )
+        return -1
+    endif
 
+    return 1
 endfunction
 
-call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
 
 " escape rule:
 " 0 a
@@ -1193,8 +1200,9 @@ fun! s:buildMarksOfPlaceHolder(ctx, item, placeHolder, nameInfo, valueInfo) "{{{
 
 
 
+    " must add marks in fixed order
+
     call XPMadd( placeHolder.mark.start, nameInfo[0], 'l' )
-    call XPMadd( placeHolder.mark.end,   nameInfo[3], 'r' )
 
     " TODO remember to remove editMark
     if placeHolder.isKey
@@ -1202,6 +1210,7 @@ fun! s:buildMarksOfPlaceHolder(ctx, item, placeHolder, nameInfo, valueInfo) "{{{
         call XPMadd( placeHolder.editMark.end,   nameInfo[2], 'r' )
     endif
 
+    call XPMadd( placeHolder.mark.end,   nameInfo[3], 'r' )
 
 endfunction "}}}
 
@@ -1263,6 +1272,8 @@ fun! s:buildPlaceHolders( markRange ) "{{{
     if ctx.lastList == []
         let ctx.lastList = copy(ctx.tmpl.setting.lastListTemplate)
     endif
+
+    let ctx.buildingMarkRange = copy( a:markRange )
 
 
     let start = XPMpos( a:markRange.start )
@@ -2438,6 +2449,8 @@ fun! s:bufData() "{{{
 
         call s:RedefinePattern()
 
+        " TODO is this the right place to do that?
+        call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
     endif
     return b:xptemplateData
 endfunction "}}}

@@ -738,6 +738,9 @@ fun! s:updateMarks( indexRange, changeStart, changeEnd ) dict "{{{
 
             call self.removeMark( name )
 
+            let iStart -= 1
+            let iEnd -= 1
+
         endif
 
         call s:log.Debug( "updated mark : " . (has_key( self.marks, name ) ? string( self.marks[ name ] ) : '' ) )
@@ -763,7 +766,7 @@ fun! XPMupdateWithMarkRangeChanging( startMark, endMark, changeStart, changeEnd 
     let [ i, len ] = [ startIndex - 1, endIndex - 1 ]
 
     while i < len
-        let i += 1
+        let len -= 1
         let mark = d.orderedMarks[ i ]
         call d.removeMark( mark )
     endwhile
@@ -879,8 +882,9 @@ fun! s:addMarkOrder( name ) dict "{{{
 
     let nPos = markToAdd[0] * 10000 + markToAdd[1]
 
-    let i = 0
+    let i = -1
     for n in self.orderedMarks
+        let i += 1
         let mark = self.marks[ n ]
         let nMark = mark[0] * 10000 + mark[1]
         call s:log.Debug( 'nMark=' . nMark, 'nPos=' . nPos )
@@ -893,6 +897,8 @@ fun! s:addMarkOrder( name ) dict "{{{
                 continue
 
             else
+                " cmp < 0 
+
                 call insert( self.orderedMarks, a:name, i )
                 return
 
@@ -900,13 +906,13 @@ fun! s:addMarkOrder( name ) dict "{{{
 
 
         elseif nPos < nMark
+            call s:log.Debug( 'small than' . n )
             
             call insert( self.orderedMarks, a:name, i )
             return
 
         endif
 
-        let i += 1
     endfor
 
     call add ( self.orderedMarks, a:name )
