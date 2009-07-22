@@ -92,5 +92,7 @@ fun! Log_core(level, ...) "{{{
 
   if a:level =~ 'Fatal\|Error\|Warn'
     echoerr string( a:000 )
+  " elseif a:level =~ 'Info'
+    " echom string( a:000 )
   endif
 endfunction "}}}

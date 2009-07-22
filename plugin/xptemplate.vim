@@ -18,8 +18,6 @@
 "
 " TODOLIST: "{{{
 " TODO bug:coherent place holders span mark
-" TODO ontime filter
-" TODO ontime repetition
 " TODO use i^gu to protect template
 " expected mode() when cursor stopped to wait for input
 " TODO highlight all pending item instead of using mark
@@ -33,6 +31,8 @@
 " TODO block context check
 " TODO eval default value in-time
 " TODO expandable has to be adjuested
+" TODO ontime filter
+" TODO ontime repetition
 " TODO in windows & in select mode to trigger wrapped or normal?
 " TODO change on previous item
 " TODO lock key variables
@@ -87,15 +87,16 @@ call XPRaddPostJob( 'XPMupdateSpecificChangedRange' )
 call XPMsetUpdateStrategy( 'normalMode' ) 
 
 
-fun! XPTmarkCompare( o, markToAdd, oldMark )
-    call s:log.Log( 'compare : ' . a:markToAdd . ' and ' . a:oldMark )
+fun! XPTmarkCompare( o, markToAdd, existedMark )
+    call s:log.Log( 'compare : ' . a:markToAdd . ' and ' . a:existedMark )
     let renderContext = s:getRenderContext()
     if has_key( renderContext, 'buildingMarkRange' ) 
-                \&& renderContext.buildingMarkRange.end ==  a:oldMark
-        call s:log.Debug( a:markToAdd . ' < ' . a:oldMark )
+                \&& renderContext.buildingMarkRange.end ==  a:existedMark
+        call s:log.Debug( a:markToAdd . ' < ' . a:existedMark )
         return -1
     endif
 
+    call s:log.Debug( a:markToAdd . ' > ' . a:existedMark )
     return 1
 endfunction
 
@@ -2548,6 +2549,8 @@ fun! s:updateFollowingPlaceHoldersWith( contentTyped ) "{{{
 
     let ctx = s:getRenderContext()
 
+    call XPRstartSession()
+
     let phList = ctx.item.placeHolders
     let phList = ctx.leadingPlaceHolder.isKey ? phList : phList[1:]
     for ph in phList
@@ -2559,10 +2562,13 @@ fun! s:updateFollowingPlaceHoldersWith( contentTyped ) "{{{
         endif
 
 
-        call XPreplace( XPMpos( ph.mark.start ), XPMpos( ph.mark.end ), ontimeResult )
+        " call XPreplace( XPMpos( ph.mark.start ), XPMpos( ph.mark.end ), ontimeResult )
+        call XPreplaceByMarkInternal( ph.mark.start, ph.mark.end, ontimeResult )
 
         call s:log.Debug( 'after update 1 place holder:', s:textBetween( XPMpos( ctx.marks.tmpl.start ), XPMpos( ctx.marks.tmpl.end ) ) )
     endfor
+
+    call XPRendSession()
 
 endfunction "}}}
 
@@ -2640,6 +2646,8 @@ fun! s:XPTupdate(...) "{{{
 
     " TODO check current cursor position for crashing or fixing
 
+    call XPMsetLikelyBetween( renderContext.leadingPlaceHolder.mark.start,
+                \ renderContext.leadingPlaceHolder.mark.end )
 
     call XPMupdate()
 
@@ -2682,6 +2690,8 @@ fun! s:XPTupdate(...) "{{{
 
     let currentPosMark = '````'
     call XPMhere( currentPosMark, 'l' )
+
+    call s:log.Info( "marks before updating following:\n" . XPMallMark() )
 
     " in most cases there is no line break
     if len( renderContext.lastContent ) == len( typedContent ) && typedContent !~ '\n' && renderContext.lastContent !~ '\n'

@@ -95,6 +95,7 @@ endfunction "}}}
 " TODO set likely between in xpt
 fun! XPMsetLikelyBetween( start, end ) "{{{
     let d = s:bufData()
+    call s:log.Debug( 'parameters : ' . a:start . ' ' . a:end )
     Assert has_key( d.marks, a:start )
     Assert has_key( d.marks, a:end )
     let d.changeLikelyBetween = { 'start' : a:start, 'end' : a:end }
@@ -141,7 +142,7 @@ fun! XPMupdateSpecificChangedRange(start, end) " {{{
 endfunction " }}}
 
 fun! XPMautoUpdate(msg) "{{{
-    call s:log.Log( 'XPMautoUpdate from ' . a:msg )
+    call s:log.Debug( 'XPMautoUpdate from ' . a:msg )
     if !exists( 'b:_xpmark' )
         return ''
     endif
@@ -176,7 +177,6 @@ fun! XPMupdate(...) " {{{
     endif
 
 
-    " call s:log.Log( "update Called" ) 
 
     call d.initCurrentStat()
 
@@ -660,6 +660,8 @@ fun! s:updateMarksAfter( indexRange, changeStart, changeEnd ) dict "{{{
 
     endwhile
 
+    call s:log.Log( 'updateMarksAfter DONE' )
+
 endfunction "}}}
 
 fun! s:updateMarks( indexRange, changeStart, changeEnd ) dict "{{{
@@ -753,17 +755,25 @@ endfunction "}}}
 fun! XPMupdateWithMarkRangeChanging( startMark, endMark, changeStart, changeEnd ) "{{{
     let d = s:bufData()
 
+    call d.initCurrentStat()
+    " if d.handleUndoRedo()
+        " return
+    " endif
+    if changenr() != d.lastChangenr
+        call d.snapshot()
+    endif
 
-    let startIndex = index( d:orderedMarks, a:startMark )
+    let startIndex = index( d.orderedMarks, a:startMark )
     Assert startIndex >= 0
 
-    let endIndex = index( d:orderedMarks, a:startMark, startIndex + 1 )
+    let endIndex = index( d.orderedMarks, a:endMark, startIndex + 1 )
     Assert endIndex >= 0
 
+    call s:log.Log( 'update between marks :' . a:startMark . '-' . a:endMark . ' indexes are:' . string( [ startIndex, endIndex ] ) )
 
     call d.updateMarksAfter( [ endIndex, len( d.orderedMarks ) ], a:changeStart, a:changeEnd )
 
-    let [ i, len ] = [ startIndex - 1, endIndex - 1 ]
+    let [ i, len ] = [ startIndex + 1 , endIndex  ]
 
     while i < len
         let len -= 1
@@ -771,7 +781,22 @@ fun! XPMupdateWithMarkRangeChanging( startMark, endMark, changeStart, changeEnd 
         call d.removeMark( mark )
     endwhile
 
+    let lineLength = len( getline( a:changeStart[0] ) )
+    let [ i ] = [ startIndex + 1 ]
+    while i > 0
+        let i -= 1
 
+        let mark = d.orderedMarks[ i ]
+
+        if d.marks[ mark ][1] < a:changeStart[0]
+            break
+        else
+            let d.marks[ mark ][2] = lineLength
+        endif
+
+    endwhile
+
+    call d.saveCurrentStat()
 
 endfunction "}}}
 
@@ -787,13 +812,16 @@ fun! s:findLikelyRange(changeStart, bChangeEnd) dict "{{{
                 \ self.marks[ self.changeLikelyBetween.end ] ]
 
     let bLikelyEnd = [ likelyEnd[0] - self.lastTotalLine, 
-                \ likelyEnd[1] - likelyEnd ]
+                \ likelyEnd[1] - likelyEnd[2] ]
 
     let nChangeStart = a:changeStart[0] * 10000 + a:changeStart[1]
     let nLikelyStart = likelyStart[0] * 10000 + likelyStart[1]
 
     let nbChangeEnd = a:bChangeEnd[0] * 10000 + a:bChangeEnd[1]
     let nbLikelyEnd = bLikelyEnd[0] * 10000 + bLikelyEnd[1]
+
+    call s:log.Log( 'likely range=' . string( [ likelyStart, likelyEnd, bLikelyEnd ] ) )
+    call s:log.Log( 'change range=' . string( [ a:changeStart, a:bChangeEnd ] ) )
 
     if nChangeStart >= nLikelyStart && nbChangeEnd <= nbLikelyEnd
         call s:log.Log( 'change happened between the intent marks' )
@@ -868,7 +896,10 @@ endfunction " }}}
 
 " TODO call back
 fun! s:removeMark(name) dict "{{{
-    call s:log.Log( "removed mark:" . a:name )
+    call s:log.Info( "removed mark:" . a:name )
+    if !has_key( self.marks, a:name )
+        return
+    endif
     if self.changeLikelyBetween.start == a:name 
                 \ || self.changeLikelyBetween.end == a:name
         let self.changeLikelyBetween = { 'start' : '', 'end' : '' }

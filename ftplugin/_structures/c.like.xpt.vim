@@ -10,10 +10,10 @@ let [s:f, s:v] = XPTcontainer()
 call extend(s:v, {'$TRUE': '1', '$FALSE' : '0', '$NULL' : 'NULL', '$INDENT_HELPER' : '/* void */;'}, 'keep')
 
 fun! s:f.c_enum_next() dict
-  return '...'
+  return toupper(self.V())
+  " return '...'
 endfunction
 
-" inclusion
 XPTemplateDef
 
 XPT enum hint=enum\ {\ ..\ }

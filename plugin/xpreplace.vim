@@ -68,7 +68,7 @@ fun! XPreplaceByMarkInternal( startMark, endMark, replacement ) "{{{
 
     call s:log.Debug( 'XPreplaceByMarkInternal parameters:' . string( [ a:startMark, a:endMark, a:replacement ] ) )
 
-    let pos = XPreplaceInternal( start, end, replacement, { 'doJobs' : 0 } )
+    let pos = XPreplaceInternal( start, end, a:replacement, { 'doJobs' : 0 } )
 
     call XPMupdateWithMarkRangeChanging( a:startMark, a:endMark, start, pos )
 
