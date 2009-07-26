@@ -780,7 +780,8 @@ fun! XPMupdateWithMarkRangeChanging( startMark, endMark, changeStart, changeEnd 
     while i < len
         let len -= 1
         let mark = d.orderedMarks[ i ]
-        call d.removeMark( mark )
+        " NOTE: do NOT remove any mark. 
+        " call d.removeMark( mark )
     endwhile
 
     let lineLength = len( getline( a:changeStart[0] ) )

@@ -2672,10 +2672,6 @@ fun! s:XPTupdate(...) "{{{
     call s:log.Log( "typed:".typedContent )
 
 
-    " TODO <cr> causing auto-indent swollow spaces before next non-space char
-    " if 
-
-
     call s:CallPlugin("beforeUpdate")
 
     " update items
