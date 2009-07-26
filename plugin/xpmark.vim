@@ -18,6 +18,8 @@ let g:xpm_mark_nextline = 'l'
 let g:xpm_changenr_level = 1000
 let s:insertPattern = '[i]'
 
+" TODO while editing .dot file, some error occurs complaining 'snapshot'
+" working with inexistent number.
 " TODO 'au matchparen' causes it to update 2 or 3 times for each cursor move
 " TODO sorted updating for speeding up.
 " TODO for mode 'R', nothing needed to do
@@ -565,7 +567,7 @@ fun! s:updateWithNewChangeRange( changeStart, changeEnd ) dict "{{{
         let j = likelyIndexes[1]
         call self.updateMarksBefore( [0, i + 1], a:changeStart, a:changeEnd )
         call self.updateMarks( [i+1, j],   a:changeStart, a:changeEnd )
-        call self.updateMarksAfter( [j+1, len], a:changeStart, a:changeEnd )
+        call self.updateMarksAfter( [j, len], a:changeStart, a:changeEnd )
 
     endif
 
@@ -575,7 +577,7 @@ endfunction "}}}
 fun! s:updateMarksBefore( indexRange, changeStart, changeEnd ) dict "{{{
     let lineLengthCS    = len( getline( a:changeStart[0] ) )
 
-    call s:log.Log( string( a:changeEnd ), self.stat.totalLine )
+    call s:log.Log( 'changeStart=' . string( a:changeEnd ) )
 
     let [ iStart, iEnd ] = [ a:indexRange[0] - 1, a:indexRange[1] - 1 ]
     while iStart < iEnd

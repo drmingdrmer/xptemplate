@@ -17,7 +17,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO bug:coherent place holders span mark
+" TODO bug:coherent place holders span marks
 " TODO use i^gu to protect template
 " expected mode() when cursor stopped to wait for input
 " TODO highlight all pending item instead of using mark
