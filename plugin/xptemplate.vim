@@ -17,12 +17,6 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO bug:coherent place holders span marks
-" TODO use i^gu to protect template
-" expected mode() when cursor stopped to wait for input
-" TODO highlight all pending item instead of using mark
-" TODO protect register while template rendering
-" TODO implement wrapping in more natural way. nested maybe.
 " TODO hidden template or used only internally.
 " TODO snippets bundle and bundle selection
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
@@ -32,11 +26,15 @@
 " TODO eval default value in-time
 " TODO expandable has to be adjuested
 " TODO ontime filter
+" TODO use i^gu to protect template
+" expected mode() when cursor stopped to wait for input
 " TODO ontime repetition
 " TODO in windows & in select mode to trigger wrapped or normal?
 " TODO change on previous item
+" TODO implement wrapping in more natural way. nested maybe.
 " TODO lock key variables
 " TODO as function call template
+" TODO highlight all pending item instead of using mark
 " TODO item popup: repopup
 " TODO undo
 " TODO test more : char before snippet, char after, last cursor position,
@@ -258,7 +256,7 @@ fun! g:XPTfuncs() "{{{
 endfunction "}}}
 
 
-fun! XPTemplateAlias( name, toWhich, setting )
+fun! XPTemplateAlias( name, toWhich, setting ) "{{{
     " TODO wrapping templates
     let xt = s:bufData().normalTemplates
 
@@ -268,9 +266,9 @@ fun! XPTemplateAlias( name, toWhich, setting )
         call s:deepExtend( xt[ a:name ].setting, a:setting )
     endif
 
-endfunction
+endfunction "}}}
 
-fun! s:deepExtend( to, from )
+fun! s:deepExtend( to, from ) "{{{
     for key in keys( a:from )
 
         if type( a:from[ key ] ) == 4
@@ -294,7 +292,7 @@ fun! s:deepExtend( to, from )
         endif
 
     endfor
-endfunction
+endfunction "}}}
 
 " ********* XXX ********* 
 fun! XPTemplate(name, str_or_ctx, ...) " {{{
@@ -400,7 +398,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
                     \ 'wrapped'     : type(Str) != type(function("tr")) && Str =~ '\V' . xp.lft . s:wrappedName . xp.rt }
 
 
-        call s:initItemOrderDict( xt[ name ].setting )
+        call s:initItemOrderDict( xt[name].setting )
 
         " apply some default settings 
         let xt[ name ].setting.defaultValues.cursor = 'Finish()'
@@ -417,20 +415,23 @@ fun! s:initItemOrderDict( setting ) "{{{
 
     let setting.firstDict = {}
     let setting.lastDict = {}
-    let setting.firstListTemplate = []
-    let setting.lastListTemplate = []
+
+    " Skeleton list for creating ordered item list.
+    " Each element of it is a position holder.
+    let setting.firstListSkeleton = []
+    let setting.lastListSkeleton = []
 
     let [i, len] = [ 0, len( first ) ]
     while i < len
         let setting.firstDict[ first[ i ] ] = i
-        call add( setting.firstListTemplate, {} )
+        call add( setting.firstListSkeleton, {} )
         let i += 1
     endwhile
     
     let [i, len] = [ 0, len( last ) ]
     while i < len
         let setting.lastDict[ last[ i ] ] = i
-        call add( setting.lastListTemplate, {} )
+        call add( setting.lastListSkeleton, {} )
         let i += 1
     endwhile
 
@@ -489,21 +490,21 @@ endfunction "}}}
 fun! XPTemplateStart(pos, ...) " {{{
     let x = s:bufData()
 
-    let popupOnly = ( a:0 == 1 ) && ( has_key( a:1, 'popupOnly' ) ) && a:1.popupOnly
+    " let popupOnly = ( a:0 == 1 ) && ( has_key( a:1, 'popupOnly' ) ) && a:1.popupOnly
 
     call s:log.Log("a:000".string(a:000))
 
-    if a:0 == 1 &&  type(a:1) == type({}) && has_key( a:1, 'tmplName' )  " exact template trigger, without depending on any input
+    if a:0 == 1 &&  type(a:1) == type({}) && has_key( a:1, 'tmplName' )  
+        " exact template trigger, without depending on any input
         let exact = 1
 
-        let [lnn, startColumn] = a:1.startPos
-        let tmplname = a:1.tmplName
+        let startColumn = a:1.startPos[1]
+        let templateName = a:1.tmplName
 
-        let cursorColumn = startColumn
+        call cursor(a:1.startPos)
 
-        call cursor(lnn, startColumn)
-
-    else " input mode
+    else 
+        " input mode
         let exact = 0
 
         let cursorColumn = col(".")
@@ -511,28 +512,29 @@ fun! XPTemplateStart(pos, ...) " {{{
         if x.wrapStartPos
             " TODO store wrapping and normal tempalte separately
 
-            let lnn = line(".")
+            let startLineNr = line(".")
             let startColumn = x.wrapStartPos
 
         else
             call s:log.Log("x.keyword=" . x.keyword)
 
             " TODO test escaping
-            let [lnn, startColumn] = searchpos('\V\%(\w\|'. x.keyword .'\)\+\%#', "bn", line("."))
+            let [startLineNr, startColumn] = searchpos('\V\%(\w\|'. x.keyword .'\)\+\%#', "bn", line("."))
 
-            if lnn == 0 || startColumn == 0
-                let [lnn, startColumn] = [line("."), col(".")]
+            if startLineNr == 0
+                let [startLineNr, startColumn] = [line("."), col(".")]
             endif
 
         endif
 
-        let tmplname = strpart(getline(lnn), startColumn-1, cursorColumn-startColumn)
+        let templateName = strpart( getline(startLineNr), startColumn - 1, cursorColumn - startColumn )
 
     endif
 
-    let x.startColumn = startColumn
+    " let x.startColumn = startColumn
 
-    return s:Popup(tmplname, startColumn, { 'popupOnly' : popupOnly })
+    " return s:Popup(templateName, startColumn, { 'popupOnly' : popupOnly })
+    return s:Popup( templateName, startColumn )
 
 endfunction " }}}
 
@@ -677,12 +679,12 @@ fun! s:doStart(sess) " {{{
 endfunction " }}}
 
 " TODO deal with it in any condition
-fun! s:XPTemplateFinish(...) "{{{
+fun! s:finishRendering(...) "{{{
     let x = s:bufData()
     let ctx = s:getRenderContext()
     let xp = ctx.tmpl.ptn
 
-    " call s:log.Log("XPTemplateFinish...........")
+    " call s:log.Log("finishRendering...........")
 
     match none
 
@@ -710,8 +712,7 @@ fun! s:XPTemplateFinish(...) "{{{
         let ctx.phase = 'finished'
         call s:ClearMap()
     else
-        " call s:log.Log("pop up")
-        call s:PopCtx()
+        call s:popCtx()
     endif
 
     return s:StartAppend()
@@ -726,17 +727,17 @@ fun! s:removeMarksInRenderContext( renderContext ) "{{{
 
 endfunction "}}}
 
-fun! s:Popup(pref, coln, ...) "{{{
+fun! s:Popup(pref, coln) "{{{
 
     let x = s:bufData()
 
-    let popupOption = { 'popupOnly' : 0 }
-    if a:0 == 1
-        call extend( popupOption, a:1, 'force' )
-    endif
-
-
-    call s:log.Log("popupOption:".string(popupOption))
+    " let popupOption = { 'popupOnly' : 0 }
+    " if a:0 == 1
+        " call extend( popupOption, a:1, 'force' )
+    " endif
+" 
+" 
+    " call s:log.Log("popupOption:".string(popupOption))
 
     let cmpl=[]
     let cmpl2 = []
@@ -774,12 +775,6 @@ fun! s:Popup(pref, coln, ...) "{{{
     let cmpl = cmpl + cmpl2
 
 
-
-    " if !popupOption.popupOnly && ( len(cmpl) == 1 || ( len(cmpl) > 0 && a:pref ==# cmpl[0].word ) )
-        " " let x.tmplPopupStates = ''
-        " return { 'name' : cmpl[0].word }
-    " endif
-
     return XPPopupNew(s:pumCB, {}, cmpl).popup(a:coln)
 
 endfunction "}}}
@@ -789,7 +784,6 @@ endfunction "}}}
 " TODO use tabstop if expandtab is not set
 " TODO bad name, bad arguments
 fun! s:applyTmplIndent(renderContext, templateText) "{{{
-    " TODO to single line snippets, ignore this step
     let renderContext = a:renderContext
     let tmpl = a:templateText
 
@@ -884,7 +878,9 @@ fun! s:renderTemplate(nameStartPosition, nameEndPosition) " {{{
         let tmpl = tmpl
     endif
 
-    let tmpl = s:applyTmplIndent(ctx, tmpl)
+    if tmpl =~ '\n'
+        let tmpl = s:applyTmplIndent(ctx, tmpl)
+    endif
     let tmpl = s:parseRepetition(tmpl, x)
 
     let tmpl = substitute(tmpl, '\V' . xp.lft . s:wrappedName . xp.rt, x.wrap, 'g')
@@ -927,7 +923,7 @@ endfunction " }}}
 
 " [ first, second, third, right-mark ]
 " [ first, first, right-mark, right-mark ]
-fun! s:GetNameInfo(end) "{{{
+fun! s:getNameInfo(end) "{{{
     let x = s:bufData()
     let xp = x.renderContext.tmpl.ptn
 
@@ -935,7 +931,7 @@ fun! s:GetNameInfo(end) "{{{
         throw "cursor is not at item start position:".string(getpos(".")[1:2])
     endif
 
-    call s:log.Log("GetNameInfo from".string(getpos(".")[1:2]))
+    call s:log.Log("getNameInfo from".string(getpos(".")[1:2]))
     call s:log.Log("to:".string(a:end))
 
     let endn = a:end[0] * 10000 + a:end[1]
@@ -977,7 +973,7 @@ fun! s:GetNameInfo(end) "{{{
 
 endfunction "}}}
 
-fun! s:GetValueInfo(end) "{{{
+fun! s:getValueInfo(end) "{{{
     let x = s:bufData()
     let xp = x.renderContext.tmpl.ptn
 
@@ -996,7 +992,7 @@ fun! s:GetValueInfo(end) "{{{
         let l0n = min([l0[0] * 10000 + l0[1], nEnd])
     endif
 
-    call s:log.Log("GetValueInfo:end limit=" . l0n)
+    call s:log.Log("getValueInfo:end limit=" . l0n)
 
     let r1 = searchpos(xp.rt, 'W', a:end[0])
     if r1 == [0, 0] || r1[0] * 10000 + r1[1] > l0n
@@ -1011,7 +1007,7 @@ fun! s:GetValueInfo(end) "{{{
     return [r0, r1, r2]
 endfunction "}}}
 
-fun! s:clearMinimalIndent( str, firstLineIndent ) "{{{
+fun! s:clearMaxCommonIndent( str, firstLineIndent ) "{{{
     let min = a:firstLineIndent
 
     " protect the first and last line break
@@ -1031,27 +1027,12 @@ fun! s:clearMinimalIndent( str, firstLineIndent ) "{{{
     let pattern = '\n\s\{' . min . '}'
 
     return substitute( a:str, pattern, "\n", 'g' )
-
-    " let ptn = '\s\{' . min . '}'
-
-    let result = [list]
-    for line in list[]
-        let result += [ line[ min : ] ]
-    endfor
-
-    let str = join(result, "\n")
-
-    return str[ : -2 ] " remove last '=' which protect \n
-
 endfunction "}}}
 
 " XSET name|def=
 " XSET name|post=
 "
 " `name^ per-item post-filter ^^
-"
-"
-"
 
 
 fun! s:createPlaceHolder( ctx, nameInfo, valueInfo ) "{{{
@@ -1109,7 +1090,7 @@ fun! s:createPlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
         let val = s:textBetween( a:valueInfo[0], a:valueInfo[1] )
         let val = val[1:]
-        let val = s:clearMinimalIndent( val, indent( a:valueInfo[0][0] ) )
+        let val = s:clearMaxCommonIndent( val, indent( a:valueInfo[0][0] ) )
 
 
         let placeHolder.ontimeFilter = val
@@ -1268,10 +1249,10 @@ fun! s:buildPlaceHolders( markRange ) "{{{
     let xp = ctx.tmpl.ptn
 
     if ctx.firstList == []
-        let ctx.firstList = copy(ctx.tmpl.setting.firstListTemplate)
+        let ctx.firstList = copy(ctx.tmpl.setting.firstListSkeleton)
     endif
     if ctx.lastList == []
-        let ctx.lastList = copy(ctx.tmpl.setting.lastListTemplate)
+        let ctx.lastList = copy(ctx.tmpl.setting.lastListSkeleton)
     endif
 
     let ctx.buildingMarkRange = copy( a:markRange )
@@ -1296,13 +1277,13 @@ fun! s:buildPlaceHolders( markRange ) "{{{
         call s:log.Log("build values:end=".string(end))
 
 
-        " TODO move this action to GetNameInfo
+        " TODO move this action to getNameInfo
         let nn = searchpos(xp.lft, 'cW')
         if nn == [0, 0] || nn[0] * 10000 + nn[1] >= nEnd
             break
         endif
 
-        let nameInfo = s:GetNameInfo(end)
+        let nameInfo = s:getNameInfo(end)
         if nameInfo[0] == [0, 0]
             " no more items 
             break
@@ -1313,7 +1294,7 @@ fun! s:buildPlaceHolders( markRange ) "{{{
         call cursor(nameInfo[3])
 
 
-        let valueInfo = s:GetValueInfo(end)
+        let valueInfo = s:getValueInfo(end)
         if valueInfo[0] == [0, 0]
             " there is no right mark matching the left mark
             break
@@ -1678,7 +1659,7 @@ fun! s:gotoNextItem() "{{{
 
     if placeHolder == s:NullDict
         call cursor( XPMpos( xmark.tmpl.end ) )
-        return s:XPTemplateFinish(1)
+        return s:finishRendering(1)
     endif
 
     call s:log.Log("extractOneItem:".string(placeHolder))
@@ -1838,7 +1819,7 @@ fun! s:handleDefaultValueAction( ctx, act ) "{{{
             call XPreplace(XPMpos( ctx.leadingPlaceHolder.mark.start ), XPMpos( ctx.leadingPlaceHolder.mark.end )
                         \, has_key( a:act, 'postTyping' ) ? a:act.postTyping : '' )
 
-            return s:XPTemplateFinish()
+            return s:finishRendering()
 
         elseif a:act.action == 'embed'
             " embed a piece of snippet
@@ -2429,7 +2410,7 @@ endfunction "}}}
 
 fun! s:bufData() "{{{
     if !exists("b:xptemplateData")
-        let b:xptemplateData = {'tmplarr' : [], 'normalTemplates' : {}, 'funcs' : {}, 'vars' : {}, 'wrapStartPos' : 0, 'startColumn' : 0, 'wrap' : '', 'functionContainer' : {}}
+        let b:xptemplateData = {'tmplarr' : [], 'normalTemplates' : {}, 'funcs' : {}, 'vars' : {}, 'wrapStartPos' : 0, 'wrap' : '', 'functionContainer' : {}}
         let b:xptemplateData.funcs = b:xptemplateData.vars
         let b:xptemplateData.varPriority = {}
         let b:xptemplateData.posStack = []
@@ -2499,7 +2480,7 @@ fun! s:PushCtx() "{{{
     let x.stack += [s:getRenderContext()]
     call s:createRenderContext(x)
 endfunction "}}}
-fun! s:PopCtx() "{{{
+fun! s:popCtx() "{{{
     let x = s:bufData()
     let x.renderContext = x.stack[-1]
     call remove(x.stack, -1)
@@ -2635,7 +2616,6 @@ fun! s:XPTupdate(...) "{{{
 
 
     call s:log.Log("XPTupdate called, mode:".mode())
-
     call s:log.Info( "marks before XPTupdate:\n" . XPMallMark() )
 
     call s:fixCrCausedIndentProblem()
@@ -2646,30 +2626,29 @@ fun! s:XPTupdate(...) "{{{
 
     " TODO check current cursor position for crashing or fixing
 
-    call XPMsetLikelyBetween( renderContext.leadingPlaceHolder.mark.start,
-                \ renderContext.leadingPlaceHolder.mark.end )
+    let keyMark = renderContext.leadingPlaceHolder.mark
+    call XPMsetLikelyBetween( keyMark.start, keyMark.end )
 
     let rc = XPMupdate()
 
 
 
-    let keyMark = renderContext.leadingPlaceHolder.mark
     let [ start, end ] = [ XPMpos( keyMark.start ), XPMpos( keyMark.end ) ]
 
     if start == [0, 0] || end == [0, 0]
         return s:crash()
     endif
 
-    let typedContent = s:textBetween( start, end )
+    let contentTyped = s:textBetween( start, end )
 
 
-    if typedContent ==# renderContext.lastContent
-        call s:log.Log( "the same typed" )
+    if contentTyped ==# renderContext.lastContent
+        call s:log.Log( "nothing different typed" )
         call XPMupdateStat()
         return
     endif
 
-    call s:log.Log( "typed:".typedContent )
+    call s:log.Log( "typed:".contentTyped )
 
 
     call s:CallPlugin("beforeUpdate")
@@ -2678,26 +2657,21 @@ fun! s:XPTupdate(...) "{{{
 
 
     call s:log.Log("-----------------------")
-    call s:log.Log('mode='.mode())
-    call s:log.Log("tmpl\n".s:textBetween(s:TL(), s:BR()))
+    call s:log.Log("tmpl:", s:textBetween( XPMpos( renderContext.marks.tmpl.start ), XPMpos( renderContext.marks.tmpl.end ) ))
     call s:log.Log("lastContent=".renderContext.lastContent)
-    call s:log.Log("typedContent=".typedContent)
+    call s:log.Log("contentTyped=".contentTyped)
 
 
 
 
     if rc == g:XPM_RET.likely_matched
+        " change taken in current focused place holder
         let relPos = s:recordRelativePosToMark( [ line( '.' ), col( '.' ) ], renderContext.leadingPlaceHolder.mark.start )
 
         call s:log.Info( "marks before updating following:\n" . XPMallMark() )
 
-        " in most cases there is no line break
-        if len( renderContext.lastContent ) == len( typedContent ) && typedContent !~ '\n' && renderContext.lastContent !~ '\n'
-            " ignore position fixing
-            call s:updateFollowingPlaceHoldersWith( typedContent )
-        else
-            call s:updateFollowingPlaceHoldersWith( typedContent )
-        endif
+        " TODO optimize?
+        call s:updateFollowingPlaceHoldersWith( contentTyped )
 
         call s:gotoRelativePosToMark( relPos, renderContext.leadingPlaceHolder.mark.start )
 
@@ -2710,13 +2684,11 @@ fun! s:XPTupdate(...) "{{{
 
 
 
-
-
-    let renderContext.lastContent = typedContent
-    let renderContext.lastTotalLine = line( '$' )
-
-
     call s:CallPlugin('afterUpdate')
+
+
+    let renderContext.lastContent = contentTyped
+    let renderContext.lastTotalLine = line( '$' )
 
     
 
@@ -2726,23 +2698,23 @@ fun! s:XPTupdate(...) "{{{
 
 endfunction "}}}
 
-fun! s:recordRelativePosToMark( pos, mark )
+fun! s:recordRelativePosToMark( pos, mark ) "{{{
     let p = XPMpos( a:mark )
     if a:pos[0] == p[0] 
         return [0, a:pos[1] - p[1]]
     else
         return [ a:pos[0] - p[0], a:pos[1] ]
     endif
-endfunction
+endfunction "}}}
 
-fun! s:gotoRelativePosToMark( rPos, mark )
+fun! s:gotoRelativePosToMark( rPos, mark ) "{{{
     let p = XPMpos( a:mark )
     if a:rPos[0] == 0
         call cursor( p[0], a:rPos[1] + p[1] )
     else
         call cursor( p[0] + a:rPos[0], a:rPos[1] )
     endif
-endfunction
+endfunction "}}}
 
 fun! s:XPTcheck() "{{{
     let x = s:bufData()

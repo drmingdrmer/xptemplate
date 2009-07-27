@@ -1,14 +1,20 @@
-if exists("b:__STRUCTURES_C_LIKE_XPT_VIM__") 
-    finish 
-endif
-let b:__STRUCTURES_C_LIKE_XPT_VIM__ = 1 
+XPTemplate priority=like
+
+
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $BRACKETSTYLE  \ 
+XPTvar $INDENT_HELPER /* void */;
 
 " containers
 let [s:f, s:v] = XPTcontainer() 
 
-" constant definition
-call extend(s:v, {'$TRUE': '1', '$FALSE' : '0', '$NULL' : 'NULL', '$INDENT_HELPER' : '/* void */;'}, 'keep')
 
+
+
+
+" ========================= Function and Varaibles =============================
 " fun! s:f.c_enum_next(ptn) dict
   " let v = self.V()
   " if v == a:ptn
@@ -18,13 +24,11 @@ call extend(s:v, {'$TRUE': '1', '$FALSE' : '0', '$NULL' : 'NULL', '$INDENT_HELPE
   " endif
 " endfunction
 
-
-
-
+" ================================= Snippets ===================================
 XPTemplateDef
 
 XPT enum hint=enum\ {\ ..\ }
-XSET var..|post=Eval(V()=~'var..$' ? '' : V())
+XSET var..|post=Eval( V() =~ 'var..$' ? '' : V() )
 enum `name^
 {
     `elt^`
@@ -35,6 +39,10 @@ XSETm ...|post
 `elt^`
 `...^
 XSETm END
+`elt^`
+`elt...{{{^
+`elt^
+`}}}^
 
 
 XPT struct hint=struct\ {\ ..\ }
