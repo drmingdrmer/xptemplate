@@ -27,11 +27,14 @@ XPT enum hint=enum\ {\ ..\ }
 XSET var..|post=Eval(V()=~'var..$' ? '' : V())
 enum `name^
 {
-    `elt^,`
-    `...^
-    `elt^,`
+    `elt^`
     `...^
 }` `var..^;
+XSETm ...|post
+,
+`elt^`
+`...^
+XSETm END
 
 
 XPT struct hint=struct\ {\ ..\ }

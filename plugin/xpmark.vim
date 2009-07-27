@@ -54,6 +54,11 @@ fun! XPMadd( name, pos, prefer ) "{{{
     call s:log.Log( "add mark of name " . string( a:name ) . ' at ' . string( a:pos ) )
     let d = s:bufData()
     let prefer = a:prefer == 'l' ? 0 : 1
+
+    if has_key( d.marks, a:name )
+        call d.removeMark( a:name )
+    endif
+
     let d.marks[ a:name ] = a:pos + [ len( getline( a:pos[0] ) ), prefer ]
 
     call d.addMarkOrder( a:name )
@@ -237,8 +242,10 @@ fun! XPMallMark() "{{{
 
     let msg = ''
     " for name in sort( keys( d.marks ) )
+    let i = 0
     for name in d.orderedMarks
-        let msg .= name . repeat( '-', 30-len( name ) ) . " : " . substitute( string( d.marks[ name ] ), '\<\d\>', ' &', 'g' ) . "\n"
+        let msg .= i . ' ' . name . repeat( '-', 30-len( name ) ) . " : " . substitute( string( d.marks[ name ] ), '\<\d\>', ' &', 'g' ) . "\n"
+        let i += 1
     endfor
     return msg
 endfunction "}}}
@@ -578,6 +585,7 @@ fun! s:updateWithNewChangeRange( changeStart, changeEnd ) dict "{{{
         let len = len( self.orderedMarks )
         let i = likelyIndexes[0]
         let j = likelyIndexes[1]
+
         call self.updateMarksBefore( [0, i + 1], a:changeStart, a:changeEnd )
         call self.updateMarks( [i+1, j],   a:changeStart, a:changeEnd )
         let len2 = len( self.orderedMarks )

@@ -316,7 +316,7 @@ fun! s:parseMultiLineValues(lines, start) "{{{
 
 
     " non-escaped end symbol
-    let endPattern = '\V' . s:nonEscaped . 'XSETm END\$'
+    let endPattern = '\V\^XSETm\s\+END\$'
 
 
 
@@ -333,18 +333,18 @@ fun! s:parseMultiLineValues(lines, start) "{{{
 
         let line = lines[start]
 
-        " TODO can not input \XSET
-        if line =~# '^\\XSET\%[m]'
-            let line = line[ 1 : ]
-        endif
-
-
         if line =~# endPattern
-            let line = matchstr( line, '.\{-}\ze' . endPattern )
-            let multiLineValues += [line]
             break
-
         endif
+
+
+        if line =~# '^\V\\\+XSET\%[m]'
+            let slashes = matchstr( line, '^\\\+' )
+            let nrSlashes = len( slashes + 1 ) / 2
+            let line = line[ nrSlashes : ]
+        endif
+
+
 
 
         let multiLineValues += [ line ]
