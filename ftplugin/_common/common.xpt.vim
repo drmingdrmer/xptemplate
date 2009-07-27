@@ -87,6 +87,7 @@ fun! s:f.VOID(...) "{{{
   return ""
 endfunction "}}}
 
+" Evaluate several expression and concat them.
 fun! s:f.Eval(...)
   return join( a:000, '' )
 endfunction
