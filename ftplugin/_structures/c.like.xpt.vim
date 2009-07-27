@@ -9,31 +9,29 @@ let [s:f, s:v] = XPTcontainer()
 " constant definition
 call extend(s:v, {'$TRUE': '1', '$FALSE' : '0', '$NULL' : 'NULL', '$INDENT_HELPER' : '/* void */;'}, 'keep')
 
-fun! s:f.c_enum_next(ptn) dict
-  let v = self.V()
-  " return ",  element.."
-  if v == a:ptn
-    return ''
-  else
-    return "-"
-  endif
-  " return toupper(self.V())
-  " return '...'
-endfunction
+" fun! s:f.c_enum_next(ptn) dict
+  " let v = self.V()
+  " if v == a:ptn
+    " return ''
+  " else
+    " return ",\n  elt"
+  " endif
+" endfunction
+
+
+
 
 XPTemplateDef
 
 XPT enum hint=enum\ {\ ..\ }
-XSET var=
+XSET var..|post=Eval(V()=~'var..$' ? '' : V())
 enum `name^
 {
-    `e^=`e^c_enum_next('e')^
-} `var^^;
-..XPT
-XSETm elm?|post
-,
-`element^`
-`elm?^XSETm END
+    `elt^,`
+    `...^
+    `elt^,`
+    `...^
+}` `var..^;
 
 
 XPT struct hint=struct\ {\ ..\ }
@@ -43,7 +41,7 @@ struct `structName^
     `...^
     `type^ `field^;`
     `...^
-} `var^^;
+}` `var^^;
 
 
 XPT bitfield hint=struct\ {\ ..\ :\ n\ }
@@ -53,6 +51,6 @@ struct `structName^
     `...^
     `type^ `field^ : `bits^;`
     `...^
-} `var^^;
+}` `var^^;
 
 

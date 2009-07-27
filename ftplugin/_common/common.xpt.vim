@@ -87,6 +87,10 @@ fun! s:f.VOID(...) "{{{
   return ""
 endfunction "}}}
 
+fun! s:f.Eval(...)
+  return join( a:000, '' )
+endfunction
+
 " trigger nested template
 fun! s:f.Trigger(name) "{{{
   return {'action' : 'expandTmpl', 'tmplName' : a:name}

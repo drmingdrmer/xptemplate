@@ -580,7 +580,9 @@ fun! s:updateWithNewChangeRange( changeStart, changeEnd ) dict "{{{
         let j = likelyIndexes[1]
         call self.updateMarksBefore( [0, i + 1], a:changeStart, a:changeEnd )
         call self.updateMarks( [i+1, j],   a:changeStart, a:changeEnd )
-        call self.updateMarksAfter( [j, len], a:changeStart, a:changeEnd )
+        let len2 = len( self.orderedMarks )
+        let j += len2 - len
+        call self.updateMarksAfter( [j, len2], a:changeStart, a:changeEnd )
 
         return g:XPM_RET.likely_matched
     endif
@@ -764,6 +766,7 @@ fun! s:updateMarks( indexRange, changeStart, changeEnd ) dict "{{{
         call s:log.Debug( "updated mark : " . (has_key( self.marks, name ) ? string( self.marks[ name ] ) : '' ) )
 
     endwhile
+
 
 endfunction "}}}
 
