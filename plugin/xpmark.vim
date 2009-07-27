@@ -34,8 +34,8 @@ let g:XPM_RET = {
 " TODO joining lines cause marks lost
 
 
-let s:log = CreateLogger( 'debug' )
-" let s:log = CreateLogger( 'warn' )
+" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'warn' )
 
 
 

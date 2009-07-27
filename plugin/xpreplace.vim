@@ -34,8 +34,8 @@ endfunction
 
 
 
-let s:log = CreateLogger( 'debug' )
-" let s:log = CreateLogger( 'warn' )
+" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'warn' )
 
 fun! XPRstartSession() "{{{
     if exists( 'b:_xpr_session' )
@@ -114,8 +114,6 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     " reserved register 0
     Assert @" == 'XPreplaceInited'
 
-    " exe 'mksession! ' . s:ii . '.sess'
-    " let s:ii += 1
 
 
     if option.doJobs

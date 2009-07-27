@@ -17,6 +17,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO filehead of 'c' complains error
 " TODO hidden template or used only internally.
 " TODO snippets bundle and bundle selection
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
@@ -65,8 +66,8 @@ com! XPTgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPTgetSID
 delc XPTgetSID
 
-let s:log = CreateLogger( 'debug' )
-" let s:log = CreateLogger( 'warn' )
+" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'warn' )
 
 
 
@@ -538,7 +539,6 @@ fun! XPTemplateStart(pos, ...) " {{{
 
 endfunction " }}}
 
-
 fun! s:ParseIndent(x, p) "{{{
     let x = a:x
 
@@ -587,7 +587,7 @@ fun! s:ParsePriority(s) "{{{
         let prio = x.bufsetting.priority
     else
 
-        let p = matchlist(pstr, '\V\^\(' . s:priPtn . '\)\%(\(\[+-]\)\(\d\+\)\?\)\?\$')
+        let p = matchlist(pstr, '\V\^\(' . s:priPtn . '\)' . '\%(' . '\(\[+-]\)' . '\(\d\+\)\?\)\?\$')
 
         let base   = 0
         let r      = 1
@@ -623,19 +623,17 @@ fun! s:ParsePriority(s) "{{{
 endfunction "}}}
 
 
-
-
-fun! s:newTemplateCtx( xptBufData, tmplName ) "{{{
+fun! s:newTemplateRenderContext( xptBufData, tmplName ) "{{{
     if s:getRenderContext().processing
         call s:PushCtx()
     endif
 
-    let ctx = s:createRenderContext(a:xptBufData)
+    let renderContext = s:createRenderContext(a:xptBufData)
 
-    let ctx.phase = 'inited'
-    let ctx.tmpl  = a:xptBufData.normalTemplates[a:tmplName]
+    let renderContext.phase = 'inited'
+    let renderContext.tmpl  = a:xptBufData.normalTemplates[a:tmplName]
 
-    return ctx
+    return renderContext
 endfunction "}}}
 
 fun! s:doStart(sess) " {{{
@@ -647,14 +645,10 @@ fun! s:doStart(sess) " {{{
     let cursorColumn = col(".")
     let tmplname = a:sess.matched
 
-    let ctx = s:newTemplateCtx( x, tmplname )
+    let ctx = s:newTemplateRenderContext( x, tmplname )
 
-
-    " call SettingPush('&l:ve', 'all')
 
     call s:renderTemplate([ lineNr, column ], [ lineNr, cursorColumn ])
-
-    " call SettingPop() " l:ve
 
 
     let ctx.phase = 'rendered'
@@ -673,7 +667,7 @@ fun! s:doStart(sess) " {{{
     call s:log.Debug("post action =".action)
     call s:log.Debug("mode:".mode())
 
-    " g:xpt_post_action is for debug only
+    " NOTE: g:xpt_post_action is for debug only
     return action . g:xpt_post_action
 
 endfunction " }}}
@@ -681,8 +675,8 @@ endfunction " }}}
 " TODO deal with it in any condition
 fun! s:finishRendering(...) "{{{
     let x = s:bufData()
-    let ctx = s:getRenderContext()
-    let xp = ctx.tmpl.ptn
+    let renderContext = s:getRenderContext()
+    let xp = renderContext.tmpl.ptn
 
     " call s:log.Log("finishRendering...........")
 
@@ -692,8 +686,6 @@ fun! s:finishRendering(...) "{{{
     let toEnd = col(".") - len(getline("."))
 
     " unescape
-    " exe "silent! %snomagic/\\V" .s:TmplRange() . xp.lft_e . '/' . xp.l . '/g'
-    " exe "silent! %snomagic/\\V" .s:TmplRange() . xp.rt_e . '/' . xp.r . '/g'
     exe "silent! %snomagic/\\V" .s:TmplRange() . s:unescapeHead . xp.l . '/\1' . xp.l . '/g'
     exe "silent! %snomagic/\\V" .s:TmplRange() . s:unescapeHead . xp.r . '/\1' . xp.r . '/g'
 
@@ -705,17 +697,17 @@ fun! s:finishRendering(...) "{{{
 
     call cursor(l, toEnd + len(getline(l)))
 
-    call s:removeMarksInRenderContext(ctx)
+    call s:removeMarksInRenderContext(renderContext)
 
     if empty(x.stack)
-        let ctx.processing = 0
-        let ctx.phase = 'finished'
+        let renderContext.processing = 0
+        let renderContext.phase = 'finished'
         call s:ClearMap()
     else
         call s:popCtx()
     endif
 
-    return s:StartAppend()
+    return ''
 endfunction "}}}
 
 fun! s:removeMarksInRenderContext( renderContext ) "{{{
@@ -723,8 +715,6 @@ fun! s:removeMarksInRenderContext( renderContext ) "{{{
     let renderContext = a:renderContext
 
     call XPMremoveMarkStartWith( renderContext.markNamePre )
-
-
 endfunction "}}}
 
 fun! s:Popup(pref, coln) "{{{
@@ -1489,7 +1479,7 @@ fun! s:GetRangeBetween(p1, p2, ...) "{{{
 
 endfunction "}}}
 
-fun! s:finishCurrentAndGotoNextItem(flag) " {{{
+fun! s:finishCurrentAndGotoNextItem(action) " {{{
     let x = s:bufData()
     let ctx = s:getRenderContext()
     let marks = ctx.leadingPlaceHolder.mark
@@ -1507,14 +1497,14 @@ fun! s:finishCurrentAndGotoNextItem(flag) " {{{
 
     call s:HighLightItem(name, 0)
 
-    call s:log.Log("finishCurrentAndGotoNextItem flag:" . a:flag)
+    call s:log.Log("finishCurrentAndGotoNextItem action:" . a:action)
 
-    if a:flag ==# 'clear'
+    if a:action ==# 'clear'
         call s:log.Log( 'to clear:' . string( [ XPMpos( marks.start ),XPMpos( marks.end ) ] ) )
         call XPreplace(XPMpos( marks.start ),XPMpos( marks.end ), '')
     endif
 
-    let post = s:ApplyPostFilter()
+    let post = s:applyPostFilter()
 
     let ctx.step += [{ 'name' : ctx.item.name, 'value' : post }]
     if ctx.item.name != ''
@@ -1526,7 +1516,7 @@ fun! s:finishCurrentAndGotoNextItem(flag) " {{{
 
 endfunction " }}}
 
-fun! s:ApplyPostFilter() "{{{
+fun! s:applyPostFilter() "{{{
 
     " *) Group-scope post filter goes first to apply to leading place holder.
     " *) Place-holder post filter then applies if there is one.
@@ -1573,6 +1563,7 @@ fun! s:ApplyPostFilter() "{{{
     call s:log.Log('has post filter ?:' . hasPostFilter)
 
 
+    " TODO per-place-holder filter
     if hasPostFilter
 
         let isPlainExpansion = 
@@ -1649,16 +1640,14 @@ fun! s:gotoNextItem() "{{{
     " @param    position from where to start search.
 
     let renderContext = s:getRenderContext()
-    let xmark = renderContext.marks
 
     call s:log.Log( 'renderContext=' . string( renderContext ) )
-    let xp = renderContext.tmpl.ptn
 
     let placeHolder = s:extractOneItem()
 
 
     if placeHolder == s:NullDict
-        call cursor( XPMpos( xmark.tmpl.end ) )
+        call cursor( XPMpos( renderContext.marks.tmpl.end ) )
         return s:finishRendering(1)
     endif
 
@@ -1792,7 +1781,9 @@ fun! s:extractOneItem() "{{{
         let renderContext.leadingPlaceHolder = item.placeHolders[0]
     else
         let renderContext.leadingPlaceHolder = item.keyPH
-        let item.fullname = item.keyPH.fullname
+
+        " set already
+        " let item.fullname = item.keyPH.fullname
     endif
 
     return renderContext.leadingPlaceHolder
@@ -1838,14 +1829,17 @@ fun! s:handleDefaultValueAction( ctx, act ) "{{{
 
 endfunction "}}}
 
-fun! s:adjustIndentAccordToLine( str, lineNr ) "{{{
+" TODO use the same indent adjust method
+" TODO negative indent support
+" TODO indent() called on empty line get nothing
+fun! s:addIndent( str, lineNr ) "{{{
     let indent = indent(a:lineNr)
     let indentSpaces = repeat(' ', indent)
     let str = substitute( a:str, "\n", "\n" . indentSpaces, 'g' )
     return str
 endfunction "}}}
 
-fun! s:embedSnippetInLeadingPlaceHolder( ctx, snippet ) 
+fun! s:embedSnippetInLeadingPlaceHolder( ctx, snippet ) "{{{
     " TODO remove needless marks
     let ph = a:ctx.leadingPlaceHolder
     
@@ -1862,7 +1856,7 @@ fun! s:embedSnippetInLeadingPlaceHolder( ctx, snippet )
     endif
 
     return s:gotoNextItem()
-endfunction
+endfunction "}}}
 
 fun! s:fillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
     " TODO remove needless marks
@@ -1930,8 +1924,9 @@ fun! s:applyDefaultValueToPH( renderContext ) "{{{
 
         return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."))
 
-    else " string
-        let str = s:adjustIndentAccordToLine( obj, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0] )
+    else 
+        " string
+        let str = s:addIndent( obj, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0] )
 
         return s:fillinLeadingPlaceHolderAndSelect( renderContext, str )
 
@@ -1948,12 +1943,15 @@ fun! s:initItem() " {{{
         return s:applyDefaultValueToPH( renderContext )
 
     else
+        " TODO needed to fill in?
         let str = renderContext.item.name
-        return s:fillinLeadingPlaceHolderAndSelect( renderContext, str )
+        " return s:fillinLeadingPlaceHolderAndSelect( renderContext, str )
+        " TODO needed?
+        " call s:XPTupdate()
+        call XPMupdateStat()
+        return s:selectCurrent(renderContext)
 
     endif
-
-    " return s:selectCurrent(renderContext)
 
 endfunction " }}}
 
@@ -2359,16 +2357,6 @@ fun! s:ClearMap() " {{{
 
 endfunction " }}}
 
-fun! s:StartAppend() " {{{
-
-    let emptyline = (getline(".") =~ '^\s*$')
-    if emptyline
-        return "\<END>;\<C-c>==A\<BS>"
-    endif
-
-    return ""
-
-endfunction " }}}
 
 
 fun! s:CTL(...) "{{{
@@ -2390,6 +2378,7 @@ fun! XPTbufData() "{{{
 endfunction "}}}
 
 
+" TODO bad name with newTemplateRenderContext
 fun! s:createRenderContext(x) "{{{
     call s:log.Log( 'new render context is created' )
 
