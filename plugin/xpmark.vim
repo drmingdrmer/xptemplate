@@ -18,6 +18,14 @@ let g:xpm_mark_nextline = 'l'
 let g:xpm_changenr_level = 1000
 let s:insertPattern = '[i]'
 
+" XPMupdate returned status code
+let g:XPM_RET = {
+            \   'likely_matched' : {},
+            \   'no_updated_made' : {},
+            \   'undo_redo' : {},
+            \   'updated' : {},
+            \}
+
 " TODO while editing .dot file, some error occurs complaining 'snapshot'
 " working with inexistent number.
 " TODO 'au matchparen' causes it to update 2 or 3 times for each cursor move
@@ -138,8 +146,10 @@ fun! XPMupdateSpecificChangedRange(start, end) " {{{
     endif
 
     call d.initCurrentStat()
-    call d.updateWithNewChangeRange( a:start, a:end )
+    let rc = d.updateWithNewChangeRange( a:start, a:end )
     call d.saveCurrentStat()
+
+    return rc
 
 endfunction " }}}
 
@@ -161,7 +171,8 @@ fun! XPMautoUpdate(msg) "{{{
         return ''
     endif
 
-    return XPMupdate('auto')
+    call XPMupdate('auto')
+    return ''
 endfunction "}}}
 
 fun! XPMupdate(...) " {{{
@@ -175,7 +186,7 @@ fun! XPMupdate(...) " {{{
 
     if !needUpdate
         call d.saveCurrentCursorStat()
-        return ''
+        return g:XPM_RET.no_updated_made
     endif
 
 
@@ -185,19 +196,19 @@ fun! XPMupdate(...) " {{{
 
     if d.lastMode =~ s:insertPattern && d.stat.mode =~ s:insertPattern
         " stays in insert mode 
-        call d.insertModeUpdate()
+        let rc = d.insertModeUpdate()
 
     else
         " *) just entered insert mode or just leave insert-like mode
         " *) stays in normal mode 
-        call d.normalModeUpdate()
+        let rc = d.normalModeUpdate()
 
     endif
 
 
     call d.saveCurrentStat()
 
-    return ''
+    return rc
 endfunction "}}}
 
 fun! XPMupdateStat() "{{{
@@ -334,7 +345,7 @@ fun! s:insertModeUpdate() dict "{{{
     call s:log.Log( "update Insert" )
 
     if self.handleUndoRedo()
-        return
+        return g:XPM_RET.undo_redo
     endif
 
 
@@ -356,17 +367,16 @@ fun! s:insertModeUpdate() dict "{{{
 
         " content added 
         call s:log.Log( "content added" )
-        call self.updateWithNewChangeRange( self.lastPositionAndLength[ :1 ], stat.currentPosition )
+        return self.updateWithNewChangeRange( self.lastPositionAndLength[ :1 ], stat.currentPosition )
 
     else
         " deletion 
         " TODO check if current position is really before last position
         call s:log.Log( "content removed" )
-        call self.updateWithNewChangeRange( stat.currentPosition, stat.currentPosition )
+        return self.updateWithNewChangeRange( stat.currentPosition, stat.currentPosition )
 
 
     endif
-
 
 endfunction "}}}
 
@@ -377,7 +387,7 @@ fun! s:normalModeUpdate() dict "{{{
 
     if nr == self.lastChangenr
         " no change was taken to buffer 
-        return
+        return g:XPM_RET.no_updated_made
     endif
 
 
@@ -385,7 +395,7 @@ fun! s:normalModeUpdate() dict "{{{
 
 
     if self.handleUndoRedo()
-        return
+        return g:XPM_RET.undo_redo
     endif
 
     let cs = [ line( "'[" ), col( "'[" ) ]
@@ -424,7 +434,7 @@ fun! s:normalModeUpdate() dict "{{{
             " will not trigger any updates.
 
             call s:log.Log( "update from select mode" )
-            call self.updateWithNewChangeRange([ line( "'<" ), col( "'<" ) ], stat.currentPosition)
+            return self.updateWithNewChangeRange([ line( "'<" ), col( "'<" ) ], stat.currentPosition)
 
 
         else
@@ -434,7 +444,7 @@ fun! s:normalModeUpdate() dict "{{{
             " TODO 
 
             call s:log.Log( "update for 's' command or else" )
-            call self.updateWithNewChangeRange(stat.currentPosition, stat.currentPosition)
+            return self.updateWithNewChangeRange(stat.currentPosition, stat.currentPosition)
 
         endif
 
@@ -479,7 +489,7 @@ fun! s:normalModeUpdate() dict "{{{
 
                 call self.updateForLinewiseDeletion(cs[0], lineNrOfChangeEndInLastStat)
 
-                return
+                return g:XPM_RET.updated
                 "}}}
 
             else
@@ -495,26 +505,26 @@ fun! s:normalModeUpdate() dict "{{{
             call s:log.Debug( 'update with line join' )
 
             let endPos = [ self.lastPositionAndLength[0], self.lastPositionAndLength[2] ]
-            call self.updateWithNewChangeRange( endPos, endPos )
+            return self.updateWithNewChangeRange( endPos, endPos )
 
-            return
 
         elseif cs == [1, 1] && ce == [ stat.totalLine, 1 ]
             " TODO to test if it is OK with buffer of only 1 line
             " substitute or other globally-affected command
             call s:log.Log( "substitute, remove all marks" )
             call XPMflush()
-            return
+            return g:XPM_RET.updated
 
         endif
 
-        call self.updateWithNewChangeRange(cs, ce)
+        return self.updateWithNewChangeRange(cs, ce)
 
 
         "}}}
 
     endif
 
+    return g:XPM_RET.updated
 
 endfunction "}}}
 
@@ -555,11 +565,14 @@ fun! s:updateWithNewChangeRange( changeStart, changeEnd ) dict "{{{
     " try to find out the marks most likely to be 
 
     let likelyIndexes = self.findLikelyRange( a:changeStart, bChangeEnd )
+    call s:log.Log( 'found likely index range=' . string( likelyIndexes ) )
     if likelyIndexes == [ -1, -1 ]
         " no likely marks matches
 
         let indexes = [0, len( self.orderedMarks )]
         call self.updateMarks( indexes, a:changeStart, a:changeEnd )
+
+        return g:XPM_RET.updated
 
     else
         let len = len( self.orderedMarks )
@@ -569,6 +582,7 @@ fun! s:updateWithNewChangeRange( changeStart, changeEnd ) dict "{{{
         call self.updateMarks( [i+1, j],   a:changeStart, a:changeEnd )
         call self.updateMarksAfter( [j, len], a:changeStart, a:changeEnd )
 
+        return g:XPM_RET.likely_matched
     endif
 
 

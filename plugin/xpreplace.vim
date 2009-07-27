@@ -1,5 +1,5 @@
 if exists("g:__XPREPLACE_VIM__")
-  finish
+  " finish
 endif
 let g:__XPREPLACE_VIM__ = 1
 
@@ -9,6 +9,7 @@ runtime plugin/mapstack.vim
 runtime plugin/xpmark.vim
 
 " test range
+    " s
 " 000000000000000000000000000000000000000
 " 111111111111111111111111111111111111111
 " 222222222222222222222222222222222222222
@@ -18,11 +19,23 @@ runtime plugin/xpmark.vim
 " 
 " 
 
+fun! TestXPR()
+    call XPMadd( 'a', [ 12, 6 ], 'l' )
+    call XPMadd( 'b', [ 12, 6 ], 'r' )
+
+    call XPRstartSession()
+
+    call XPreplaceByMarkInternal( 'a', 'b', ', element..' )
+
+    call XPRendSession()
+    call XPMremove( 'a' )
+    call XPMremove( 'b' )
+endfunction
 
 
 
-" let s:log = CreateLogger( 'debug' )
-let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
+" let s:log = CreateLogger( 'warn' )
 
 fun! XPRstartSession() "{{{
     if exists( 'b:_xpr_session' )
@@ -46,6 +59,7 @@ endfunction "}}}
 
 fun! XPRendSession() "{{{
     if !exists( 'b:_xpr_session' )
+        throw "no setting pushed"
         return
     endif
 
@@ -68,12 +82,16 @@ fun! XPreplaceByMarkInternal( startMark, endMark, replacement ) "{{{
 
     call s:log.Debug( 'XPreplaceByMarkInternal parameters:' . string( [ a:startMark, a:endMark, a:replacement ] ) )
 
+    call s:log.Debug( 'before replacing', join( getline( 1, '$' ), "\n" ) )
     let pos = XPreplaceInternal( start, end, a:replacement, { 'doJobs' : 0 } )
+    call s:log.Debug( 'after replacing', join( getline( 1, '$' ), "\n" ) )
 
     call XPMupdateWithMarkRangeChanging( a:startMark, a:endMark, start, pos )
 
     return pos
 endfunction "}}}
+
+" let s:ii = 0
 
 " For internal use only, the caller is reponsible to set settings correctly.
 fun! XPreplaceInternal(start, end, replacement, option) "{{{
@@ -96,6 +114,8 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     " reserved register 0
     Assert @" == 'XPreplaceInited'
 
+    " exe 'mksession! ' . s:ii . '.sess'
+    " let s:ii += 1
 
 
     if option.doJobs
@@ -108,6 +128,7 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
 
     " remove old
     call cursor( a:start )
+
 
     if a:start != a:end
         normal! v
@@ -122,9 +143,30 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     " add new 
     let bStart = [a:start[0] - line( '$' ), a:start[1] - len(getline(a:start[0]))]
 
+
+    call cursor( a:start )
+
+    call s:log.Debug( 'current cursor:'.string( [ line( "." ), col( "." ), mode() ] ) )
+
+    call s:log.Log( 'before append' )
     " force non-linewise paste
     let @" = a:replacement . ';'
-    normal! ""P
+
+    " TODO use this only when entering insert mode from select mode
+    let ifPasteAtEnd = ( col( [ a:start[0], '$' ] ) == a:start[1] && a:start[1] > 1 ) 
+
+
+    " NOTE: When just entering insert mode from select mode, it is impossible to paste at line end.
+    " May be bug of vim
+    if ifPasteAtEnd
+        " paste before last char 
+        call cursor( a:start[0], a:start[1] - 1 )
+        normal! ""p
+    else
+        normal! ""P
+    endif
+
+
 
     call s:log.Log( 'after append content, line=' . string( getline( a:start[0] ) ) )
 
@@ -139,7 +181,12 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     silent! '',.foldopen!
 
     " remove ';'
-    silent! normal! XzO
+    if ifPasteAtEnd
+        call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 )
+        silent! normal! xzo
+    else
+        silent! normal! XzO
+    endif
 
 
     let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]

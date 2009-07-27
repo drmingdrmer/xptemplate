@@ -9,8 +9,15 @@ let [s:f, s:v] = XPTcontainer()
 " constant definition
 call extend(s:v, {'$TRUE': '1', '$FALSE' : '0', '$NULL' : 'NULL', '$INDENT_HELPER' : '/* void */;'}, 'keep')
 
-fun! s:f.c_enum_next() dict
-  return toupper(self.V())
+fun! s:f.c_enum_next(ptn) dict
+  let v = self.V()
+  " return ",  element.."
+  if v == a:ptn
+    return ''
+  else
+    return "-"
+  endif
+  " return toupper(self.V())
   " return '...'
 endfunction
 
@@ -20,7 +27,7 @@ XPT enum hint=enum\ {\ ..\ }
 XSET var=
 enum `name^
 {
-    `element^`element^c_enum_next()^
+    `e^=`e^c_enum_next('e')^
 } `var^^;
 ..XPT
 XSETm elm?|post

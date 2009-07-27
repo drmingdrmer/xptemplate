@@ -2549,7 +2549,6 @@ fun! s:updateFollowingPlaceHoldersWith( contentTyped ) "{{{
 
     let ctx = s:getRenderContext()
 
-    call XPRstartSession()
 
     let phList = ctx.item.placeHolders
     let phList = ctx.leadingPlaceHolder.isKey ? phList : phList[1:]
@@ -2561,14 +2560,15 @@ fun! s:updateFollowingPlaceHoldersWith( contentTyped ) "{{{
             let ontimeResult = a:contentTyped
         endif
 
+    call XPRstartSession()
 
         " call XPreplace( XPMpos( ph.mark.start ), XPMpos( ph.mark.end ), ontimeResult )
         call XPreplaceByMarkInternal( ph.mark.start, ph.mark.end, ontimeResult )
 
+    call XPRendSession()
         call s:log.Debug( 'after update 1 place holder:', s:textBetween( XPMpos( ctx.marks.tmpl.start ), XPMpos( ctx.marks.tmpl.end ) ) )
     endfor
 
-    call XPRendSession()
 
 endfunction "}}}
 
@@ -2649,7 +2649,7 @@ fun! s:XPTupdate(...) "{{{
     call XPMsetLikelyBetween( renderContext.leadingPlaceHolder.mark.start,
                 \ renderContext.leadingPlaceHolder.mark.end )
 
-    call XPMupdate()
+    let rc = XPMupdate()
 
 
 
@@ -2684,18 +2684,29 @@ fun! s:XPTupdate(...) "{{{
     call s:log.Log("typedContent=".typedContent)
 
 
-    let currentPosMark = '````'
-    call XPMhere( currentPosMark, 'l' )
 
-    call s:log.Info( "marks before updating following:\n" . XPMallMark() )
 
-    " in most cases there is no line break
-    if len( renderContext.lastContent ) == len( typedContent ) && typedContent !~ '\n' && renderContext.lastContent !~ '\n'
-        " ignore position fixing
-        call s:updateFollowingPlaceHoldersWith( typedContent )
+    if rc == g:XPM_RET.likely_matched
+        let relPos = s:recordRelativePosToMark( [ line( '.' ), col( '.' ) ], renderContext.leadingPlaceHolder.mark.start )
+
+        call s:log.Info( "marks before updating following:\n" . XPMallMark() )
+
+        " in most cases there is no line break
+        if len( renderContext.lastContent ) == len( typedContent ) && typedContent !~ '\n' && renderContext.lastContent !~ '\n'
+            " ignore position fixing
+            call s:updateFollowingPlaceHoldersWith( typedContent )
+        else
+            call s:updateFollowingPlaceHoldersWith( typedContent )
+        endif
+
+        call s:gotoRelativePosToMark( relPos, renderContext.leadingPlaceHolder.mark.start )
+
     else
-        call s:updateFollowingPlaceHoldersWith( typedContent )
+
+        " TODO undo-redo handling
+
     endif
+
 
 
 
@@ -2705,20 +2716,33 @@ fun! s:XPTupdate(...) "{{{
     let renderContext.lastTotalLine = line( '$' )
 
 
-    call cursor(XPMpos( currentPosMark ))
-
     call s:CallPlugin('afterUpdate')
 
     
 
-    call s:log.Log( "cursor last stays at:" . string( XPMpos(currentPosMark) ) )
-
-    call XPMremove( currentPosMark )
     call s:log.Info( "marks after XPTupdate:\n" . XPMallMark() )
 
     call XPMupdateStat()
 
 endfunction "}}}
+
+fun! s:recordRelativePosToMark( pos, mark )
+    let p = XPMpos( a:mark )
+    if a:pos[0] == p[0] 
+        return [0, a:pos[1] - p[1]]
+    else
+        return [ a:pos[0] - p[0], a:pos[1] ]
+    endif
+endfunction
+
+fun! s:gotoRelativePosToMark( rPos, mark )
+    let p = XPMpos( a:mark )
+    if a:rPos[0] == 0
+        call cursor( p[0], a:rPos[1] + p[1] )
+    else
+        call cursor( p[0] + a:rPos[0], a:rPos[1] )
+    endif
+endfunction
 
 fun! s:XPTcheck() "{{{
     let x = s:bufData()
