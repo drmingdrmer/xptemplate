@@ -1983,14 +1983,6 @@ fun! s:selectCurrent( renderContext )
 
 endfunction
 
-" TODO
-fun! s:UnescapeChar( str, chars )
-    if chars == ''
-        return
-    endif
-
-
-endfunction
 
 fun! s:createStringMask( str ) "{{{
 
