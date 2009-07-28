@@ -17,7 +17,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO filehead of 'c' complains error
+" TODO without template rendering, xpmark update complains error.
 " TODO hidden template or used only internally.
 " TODO snippets bundle and bundle selection
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
@@ -66,8 +66,8 @@ com! XPTgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPTgetSID
 delc XPTgetSID
 
-" let s:log = CreateLogger( 'debug' )
-let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
+" let s:log = CreateLogger( 'warn' )
 
 
 
@@ -1949,6 +1949,7 @@ fun! s:initItem() " {{{
         " TODO needed?
         " call s:XPTupdate()
         call XPMupdateStat()
+        " call XPMupdate()
         return s:selectCurrent(renderContext)
 
     endif
@@ -2591,7 +2592,10 @@ fun! s:XPTupdate(...) "{{{
 
 
     if !renderContext.processing
-        call XPMupdateStat()
+
+        " update XPM is necessary
+        call XPMupdate()
+        " call XPMupdateStat()
         return
     endif
 

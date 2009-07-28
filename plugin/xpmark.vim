@@ -9,13 +9,13 @@ XPMgetSID
 delc XPMgetSID
 
 runtime plugin/debug.vim
-runtime plugin/xpreplace.vim
 
 
 " probe mark
 let g:xpm_mark = 'p'
 let g:xpm_mark_nextline = 'l'
 let g:xpm_changenr_level = 1000
+
 let s:insertPattern = '[i]'
 
 " XPMupdate returned status code
@@ -34,8 +34,8 @@ let g:XPM_RET = {
 " TODO joining lines cause marks lost
 
 
-" let s:log = CreateLogger( 'debug' )
-let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
+" let s:log = CreateLogger( 'warn' )
 
 
 
@@ -64,7 +64,6 @@ fun! XPMadd( name, pos, prefer ) "{{{
     call d.addMarkOrder( a:name )
 
 endfunction "}}}
-
 
 fun! XPMhere( name, prefer ) "{{{
     call XPMadd( a:name, [ line( "." ), col( "." ) ], a:prefer )
@@ -107,7 +106,7 @@ fun! XPMpos( name ) "{{{
     return [0, 0]
 endfunction "}}}
 
-" TODO set likely between in xpt
+
 fun! XPMsetLikelyBetween( start, end ) "{{{
     let d = s:bufData()
     call s:log.Debug( 'parameters : ' . a:start . ' ' . a:end )
@@ -190,6 +189,7 @@ fun! XPMupdate(...) " {{{
     let needUpdate = d.isUpdateNeeded()
 
     if !needUpdate
+        call d.snapshot()
         call d.saveCurrentCursorStat()
         return g:XPM_RET.no_updated_made
     endif
@@ -276,9 +276,20 @@ fun! s:snapshot() dict "{{{
     call s:log.Log( "take snapshot" )
     let nr = changenr()
 
+    if nr == self.lastChangenr
+        return
+    endif
+
     call s:log.Log( 'snapshot at :' . nr )
 
     let n = self.lastChangenr + 1
+
+    if !has_key( self.markHistory, n-1 )
+        throw 'no history nr:' . ( n-1 ) . ' lastNr:' . self.lastChangenr . ' history:' . string( self.markHistory )
+    endif
+
+    Assert has_key( self.markHistory, n-1 )
+
     while n < nr
         call s:log.Info( 'to link markHistory ' . n . ' to ' .(n - 1) )
         let self.markHistory[ n ] = self.markHistory[ n - 1 ]
@@ -476,9 +487,12 @@ fun! s:normalModeUpdate() dict "{{{
         "
 
 
+        " NOTE: join command 'J' does not change mark '[' and ']'
+
 
         " Linewise deletion, '[ and '] may be wrong if 'startofline' set
         " to be 0 and the command is 'dd'.
+        "
         "
         " Only linewise deletion removes mark.
 
@@ -515,7 +529,22 @@ fun! s:normalModeUpdate() dict "{{{
             return self.updateWithNewChangeRange( endPos, endPos )
 
 
-        elseif cs == [1, 1] && ce == [ stat.totalLine, 1 ]
+        elseif diffOfLine == -1
+            " join command, join 1 line
+            " NOTE: multi line joining is not supported yet
+
+            let cs = [ stat.lastPositionAndLength[0], stat.lastPositionAndLength[2] + 1 ]
+
+            " end of the change is at least 1 space after line end
+            let ce = [ stat.lastPositionAndLength[0], stat.lastPositionAndLength[2] + 2 ]
+
+            return self.updateWithNewChangeRange( cs, ce )
+
+
+        elseif cs == [1, 1] && ce == [ stat.totalLine, 1 ] 
+                    \|| diffOfLine < -1
+            " joining multi line is not supported.
+
             " TODO to test if it is OK with buffer of only 1 line
             " substitute or other globally-affected command
             call s:log.Log( "substitute, remove all marks" )
@@ -816,10 +845,11 @@ fun! XPMupdateWithMarkRangeChanging( startMark, endMark, changeStart, changeEnd 
 
         let mark = d.orderedMarks[ i ]
 
-        if d.marks[ mark ][1] < a:changeStart[0]
+        if d.marks[ mark ][0] < a:changeStart[0]
             break
         else
-            let d.marks[ mark ][2] = lineLength
+            call s:log.Debug( 'update length of:'. mark)
+            let d.marks[ mark ][2] = len( getline( d.marks[ mark ][0] ) )
         endif
 
     endwhile
@@ -996,24 +1026,24 @@ fun! s:ClassPrototype(...) "{{{
 endfunction "}}}
 
 let s:prototype =  s:ClassPrototype(
-            \    'isUpdateNeeded',
-            \    'initCurrentStat',
-            \    'snapshot',
-            \    'handleUndoRedo',
-            \    'insertModeUpdate',
-            \    'normalModeUpdate',
-            \    'saveCurrentStat',
-            \    'saveCurrentCursorStat',
-            \    'updateMarksAfterLine',
-            \    'updateForLinewiseDeletion',
-            \    'updateWithNewChangeRange',
-            \    'removeMark',
-            \    'findLikelyRange', 
             \    'addMarkOrder',
-            \    'updateMarks', 
-            \    'updateMarksBefore', 
-            \    'updateMarksAfter', 
             \    'compare',
+            \    'findLikelyRange', 
+            \    'handleUndoRedo',
+            \    'initCurrentStat',
+            \    'insertModeUpdate',
+            \    'isUpdateNeeded',
+            \    'normalModeUpdate',
+            \    'removeMark',
+            \    'saveCurrentCursorStat',
+            \    'saveCurrentStat',
+            \    'snapshot',
+            \    'updateForLinewiseDeletion',
+            \    'updateMarks', 
+            \    'updateMarksAfter', 
+            \    'updateMarksAfterLine',
+            \    'updateMarksBefore', 
+            \    'updateWithNewChangeRange',
             \)
 
 fun! s:initBufData() "{{{
@@ -1062,37 +1092,7 @@ fun! s:defaultCompare(d, markA, markB) "{{{
     return (nMarkA - nMarkB) != 0 ? (nMarkA - nMarkB) : (a:d.marks[ a:markA ][3] - a:d.marks[ a:markB ][3])
 endfunction "}}}
 
-fun! PrintDebug()
-    let d = s:bufData()
 
-    let debugString  = changenr()
-    let debugString .= ' p:' . string( getpos( "'" . g:xpm_mark )[ 1 : 2 ] )
-    let debugString .= ' ' . string( [[ line( "'[" ), col( "'[" ) ], [ line( "']" ), col( "']" ) ]] ) . " "
-    let debugString .= " " . mode() . string( [line( "." ), col( "." )] ) . ' last:' .string( d.lastPositionAndLength )
-
-    return substitute( debugString, '\s', '' , 'g' )
-endfunction
-
-
-
-let s:count = 0
-fun! Count()
-    let s:count += 1
-    let symbol = '|/-\'
-    return ' ' . repeat( symbol[ s:count % 4 ], 4 ) . ' ' . s:count . ' '
-endfunction
-
-
-" set statusline=%#DiffText#%{Count()}%0*
-" set statusline+=%{XPMautoUpdate('..')}
-" set statusline+=%{PrintDebug()}
-" set ruf=%{PrintDebug()}
-" set statusline=
-
-
-nnoremap ,m :call XPMhere('c')<cr>
-nnoremap ,M :call XPMhere('c','r')<cr>
-nnoremap ,g :call XPMgoto('c')<cr>
 
 
 
@@ -1111,12 +1111,27 @@ endif
 " through rulerformat
 set ruler
 
-let &rulerformat .= '%{XPMautoUpdate("ruler")}'
-
 let &statusline   = '%{PrintDebug()}' . &statusline
+let &rulerformat .= '%{XPMautoUpdate("ruler")}'
 let &statusline  .= '%{XPMautoUpdate("statusline")}'
 
 
+
+" for test "{{{
+fun! PrintDebug()
+    let d = s:bufData()
+
+    let debugString  = changenr()
+    let debugString .= ' p:' . string( getpos( "'" . g:xpm_mark )[ 1 : 2 ] )
+    let debugString .= ' ' . string( [[ line( "'[" ), col( "'[" ) ], [ line( "']" ), col( "']" ) ]] ) . " "
+    let debugString .= " " . mode() . string( [line( "." ), col( "." )] ) . ' last:' .string( d.lastPositionAndLength )
+
+    return substitute( debugString, '\s', '' , 'g' )
+endfunction
+
+" nnoremap ,m :call XPMhere('c')<cr>
+" nnoremap ,M :call XPMhere('c','r')<cr>
+" nnoremap ,g :call XPMgoto('c')<cr>
 " test range
 "
 " 000000000000000000000000000000000000000
@@ -1136,14 +1151,7 @@ let &statusline  .= '%{XPMautoUpdate("statusline")}'
 " ----*----
 " xxxxx
 "      xxx
-
-fun! XPMtest()
-    call XPreplace( [477, 10], [478, 5], '=' )
-    call XPreplace( [481, 10], [481, 11], '+' )
-endfunction
-
-
-
+" "}}}
 
 
 
