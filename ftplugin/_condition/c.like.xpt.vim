@@ -18,7 +18,8 @@ if (`condition^)`$BRACKETSTYLE^{
 XSETm else...|post
 `$BRACKETSTYLE^else`$BRACKETSTYLE^{ 
   `cursor^
-}XSETm END
+}
+XSETm END
   
 XPT ifn  alias=if	hint=if\ ($NULL\ ==\ ..)\ {..}\ else...
 XSET condition=Embed('`$NULL^ == `var^')
