@@ -17,14 +17,13 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO without template rendering, xpmark update complains error.
-" TODO hidden template or used only internally.
-" TODO snippets bundle and bundle selection
+" TODO compatibility to old syntax
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 " TODO snippets bundle and bundle selection
 " TODO snippet-file scope XSET
 " TODO block context check
 " TODO eval default value in-time
+" TODO without template rendering, xpmark update complains error.
 " TODO expandable has to be adjuested
 " TODO ontime filter
 " TODO use i^gu to protect template
@@ -50,6 +49,8 @@
 " TODO pre-build expression to evaluate
 " TODO separately store wrapped templates and normal ones
 " TODO match snippet names from middle
+" TODO snippets bundle and bundle selection
+" TODO hidden template or used only internally.
 "
 " "}}}
 "
