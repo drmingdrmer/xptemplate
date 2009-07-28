@@ -1,78 +1,66 @@
-if exists("b:__PHP_XPT_VIM__")
-    finish
-endif
-let b:__PHP_XPT_VIM__ = 1
+XPTemplate priority=lang keyword=# indent=auto
 
 " containers
 let [s:f, s:v] = XPTcontainer()
 
-call extend(s:v, { '$TRUE': 'true'
-                \, '$FALSE' : 'false'
-                \, '$BRACKETSTYLE' : "\n"
-                \, '$NULL' : 'NULL'
-                \})
+XPTvar $TRUE TRUE
+XPTvar $FALSE FALSE
+XPTvar $BRACKETSTYLE \n
+XPTvar $NULL NULL
+
 " inclusion
 XPTinclude
       \ _common/common
       \ _condition/c.like
       \ _loops/c.like
 
-" ========================= Function and Varaibles =============================
+" ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
 " Based on snipmate's php templates
 XPTemplateDef
+
 XPT while hint=while\ (\ ..\ )\ {\ ..\ }
-while (`cond^)
-{
-    `body^
+while (`cond^)`$BRACKETSTYLE^{
+  `cursor^
 }
 
 
 XPT for hint=for\ (..;..;++)
-for ($`var^i^ = `init^; $`var^ < `val^; $`var^++)
-{
-    `cursor^
+for ($`var^i^ = `init^; $`var^ < `val^; $`var^++)`$BRACKETSTYLE^{
+  `cursor^
 }
 
 
-
 XPT forr hint=for\ (..;..;--)
-for ($`var^i^ = `init^; $`var^ >= `val^0^; $`var^--)
-{
-    `cursor^
+for ($`var^i^ = `init^; $`var^ >= `val^0^; $`var^--)`$BRACKETSTYLE^{
+  `cursor^
 }
 
 
 XPT foreach hint=foreach\ (..\ as\ ..)\ {..}
-foreach ($`var^ as `container^)
-{
-    `body^
+foreach ($`var^ as `container^)`$BRACKETSTYLE^{
+  `cursor^
 }
 
 
 XPT fun hint=function\ ..(\ ..\ )\ {..}
-function `funName^( `params^ )
-{
-   `cursor^
+function `funName^( `params^ )`$BRACKETSTYLE^{
+  `cursor^
 }
 
 
 XPT class hint=class\ ..\ {\ ..\ }
-class `className^
-{
-    function __construct( `args^ )
-    {
-        `cursor^
-    }
+class `className^`$BRACKETSTYLE^{
+  function __construct( `args^ )`$BRACKETSTYLE^{
+    `cursor^
+  }
 }
 
 
-
 XPT interface hint=interface\ ..\ {\ ..\ }
-interface `interfaceName^
-{
-    `cursor^
+interface `interfaceName^`$BRACKETSTYLE^{
+  `cursor^
 }
 
 
