@@ -39,10 +39,6 @@ XSETm ...|post
 `elt^`
 `...^
 XSETm END
-`elt^`
-`elt...{{{^
-`elt^
-`}}}^
 
 
 XPT struct hint=struct\ {\ ..\ }
