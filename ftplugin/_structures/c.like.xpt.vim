@@ -28,10 +28,9 @@ let [s:f, s:v] = XPTcontainer()
 XPTemplateDef
 
 XPT enum hint=enum\ {\ ..\ }
-XSET var..|post=Eval( V() =~ 'var..$' ? '' : V() )
+XSET var..|post=Echo( V() =~ 'var..$' ? '' : V() )
 enum `name^
 {
-
     `elt^`
     `...^
 }` `var..^;
@@ -42,6 +41,13 @@ XSETm ...|post
 XSETm END
 ..XPT
 
+XPT enum3 hint=enum\ {\ ..\ }
+enum `name^
+{
+    `elt^`<{[^,
+    `elt^`
+    `...^`]}>^
+};
 
 
 XPT struct hint=struct\ {\ ..\ }

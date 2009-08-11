@@ -87,8 +87,9 @@ fun! s:f.VOID(...) "{{{
   return ""
 endfunction "}}}
 
-" Evaluate several expression and concat them.
-fun! s:f.Eval(...)
+" Echo several expression and concat them.
+" That's the way to use normal vim script expression instead of mixed string
+fun! s:f.Echo(...)
   return join( a:000, '' )
 endfunction
 
