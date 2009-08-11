@@ -50,14 +50,6 @@ syntax region   XPTregion start=/^/ end=/\%$/ contained contains=XPTsnippetTitle
 
 
 
-syntax match    XPTsnippetTitle /^XPT\s\+.*$/ containedin=XPTregion nextgroup=XPTsnippetBody skipnl skipempty
-syntax keyword  XPTkeyword_XPT XPT containedin=XPTsnippetTitle nextgroup=XPTsnippetName skipwhite
-syntax match    XPTsnippetName /\S\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta skipwhite
-
-" escaped white space or non-space
-syntax match XPTmeta /\(\\\s\|\S\)\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta skipwhite
-syntax match XPTmeta_name /\w\+\ze=/ containedin=XPTmeta nextgroup=XPTmeta_value
-syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
 
 " TODO escaping
 syntax match XPTvariable /\$\w\+/ containedin=XPTmeta_value,XPTxset_value
@@ -67,7 +59,12 @@ syntax match XPTvariable_quote /{\$\w\+}/ containedin=XPTmeta_value,XPTxset_valu
 syntax region XPTfunction start=/\w\+(/ end=/)/ containedin=XPTmeta_value,XPTxset_value
 
 
-syntax region XPTsnippetBody  start=/^/ end=/\%$\|^\zeXPT\s\|\ze\.\.XPT/ contained contains=XPTxset fold
+" the end pattern is weird.
+" \%(^$)^XPT\s does not work.
+syntax region XPTsnippetBody  start=/^/ end=/\ze\%(^$\n\)*\%$\|\ze\%(^$\n\)*XPT\s\|^\ze\.\.XPT/ contained containedin=XPTsnippetTitle contains=XPTxset excludenl fold
+" syntax region XPTsnippetBody  start=/^/ end=/\%$/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
+" syntax region XPTsnippetBody  start=/^/ end=/$\n^\zeXPT\s/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
+" syntax region XPTsnippetBody  start=/^/ end=/\ze\.\.XPT/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
 syntax match XPTxset /^XSET\s\+\%(\w\|\.\)\+\([|.]\%(def\|post\)\)\?=.*/ containedin=XPTsnippetBody
 syntax region XPTxsetm start=/^XSETm\s\+/ end=/XSETm END$/ containedin=XPTsnippetBody fold
 syntax keyword XPTkeyword_XSET XSET containedin=XPTxset nextgroup=XPTxset_name1,XPTxset_name2,XPTxset_name3 skipwhite transparent
@@ -79,6 +76,16 @@ syntax match XPTxset_name3 /\%(\w\|\.\)*/ containedin=XPTxset nextgroup=XPTxset_
 syntax match XPTxset_name2 /\%(\w\|\.\)*\ze\./ containedin=XPTxset nextgroup=XPTxset_type transparent
 syntax match XPTxset_name1 /\%(\w\|\.\)*\ze|/ containedin=XPTxset nextgroup=XPTxset_type transparent
 
+syntax match    XPTsnippetTitle /^XPT\s\+.*$/ containedin=XPTregion nextgroup=XPTsnippetBody skipnl skipempty
+syntax keyword  XPTkeyword_XPT XPT containedin=XPTsnippetTitle nextgroup=XPTsnippetName skipwhite
+syntax match    XPTsnippetName /\S\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta skipwhite
+
+" syntax match    XPTsnippetBeforeTitle /^$/ containedin=XPTregion nextgroup=XPTsnippetTitle skipnl skipempty
+
+" escaped white space or non-space
+syntax match XPTmeta /\(\\\s\|\S\)\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta skipwhite
+syntax match XPTmeta_name /\w\+\ze=/ containedin=XPTmeta nextgroup=XPTmeta_value
+syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
 " syntax match XPTcomment /^"\%(\s\|"\)*[^"]*$/ containedin=XPTregion
 syntax match XPTcomment /^".*$/ containedin=XPTregion
 

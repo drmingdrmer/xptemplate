@@ -31,6 +31,7 @@ XPT enum hint=enum\ {\ ..\ }
 XSET var..|post=Eval( V() =~ 'var..$' ? '' : V() )
 enum `name^
 {
+
     `elt^`
     `...^
 }` `var..^;
@@ -39,6 +40,8 @@ XSETm ...|post
 `elt^`
 `...^
 XSETm END
+..XPT
+
 
 
 XPT struct hint=struct\ {\ ..\ }
@@ -59,5 +62,9 @@ struct `structName^
     `type^ `field^ : `bits^;`
     `...^
 }` `var^^;
+
+
+
+
 
 
