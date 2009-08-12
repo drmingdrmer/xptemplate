@@ -3,6 +3,28 @@ if exists("g:__XPTEMPLATE_PARSER_VIM__")
 endif
 let g:__XPTEMPLATE_PARSER_VIM__ = 1
 
+" 
+" Special XSET[m] Keys
+"   ComeFirst   : item names which come first before any other  
+"               // XSET ComeFirst=i,len
+"
+"   ComeLast    : item names which come last after any other 
+"               // XSET ComeLast=i,len
+"
+"   RepQuoter   : Quoter to define repetition
+"               // XSET RepQuoter=<{[,]}>
+"               // defulat : <{[,]}>
+" 
+"
+"
+"
+"
+"
+"
+"
+"
+"
+"
 
 runtime plugin/debug.vim
 runtime plugin/xptemplate.vim
@@ -182,6 +204,13 @@ fun! s:XPTemplateDefineSnippet(fn) "{{{
 
 endfunction "}}}
 
+let s:settingPrototype = {
+            \    'defaultValues' : {},
+            \    'postFilters' : {},
+            \    'comeFirst' : [],
+            \    'comeLast' : [],
+            \}
+
 fun! s:XPTemplateParseSnippet(lines) "{{{
     " TODO arbitrary position of XSET
     let lines = a:lines
@@ -199,20 +228,20 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     let snippetParameters = snippetParameters[2:]
 
     let setting = {}
+    " let setting.repQuoter = '<{[,]}>'
+    let setting.repQuoter = '{{{,}}}'
+
     for pair in snippetParameters
         let nameAndValue = split(pair, '=', 1)
 
         if len(nameAndValue) > 1
             let propName = nameAndValue[0]
-            let propValue = substitute( join( nameAndValue[1:],'=' ), '\\\(.\)', '\1', 'g' )
+            let propValue = substitute( join( nameAndValue[1:], '=' ), '\\\(.\)', '\1', 'g' )
             let setting[propName] = propValue
         endif
     endfor
 
-    let setting.defaultValues = {}
-    let setting.postFilters = {}
-    let setting.comeFirst = []
-    let setting.comeLast = []
+    call extend( setting, deepcopy( s:settingPrototype ), 'force' )
 
     let start = 1
     let len = len( lines )
@@ -229,6 +258,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 
 
             let [ keyname, keytype ] = s:getKeyType( key )
+
             call s:log.Log("parse XSET:" . keyname . "|" . keytype . '=' . val)
 
 
@@ -248,6 +278,8 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     endwhile
 
 
+    call s:parseSetting(setting)
+
 
     call s:log.Log("start:".start)
     call s:log.Log("to parse tmpl : snippetName=" . snippetName)
@@ -263,6 +295,18 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
         call XPTemplate(snippetName, setting, snippetLines)
 
     endif
+
+
+endfunction "}}}
+
+fun! s:parseSetting( setting ) "{{{
+    
+    let quoters = split( a:setting.repQuoter, ',' )
+    if len( quoters ) < 2
+        throw 'RepQuoter must be separated with ','! :' . a:setting.repQuoter
+    endif
+
+    let a:setting.repQuoter = { 'start' : quoters[0], 'end' : quoters[1] }
 
 
 endfunction "}}}
@@ -378,22 +422,25 @@ endfunction "}}}
 
 fun! s:handleXSETcommand(setting, keyname, keytype, value) "{{{
 
-  if a:keyname ==# 'ComeFirst'
-    let a:setting.comeFirst = s:splitWith( a:value, ' ' )
+    if a:keyname ==# 'ComeFirst'
+        let a:setting.comeFirst = s:splitWith( a:value, ' ' )
 
-  elseif a:keyname ==# 'ComeLast'
-    let a:setting.comeLast = s:splitWith( a:value, ' ' )
+    elseif a:keyname ==# 'ComeLast'
+        let a:setting.comeLast = s:splitWith( a:value, ' ' )
 
-  elseif a:keytype == "" || a:keytype ==# 'def'
-    let a:setting.defaultValues[a:keyname] = a:value
+    elseif a:keyname ==# 'RepQuoter'
+        let a:setting.repQuoter = a:value
 
-  elseif a:keytype ==# 'post'
-    let a:setting.postFilters[a:keyname] = a:value
+    elseif a:keytype == "" || a:keytype ==# 'def'
+        let a:setting.defaultValues[a:keyname] = a:value
 
-  else
-    throw "unknown key type:" . a:keytype
+    elseif a:keytype ==# 'post'
+        let a:setting.postFilters[a:keyname] = a:value
 
-  endif
+    else
+        throw "unknown key name or type:" . a:keyname . ' ' . a:keytype
+
+    endif
 
 endfunction "}}}
 

@@ -18,6 +18,7 @@
 "
 " TODOLIST: "{{{
 " TODO compatibility to old syntax
+" TODO buffer/snippet scope template setting.
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 " TODO snippets bundle and bundle selection
 " TODO snippet-file scope XSET
@@ -126,7 +127,6 @@ let s:cursorName            = "cursor"
 let s:wrappedName           = "wrapped"
 let s:expandablePattern     = '\v^(\_.*\_W+)?' . '\w+\V...'
 let s:repetitionPattern     = '^\.\.\.\d*$'
-let s:repeatPtn             = '...\d\*'
 let s:templateSettingPrototype  = { 'defaultValues' : {}, 'postFilters' : {}, 'comeFirst' : [], 'comeLast' : [] }
 
 
@@ -801,13 +801,34 @@ endfunction "}}}
 " TODO do it earlier?
 " TODO whether it is necessary to support dynamically generated snippet
 " defining repetition?
+"
+"
+"     `type^ `field^;`
+"     `...^
+"     `type^ `field^;`
+"     `...^
+"
+"
+"     `elt^`<{[^,
+"     `elt^`
+"     `...^`]}>^
+"
+"     `elt^`{{{^,
+"     `elt^`
+"     `...^`}}}^
+"
+" The quoter '<{[' can be defined with XSET or snippet setting on the first
+" line after name
+"
+let s:repeatPtn             = '...\d\*'
+
 fun! s:parseRepetition(str, x) "{{{
     let x = a:x
     let xp = x.renderContext.tmpl.ptn
 
     let tmpl = a:str
 
-    let bef = ""
+    let textBefore = ""
     let rest = ""
     let rp = xp.lft . s:repeatPtn . xp.rt
     let repPtn     = '\V\(' . rp . '\)\_.\{-}' . '\1'
@@ -831,7 +852,7 @@ fun! s:parseRepetition(str, x) "{{{
         let matchpos = stack[-1]
         unlet stack[-1]
 
-        let bef = tmpl[:matchpos-1]
+        let textBefore = tmpl[:matchpos-1]
         let rest = tmpl[matchpos : ]
 
         let rpt = matchstr(rest, repContPtn)
@@ -846,9 +867,9 @@ fun! s:parseRepetition(str, x) "{{{
         " let rpt = substitute(rpt, '\V'.xp.l, '\\'.xp.l, 'g')
         " let rpt = substitute(rpt, '\V'.xp.r, '\\'.xp.r, 'g')
 
-        let bef .= symbol . rpt . xp.r .xp.r
+        let textBefore .= symbol . rpt . xp.r .xp.r
         let rest = substitute(rest, repPtn, '', '')
-        let tmpl = bef . rest
+        let tmpl = textBefore . rest
 
     endwhile
 
