@@ -820,37 +820,78 @@ endfunction "}}}
 " The quoter '<{[' can be defined with XSET or snippet setting on the first
 " line after name
 "
-let s:repeatPtn             = '...\d\*'
+
+let s:repeatPtn = '\w\*...\w\*'
 
 fun! s:parseRepetition(str, x) "{{{
     let x = a:x
-    let xp = x.renderContext.tmpl.ptn
+    let renderContext = s:getRenderContext()
+    let xp = renderContext.tmpl.ptn
+
+    let repQuoter = renderContext.tmpl.setting.repQuoter
 
     let tmpl = a:str
 
+
     let textBefore = ""
     let rest = ""
-    let rp = xp.lft . s:repeatPtn . xp.rt
+
+
+    let repetitionPattern = '\%(' . s:repeatPtn . '\|' . repQuoter.start .'\)'
+    let rp = '\V' . xp.lft . repetitionPattern . xp.rt
+
     let repPtn     = '\V\(' . rp . '\)\_.\{-}' . '\1'
     let repContPtn = '\V\(' . rp . '\)\zs\_.\{-}' . '\1'
 
 
-    let stack = []
+
+
+    let matchPosList = []
     let start = 0
     while 1
-        let smtc = match(tmpl, repPtn, start)
+        let smtc = match(tmpl, rp, start)
         if smtc == -1
             break
         endif
-        let stack += [smtc]
+        let matchPosList += [smtc]
         let start = smtc + 1
     endwhile
 
 
-    while stack != []
+    " Note: This is a critical implementation, for most case, no escaped right
+    " mark '\^' existing in repetition trigger item
+    let triggerPattern = '\V' . xp.lft . '\_[^' . xp.r . ']\*...\_[^'  . xp.r . ']\*' . xp.rt 
 
-        let matchpos = stack[-1]
-        unlet stack[-1]
+    " from end back
+    while len( matchPosList ) > 0
+
+        let matchpos = matchPosList[-1]
+        unlet matchPosList[-1]
+
+        let quoterStart = matchstr( tmpl, repetitionPattern, matchpos )
+        if quoterStart =~ s:repeatPtn
+            " this is the old '...' syntax
+            let quoterEndPattern = '\V' . quoterStart
+        elseif quoterStart =~ repQuoter.start
+            let quoterEndPattern = '\V' . xp.lft . repQuoter.end . xp.rt
+        endif
+
+
+
+        let quoterEndPos = match( tmpl, quoterEndPattern, matchpos )
+        if quoterEndPos < 0 
+            throw 'no end quoter mark of :' . string( quoterStart ) . ' pattern=' . string( quoterEndPattern )
+        endif
+
+        let [ triggerPos, triggerItem ] = s:searchForUninitedRepTrigger( 
+                    \ renderContext.tmpl, tmpl, 
+                    \ triggerPattern, matchpos, quoterEndPos  )
+
+        if triggerPos < 0
+            throw 'no trigger item in repetition. snippet=' . tmpl
+
+        endif
+
 
         let textBefore = tmpl[:matchpos-1]
         let rest = tmpl[matchpos : ]
@@ -875,6 +916,29 @@ fun! s:parseRepetition(str, x) "{{{
 
     return tmpl
 endfunction "}}}
+
+fun! s:searchForUninitedRepTrigger( tmplObj, snippet, pattern, start, end )
+    let xp = a:tmplObj.ptn
+    let start = a:start
+
+    while 1
+        let start = match( a:snippet, a:pattern, start )
+        if start < 0 || start >= a:end
+            return [ -1, '' ]
+        endif
+
+        let text = matchstr( a:snippet, a:pattern, start )
+        let itemName = matchstr( text, '\V\w\+...\w\+' )
+
+        if has_key( a:tmplObj.setting.postFilters, itemName )
+            let start += len( text )
+            continue
+        else
+            return [ start, text ]
+        endif
+    endwhile
+
+endfunction
 
 fun! s:renderTemplate(nameStartPosition, nameEndPosition) " {{{
 
