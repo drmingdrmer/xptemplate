@@ -93,6 +93,30 @@ fun! s:f.Echo(...)
   return join( a:000, '' )
 endfunction
 
+fun! s:f.EchoIf( isTrue, ... )
+  if a:isTrue
+    return join( a:000, '' )
+  else
+    return self.V()
+  endif
+endfunction
+
+fun! s:f.EchoIfEq( expected, ... )
+  if self.V() ==# expected
+    return join( a:000, '' )
+  else
+    return self.V()
+  endif
+endfunction
+
+fun! s:f.EchoIfNoChange( ... )
+  if self.V() ==# self.ItemFullname()
+    return join( a:000, '' )
+  else
+    return self.V()
+  endif
+endfunction
+
 " trigger nested template
 fun! s:f.Trigger(name) "{{{
   return {'action' : 'expandTmpl', 'tmplName' : a:name}
@@ -148,17 +172,17 @@ endfunction
 " They all start with prefix 'xpt'
 "
 
-let s:f.xptItemName = s:f.N
-let s:f.xptItemFullname = s:f.NN
-let s:f.xptItemEdges = s:f.Edges
-let s:f.xptItemValue = s:f.V
+let s:f.ItemName = s:f.N
+let s:f.ItemFullname = s:f.NN
+let s:f.ItemEdges = s:f.Edges
+let s:f.ItemValue = s:f.V
 " s:f.E
-let s:f.xptContext = s:f.C
+let s:f.Context = s:f.C
 " s:f.S 
-let s:f.xptSubstituteWithValue = s:f.SV
-let s:f.xptReference = s:f.R
-let s:f.xptVoid = s:f.VOID
-let s:f.xptUnescapeMarks = s:f.UE
+let s:f.SubstituteWithValue = s:f.SV
+let s:f.Reference = s:f.R
+let s:f.Void = s:f.VOID
+let s:f.UnescapeMarks = s:f.UE
 
 
 

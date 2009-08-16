@@ -41,12 +41,13 @@ XSETm ...|post
 XSETm END
 ..XPT
 
-XPT enum3 hint=enum\ {\ ..\ }
+XPT en hint=enum\ {\ ..\ }
 enum `name^
 {
-    `elt^`<{[^,
     `elt^`
-    `...^`]}>^
+    `...{{^,
+    `elt^`
+    `...^`}}^
 };
 
 

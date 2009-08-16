@@ -849,6 +849,7 @@ let s:oldRepPattern = '\w\*...\w\*'
 fun! s:parseRepetition(str, x) "{{{
     let x = a:x
     let xp = x.renderContext.tmpl.ptn
+    let tmplObj = x.renderContext.tmpl
 
     let tmpl = a:str
 
@@ -880,19 +881,21 @@ fun! s:parseRepetition(str, x) "{{{
         let bef = tmpl[:matchpos-1]
         let rest = tmpl[matchpos : ]
 
-        let rpt = matchstr(rest, repContPtn)
+        let indent = s:getIndentBeforeEdge( tmplObj, bef )
+
+        call s:log.Log( 'bef=' . bef )
+        call s:log.Log( 'indent=' . indent )
+        let repeatPart = matchstr(rest, repContPtn)
+        let repeatPart = s:clearMaxCommonIndent( repeatPart, indent )
+        let repeatPart = 'EchoIfNoChange(' . string( repeatPart ) . ')'
         let symbol = matchstr(rest, rp)
+        let name = substitute( symbol, '\V' . xp.lft . '\|' . xp.rt, '', 'g' )
+        
+        let tmplObj.setting.postFilters[ name ] = repeatPart
+        
 
-        " default value or post filter text must NOT contains item quotation
-        " marks
-        " make nonescaped to escaped, escaped to nonescaped
-        " turned back when expression evaluated
-        let rpt = escape(rpt, '\' . xp.l . xp.r)
-        " let rpt = escape(rpt, '\')
-        " let rpt = substitute(rpt, '\V'.xp.l, '\\'.xp.l, 'g')
-        " let rpt = substitute(rpt, '\V'.xp.r, '\\'.xp.r, 'g')
 
-        let bef .= symbol . rpt . xp.r .xp.r
+        let bef .= symbol
         let rest = substitute(rest, repPtn, '', '')
         let tmpl = bef . rest
 
@@ -979,19 +982,19 @@ fun! s:parseRepetition(str, x) "{{{
         " let textBefore = tmpl[:matchpos-1]
         " let rest = tmpl[matchpos : ]
 " 
-        " let rpt = matchstr(rest, repContPtn)
+        " let repeatPart = matchstr(rest, repContPtn)
         " let symbol = matchstr(rest, rp)
 " 
         " " default value or post filter text must NOT contains item quotation
         " " marks
         " " make nonescaped to escaped, escaped to nonescaped
         " " turned back when expression evaluated
-        " let rpt = escape(rpt, '\' . xp.l . xp.r)
-        " " let rpt = escape(rpt, '\')
-        " " let rpt = substitute(rpt, '\V'.xp.l, '\\'.xp.l, 'g')
-        " " let rpt = substitute(rpt, '\V'.xp.r, '\\'.xp.r, 'g')
+        " let repeatPart = escape(repeatPart, '\' . xp.l . xp.r)
+        " " let repeatPart = escape(repeatPart, '\')
+        " " let repeatPart = substitute(repeatPart, '\V'.xp.l, '\\'.xp.l, 'g')
+        " " let repeatPart = substitute(repeatPart, '\V'.xp.r, '\\'.xp.r, 'g')
 " 
-        " let textBefore .= symbol . rpt . xp.r .xp.r
+        " let textBefore .= symbol . repeatPart . xp.r .xp.r
         " let rest = substitute(rest, repPtn, '', '')
         " let tmpl = textBefore . rest
 " 
@@ -1000,8 +1003,24 @@ fun! s:parseRepetition(str, x) "{{{
     " return tmpl
 endfunction "}}}
 
+fun! s:getIndentBeforeEdge( tmplObj, textBeforeLeftMark )
+    let xp = a:tmplObj.ptn
 
-fun! s:parseQuotedPostFilter( tmplObj, snippet )
+    if a:textBeforeLeftMark =~ '\V' . xp.lft . '\_[^' . xp.r . ']\*\%$'
+        call s:log.Debug( 'has edge' )
+        let tmpBef = substitute( a:textBeforeLeftMark, '\V' . xp.lft . '\_[^' . xp.r . ']\*\%$', '', '' )
+        call s:log.Debug( 'tmpBef=' . tmpBef )
+        let indentOfFirstLine = matchstr( tmpBef, '.*\n\zs\s*' )
+
+    else
+        let indentOfFirstLine = matchstr( a:textBeforeLeftMark, '.*\n\zs\s*' )
+    endif
+
+    return len( indentOfFirstLine )
+endfunction
+
+
+fun! s:parseQuotedPostFilter( tmplObj, snippet ) "{{{
     let xp = a:tmplObj.ptn
     let postFilters = a:tmplObj.setting.postFilters
     let quoter = a:tmplObj.setting.postQuoter
@@ -1009,6 +1028,8 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet )
     let startPattern = '\V\_.\*\zs' . xp.lft . '\_[^' . xp.r . ']\{-}' . quoter.start . xp.rt
     let endPattern = '\V' . xp.lft . quoter.end . xp.rt
 
+    call s:log.Log( 'startPattern=' . startPattern )
+    call s:log.Log( 'endPattern=' . endPattern )
 
     let snip = a:snippet
 
@@ -1041,9 +1062,16 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet )
         endif
 
 
+        call s:log.Log( 'startText=' . startText )
+        call s:log.Log( 'endText=' . endText )
+        call s:log.Log( 'name=' . name )
+
 
         let plainPostFilter = snip[ startPos + len( startText ) : endPos - 1 ]
-        let postFilters[ name ] = 'Echo(' . string( plainPostFilter ) . ')'
+
+        let plainPostFilter = s:clearMaxCommonIndent( plainPostFilter, s:getIndentBeforeEdge( a:tmplObj, snip[ : startPos - 1 ] ) )
+
+        let postFilters[ name ] = 'EchoIfNoChange(' . string( plainPostFilter ) . ')'
 
         " right mark, start quoter
         let snip = snip[ : startPos + len( startText ) - 1 - 1 - len( quoter.start ) ] 
@@ -1053,7 +1081,7 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet )
 
     return snip
 
-endfunction
+endfunction "}}}
 
 
 
@@ -1767,34 +1795,45 @@ fun! s:applyPostFilter() "{{{
 
 
     " TODO per-place-holder filter
+    " check by 'postFilter' is ok
     if hasPostFilter
 
-        let isPlainExpansion = 
-                    \   name =~ s:repetitionPattern 
-                    \|| name =~ s:expandablePattern
+        " let isPlainExpansion = 
+                    " \   name =~ s:repetitionPattern 
+                    " \|| name =~ s:expandablePattern
+" 
+        " if isPlainExpansion
+            " let post = substitute(postFilter, '\V\\\(\.\)', '\1', 'g')
+" 
+        " else
+            " let post = s:Eval(postFilter, {'typed' : typed})
 
-        if isPlainExpansion
-            let post = substitute(postFilter, '\V\\\(\.\)', '\1', 'g')
+        " endif
 
-        else
-            let post = s:Eval(postFilter, {'typed' : typed})
+        let post = s:Eval(postFilter, {'typed' : typed})
 
-        endif
+
 
 
 
         " TODO use function to implement the following codes
 
-        if name =~ s:repetitionPattern
-            let isrep = typed =~# '\V\^\_s\*' . name . '\_s\*\$'
+        " if name =~ s:repetitionPattern
+            " let isrep = typed =~# '\V\^\_s\*' . name . '\_s\*\$'
+" 
+        " elseif name =~ s:expandablePattern
+            " let isrep = typed =~# substitute(s:expandablePattern, '\V\\w+\\V...',  '\\V'.name, '')
+" 
+        " else
+            " let isrep = 1
+" 
+        " endif
 
-        elseif name =~ s:expandablePattern
-            let isrep = typed =~# substitute(s:expandablePattern, '\V\\w+\\V...',  '\\V'.name, '')
+        let isrep = 1
 
-        else
-            let isrep = 1
 
-        endif
+
+
 
         call s:log.Log("isrep?" . isrep)
         call s:log.Log("post:\n", post)
