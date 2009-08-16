@@ -127,7 +127,9 @@ let s:cursorName            = "cursor"
 let s:wrappedName           = "wrapped"
 let s:expandablePattern     = '\v^(\_.*\_W+)?' . '\w+\V...'
 let s:repetitionPattern     = '^\.\.\.\d*$'
-let s:templateSettingPrototype  = { 'defaultValues' : {}, 'postFilters' : {}, 'comeFirst' : [], 'comeLast' : [] }
+let s:templateSettingPrototype  = { 'defaultValues' : {}, 'postFilters' : {}, 
+            \'comeFirst' : [], 'comeLast' : [], 
+            \'postQuoter' : { 'start' : '{{', 'end' : '}}' } }
 
 
 let s:renderContextPrototype      = {
@@ -853,7 +855,7 @@ fun! s:parseRepetition(str, x) "{{{
 
     let bef = ""
     let rest = ""
-    let rp = xp.lft . s:repeatPtn . xp.rt
+    let rp = xp.lft . s:oldRepPattern . xp.rt
     let repPtn = '\V\(' . rp . '\)\_.\{-}' . '\1'
     let repContPtn = '\V\(' . rp . '\)\zs\_.\{-}' . '\1'
 
@@ -1002,7 +1004,7 @@ endfunction "}}}
 fun! s:parseQuotedPostFilter( tmplObj, snippet )
     let xp = a:tmplObj.ptn
     let postFilters = a:tmplObj.setting.postFilters
-    let quoter = tmplObj.setting.postQuoter
+    let quoter = a:tmplObj.setting.postQuoter
 
     let startPattern = '\V\_.\*\zs' . xp.lft . '\_[^' . xp.r . ']\{-}' . quoter.start . xp.rt
     let endPattern = '\V' . xp.lft . quoter.end . xp.rt
@@ -1012,7 +1014,7 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet )
 
     while 1
         let startPos = match(snip, startPattern)
-        if matchPos == -1
+        if startPos == -1
             break
         endif
 
