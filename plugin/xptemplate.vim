@@ -17,8 +17,8 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO compatibility to old syntax
-" TODO buffer/snippet scope template setting.
+" TODO post-filter
+" TODO compatibility to old post-filter syntax
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 " TODO snippets bundle and bundle selection
 " TODO snippet-file scope XSET
@@ -37,6 +37,7 @@
 " TODO as function call template
 " TODO highlight all pending item instead of using mark
 " TODO item popup: repopup
+" TODO buffer/snippet scope template setting.
 " TODO undo
 " TODO test more : char before snippet, char after, last cursor position,
 " TODO wrapping on different visual mode
@@ -1759,7 +1760,6 @@ fun! s:applyPostFilter() "{{{
     let xp            = renderContext.tmpl.ptn
     let posts         = renderContext.tmpl.setting.postFilters
     let name          = renderContext.item.name
-    let fullname      = renderContext.item.fullname
 
     let marks = renderContext.leadingPlaceHolder.mark
 
@@ -1798,37 +1798,12 @@ fun! s:applyPostFilter() "{{{
     " check by 'postFilter' is ok
     if hasPostFilter
 
-        " let isPlainExpansion = 
-                    " \   name =~ s:repetitionPattern 
-                    " \|| name =~ s:expandablePattern
-" 
-        " if isPlainExpansion
-            " let post = substitute(postFilter, '\V\\\(\.\)', '\1', 'g')
-" 
-        " else
-            " let post = s:Eval(postFilter, {'typed' : typed})
-
-        " endif
 
         let post = s:Eval(postFilter, {'typed' : typed})
 
 
-
-
-
-        " TODO use function to implement the following codes
-
-        " if name =~ s:repetitionPattern
-            " let isrep = typed =~# '\V\^\_s\*' . name . '\_s\*\$'
-" 
-        " elseif name =~ s:expandablePattern
-            " let isrep = typed =~# substitute(s:expandablePattern, '\V\\w+\\V...',  '\\V'.name, '')
-" 
-        " else
-            " let isrep = 1
-" 
-        " endif
-
+        " TODO simplify me
+        " let isrep = post ==# typed
         let isrep = 1
 
 
@@ -1860,14 +1835,6 @@ fun! s:applyPostFilter() "{{{
             call s:XPTupdate()
             return post
         endif
-    else
-        " let escapedTyped = substitute( typed, s:escapeHead . '\[' . xp.l . xp.r . ']', '\1\\&', 'g' )
-
-        " call XPreplace(XPMpos( marks.start ), XPMpos( marks.end ), escapedTyped)
-        " if typed !=# escapedTyped
-            " call s:XPTupdate()
-        " endif
-
     endif
 
     call s:XPTupdate()
