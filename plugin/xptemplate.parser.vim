@@ -11,8 +11,8 @@ let g:__XPTEMPLATE_PARSER_VIM__ = 1
 "   ComeLast    : item names which come last after any other 
 "               // XSET ComeLast=i,len
 "
-"   RepQuoter   : Quoter to define repetition
-"               // XSET RepQuoter=<{[,]}>
+"   PostQuoter  : Quoter to define repetition
+"               // XSET PostQuoter=<{[,]}>
 "               // defulat : <{[,]}>
 " 
 "
@@ -228,8 +228,8 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     let snippetParameters = snippetParameters[2:]
 
     let setting = {}
-    " let setting.repQuoter = '<{[,]}>'
-    let setting.repQuoter = '{{{,}}}'
+    " let setting.postQuoter = '<{[,]}>'
+    let setting.postQuoter = '{{,}}'
 
     for pair in snippetParameters
         let nameAndValue = split(pair, '=', 1)
@@ -301,12 +301,12 @@ endfunction "}}}
 
 fun! s:parseSetting( setting ) "{{{
     
-    let quoters = split( a:setting.repQuoter, ',' )
+    let quoters = split( a:setting.postQuoter, ',' )
     if len( quoters ) < 2
-        throw 'RepQuoter must be separated with ','! :' . a:setting.repQuoter
+        throw 'postQuoter must be separated with ','! :' . a:setting.postQuoter
     endif
 
-    let a:setting.repQuoter = { 'start' : quoters[0], 'end' : quoters[1] }
+    let a:setting.postQuoter = { 'start' : quoters[0], 'end' : quoters[1] }
 
 
 endfunction "}}}
@@ -428,8 +428,8 @@ fun! s:handleXSETcommand(setting, keyname, keytype, value) "{{{
     elseif a:keyname ==# 'ComeLast'
         let a:setting.comeLast = s:splitWith( a:value, ' ' )
 
-    elseif a:keyname ==# 'RepQuoter'
-        let a:setting.repQuoter = a:value
+    elseif a:keyname ==# 'PostQuoter'
+        let a:setting.postQuoter = a:value
 
     elseif a:keytype == "" || a:keytype ==# 'def'
         let a:setting.defaultValues[a:keyname] = a:value

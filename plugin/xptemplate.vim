@@ -399,6 +399,9 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
                     \ 'indent'      : idt,
                     \ 'wrapped'     : type(Str) != type(function("tr")) && Str =~ '\V' . xp.lft . s:wrappedName . xp.rt }
 
+        if type( Str ) == type( '' )
+            let xt[ name ].tmpl = s:parseQuotedPostFilter( xt[ name ], Str )
+        endif
 
         call s:initItemOrderDict( xt[name].setting )
 
@@ -813,87 +816,66 @@ endfunction "}}}
 "     `elt^`
 "     `...^`]}>^
 "
+"
 "     `elt^`{{{^,
 "     `elt^`
 "     `...^`}}}^
+"
+"     `elt^`
+"     `...{{^,
+"     `elt^`
+"     `...^`}}^
+"
+"     `elt^`
+"     `...^,
+"     `elt^`
+"     `...^
+"
+"
+"     `elt^`{^,
+"     `elt^`}^`
+"     `...^
+"
+"     `param^` `...{{^, `param^` `...^`}}^
 "
 " The quoter '<{[' can be defined with XSET or snippet setting on the first
 " line after name
 "
 
-let s:repeatPtn = '\w\*...\w\*'
+let s:oldRepPattern = '\w\*...\w\*'
 
 fun! s:parseRepetition(str, x) "{{{
     let x = a:x
-    let renderContext = s:getRenderContext()
-    let xp = renderContext.tmpl.ptn
-
-    let repQuoter = renderContext.tmpl.setting.repQuoter
+    let xp = x.renderContext.tmpl.ptn
 
     let tmpl = a:str
 
 
-    let textBefore = ""
+    let bef = ""
     let rest = ""
-
-
-    let repetitionPattern = '\%(' . s:repeatPtn . '\|' . repQuoter.start .'\)'
-    let rp = '\V' . xp.lft . repetitionPattern . xp.rt
-
-    let repPtn     = '\V\(' . rp . '\)\_.\{-}' . '\1'
+    let rp = xp.lft . s:repeatPtn . xp.rt
+    let repPtn = '\V\(' . rp . '\)\_.\{-}' . '\1'
     let repContPtn = '\V\(' . rp . '\)\zs\_.\{-}' . '\1'
 
 
-
-
-    let matchPosList = []
+    let stack = []
     let start = 0
     while 1
-        let smtc = match(tmpl, rp, start)
+        let smtc = match(tmpl, repPtn, start)
         if smtc == -1
             break
         endif
-        let matchPosList += [smtc]
+        let stack += [smtc]
         let start = smtc + 1
     endwhile
 
 
-    " Note: This is a critical implementation, for most case, no escaped right
-    " mark '\^' existing in repetition trigger item
-    let triggerPattern = '\V' . xp.lft . '\_[^' . xp.r . ']\*...\_[^'  . xp.r . ']\*' . xp.rt 
+    while stack != []
 
-    " from end back
-    while len( matchPosList ) > 0
+        let matchpos = stack[-1]
+        unlet stack[-1]
 
-        let matchpos = matchPosList[-1]
-        unlet matchPosList[-1]
-
-        let quoterStart = matchstr( tmpl, repetitionPattern, matchpos )
-        if quoterStart =~ s:repeatPtn
-            " this is the old '...' syntax
-            let quoterEndPattern = '\V' . quoterStart
-        elseif quoterStart =~ repQuoter.start
-            let quoterEndPattern = '\V' . xp.lft . repQuoter.end . xp.rt
-        endif
-
-
-
-        let quoterEndPos = match( tmpl, quoterEndPattern, matchpos )
-        if quoterEndPos < 0 
-            throw 'no end quoter mark of :' . string( quoterStart ) . ' pattern=' . string( quoterEndPattern )
-        endif
-
-        let [ triggerPos, triggerItem ] = s:searchForUninitedRepTrigger( 
-                    \ renderContext.tmpl, tmpl, 
-                    \ triggerPattern, matchpos, quoterEndPos  )
-
-        if triggerPos < 0
-            throw 'no trigger item in repetition. snippet=' . tmpl
-
-        endif
-
-
-        let textBefore = tmpl[:matchpos-1]
+        let bef = tmpl[:matchpos-1]
         let rest = tmpl[matchpos : ]
 
         let rpt = matchstr(rest, repContPtn)
@@ -908,37 +890,170 @@ fun! s:parseRepetition(str, x) "{{{
         " let rpt = substitute(rpt, '\V'.xp.l, '\\'.xp.l, 'g')
         " let rpt = substitute(rpt, '\V'.xp.r, '\\'.xp.r, 'g')
 
-        let textBefore .= symbol . rpt . xp.r .xp.r
+        let bef .= symbol . rpt . xp.r .xp.r
         let rest = substitute(rest, repPtn, '', '')
-        let tmpl = textBefore . rest
+        let tmpl = bef . rest
 
     endwhile
 
     return tmpl
+
+
+    " let x = a:x
+    " let renderContext = s:getRenderContext()
+    " let xp = renderContext.tmpl.ptn
+" 
+    " let repQuoter = renderContext.tmpl.setting.repQuoter
+" 
+    " let tmpl = a:str
+" 
+" 
+    " let textBefore = ""
+    " let rest = ""
+" 
+" 
+    " let repetitionPattern = '\%(' . s:oldRepPattern . '\|' . repQuoter.start .'\)'
+    " let rp = '\V' . xp.lft . repetitionPattern . xp.rt
+" 
+    " let repPtn     = '\V\(' . rp . '\)\_.\{-}' . '\1'
+    " let repContPtn = '\V\(' . rp . '\)\zs\_.\{-}' . '\1'
+" 
+" 
+" 
+" 
+    " let matchPosList = []
+    " let start = 0
+    " while 1
+        " let smtc = match(tmpl, rp, start)
+        " if smtc == -1
+            " break
+        " endif
+        " let matchPosList += [smtc]
+        " let start = smtc + 1
+    " endwhile
+" 
+" 
+    " " Note: This is a critical implementation, for most case, no escaped right
+    " " mark '\^' existing in repetition trigger item
+    " let triggerPattern = '\V' . xp.lft . '\_[^' . xp.r . ']\*...\_[^'  . xp.r . ']\*' . xp.rt 
+" 
+    " " from end back
+    " while len( matchPosList ) > 0
+" 
+        " let matchpos = matchPosList[-1]
+        " unlet matchPosList[-1]
+" 
+        " let quoterStartText = matchstr( tmpl, repetitionPattern, matchpos )
+        " if quoterStartText =~ s:oldRepPattern
+            " " this is the old '...' syntax
+            " let quoterEndPattern = '\V' . quoterStartText
+        " elseif quoterStartText =~ repQuoter.start
+            " let quoterEndPattern = '\V' . xp.lft . repQuoter.end . xp.rt
+        " else
+            " throw 'invalid start quoter :' . quoterStartText
+        " endif
+" 
+" 
+" 
+        " let quoterEndPos = match( tmpl, quoterEndPattern, matchpos )
+        " if quoterEndPos < 0 
+            " throw 'no end quoter mark of :' . string( quoterStartText ) . ' pattern=' . string( quoterEndPattern )
+        " endif
+" 
+        " if quoterStartText =~ s:oldRepPattern
+            " 
+        " endif
+" 
+" 
+        " let [ triggerPos, triggerItem ] = s:searchForUninitedRepTrigger( 
+                    " \ renderContext.tmpl, tmpl, 
+                    " \ triggerPattern, matchpos, quoterEndPos  )
+" 
+        " if triggerPos < 0
+            " throw 'no trigger item found in repetition. snippet=' . tmpl
+        " endif
+" 
+" 
+        " let textBefore = tmpl[:matchpos-1]
+        " let rest = tmpl[matchpos : ]
+" 
+        " let rpt = matchstr(rest, repContPtn)
+        " let symbol = matchstr(rest, rp)
+" 
+        " " default value or post filter text must NOT contains item quotation
+        " " marks
+        " " make nonescaped to escaped, escaped to nonescaped
+        " " turned back when expression evaluated
+        " let rpt = escape(rpt, '\' . xp.l . xp.r)
+        " " let rpt = escape(rpt, '\')
+        " " let rpt = substitute(rpt, '\V'.xp.l, '\\'.xp.l, 'g')
+        " " let rpt = substitute(rpt, '\V'.xp.r, '\\'.xp.r, 'g')
+" 
+        " let textBefore .= symbol . rpt . xp.r .xp.r
+        " let rest = substitute(rest, repPtn, '', '')
+        " let tmpl = textBefore . rest
+" 
+    " endwhile
+" 
+    " return tmpl
 endfunction "}}}
 
-fun! s:searchForUninitedRepTrigger( tmplObj, snippet, pattern, start, end )
+
+fun! s:parseQuotedPostFilter( tmplObj, snippet )
     let xp = a:tmplObj.ptn
-    let start = a:start
+    let postFilters = a:tmplObj.setting.postFilters
+    let quoter = tmplObj.setting.postQuoter
+
+    let startPattern = '\V\_.\*\zs' . xp.lft . '\_[^' . xp.r . ']\{-}' . quoter.start . xp.rt
+    let endPattern = '\V' . xp.lft . quoter.end . xp.rt
+
+
+    let snip = a:snippet
 
     while 1
-        let start = match( a:snippet, a:pattern, start )
-        if start < 0 || start >= a:end
-            return [ -1, '' ]
+        let startPos = match(snip, startPattern)
+        if matchPos == -1
+            break
         endif
 
-        let text = matchstr( a:snippet, a:pattern, start )
-        let itemName = matchstr( text, '\V\w\+...\w\+' )
-
-        if has_key( a:tmplObj.setting.postFilters, itemName )
-            let start += len( text )
-            continue
-        else
-            return [ start, text ]
+        let endPos = match( snip, endPattern, startPos + 1 )
+        if endPos == -1
+            break
         endif
+
+        let startText = matchstr( snip, startPattern, startPos )
+        let endText   = matchstr( snip, endPattern, endPos )
+
+
+        " without left mark, right mark, start quoter
+        let name = startText[ 1 : -1 - len( quoter.start ) - 1 ]
+
+        " deal with edge
+        if name =~ xp.lft
+            let name = matchstr( name, '\V' . xp.lft . '\zs\_.\*' )
+
+            " has right edge ?
+            if name =~ xp.lft
+                let name = matchstr( name, '\V\_.\*\ze' . xp.lft )
+            endif
+        endif
+
+
+
+        let plainPostFilter = snip[ startPos + len( startText ) : endPos - 1 ]
+        let postFilters[ name ] = 'Echo(' . string( plainPostFilter ) . ')'
+
+        " right mark, start quoter
+        let snip = snip[ : startPos + len( startText ) - 1 - 1 - len( quoter.start ) ] 
+                    \. snip[ endPos + len( endText ) - 1 : ]
+
     endwhile
 
+    return snip
+
 endfunction
+
+
 
 fun! s:renderTemplate(nameStartPosition, nameEndPosition) " {{{
 
@@ -2093,7 +2208,10 @@ fun! s:createStringMask( str ) "{{{
     let sqe = '\V\('. nonEscaped . "'\\)"
 
     let dptn = dqe.'\_.\{-}\1'
-    let sptn = sqe.'\_.\{-}\1'
+
+    " let sptn = sqe.'\_.\{-}\1'
+    " Note: only ' is escaped by doubling it: ''
+    let sptn = sqe.'\_.\{-}\%(\^\|\[^'']\)\(''''\)\*'''
 
     " create mask hiding all string literal with space
     let mask = substitute(a:str, '[ *]', '+', 'g')
