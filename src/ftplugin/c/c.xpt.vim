@@ -29,8 +29,9 @@ endfunction
 " ================================= Snippets ===================================
 XPTemplateDef
 
+" for (`-`i`-^ = `0^; `i^UpperCase(V())^ < `len^; ++`i^UpperCase('_'.V())^^)`$BRACKETSTYLE^{
 XPT for hint=for\ (..;..;++)
-for (`-`i`-^ = `0^; `i^ < `len^; ++`i^) `$BRACKETSTYLE^{
+for (`-`i`-^ = `0^; `i^ < `len^; ++`i^)`$BRACKETSTYLE^{
   `cursor^
 }
 ..XPT

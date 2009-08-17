@@ -209,7 +209,11 @@ fun! XPMupdate(...) " {{{
 
     if !needUpdate
         call d.snapshot()
-        call d.saveCurrentCursorStat()
+
+        " Note: do not use saveCurrentCursorStat just because need to record
+        " total line number. 
+        " In insert mode, typing does not change changenr(), but text changes.
+        call d.saveCurrentStat()
         return g:XPM_RET.no_updated_made
     endif
 

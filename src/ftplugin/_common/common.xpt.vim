@@ -238,6 +238,11 @@ fun! s:f.path(...) "{{{
 endfunction "}}}
 
 
+fun! s:f.UpperCase( v )
+  return substitute(a:v, '.', '\U&', 'g')
+endfunction
+
+
 " draft increment implementation
 fun! s:f.CntD() "{{{
   let ctx = self._ctx

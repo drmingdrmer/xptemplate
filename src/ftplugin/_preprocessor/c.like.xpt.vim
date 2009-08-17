@@ -10,11 +10,11 @@ let [s:f, s:v] = XPTcontainer()
 
 XPTemplateDef
 
-XPT inc		hint=include\ <>
+XPT #inc		hint=include\ <>
 include <`^.h>
 
 
-XPT ind		hint=include\ ""
+XPT #ind		hint=include\ ""
 XSET me=fileRoot()
 include "`me^.h"
 

@@ -1093,6 +1093,8 @@ endfunction "}}}
 
 fun! s:renderTemplate(nameStartPosition, nameEndPosition) " {{{
 
+    call s:log.Debug( 'renderTemplate : start, end=' . string( [ a:nameStartPosition, a:nameEndPosition ] ) )
+
     let x = s:bufData()
     let ctx = s:getRenderContext()
     let xp = s:getRenderContext().tmpl.ptn
@@ -2135,7 +2137,9 @@ fun! s:fillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
 
     call s:XPTupdate()
 
-    return s:selectCurrent(ctx)
+    let action = s:selectCurrent(ctx)
+    call s:XPMupdateStat()
+    return action
 
 endfunction "}}}
 
@@ -2194,10 +2198,10 @@ fun! s:initItem() " {{{
         " TODO needed?
         " call s:XPTupdate()
         " call XPMupdate()
-        let rc = s:selectCurrent(renderContext)
+        let action = s:selectCurrent(renderContext)
         call XPMupdateStat()
 
-        return rc
+        return action
 
     endif
 
