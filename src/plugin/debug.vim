@@ -66,6 +66,14 @@ fun! s:loggerPrototype.LogNothing(...) "{{{
 endfunction "}}}
 
 
+if len( finddir( '~/tmp' ) ) > 0
+  let s:logLocation = finddir( '~/tmp' )
+else
+  let s:logLocation = '~'
+endif
+let s:logLocation .= '/vim.log'
+
+
 fun! Log_core(level, ...) "{{{
   " call stack printing 
   try
@@ -76,7 +84,8 @@ fun! Log_core(level, ...) "{{{
   endtry
 
 
-  redir! >> ~/vim.log
+  exe 'redir! >> '.s:logLocation
+  
 
   silent echom a:level . ':::' . stack . ' cursor at=' . string( [ line("."), col(".") ] )
 
