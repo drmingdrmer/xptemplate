@@ -12,7 +12,11 @@
 "   1) vim test.js
 "   2) to type:
 "     for<C-\>
-"     generating a for-loop template. using <TAB> navigate through
+"     generating a for-loop template:
+"     for ( i = 0; i < n; ++i ) { 
+"
+"     }
+"     using <TAB> navigate through
 "     template
 " "}}}
 "
@@ -863,14 +867,14 @@ fun! s:parseRepetition(str, x) "{{{
 
 
     let stack = []
-    let start = 0
+    let from = 0
     while 1
-        let smtc = match(tmpl, repPtn, start)
-        if smtc == -1
+        let startOfMatch = match(tmpl, repPtn, from)
+        if startOfMatch == -1
             break
         endif
-        let stack += [smtc]
-        let start = smtc + 1
+        let stack += [startOfMatch]
+        let from = startOfMatch + 1
     endwhile
 
 
@@ -902,6 +906,7 @@ fun! s:parseRepetition(str, x) "{{{
 
     endwhile
 
+    call s:log.Log( 'template after parse repetition:', tmpl )
     return tmpl
 
 
@@ -1113,8 +1118,8 @@ fun! s:renderTemplate(nameStartPosition, nameEndPosition) " {{{
     call XPMupdate()
 
 
-    call XPMadd( ctx.marks.tmpl.start, a:nameStartPosition, 'l' )
-    call XPMadd( ctx.marks.tmpl.end, a:nameEndPosition, 'r' )
+    call XPMadd( ctx.marks.tmpl.start, a:nameStartPosition, g:XPMpreferLeft )
+    call XPMadd( ctx.marks.tmpl.end, a:nameEndPosition, g:XPMpreferRight )
 
     call XPreplace( a:nameStartPosition, a:nameEndPosition, tmpl )
 
@@ -1295,6 +1300,7 @@ fun! s:createPlaceHolder( ctx, nameInfo, valueInfo ) "{{{
                 \ 'name'        : name, 
                 \ 'isKey'       : (a:nameInfo[0] != a:nameInfo[1]), 
                 \ 'ontimeFilter': '', 
+                \ 'postFilter'  : '', 
                 \ }
 
 
@@ -1308,14 +1314,19 @@ fun! s:createPlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
     " TODO support of group post filter and ph post filter
     if a:valueInfo[1] != a:valueInfo[0]
-        " let isPostFilter = a:valueInfo[1][0] == a:valueInfo[2][0] && a:valueInfo[1][1] + len(xp.r) == a:valueInfo[2][1]
+        let isPostFilter = a:valueInfo[1][0] == a:valueInfo[2][0] 
+                    \&& a:valueInfo[1][1] + 1 == a:valueInfo[2][1]
 
         let val = s:textBetween( a:valueInfo[0], a:valueInfo[1] )
         let val = val[1:]
         let val = s:clearMaxCommonIndent( val, indent( a:valueInfo[0][0] ) )
 
 
-        let placeHolder.ontimeFilter = val
+        if isPostFilter
+            let placeHolder.postFilter = val
+        else
+            let placeHolder.ontimeFilter = val
+        endif
 
         call s:log.Debug("placeHolder post filter:key=val : " . name . "=" . val)
     endif
@@ -1712,20 +1723,16 @@ fun! s:GetRangeBetween(p1, p2, ...) "{{{
 endfunction "}}}
 
 fun! s:finishCurrentAndGotoNextItem(action) " {{{
-    let x = s:bufData()
-    let ctx = s:getRenderContext()
-    let marks = ctx.leadingPlaceHolder.mark
+    let renderContext = s:getRenderContext()
+    let marks = renderContext.leadingPlaceHolder.mark
 
     " if typing and <tab> pressed together, no update called
     " TODO do not call this if no need to update
     call s:XPTupdate()
 
-    let ctx.phase = 'post'
-
-    let left = XPMpos( marks.start )
 
     " let p = [line("."), col(".")]
-    let name = ctx.item.name
+    let name = renderContext.item.name
 
     call s:HighLightItem(name, 0)
 
@@ -1738,9 +1745,9 @@ fun! s:finishCurrentAndGotoNextItem(action) " {{{
 
     let post = s:applyPostFilter()
 
-    let ctx.step += [{ 'name' : ctx.item.name, 'value' : post }]
-    if ctx.item.name != ''
-        let ctx.namedStep[ctx.item.name] = post
+    let renderContext.step += [{ 'name' : renderContext.item.name, 'value' : post }]
+    if renderContext.item.name != ''
+        let renderContext.namedStep[renderContext.item.name] = post
     endif
 
 
@@ -1759,27 +1766,29 @@ fun! s:applyPostFilter() "{{{
     let renderContext = s:getRenderContext()
     let xp            = renderContext.tmpl.ptn
     let posts         = renderContext.tmpl.setting.postFilters
+
     let name          = renderContext.item.name
 
-    let marks = renderContext.leadingPlaceHolder.mark
+    let marks         = renderContext.leadingPlaceHolder.mark
 
-    call s:log.Log("before post filtering, tmpl:\n" . s:textBetween(XPMpos(renderContext.marks.tmpl.start), XPMpos(renderContext.marks.tmpl.end)))
+
+    let renderContext.phase = 'post'
 
     let typed = s:textBetween(XPMpos( marks.start ), XPMpos( marks.end ))
 
 
-    " TODO post filter for each place holder
+    call s:log.Log("before post filtering, tmpl:\n" . s:textBetween(XPMpos(renderContext.marks.tmpl.start), XPMpos(renderContext.marks.tmpl.end)))
 
 
 
-    let hasPostFilter = 1
+
+
+
+    let postFilter = ''
 
     if has_key(posts, name)
         let postFilter = posts[ name ]
     
-    else
-        let hasPostFilter = 0
-
     endif
 
 
@@ -1791,7 +1800,7 @@ fun! s:applyPostFilter() "{{{
     call s:log.Log("name:".name)
     call s:log.Log("typed:".typed)
     call s:log.Log("match:".(name =~ s:expandablePattern))
-    call s:log.Log('has post filter ?:' . hasPostFilter)
+    call s:log.Log('post filter :' . postFilter)
 
 
     " TODO per-place-holder filter
@@ -1832,10 +1841,23 @@ fun! s:applyPostFilter() "{{{
                 return s:crash()
             endif
 
-            call s:XPTupdate()
-            return post
+            " call s:XPTupdate()
+            " return post
         endif
+
+        call s:updateFollowingPlaceHoldersWith( typed )
+        return post
+
+    else
+        " let escapedTyped = substitute( typed, s:escapeHead . '\[' . xp.l . xp.r . ']', '\1\\&', 'g' )
+
+        " call XPreplace(XPMpos( marks.start ), XPMpos( marks.end ), escapedTyped)
+        " if typed !=# escapedTyped
+            " call s:XPTupdate()
+        " endif
+
     endif
+
 
     call s:XPTupdate()
 
@@ -1988,6 +2010,7 @@ fun! s:extractOneItem() "{{{
     " TODO when update, avoid updating leadingPlaceHolder
     if item.keyPH == s:NullDict
         let renderContext.leadingPlaceHolder = item.placeHolders[0]
+        let item.placeHolders = item.placeHolders[1:]
     else
         let renderContext.leadingPlaceHolder = item.keyPH
 
@@ -2165,7 +2188,7 @@ fun! s:initItem() " {{{
 
 endfunction " }}}
 
-fun! s:selectCurrent( renderContext )
+fun! s:selectCurrent( renderContext ) "{{{
     let ph = a:renderContext.leadingPlaceHolder
     let marks = ph.isKey ? ph.editMark : ph.mark
 
@@ -2191,7 +2214,7 @@ fun! s:selectCurrent( renderContext )
         return s:SelectAction()
     endif
 
-endfunction
+endfunction "}}}
 
 
 fun! s:createStringMask( str ) "{{{
@@ -2722,14 +2745,14 @@ endfunction "}}}
 
 fun! s:updateFollowingPlaceHoldersWith( contentTyped ) "{{{
 
-    let ctx = s:getRenderContext()
+    let renderContext = s:getRenderContext()
 
 
-    let phList = ctx.item.placeHolders
-    let phList = ctx.leadingPlaceHolder.isKey ? phList : phList[1:]
+    let phList = renderContext.item.placeHolders
     for ph in phList
-        if ph.ontimeFilter != ''
-            let ontimeResult = s:Eval( ph.ontimeFilter, { 'typed' : a:contentTyped } )
+        let filter = ( renderContext.phase == 'post' ? ph.postFilter : ph.ontimeFilter )
+        if filter != ''
+            let ontimeResult = s:Eval( filter, { 'typed' : a:contentTyped } )
             " TODO ontime filter action support?
         else
             let ontimeResult = a:contentTyped
@@ -2741,7 +2764,7 @@ fun! s:updateFollowingPlaceHoldersWith( contentTyped ) "{{{
         call XPreplaceByMarkInternal( ph.mark.start, ph.mark.end, ontimeResult )
 
     call XPRendSession()
-        call s:log.Debug( 'after update 1 place holder:', s:textBetween( XPMpos( ctx.marks.tmpl.start ), XPMpos( ctx.marks.tmpl.end ) ) )
+        call s:log.Debug( 'after update 1 place holder:', s:textBetween( XPMpos( renderContext.marks.tmpl.start ), XPMpos( renderContext.marks.tmpl.end ) ) )
     endfor
 
 
@@ -2773,7 +2796,7 @@ fun! s:crash() "{{{
     return ''
 endfunction "}}}
 
-fun! s:fixCrCausedIndentProblem()
+fun! s:fixCrCausedIndentProblem() "{{{
     let renderContext = s:getRenderContext()
 
     let currentTotalLine = line( '$' )
@@ -2796,7 +2819,7 @@ fun! s:fixCrCausedIndentProblem()
         call cursor( currentPos )
     endif
 
-endfunction
+endfunction "}}}
 
 fun! s:XPTupdate(...) "{{{
 

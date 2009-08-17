@@ -38,6 +38,8 @@ let s:log = CreateLogger( 'debug' )
 " let s:log = CreateLogger( 'warn' )
 
 
+let g:XPMpreferLeft = 'l'
+let g:XPMpreferRight = 'r'
 
 
 
