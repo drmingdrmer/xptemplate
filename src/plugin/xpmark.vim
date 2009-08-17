@@ -108,6 +108,23 @@ fun! XPMpos( name ) "{{{
     return [0, 0]
 endfunction "}}}
 
+fun! XPMposList( ... )
+    let d = s:bufData()
+    let list = []
+
+    for name in a:000
+        if has_key( d.marks, name )
+            call add( list, d.marks[ name ][ : 1 ] )
+        else
+            call add( list, [0, 0] )
+        endif
+    endfor
+
+    return list
+endfunction
+
+
+
 
 fun! XPMsetLikelyBetween( start, end ) "{{{
     let d = s:bufData()
@@ -224,6 +241,8 @@ fun! XPMupdateStat() "{{{
     let d = s:bufData()
 
     call d.saveCurrentStat()
+
+    call s:log.Debug( 'after XPMupdateStat, self=' . string( d ) )
 endfunction "}}}
 
 fun! XPMupdateCursorStat(...) "{{{

@@ -117,6 +117,26 @@ fun! s:f.EchoIfNoChange( ... )
   endif
 endfunction
 
+
+" Same with Echo* except echoed text is to be build to generate dynamic place
+" holders
+fun! s:f.Build( ... )
+  return { 'action' : 'build', 'text' : join( a:000, '' ) }
+endfunction
+
+fun! s:f.BuildIfNoChange( ... )
+  let v = self.V()
+  if v ==# self.ItemFullname()
+    return { 'action' : 'build', 'text' : join( a:000, '' ) }
+  else
+    return v
+  endif
+endfunction
+
+
+
+
+
 " trigger nested template
 fun! s:f.Trigger(name) "{{{
   return {'action' : 'expandTmpl', 'tmplName' : a:name}

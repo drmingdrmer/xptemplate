@@ -74,6 +74,8 @@ endif
 let s:logLocation .= '/vim.log'
 
 
+call delete(s:logLocation)
+
 fun! Log_core(level, ...) "{{{
   " call stack printing 
   try

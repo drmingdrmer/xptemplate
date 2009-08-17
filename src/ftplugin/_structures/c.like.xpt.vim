@@ -32,13 +32,10 @@ XSET var..|post=Echo( V() =~ 'var..$' ? '' : V() )
 enum `name^
 {
     `elt^`
-    `...^
-}` `var..^;
-XSETm ...|post
-,
-`elt^`
-`...^
-XSETm END
+    `more...{{^,
+    `elt^`
+    `more...^`}}^
+}` `var^;
 ..XPT
 
 XPT en hint=enum\ {\ ..\ }

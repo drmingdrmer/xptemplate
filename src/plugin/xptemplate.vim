@@ -892,7 +892,7 @@ fun! s:parseRepetition(str, x) "{{{
         call s:log.Log( 'indent=' . indent )
         let repeatPart = matchstr(rest, repContPtn)
         let repeatPart = s:clearMaxCommonIndent( repeatPart, indent )
-        let repeatPart = 'EchoIfNoChange(' . string( repeatPart ) . ')'
+        let repeatPart = 'BuildIfNoChange(' . string( repeatPart ) . ')'
         let symbol = matchstr(rest, rp)
         let name = substitute( symbol, '\V' . xp.lft . '\|' . xp.rt, '', 'g' )
         
@@ -1077,7 +1077,7 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet ) "{{{
 
         let plainPostFilter = s:clearMaxCommonIndent( plainPostFilter, s:getIndentBeforeEdge( a:tmplObj, snip[ : startPos - 1 ] ) )
 
-        let postFilters[ name ] = 'EchoIfNoChange(' . string( plainPostFilter ) . ')'
+        let postFilters[ name ] = 'BuildIfNoChange(' . string( plainPostFilter ) . ')'
 
         " right mark, start quoter
         let snip = snip[ : startPos + len( startText ) - 1 - 1 - len( quoter.start ) ] 
@@ -1764,13 +1764,12 @@ fun! s:applyPostFilter() "{{{
     "
 
     let renderContext = s:getRenderContext()
-    let xp            = renderContext.tmpl.ptn
-    let posts         = renderContext.tmpl.setting.postFilters
 
-    let name          = renderContext.item.name
-
-    let marks         = renderContext.leadingPlaceHolder.mark
-
+    let xp     = renderContext.tmpl.ptn
+    let posts  = renderContext.tmpl.setting.postFilters
+    let name   = renderContext.item.name
+    let leader = renderContext.leadingPlaceHolder
+    let marks  = renderContext.leadingPlaceHolder.mark
 
     let renderContext.phase = 'post'
 
@@ -1782,88 +1781,101 @@ fun! s:applyPostFilter() "{{{
 
 
 
-
-
-    let postFilter = ''
-
     if has_key(posts, name)
-        let postFilter = posts[ name ]
-    
+        let groupPostFilter = posts[ name ]
+    else
+        let groupPostFilter = ''
     endif
 
+    let leaderPostFilter = leader.postFilter
 
-    " elseif renderContext.leadingPlaceHolder.postFilter != ''
-        " let postFilter = renderContext.leadingPlaceHolder.postFilter
+    if groupPostFilter != ''
+        let filter = groupPostFilter
+    else
+        let filter = leaderPostFilter
+    endif
 
 
 
     call s:log.Log("name:".name)
     call s:log.Log("typed:".typed)
     call s:log.Log("match:".(name =~ s:expandablePattern))
-    call s:log.Log('post filter :' . postFilter)
+    call s:log.Log('post filter :' . groupPostFilter)
 
 
     " TODO per-place-holder filter
-    " check by 'postFilter' is ok
-    if hasPostFilter
+    " check by 'groupPostFilter' is ok
+    if filter != ''
 
+        let [ text, ifToBuild ] = s:evalPostFilter( filter, typed )
 
-        let post = s:Eval(postFilter, {'typed' : typed})
-
-
-        " TODO simplify me
-        " let isrep = post ==# typed
-        let isrep = 1
-
-
-
-
-
-        call s:log.Log("isrep?" . isrep)
-        call s:log.Log("post:\n", post)
         call s:log.Log("before replace, tmpl=\n".s:textBetween(s:TL(), s:BR()))
 
-        if isrep
 
-            " adjust indent
-            let indent = indent(XPMpos( marks.start )[0])
-            call s:log.Debug( 'line to get indent:' . getline( XPMpos( marks.start )[0] ) )
-            call s:log.Debug( 'post filter indent at line[' . XPMpos( marks.start )[0] . ']:' . indent )
 
-            let indentspaces = repeat(' ', indent)
-            let post = substitute( post, "\n", "\n" . indentspaces, 'g' )
+        let [ start, end ] = XPMposList( marks.start, marks.end )
 
-            call XPreplace(XPMpos( marks.start ), XPMpos( marks.end ), post)
-            call cursor(XPMpos( marks.start ))
+        let snip = s:adjustIndentAccordingTo( text, start[0] )
+        call XPreplace(start, end, snip)
 
+
+        if ifToBuild
+            call cursor( start )
             let renderContext.firstList = []
-            if 0 != s:buildPlaceHolders( renderContext.leadingPlaceHolder.mark )
+            if 0 != s:buildPlaceHolders( marks )
                 return s:crash()
             endif
-
-            " call s:XPTupdate()
-            " return post
         endif
 
-        call s:updateFollowingPlaceHoldersWith( typed )
-        return post
+        if groupPostFilter != ''
+            call s:updateFollowingPlaceHoldersWith( typed, { 'post' : text } )
+        else
+            call s:updateFollowingPlaceHoldersWith( typed, {} )
+        endif
 
-    else
-        " let escapedTyped = substitute( typed, s:escapeHead . '\[' . xp.l . xp.r . ']', '\1\\&', 'g' )
-
-        " call XPreplace(XPMpos( marks.start ), XPMpos( marks.end ), escapedTyped)
-        " if typed !=# escapedTyped
-            " call s:XPTupdate()
-        " endif
-
+        return text
     endif
 
 
+    " TODO is this needed?
     call s:XPTupdate()
 
     return typed
 
 endfunction "}}}
+
+fun! s:evalPostFilter( filter, typed ) "{{{
+    let post = s:Eval(a:filter, {'typed' : a:typed})
+
+    call s:log.Log("post:\n", string(post))
+
+    if type( post ) == 4
+        " dictionary, it is an action object
+        if post.action == 'build'
+            let [ text, ifToBuild ] = [ post.text, 1 ]
+        else
+            " unknown action
+            let [ text, ifToBuild ] = [ post.text, 0 ]
+        endif
+    else
+        " unknown type 
+        let [ text, ifToBuild ] = [ string( post ), 0 ]
+    endif
+
+    return [ text, ifToBuild ]
+endfunction "}}}
+
+fun! s:adjustIndentAccordingTo( snip, lineNr ) "{{{
+    let indent = indent( a:lineNr )
+    call s:log.Debug( 'line to get indent:' . getline( a:lineNr ) )
+    call s:log.Debug( 'post filter indent at line[' . a:lineNr . ']:' . indent )
+
+    let indentspaces = repeat(' ', indent)
+
+    return substitute( a:snip, "\n", "\n" . indentspaces, 'g' )
+
+endfunction "}}}
+
 
 " TODO rename me
 fun! s:gotoNextItem() "{{{
@@ -1977,6 +1989,7 @@ endfunction "}}}
 fun! s:TL(...)
     return XPMpos( s:bufData().renderContext.marks.tmpl.start )
 endfunction
+
 fun! s:BR(...)
     return XPMpos( s:bufData().renderContext.marks.tmpl.end )
 endfunction
@@ -2180,9 +2193,11 @@ fun! s:initItem() " {{{
         " return s:fillinLeadingPlaceHolderAndSelect( renderContext, str )
         " TODO needed?
         " call s:XPTupdate()
-        call XPMupdateStat()
         " call XPMupdate()
-        return s:selectCurrent(renderContext)
+        let rc = s:selectCurrent(renderContext)
+        call XPMupdateStat()
+
+        return rc
 
     endif
 
@@ -2743,30 +2758,37 @@ fun! s:CurSynNameStack() "{{{
 endfunction "}}}
 
 
-fun! s:updateFollowingPlaceHoldersWith( contentTyped ) "{{{
+fun! s:updateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
+    " TODO if nothing changed, skipping the replace
 
     let renderContext = s:getRenderContext()
 
+    if renderContext.phase == 'post' && has_key( a:option, 'post' )
+        let groupPost = a:option.post
+    else
+        let groupPost = a:contentTyped
+    endif
+
+    call XPRstartSession()
 
     let phList = renderContext.item.placeHolders
     for ph in phList
         let filter = ( renderContext.phase == 'post' ? ph.postFilter : ph.ontimeFilter )
         if filter != ''
-            let ontimeResult = s:Eval( filter, { 'typed' : a:contentTyped } )
+            let filtered = s:Eval( filter, { 'typed' : a:contentTyped } )
             " TODO ontime filter action support?
         else
-            let ontimeResult = a:contentTyped
+            let filtered = groupPost
         endif
 
-    call XPRstartSession()
 
-        " call XPreplace( XPMpos( ph.mark.start ), XPMpos( ph.mark.end ), ontimeResult )
-        call XPreplaceByMarkInternal( ph.mark.start, ph.mark.end, ontimeResult )
+        " call XPreplace( XPMpos( ph.mark.start ), XPMpos( ph.mark.end ), filtered )
+        call XPreplaceByMarkInternal( ph.mark.start, ph.mark.end, filtered )
 
-    call XPRendSession()
         call s:log.Debug( 'after update 1 place holder:', s:textBetween( XPMpos( renderContext.marks.tmpl.start ), XPMpos( renderContext.marks.tmpl.end ) ) )
     endfor
 
+    call XPRendSession()
 
 endfunction "}}}
 
@@ -2846,16 +2868,17 @@ fun! s:XPTupdate(...) "{{{
 
     " TODO check current cursor position for crashing or fixing
 
-    let keyMark = renderContext.leadingPlaceHolder.mark
-    call XPMsetLikelyBetween( keyMark.start, keyMark.end )
+    let leaderMark = renderContext.leadingPlaceHolder.mark
+    call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
 
     let rc = XPMupdate()
 
 
 
-    let [ start, end ] = [ XPMpos( keyMark.start ), XPMpos( keyMark.end ) ]
+    let [ start, end ] = [ XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) ]
 
     if start == [0, 0] || end == [0, 0]
+        call s:log.Info( 'fail to get start/end mark:' . string( [ start, end ] ) . ' of name=' . string( leaderMark ) )
         return s:crash()
     endif
 
@@ -2891,7 +2914,7 @@ fun! s:XPTupdate(...) "{{{
         call s:log.Info( "marks before updating following:\n" . XPMallMark() )
 
         " TODO optimize?
-        call s:updateFollowingPlaceHoldersWith( contentTyped )
+        call s:updateFollowingPlaceHoldersWith( contentTyped, {} )
 
         call s:gotoRelativePosToMark( relPos, renderContext.leadingPlaceHolder.mark.start )
 

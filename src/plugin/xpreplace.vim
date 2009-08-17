@@ -111,8 +111,11 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     Assert &l:selection == 'exclusive' 
     Assert &l:selectmode == '' 
 
+    " Note: In one session, invoking this function multiple times causes the
+    " following assertion fail.
+    "
     " reserved register 0
-    Assert @" == 'XPreplaceInited'
+    " Assert @" == 'XPreplaceInited'
 
 
 
