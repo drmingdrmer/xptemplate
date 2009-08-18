@@ -42,7 +42,8 @@ if (`condition^)`$BRACKETSTYLE^{
 XSETm else_if...|post
 `$BRACKETSTYLE^else if (`another_cond^)`$BRACKETSTYLE^{ 
   `job^
-}` `else_if...^XSETm END
+}` `else_if...^
+XSETm END
 
 
 XPT switch	hint=switch\ (..)\ {case..}
@@ -63,9 +64,11 @@ XSETm case...|post
     break;
 `
   `case...`
-^XSETm END
+^
+XSETm END
 XSETm default...|post
 
   default:
-    `cursor^XSETm END
+    `cursor^
+XSETm END
 

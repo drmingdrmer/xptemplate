@@ -32,6 +32,7 @@ XPTemplateDef
 " for (`-`i`-^ = `0^; `i^ < `len^; ++`i^)`$BRACKETSTYLE^{
 XPT for hint=for\ (..;..;++)
 for (`-`i`-^ = `0^; `i^UpperCase(V())^ < `len^; ++`i^UpperCase('_'.V())^^)`$BRACKETSTYLE^{
+    `test^\`what\^..\`\`what\^^^
     `cursor^
 }
 ..XPT

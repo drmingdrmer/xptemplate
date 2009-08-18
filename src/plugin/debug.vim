@@ -3,8 +3,8 @@ if exists("g:__LOG_VIM__")
 endif
 let g:__LOG_VIM__ = 1
 
-" let s:globalLogLevel = 'warn'
-let s:globalLogLevel = 'debug'
+let s:globalLogLevel = 'warn'
+" let s:globalLogLevel = 'debug'
 
 
 fun! CreateLogger( level ) "{{{

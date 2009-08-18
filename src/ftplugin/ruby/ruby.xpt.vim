@@ -273,13 +273,16 @@ XPT begin hint=begin\ ..\ rescue\ ..\ else\ ..\ end
 XSETm rescue...|post=
 rescue `exception^` => `e^
 `block^`
-`rescue...^XSETm END
+`rescue...^
+XSETm END
 XSETm else...|post=
 else
-  `block^XSETm END
+  `block^
+XSETm END
 XSETm ensure...|post=
 ensure
-  `cursor^XSETm END
+  `cursor^
+XSETm END
 XSET exception=Exception
 XSET block=# block
 begin
@@ -303,10 +306,12 @@ XSET block=# block
 XSETm when...|post=
 when `comparison^
 `block^`
-`when...^XSETm END
+`when...^
+XSETm END
 XSETm else...|post=
 else
-  `cursor^XSETm END
+  `cursor^
+XSETm END
 XSET _=
 case `target^`
 `when...^`
@@ -525,11 +530,13 @@ end
 XPT ifei hint=if\ ..\ elsif\ ..\ else\ ..\ end
 XSETm else...|post=
 else
-`cursor^XSETm END
+`cursor^
+XSETm END
 XSETm elsif...|post=
 elsif `boolean exp^
 `block^`
-`elsif...^XSETm END
+`elsif...^
+XSETm END
 XSET block=# block
 if `boolean exp^
 `block^`
