@@ -20,7 +20,7 @@ XSETm else...|post
   `cursor^
 }
 XSETm END
-  
+
 XPT ifn  alias=if	hint=if\ ($NULL\ ==\ ..)\ {..}\ else...
 XSET condition=Embed('`$NULL^ == `var^')
 

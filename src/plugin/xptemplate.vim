@@ -21,9 +21,9 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO post-filter
 " TODO compatibility to old post-filter syntax
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
+" TODO on the first time template rendering, replace all vars with its value.
 " TODO snippets bundle and bundle selection
 " TODO snippet-file scope XSET
 " TODO block context check
@@ -1757,8 +1757,9 @@ endfunction " }}}
 
 fun! s:applyPostFilter() "{{{
 
-    " *) Group-scope post filter goes first to apply to leading place holder.
-    " *) Place-holder post filter then applies if there is one.
+    " *) Apply Group-scope post filter to leading place holder.
+    " *) Following place holders are updated by trying filter on the following
+    " order: ph.postFilter, or ontime filter, of the group-scope post filter.
     " 
     " Thus, some place holder may be filtered twice.
     "
@@ -1854,17 +1855,23 @@ fun! s:evalPostFilter( filter, typed ) "{{{
     if type( post ) == 4
         " dictionary, it is an action object
         if post.action == 'build'
-            let [ text, ifToBuild ] = [ post.text, 1 ]
+            let res = [ post.text, 1 ]
         else
             " unknown action
-            let [ text, ifToBuild ] = [ post.text, 0 ]
+            let res = [ post.text, 0 ]
         endif
+
+    elseif type( post ) == 1
+        " string
+        let res = [ post, 1 ]
+
     else
         " unknown type 
-        let [ text, ifToBuild ] = [ string( post ), 0 ]
+        let res = [ string( post ), 0 ]
+
     endif
 
-    return [ text, ifToBuild ]
+    return res
 endfunction "}}}
 
 fun! s:adjustIndentAccordingTo( snip, lineNr ) "{{{

@@ -26,6 +26,7 @@ let g:XPM_RET = {
             \   'updated' : {},
             \}
 
+" TODO visual-mode Q command causes errors
 " TODO while editing .dot file, some error occurs complaining 'snapshot'
 " working with inexistent number.
 " TODO 'au matchparen' causes it to update 2 or 3 times for each cursor move

@@ -240,8 +240,11 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     while start < len
         if lines[start] =~# '^XSET\%[m]\s\+'
 
+            let command = matchstr( lines[ start ], '^XSET\%[m]' )
+
             let [ key, val, start ] = s:getXSETkeyAndValue( lines, start )
             if key == ''
+                let start += 1
                 continue
             endif
 
@@ -254,7 +257,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
             call s:log.Log("parse XSET:" . keyname . "|" . keytype . '=' . val)
 
 
-            call s:handleXSETcommand(setting, keyname, keytype, val)
+            call s:handleXSETcommand(setting, command, keyname, keytype, val)
 
 
             " TODO can not input \XSET
@@ -412,7 +415,7 @@ fun! s:getKeyType(rawKey) "{{{
 
 endfunction "}}}
 
-fun! s:handleXSETcommand(setting, keyname, keytype, value) "{{{
+fun! s:handleXSETcommand(setting, command, keyname, keytype, value) "{{{
 
     if a:keyname ==# 'ComeFirst'
         let a:setting.comeFirst = s:splitWith( a:value, ' ' )
@@ -427,7 +430,17 @@ fun! s:handleXSETcommand(setting, keyname, keytype, value) "{{{
         let a:setting.defaultValues[a:keyname] = a:value
 
     elseif a:keytype ==# 'post'
-        let a:setting.postFilters[a:keyname] = a:value
+        if a:command ==# 'XSETm'
+            " TODO not good, use another keytype to define 'buildIfNoChange' post filter
+            "
+            " Note: For now, XSETm used only as expandable or repetition.
+            let a:setting.postFilters[a:keyname] = 'BuildIfNoChange(' . string(a:value) . ')'
+
+        else
+            " Note: XSET used for only normal post filter till now
+            let a:setting.postFilters[a:keyname] = a:value
+
+        endif
 
     else
         throw "unknown key name or type:" . a:keyname . ' ' . a:keytype
