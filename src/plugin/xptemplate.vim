@@ -74,7 +74,6 @@ XPTgetSID
 delc XPTgetSID
 
 let s:log = CreateLogger( 'debug' )
-" let s:log = CreateLogger( 'warn' )
 
 
 
@@ -130,7 +129,6 @@ let s:escaped               = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' .
 let s:stripPtn              = '\V\^\s\*\zs\.\*'
 let s:cursorName            = "cursor"
 let s:wrappedName           = "wrapped"
-let s:expandablePattern     = '\v^(\_.*\_W+)?' . '\w+\V...'
 let s:repetitionPattern     = '^\.\.\.\d*$'
 let s:templateSettingPrototype  = { 'defaultValues' : {}, 'postFilters' : {}, 
             \'comeFirst' : [], 'comeLast' : [], 
@@ -1801,8 +1799,9 @@ fun! s:applyPostFilter() "{{{
 
     call s:log.Log("name:".name)
     call s:log.Log("typed:".typed)
-    call s:log.Log("match:".(name =~ s:expandablePattern))
-    call s:log.Log('post filter :' . groupPostFilter)
+    call s:log.Log('group post filter :' . groupPostFilter)
+    call s:log.Log('leader post filter :' . leaderPostFilter)
+    call s:log.Log('post filter :' . filter)
 
 
     " TODO per-place-holder filter
@@ -1829,20 +1828,21 @@ fun! s:applyPostFilter() "{{{
             endif
         endif
 
-        if groupPostFilter != ''
-            call s:updateFollowingPlaceHoldersWith( typed, { 'post' : text } )
-        else
-            call s:updateFollowingPlaceHoldersWith( typed, {} )
-        endif
+    endif
 
+    if groupPostFilter != ''
+        call s:updateFollowingPlaceHoldersWith( typed, { 'post' : text } )
         return text
+    else
+        call s:updateFollowingPlaceHoldersWith( typed, {} )
+        return typed
     endif
 
 
-    " TODO is this needed?
-    call s:XPTupdate()
 
-    return typed
+    " TODO is this needed?
+    " call s:XPTupdate()
+
 
 endfunction "}}}
 
@@ -2125,7 +2125,7 @@ fun! s:fillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
 
     let xp = ctx.tmpl.ptn
 
-    if str =~ '\V'.xp.lft.'\.\*'.xp.rt
+    if str =~ '\V' . xp.lft . '\.\*' . xp.rt
         if 0 != s:buildPlaceHolders( marks )
             return s:crash()
         endif
@@ -2138,7 +2138,7 @@ fun! s:fillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
     call s:XPTupdate()
 
     let action = s:selectCurrent(ctx)
-    call s:XPMupdateStat()
+    call XPMupdateStat()
     return action
 
 endfunction "}}}
@@ -2196,8 +2196,11 @@ fun! s:initItem() " {{{
         let str = renderContext.item.name
         " return s:fillinLeadingPlaceHolderAndSelect( renderContext, str )
         " TODO needed?
-        " call s:XPTupdate()
         " call XPMupdate()
+
+        " to update the edge to following place holder
+        call s:XPTupdate()
+
         let action = s:selectCurrent(renderContext)
         call XPMupdateStat()
 
@@ -2778,6 +2781,10 @@ fun! s:updateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
     let phList = renderContext.item.placeHolders
     for ph in phList
         let filter = ( renderContext.phase == 'post' ? ph.postFilter : ph.ontimeFilter )
+        let filter = filter == '' ? ph.ontimeFilter : filter
+
+        call s:log.Log( 'updateFollowingPlaceHoldersWith : filter=' . filter )
+
         if filter != ''
             let filtered = s:Eval( filter, { 'typed' : a:contentTyped } )
             " TODO ontime filter action support?

@@ -29,10 +29,10 @@ endfunction
 " ================================= Snippets ===================================
 XPTemplateDef
 
-" for (`-`i`-^ = `0^; `i^UpperCase(V())^ < `len^; ++`i^UpperCase('_'.V())^^)`$BRACKETSTYLE^{
+" for (`-`i`-^ = `0^; `i^ < `len^; ++`i^)`$BRACKETSTYLE^{
 XPT for hint=for\ (..;..;++)
-for (`-`i`-^ = `0^; `i^ < `len^; ++`i^)`$BRACKETSTYLE^{
-  `cursor^
+for (`-`i`-^ = `0^; `i^UpperCase(V())^ < `len^; ++`i^UpperCase('_'.V())^^)`$BRACKETSTYLE^{
+    `cursor^
 }
 ..XPT
 

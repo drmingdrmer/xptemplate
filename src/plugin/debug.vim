@@ -3,9 +3,13 @@ if exists("g:__LOG_VIM__")
 endif
 let g:__LOG_VIM__ = 1
 
+let s:globalLogLevel = 'warn'
+
+
 fun! CreateLogger( level ) "{{{
 
   let level = s:logLevels[ a:level ]
+  let level = min( [ level, s:logLevels[ s:globalLogLevel ] ] )
 
   let logger = copy( s:loggerPrototype )
 
