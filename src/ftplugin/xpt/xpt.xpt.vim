@@ -79,7 +79,7 @@ XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $INDENT_HELPER /* void */;
 XPTVar $UNDEFINED     ''
-XPTVar $BRACKETSTYLE  "\n"
+XPTVar $IF_BRACKET_STL  "\n"
 
 " inclusion
 XPTinclude

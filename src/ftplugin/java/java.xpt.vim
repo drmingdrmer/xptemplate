@@ -8,7 +8,7 @@ call extend(s:v, { '$TRUE': 'true'
                \ , '$FALSE' : 'false'
                \ , '$NULL' : 'null'
                \ , '$UNDEFINED' : ''
-               \ , '$BRACKETSTYLE' : ''
+               \ , '$IF_BRACKET_STL' : ''
                \ , '$INDENT_HELPER' : ';'})
 
 " inclusion

@@ -5,7 +5,7 @@ let [s:f, s:v] = XPTcontainer()
 
 XPTvar $author        $author is not set, you need to set g:xptemplate_vars="$author=your_name"
 XPTvar $email         $email is not set, you need to set g:xptemplate_vars="$author=your_email@com"
-XPTvar $BRACKETSTYLE  
+XPTvar $IF_BRACKET_STL  
 
 
 XPTinclude

@@ -20,13 +20,13 @@ call XPTemplatePriority('like')
 XPTemplateDef
 
 XPT for hint=for\ (..;..;++)
-for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRACKETSTYLE^{
+for (`i^ = `0^; `i^ < `len^; ++`i^)`$IF_BRACKET_STL^{
   `cursor^
 }
 
 
 XPT forr hint=for\ (..;..;--)
-for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$BRACKETSTYLE^{
+for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$IF_BRACKET_STL^{
   `cursor^
 }
 

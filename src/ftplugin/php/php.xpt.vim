@@ -5,7 +5,7 @@ let [s:f, s:v] = XPTcontainer()
 
 XPTvar $TRUE TRUE
 XPTvar $FALSE FALSE
-XPTvar $BRACKETSTYLE \n
+XPTvar $IF_BRACKET_STL \n
 XPTvar $NULL NULL
 
 " inclusion
@@ -21,45 +21,45 @@ XPTinclude
 XPTemplateDef
 
 XPT while hint=while\ (\ ..\ )\ {\ ..\ }
-while (`cond^)`$BRACKETSTYLE^{
+while (`cond^)`$IF_BRACKET_STL^{
   `cursor^
 }
 
 
 XPT for hint=for\ (..;..;++)
-for ($`var^i^ = `init^; $`var^ < `val^; $`var^++)`$BRACKETSTYLE^{
+for ($`var^i^ = `init^; $`var^ < `val^; $`var^++)`$IF_BRACKET_STL^{
   `cursor^
 }
 
 
 XPT forr hint=for\ (..;..;--)
-for ($`var^i^ = `init^; $`var^ >= `val^0^; $`var^--)`$BRACKETSTYLE^{
+for ($`var^i^ = `init^; $`var^ >= `val^0^; $`var^--)`$IF_BRACKET_STL^{
   `cursor^
 }
 
 
 XPT foreach hint=foreach\ (..\ as\ ..)\ {..}
-foreach ($`var^ as `container^)`$BRACKETSTYLE^{
+foreach ($`var^ as `container^)`$IF_BRACKET_STL^{
   `cursor^
 }
 
 
 XPT fun hint=function\ ..(\ ..\ )\ {..}
-function `funName^( `params^ )`$BRACKETSTYLE^{
+function `funName^( `params^ )`$IF_BRACKET_STL^{
   `cursor^
 }
 
 
 XPT class hint=class\ ..\ {\ ..\ }
-class `className^`$BRACKETSTYLE^{
-  function __construct( `args^ )`$BRACKETSTYLE^{
+class `className^`$IF_BRACKET_STL^{
+  function __construct( `args^ )`$IF_BRACKET_STL^{
     `cursor^
   }
 }
 
 
 XPT interface hint=interface\ ..\ {\ ..\ }
-interface `interfaceName^`$BRACKETSTYLE^{
+interface `interfaceName^`$IF_BRACKET_STL^{
   `cursor^
 }
 

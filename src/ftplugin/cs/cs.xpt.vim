@@ -10,7 +10,7 @@ call extend(s:v, { '$TRUE': 'true'
                 \, '$FALSE' : 'false'
                 \, '$NULL' : 'null'
                 \, '$UNDEFINED' : ''
-                \, '$BRACKETSTYLE' : "\n"
+                \, '$IF_BRACKET_STL' : "\n"
                 \, '$INDENT_HELPER' : ';' })
 " inclusion
 XPTinclude 

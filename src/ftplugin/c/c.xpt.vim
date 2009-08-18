@@ -5,7 +5,7 @@ XPTemplate priority=lang keyword=# indent=auto
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
-XPTvar $BRACKETSTYLE  \ 
+XPTvar $IF_BRACKET_STL  \ 
 XPTvar $INDENT_HELPER /* void */;
 
 
@@ -29,9 +29,9 @@ endfunction
 " ================================= Snippets ===================================
 XPTemplateDef
 
-" for (`-`i`-^ = `0^; `i^ < `len^; ++`i^)`$BRACKETSTYLE^{
+" for (`-`i`-^ = `0^; `i^ < `len^; ++`i^)`$IF_BRACKET_STL^{
 XPT for hint=for\ (..;..;++)
-for (`-`i`-^ = `0^; `i^UpperCase(V())^ < `len^; ++`i^UpperCase('_'.V())^^)`$BRACKETSTYLE^{
+for (`-`i`-^ = `0^; `i^UpperCase(V())^ < `len^; ++`i^UpperCase('_'.V())^^)`$IF_BRACKET_STL^{
     `test^\`what\^..\`\`what\^^^
     `cursor^
 }

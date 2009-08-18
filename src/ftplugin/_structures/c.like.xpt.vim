@@ -4,7 +4,7 @@ XPTemplate priority=like
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
-XPTvar $BRACKETSTYLE  \ 
+XPTvar $IF_BRACKET_STL  \ 
 XPTvar $INDENT_HELPER /* void */;
 
 " containers

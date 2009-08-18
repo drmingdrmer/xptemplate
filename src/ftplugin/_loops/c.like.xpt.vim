@@ -4,7 +4,7 @@ XPTemplate priority=like
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
-XPTvar $BRACKETSTYLE  \ 
+XPTvar $IF_BRACKET_STL  \ 
 XPTvar $INDENT_HELPER /* void */;
 
 
@@ -17,19 +17,19 @@ XPTinclude
 XPTemplateDef
 
 XPT while0 hint=do\ {\ ..\ }\ while\ ($FALSE)
-do`$BRACKETSTYLE^{
+do`$IF_BRACKET_STL^{
   `cursor^
-}`$BRACKETSTYLE^while (`$FALSE^)
+}`$IF_BRACKET_STL^while (`$FALSE^)
 
 
 XPT do hint=do\ {\ ..\ }\ while\ (..)
-do`$BRACKETSTYLE^{
+do`$IF_BRACKET_STL^{
   `cursor^
-}`$BRACKETSTYLE^while (`condition^)
+}`$IF_BRACKET_STL^while (`condition^)
 
 
 XPT while1 hint=while\ ($TRUE)\ {\ ..\ }
-while (`$TRUE^)`$BRACKETSTYLE^{
+while (`$TRUE^)`$IF_BRACKET_STL^{
   `cursor^
 }
 

@@ -8,7 +8,7 @@ XPTemplate priority=sub
 XPTvar $TRUE          true
 XPTvar $FALSE         false
 XPTvar $NULL          NULL
-XPTvar $BRACKETSTYLE  \n
+XPTvar $IF_BRACKET_STL  \n
 XPTvar $INDENT_HELPER /* void */;
 
 

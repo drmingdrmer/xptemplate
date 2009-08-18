@@ -3,7 +3,7 @@ XPTemplate priority=like
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
-XPTvar $BRACKETSTYLE  \ 
+XPTvar $IF_BRACKET_STL  \ 
 XPTvar $INDENT_HELPER /* void */;
 
 
@@ -12,11 +12,11 @@ XPTemplateDef
 
 XPT if		hint=if\ (..)\ {..}\ else...
 XSET job=$INDENT_HELPER
-if (`condition^)`$BRACKETSTYLE^{ 
+if (`condition^)`$IF_BRACKET_STL^{ 
   `job^
 }` `else...^
 XSETm else...|post
-`$BRACKETSTYLE^else`$BRACKETSTYLE^{ 
+`$IF_BRACKET_STL^else`$IF_BRACKET_STL^{ 
   `cursor^
 }
 XSETm END
@@ -36,11 +36,11 @@ XSET condition=Embed('0 != `var^')
 XPT ifee	hint=if\ (..)\ {..}\ elseif...
 XSET job=$INDENT_HELPER
 XSET another_cond=R('condition')
-if (`condition^)`$BRACKETSTYLE^{
+if (`condition^)`$IF_BRACKET_STL^{
   `job^
 }` `else_if...^
 XSETm else_if...|post
-`$BRACKETSTYLE^else if (`another_cond^)`$BRACKETSTYLE^{ 
+`$IF_BRACKET_STL^else if (`another_cond^)`$IF_BRACKET_STL^{ 
   `job^
 }` `else_if...^
 XSETm END
@@ -48,7 +48,7 @@ XSETm END
 
 XPT switch	hint=switch\ (..)\ {case..}
 XSET job=$INDENT_HELPER
-switch (`var^)`$BRACKETSTYLE^{
+switch (`var^)`$IF_BRACKET_STL^{
   case `constant^ :
     `job^
     break;
