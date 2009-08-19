@@ -38,6 +38,7 @@ for file in `ls plugin/`;do
 
   grep -v "call s:log.\(Log\|Debug\)(" plugin/$file |\
   grep -v "CreateLogger(" |\
+  grep -v "runtime plugin/debug.vim" |\
   grep -v "^\s*\"" |\
   grep -v "^\s*$" |\
   sed 's/"\s*{{{//; s/"\s*}}}//' > .tmp

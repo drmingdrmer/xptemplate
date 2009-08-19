@@ -113,18 +113,25 @@ endfunction "}}}
 " Repeat an item inside its edges.
 " Behave like ExpandIfNotEmpty() but within edges
 fun! s:f.RepeatInsideEdges(sep) "{{{
-  let [lft, rt] = self.ItemEdges()
+  let [edgeLeft, edgeRight] = self.ItemEdges()
   let v = self.V()
   let n = self.N()
-  if v == '' || v == lft . n . rt
+  if v == '' || v == self.ItemFullname()
     return ''
   endif
-  let marks = XPTmark()
-  let v = substitute(v, '^' . lft, '', '')
-  let v = substitute(v, rt . '$', '', 'g')
-  return lft . v .  marks[0] . a:sep .  marks[0]
-        \.  'n' . n . marks[1] . 'ExpandIfNotEmpty("' . a:sep . '", "' . 'n' . n . '")'
-        \. marks[1] . marks[1] . rt
+
+
+  let v = self.ItemStrippedValue()
+  let [ markLeft, markRight ] = XPTmark()
+
+  let newName = 'n' . n
+  let res  = edgeLeft . v
+  let res .= markLeft . a:sep .  markLeft . newName . markRight 
+  let res .= 'ExpandIfNotEmpty("' . a:sep . '", "' . newName . '")' . markRight . markRight
+  let res .=  edgeRight
+
+
+  return res
 endfunction "}}}
 
 " Remove an item if its value hasn't change

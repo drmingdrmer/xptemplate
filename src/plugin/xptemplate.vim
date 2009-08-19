@@ -19,6 +19,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO do not let xpt throw error if calling undefined s:f.function..
 " TODO compatibility to old post-filter syntax
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 " TODO on the first time template rendering, replace all vars with its value.
@@ -2153,6 +2154,7 @@ fun! s:applyDefaultValueToPH( renderContext ) "{{{
     call s:log.Log( "**" )
 
     let renderContext = a:renderContext
+    let leader = renderContext.leadingPlaceHolder
     let str = renderContext.tmpl.setting.defaultValues[renderContext.item.name]
 
     " popup list, action dictionary or string
@@ -2172,9 +2174,11 @@ fun! s:applyDefaultValueToPH( renderContext ) "{{{
             return s:fillinLeadingPlaceHolderAndSelect( renderContext, '' )
         endif
 
+        " TODO exclude edge?
         " to popup 
-        call XPreplace( XPMpos( renderContext.leadingPlaceHolder.mark.start ), XPMpos( renderContext.leadingPlaceHolder.mark.end ), '')
-        call cursor(xpos.editpos.start.pos)
+        let [ start, end ] = XPMposList( leader.mark.start, leader.mark.end )
+        call XPreplace( start, end, '')
+        call cursor(start)
 
         return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."))
 
@@ -2329,17 +2333,22 @@ fun! s:Eval(s, ...) "{{{
 
 
 
+    " TODO simplify me
     let xfunc._ctx = ctx.evalCtx
     let xfunc._ctx.tmpl = ctx.tmpl
     let xfunc._ctx.step = {}
     let xfunc._ctx.namedStep = {}
     let xfunc._ctx.value = ''
+    let xfunc._ctx.item = {}
+    let xfunc._ctx.leadingPlaceHolder = {}
     if ctx.processing
         let xfunc._ctx.step = ctx.step
         let xfunc._ctx.namedStep = ctx.namedStep
         let xfunc._ctx.name = ctx.item.name
         let xfunc._ctx.fullname = ctx.item.fullname
         let xfunc._ctx.value = tmpEvalCtx.typed
+        let xfunc._ctx.item = ctx.item
+        let xfunc._ctx.leadingPlaceHolder = ctx.leadingPlaceHolder
     endif
 
     call s:log.Log("eval ctx:".string(xfunc._ctx))

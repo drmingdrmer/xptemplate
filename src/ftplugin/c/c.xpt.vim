@@ -22,8 +22,26 @@ XPTinclude
 
 let s:f = XPTcontainer()[ 0 ]
 
-function! s:f.showLst()
+function! s:f.showList()
    return [ "xx-small", "x-small", "small", "medium", "large", "x-large", "xx-large", "larger", "smaller" ]
+endfunction
+
+" draft implementation 
+fun! s:f.c_patternItem( v )
+  let v = a:v
+  if v =~ '\V%'
+    let len = len( substitute( v, '\V\[^%]', '', 'g' ) )
+    let re = ''
+    while len > 0
+      let len -= 1
+
+      let re .= ', `i' . len . '^'
+
+    endwhile
+    return re
+  else 
+    return ''
+  endif
 endfunction
 
 " ================================= Snippets ===================================
@@ -37,11 +55,20 @@ for (`-`i`-^ = `0^; `i^UpperCase(V())^ < `len^; ++`i^UpperCase('_'.V())^^)`$IF_B
 }
 ..XPT
 
-" XPT fsa hint=$author\ what\ {$author} --
-" XSET p..|post=what ExpandIfNotEmpty(', ', 'p..')
-" --font-size: `--`size`==^showLst()^
-" " " `size^
-" ..XPT
+
+XPT printf	hint=printf\\(...)
+XSET elts=c_patternItem( R( 'pattern' ) )
+printf( "`pattern^"`elts^ );
+..XPT
+
+
+"  XSET p..|post=ExpandIfNotEmpty(', ', 'p..')
+XPT fsa hint=$author\ what\ {$author} --
+XSET size=showList()
+ `p..^ExpandIfNotEmpty(', ', 'p..')^^
+..XPT
+"  --font-size: `--`size`==^
+" " `size^
 " 
 " XPT Fsa
 " bbb
