@@ -1,10 +1,10 @@
 #!/bin/bash
 
-Plugin=${PWD##*/}
-Dir=${PWD%/*}
-Target=xpt
+CurrentDir=${PWD##*/}
+ParentDir=${PWD%/*}
+DistDir=$ParentDir/dist
 
-echo export "$Plugin" to "$Dir" "....."
+echo export "$CurrentDir" to "$ParentDir" "....."
 
 
 # vim -S genfile.vim
@@ -13,19 +13,26 @@ echo export "$Plugin" to "$Dir" "....."
 v=`grep VERSION plugin/xptemplate.vim | awk '{print $3}'`
 
 
-cd $Dir
-svn export $Plugin $Target
-svn export $Plugin/../xpt.ftp.svn/trunk/ftplugin $Target/ftplugin
+cd $ParentDir
+svn export $CurrentDir $DistDir
+# svn export $CurrentDir/../xpt.ftp.svn/trunk/ftplugin $DistDir/ftplugin
 
 
-cd $Target
-rm -rf syntax/vim.vim xpt.ex genfile.vim doc/tags xpt.files.txt bench.vim
+cd $DistDir
+rm -rf	\
+  xpt.ex	\
+  genfile.vim	\
+  doc/tags	\
+  xpt.files.txt	\
+  bench.vim	\
+
 
 
 # remove 'call Log'
+# grep -v "call \(Fatal\|Error\|Warn\|Info\|Log\|Debug\)(" plugin/$file |\
 for file in `ls plugin/`;do
   echo remove Log and comments from $file
-  grep -v "call \(Fatal\|Error\|Warn\|Info\|Log\|Debug\)(" plugin/$file |\
+  grep -v "call \(Log\|Debug\)(" plugin/$file |\
   grep -v "^\s*\"" |\
   grep -v "^\s*$" |\
   sed 's/"\s*{{{//; s/"\s*}}}//' > .tmp
@@ -35,8 +42,10 @@ done
 
 cd -
 
-tar -czf $Target-$v.tgz $Target
-rm -rdf $Target
+# tar -czf $DistDir-$v.tgz $DistDir
+# rm -rdf $DistDir
 
-ls $Target-*.tgz
+# ls $DistDir-*.tgz
 
+
+# vim: set ts=32 :

@@ -1,7 +1,8 @@
-if exists("g:__LOG_VIM__")
+if exists("g:__DEBUG_VIM__")
   finish
 endif
-let g:__LOG_VIM__ = 1
+let g:__DEBUG_VIM__ = 1
+
 
 let s:globalLogLevel = 'warn'
 " let s:globalLogLevel = 'debug'
@@ -76,6 +77,7 @@ if len( finddir( '~/tmp' ) ) > 0
 else
   let s:logLocation = '~'
 endif
+
 let s:logLocation .= '/vim.log'
 
 
