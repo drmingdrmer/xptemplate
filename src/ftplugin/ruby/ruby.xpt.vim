@@ -270,16 +270,16 @@ XSET attr..|post=ExpandIfNotEmpty(', :', 'attr..')
 attr`_`what^ :`attr..^
 
 XPT begin hint=begin\ ..\ rescue\ ..\ else\ ..\ end
-XSETm rescue...|post=
+XSETm rescue...|post
 rescue `exception^` => `e^
 `block^`
 `rescue...^
 XSETm END
-XSETm else...|post=
+XSETm else...|post
 else
   `block^
 XSETm END
-XSETm ensure...|post=
+XSETm ensure...|post
 ensure
   `cursor^
 XSETm END
@@ -303,12 +303,12 @@ end
 
 XPT case hint=case\ ..\ when\ ..\ end
 XSET block=# block
-XSETm when...|post=
+XSETm when...|post
 when `comparison^
 `block^`
 `when...^
 XSETm END
-XSETm else...|post=
+XSETm else...|post
 else
   `cursor^
 XSETm END
@@ -363,7 +363,8 @@ end
 
 
 XPT clstr hint=..\ =\ Struct.new\ ...
-XSETm do...|post= do
+XSETm do...|post
+do
 `cursor^
 end
 XSETm END
@@ -528,11 +529,11 @@ else
 end
 
 XPT ifei hint=if\ ..\ elsif\ ..\ else\ ..\ end
-XSETm else...|post=
+XSETm else...|post
 else
 `cursor^
 XSETm END
-XSETm elsif...|post=
+XSETm elsif...|post
 elsif `boolean exp^
 `block^`
 `elsif...^

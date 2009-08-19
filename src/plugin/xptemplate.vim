@@ -5,8 +5,6 @@
 "
 " MARK USED:
 "   <, >  visual marks
-" REGISTER USED:
-"   @"
 "
 " USAGE: "{{{
 "   1) vim test.js
