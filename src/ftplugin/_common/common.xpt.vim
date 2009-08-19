@@ -161,7 +161,7 @@ fun! s:f.Choose( lst ) "{{{
 endfunction "}}}
 
 fun! s:f.ChooseStr(...) "{{{
-  return a:000
+  return copy( a:000 )
 endfunction "}}}
 
 fun! s:f.Finish()

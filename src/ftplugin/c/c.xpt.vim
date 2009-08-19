@@ -1,4 +1,3 @@
-" XPTemplate priority=lang keyword=# mark=12 indent=auto
 XPTemplate priority=lang indent=auto
 
 
@@ -44,8 +43,7 @@ XPTemplateDef
 XPT printf	hint=printf\\(...)
 XSET printf=Next('printf')
 XSET elts=c_printfItem( R( 'pattern' ) )
-`printf^(` "`pattern^"`elts^ );
-..XPT
+`printf^("`pattern^"`elts^ );
 
 
 XPT sprintf alias=printf

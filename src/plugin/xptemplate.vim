@@ -19,6 +19,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO XPT : inc bug
 " TODO do not let xpt throw error if calling undefined s:f.function..
 " TODO compatibility to old post-filter syntax
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
@@ -519,6 +520,8 @@ fun! XPTemplateStart(pos, ...) " {{{
 
         call cursor(a:1.startPos)
 
+        return  s:doStart( { 'line' : a:1.startPos[0], 'col' : startColumn, 'matched' : templateName } )
+
     else 
         " input mode
         let exact = 0
@@ -656,6 +659,10 @@ fun! s:doStart(sess) " {{{
 
     let x = s:bufData()
 
+    if !has_key( x.normalTemplates, a:sess.matched )
+        return g:xpt_post_action
+    endif
+
     let [lineNr, column] = [ a:sess.line, a:sess.col ]
     let cursorColumn = col(".")
     let tmplname = a:sess.matched
@@ -663,7 +670,7 @@ fun! s:doStart(sess) " {{{
     let ctx = s:newTemplateRenderContext( x, tmplname )
 
 
-    call s:renderTemplate([ lineNr, column ], [ lineNr, cursorColumn ])
+    call s:RenderTemplate([ lineNr, column ], [ lineNr, cursorColumn ])
 
 
     let ctx.phase = 'rendered'
@@ -1095,9 +1102,9 @@ endfunction "}}}
 
 
 
-fun! s:renderTemplate(nameStartPosition, nameEndPosition) " {{{
+fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
 
-    call s:log.Debug( 'renderTemplate : start, end=' . string( [ a:nameStartPosition, a:nameEndPosition ] ) )
+    call s:log.Debug( 'RenderTemplate : start, end=' . string( [ a:nameStartPosition, a:nameEndPosition ] ) )
 
     let x = s:bufData()
     let ctx = s:getRenderContext()
@@ -1122,12 +1129,17 @@ fun! s:renderTemplate(nameStartPosition, nameEndPosition) " {{{
 
     " update xpm status
     call XPMupdate()
-
+    call s:log.Debug( 'before insert new template mark' )
+    call XPMallMark()
+    
 
     call XPMadd( ctx.marks.tmpl.start, a:nameStartPosition, g:XPMpreferLeft )
     call XPMadd( ctx.marks.tmpl.end, a:nameEndPosition, g:XPMpreferRight )
 
     call XPreplace( a:nameStartPosition, a:nameEndPosition, tmpl )
+
+    call s:log.Debug( 'after insert new template' )
+    call XPMallMark()
 
     call s:log.Log( "template start and end=" . string( [ XPMpos( ctx.marks.tmpl.start ), XPMpos( ctx.marks.tmpl.end )] ) )
 
@@ -1754,10 +1766,32 @@ fun! s:finishCurrentAndGotoNextItem(action) " {{{
         let renderContext.namedStep[renderContext.item.name] = post
     endif
 
+    
+    call s:removeCurrentMarks()
+
 
     return s:gotoNextItem()
 
 endfunction " }}}
+
+fun! s:removeCurrentMarks()
+    let renderContext = s:getRenderContext()
+    let item = renderContext.item
+    let leader = renderContext.leadingPlaceHolder
+
+    " TODO using XPMremoveMarkStartWith
+    call XPMremove( leader.mark.start )
+    call XPMremove( leader.mark.end )
+    if leader.isKey
+        call XPMremove( leader.editMark.start )
+        call XPMremove( leader.editMark.end )
+    endif
+
+    for ph in item.placeHolders
+        call XPMremove( ph.mark.start )
+        call XPMremove( ph.mark.end )
+    endfor
+endfunction
 
 fun! s:applyPostFilter() "{{{
 
@@ -1813,7 +1847,7 @@ fun! s:applyPostFilter() "{{{
     " check by 'groupPostFilter' is ok
     if filter != ''
 
-        let [ text, ifToBuild ] = s:evalPostFilter( filter, typed )
+        let [ text, ifToBuild, rc ] = s:evalPostFilter( filter, typed )
 
         call s:log.Log("before replace, tmpl=\n".s:textBetween(s:TL(), s:BR()))
 
@@ -1852,6 +1886,8 @@ fun! s:applyPostFilter() "{{{
 endfunction "}}}
 
 fun! s:evalPostFilter( filter, typed ) "{{{
+    let renderContext = s:getRenderContext()
+
     let post = s:Eval(a:filter, {'typed' : a:typed})
 
     call s:log.Log("post:\n", string(post))
@@ -1859,19 +1895,29 @@ fun! s:evalPostFilter( filter, typed ) "{{{
     if type( post ) == 4
         " dictionary, it is an action object
         if post.action == 'build'
-            let res = [ post.text, 1 ]
+            let res = [ post.text, 1, 0 ]
+
+        " elseif post.action == 'expandTmpl'
+            " let leader = renderContext.leadingPlaceHolder
+            " let marks = leader.marks
+            " let [ start, end ] = XPMposList( marks.start, marks.end )
+" 
+            " call XPreplace( start, end, '')
+            " return XPTemplateStart(0, {'startPos' : start, 'tmplName' : post.tmplName})
+" 
+            " let res = [ post. ]
         else
             " unknown action
-            let res = [ post.text, 0 ]
+            let res = [ post.text, 0, 0 ]
         endif
 
     elseif type( post ) == 1
         " string
-        let res = [ post, 1 ]
+        let res = [ post, 1, 0 ]
 
     else
         " unknown type 
-        let res = [ string( post ), 0 ]
+        let res = [ string( post ), 0, 0 ]
 
     endif
 
@@ -1913,7 +1959,7 @@ fun! s:gotoNextItem() "{{{
     let phPos = XPMpos( placeHolder.mark.start )
     if phPos == [0, 0]
         " error found no position of mark
-        call Error( 'failed to find position of mark:' . placeHolder.mark.*** )
+        call s:log.Error( 'failed to find position of mark:' . placeHolder.mark.start )
         return s:crash()
     endif
 
@@ -2060,7 +2106,10 @@ fun! s:handleDefaultValueAction( ctx, act ) "{{{
 
         if a:act.action ==# 'expandTmpl' && has_key( a:act, 'tmplName' )
             " do NOT need to update position 
-            call XPreplace(XPMpos( ctx.leadingPlaceHolder.mark.start ), XPMpos( ctx.leadingPlaceHolder.mark.end ), '')
+            let marks = ctx.leadingPlaceHolder.mark
+            call XPreplace(XPMpos( marks.start ), XPMpos( marks.end ), '')
+            call XPMremove( marks.start )
+            call XPMremove( marks.end )
             return XPTemplateStart(0, {'startPos' : getpos(".")[1:2], 'tmplName' : a:act.tmplName})
 
         elseif a:act.action ==# 'finishTemplate'
@@ -2887,7 +2936,10 @@ fun! s:fixCrCausedIndentProblem() "{{{
     " let currentFollowingSpace = matchstr( currentFollowingSpace, '^\s*' )
 
     if currentFollowingSpace != renderContext.lastFollowingSpace
-        call XPreplace( currentPos, [ currentPos[0], currentPos[1] + len( currentFollowingSpace ) ], renderContext.lastFollowingSpace, 0 )
+        call XPreplace( currentPos, 
+                    \[ currentPos[0], currentPos[1] + len( currentFollowingSpace ) ], 
+                    \renderContext.lastFollowingSpace, 
+                    \{ 'doJobs' : 0 } )
         call cursor( currentPos )
     endif
 

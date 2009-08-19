@@ -208,7 +208,7 @@ fun! XPreplace(start, end, replacement, ...) "{{{
 
     let option = { 'doJobs' : 1 }
     if a:0 == 1
-        call extend(option, a:0, 'force')
+        call extend(option, a:1, 'force')
     endif
 
     call s:log.Debug( 'XPreplace parameters:' . string( [ a:start, a:end, a:replacement ] ) )

@@ -22,6 +22,10 @@ runtime plugin/debug.vim
 runtime plugin/xpreplace.vim
 runtime plugin/mapstack.vim
 
+com! XPPgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
+XPPgetSID
+delc XPPgetSID
+
 let s:log = CreateLogger( 'debug' )
 
 
@@ -58,7 +62,7 @@ fun! XPPopupNew(callback, data, ...) "{{{
     return sess
 endfunction "}}}
 
-fun! s:sessionPrototype.popup(start_col, ...) "{{{
+fun! s:popup(start_col, ...) dict "{{{
     " Show the popup
     " callback keys:
     "   onEmpty(sess)
@@ -109,7 +113,7 @@ fun! s:sessionPrototype.popup(start_col, ...) "{{{
 
         let sess.matched = type(sess.currentList[0]) == type({}) ? sess.currentList[0].word : sess.currentList[0]
         let sess.matchedCallback = 'onOneMatch'
-        let actionList += ['callback']
+        let actionList += ['clearPrefix', 'clearPum', 'typeLongest', 'callback']
 
     elseif sess.prefix != "" && sess.longest ==? sess.prefix && doCallback
         " If the typed text matches all items with case ignored, Try to find
@@ -125,7 +129,7 @@ fun! s:sessionPrototype.popup(start_col, ...) "{{{
             if key ==? sess.prefix
                 let sess.matched = key
                 let sess.matchedCallback = 'onOneMatch'
-                let actionList += ['callback']
+                let actionList += ['clearPrefix', 'clearPum', 'typeLongest', 'callback']
                 " let action = 'end'
                 break
             endif
@@ -603,5 +607,21 @@ fun! s:FindShorter(map, key) "{{{
 endfunction "}}}
 
 " }}}
+
+fun! s:ClassPrototype(...) "{{{
+    let p = {}
+    for name in a:000
+        let p[ name ] = function( '<SNR>' . s:sid . name )
+    endfor
+
+    return p
+endfunction "}}}
+
+
+let s:sessionPrototype2 =  s:ClassPrototype(
+            \    'popup',
+            \)
+
+call extend( s:sessionPrototype, s:sessionPrototype2, 'force' )
 
 " vim: set sw=4 sts=4 :

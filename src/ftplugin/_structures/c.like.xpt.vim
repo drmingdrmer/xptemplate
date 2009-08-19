@@ -1,4 +1,4 @@
-XPTemplate priority=like keyword= 
+XPTemplate priority=like
 
 
 XPTvar $TRUE          1
@@ -28,7 +28,6 @@ let [s:f, s:v] = XPTcontainer()
 XPTemplateDef
 
 XPT enum hint=enum\ {\ ..\ }
-XSET var..|post=Echo( V() =~ 'var..$' ? '' : V() )
 enum `name^
 {
     `elt^`
