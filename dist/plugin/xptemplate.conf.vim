@@ -2,28 +2,25 @@ if exists("g:__XPTEMPLATE_CONF_VIM__")
   finish
 endif
 let g:__XPTEMPLATE_CONF_VIM__ = 1
-runtime plugin/debug.vim
 let s:escapeHead   = '\v(\\*)\V'
 let s:unescapeHead = '\v(\\*)\1\\?\V'
 let s:ep           = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
-fun! s:Default(k, v) 
+fun! s:setIfNull(k, v) 
   if !exists(a:k)
     exe "let ".a:k."=".string(a:v)
   endif
 endfunction 
-call s:Default('g:xptemplate_strip_left',   1)
-call s:Default('g:xptemplate_protect',      1) 
-call s:Default('g:xptemplate_show_stack',   1)
-call s:Default('g:xptemplate_highlight',    1)
-call s:Default('g:xptemplate_key',          '<C-\>')
-call s:Default('g:xptemplate_goback',       '<C-g>')
-call s:Default('g:xptemplate_nav_next',     '<tab>')
-call s:Default('g:xptemplate_nav_cancel',   '<cr>')
-call s:Default('g:xptemplate_to_right',     "<C-l>")
-call s:Default('g:xptemplate_fix',          1)
-call s:Default('g:xptemplate_vars',         '')
-call s:Default('g:xptemplate_hl',           1)
-call s:Default('g:xpt_post_action',         '')
+call s:setIfNull('g:xptemplate_strip_left',   1)
+call s:setIfNull('g:xptemplate_highlight',    1)
+call s:setIfNull('g:xptemplate_key',          '<C-\>')
+call s:setIfNull('g:xptemplate_goback',       '<C-g>')
+call s:setIfNull('g:xptemplate_nav_next',     '<tab>')
+call s:setIfNull('g:xptemplate_nav_cancel',   '<cr>')
+call s:setIfNull('g:xptemplate_to_right',     "<C-l>")
+call s:setIfNull('g:xptemplate_fix',          1)
+call s:setIfNull('g:xptemplate_vars',         '')
+call s:setIfNull('g:xptemplate_hl',           1)
+call s:setIfNull('g:xpt_post_action',         '')
 let g:XPTpvs = {}
 if !hlID('XPTCurrentItem') && g:xptemplate_hl
   hi XPTCurrentItem ctermbg=darkgreen gui=none guifg=#d59619 guibg=#efdfc1

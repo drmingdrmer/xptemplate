@@ -1,7 +1,6 @@
 if exists("g:__XPREPLACE_VIM__")
 endif
 let g:__XPREPLACE_VIM__ = 1
-runtime plugin/debug.vim
 runtime plugin/mapstack.vim
 runtime plugin/xpmark.vim
 fun! TestXPR()

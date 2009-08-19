@@ -2,7 +2,6 @@ if exists("g:__XPOPUP_VIM__")
     finish
 endif
 let g:__XPOPUP_VIM__ = 1
-runtime plugin/debug.vim
 runtime plugin/xpreplace.vim
 runtime plugin/mapstack.vim
 let s:sessionPrototype = {

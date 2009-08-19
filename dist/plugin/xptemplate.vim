@@ -5,7 +5,6 @@ let g:__XPTEMPLATE_VIM__ = 1
 com! XPTgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPTgetSID
 delc XPTgetSID
-runtime plugin/debug.vim
 runtime plugin/mapstack.vim
 runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
@@ -1083,6 +1082,7 @@ fun! s:fillinLeadingPlaceHolderAndSelect( ctx, str )
 endfunction 
 fun! s:applyDefaultValueToPH( renderContext ) 
     let renderContext = a:renderContext
+    let leader = renderContext.leadingPlaceHolder
     let str = renderContext.tmpl.setting.defaultValues[renderContext.item.name]
     let obj = s:Eval(str) 
     if type(obj) == type({})
@@ -1092,8 +1092,9 @@ fun! s:applyDefaultValueToPH( renderContext )
         if len(obj) == 0
             return s:fillinLeadingPlaceHolderAndSelect( renderContext, '' )
         endif
-        call XPreplace( XPMpos( renderContext.leadingPlaceHolder.mark.start ), XPMpos( renderContext.leadingPlaceHolder.mark.end ), '')
-        call cursor(xpos.editpos.start.pos)
+        let [ start, end ] = XPMposList( leader.mark.start, leader.mark.end )
+        call XPreplace( start, end, '')
+        call cursor(start)
         return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."))
     else 
         let str = s:addIndent( obj, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0] )
@@ -1191,12 +1192,16 @@ fun! s:Eval(s, ...)
     let xfunc._ctx.step = {}
     let xfunc._ctx.namedStep = {}
     let xfunc._ctx.value = ''
+    let xfunc._ctx.item = {}
+    let xfunc._ctx.leadingPlaceHolder = {}
     if ctx.processing
         let xfunc._ctx.step = ctx.step
         let xfunc._ctx.namedStep = ctx.namedStep
         let xfunc._ctx.name = ctx.item.name
         let xfunc._ctx.fullname = ctx.item.fullname
         let xfunc._ctx.value = tmpEvalCtx.typed
+        let xfunc._ctx.item = ctx.item
+        let xfunc._ctx.leadingPlaceHolder = ctx.leadingPlaceHolder
     endif
     let rangesToEval = {}
     let str = a:s

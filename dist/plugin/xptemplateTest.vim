@@ -5,7 +5,6 @@ if exists("g:__XPTEMPLATETEST_VIM__")
     finish
 endif
 let g:__XPTEMPLATETEST_VIM__ = 1
-runtime plugin/debug.vim
 let s:phases = [ 1, 2, 3, 4 ]
 let [ s:DEFAULT, s:TYPED, s:CHAR_AROUND, s:NESTED ] = s:phases
 let s:FIRST_PHASE = s:phases[ 0 ]

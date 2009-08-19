@@ -5,7 +5,6 @@ let g:__XPMARK_VIM__ = 1
 com! XPMgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPMgetSID
 delc XPMgetSID
-runtime plugin/debug.vim
 let g:xpm_mark = 'p'
 let g:xpm_mark_nextline = 'l'
 let g:xpm_changenr_level = 1000

@@ -2,7 +2,6 @@ if exists("g:__XPTEMPLATE_PARSER_VIM__")
   finish
 endif
 let g:__XPTEMPLATE_PARSER_VIM__ = 1
-runtime plugin/debug.vim
 runtime plugin/xptemplate.vim
 com! -nargs=* XPTemplate
             \   if XPTemplateFileDefinition( expand( "<sfile>" ), <f-args> ) == 'finish'
