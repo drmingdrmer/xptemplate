@@ -19,6 +19,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO to leader item, use ontime filter as default value.
 " TODO do not let xpt throw error if calling undefined s:f.function..
 " TODO compatibility to old post-filter syntax
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
@@ -242,6 +243,7 @@ fun! XPTemplateIndent(p) "{{{
     call s:ParseIndent(x, a:p)
 endfunction "}}}
 
+" TODO this is problemtic if in future mark can be set for each snippet
 fun! XPTmark() "{{{
     let x = s:bufData().bufsetting.ptn
     return [ x.l, x.r ]

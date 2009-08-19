@@ -288,6 +288,31 @@ fun! s:f.ItemEdges() "{{{
   return [ leader.leftEdge, leader.rightEdge ]
 endfunction "}}}
 
+
+fun! s:f.ItemCreate( name, edges, filters )
+  let [ ml, mr ] = XPTmark()
+
+
+  let item = ml . a:name
+  
+  if has_key( a:edges, 'left' )
+    let item = ml . a:edges.left . item 
+  endif
+
+  if has_key( a:edges, 'right' )
+    let item .= ml . a:edges.right
+  endif
+
+  let item .= mr
+
+  if has_key( a:filter, 'post' )
+    let item .= a:filter.post . mr . mr
+  endif
+
+  return item
+
+endfunction
+
 " {{{ Quick Repetition
 " If something typed, <tab>ing to next generate another item other than the
 " typed.
