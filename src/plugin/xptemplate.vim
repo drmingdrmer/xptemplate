@@ -19,7 +19,6 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO to leader item, use ontime filter as default value.
 " TODO do not let xpt throw error if calling undefined s:f.function..
 " TODO compatibility to old post-filter syntax
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
@@ -221,7 +220,13 @@ fun! XPTemplateKeyword(val) "{{{
     " word characters are already valid.
     let val = substitute(a:val, '\w', '', 'g')
 
-    let x.keyword = '\[' . escape(val, '\]') . ']'
+    let keyFilter = 'v:val !~ ''\V\[' . escape(val, '\]') . ']'' '
+
+    call filter( x.keywordList, keyFilter )
+    let x.keywordList += split( val, '\s*' )
+
+    let x.keyword = '\[' . escape( join( x.keywordList, '' ), '\]' ) . ']'
+
 endfunction "}}}
 
 fun! XPTemplatePriority(...) "{{{
@@ -1479,28 +1484,27 @@ endfunction "}}}
 
 fun! s:buildPlaceHolders( markRange ) "{{{
 
-    let ctx = s:getRenderContext()
-    let xp = ctx.tmpl.ptn
+    let renderContext = s:getRenderContext()
+    let xp = renderContext.tmpl.ptn
 
-    if ctx.firstList == []
-        let ctx.firstList = copy(ctx.tmpl.setting.firstListSkeleton)
+    if renderContext.firstList == []
+        let renderContext.firstList = copy(renderContext.tmpl.setting.firstListSkeleton)
     endif
-    if ctx.lastList == []
-        let ctx.lastList = copy(ctx.tmpl.setting.lastListSkeleton)
+    if renderContext.lastList == []
+        let renderContext.lastList = copy(renderContext.tmpl.setting.lastListSkeleton)
     endif
 
-    let ctx.buildingMarkRange = copy( a:markRange )
+    let renderContext.buildingMarkRange = copy( a:markRange )
 
 
     let start = XPMpos( a:markRange.start )
     call cursor( start )
 
 
-    " TODO manually update marks?
-
 
     let i = 0
     while i < 10000
+        let i += 1
 
         call s:log.Log( "build from here" )
 
@@ -1538,7 +1542,7 @@ fun! s:buildPlaceHolders( markRange ) "{{{
         call s:log.Log("got nameinfo, valueinfo:".string([nameInfo, valueInfo]))
 
 
-        let placeHolder = s:createPlaceHolder(ctx, nameInfo, valueInfo)
+        let placeHolder = s:createPlaceHolder(renderContext, nameInfo, valueInfo)
 
         call s:log.Log( 'built placeHolder=' . string( placeHolder ) )
 
@@ -1562,26 +1566,25 @@ fun! s:buildPlaceHolders( markRange ) "{{{
         else
             " build item and marks, as a fillin place holder
 
-            let item = s:buildItemForPlaceHolder( ctx, placeHolder )
+            let item = s:buildItemForPlaceHolder( renderContext, placeHolder )
 
-            call s:buildMarksOfPlaceHolder( ctx, item, placeHolder, nameInfo, valueInfo )
+            call s:buildMarksOfPlaceHolder( renderContext, item, placeHolder, nameInfo, valueInfo )
 
             " nameInfo and valueInfo is updated according to new position
             call cursor(nameInfo[3])
 
         endif
 
-        let i += 1
     endwhile
 
-    call filter( ctx.firstList, 'v:val != {}' )
-    call filter( ctx.lastList, 'v:val != {}' )
+    call filter( renderContext.firstList, 'v:val != {}' )
+    call filter( renderContext.lastList, 'v:val != {}' )
 
-    let ctx.itemList = ctx.firstList + ctx.itemList + ctx.lastList
+    let renderContext.itemList = renderContext.firstList + renderContext.itemList + renderContext.lastList
 
-    let ctx.firstList = []
-    let ctx.lastList = []
-    call s:log.Log( "itemList:" . String( ctx.itemList ) )
+    let renderContext.firstList = []
+    let renderContext.lastList = []
+    call s:log.Log( "itemList:" . String( renderContext.itemList ) )
 
     return 0
 endfunction "}}}
@@ -2055,22 +2058,31 @@ fun! s:handleDefaultValueAction( ctx, act ) "{{{
 
         call s:log.Log( "type is ".type(a:act). ' {} type is '.type({}) )
 
-        if a:act.action == 'expandTmpl' && has_key( a:act, 'tmplName' )
+        if a:act.action ==# 'expandTmpl' && has_key( a:act, 'tmplName' )
             " do NOT need to update position 
             call XPreplace(XPMpos( ctx.leadingPlaceHolder.mark.start ), XPMpos( ctx.leadingPlaceHolder.mark.end ), '')
             return XPTemplateStart(0, {'startPos' : getpos(".")[1:2], 'tmplName' : a:act.tmplName})
 
-        elseif a:act.action == 'finishTemplate'
+        elseif a:act.action ==# 'finishTemplate'
             " do NOT need to update position 
             call XPreplace(XPMpos( ctx.leadingPlaceHolder.mark.start ), XPMpos( ctx.leadingPlaceHolder.mark.end )
                         \, has_key( a:act, 'postTyping' ) ? a:act.postTyping : '' )
 
             return s:finishRendering()
 
-        elseif a:act.action == 'embed'
+        elseif a:act.action ==# 'embed'
             " embed a piece of snippet
 
             return s:embedSnippetInLeadingPlaceHolder( ctx, a:act.snippet )
+
+        elseif a:act.action ==# 'next'
+            " goto next 
+
+            let text = has_key( a:act, 'text' ) ? a:act.text : ''
+            call s:fillinLeadingPlaceHolderAndSelect( ctx, text )
+
+            return s:finishCurrentAndGotoNextItem( '' )
+
 
         else " other action
 
@@ -2157,7 +2169,12 @@ fun! s:applyDefaultValueToPH( renderContext ) "{{{
 
     let renderContext = a:renderContext
     let leader = renderContext.leadingPlaceHolder
+
     let str = renderContext.tmpl.setting.defaultValues[renderContext.item.name]
+    if leader.ontimeFilter != ''
+        " use ontimeFilter as default value for non-key leader
+        let str = leader.ontimeFilter
+    endif
 
     " popup list, action dictionary or string
     let obj = s:Eval(str) 
@@ -2177,8 +2194,9 @@ fun! s:applyDefaultValueToPH( renderContext ) "{{{
         endif
 
         " TODO exclude edge?
-        " to popup 
-        let [ start, end ] = XPMposList( leader.mark.start, leader.mark.end )
+        
+        let marks = leader.isKey ? leader.editMark : leader.mark
+        let [ start, end ] = XPMposList( marks.start, marks.end )
         call XPreplace( start, end, '')
         call cursor(start)
 
@@ -2233,7 +2251,7 @@ fun! s:selectCurrent( renderContext ) "{{{
         return ''
     else
         call cursor( ctl )
-        normal! v
+        call s:XPTvisual()
         if &l:selection == 'exclusive'
             call cursor( cbr )
         else
@@ -2243,6 +2261,9 @@ fun! s:selectCurrent( renderContext ) "{{{
                 call cursor( cbr[0], cbr[1] - 1 )
             endif
         endif
+
+        normal! v
+
 
         return s:SelectAction()
     endif
@@ -2673,6 +2694,7 @@ fun! s:bufData() "{{{
 
         " which letter can be used in template name
         let b:xptemplateData.keyword = '\w'
+        let b:xptemplateData.keywordList = []
 
         let b:xptemplateData.savedMap = {}
 
@@ -2830,6 +2852,7 @@ fun! s:crash() "{{{
         let msg .= ctx.tmpl.name . ' -> '
     endfor
 
+    call s:ClearMap()
 
     let x.stack = []
     call s:createRenderContext(x)

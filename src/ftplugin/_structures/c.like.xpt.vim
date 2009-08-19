@@ -1,4 +1,4 @@
-XPTemplate priority=like
+XPTemplate priority=like keyword= 
 
 
 XPTvar $TRUE          1

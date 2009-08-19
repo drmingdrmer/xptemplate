@@ -172,6 +172,10 @@ fun! s:f.Embed( snippet )
   return { 'action' : 'embed', 'snippet' : a:snippet }
 endfunction
 
+fun! s:f.Next( text )
+  return { 'action' : 'next', 'text' : a:text }
+endfunction
+
 " XXX
 " Fill in postType, and finish template rendering at once. 
 " This make nested template rendering go back to upper level, top-level
@@ -252,7 +256,11 @@ endfunction "}}}
 
 
 fun! s:f.UpperCase( v )
-  return substitute(a:v, '.', '\U&', 'g')
+  return substitute(a:v, '.', '\u&', 'g')
+endfunction
+
+fun! s:f.LowerCase( v )
+  return substitute(a:v, '.', '\l&', 'g')
 endfunction
 
 

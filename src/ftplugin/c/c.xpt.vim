@@ -1,12 +1,12 @@
 " XPTemplate priority=lang keyword=# mark=12 indent=auto
-XPTemplate priority=lang keyword=# indent=auto
+XPTemplate priority=lang indent=auto
 
 
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $IF_BRACKET_STL  \ 
-XPTvar $INDENT_HELPER /* void */;
+XPTvar $TRUE           1
+XPTvar $FALSE          0
+XPTvar $NULL           NULL
+XPTvar $IF_BRACKET_STL \ 
+XPTvar $INDENT_HELPER  /* void */;
 
 
 XPTinclude
@@ -22,97 +22,38 @@ XPTinclude
 
 let s:f = XPTcontainer()[ 0 ]
 
-function! s:f.showList()
-   return [ "xx-small", "x-small", "small", "medium", "large", "x-large", "xx-large", "larger", "smaller" ]
-endfunction
+let s:printfElts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-" draft implementation 
-fun! s:f.c_patternItem( v )
+fun! s:f.c_printfItem( v )
   let v = a:v
   if v =~ '\V%'
     let len = len( substitute( v, '\V\[^%]', '', 'g' ) )
-    let re = ''
-    while len > 0
-      let len -= 1
 
-      let re .= ', `i' . len . '^'
+    let re = s:printfElts[ : len - 1 ]
+    let re = substitute( re, '.', ', `&^', 'g' )
 
-    endwhile
     return re
   else 
-    return ''
+    return self.Next( '' )
   endif
 endfunction
 
 " ================================= Snippets ===================================
 XPTemplateDef
 
-" for (`-`i`-^ = `0^; `i^ < `len^; ++`i^)`$IF_BRACKET_STL^{
-XPT for hint=for\ (..;..;++)
-for (`-`i`-^ = `0^; `i^UpperCase(V())^ < `len^; ++`i^UpperCase('_'.V())^^)`$IF_BRACKET_STL^{
-    `test^\`what\^..\`\`what\^^^
-    `cursor^
-}
-..XPT
-
-
 XPT printf	hint=printf\\(...)
-XSET elts=c_patternItem( R( 'pattern' ) )
-printf( "`pattern^"`elts^ );
+XSET printf=Next('printf')
+XSET elts=c_printfItem( R( 'pattern' ) )
+`printf^(` "`pattern^"`elts^ );
 ..XPT
 
 
-"  XSET p..|post=ExpandIfNotEmpty(', ', 'p..')
-XPT fsa hint=$author\ what\ {$author} --
-XSET size=showList()
- `p..^ExpandIfNotEmpty(', ', 'p..')^^
-..XPT
-"  --font-size: `--`size`==^
-" " `size^
-" 
-" XPT Fsa
-" bbb
-" ..XPT
-" XPT fsad
-" ccc
-" ..XPT
-" XPT Fsae
-" ddd
-" ..XPT
-" 
-" XPT tt
-" XSET to=Trigger("fs")
-" "`~~~`to`***^"
-" ..XPT
-" 
-" XPT yy
-" `-`w`=^~NN()~^
-" ..XPT
+XPT sprintf alias=printf
+XSET printf=Next( 'sprintf' )
 
 
-" " sample:
-" XPT for indent=/2*8 hint=this\ is\ for
-" for (`i^ = 0; `i^ < `len^; ++`i^) {
-"   `cursor^
-" }
-
-
-" " JUST A TEST
-" "
-" " Super Repetition. saves 1 key pressing. without needing expanding repetition
-" " For small repetition usage. Such as parameter list
-" " 
-" "   type first, then <tab>
-" " NOT <tab> then type
-" "
-" " NOTE that "exp" followed by only 2 dot. distinction from normal
-" " expandable. For normal expandable does not evaluate expression.
-" "
-" XPT superrepetition
-" XSET exp..|post=ExpandIfNotEmpty(', ', 'exp..')
-" `exp..^
-
-
+XPT fprintf alias=printf
+XSET printf=Next( 'fprintf' )
 
 
 XPT assert	hint=assert\ (..,\ msg)
