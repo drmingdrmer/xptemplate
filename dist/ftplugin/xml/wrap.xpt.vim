@@ -1,16 +1,20 @@
-if exists("b:__XML_WRAP_XPT_VIM__")
-    finish
-endif
-let b:__XML_WRAP_XPT_VIM__= 1
+XPTemplate priority=spec keyword=<
+
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
 
 
-" ========================= Function and Varaibles =============================
+" ========================= Function and Variables =============================
+
 
 " ================================= Snippets ===================================
-call XPTemplatePriority('spec')
 XPTemplateDef
-XPT _ hint=<Tag>\ SEL\ </Tag>
-<`tag^`...^ `name^="`val^"`...^>`wrapped^</`tag^>
+
+
+XPT <_ hint=<Tag>\ SEL\ </Tag>
+<`tag^` `...{{^ `name^="`val^"` `...^`}}^>`wrapped^</`tag^>
 
 
 XPT CDATA_ hint=<![CDATA[\ SEL\ ]]>

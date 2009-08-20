@@ -490,7 +490,7 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet )
     let xp = a:tmplObj.ptn
     let postFilters = a:tmplObj.setting.postFilters
     let quoter = a:tmplObj.setting.postQuoter
-    let startPattern = '\V\_.\*\zs' . xp.lft . '\_[^' . xp.r . ']\{-}' . quoter.start . xp.rt
+    let startPattern = '\V\_.\{-}\zs' . xp.lft . '\_[^' . xp.r . ']\*' . quoter.start . xp.rt
     let endPattern = '\V' . xp.lft . quoter.end . xp.rt
     let snip = a:snippet
     while 1
@@ -994,7 +994,11 @@ fun! s:gotoNextItem()
     elseif postaction != ''
         return postaction
     else
-        call cursor( XPMpos( renderContext.leadingPlaceHolder.mark.end ) )
+        if renderContext.leadingPlaceHolder.isKey
+            call cursor( XPMpos( renderContext.leadingPlaceHolder.editMark.end ) )
+        else
+            call cursor( XPMpos( renderContext.leadingPlaceHolder.mark.end ) )
+        endif
         return ""
     endif
 endfunction 
@@ -1124,13 +1128,10 @@ fun! s:fillinLeadingPlaceHolderAndSelect( ctx, str )
     call XPMupdateStat()
     return action
 endfunction 
-fun! s:applyDefaultValueToPH( renderContext ) 
+fun! s:applyDefaultValueToPH( renderContext, filter ) 
     let renderContext = a:renderContext
     let leader = renderContext.leadingPlaceHolder
-    let str = renderContext.tmpl.setting.defaultValues[renderContext.item.name]
-    if leader.ontimeFilter != ''
-        let str = leader.ontimeFilter
-    endif
+    let str = a:filter
     let obj = s:Eval(str) 
     if type(obj) == type({})
         let rc = s:handleDefaultValueAction( renderContext, obj )
@@ -1153,7 +1154,11 @@ fun! s:initItem()
     let renderContext = s:getRenderContext()
     let renderContext.phase = 'inititem'
     if has_key(renderContext.tmpl.setting.defaultValues, renderContext.item.name)
-        return s:applyDefaultValueToPH( renderContext )
+        return s:applyDefaultValueToPH( renderContext, 
+                    \renderContext.tmpl.setting.defaultValues[ renderContext.item.name ])
+    elseif renderContext.leadingPlaceHolder.ontimeFilter != ''
+        return s:applyDefaultValueToPH( renderContext, 
+                    \renderContext.leadingPlaceHolder.ontimeFilter)
     else
         let str = renderContext.item.name
         call s:XPTupdate()
