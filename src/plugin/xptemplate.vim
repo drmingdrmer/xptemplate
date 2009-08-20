@@ -416,6 +416,8 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
             let xt[ name ].tmpl = s:parseQuotedPostFilter( xt[ name ], Str )
         endif
 
+        call s:log.Debug( 'create template name=' . name . ' tmpl=' . xt[ name ].tmpl )
+
         call s:initItemOrderDict( xt[name].setting )
 
         " apply some default settings 
@@ -1043,7 +1045,7 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet ) "{{{
     let postFilters = a:tmplObj.setting.postFilters
     let quoter = a:tmplObj.setting.postQuoter
 
-    let startPattern = '\V\_.\*\zs' . xp.lft . '\_[^' . xp.r . ']\{-}' . quoter.start . xp.rt
+    let startPattern = '\V\_.\{-}\zs' . xp.lft . '\_[^' . xp.r . ']\*' . quoter.start . xp.rt
     let endPattern = '\V' . xp.lft . quoter.end . xp.rt
 
     call s:log.Log( 'startPattern=' . startPattern )
@@ -1091,6 +1093,8 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet ) "{{{
 
         let postFilters[ name ] = 'BuildIfNoChange(' . string( plainPostFilter ) . ')'
 
+        call s:log.Debug( 'name=' . name )
+        call s:log.Debug( 'quoted post filter=' . string( postFilters[ name ] ) )
         " right mark, start quoter
         let snip = snip[ : startPos + len( startText ) - 1 - 1 - len( quoter.start ) ] 
                     \. snip[ endPos + len( endText ) - 1 : ]
@@ -2001,7 +2005,11 @@ fun! s:gotoNextItem() "{{{
         return postaction
 
     else
-        call cursor( XPMpos( renderContext.leadingPlaceHolder.mark.end ) )
+        if renderContext.leadingPlaceHolder.isKey
+            call cursor( XPMpos( renderContext.leadingPlaceHolder.editMark.end ) )
+        else
+            call cursor( XPMpos( renderContext.leadingPlaceHolder.mark.end ) )
+        endif
         return ""
 
     endif
@@ -2237,18 +2245,20 @@ fun! s:fillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
 
 endfunction "}}}
 
-fun! s:applyDefaultValueToPH( renderContext ) "{{{
+fun! s:applyDefaultValueToPH( renderContext, filter ) "{{{
 
     call s:log.Log( "**" )
 
     let renderContext = a:renderContext
     let leader = renderContext.leadingPlaceHolder
 
-    let str = renderContext.tmpl.setting.defaultValues[renderContext.item.name]
-    if leader.ontimeFilter != ''
-        " use ontimeFilter as default value for non-key leader
-        let str = leader.ontimeFilter
-    endif
+    let str = a:filter
+
+    " let str = renderContext.tmpl.setting.defaultValues[renderContext.item.name]
+    " if leader.ontimeFilter != ''
+        " " use ontimeFilter as default value for non-key leader
+        " let str = leader.ontimeFilter
+    " endif
 
     " popup list, action dictionary or string
     let obj = s:Eval(str) 
@@ -2292,7 +2302,13 @@ fun! s:initItem() " {{{
 
     " apply default value
     if has_key(renderContext.tmpl.setting.defaultValues, renderContext.item.name)
-        return s:applyDefaultValueToPH( renderContext )
+        return s:applyDefaultValueToPH( renderContext, 
+                    \renderContext.tmpl.setting.defaultValues[ renderContext.item.name ])
+
+    elseif renderContext.leadingPlaceHolder.ontimeFilter != ''
+        return s:applyDefaultValueToPH( renderContext, 
+                    \renderContext.leadingPlaceHolder.ontimeFilter)
+
 
     else
         " TODO needed to fill in?

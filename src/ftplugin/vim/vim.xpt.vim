@@ -1,23 +1,20 @@
-if exists("b:__VIM_VIM_XPT_VIM__")
-  finish
-endif
-let b:__VIM_VIM_XPT_VIM__ = 1
+XPTemplate priority=lang
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
 
-" constant definition
-call extend(s:v, {'\$TRUE': '1', '\$FALSE' : '0', '\$NULL' : 'NULL', '\$UNDEFINED' : ''})
-
-" inclusion
 XPTinclude 
       \ _common/common
+      \ _common/personal
 
-" ========================= Function and Varaibles =============================
+
+" ========================= Function and Variables =============================
 
 
 " ================================= Snippets ===================================
-call XPTemplate('vimformat', [ 'vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:fmr={{{,}}}' ])
+call XPTemplate('vimformat', [ '" vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:fmr={{{,}}}' ])
 
 XPTemplateDef
 
@@ -34,17 +31,6 @@ if !exists("`access^g^:`varname^")
     let `access^:`varname^ = `val^
 endif
 
-XPT log hint=call\ log\ on\ selection
-call Log(`_^^)
-
-
-XPT dbg hint=call\ Debug
-call Debug(`msg^^)
-
-
-XPT vdbg hint=call\ Debug\\("value=".string\\(value))
-call Debug( '`v^=' . string(`v^) )
-
 
 XPT fun hint=fun!\ ..(..)\ ..\ endfunction
 XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
@@ -53,53 +39,50 @@ fun! `name^(`arg..^) "{{{
 endfunction "}}}
 
 
-XPT method hint=fun!\ Dict.name\ ...\ endfunction
-XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
-fun! `Dict^.`name^(`arg..^)
-  `cursor^
-endfunction
-
-
 XPT while hint=while\ ..\ ..\ endwhile
 while `cond^
   `cursor^
 endwhile
 
 
-XPT while1 hint=while\ 1\ ..\ endwhile
-while 1
+XPT whilei hint=while\ i\ |\ let\ i\ +=\ 1
+let [ `i^, `len^ ] = [ `0^ - 1, `len_expr^ - 1 ]
+while `i^ < `len^ | let `i^ += 1
   `cursor^
 endwhile
 
 
 XPT fordic hint=for\ [..,..]\ in\ ..\ ..\ endfor
-for [`k^, `v^] in items(`dic^)
+for [`key^, `value^] in items(`dic^)
   `cursor^
 endfor
 
 
 XPT forin hint=for\ ..\ in\ ..\ ..\ endfor
-for `v^ in `list^
+for `value^ in `list^
   `cursor^
 endfor
 
 
 XPT try hint=try\ ..\ catch\ ..\ finally...
 try
-  `_^^
+
 catch /`^/
-  `_^^
-`finally...^finally
-  \`cursor\^^^
+`
+`finally...{{^
+finally
+  `cursor^`}}^
 endtry
 
 
 
 XPT if hint=if\ ..\ else\ ..
-XSET else...|post=else\n  `cursor^
 if `cond^
-  `_^^`else...^
-endif
+  `job^Echo()^
+``else...`
+{{^else
+  `cursor^
+`}}^endif
 
 
 XPT fdesc hint=description\ of\ file

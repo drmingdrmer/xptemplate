@@ -1,23 +1,26 @@
-if exists("b:__XML_XPT_VIM__")
-    finish
-endif
-let b:__XML_XPT_VIM__ = 1
+XPTemplate priority=spec keyword=<
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $INDENT_HELPER /* void */;
 
-" inclusion
-XPTinclude
+XPTinclude 
       \ _common/common
+      \ _common/personal
       \ _comment/xml
 
-" ========================= Function and Varaibles =============================
+
+" ========================= Function and Variables =============================
+
 
 " ================================= Snippets ===================================
-call XPTemplatePriority('spec')
-XPTemplateDef
-XPT t hint=<Tag>..</Tag>
-<`tag^`...^ `name^="`val^"`...^>
+XPTemplateDef 
+
+
+XPT < hint=<Tag>..</Tag>
+<`tag^` `...{{^ `name^="`val^"` `...^`}}^>
     `cursor^
 </`tag^>
 
