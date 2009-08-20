@@ -403,6 +403,8 @@ fun! s:insertModeUpdate() dict "{{{
     let bLastPos = [ self.lastPositionAndLength[0] + stat.totalLine - self.lastTotalLine, 0 ]
     let bLastPos[1] = self.lastPositionAndLength[1] - self.lastPositionAndLength[2] + len( getline( bLastPos[0] ) )
 
+    call s:log.Log( 'lastTotalLine=' . self.lastTotalLine )
+    call s:log.Log( 'totalLine=' . stat.totalLine )
     call s:log.Log( 'lastPos=' . string( lastPos ) )
     call s:log.Log( 'bLastPos=' . string( bLastPos ) )
 

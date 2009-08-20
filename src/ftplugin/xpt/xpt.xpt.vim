@@ -6,22 +6,18 @@ let b:__XPT_XPT_XPT_VIM__ = 1
 " containers
 let [s:f, s:v] = XPTcontainer()
 
-" constant definition
-call extend(s:v, {'$TRUE': '1', '$FALSE': '0', '$NULL': '', '$UNDEFINED': ''})
-" call XPTemplatePriority('sub')
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
 
-" inclusion
+
+XPTinclude
+      \ _common/common
+      \ _common/personal
 
 " ========================= Function and Varaibles =============================
-fun! s:f.xptHeader() "{{{
-  let symbol = expand("%:p")
-  "let symbol = matchstr(symbol, '/ftplugin/\zs.*')
-  let symbol = matchstr(symbol, '[/\\]ftplugin[/\\]\zs.*')
-  let symbol = substitute(symbol, '\V\[/.\\]', '_', 'g')
-  let symbol = substitute(symbol, '.', '\u&', 'g')
-  
-  return '__'.symbol.'__'
-endfunction "}}}
 
 fun! s:f.hintEncode( str, ... ) "{{{
     let s = substitute( a:str, '\([^\\]\) ', '\1\\ ', 'ge' )
@@ -53,13 +49,6 @@ XPTinclude
       `...^`}}^
 
 
-XPT once hint=if\ exists\ finish\ let\ b...
-if exists("b:`i^xptHeader()^")
-    finish
-endif
-let b:`i^ = 1
-
-
 XPT container hint=let\ [s:f,\ s:v]\ =...
 let [s:f, s:v] = XPTcontainer()
 
@@ -81,9 +70,9 @@ XPTvar $UNDEFINED     NULL
 XPTvar $INDENT_HELPER /* void */;
 XPTvar $IF_BRACKET_STL \n
 
-XPTinclude `inc...^
-XSET inc...|post=`ii^
-XSET ii=Trigger('inc')
+`XPTinclude...^
+XSET XPTinclude...|post=`bridge^
+XSET bridge=Trigger('inc')
 
 
 " ========================= Function and Variables =============================

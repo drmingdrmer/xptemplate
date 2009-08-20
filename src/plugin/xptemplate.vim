@@ -1605,6 +1605,10 @@ fun! s:buildPlaceHolders( markRange ) "{{{
     let renderContext.lastList = []
     call s:log.Log( "itemList:" . String( renderContext.itemList ) )
 
+    let end = XPMpos( a:markRange.end )
+
+    call cursor( end )
+
     return 0
 endfunction "}}}
 

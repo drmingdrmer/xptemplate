@@ -20,8 +20,8 @@ svn export --force $CurrentDir $DistDir
 
 
 cd $DistDir
+# plugin/debug.vim	\
 rm -rf	\
-  plugin/debug.vim	\
   xpt.ex	\
   genfile.vim	\
   doc/tags	\
