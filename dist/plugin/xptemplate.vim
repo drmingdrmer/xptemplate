@@ -88,7 +88,10 @@ endfunction
 fun! XPTemplateKeyword(val) 
     let x = s:bufData()
     let val = substitute(a:val, '\w', '', 'g')
-    let x.keyword = '\[' . escape(val, '\]') . ']'
+    let keyFilter = 'v:val !~ ''\V\[' . escape(val, '\]') . ']'' '
+    call filter( x.keywordList, keyFilter )
+    let x.keywordList += split( val, '\s*' )
+    let x.keyword = '\[' . escape( join( x.keywordList, '' ), '\]' ) . ']'
 endfunction 
 fun! XPTemplatePriority(...) 
     let x = s:bufData()
@@ -265,6 +268,7 @@ fun! XPTemplateStart(pos, ...)
         let startColumn = a:1.startPos[1]
         let templateName = a:1.tmplName
         call cursor(a:1.startPos)
+        return  s:doStart( { 'line' : a:1.startPos[0], 'col' : startColumn, 'matched' : templateName } )
     else 
         let exact = 0
         let cursorColumn = col(".")
@@ -347,11 +351,14 @@ fun! s:newTemplateRenderContext( xptBufData, tmplName )
 endfunction 
 fun! s:doStart(sess) 
     let x = s:bufData()
+    if !has_key( x.normalTemplates, a:sess.matched )
+        return g:xpt_post_action
+    endif
     let [lineNr, column] = [ a:sess.line, a:sess.col ]
     let cursorColumn = col(".")
     let tmplname = a:sess.matched
     let ctx = s:newTemplateRenderContext( x, tmplname )
-    call s:renderTemplate([ lineNr, column ], [ lineNr, cursorColumn ])
+    call s:RenderTemplate([ lineNr, column ], [ lineNr, cursorColumn ])
     let ctx.phase = 'rendered'
     let ctx.processing = 1
     if empty(x.stack)
@@ -512,7 +519,7 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet )
     endwhile
     return snip
 endfunction 
-fun! s:renderTemplate(nameStartPosition, nameEndPosition) 
+fun! s:RenderTemplate(nameStartPosition, nameEndPosition) 
     let x = s:bufData()
     let ctx = s:getRenderContext()
     let xp = s:getRenderContext().tmpl.ptn
@@ -530,6 +537,7 @@ fun! s:renderTemplate(nameStartPosition, nameEndPosition)
     call XPMupdate()
     call XPMadd( ctx.marks.tmpl.start, a:nameStartPosition, g:XPMpreferLeft )
     call XPMadd( ctx.marks.tmpl.end, a:nameEndPosition, g:XPMpreferRight )
+    call XPMsetLikelyBetween( ctx.marks.tmpl.start, ctx.marks.tmpl.end )
     call XPreplace( a:nameStartPosition, a:nameEndPosition, tmpl )
     let ctx.firstList = []
     let ctx.itemList = []
@@ -650,7 +658,7 @@ fun! s:buildMarksOfPlaceHolder(ctx, item, placeHolder, nameInfo, valueInfo)
         let markName =  '``' . s:anonymouseIndex
         let s:anonymouseIndex += 1
     else
-        let markName =  item.name . '`' . ( placeHolder.isKey ? 'key' : (len(item.placeHolders)-1) )
+        let markName =  item.name . s:buildingNr . '`' . ( placeHolder.isKey ? 'key' : (len(item.placeHolders)-1) )
     endif
     let markPre = ctx.markNamePre . markName . '`'
     call extend( placeHolder, {
@@ -710,20 +718,23 @@ fun! s:addItemToRenderContext( ctx, item )
         call add( ctx.itemList, item )
     endif
 endfunction 
+let s:buildingNr = 0
 fun! s:buildPlaceHolders( markRange ) 
-    let ctx = s:getRenderContext()
-    let xp = ctx.tmpl.ptn
-    if ctx.firstList == []
-        let ctx.firstList = copy(ctx.tmpl.setting.firstListSkeleton)
+    let s:buildingNr += 1
+    let renderContext = s:getRenderContext()
+    let xp = renderContext.tmpl.ptn
+    if renderContext.firstList == []
+        let renderContext.firstList = copy(renderContext.tmpl.setting.firstListSkeleton)
     endif
-    if ctx.lastList == []
-        let ctx.lastList = copy(ctx.tmpl.setting.lastListSkeleton)
+    if renderContext.lastList == []
+        let renderContext.lastList = copy(renderContext.tmpl.setting.lastListSkeleton)
     endif
-    let ctx.buildingMarkRange = copy( a:markRange )
+    let renderContext.buildingMarkRange = copy( a:markRange )
     let start = XPMpos( a:markRange.start )
     call cursor( start )
     let i = 0
     while i < 10000
+        let i += 1
         let end = XPMpos( a:markRange.end )
         let nEnd = end[0] * 10000 + end[1]
         let nn = searchpos(xp.lft, 'cW')
@@ -739,7 +750,7 @@ fun! s:buildPlaceHolders( markRange )
         if valueInfo[0] == [0, 0]
             break
         endif
-        let placeHolder = s:createPlaceHolder(ctx, nameInfo, valueInfo)
+        let placeHolder = s:createPlaceHolder(renderContext, nameInfo, valueInfo)
         if has_key( placeHolder, 'value' )
             let value = s:Eval( placeHolder.value )
             if value =~ '\n'
@@ -749,17 +760,16 @@ fun! s:buildPlaceHolders( markRange )
             let valueInfo[-1][1] += 1
             call XPreplace( nameInfo[0], valueInfo[-1], value )
         else
-            let item = s:buildItemForPlaceHolder( ctx, placeHolder )
-            call s:buildMarksOfPlaceHolder( ctx, item, placeHolder, nameInfo, valueInfo )
+            let item = s:buildItemForPlaceHolder( renderContext, placeHolder )
+            call s:buildMarksOfPlaceHolder( renderContext, item, placeHolder, nameInfo, valueInfo )
             call cursor(nameInfo[3])
         endif
-        let i += 1
     endwhile
-    call filter( ctx.firstList, 'v:val != {}' )
-    call filter( ctx.lastList, 'v:val != {}' )
-    let ctx.itemList = ctx.firstList + ctx.itemList + ctx.lastList
-    let ctx.firstList = []
-    let ctx.lastList = []
+    call filter( renderContext.firstList, 'v:val != {}' )
+    call filter( renderContext.lastList, 'v:val != {}' )
+    let renderContext.itemList = renderContext.firstList + renderContext.itemList + renderContext.lastList
+    let renderContext.firstList = []
+    let renderContext.lastList = []
     return 0
 endfunction 
 fun! s:buildItemForPlaceHolder( ctx, placeHolder ) 
@@ -875,8 +885,32 @@ fun! s:finishCurrentAndGotoNextItem(action)
     if renderContext.item.name != ''
         let renderContext.namedStep[renderContext.item.name] = post
     endif
+    call s:removeCurrentMarks()
     return s:gotoNextItem()
 endfunction 
+fun! s:removeCurrentMarks()
+    let renderContext = s:getRenderContext()
+    let item = renderContext.item
+    let leader = renderContext.leadingPlaceHolder
+    call XPMremove( leader.mark.start )
+    call XPMremove( leader.mark.end )
+    if leader.isKey
+        call XPMremove( leader.editMark.start )
+        call XPMremove( leader.editMark.end )
+    endif
+    for ph in item.placeHolders
+        call XPMremove( ph.mark.start )
+        call XPMremove( ph.mark.end )
+    endfor
+endfunction
+fun! s:RemovePlaceHolderMark( placeHolder )
+    call XPMremove( a:placeHolder.mark.start )
+    call XPMremove( a:placeHolder.mark.end )
+    if a:placeHolder.isKey
+        call XPMremove( a:placeHolder.editMark.start )
+        call XPMremove( a:placeHolder.editMark.end )
+    endif
+endfunction
 fun! s:applyPostFilter() 
     let renderContext = s:getRenderContext()
     let xp     = renderContext.tmpl.ptn
@@ -898,9 +932,10 @@ fun! s:applyPostFilter()
         let filter = leaderPostFilter
     endif
     if filter != ''
-        let [ text, ifToBuild ] = s:evalPostFilter( filter, typed )
+        let [ text, ifToBuild, rc ] = s:evalPostFilter( filter, typed )
         let [ start, end ] = XPMposList( marks.start, marks.end )
         let snip = s:adjustIndentAccordingTo( text, start[0] )
+        call XPMsetLikelyBetween( marks.start, marks.end )
         call XPreplace(start, end, snip)
         if ifToBuild
             call cursor( start )
@@ -919,17 +954,18 @@ fun! s:applyPostFilter()
     endif
 endfunction 
 fun! s:evalPostFilter( filter, typed ) 
+    let renderContext = s:getRenderContext()
     let post = s:Eval(a:filter, {'typed' : a:typed})
     if type( post ) == 4
         if post.action == 'build'
-            let res = [ post.text, 1 ]
+            let res = [ post.text, 1, 0 ]
         else
-            let res = [ post.text, 0 ]
+            let res = [ post.text, 0, 0 ]
         endif
     elseif type( post ) == 1
-        let res = [ post, 1 ]
+        let res = [ post, 1, 0 ]
     else
-        let res = [ string( post ), 0 ]
+        let res = [ string( post ), 0, 0 ]
     endif
     return res
 endfunction 
@@ -947,7 +983,7 @@ fun! s:gotoNextItem()
     endif
     let phPos = XPMpos( placeHolder.mark.start )
     if phPos == [0, 0]
-        call Error( 'failed to find position of mark:' . placeHolder.mark.*** )
+        call s:log.Error( 'failed to find position of mark:' . placeHolder.mark.start )
         return s:crash()
     endif
     let postaction = s:initItem()
@@ -1024,15 +1060,21 @@ endfunction
 fun! s:handleDefaultValueAction( ctx, act ) 
     let ctx = a:ctx
     if has_key(a:act, 'action') " actions
-        if a:act.action == 'expandTmpl' && has_key( a:act, 'tmplName' )
-            call XPreplace(XPMpos( ctx.leadingPlaceHolder.mark.start ), XPMpos( ctx.leadingPlaceHolder.mark.end ), '')
+        if a:act.action ==# 'expandTmpl' && has_key( a:act, 'tmplName' )
+            let marks = ctx.leadingPlaceHolder.mark
+            call XPreplace(XPMpos( marks.start ), XPMpos( marks.end ), '')
+            call XPMsetLikelyBetween( marks.start, marks.end )
             return XPTemplateStart(0, {'startPos' : getpos(".")[1:2], 'tmplName' : a:act.tmplName})
-        elseif a:act.action == 'finishTemplate'
+        elseif a:act.action ==# 'finishTemplate'
             call XPreplace(XPMpos( ctx.leadingPlaceHolder.mark.start ), XPMpos( ctx.leadingPlaceHolder.mark.end )
                         \, has_key( a:act, 'postTyping' ) ? a:act.postTyping : '' )
             return s:finishRendering()
-        elseif a:act.action == 'embed'
+        elseif a:act.action ==# 'embed'
             return s:embedSnippetInLeadingPlaceHolder( ctx, a:act.snippet )
+        elseif a:act.action ==# 'next'
+            let text = has_key( a:act, 'text' ) ? a:act.text : ''
+            call s:fillinLeadingPlaceHolderAndSelect( ctx, text )
+            return s:finishCurrentAndGotoNextItem( '' )
         else " other action
         endif
         return -1
@@ -1084,6 +1126,9 @@ fun! s:applyDefaultValueToPH( renderContext )
     let renderContext = a:renderContext
     let leader = renderContext.leadingPlaceHolder
     let str = renderContext.tmpl.setting.defaultValues[renderContext.item.name]
+    if leader.ontimeFilter != ''
+        let str = leader.ontimeFilter
+    endif
     let obj = s:Eval(str) 
     if type(obj) == type({})
         let rc = s:handleDefaultValueAction( renderContext, obj )
@@ -1092,7 +1137,8 @@ fun! s:applyDefaultValueToPH( renderContext )
         if len(obj) == 0
             return s:fillinLeadingPlaceHolderAndSelect( renderContext, '' )
         endif
-        let [ start, end ] = XPMposList( leader.mark.start, leader.mark.end )
+        let marks = leader.isKey ? leader.editMark : leader.mark
+        let [ start, end ] = XPMposList( marks.start, marks.end )
         call XPreplace( start, end, '')
         call cursor(start)
         return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."))
@@ -1123,7 +1169,7 @@ fun! s:selectCurrent( renderContext )
         return ''
     else
         call cursor( ctl )
-        normal! v
+        call s:XPTvisual()
         if &l:selection == 'exclusive'
             call cursor( cbr )
         else
@@ -1133,6 +1179,7 @@ fun! s:selectCurrent( renderContext )
                 call cursor( cbr[0], cbr[1] - 1 )
             endif
         endif
+        normal! v
         return s:SelectAction()
     endif
 endfunction 
@@ -1393,6 +1440,7 @@ fun! s:bufData()
         let b:xptemplateData.posStack = []
         let b:xptemplateData.stack = []
         let b:xptemplateData.keyword = '\w'
+        let b:xptemplateData.keywordList = []
         let b:xptemplateData.savedMap = {}
         call s:createRenderContext( b:xptemplateData )
         let b:xptemplateData.bufsetting = {
@@ -1495,6 +1543,7 @@ fun! s:crash()
     for ctx in x.stack
         let msg .= ctx.tmpl.name . ' -> '
     endfor
+    call s:ClearMap()
     let x.stack = []
     call s:createRenderContext(x)
     call XPMflush()
@@ -1515,7 +1564,10 @@ fun! s:fixCrCausedIndentProblem()
         return
     endif
     if currentFollowingSpace != renderContext.lastFollowingSpace
-        call XPreplace( currentPos, [ currentPos[0], currentPos[1] + len( currentFollowingSpace ) ], renderContext.lastFollowingSpace, 0 )
+        call XPreplace( currentPos, 
+                    \[ currentPos[0], currentPos[1] + len( currentFollowingSpace ) ], 
+                    \renderContext.lastFollowingSpace, 
+                    \{ 'doJobs' : 0 } )
         call cursor( currentPos )
     endif
 endfunction 

@@ -161,7 +161,7 @@ fun! s:f.Choose( lst ) "{{{
 endfunction "}}}
 
 fun! s:f.ChooseStr(...) "{{{
-  return a:000
+  return copy( a:000 )
 endfunction "}}}
 
 fun! s:f.Finish()
@@ -170,6 +170,10 @@ endfunction
 
 fun! s:f.Embed( snippet )
   return { 'action' : 'embed', 'snippet' : a:snippet }
+endfunction
+
+fun! s:f.Next( text )
+  return { 'action' : 'next', 'text' : a:text }
 endfunction
 
 " XXX
@@ -252,7 +256,11 @@ endfunction "}}}
 
 
 fun! s:f.UpperCase( v )
-  return substitute(a:v, '.', '\U&', 'g')
+  return substitute(a:v, '.', '\u&', 'g')
+endfunction
+
+fun! s:f.LowerCase( v )
+  return substitute(a:v, '.', '\l&', 'g')
 endfunction
 
 
@@ -287,6 +295,31 @@ fun! s:f.ItemEdges() "{{{
   let leader =  self._ctx.leadingPlaceHolder
   return [ leader.leftEdge, leader.rightEdge ]
 endfunction "}}}
+
+
+fun! s:f.ItemCreate( name, edges, filters )
+  let [ ml, mr ] = XPTmark()
+
+
+  let item = ml . a:name
+  
+  if has_key( a:edges, 'left' )
+    let item = ml . a:edges.left . item 
+  endif
+
+  if has_key( a:edges, 'right' )
+    let item .= ml . a:edges.right
+  endif
+
+  let item .= mr
+
+  if has_key( a:filter, 'post' )
+    let item .= a:filter.post . mr . mr
+  endif
+
+  return item
+
+endfunction
 
 " {{{ Quick Repetition
 " If something typed, <tab>ing to next generate another item other than the

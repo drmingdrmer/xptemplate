@@ -4,6 +4,9 @@ endif
 let g:__XPOPUP_VIM__ = 1
 runtime plugin/xpreplace.vim
 runtime plugin/mapstack.vim
+com! XPPgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
+XPPgetSID
+delc XPPgetSID
 let s:sessionPrototype = {
             \ 'callback'    : {},
             \ 'list'        : [],
@@ -27,7 +30,7 @@ fun! XPPopupNew(callback, data, ...)
     call sess.addList(list)
     return sess
 endfunction 
-fun! s:sessionPrototype.popup(start_col, ...) 
+fun! s:popup(start_col, ...) dict 
     let doCallback = a:0 == 0 || a:1
     let sess = self
     let sess.line        = line(".")
@@ -47,7 +50,7 @@ fun! s:sessionPrototype.popup(start_col, ...)
     elseif len(sess.currentList) == 1
         let sess.matched = type(sess.currentList[0]) == type({}) ? sess.currentList[0].word : sess.currentList[0]
         let sess.matchedCallback = 'onOneMatch'
-        let actionList += ['callback']
+        let actionList += ['clearPrefix', 'clearPum', 'typeLongest', 'callback']
     elseif sess.prefix != "" && sess.longest ==? sess.prefix && doCallback
         let sess.matched = ''
         for item in sess.currentList
@@ -55,7 +58,7 @@ fun! s:sessionPrototype.popup(start_col, ...)
             if key ==? sess.prefix
                 let sess.matched = key
                 let sess.matchedCallback = 'onOneMatch'
-                let actionList += ['callback']
+                let actionList += ['clearPrefix', 'clearPum', 'typeLongest', 'callback']
                 break
             endif
         endfor
@@ -308,3 +311,14 @@ fun! s:FindShorter(map, key)
     endwhile
     return key
 endfunction 
+fun! s:ClassPrototype(...) 
+    let p = {}
+    for name in a:000
+        let p[ name ] = function( '<SNR>' . s:sid . name )
+    endfor
+    return p
+endfunction 
+let s:sessionPrototype2 =  s:ClassPrototype(
+            \    'popup',
+            \)
+call extend( s:sessionPrototype, s:sessionPrototype2, 'force' )

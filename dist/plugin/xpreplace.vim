@@ -94,7 +94,7 @@ endfunction
 fun! XPreplace(start, end, replacement, ...) 
     let option = { 'doJobs' : 1 }
     if a:0 == 1
-        call extend(option, a:0, 'force')
+        call extend(option, a:1, 'force')
     endif
     call XPRstartSession()
     let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, option )

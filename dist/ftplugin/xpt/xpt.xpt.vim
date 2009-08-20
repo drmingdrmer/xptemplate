@@ -17,9 +17,7 @@ fun! s:f.xptHeader() "{{{
   let symbol = expand("%:p")
   "let symbol = matchstr(symbol, '/ftplugin/\zs.*')
   let symbol = matchstr(symbol, '[/\\]ftplugin[/\\]\zs.*')
-  let symbol = substitute(symbol, '/', '_', 'g')
-  let symbol = substitute(symbol, '\.', '_', 'g')
-  let symbol = substitute(symbol, '\\', '_', 'g')
+  let symbol = substitute(symbol, '\V\[/.\\]', '_', 'g')
   let symbol = substitute(symbol, '.', '\u&', 'g')
   
   return '__'.symbol.'__'
@@ -49,8 +47,10 @@ XSET tips|post=hintEncode(V())
 
 XPT inc hint=XPTinclude\ ...
 XPTinclude 
-      \ `^E("%:p:h:t")^/`name^`...^
-      \ `^E("%:p:h:t")^/`name^`...^
+      \ `a^-E("%:p:h:t")^/`name^`
+      `...{{^`
+      \ `a^-E("%:p:h:t")^/`name^`
+      `...^`}}^
 
 
 XPT once hint=if\ exists\ finish\ let\ b...
@@ -65,28 +65,34 @@ let [s:f, s:v] = XPTcontainer()
 
 
 XPT xpt hint=start\ template\ to\ write\ template
-if exists("b:`i^xptHeader()^") 
-  finish 
-endif
-let b:`i^ = 1 
- 
-" containers
+XPTemplate priority=`prio^` `keyword...^` `mark...^` `indent...^
+XSET prio=ChooseStr( 'all', 'spec', 'like', 'lang', 'sub', 'personal' )
+XSET keyword...|post= keyword=`char^
+XSET mark...|post= mark=`char^
+XSET indent...|post= indent=`indentValue^
+XSET indentValue=ChooseStr( 'auto', 'keep' )
+
 let [s:f, s:v] = XPTcontainer() 
  
-" constant definition
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
 XPTvar $INDENT_HELPER /* void */;
-XPTVar $UNDEFINED     ''
-XPTVar $IF_BRACKET_STL  "\n"
+XPTvar $IF_BRACKET_STL \n
 
-" inclusion
-XPTinclude
+XPTinclude `inc...^
+XSET inc...|post=`ii^
+XSET ii=Trigger('inc')
+
 
 " ========================= Function and Variables =============================
 
- 
+
 " ================================= Snippets ===================================
 XPTemplateDef 
+
 `cursor^
+..XPT
+
+
