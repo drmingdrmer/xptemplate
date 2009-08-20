@@ -19,6 +19,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO removing mark is not safe that new mark maybe has the same name.
 " TODO XPT : inc bug
 " TODO do not let xpt throw error if calling undefined s:f.function..
 " TODO compatibility to old post-filter syntax
@@ -1130,16 +1131,18 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
     " update xpm status
     call XPMupdate()
     call s:log.Debug( 'before insert new template mark' )
-    call XPMallMark()
+    call s:log.Debug( XPMallMark() )
     
 
     call XPMadd( ctx.marks.tmpl.start, a:nameStartPosition, g:XPMpreferLeft )
     call XPMadd( ctx.marks.tmpl.end, a:nameEndPosition, g:XPMpreferRight )
 
+    
+    call XPMsetLikelyBetween( ctx.marks.tmpl.start, ctx.marks.tmpl.end )
     call XPreplace( a:nameStartPosition, a:nameEndPosition, tmpl )
 
     call s:log.Debug( 'after insert new template' )
-    call XPMallMark()
+    call s:log.Debug( XPMallMark() )
 
     call s:log.Log( "template start and end=" . string( [ XPMpos( ctx.marks.tmpl.start ), XPMpos( ctx.marks.tmpl.end )] ) )
 
@@ -1379,7 +1382,7 @@ fun! s:buildMarksOfPlaceHolder(ctx, item, placeHolder, nameInfo, valueInfo) "{{{
         let s:anonymouseIndex += 1
 
     else
-        let markName =  item.name . '`' . ( placeHolder.isKey ? 'key' : (len(item.placeHolders)-1) )
+        let markName =  item.name . s:buildingNr . '`' . ( placeHolder.isKey ? 'key' : (len(item.placeHolders)-1) )
 
     endif
     " TODO maybe using the mark-symbol variable is better?
@@ -1494,7 +1497,11 @@ fun! s:addItemToRenderContext( ctx, item ) "{{{
 
 endfunction "}}}
 
+" to avoid name conflict between 2 building process
+let s:buildingNr = 0
 fun! s:buildPlaceHolders( markRange ) "{{{
+
+    let s:buildingNr += 1
 
     let renderContext = s:getRenderContext()
     let xp = renderContext.tmpl.ptn
@@ -1793,6 +1800,16 @@ fun! s:removeCurrentMarks()
     endfor
 endfunction
 
+fun! s:RemovePlaceHolderMark( placeHolder )
+    call XPMremove( a:placeHolder.mark.start )
+    call XPMremove( a:placeHolder.mark.end )
+
+    if a:placeHolder.isKey
+        call XPMremove( a:placeHolder.editMark.start )
+        call XPMremove( a:placeHolder.editMark.end )
+    endif
+endfunction
+
 fun! s:applyPostFilter() "{{{
 
     " *) Apply Group-scope post filter to leading place holder.
@@ -1856,6 +1873,7 @@ fun! s:applyPostFilter() "{{{
         let [ start, end ] = XPMposList( marks.start, marks.end )
 
         let snip = s:adjustIndentAccordingTo( text, start[0] )
+        call XPMsetLikelyBetween( marks.start, marks.end )
         call XPreplace(start, end, snip)
 
 
@@ -1866,6 +1884,8 @@ fun! s:applyPostFilter() "{{{
                 return s:crash()
             endif
         endif
+
+        " call s:RemovePlaceHolderMark( leader )
 
     endif
 
@@ -2108,8 +2128,9 @@ fun! s:handleDefaultValueAction( ctx, act ) "{{{
             " do NOT need to update position 
             let marks = ctx.leadingPlaceHolder.mark
             call XPreplace(XPMpos( marks.start ), XPMpos( marks.end ), '')
-            call XPMremove( marks.start )
-            call XPMremove( marks.end )
+            " call XPMremove( marks.start )
+            " call XPMremove( marks.end )
+            call XPMsetLikelyBetween( marks.start, marks.end )
             return XPTemplateStart(0, {'startPos' : getpos(".")[1:2], 'tmplName' : a:act.tmplName})
 
         elseif a:act.action ==# 'finishTemplate'
@@ -2423,7 +2444,7 @@ fun! s:Eval(s, ...) "{{{
         let xfunc._ctx.leadingPlaceHolder = ctx.leadingPlaceHolder
     endif
 
-    call s:log.Log("eval ctx:".string(xfunc._ctx))
+    " call s:log.Debug("eval ctx:".string(xfunc._ctx))
 
 
 
