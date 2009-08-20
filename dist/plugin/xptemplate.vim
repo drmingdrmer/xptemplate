@@ -770,6 +770,8 @@ fun! s:buildPlaceHolders( markRange )
     let renderContext.itemList = renderContext.firstList + renderContext.itemList + renderContext.lastList
     let renderContext.firstList = []
     let renderContext.lastList = []
+    let end = XPMpos( a:markRange.end )
+    call cursor( end )
     return 0
 endfunction 
 fun! s:buildItemForPlaceHolder( ctx, placeHolder ) 
