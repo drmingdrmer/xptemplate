@@ -67,8 +67,10 @@ XPT parser hint=..\ =\ ..\ <|>\ ..\ <|>\ ..\ <?>
 XPT datarecord hint=data\ ..\ ={}
 data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
      `Constructor~ {
-       `field~ :: `type~ `...~
-     , `fieldn~ :: `typen~`...~
+       `field~ :: `type~`
+       `...{{~,
+       `fieldn~ :: `typen~`
+       `...~`}}~
      }
      `deriving...{{~deriving (`Eq, Show~)`}}~
 `cursor~
@@ -77,8 +79,10 @@ XPT datarecordcom hint=--\ |\ data\ ..\ ={}
 -- | `typeDescr~
 data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
      `Constructor~ {
-       `field~ :: `type~ -- ^ `fieldDescr~ `...~
-     , `fieldn~ :: `typen~ -- ^ `fielddescr~`...~
+       `field~ :: `type~ -- ^ `fieldDescr~`
+       `...{{~, 
+       `fieldn~ :: `typen~ -- ^ `fielddescr~`
+       `...~`}}~
      }
      `deriving...{{~deriving (`Eq,Show~)`}}~
 `cursor~
@@ -95,19 +99,25 @@ if `expr~
     else `cursor~
 
 XPT fun hint=fun\ pat\ =\ ..
-`funName~ `pattern~ = `def~`...~
-`name~R("funName")~ `pattern~ = `def~`...~
+`funName~ `pattern~ = `def~`
+`...{{~
+`name~R("funName")~ `pattern~ = `def~`
+`...~`}}~
 
 XPT funcom hint=--\ |\ fun\ pat\ =\ ..
 -- | `function_description~
 `funName~ :: `type~
-`name~R("funName")~ `pattern~ = `def~`...~
-`name~R("funName")~ `pattern~ = `def~`...~
+`name~R("funName")~ `pattern~ = `def~`
+`...{{~
+`name~R("funName")~ `pattern~ = `def~`
+`...~`}}~
 
 XPT funtype hint=..\ ::\ ..\ =>\ ..\ ->\ .. ->
 `funName~ :: `context...{{~(`ctxt~)
-          =>`}}~ `type~ -- ^ `is~`...~
-          -> `type~ -- ^ `is~`...~
+          =>`}}~ `type~ -- ^ `is~`
+          `...{{~
+          -> `type~ -- ^ `is~`
+          `...~`}}~
 
 XPT lang hint={-#\ LANGUAGE\ ..\ #-}
 {-# LANGUAGE `langName~ #-}
@@ -130,5 +140,5 @@ deriving instance `context...{{~`ctxt~ => `}}~`class~ `type~
 XPT module hint=module\ ..\ ()\ where ...
 XSET moduleName=S(S(E('%:r'),'^.','\u&', ''), '[\\/]\(.\)', '.\u\1', 'g')
 module `moduleName~ `exports...{{~( `cursor~
-                                ) `}}~where
+    ) `}}~where
 

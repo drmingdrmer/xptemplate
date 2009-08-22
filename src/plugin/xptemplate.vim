@@ -2320,6 +2320,8 @@ fun! s:applyDefaultValueToPH( renderContext, filter ) "{{{
     " popup list, action dictionary or string
     let obj = s:Eval(str) 
 
+    call s:log.Debug( 'filter=' . str, 'filterd=' . string( obj ) )
+
 
     if type(obj) == type({})
         " action object
@@ -2419,7 +2421,7 @@ fun! s:selectCurrent( renderContext ) "{{{
 endfunction "}}}
 
 
-fun! s:createStringMask( str ) "{{{
+fun! s:CreateStringMask( str ) "{{{
 
     if a:str == ''
         return ''
@@ -2444,7 +2446,8 @@ fun! s:createStringMask( str ) "{{{
 
     " let sptn = sqe.'\_.\{-}\1'
     " Note: only ' is escaped by doubling it: ''
-    let sptn = sqe.'\_.\{-}\%(\^\|\[^'']\)\(''''\)\*'''
+    " let sptn = sqe.'\_.\{-}\%(\^\|\[^'']\)\(''''\)\*'''
+    let sptn = sqe.'\%(\_[^'']\)\{-}'''
 
     " create mask hiding all string literal with space
     let mask = substitute(a:str, '[ *]', '+', 'g')
@@ -2499,7 +2502,9 @@ fun! s:Eval(s, ...) "{{{
 
     let patternVarOrFunc = fptn . '\|' . vptn
 
-    let stringMask = s:createStringMask( a:s )
+    let stringMask = s:CreateStringMask( a:s )
+
+    call s:log.Debug( 'string =' . a:s, 'strmask=' . stringMask )
 
 
 
