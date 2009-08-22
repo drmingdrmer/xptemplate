@@ -235,24 +235,26 @@ fun! XPTemplatePriority(...) "{{{
     let x = s:bufData()
     let p = a:0 == 0 ? 'lang' : a:1
 
-    let x.bufsetting.priority = s:ParsePriority(p)
+    let x.snipFileScope.priority = s:ParsePriority(p)
 endfunction "}}}
 
 fun! XPTemplateMark(sl, sr) "{{{
-    let x = s:bufData().bufsetting.ptn
-    let x.l = a:sl
-    let x.r = a:sr
+  call s:log.Debug( 'XPTemplateMark called with:' . string( [ a:sl, a:sr ] ) )
+    let xp = s:bufData().snipFileScope.ptn
+    let xp.l = a:sl
+    let xp.r = a:sr
     call s:RedefinePattern()
 endfunction "}}}
 
 fun! XPTemplateIndent(p) "{{{
-    let x = s:bufData().bufsetting.indent
+    let x = s:bufData().snipFileScope.indent
     call s:ParseIndent(x, a:p)
 endfunction "}}}
 
 " TODO this is problemtic if in future mark can be set for each snippet
 fun! XPTmark() "{{{
-    let x = s:bufData().bufsetting.ptn
+    let renderContext = getRenderContext()
+    let xp = renderContext.tmpl.ptn
     return [ x.l, x.r ]
 endfunction "}}}
 
@@ -317,7 +319,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
     let x = s:bufData()
     let xt = s:bufData().normalTemplates
-    let xp = s:bufData().bufsetting.ptn
+    let xp = s:bufData().snipFileScope.ptn
 
     let templateSetting = deepcopy(s:templateSettingPrototype)
 
@@ -345,7 +347,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
     let name = a:name
 
-    let idt = deepcopy(x.bufsetting.indent)
+    let idt = deepcopy(x.snipFileScope.indent)
     " if '=' is a keyword, ignore indent setting
     if '=' !~ '\V' . x.keyword
         call s:log.Log("parse indent in template name")
@@ -379,7 +381,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
             let override_priority = s:ParsePriority(templateSetting.priority)
         else
             call s:log.Log("buf priority")
-            let override_priority = x.bufsetting.priority
+            let override_priority = x.snipFileScope.priority
         endif
 
         let name = pstr == "" ? name : matchstr(name, '[^!]*\ze!')
@@ -390,7 +392,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
             let override_priority = s:ParsePriority(templateSetting.priority)
         else
             call s:log.Log("buf priority")
-            let override_priority = x.bufsetting.priority
+            let override_priority = x.snipFileScope.priority
         endif
     endif
 
@@ -408,7 +410,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
                     \ 'tmpl'        : Str,
                     \ 'priority'    : override_priority,
                     \ 'setting'     : templateSetting,
-                    \ 'ptn'         : deepcopy(s:bufData().bufsetting.ptn),
+                    \ 'ptn'         : deepcopy(s:bufData().snipFileScope.ptn),
                     \ 'indent'      : idt,
                     \ 'wrapped'     : type(Str) != type(function("tr")) && Str =~ '\V' . xp.lft . s:wrappedName . xp.rt }
 
@@ -588,7 +590,6 @@ endfunction "}}}
 
 " TODO refine me
 fun! s:GetHint(ctx) "{{{
-    let xp = s:bufData().bufsetting.ptn
 
     if has_key(a:ctx, 'hint')
         let a:ctx.hint = s:Eval(a:ctx.hint)
@@ -605,7 +606,7 @@ fun! s:ParsePriority(s) "{{{
     let prio = 0
 
     if pstr == ""
-        let prio = x.bufsetting.priority
+        let prio = x.snipFileScope.priority
     else
 
         let p = matchlist(pstr, '\V\^\(' . s:priPtn . '\)' . '\%(' . '\(\[+-]\)' . '\(\d\+\)\?\)\?\$')
@@ -1185,6 +1186,7 @@ fun! s:getNameInfo(end) "{{{
 
     call s:log.Log("getNameInfo from".string(getpos(".")[1:2]))
     call s:log.Log("to:".string(a:end))
+    call s:log.Debug( 'pattner:' . string( [ xp.lft, xp.rt ] ) )
 
     let endn = a:end[0] * 10000 + a:end[1]
 
@@ -1535,7 +1537,7 @@ fun! s:buildPlaceHolders( markRange ) "{{{
         let end = XPMpos( a:markRange.end )
         let nEnd = end[0] * 10000 + end[1]
 
-        call s:log.Log("build values:end=".string(end))
+        call s:log.Log("build place holders : end=".string(end))
 
 
         " TODO move this action to getNameInfo
@@ -2749,10 +2751,40 @@ fun! s:CBR(...) "{{{
 endfunction "}}}
 
 
-" debug only
 fun! XPTbufData() "{{{
     return s:bufData()
 endfunction "}}}
+
+
+let s:snipScopePrototype = {
+      \'ptn' : {'l':'`', 'r':'^'},
+      \'indent' : {'type' : 'auto', 'rate' : []},
+      \'priority' : s:priorities.lang
+      \}
+
+fun! XPTnewSnipScope()
+  return deepcopy( s:snipScopePrototype )
+endfunction
+
+fun! XPTsnipScope()
+  return s:bufData().snipFileScope
+endfunction
+
+fun! XPTsnipScopePush()
+  let x = s:bufData()
+  let x.snipFileScopeStack += [x.snipFileScope]
+  let x.snipFileScope = XPTnewSnipScope()
+endfunction
+
+fun! XPTsnipScopePop()
+  let x = s:bufData()
+  if len(x.snipFileScopeStack) > 0
+    let x.snipFileScope = x.snipFileScopeStack[ -1 ]
+    call remove( x.snipFileScopeStack, -1 )
+  else
+    throw "snipFileScopeStack is empty"
+  endif
+endfunction
 
 
 " TODO bad name with newTemplateRenderContext
@@ -2788,13 +2820,11 @@ fun! s:bufData() "{{{
 
         let b:xptemplateData.savedMap = {}
 
+        let b:xptemplateData.snipFileScopeStack = []
+        let b:xptemplateData.snipFileScope = XPTnewSnipScope()
+
         call s:createRenderContext( b:xptemplateData )
 
-        let b:xptemplateData.bufsetting = {
-                    \'ptn' : {'l':'`', 'r':'^'},
-                    \'indent' : {'type' : 'auto', 'rate' : []},
-                    \'priority' : s:priorities.lang
-                    \}
 
         call s:RedefinePattern()
 
@@ -2804,7 +2834,7 @@ fun! s:bufData() "{{{
     return b:xptemplateData
 endfunction "}}}
 fun! s:RedefinePattern() "{{{
-    let xp = b:xptemplateData.bufsetting.ptn
+    let xp = b:xptemplateData.snipFileScope.ptn
 
     " even number of '\' or start of line
     let nonEscaped = s:nonEscaped

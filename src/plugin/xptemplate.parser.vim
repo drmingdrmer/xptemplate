@@ -48,6 +48,9 @@ fun! XPTemplateFileDefinition( filename, ... ) "{{{
 
     let b:__xpt_loaded[a:filename] = 1
 
+    let x = XPTbufData()
+    let x.snipFileScope = XPTnewSnipScope()
+
 
     for pair in a:000
 
@@ -97,7 +100,7 @@ fun! XPTsetVar( nameSpaceValue ) "{{{
     let val = substitute( val, '\\ ', " ", 'g' )
 
 
-    let priority = x.bufsetting.priority
+    let priority = x.snipFileScope.priority
     call s:log.Log("name=".name.' value='.val.' priority='.priority)
 
 
@@ -113,7 +116,7 @@ fun! XPTinclude(...) "{{{
     endif
 
     let x = XPTbufData()
-    let prio = x.bufsetting.priority
+    call XPTsnipScopePush()
 
 
     let list = a:000
@@ -129,7 +132,7 @@ fun! XPTinclude(...) "{{{
         endif
     endfor
 
-    let x.bufsetting.priority = prio
+    call XPTsnipScopePop()
 
 endfunction "}}}
 
