@@ -518,7 +518,6 @@ fun! XPTemplateStart(pos, ...) " {{{
 
     if a:0 == 1 &&  type(a:1) == type({}) && has_key( a:1, 'tmplName' )  
         " exact template trigger, without depending on any input
-        let exact = 1
 
         let startColumn = a:1.startPos[1]
         let templateName = a:1.tmplName
@@ -529,7 +528,6 @@ fun! XPTemplateStart(pos, ...) " {{{
 
     else 
         " input mode
-        let exact = 0
 
         let cursorColumn = col(".")
 
@@ -549,11 +547,14 @@ fun! XPTemplateStart(pos, ...) " {{{
                 let [startLineNr, startColumn] = [line("."), col(".")]
             endif
 
+            #
         endif
 
         let templateName = strpart( getline(startLineNr), startColumn - 1, cursorColumn - startColumn )
 
     endif
+    
+    call s:log.Log( 'to popup, templateName='.templateName )
 
     " let x.startColumn = startColumn
 
@@ -747,13 +748,6 @@ fun! s:Popup(pref, coln) "{{{
 
     let x = s:bufData()
 
-    " let popupOption = { 'popupOnly' : 0 }
-    " if a:0 == 1
-        " call extend( popupOption, a:1, 'force' )
-    " endif
-" 
-" 
-    " call s:log.Log("popupOption:".string(popupOption))
 
     let cmpl=[]
     let cmpl2 = []
@@ -1996,14 +1990,24 @@ fun! s:gotoNextItem() "{{{
     call s:log.Log( "all marks:" . XPMallMark() )
 
 
+    let leader =  renderContext.leadingPlaceHolder
+    let leaderMark = leader.isKey ? leader.editMark : leader.mark
+    call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
+
     let postaction = s:initItem()
+
+
 
     call s:log.Log( 'after initItem, postaction='.postaction )
 
     if !renderContext.processing
         return postaction
+    endif
 
-    elseif postaction != ''
+    call XPMsetLikelyBetween( leader.mark.start, leader.mark.end )
+
+
+    if postaction != ''
         return postaction
 
     else
@@ -2301,6 +2305,7 @@ endfunction "}}}
 fun! s:initItem() " {{{
     let renderContext = s:getRenderContext()
     let renderContext.phase = 'inititem'
+
 
     " apply default value
     if has_key(renderContext.tmpl.setting.defaultValues, renderContext.item.name)
@@ -2763,7 +2768,12 @@ let s:snipScopePrototype = {
       \}
 
 fun! XPTnewSnipScope()
-  return deepcopy( s:snipScopePrototype )
+  let x = b:xptemplateData
+  let x.snipFileScope = deepcopy( s:snipScopePrototype )
+
+  call s:RedefinePattern()
+
+  return x.snipFileScope
 endfunction
 
 fun! XPTsnipScope()
@@ -2826,7 +2836,6 @@ fun! s:bufData() "{{{
         call s:createRenderContext( b:xptemplateData )
 
 
-        call s:RedefinePattern()
 
         " TODO is this the right place to do that?
         call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )

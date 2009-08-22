@@ -574,10 +574,12 @@ fun! s:filterCompleteList(sess) "{{{
     let pattern = '^\V' . ( a:sess.ignoreCase ? '\c' : '\C' ) . a:sess.prefix
 
     call s:log.Log("sess.list=".string(a:sess.list))
+    call s:log.Log( "popup filter pattern=" . string( pattern ) )
 
     for item in a:sess.list
         let key = ( type(item) == type({}) ) ? item.word : item
 
+        " call s:log.Debug( 'key=' . key )
         if key =~ pattern
             let list += [ item ]
         endif

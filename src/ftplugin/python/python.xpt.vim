@@ -1,27 +1,36 @@
-if exists("b:__PYTHON_PYTHON_XPT_VIM__")
-  finish
-endif
-let b:__PYTHON_PYTHON_XPT_VIM__ = 1
+XPTemplate priority=lang
 
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER # nothing
+XPTvar $IF_BRACKET_STL \n
 
-" containers
-let [s:f, s:v] = XPTcontainer()
-
-" inclusion
-XPTinclude
+XPTinclude 
       \ _common/common
+      \ _common/personal
 
-" ========================= Function and Varaibles =============================
+
+" ========================= Function and Variables =============================
+
 
 " ================================= Snippets ===================================
-XPTemplateDef
+XPTemplateDef 
+
+
 XPT if hint=if\ ..:\ ..\ else...
+XSET job=$INDENT_HELPER
 if `cond^:
-    `then^`...^
-elif `cond2^:
-    `todo^`...^
-`else...^else:
-    \`cursor\^^^
+    `job^
+``elif...`
+{{^elif `cond2^:
+    `job^
+``elif...`
+^`}}^`else...{{^else:
+    `cursor^`}}^
 
 
 XPT for hint=for\ ..\ in\ ..:\ ...
