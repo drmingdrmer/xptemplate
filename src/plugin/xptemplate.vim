@@ -1042,16 +1042,40 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet ) "{{{
     let startPattern = '\V\_.\{-}\zs' . xp.lft . '\_[^' . xp.r . ']\*' . quoter.start . xp.rt
     let endPattern = '\V' . xp.lft . quoter.end . xp.rt
 
+    call s:log.Log( 'parse Quoted Post Filter for ' . a:tmplObj.name )
+
     call s:log.Log( 'startPattern=' . startPattern )
     call s:log.Log( 'endPattern=' . endPattern )
 
     let snip = a:snippet
 
+
+    " Note: pattern can not satisfy that most prefix and most xp.lft can be
+    " found. Thus stack must be used 
+    let stack = []
+
+    let startPos = 0
+    while startPos != -1
+      let startPos = match(snip, startPattern, startPos)
+      call s:log.Log( "found:" . startPos )
+      
+      if startPos != -1
+          call add( stack, startPos)
+          let startPos += len( matchstr( snip, startPattern, startPos ) )
+      endif
+    endwhile
+
     while 1
-        let startPos = match(snip, startPattern)
-        if startPos == -1
-            break
+
+        if empty( stack )
+          break
         endif
+
+        let startPos = remove( stack, -1 )
+
+        " if startPos == -1
+            " break
+        " endif
 
         let endPos = match( snip, endPattern, startPos + 1 )
         if endPos == -1

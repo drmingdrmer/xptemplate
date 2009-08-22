@@ -759,7 +759,7 @@ XSET ubound=10
 upto(`ubound^) { |`arg^| `cursor^ }
 
 
-XPT usai hint=if\ ARGV..\ abort("Usage...
+XPT usai hint=if\ ARGV..\ abort\\("Usage...
 XSET _=
 XSET args=[options]
 if ARGV`_^
@@ -767,7 +767,7 @@ if ARGV`_^
 end
 
 
-XPT usau hint=unless\ ARGV..\ abort("Usage...
+XPT usau hint=unless\ ARGV..\ abort\\("Usage...
 XSET _=
 XSET args=[options]
 unless ARGV`_^
