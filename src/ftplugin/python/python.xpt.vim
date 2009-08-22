@@ -52,13 +52,25 @@ XPT try hint=try:\ ..\ except:\ ...
 try:
     `what^
 except `except^:
-    `handler^`...^
-except `exc^:
-    `handle^`...^
-`else...^else:
-    \`\^^^
-`finally...^finally:
-   \`\^^^
+    `handler^
+``more_except...`
+^``else...`
+^`finally...^
+XSETm more_except...|post
+except `except^:
+    `handler^
+``more_except...`
+^
+XSETm END
+XSETm else...|post
+else:
+    ``job`
+^
+XSETm END
+XSETm finally...|post
+finally:
+    `cursor^
+XSETm END
 
 
 XPT class hint=class\ ..\ :\ def\ __init__\ ...
