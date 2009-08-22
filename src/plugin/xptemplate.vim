@@ -1310,6 +1310,7 @@ fun! s:createPlaceHolder( ctx, nameInfo, valueInfo ) "{{{
     call s:log.Log( "item is :" . string( [ leftEdge, name, rightEdge ] ) )
 
 
+    " TODO quoted pattern
     if fullname =~ '\V' . xp.item_var . '\|' . xp.item_func
         " that is only a instant place holder
         return { 'value' : fullname }
@@ -1373,6 +1374,7 @@ endfunction "}}}
 let s:anonymouseIndex = 0
 
 fun! s:buildMarksOfPlaceHolder(ctx, item, placeHolder, nameInfo, valueInfo) "{{{
+    " TODO do not create edge mark if not necessary 
 
     let [ctx, item, placeHolder, nameInfo, valueInfo] = 
                 \ [a:ctx, a:item, a:placeHolder, a:nameInfo, a:valueInfo]
@@ -1504,6 +1506,7 @@ fun! s:buildPlaceHolders( markRange ) "{{{
     let s:buildingNr += 1
 
     let renderContext = s:getRenderContext()
+    let tmplObj = renderContext.tmpl
     let xp = renderContext.tmpl.ptn
 
     if renderContext.firstList == []
@@ -1590,7 +1593,29 @@ fun! s:buildPlaceHolders( markRange ) "{{{
             call s:buildMarksOfPlaceHolder( renderContext, item, placeHolder, nameInfo, valueInfo )
 
             " nameInfo and valueInfo is updated according to new position
-            call cursor(nameInfo[3])
+            " call cursor(nameInfo[3])
+
+            call s:log.Debug( 'built ph='.string( placeHolder ) )
+
+            if placeHolder.name != ''
+              call s:log.Debug( 'ph''s name is not empty' )
+              let defaultValue = has_key( tmplObj.setting.defaultValues, placeHolder.name ) ? 
+                    \tmplObj.setting.defaultValues[ placeHolder.name ] 
+                    \: placeHolder.ontimeFilter
+
+              call s:log.Debug( 'default value=' . defaultValue )
+
+              if defaultValue != '' && defaultValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
+                let text = s:Eval( defaultValue )
+                call XPRstartSession()
+                call XPreplaceByMarkInternal( placeHolder.mark.start, placeHolder.mark.end, text )
+                call XPRendSession()
+
+              endif
+            endif
+
+
+            call cursor( XPMpos( placeHolder.mark.end ) )
 
         endif
 
