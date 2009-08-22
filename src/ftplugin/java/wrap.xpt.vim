@@ -1,27 +1,38 @@
-if exists("b:__WRAP_JAVA_XPT_VIM__")
-  finish
-endif
+XPTemplate priority=lang
 
-let b:__WRAP_JAVA_XPT_VIM__ = 1
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-XPTemplateDef
+XPTinclude 
+      \ _common/common
+
+
+" ========================= Function and Variables =============================
+
+
+" ================================= Snippets ===================================
+XPTemplateDef 
+
+
 XPT try_ hint=try\ {\ SEL\ }\ catch...
 try
 {
     `wrapped^
-}`...^
-catch (`except^ e)
+}` `catch...^
+XSETm catch...|post
+
+catch (`except^ `e^)
 {
     `handler^
-}`...^
-`catchAllOther...^catch (Exception e)
+}` `catch...^
+XSETm END
+`finally...{{^finally
 {
-    \`\^
-}^^
-`finally...^finally
-{
-    \`cursor\^
-}^^
-
-
-
+    `cursor^
+}`}}^

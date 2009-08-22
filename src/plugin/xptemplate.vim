@@ -547,7 +547,6 @@ fun! XPTemplateStart(pos, ...) " {{{
                 let [startLineNr, startColumn] = [line("."), col(".")]
             endif
 
-            #
         endif
 
         let templateName = strpart( getline(startLineNr), startColumn - 1, cursorColumn - startColumn )

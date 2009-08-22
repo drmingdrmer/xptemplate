@@ -1,18 +1,15 @@
-if exists("b:__JAVASCRIPT_JAVASCRIPPT_XPT_VIM__")
-  finish
-endif
-let b:__JAVASCRIPT_JAVASCRIPPT_XPT_VIM__ = 1
+XPTemplate priority=lang keyword=$
 
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          true
+XPTvar $FALSE         false
+XPTvar $NULL          null
+XPTvar $UNDEFINED     undefined
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \ 
 
-
-" containers
-let [s:f, s:v] = XPTcontainer()
-
-" constant definition
-call extend(s:v, {'$TRUE': 'true', '$FALSE' : 'false', '$NULL' : 'null', '$UNDEFINED' : 'undefined', '$INDENT_HELPER' : '/* */;'})
-
-" inclusion
-XPTinclude
+XPTinclude 
       \ _common/common
       \ _condition/ecma
       \ _comment/c.like
@@ -21,8 +18,11 @@ XPTinclude
 
 " ========================= Function and Variables =============================
 
+
 " ================================= Snippets ===================================
-XPTemplateDef
+XPTemplateDef 
+
+
 
 XPT bench hint=Benchmark
 XSET log=console.log

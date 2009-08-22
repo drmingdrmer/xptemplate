@@ -76,9 +76,13 @@ fun! s:popup(start_col, ...) dict "{{{
 
     let sess = self
 
+    " index of cursor position in line string
+    " start from 1, without current character
+    let cursorIndex = col(".") - 1 - 1
+
     let sess.line        = line(".")
     let sess.col         = a:start_col
-    let sess.prefix      = getline( sess.line )[ sess.col - 1 : col(".") - 2 ]
+    let sess.prefix      = cursorIndex >= 0 ? getline( sess.line )[ sess.col - 1 : cursorIndex ] : ''
     let sess.ignoreCase  = sess.prefix !~# '\u'
     let sess.currentList = s:filterCompleteList(sess)
     let sess.longest     = s:LongestPrefix(sess)

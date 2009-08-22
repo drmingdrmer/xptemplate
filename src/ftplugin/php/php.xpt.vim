@@ -1,4 +1,4 @@
-XPTemplate priority=lang keyword=# indent=auto
+XPTemplate priority=lang+
 
 " containers
 let [s:f, s:v] = XPTcontainer()

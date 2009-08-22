@@ -1,3 +1,9 @@
+" Note: disabled
+finish
+
+
+
+
 fun! s:SID()
   return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID$')
 endfunction
