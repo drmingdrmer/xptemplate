@@ -24,7 +24,7 @@ XPTemplateDef
 XPT if hint=if\ ..:\ ..\ else...
 XSET job=$INDENT_HELPER
 if `cond^:
-    `job^
+    `job`
 ``elif...`
 {{^elif `cond2^:
     `job^
@@ -34,12 +34,13 @@ if `cond^:
 
 
 XPT for hint=for\ ..\ in\ ..:\ ...
-for `vars^ in `range^0)^:
+for `vars^ in range(`0^):
     `cursor^
 
 
 XPT def hint=def\ ..(\ ..\ ):\ ...
-def `fun_name^( `params^^ ):
+XSET para..|post=ExpandIfNotEmpty( ', ', 'para..' )
+def `fun_name^( `para..^ ):
     `cursor^
 
 

@@ -253,9 +253,9 @@ endfunction "}}}
 
 " TODO this is problemtic if in future mark can be set for each snippet
 fun! XPTmark() "{{{
-    let renderContext = getRenderContext()
+    let renderContext = s:getRenderContext()
     let xp = renderContext.tmpl.ptn
-    return [ x.l, x.r ]
+    return [ xp.l, xp.r ]
 endfunction "}}}
 
 fun! XPTcontainer() "{{{
@@ -1597,6 +1597,7 @@ fun! s:buildPlaceHolders( markRange ) "{{{
 
             call s:log.Debug( 'built ph='.string( placeHolder ) )
 
+            " TODO need to be more precise for default, ontime, etc.
             if placeHolder.name != ''
               call s:log.Debug( 'ph''s name is not empty' )
               let defaultValue = has_key( tmplObj.setting.defaultValues, placeHolder.name ) ? 
@@ -1605,10 +1606,12 @@ fun! s:buildPlaceHolders( markRange ) "{{{
 
               call s:log.Debug( 'default value=' . defaultValue )
 
+
               if defaultValue != '' && defaultValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
                 let text = s:Eval( defaultValue )
+                let marks = placeHolder.isKey ? placeHolder.editMark : placeHolder.mark
                 call XPRstartSession()
-                call XPreplaceByMarkInternal( placeHolder.mark.start, placeHolder.mark.end, text )
+                call XPreplaceByMarkInternal( marks.start, marks.end, text )
                 call XPRendSession()
 
               endif
