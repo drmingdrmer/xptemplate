@@ -34,8 +34,8 @@ endfunction
 
 
 
-" let s:log = CreateLogger( 'debug' )
-let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
+" let s:log = CreateLogger( 'warn' )
 
 fun! XPRstartSession() "{{{
     if exists( 'b:_xpr_session' )
@@ -139,6 +139,15 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
 
     call s:log.Log( 'after deleting content, line=' . string( getline( a:start[0] ) ) )
 
+    if a:replacement == ''
+        call s:log.Debug( 'no replacement, return' )
+        if option.doJobs
+            call s:doPostJob( a:start, a:start, a:replacement )
+        endif
+
+        return copy( a:start )
+
+    endif
 
 
     " add new 
@@ -155,6 +164,7 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
 
     " TODO use this only when entering insert mode from select mode
     let ifPasteAtEnd = ( col( [ a:start[0], '$' ] ) == a:start[1] && a:start[1] > 1 ) 
+    call s:log.Log( 'ifPasteAtEnd=' . ifPasteAtEnd )
 
 
     " NOTE: When just entering insert mode from select mode, it is impossible to paste at line end.
@@ -174,6 +184,8 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
     let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
 
+    call s:log.Log( 'positionAfterReplacement='.string( positionAfterReplacement ) )
+
     call cursor( a:start )
     k'
 
@@ -186,6 +198,8 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
         call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 )
         silent! normal! xzo
     else
+        call cursor( positionAfterReplacement )
+        call s:log.Log( 'before remove ";" positionAfterReplacement='.string( positionAfterReplacement ) )
         silent! normal! XzO
     endif
 
@@ -202,7 +216,6 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
 
 endfunction "}}}
 
-" fun! XPreplace
 fun! XPreplace(start, end, replacement, ...) "{{{
     " Cursor stays just after replacement
 
