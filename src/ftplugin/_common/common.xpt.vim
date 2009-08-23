@@ -317,8 +317,8 @@ fun! s:f.ItemCreate( name, edges, filters )
 
   let item .= mr
 
-  if has_key( a:filter, 'post' )
-    let item .= a:filter.post . mr . mr
+  if has_key( a:filters, 'post' )
+    let item .= a:filters.post . mr . mr
   endif
 
   return item

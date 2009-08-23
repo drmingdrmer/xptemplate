@@ -430,16 +430,19 @@ fun! s:handleXSETcommand(setting, command, keyname, keytype, value) "{{{
         let a:setting.postQuoter = a:value
 
     elseif a:keytype == "" || a:keytype ==# 'def'
-        let a:setting.defaultValues[a:keyname] = a:value
+        " first line is indent : empty indent
+        let a:setting.defaultValues[a:keyname] = '\n' . a:value
 
     elseif a:keytype ==# 'post'
         if a:keyname =~ '\V...'
             " TODO not good, use another keytype to define 'buildIfNoChange' post filter
             "
-            let a:setting.postFilters[a:keyname] = 'BuildIfNoChange(' . string(a:value) . ')'
+            " first line is indent : empty indent
+            let a:setting.postFilters[a:keyname] = "\n" . 'BuildIfNoChange(' . string(a:value) . ')'
 
         else
-            let a:setting.postFilters[a:keyname] = a:value
+            " first line is indent : empty indent
+            let a:setting.postFilters[a:keyname] = "\n" . a:value
 
         endif
 

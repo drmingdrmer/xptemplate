@@ -859,7 +859,7 @@ endfunction "}}}
 
 let s:oldRepPattern = '\w\*...\w\*'
 
-fun! s:parseRepetition(str, x) "{{{
+fun! s:ParseRepetition(str, x) "{{{
     let x = a:x
     let xp = x.renderContext.tmpl.ptn
     let tmplObj = x.renderContext.tmpl
@@ -899,8 +899,8 @@ fun! s:parseRepetition(str, x) "{{{
         call s:log.Log( 'bef=' . bef )
         call s:log.Log( 'indent=' . indent )
         let repeatPart = matchstr(rest, repContPtn)
-        let repeatPart = s:clearMaxCommonIndent( repeatPart, indent )
         let repeatPart = 'BuildIfNoChange(' . string( repeatPart ) . ')'
+        let repeatPart = s:BuildFilterIndent( repeatPart, indent )
         let symbol = matchstr(rest, rp)
         let name = substitute( symbol, '\V' . xp.lft . '\|' . xp.rt, '', 'g' )
         
@@ -1106,10 +1106,13 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet ) "{{{
 
 
         let plainPostFilter = snip[ startPos + len( startText ) : endPos - 1 ]
+        
+        let firstLineIndent = s:getIndentBeforeEdge( a:tmplObj, snip[ : startPos - 1 ] )
 
-        let plainPostFilter = s:clearMaxCommonIndent( plainPostFilter, s:getIndentBeforeEdge( a:tmplObj, snip[ : startPos - 1 ] ) )
+        let plainPostFilter = 'BuildIfNoChange(' . string( plainPostFilter ) . ')'
+        let plainPostFilter = s:BuildFilterIndent( plainPostFilter, firstLineIndent )
 
-        let postFilters[ name ] = 'BuildIfNoChange(' . string( plainPostFilter ) . ')'
+        let postFilters[ name ] = plainPostFilter
 
         call s:log.Debug( 'name=' . name )
         call s:log.Debug( 'quoted post filter=' . string( postFilters[ name ] ) )
@@ -1144,7 +1147,7 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
     if tmpl =~ '\n'
         let tmpl = s:applyTmplIndent(ctx, tmpl)
     endif
-    let tmpl = s:parseRepetition(tmpl, x)
+    let tmpl = s:ParseRepetition(tmpl, x)
 
     let tmpl = substitute(tmpl, '\V' . xp.lft . s:wrappedName . xp.rt, x.wrap, 'g')
 
@@ -1278,14 +1281,14 @@ fun! s:getValueInfo(end) "{{{
     return [r0, r1, r2]
 endfunction "}}}
 
-fun! s:clearMaxCommonIndent( str, firstLineIndent ) "{{{
+fun! s:BuildFilterIndent( str, firstLineIndent ) "{{{
     let min = a:firstLineIndent
 
     " protect the first and last line break
-    let list = split('=' . a:str . "=", "\n")
+    let list = split( a:str, "\n", 1 )
 
     " from the 2nd line, to the last 2nd line
-    for line in list[ 2 : -2 ]
+    for line in list[ 1 : ]
 
         let indentWidth = len( matchstr( line, '^\s*' ) )
 
@@ -1293,11 +1296,18 @@ fun! s:clearMaxCommonIndent( str, firstLineIndent ) "{{{
         let min = min( [ min, indentWidth ] )
     endfor
 
+    call s:log.Debug( 'build indent for ' . a:str )
+
     call s:log.Log("minimal indent:".min)
 
+    " *) The minimal indent at start of line is removed
+    " *) The indent of the line filter start is also recorded.
+    "   Thus relative indent is recorded.
     let pattern = '\n\s\{' . min . '}'
 
-    return substitute( a:str, pattern, "\n", 'g' )
+    call s:log.Debug( 'firstLineIndent=' . a:firstLineIndent )
+
+    return repeat( ' ', a:firstLineIndent - min ) . "\n" . substitute( a:str, pattern, "\n", 'g' )
 endfunction "}}}
 
 " XSET name|def=
@@ -1364,7 +1374,7 @@ fun! s:createPlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
         let val = s:textBetween( a:valueInfo[0], a:valueInfo[1] )
         let val = val[1:]
-        let val = s:clearMaxCommonIndent( val, indent( a:valueInfo[0][0] ) )
+        let val = s:BuildFilterIndent( val, indent( a:valueInfo[0][0] ) )
 
 
         if isPostFilter
@@ -1821,7 +1831,7 @@ fun! s:finishCurrentAndGotoNextItem(action) " {{{
         call XPreplace(XPMpos( marks.start ),XPMpos( marks.end ), '')
     endif
 
-    let post = s:applyPostFilter()
+    let post = s:ApplyPostFilter()
 
     let renderContext.step += [{ 'name' : renderContext.item.name, 'value' : post }]
     if renderContext.item.name != ''
@@ -1865,7 +1875,7 @@ fun! s:RemovePlaceHolderMark( placeHolder )
     endif
 endfunction
 
-fun! s:applyPostFilter() "{{{
+fun! s:ApplyPostFilter() "{{{
 
     " *) Apply Group-scope post filter to leading place holder.
     " *) Following place holders are updated by trying filter on the following
@@ -1906,20 +1916,23 @@ fun! s:applyPostFilter() "{{{
         let filter = leaderPostFilter
     endif
 
+    let filterIndent = matchstr( filter, '\s*\ze\n' )
+    let filterText = matchstr( filter, '\n\zs\_.*' )
 
 
     call s:log.Log("name:".name)
     call s:log.Log("typed:".typed)
     call s:log.Log('group post filter :' . groupPostFilter)
     call s:log.Log('leader post filter :' . leaderPostFilter)
-    call s:log.Log('post filter :' . filter)
+    call s:log.Log('post filterIndent :' . filterIndent)
+    call s:log.Log('post filterText :' . filterText)
 
 
     " TODO per-place-holder filter
     " check by 'groupPostFilter' is ok
-    if filter != ''
+    if filterText != ''
 
-        let [ text, ifToBuild, rc ] = s:evalPostFilter( filter, typed )
+        let [ text, ifToBuild, rc ] = s:evalPostFilter( filterText, typed )
 
         call s:log.Log("before replace, tmpl=\n".s:textBetween(s:TL(), s:BR()))
 
@@ -1927,7 +1940,7 @@ fun! s:applyPostFilter() "{{{
 
         let [ start, end ] = XPMposList( marks.start, marks.end )
 
-        let snip = s:adjustIndentAccordingTo( text, start[0] )
+        let snip = s:AdjustIndentAccordingToLine( text, filterIndent, start[0] )
         call XPMsetLikelyBetween( marks.start, marks.end )
         call XPreplace(start, end, snip)
 
@@ -1944,7 +1957,8 @@ fun! s:applyPostFilter() "{{{
 
     endif
 
-    if groupPostFilter != ''
+    " after indent segment, there is something
+    if groupPostFilter =~ '\n.'
         call s:updateFollowingPlaceHoldersWith( typed, { 'post' : text } )
         return text
     else
@@ -1999,12 +2013,19 @@ fun! s:evalPostFilter( filter, typed ) "{{{
     return res
 endfunction "}}}
 
-fun! s:adjustIndentAccordingTo( snip, lineNr ) "{{{
+fun! s:AdjustIndentAccordingToLine( snip, indent, lineNr ) "{{{
     let indent = indent( a:lineNr )
     call s:log.Debug( 'line to get indent:' . getline( a:lineNr ) )
     call s:log.Debug( 'post filter indent at line[' . a:lineNr . ']:' . indent )
 
     let indentspaces = repeat(' ', indent)
+
+    " remove original indent
+    if len( indentspaces ) > len( a:indent )
+      let indentspaces = substitute( indentspaces, a:indent, '', '' )
+    else
+      let indentspaces = ''
+    endif
 
     return substitute( a:snip, "\n", "\n" . indentspaces, 'g' )
 
@@ -2302,7 +2323,7 @@ fun! s:fillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
 
 endfunction "}}}
 
-fun! s:applyDefaultValueToPH( renderContext, filter ) "{{{
+fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
 
     call s:log.Log( "**" )
 
@@ -2347,7 +2368,10 @@ fun! s:applyDefaultValueToPH( renderContext, filter ) "{{{
 
     else 
         " string
-        let str = s:addIndent( obj, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0] )
+        let filterIndent = matchstr( obj, '\s*\ze\n' )
+        let filterText = matchstr( obj, '\n\zs\_.*' )
+        let str = s:AdjustIndentAccordingToLine( filterText, filterIndent, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0] )
+        " let str = s:addIndent( obj, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0] )
 
         return s:fillinLeadingPlaceHolderAndSelect( renderContext, str )
 
@@ -2362,11 +2386,11 @@ fun! s:initItem() " {{{
 
     " apply default value
     if has_key(renderContext.tmpl.setting.defaultValues, renderContext.item.name)
-        return s:applyDefaultValueToPH( renderContext, 
+        return s:ApplyDefaultValueToPH( renderContext, 
                     \renderContext.tmpl.setting.defaultValues[ renderContext.item.name ])
 
     elseif renderContext.leadingPlaceHolder.ontimeFilter != ''
-        return s:applyDefaultValueToPH( renderContext, 
+        return s:ApplyDefaultValueToPH( renderContext, 
                     \renderContext.leadingPlaceHolder.ontimeFilter)
 
 

@@ -9,10 +9,10 @@ XPT try_ hint=try\ SEL\ catch...
 try
     `wrapped^
 catch
-    `excep^ -> `toRet^ `...0^;
-    `except^ -> `toRet^`...0^
-`after...^after
-    \`afterBody\^^^
+    `excep^ -> `toRet^` `...0^;
+    `except^ -> `toRet^` `...0^
+`after...{{^after
+    `afterBody^`}}^
 end
 
 
