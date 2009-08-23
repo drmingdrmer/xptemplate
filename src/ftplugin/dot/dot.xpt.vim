@@ -1,18 +1,24 @@
-if exists("b:__DOT_XPT_VIM__") 
-    finish 
-endif
-let b:__DOT_XPT_VIM__ = 1 
+XPTemplate priority=lang
 
-" containers
 let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-" constant definition
-
-" inclusion
 XPTinclude 
-    \ _common/common
+      \ _common/common
 
-XPTemplateDef
+
+" ========================= Function and Variables =============================
+
+
+" ================================= Snippets ===================================
+XPTemplateDef 
+
 
 XPT digraph hint=digraph\ ..\ {\ ..\ }
 digraph `graphName^

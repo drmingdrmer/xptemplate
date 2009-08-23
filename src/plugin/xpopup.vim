@@ -71,6 +71,7 @@ fun! s:popup(start_col, ...) dict "{{{
 
     " if multi items matched, whether to invoke call back or just show popup
     let doCallback = a:0 == 0 || a:1
+    let ifEnlarge = a:0 < 2 || a:2
 
     call s:log.Debug("doCallback=".doCallback)
 
@@ -85,7 +86,11 @@ fun! s:popup(start_col, ...) dict "{{{
     let sess.prefix      = cursorIndex >= 0 ? getline( sess.line )[ sess.col - 1 : cursorIndex ] : ''
     let sess.ignoreCase  = sess.prefix !~# '\u'
     let sess.currentList = s:filterCompleteList(sess)
-    let sess.longest     = s:LongestPrefix(sess)
+    if ifEnlarge
+        let sess.longest     = s:LongestPrefix(sess)
+    else
+        let sess.longest     = sess.prefix
+    endif
 
     call s:log.Debug("sess=".string(sess))
 
@@ -411,7 +416,7 @@ fun! XPPshorten() "{{{
     call s:log.Log("shorterKey=".shorterKey)
 
 
-    let action = actions . repeat( "\<bs>", len(current) - len(shorterKey) ) . "\<C-r>=XPPrepopup(0)\<cr>"
+    let action = actions . repeat( "\<bs>", len(current) - len(shorterKey) ) . "\<C-r>=XPPrepopup(0, 'noenlarge')\<cr>"
     " let action = actions . repeat( "\<bs>", len(current) - len(shorterKey) )
 
     call s:log.Log("action=".action)
@@ -433,12 +438,12 @@ fun! XPPenlarge() "{{{
     "
     " if pumvisible
 
-    return "\<C-r>=XPPrepopup(1)\<cr>"
-    return "\<space>\<bs>\<C-r>=XPPrepopup()\<cr>"
-    " return "\<space>\<bs>\<C-y>\<C-r>=XPPrepopup()\<cr>"
+    return "\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
+    " return "\<space>\<bs>\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
+    " return "\<space>\<bs>\<C-y>\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
 endfunction "}}}
 
-fun! XPPrepopup(doCallback) "{{{
+fun! XPPrepopup(doCallback, ifEnlarge) "{{{
     " If re-popup is called by XPPshorten, matched item should not trigger callback,
     " to let user see what matches. 
     "
@@ -451,7 +456,7 @@ fun! XPPrepopup(doCallback) "{{{
         return ""
     endif
     let sess = b:__xpp_current_session
-    return sess.popup(sess.col, a:doCallback)
+    return sess.popup(sess.col, a:doCallback, a:ifEnlarge == 'enlarge')
 endfunction "}}}
 
 fun! XPPcorrectPos() "{{{
@@ -596,6 +601,10 @@ endfunction "}}}
 
 fun! s:FindShorter(map, key) "{{{
     let key = a:key
+
+    if len( key ) == 1
+      return ''
+    endif
 
     let nmatch = has_key(a:map, key) ? a:map[key] : 1
 

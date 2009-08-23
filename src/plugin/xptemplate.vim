@@ -207,7 +207,8 @@ fun! s:ItemPumCB.onOneMatch(sess) "{{{
     " TODO  next item is better?
     call s:XPTupdate()
 
-    return ""
+    return s:finishCurrentAndGotoNextItem( '' )
+    " return ""
 endfunction "}}}
 
 
@@ -2223,7 +2224,7 @@ fun! s:extractOneItem() "{{{
 
 endfunction "}}}
 
-fun! s:handleDefaultValueAction( ctx, act ) "{{{
+fun! s:HandleDefaultValueAction( ctx, act ) "{{{
     " @return   string  typing 
     "           -1      if this action can not be handled
 
@@ -2355,7 +2356,7 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
 
     if type(obj) == type({})
         " action object
-        let rc = s:handleDefaultValueAction( renderContext, obj )
+        let rc = s:HandleDefaultValueAction( renderContext, obj )
 
         return ( rc is -1 ) ? s:fillinLeadingPlaceHolderAndSelect( renderContext, '' ) : rc
 
@@ -2373,7 +2374,8 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
         call XPreplace( start, end, '')
         call cursor(start)
 
-        return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."))
+        " to pop up, but do not enlarge matching, thus empty string is selected at first
+        return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."), 1, 0)
 
     else 
         " string

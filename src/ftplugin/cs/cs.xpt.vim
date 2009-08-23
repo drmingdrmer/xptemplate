@@ -1,3 +1,25 @@
+XPTemplate priority=sub
+
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
+
+XPTinclude 
+      \ _common/common
+
+
+" ========================= Function and Variables =============================
+
+
+" ================================= Snippets ===================================
+XPTemplateDef 
+
+
 if exists('b:__CS_XPT_VIM__')
   finish
 endif
