@@ -61,6 +61,7 @@ let s:doctypes = {
 fun! s:f.doctypeList()
   return keys( s:doctypes )
 endfunction
+
 fun! s:f.doctypePost(v)
   if has_key( s:doctypes, a:v )
     return s:doctypes[ a:v ]
@@ -69,6 +70,19 @@ fun! s:f.doctypePost(v)
   endif
 endfunction
 
+" TODO do not apply to following place holder 
+fun! s:f.html_tagAttr()
+  let tagName = self.V()
+  if tagName ==? 'a'
+    return tagName . ' href="' . self.ItemCreate( '#', {}, {} ) . '"'
+  " elseif tagName ==? 'div'
+  " elseif tagName ==? 'table'
+  else
+
+    return tagName
+  endif
+
+endfunction
 " ================================= Snippets ===================================
 
 
@@ -138,14 +152,6 @@ XPT a hint=<a\ href...
 <a href="`href^">`cursor^</a>
 ..XPT
 
-XPT script hint=<script\ language="javascript"...
-<script language="javascript" type="text/javascript">
-`cursor^
-</script>
-..XPT
-
-XPT scrlink hint=<script\ ..\ src=...
-<script language="javascript" type="text/javascript" src="`cursor^"></script>
 
 XPT div hint=<div>\ ..\ </div>
 <div`^>`cursor^</div>
@@ -170,7 +176,7 @@ XPT ol hint=<ol>\ <li>...
 
 
 XPT br hint=<br\ />
-<br/>
+<br />
 
 
 " <h1>`cr^^`cursor^`cr^^</h1>
@@ -179,7 +185,19 @@ XSET n=1
 <h`n^>`cursor^</h`n^>
 
 
+XPT script hint=<script\ language="javascript"...
+<script language="javascript" type="text/javascript">
+`cursor^
+</script>
+..XPT
 
+XPT scrlink hint=<script\ ..\ src=...
+<script language="javascript" type="text/javascript" src="`cursor^"></script>
+
+
+XPT <_ hint=
+XSET span_disable|post=html_tagAttr()
+<`span^>`wrapped^</`span^>
 
 XPT p_ hint=
 <p>`wrapped^</p>

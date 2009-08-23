@@ -2,7 +2,7 @@ if exists("g:__DEBUG_VIM__")
   finish
 endif
 let g:__DEBUG_VIM__ = 1
-let s:globalLogLevel = 'debug'
+let s:globalLogLevel = 'warn'
   let level = s:logLevels[ a:level ]
   let level = min( [ level, s:logLevels[ s:globalLogLevel ] ] )
   let logger = copy( s:loggerPrototype )

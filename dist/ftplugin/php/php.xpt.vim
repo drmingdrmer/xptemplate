@@ -1,4 +1,4 @@
-XPTemplate priority=lang+
+XPTemplate priority=lang-
 
 " containers
 let [s:f, s:v] = XPTcontainer()

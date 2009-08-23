@@ -1,20 +1,24 @@
-if exists('b:__CSS_CSS_XPT_VIM__') 
-    finish 
-endif
-let b:__CSS_CSS_XPT_VIM__ = 1 
+XPTemplate priority=lang
 
-" containers
 let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-" constant definition
-call extend(s:v, {'$TRUE': '1', '$FALSE': '0', '$NULL': 'NULL', '$UNDEFINED': '', '$IF_BRACKET_STL': '\n'})
+XPTinclude 
+      \ _common/common
 
-" inclusion
-XPTinclude
-    \ _common/common
 
 " ========================= Function and Variables =============================
+
+
 " ================================= Snippets ===================================
+XPTemplateDef 
+
 
 XPTemplateDef 
 XPT backrep hint=background-repeat
@@ -34,50 +38,17 @@ XSET vert=Choose(['top', 'center', 'bottom'])
 XSET vert|post=SV('^\s*$', '', 'g')
 background-position:` `vert`^` `horiz`^;
 
+
 XPT border hint=border
+XSET pos=ChooseStr( '-top', '-right', '-bottom', '-left' )
 XSET thick=Choose(['thin', 'thick', 'medium'])
 XSET thick|post=SV('^\s*$', '', 'g')
 XSET kind=Choose(['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset'])
 XSET kind|post=SV('^\s*$', '', 'g')
 XSET color=Choose(['rgb(', '#', 'transparent'])
 XSET color|post=SV('^\s*$', '', 'g')
-border:` `thick`^`kind^` `color^; 
+border`pos^:` `thick^` `kind^` `color^;
 
-XPT bordertop hint=border-top
-XSET thick=Choose(['thin', 'thick', 'medium'])
-XSET thick|post=SV('^\s*$', '', 'g')
-XSET kind=Choose(['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset'])
-XSET kind|post=SV('^\s*$', '', 'g')
-XSET color=Choose(['rgb(', '#', 'transparent'])
-XSET color|post=SV('^\s*$', '', 'g')
-border-top:` `thick`^` `kind`^` `color`^;
-
-XPT borderbottom hint=border-bottom
-XSET thick=Choose(['thin', 'thick', 'medium'])
-XSET thick|post=SV('^\s*$', '', 'g')
-XSET kind=Choose(['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset'])
-XSET kind|post=SV('^\s*$', '', 'g')
-XSET color=Choose(['rgb(', '#', 'transparent'])
-XSET color|post=SV('^\s*$', '', 'g')
-border-bottom:` `thick`^` `kind`^` `color`^;
-
-XPT borderleft hint=border-left
-XSET thick=Choose(['thin', 'thick', 'medium'])
-XSET thick|post=SV('^\s*$', '', 'g')
-XSET kind=Choose(['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset'])
-XSET kind|post=SV('^\s*$', '', 'g')
-XSET color=Choose(['rgb(', '#', 'transparent'])
-XSET color|post=SV('^\s*$', '', 'g')
-border-left:` `thick`^` `kind`^` `color`^;
-
-XPT borderright hint=border-right
-XSET thick=Choose(['thin', 'thick', 'medium'])
-XSET thick|post=SV('^\s*$', '', 'g')
-XSET kind=Choose(['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset'])
-XSET kind|post=SV('^\s*$', '', 'g')
-XSET color=Choose(['rgb(', '#', 'transparent'])
-XSET color|post=SV('^\s*$', '', 'g')
-border-right:` `thick`^` `kind`^` `color`^;
 
 XPT backgroundattachment hint=background-attachment
 XSET selec=Choose(['scroll', 'fixed'])
@@ -115,7 +86,7 @@ border-color: `selec^;
 
 
 XPT borderspacing hint=border-spacing
-XSET selec=Choose(return [])
+XSET selec_disabled=Choose([''])
 border-spacing: `selec^;
 
 

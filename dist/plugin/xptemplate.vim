@@ -83,7 +83,7 @@ endfunction
 let s:ItemPumCB = {}
 fun! s:ItemPumCB.onOneMatch(sess) 
     call s:XPTupdate()
-    return ""
+    return s:finishCurrentAndGotoNextItem( '' )
 endfunction 
 fun! XPTemplateKeyword(val) 
     let x = s:bufData()
@@ -388,6 +388,11 @@ fun! s:finishRendering(...)
         call s:ClearMap()
     else
         call s:popCtx()
+        let renderContext = s:getRenderContext()
+        let behavior = renderContext.item.behavior
+        if has_key( behavior, 'gotoNextAtOnce' ) && behavior.gotoNextAtOnce
+          return s:gotoNextItem()
+        endif
     endif
     return ''
 endfunction 
@@ -436,7 +441,7 @@ fun! s:applyTmplIndent(renderContext, templateText)
     return tmpl
 endfunction 
 let s:oldRepPattern = '\w\*...\w\*'
-fun! s:parseRepetition(str, x) 
+fun! s:ParseRepetition(str, x) 
     let x = a:x
     let xp = x.renderContext.tmpl.ptn
     let tmplObj = x.renderContext.tmpl
@@ -463,8 +468,8 @@ fun! s:parseRepetition(str, x)
         let rest = tmpl[matchpos : ]
         let indent = s:getIndentBeforeEdge( tmplObj, bef )
         let repeatPart = matchstr(rest, repContPtn)
-        let repeatPart = s:clearMaxCommonIndent( repeatPart, indent )
         let repeatPart = 'BuildIfNoChange(' . string( repeatPart ) . ')'
+        let repeatPart = s:BuildFilterIndent( repeatPart, indent )
         let symbol = matchstr(rest, rp)
         let name = substitute( symbol, '\V' . xp.lft . '\|' . xp.rt, '', 'g' )
         let tmplObj.setting.postFilters[ name ] = repeatPart
@@ -519,8 +524,10 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet )
             endif
         endif
         let plainPostFilter = snip[ startPos + len( startText ) : endPos - 1 ]
-        let plainPostFilter = s:clearMaxCommonIndent( plainPostFilter, s:getIndentBeforeEdge( a:tmplObj, snip[ : startPos - 1 ] ) )
-        let postFilters[ name ] = 'BuildIfNoChange(' . string( plainPostFilter ) . ')'
+        let firstLineIndent = s:getIndentBeforeEdge( a:tmplObj, snip[ : startPos - 1 ] )
+        let plainPostFilter = 'BuildIfNoChange(' . string( plainPostFilter ) . ')'
+        let plainPostFilter = s:BuildFilterIndent( plainPostFilter, firstLineIndent )
+        let postFilters[ name ] = plainPostFilter
         let snip = snip[ : startPos + len( startText ) - 1 - 1 - len( quoter.start ) ] 
                     \. snip[ endPos + len( endText ) - 1 : ]
     endwhile
@@ -539,7 +546,7 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition)
     if tmpl =~ '\n'
         let tmpl = s:applyTmplIndent(ctx, tmpl)
     endif
-    let tmpl = s:parseRepetition(tmpl, x)
+    let tmpl = s:ParseRepetition(tmpl, x)
     let tmpl = substitute(tmpl, '\V' . xp.lft . s:wrappedName . xp.rt, x.wrap, 'g')
     call XPMupdate()
     call XPMadd( ctx.marks.tmpl.start, a:nameStartPosition, g:XPMpreferLeft )
@@ -549,7 +556,7 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition)
     let ctx.firstList = []
     let ctx.itemList = []
     let ctx.lastList = []
-    if 0 != s:buildPlaceHolders( ctx.marks.tmpl )
+    if 0 != s:BuildPlaceHolders( ctx.marks.tmpl )
         return s:crash()
     endif
     call s:TopTmplRange()
@@ -610,17 +617,17 @@ fun! s:getValueInfo(end)
     endif
     return [r0, r1, r2]
 endfunction 
-fun! s:clearMaxCommonIndent( str, firstLineIndent ) 
+fun! s:BuildFilterIndent( str, firstLineIndent ) 
     let min = a:firstLineIndent
-    let list = split('=' . a:str . "=", "\n")
-    for line in list[ 2 : -2 ]
+    let list = split( a:str, "\n", 1 )
+    for line in list[ 1 : ]
         let indentWidth = len( matchstr( line, '^\s*' ) )
         let min = min( [ min, indentWidth ] )
     endfor
     let pattern = '\n\s\{' . min . '}'
-    return substitute( a:str, pattern, "\n", 'g' )
+    return repeat( ' ', a:firstLineIndent - min ) . "\n" . substitute( a:str, pattern, "\n", 'g' )
 endfunction 
-fun! s:createPlaceHolder( ctx, nameInfo, valueInfo ) 
+fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) 
     let xp = a:ctx.tmpl.ptn
     let leftEdge  = s:textBetween(a:nameInfo[0], a:nameInfo[1])
     let name      = s:textBetween(a:nameInfo[1], a:nameInfo[2])
@@ -648,7 +655,8 @@ fun! s:createPlaceHolder( ctx, nameInfo, valueInfo )
                     \&& a:valueInfo[1][1] + 1 == a:valueInfo[2][1]
         let val = s:textBetween( a:valueInfo[0], a:valueInfo[1] )
         let val = val[1:]
-        let val = s:clearMaxCommonIndent( val, indent( a:valueInfo[0][0] ) )
+        let val = s:UnescapeChar( val, xp.l . xp.r )
+        let val = s:BuildFilterIndent( val, indent( a:valueInfo[0][0] ) )
         if isPostFilter
             let placeHolder.postFilter = val
         else
@@ -657,6 +665,12 @@ fun! s:createPlaceHolder( ctx, nameInfo, valueInfo )
     endif
     return placeHolder
 endfunction 
+fun! s:UnescapeChar( str, chars )
+    let chars = substitute( a:chars, '\\', '', 'g' )
+    let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]' ) . ']\)'
+    let unescaped = substitute( a:str, pattern, '\1\2', 'g' )
+    return unescaped
+endfunction
 let s:anonymouseIndex = 0
 fun! s:buildMarksOfPlaceHolder(ctx, item, placeHolder, nameInfo, valueInfo) 
     let [ctx, item, placeHolder, nameInfo, valueInfo] = 
@@ -726,7 +740,7 @@ fun! s:addItemToRenderContext( ctx, item )
     endif
 endfunction 
 let s:buildingNr = 0
-fun! s:buildPlaceHolders( markRange ) 
+fun! s:BuildPlaceHolders( markRange ) 
     let s:buildingNr += 1
     let renderContext = s:getRenderContext()
     let tmplObj = renderContext.tmpl
@@ -758,7 +772,7 @@ fun! s:buildPlaceHolders( markRange )
         if valueInfo[0] == [0, 0]
             break
         endif
-        let placeHolder = s:createPlaceHolder(renderContext, nameInfo, valueInfo)
+        let placeHolder = s:CreatePlaceHolder(renderContext, nameInfo, valueInfo)
         if has_key( placeHolder, 'value' )
             let value = s:Eval( placeHolder.value )
             if value =~ '\n'
@@ -774,12 +788,16 @@ fun! s:buildPlaceHolders( markRange )
               let defaultValue = has_key( tmplObj.setting.defaultValues, placeHolder.name ) ? 
                     \tmplObj.setting.defaultValues[ placeHolder.name ] 
                     \: placeHolder.ontimeFilter
-              if defaultValue != '' && defaultValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
-                let text = s:Eval( defaultValue )
-                let marks = placeHolder.isKey ? placeHolder.editMark : placeHolder.mark
-                call XPRstartSession()
-                call XPreplaceByMarkInternal( marks.start, marks.end, text )
-                call XPRendSession()
+              if !s:IsFilterEmpty( defaultValue )
+                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( defaultValue )
+                if filterText !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
+                  let text = s:Eval( filterText )
+                  let marks = placeHolder.isKey ? placeHolder.editMark : placeHolder.mark
+                  let text = s:AdjustIndentAccordingToLine( text, filterIndent, XPMpos( marks.start )[0] )
+                  call XPRstartSession()
+                  call XPreplaceByMarkInternal( marks.start, marks.end, text )
+                  call XPRendSession()
+                endif
               endif
             endif
             call cursor( XPMpos( placeHolder.mark.end ) )
@@ -802,6 +820,7 @@ fun! s:buildItemForPlaceHolder( ctx, placeHolder )
                     \'fullname'     : a:placeHolder.name, 
                     \'placeHolders' : [], 
                     \'keyPH'        : s:NullDict, 
+                    \'behavior'     : {}, 
                     \}
         call s:addItemToRenderContext( a:ctx, item )
     endif
@@ -902,7 +921,7 @@ fun! s:finishCurrentAndGotoNextItem(action)
     if a:action ==# 'clear'
         call XPreplace(XPMpos( marks.start ),XPMpos( marks.end ), '')
     endif
-    let post = s:applyPostFilter()
+    let post = s:ApplyPostFilter()
     let renderContext.step += [{ 'name' : renderContext.item.name, 'value' : post }]
     if renderContext.item.name != ''
         let renderContext.namedStep[renderContext.item.name] = post
@@ -933,7 +952,7 @@ fun! s:RemovePlaceHolderMark( placeHolder )
         call XPMremove( a:placeHolder.editMark.end )
     endif
 endfunction
-fun! s:applyPostFilter() 
+fun! s:ApplyPostFilter() 
     let renderContext = s:getRenderContext()
     let xp     = renderContext.tmpl.ptn
     let posts  = renderContext.tmpl.setting.postFilters
@@ -953,26 +972,28 @@ fun! s:applyPostFilter()
     else
         let filter = leaderPostFilter
     endif
-    if filter != ''
-        let [ text, ifToBuild, rc ] = s:evalPostFilter( filter, typed )
+    let filterIndent = matchstr( filter, '\s*\ze\n' )
+    let filterText = matchstr( filter, '\n\zs\_.*' )
+    if filterText != ''
+        let [ text, ifToBuild, rc ] = s:evalPostFilter( filterText, typed )
         let [ start, end ] = XPMposList( marks.start, marks.end )
-        let snip = s:adjustIndentAccordingTo( text, start[0] )
+        let snip = s:AdjustIndentAccordingToLine( text, filterIndent, start[0] )
         call XPMsetLikelyBetween( marks.start, marks.end )
         call XPreplace(start, end, snip)
         if ifToBuild
             call cursor( start )
             let renderContext.firstList = []
-            if 0 != s:buildPlaceHolders( marks )
+            if 0 != s:BuildPlaceHolders( marks )
                 return s:crash()
             endif
         endif
     endif
-    if groupPostFilter != ''
-        call s:updateFollowingPlaceHoldersWith( typed, { 'post' : text } )
-        return text
-    else
-        call s:updateFollowingPlaceHoldersWith( typed, {} )
+    if s:IsFilterEmpty( groupPostFilter )
+        call s:UpdateFollowingPlaceHoldersWith( typed, {} )
         return typed
+    else
+        call s:UpdateFollowingPlaceHoldersWith( typed, { 'indent' : filterIndent, 'post' : text } )
+        return text
     endif
 endfunction 
 fun! s:evalPostFilter( filter, typed ) 
@@ -991,9 +1012,14 @@ fun! s:evalPostFilter( filter, typed )
     endif
     return res
 endfunction 
-fun! s:adjustIndentAccordingTo( snip, lineNr ) 
+fun! s:AdjustIndentAccordingToLine( snip, indent, lineNr ) 
     let indent = indent( a:lineNr )
     let indentspaces = repeat(' ', indent)
+    if len( indentspaces ) > len( a:indent )
+      let indentspaces = substitute( indentspaces, a:indent, '', '' )
+    else
+      let indentspaces = ''
+    endif
     return substitute( a:snip, "\n", "\n" . indentspaces, 'g' )
 endfunction 
 fun! s:gotoNextItem() 
@@ -1088,10 +1114,11 @@ fun! s:extractOneItem()
     endif
     return renderContext.leadingPlaceHolder
 endfunction 
-fun! s:handleDefaultValueAction( ctx, act ) 
+fun! s:HandleDefaultValueAction( ctx, act ) 
     let ctx = a:ctx
     if has_key(a:act, 'action') " actions
         if a:act.action ==# 'expandTmpl' && has_key( a:act, 'tmplName' )
+            let ctx.item.behavior.gotoNextAtOnce = 1
             let marks = ctx.leadingPlaceHolder.mark
             call XPreplace(XPMpos( marks.start ), XPMpos( marks.end ), '')
             call XPMsetLikelyBetween( marks.start, marks.end )
@@ -1113,12 +1140,6 @@ fun! s:handleDefaultValueAction( ctx, act )
         return -1
     endif
 endfunction 
-fun! s:addIndent( str, lineNr ) 
-    let indent = indent(a:lineNr)
-    let indentSpaces = repeat(' ', indent)
-    let str = substitute( a:str, "\n", "\n" . indentSpaces, 'g' )
-    return str
-endfunction 
 fun! s:embedSnippetInLeadingPlaceHolder( ctx, snippet ) 
     let ph = a:ctx.leadingPlaceHolder
     let marks = ph.isKey ? ph.editMark : ph.mark
@@ -1127,7 +1148,7 @@ fun! s:embedSnippetInLeadingPlaceHolder( ctx, snippet )
         return s:crash( 'leading place holder''s mark lost:' . string( marks ) )
     endif
     call XPreplace( range[0], range[1] , a:snippet )
-    if 0 != s:buildPlaceHolders( marks )
+    if 0 != s:BuildPlaceHolders( marks )
         return s:crash('building place holder failed')
     endif
     return s:gotoNextItem()
@@ -1143,7 +1164,7 @@ fun! s:fillinLeadingPlaceHolderAndSelect( ctx, str )
     call XPreplace( start, end, str )
     let xp = ctx.tmpl.ptn
     if str =~ '\V' . xp.lft . '\.\*' . xp.rt
-        if 0 != s:buildPlaceHolders( marks )
+        if 0 != s:BuildPlaceHolders( marks )
             return s:crash()
         endif
         return s:gotoNextItem()
@@ -1153,13 +1174,13 @@ fun! s:fillinLeadingPlaceHolderAndSelect( ctx, str )
     call XPMupdateStat()
     return action
 endfunction 
-fun! s:applyDefaultValueToPH( renderContext, filter ) 
+fun! s:ApplyDefaultValueToPH( renderContext, filter ) 
     let renderContext = a:renderContext
     let leader = renderContext.leadingPlaceHolder
     let str = a:filter
     let obj = s:Eval(str) 
     if type(obj) == type({})
-        let rc = s:handleDefaultValueAction( renderContext, obj )
+        let rc = s:HandleDefaultValueAction( renderContext, obj )
         return ( rc is -1 ) ? s:fillinLeadingPlaceHolderAndSelect( renderContext, '' ) : rc
     elseif type(obj) == type([])
         if len(obj) == 0
@@ -1169,9 +1190,11 @@ fun! s:applyDefaultValueToPH( renderContext, filter )
         let [ start, end ] = XPMposList( marks.start, marks.end )
         call XPreplace( start, end, '')
         call cursor(start)
-        return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."))
+        return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."), 1, 0)
     else 
-        let str = s:addIndent( obj, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0] )
+        let filterIndent = matchstr( obj, '\s*\ze\n' )
+        let filterText = matchstr( obj, '\n\zs\_.*' )
+        let str = s:AdjustIndentAccordingToLine( filterText, filterIndent, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0] )
         return s:fillinLeadingPlaceHolderAndSelect( renderContext, str )
     endif
 endfunction 
@@ -1179,10 +1202,10 @@ fun! s:initItem()
     let renderContext = s:getRenderContext()
     let renderContext.phase = 'inititem'
     if has_key(renderContext.tmpl.setting.defaultValues, renderContext.item.name)
-        return s:applyDefaultValueToPH( renderContext, 
+        return s:ApplyDefaultValueToPH( renderContext, 
                     \renderContext.tmpl.setting.defaultValues[ renderContext.item.name ])
     elseif renderContext.leadingPlaceHolder.ontimeFilter != ''
-        return s:applyDefaultValueToPH( renderContext, 
+        return s:ApplyDefaultValueToPH( renderContext, 
                     \renderContext.leadingPlaceHolder.ontimeFilter)
     else
         let str = renderContext.item.name
@@ -1320,7 +1343,7 @@ fun! s:Eval(s, ...)
         let kn = 0 + k
         let vn = 0 + k + rangesToEval[k]
         let tmp = k == 0 ? "" : (str[last : kn-1])
-        let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
+        let tmp = s:UnescapeChar( tmp, '[{$' )
         let sp .= tmp
         let evaledResult = eval(str[kn : vn-1])
         if type(evaledResult) != type('')
@@ -1330,7 +1353,7 @@ fun! s:Eval(s, ...)
         let last = vn
     endfor
     let tmp = str[last : ]
-    let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
+    let tmp = s:UnescapeChar( tmp, '[{$' )
     let sp .= tmp
     return sp
 endfunction 
@@ -1572,9 +1595,11 @@ endfunction
 fun! s:CurSynNameStack() 
     return SynNameStack(line("."), col("."))
 endfunction 
-fun! s:updateFollowingPlaceHoldersWith( contentTyped, option ) 
+fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) 
     let renderContext = s:getRenderContext()
-    if renderContext.phase == 'post' && has_key( a:option, 'post' )
+    let useGroupPost = renderContext.phase == 'post' && has_key( a:option, 'post' )
+    if useGroupPost
+        let groupIndent = a:option.indent
         let groupPost = a:option.post
     else
         let groupPost = a:contentTyped
@@ -1583,16 +1608,30 @@ fun! s:updateFollowingPlaceHoldersWith( contentTyped, option )
     let phList = renderContext.item.placeHolders
     for ph in phList
         let filter = ( renderContext.phase == 'post' ? ph.postFilter : ph.ontimeFilter )
-        let filter = filter == '' ? ph.ontimeFilter : filter
-        if filter != ''
-            let filtered = s:Eval( filter, { 'typed' : a:contentTyped } )
-        else
+        let filter = s:IsFilterEmpty( filter ) ? ph.ontimeFilter : filter
+        if !s:IsFilterEmpty( filter )
+            let [ filterIndent, filterText ] = s:GetFilterIndentAndText( filter )
+            let filtered = s:Eval( filterText, { 'typed' : a:contentTyped } )
+            let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
+        elseif useGroupPost
+            let filterIndent = groupIndent
             let filtered = groupPost
+            let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
+        else
+            let filtered = a:contentTyped
         endif
         call XPreplaceByMarkInternal( ph.mark.start, ph.mark.end, filtered )
     endfor
     call XPRendSession()
 endfunction 
+fun! s:IsFilterEmpty( filter )
+    return a:filter !~ '\n.'
+endfunction
+fun! s:GetFilterIndentAndText( filter )
+    let filterIndent = matchstr( a:filter, '\s*\ze\n' )
+    let filterText = matchstr( a:filter, '\n\zs\_.*' )
+    return [ filterIndent, filterText ]
+endfunction
 fun! s:crash() 
     let msg = "XPTemplate snippet crashed :"
     let x = s:bufData()
@@ -1652,7 +1691,7 @@ fun! s:XPTupdate(...)
     if rc == g:XPM_RET.likely_matched
         let relPos = s:recordRelativePosToMark( [ line( '.' ), col( '.' ) ], renderContext.leadingPlaceHolder.mark.start )
         call s:log.Info( "marks before updating following:\n" . XPMallMark() )
-        call s:updateFollowingPlaceHoldersWith( contentTyped, {} )
+        call s:UpdateFollowingPlaceHoldersWith( contentTyped, {} )
         call s:gotoRelativePosToMark( relPos, renderContext.leadingPlaceHolder.mark.start )
     else
     endif

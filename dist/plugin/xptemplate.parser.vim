@@ -230,12 +230,12 @@ fun! s:handleXSETcommand(setting, command, keyname, keytype, value)
     elseif a:keyname ==# 'PostQuoter'
         let a:setting.postQuoter = a:value
     elseif a:keytype == "" || a:keytype ==# 'def'
-        let a:setting.defaultValues[a:keyname] = a:value
+        let a:setting.defaultValues[a:keyname] = "\n" . a:value
     elseif a:keytype ==# 'post'
         if a:keyname =~ '\V...'
-            let a:setting.postFilters[a:keyname] = 'BuildIfNoChange(' . string(a:value) . ')'
+            let a:setting.postFilters[a:keyname] = "\n" . 'BuildIfNoChange(' . string(a:value) . ')'
         else
-            let a:setting.postFilters[a:keyname] = a:value
+            let a:setting.postFilters[a:keyname] = "\n" . a:value
         endif
     else
         throw "unknown key name or type:" . a:keyname . ' ' . a:keytype

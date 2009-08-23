@@ -32,6 +32,7 @@ fun! XPPopupNew(callback, data, ...)
 endfunction 
 fun! s:popup(start_col, ...) dict 
     let doCallback = a:0 == 0 || a:1
+    let ifEnlarge = a:0 < 2 || a:2
     let sess = self
     let cursorIndex = col(".") - 1 - 1
     let sess.line        = line(".")
@@ -39,10 +40,14 @@ fun! s:popup(start_col, ...) dict
     let sess.prefix      = cursorIndex >= 0 ? getline( sess.line )[ sess.col - 1 : cursorIndex ] : ''
     let sess.ignoreCase  = sess.prefix !~# '\u'
     let sess.currentList = s:filterCompleteList(sess)
-    let sess.longest     = s:LongestPrefix(sess)
+    if ifEnlarge
+        let sess.longest     = s:LongestPrefix(sess)
+    else
+        let sess.longest     = sess.prefix
+    endif
     let actionList = []
     if sess.longest !=# sess.prefix
-        let actionList += [ 'clearPrefix', 'clearPum', 'typeLongest' ]
+        let actionList += ['clearPum',  'clearPrefix', 'clearPum', 'typeLongest' ]
     endif
     if len(sess.currentList) == 0
         let sess.matched = ''
@@ -51,7 +56,7 @@ fun! s:popup(start_col, ...) dict
     elseif len(sess.currentList) == 1
         let sess.matched = type(sess.currentList[0]) == type({}) ? sess.currentList[0].word : sess.currentList[0]
         let sess.matchedCallback = 'onOneMatch'
-        let actionList += ['clearPrefix', 'clearPum', 'typeLongest', 'callback']
+        let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
     elseif sess.prefix != "" && sess.longest ==? sess.prefix && doCallback
         let sess.matched = ''
         for item in sess.currentList
@@ -59,7 +64,7 @@ fun! s:popup(start_col, ...) dict
             if key ==? sess.prefix
                 let sess.matched = key
                 let sess.matchedCallback = 'onOneMatch'
-                let actionList += ['clearPrefix', 'clearPum', 'typeLongest', 'callback']
+                let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
                 break
             endif
         endfor
@@ -194,7 +199,7 @@ fun! XPPshorten()
     let actions = ""
     let prefixMap = ( sess.ignoreCase ) ? sess.prefixIndex.lower : sess.prefixIndex.ori
     let shorterKey = s:FindShorter(prefixMap, ( sess.ignoreCase ? substitute(current, '.', '\l&', 'g') : current ))
-    let action = actions . repeat( "\<bs>", len(current) - len(shorterKey) ) . "\<C-r>=XPPrepopup(0)\<cr>"
+    let action = actions . repeat( "\<bs>", len(current) - len(shorterKey) ) . "\<C-r>=XPPrepopup(0, 'noenlarge')\<cr>"
     return action
 endfunction 
 fun! XPPenlarge() 
@@ -202,15 +207,14 @@ fun! XPPenlarge()
         call feedkeys("\<tab>", 'mt')
         return ""
     endif
-    return "\<C-r>=XPPrepopup(1)\<cr>"
-    return "\<space>\<bs>\<C-r>=XPPrepopup()\<cr>"
+    return "\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
 endfunction 
-fun! XPPrepopup(doCallback) 
+fun! XPPrepopup(doCallback, ifEnlarge) 
     if !exists("b:__xpp_current_session")
         return ""
     endif
     let sess = b:__xpp_current_session
-    return sess.popup(sess.col, a:doCallback)
+    return sess.popup(sess.col, a:doCallback, a:ifEnlarge == 'enlarge')
 endfunction 
 fun! XPPcorrectPos() 
     let p = getpos(".")[1:2]
@@ -302,6 +306,9 @@ fun! s:filterCompleteList(sess)
 endfunction 
 fun! s:FindShorter(map, key) 
     let key = a:key
+    if len( key ) == 1
+      return ''
+    endif
     let nmatch = has_key(a:map, key) ? a:map[key] : 1
     if !has_key( a:map, key[ : -2 ] )
         return key[ : -2 ]

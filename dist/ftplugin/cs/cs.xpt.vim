@@ -1,18 +1,14 @@
-if exists('b:__CS_XPT_VIM__')
-  finish
-endif
-let b:__CS_XPT_VIM__ = 1
+XPTemplate priority=lang-
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          true
+XPTvar $FALSE         false
+XPTvar $NULL          null
+XPTvar $UNDEFINED     null
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-call extend(s:v, { '$TRUE': 'true'
-                \, '$FALSE' : 'false'
-                \, '$NULL' : 'null'
-                \, '$UNDEFINED' : ''
-                \, '$IF_BRACKET_STL' : "\n"
-                \, '$INDENT_HELPER' : ';' })
-" inclusion
 XPTinclude 
       \ _common/common
       \ _comment/c.like
@@ -21,10 +17,13 @@ XPTinclude
       \ _loops/java.like
       \ c/wrap
 
-" ========================= Function and Varaibles =============================
+
+" ========================= Function and Variables =============================
+
 
 " ================================= Snippets ===================================
-XPTemplateDef
+XPTemplateDef 
+
 
 XPT foreach hint=foreach\ (..\ in\ ..)\ {..}
 foreach ( `var^ `e^ in `what^ )
@@ -69,9 +68,11 @@ public static void Main( string[] args )
 
 XPT prop hint=..\ ..\ {get\ set}
 public `type^ `Name^
-{`get...^
-    get { return \`what\^; }^^`set...^
-    set { \`what\^ = value; }^^
+{`
+    `get...{{^
+    get { return `what^; }`}}^`
+    `set...{{^
+    set { `what^ = `value^; }`}}^
 }
 
 
@@ -86,19 +87,23 @@ XPT try hint=try\ ..\ catch\ ..\ finally
 try
 {
     `what^
-}`...^
+}`
+`...^
 catch (`except^ e)
 {
     `handler^
-}`...^`catch...^
+}`
+`...^`
+`catch...{{^
 catch
 {
-    \`_\^
-}^^`finally...^
+    `_^^
+}`}}^`
+`finally...{{^
 finally
 {
-    \`cursor\^
-}^^
+    `cursor^
+}`}}^
 
 
 
