@@ -1663,15 +1663,21 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
               call s:log.Debug( 'default value=' . defaultValue )
 
+              if !s:IsFilterEmpty( defaultValue )
+                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( defaultValue )
 
-              if defaultValue != '' && defaultValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
-                let text = s:Eval( defaultValue )
-                let marks = placeHolder.isKey ? placeHolder.editMark : placeHolder.mark
-                call XPRstartSession()
-                call XPreplaceByMarkInternal( marks.start, marks.end, text )
-                call XPRendSession()
+                if filterText !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
+                  let text = s:Eval( filterText )
 
+                  let marks = placeHolder.isKey ? placeHolder.editMark : placeHolder.mark
+                  let text = s:AdjustIndentAccordingToLine( text, filterIndent, XPMpos( marks.start )[0] )
+                  call XPRstartSession()
+                  call XPreplaceByMarkInternal( marks.start, marks.end, text )
+                  call XPRendSession()
+
+                endif
               endif
+
             endif
 
 

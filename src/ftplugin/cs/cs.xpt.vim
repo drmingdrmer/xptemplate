@@ -68,9 +68,11 @@ public static void Main( string[] args )
 
 XPT prop hint=..\ ..\ {get\ set}
 public `type^ `Name^
-{`get...^
-    get { return \`what\^; }^^`set...^
-    set { \`what\^ = value; }^^
+{`
+    `get...{{^
+    get { return `what^; }`}}^`
+    `set...{{^
+    set { `what^ = `value^; }`}}^
 }
 
 
@@ -85,19 +87,23 @@ XPT try hint=try\ ..\ catch\ ..\ finally
 try
 {
     `what^
-}`...^
+}`
+`...^
 catch (`except^ e)
 {
     `handler^
-}`...^`catch...^
+}`
+`...^`
+`catch...{{^
 catch
 {
-    \`_\^
-}^^`finally...^
+    `_^^
+}`}}^`
+`finally...{{^
 finally
 {
-    \`cursor\^
-}^^
+    `cursor^
+}`}}^
 
 
 

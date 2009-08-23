@@ -5,23 +5,25 @@ let b:__WRAP_CS_XPT_VIM__ = 1
 
 XPTemplateDef
 
-XPT try_ hint=try\ {\ SEL\ }\ catch...
+
+XPT try_ hint=try\ ..\ catch\ ..\ finally
 try
 {
     `wrapped^
-}`...^
+}`
+`...^
 catch (`except^ e)
 {
     `handler^
-}`...^
-`catch...^catch
+}`
+`...^`
+`catch...{{^
+catch
 {
-    \`\^
-}^^
-`finally...^finally
+    `_^^
+}`}}^`
+`finally...{{^
+finally
 {
-    \`cursor\^
-}^^
-
-
-
+    `cursor^
+}`}}^
