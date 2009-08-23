@@ -96,6 +96,8 @@ fun! s:popup(start_col, ...) dict "{{{
 
     let actionList = []
 
+    " TODO simplify the procedure of clearing PUM. 
+    " Note: clearPum only once may still cause vim fall back to line-wise completion
 
     " 1) ignoreCase may cause prefix doesn't equal to longest.
     " 2) LongestPrefix may enlarge to longer string
@@ -105,7 +107,7 @@ fun! s:popup(start_col, ...) dict "{{{
         "   user-typed does not match any on list elements.
         "   *) type longest prefix.
 
-        let actionList += [ 'clearPrefix', 'clearPum', 'typeLongest' ]
+        let actionList += ['clearPum',  'clearPrefix', 'clearPum', 'typeLongest' ]
 
     endif
 
@@ -122,7 +124,7 @@ fun! s:popup(start_col, ...) dict "{{{
 
         let sess.matched = type(sess.currentList[0]) == type({}) ? sess.currentList[0].word : sess.currentList[0]
         let sess.matchedCallback = 'onOneMatch'
-        let actionList += ['clearPrefix', 'clearPum', 'typeLongest', 'callback']
+        let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
 
     elseif sess.prefix != "" && sess.longest ==? sess.prefix && doCallback
         " If the typed text matches all items with case ignored, Try to find
@@ -138,7 +140,7 @@ fun! s:popup(start_col, ...) dict "{{{
             if key ==? sess.prefix
                 let sess.matched = key
                 let sess.matchedCallback = 'onOneMatch'
-                let actionList += ['clearPrefix', 'clearPum', 'typeLongest', 'callback']
+                let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
                 " let action = 'end'
                 break
             endif

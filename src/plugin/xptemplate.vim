@@ -19,6 +19,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO cpp : class template is very slow
 " TODO removing mark is not safe that new mark maybe has the same name.
 " TODO XPT : inc bug
 " TODO do not let xpt throw error if calling undefined s:f.function..
@@ -693,6 +694,8 @@ fun! s:doStart(sess) " {{{
 
     call s:log.Debug("post action =".action)
     call s:log.Debug("mode:".mode())
+
+    call s:log.Debug( "tmpl:", s:textBetween( XPMpos( ctx.marks.tmpl.start ), XPMpos( ctx.marks.tmpl.end ) ) )
 
     " NOTE: g:xpt_post_action is for debug only
     return action . g:xpt_post_action
@@ -1993,7 +1996,7 @@ fun! s:ApplyPostFilter() "{{{
         call s:UpdateFollowingPlaceHoldersWith( typed, {} )
         return typed
     else
-        call s:UpdateFollowingPlaceHoldersWith( typed, { 'post' : text } )
+        call s:UpdateFollowingPlaceHoldersWith( typed, { 'indent' : filterIndent, 'post' : text } )
         return text
     endif
 
@@ -3045,7 +3048,9 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
 
     let renderContext = s:getRenderContext()
 
-    if renderContext.phase == 'post' && has_key( a:option, 'post' )
+    let useGroupPost = renderContext.phase == 'post' && has_key( a:option, 'post' )
+    if useGroupPost
+        let groupIndent = a:option.indent
         let groupPost = a:option.post
     else
         let groupPost = a:contentTyped
@@ -3060,16 +3065,24 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
 
         call s:log.Log( 'UpdateFollowingPlaceHoldersWith : filter=' . filter )
 
-        if s:IsFilterEmpty( filter )
+        if !s:IsFilterEmpty( filter )
             let [ filterIndent, filterText ] = s:GetFilterIndentAndText( filter )
             let filtered = s:Eval( filterText, { 'typed' : a:contentTyped } )
 
+            let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
+
             " TODO ontime filter action support?
-        else
+        elseif useGroupPost
+            let filterIndent = groupIndent
             let filtered = groupPost
+
+            let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
+
+        else
+            let filtered = a:contentTyped
+
         endif
 
-        let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
 
 
         " call XPreplace( XPMpos( ph.mark.start ), XPMpos( ph.mark.end ), filtered )
