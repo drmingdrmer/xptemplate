@@ -732,6 +732,11 @@ fun! s:finishRendering(...) "{{{
         call s:ClearMap()
     else
         call s:popCtx()
+        let renderContext = s:getRenderContext()
+        let behavior = renderContext.item.behavior
+        if has_key( behavior, 'gotoNextAtOnce' ) && behavior.gotoNextAtOnce
+          return s:gotoNextItem()
+        endif
     endif
 
     return ''
@@ -1703,6 +1708,7 @@ fun! s:buildItemForPlaceHolder( ctx, placeHolder ) "{{{
                     \'fullname'     : a:placeHolder.name, 
                     \'placeHolders' : [], 
                     \'keyPH'        : s:NullDict, 
+                    \'behavior'     : {}, 
                     \}
 
         call s:addItemToRenderContext( a:ctx, item )
@@ -2235,6 +2241,9 @@ fun! s:HandleDefaultValueAction( ctx, act ) "{{{
         call s:log.Log( "type is ".type(a:act). ' {} type is '.type({}) )
 
         if a:act.action ==# 'expandTmpl' && has_key( a:act, 'tmplName' )
+            let ctx.item.behavior.gotoNextAtOnce = 1
+
+
             " do NOT need to update position 
             let marks = ctx.leadingPlaceHolder.mark
             call XPreplace(XPMpos( marks.start ), XPMpos( marks.end ), '')

@@ -1,40 +1,14 @@
-XPTemplate priority=sub
+XPTemplate priority=lang-
 
 let [s:f, s:v] = XPTcontainer() 
  
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $UNDEFINED     NULL
+XPTvar $TRUE          true
+XPTvar $FALSE         false
+XPTvar $NULL          null
+XPTvar $UNDEFINED     null
 XPTvar $INDENT_HELPER /* void */;
 XPTvar $IF_BRACKET_STL \n
 
-XPTinclude 
-      \ _common/common
-
-
-" ========================= Function and Variables =============================
-
-
-" ================================= Snippets ===================================
-XPTemplateDef 
-
-
-if exists('b:__CS_XPT_VIM__')
-  finish
-endif
-let b:__CS_XPT_VIM__ = 1
-
-" containers
-let [s:f, s:v] = XPTcontainer()
-
-call extend(s:v, { '$TRUE': 'true'
-                \, '$FALSE' : 'false'
-                \, '$NULL' : 'null'
-                \, '$UNDEFINED' : ''
-                \, '$IF_BRACKET_STL' : "\n"
-                \, '$INDENT_HELPER' : ';' })
-" inclusion
 XPTinclude 
       \ _common/common
       \ _comment/c.like
@@ -43,10 +17,13 @@ XPTinclude
       \ _loops/java.like
       \ c/wrap
 
-" ========================= Function and Varaibles =============================
+
+" ========================= Function and Variables =============================
+
 
 " ================================= Snippets ===================================
-XPTemplateDef
+XPTemplateDef 
+
 
 XPT foreach hint=foreach\ (..\ in\ ..)\ {..}
 foreach ( `var^ `e^ in `what^ )

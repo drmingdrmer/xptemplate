@@ -1,4 +1,4 @@
-XPTemplate priority=lang+ keyword=<
+XPTemplate priority=lang keyword=<
 
 let [s:f, s:v] = XPTcontainer() 
  
