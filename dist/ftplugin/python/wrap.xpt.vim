@@ -1,10 +1,26 @@
-if exists("b:__WRAP_PYTHON_XPT_VIM__")
-  finish
-endif
+XPTemplate priority=lang
 
-let b:__WRAP_PYTHON_XPT_VIM__ = 1
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-XPTemplateDef
+XPTinclude 
+      \ _common/common
+      \ _common/personal
+
+
+" ========================= Function and Variables =============================
+
+
+" ================================= Snippets ===================================
+XPTemplateDef 
+
+
 XPT try_ hint=try:\ SEL\ except...
 try:
     `wrapped^

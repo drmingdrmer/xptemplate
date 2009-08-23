@@ -1,31 +1,35 @@
-if exists( "b:__HASKELL_XPT_VIM__")
-    finish
-endif
-let b:__HASKELL_XPT_VIM__ = 1
+XPTemplate priority=lang mark=`~
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-" inclusion
-XPTinclude
+XPTinclude 
       \ _common/common
       \ _preprocessor/c.like
 
-" ========================= Function and Varaibles =============================
+
+" ========================= Function and Variables =============================
+
 
 " ================================= Snippets ===================================
-call XPTemplateMark( '`', '~' )
+XPTemplateDef 
 
-XPTemplateDef
+
 XPT class hint=class\ ..\ where..
-class `context...~(\`ctxt\~) => ~~`className~ `types~a~ where
+class `context...{{~(`ctxt~) => `}}~`className~ `types~a~ where
     `ar~ :: `type~ `...~
     `methodName~ :: `methodType~`...~
 `cursor~
 
 XPT classcom hint=--\ |\ class..
 -- | `classDescr~
-class `context...~(\`ctxt\~) => ~~`className~ `types~a~ where
+class `context...{{~(`ctxt~) => `}}~`className~ `types~a~ where
     -- | `methodDescr~
     `ar~ :: `type~ `...~
     -- | `method_Descr~
@@ -33,46 +37,54 @@ class `context...~(\`ctxt\~) => ~~`className~ `types~a~ where
 `cursor~
 
 XPT datasum hint=data\ ..\ =\ ..|..|..
-data `context...~(\`ctxt\~) => ~~`typename~`typeParams~ ~=
-    `Constructor~ `ctorParams~~ `...~
-  | `Ctor~ `params~~`...~
-  `deriving...~deriving (\`Eq,Show\~)~~
+data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
+    `Constructor~ `ctorParams~VOID()~ `...~
+  | `Ctor~ `params~VOID()~` `...~
+  `deriving...{{~deriving (`Eq,Show~)`}}~
 `cursor~
 
 
 XPT datasumcom hint=--\ |\ data\ ..\ =\ ..|..|..
--- | `typeDescr~~~
-data `context...~(\`ctxt\~) => ~~`typename~`typeParams~ ~=
-    -- | `ConstructorDescr~~
-    `Constructor~ `ctorParams~~ `...~
-    -- | `Ctor descr~~
-  | `Ctor~ `params~~`...~
-  `deriving...~deriving (\`Eq,Show\~)~~
+-- | `typeDescr~VOID()~
+data `context...{{~(`ctxt~) => `}}~`typename~` `typeParams~ ~=
+    -- | `ConstructorDescr~
+    `Constructor~ `ctorParams~VOID()~ `...~
+    -- | `Ctor descr~VOID()~
+  | `Ctor~ `params~VOID()~` `...~
+  `deriving...{{~deriving (`Eq,Show~)`}}~
 `cursor~
 
 XPT parser hint=..\ =\ ..\ <|>\ ..\ <|>\ ..\ <?>
-`funName~ = `rule~`...~
-         <|> `rule~`...~
-         `err...~<?> "\`descr\~"~~
+`funName~ = `rule~`
+         `another_rule...{{~
+         <|> `rule~`
+         `more...{{~
+         <|> `rule~`
+         `more...~`}}~`}}~
+         `err...{{~<?> "`descr~"`}}~
 `cursor~
 
 XPT datarecord hint=data\ ..\ ={}
-data `context...~(\`ctxt\~) => ~~`typename~`typeParams~ ~=
+data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
      `Constructor~ {
-       `field~ :: `type~ `...~
-     , `fieldn~ :: `typen~`...~
+       `field~ :: `type~`
+       `...{{~,
+       `fieldn~ :: `typen~`
+       `...~`}}~
      }
-     `deriving...~deriving (\`Eq, Show\~)~~
+     `deriving...{{~deriving (`Eq, Show~)`}}~
 `cursor~
 
 XPT datarecordcom hint=--\ |\ data\ ..\ ={}
 -- | `typeDescr~
-data `context...~(\`ctxt\~) => ~~`typename~`typeParams~ ~=
+data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
      `Constructor~ {
-       `field~ :: `type~ -- ^ `fieldDescr~ `...~
-     , `fieldn~ :: `typen~ -- ^ `fielddescr~`...~
+       `field~ :: `type~ -- ^ `fieldDescr~`
+       `...{{~, 
+       `fieldn~ :: `typen~ -- ^ `fielddescr~`
+       `...~`}}~
      }
-     `deriving...~deriving (\`Eq,Show\~)~~
+     `deriving...{{~deriving (`Eq,Show~)`}}~
 `cursor~
 
 XPT instance hint=instance\ ..\ ..\ where
@@ -87,40 +99,46 @@ if `expr~
     else `cursor~
 
 XPT fun hint=fun\ pat\ =\ ..
-`funName~ `pattern~ = `def~`...~
-`name~R("funName")~ `pattern~ = `def~`...~
+`funName~ `pattern~ = `def~`
+`...{{~
+`name~R("funName")~ `pattern~ = `def~`
+`...~`}}~
 
 XPT funcom hint=--\ |\ fun\ pat\ =\ ..
 -- | `function_description~
 `funName~ :: `type~
-`name~R("funName")~ `pattern~ = `def~`...~
-`name~R("funName")~ `pattern~ = `def~`...~
+`name~R("funName")~ `pattern~ = `def~`
+`...{{~
+`name~R("funName")~ `pattern~ = `def~`
+`...~`}}~
 
 XPT funtype hint=..\ ::\ ..\ =>\ ..\ ->\ .. ->
-`funName~ :: `context...~(\`ctxt\~)
-          =>~~ `type~ -- ^ `is~`...~
-          -> `type~ -- ^ `is~`...~
+`funName~ :: `context...{{~(`ctxt~)
+          =>`}}~ `type~ -- ^ `is~`
+          `...{{~
+          -> `type~ -- ^ `is~`
+          `...~`}}~
 
 XPT lang hint={-#\ LANGUAGE\ ..\ #-}
 {-# LANGUAGE `langName~ #-}
 
 XPT inline hint={-#\ INLINE\ ..\ #-}
-{-# INLINE `phase...~[\`n\~2\~] ~~`funName~ #-}
+{-# INLINE `phase...{{~[`2~] `}}~`funName~ #-}
 
 XPT noninline hint={-#\ NOINLINE\ ..\ #-}
 {-# NOINLINE `funName~ #-}
 
 XPT type hint=..\ ->\ ..\ ->....
-`context...~(\`ctxt\~) => ~~`t1~ -> `t2~`...~ -> `t3~`...~
+`context...{{~(`ctxt~) => `}}~`t1~ -> `t2~`...~ -> `t3~`...~
 
 XPT deriving hint=deriving\ (...)
 deriving (`classname~`...~,`classname~`...~)
 
 XPT derivingstand hint=deriving\ instance\ ...
-deriving instance `context...~\`ctxt\~ => ~~`class~ `type~
+deriving instance `context...{{~`ctxt~ => `}}~`class~ `type~
 
 XPT module hint=module\ ..\ ()\ where ...
 XSET moduleName=S(S(E('%:r'),'^.','\u&', ''), '[\\/]\(.\)', '.\u\1', 'g')
-module `moduleName~ `exports...~( \`cursor\~
-                                ) ~~where
+module `moduleName~ `exports...{{~( `cursor~
+    ) `}}~where
 

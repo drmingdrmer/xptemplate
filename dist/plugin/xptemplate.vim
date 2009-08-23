@@ -96,21 +96,22 @@ endfunction
 fun! XPTemplatePriority(...) 
     let x = s:bufData()
     let p = a:0 == 0 ? 'lang' : a:1
-    let x.bufsetting.priority = s:ParsePriority(p)
+    let x.snipFileScope.priority = s:ParsePriority(p)
 endfunction 
 fun! XPTemplateMark(sl, sr) 
-    let x = s:bufData().bufsetting.ptn
-    let x.l = a:sl
-    let x.r = a:sr
+    let xp = s:bufData().snipFileScope.ptn
+    let xp.l = a:sl
+    let xp.r = a:sr
     call s:RedefinePattern()
 endfunction 
 fun! XPTemplateIndent(p) 
-    let x = s:bufData().bufsetting.indent
+    let x = s:bufData().snipFileScope.indent
     call s:ParseIndent(x, a:p)
 endfunction 
 fun! XPTmark() 
-    let x = s:bufData().bufsetting.ptn
-    return [ x.l, x.r ]
+    let renderContext = s:getRenderContext()
+    let xp = renderContext.tmpl.ptn
+    return [ xp.l, xp.r ]
 endfunction 
 fun! XPTcontainer() 
     return [s:bufData().vars, s:bufData().vars]
@@ -151,7 +152,7 @@ endfunction
 fun! XPTemplate(name, str_or_ctx, ...) 
     let x = s:bufData()
     let xt = s:bufData().normalTemplates
-    let xp = s:bufData().bufsetting.ptn
+    let xp = s:bufData().snipFileScope.ptn
     let templateSetting = deepcopy(s:templateSettingPrototype)
     if a:0 == 0          " no syntax context
         let TmplObj = a:str_or_ctx
@@ -167,7 +168,7 @@ fun! XPTemplate(name, str_or_ctx, ...)
         let Str = TmplObj
     endif
     let name = a:name
-    let idt = deepcopy(x.bufsetting.indent)
+    let idt = deepcopy(x.snipFileScope.indent)
     if '=' !~ '\V' . x.keyword
         let istr = matchstr(name, '=[^!=]*')
         let name = substitute(name, '=[^!=]*', '', 'g')
@@ -188,14 +189,14 @@ fun! XPTemplate(name, str_or_ctx, ...)
         elseif has_key(templateSetting, 'priority')
             let override_priority = s:ParsePriority(templateSetting.priority)
         else
-            let override_priority = x.bufsetting.priority
+            let override_priority = x.snipFileScope.priority
         endif
         let name = pstr == "" ? name : matchstr(name, '[^!]*\ze!')
     else
         if has_key(templateSetting, 'priority')
             let override_priority = s:ParsePriority(templateSetting.priority)
         else
-            let override_priority = x.bufsetting.priority
+            let override_priority = x.snipFileScope.priority
         endif
     endif
     call s:GetHint(templateSetting)
@@ -205,7 +206,7 @@ fun! XPTemplate(name, str_or_ctx, ...)
                     \ 'tmpl'        : Str,
                     \ 'priority'    : override_priority,
                     \ 'setting'     : templateSetting,
-                    \ 'ptn'         : deepcopy(s:bufData().bufsetting.ptn),
+                    \ 'ptn'         : deepcopy(s:bufData().snipFileScope.ptn),
                     \ 'indent'      : idt,
                     \ 'wrapped'     : type(Str) != type(function("tr")) && Str =~ '\V' . xp.lft . s:wrappedName . xp.rt }
         if type( Str ) == type( '' )
@@ -264,13 +265,11 @@ endfunction
 fun! XPTemplateStart(pos, ...) 
     let x = s:bufData()
     if a:0 == 1 &&  type(a:1) == type({}) && has_key( a:1, 'tmplName' )  
-        let exact = 1
         let startColumn = a:1.startPos[1]
         let templateName = a:1.tmplName
         call cursor(a:1.startPos)
         return  s:doStart( { 'line' : a:1.startPos[0], 'col' : startColumn, 'matched' : templateName } )
     else 
-        let exact = 0
         let cursorColumn = col(".")
         if x.wrapStartPos
             let startLineNr = line(".")
@@ -301,7 +300,6 @@ fun! s:ParseIndent(x, p)
     endif
 endfunction 
 fun! s:GetHint(ctx) 
-    let xp = s:bufData().bufsetting.ptn
     if has_key(a:ctx, 'hint')
         let a:ctx.hint = s:Eval(a:ctx.hint)
     else
@@ -313,7 +311,7 @@ fun! s:ParsePriority(s)
     let pstr = a:s
     let prio = 0
     if pstr == ""
-        let prio = x.bufsetting.priority
+        let prio = x.snipFileScope.priority
     else
         let p = matchlist(pstr, '\V\^\(' . s:priPtn . '\)' . '\%(' . '\(\[+-]\)' . '\(\d\+\)\?\)\?\$')
         let base   = 0
@@ -493,11 +491,20 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet )
     let startPattern = '\V\_.\{-}\zs' . xp.lft . '\_[^' . xp.r . ']\*' . quoter.start . xp.rt
     let endPattern = '\V' . xp.lft . quoter.end . xp.rt
     let snip = a:snippet
+    let stack = []
+    let startPos = 0
+    while startPos != -1
+      let startPos = match(snip, startPattern, startPos)
+      if startPos != -1
+          call add( stack, startPos)
+          let startPos += len( matchstr( snip, startPattern, startPos ) )
+      endif
+    endwhile
     while 1
-        let startPos = match(snip, startPattern)
-        if startPos == -1
-            break
+        if empty( stack )
+          break
         endif
+        let startPos = remove( stack, -1 )
         let endPos = match( snip, endPattern, startPos + 1 )
         if endPos == -1
             break
@@ -722,6 +729,7 @@ let s:buildingNr = 0
 fun! s:buildPlaceHolders( markRange ) 
     let s:buildingNr += 1
     let renderContext = s:getRenderContext()
+    let tmplObj = renderContext.tmpl
     let xp = renderContext.tmpl.ptn
     if renderContext.firstList == []
         let renderContext.firstList = copy(renderContext.tmpl.setting.firstListSkeleton)
@@ -762,7 +770,19 @@ fun! s:buildPlaceHolders( markRange )
         else
             let item = s:buildItemForPlaceHolder( renderContext, placeHolder )
             call s:buildMarksOfPlaceHolder( renderContext, item, placeHolder, nameInfo, valueInfo )
-            call cursor(nameInfo[3])
+            if placeHolder.name != ''
+              let defaultValue = has_key( tmplObj.setting.defaultValues, placeHolder.name ) ? 
+                    \tmplObj.setting.defaultValues[ placeHolder.name ] 
+                    \: placeHolder.ontimeFilter
+              if defaultValue != '' && defaultValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
+                let text = s:Eval( defaultValue )
+                let marks = placeHolder.isKey ? placeHolder.editMark : placeHolder.mark
+                call XPRstartSession()
+                call XPreplaceByMarkInternal( marks.start, marks.end, text )
+                call XPRendSession()
+              endif
+            endif
+            call cursor( XPMpos( placeHolder.mark.end ) )
         endif
     endwhile
     call filter( renderContext.firstList, 'v:val != {}' )
@@ -988,10 +1008,15 @@ fun! s:gotoNextItem()
         call s:log.Error( 'failed to find position of mark:' . placeHolder.mark.start )
         return s:crash()
     endif
+    let leader =  renderContext.leadingPlaceHolder
+    let leaderMark = leader.isKey ? leader.editMark : leader.mark
+    call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
     let postaction = s:initItem()
     if !renderContext.processing
         return postaction
-    elseif postaction != ''
+    endif
+    call XPMsetLikelyBetween( leader.mark.start, leader.mark.end )
+    if postaction != ''
         return postaction
     else
         if renderContext.leadingPlaceHolder.isKey
@@ -1190,7 +1215,7 @@ fun! s:selectCurrent( renderContext )
         return s:SelectAction()
     endif
 endfunction 
-fun! s:createStringMask( str ) 
+fun! s:CreateStringMask( str ) 
     if a:str == ''
         return ''
     endif
@@ -1204,7 +1229,7 @@ fun! s:createStringMask( str )
     let dqe = '\V\('. nonEscaped . '"\)'
     let sqe = '\V\('. nonEscaped . "'\\)"
     let dptn = dqe.'\_.\{-}\1'
-    let sptn = sqe.'\_.\{-}\%(\^\|\[^'']\)\(''''\)\*'''
+    let sptn = sqe.'\%(\_[^'']\)\{-}'''
     let mask = substitute(a:str, '[ *]', '+', 'g')
     while 1 
         let d = match(mask, dptn)
@@ -1240,7 +1265,7 @@ fun! s:Eval(s, ...)
     let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . nonEscaped . '{\w\+(\[^($]\{-})}'
     let vptn = '\V' . '$\w\+' . '\|' . nonEscaped . '{$\w\+}'
     let patternVarOrFunc = fptn . '\|' . vptn
-    let stringMask = s:createStringMask( a:s )
+    let stringMask = s:CreateStringMask( a:s )
     let xfunc._ctx = ctx.evalCtx
     let xfunc._ctx.tmpl = ctx.tmpl
     let xfunc._ctx.step = {}
@@ -1426,6 +1451,34 @@ endfunction
 fun! XPTbufData() 
     return s:bufData()
 endfunction 
+let s:snipScopePrototype = {
+      \'ptn' : {'l':'`', 'r':'^'},
+      \'indent' : {'type' : 'auto', 'rate' : []},
+      \'priority' : s:priorities.lang
+      \}
+fun! XPTnewSnipScope()
+  let x = b:xptemplateData
+  let x.snipFileScope = deepcopy( s:snipScopePrototype )
+  call s:RedefinePattern()
+  return x.snipFileScope
+endfunction
+fun! XPTsnipScope()
+  return s:bufData().snipFileScope
+endfunction
+fun! XPTsnipScopePush()
+  let x = s:bufData()
+  let x.snipFileScopeStack += [x.snipFileScope]
+  let x.snipFileScope = XPTnewSnipScope()
+endfunction
+fun! XPTsnipScopePop()
+  let x = s:bufData()
+  if len(x.snipFileScopeStack) > 0
+    let x.snipFileScope = x.snipFileScopeStack[ -1 ]
+    call remove( x.snipFileScopeStack, -1 )
+  else
+    throw "snipFileScopeStack is empty"
+  endif
+endfunction
 fun! s:createRenderContext(x) 
     let a:x.renderContext = deepcopy( s:renderContextPrototype )
     let a:x.renderContext.lastTotalLine = line( '$' )
@@ -1449,19 +1502,15 @@ fun! s:bufData()
         let b:xptemplateData.keyword = '\w'
         let b:xptemplateData.keywordList = []
         let b:xptemplateData.savedMap = {}
+        let b:xptemplateData.snipFileScopeStack = []
+        let b:xptemplateData.snipFileScope = XPTnewSnipScope()
         call s:createRenderContext( b:xptemplateData )
-        let b:xptemplateData.bufsetting = {
-                    \'ptn' : {'l':'`', 'r':'^'},
-                    \'indent' : {'type' : 'auto', 'rate' : []},
-                    \'priority' : s:priorities.lang
-                    \}
-        call s:RedefinePattern()
         call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
     endif
     return b:xptemplateData
 endfunction 
 fun! s:RedefinePattern() 
-    let xp = b:xptemplateData.bufsetting.ptn
+    let xp = b:xptemplateData.snipFileScope.ptn
     let nonEscaped = s:nonEscaped
     let xp.lft = nonEscaped . xp.l
     let xp.rt  = nonEscaped . xp.r

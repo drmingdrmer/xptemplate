@@ -1,14 +1,17 @@
-if exists('b:__SCHEME_XPT_VIM__')
-  finish
-endif
-let b:__SCHEME_XPT_VIM__ = 1
+XPTemplate priority=lang
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-" inclusion
-XPTinclude
+XPTinclude 
       \ _common/common
+      \ _common/personal
       \ _condition/lisp.like
 
 " ========================= Function and Varaibles =============================

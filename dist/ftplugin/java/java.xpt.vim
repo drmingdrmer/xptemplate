@@ -66,30 +66,36 @@ XPT enum hint=public\ enum\ {\ ..\ }
 XPT prop hint=var\ getVar\ ()\ setVar\ ()
 `type^ `varName^;
 
-`get...^public \`R("type")\^ get\`S(R("varName"),".",'\\u&',"")\^()
-    { return \`R("varName")\^; }^^
+`get...^
+XSETm get...|post
+public `R("type")^ get`S(R("varName"),'.','\u&',"")^()
+    { return `R("varName")^; }
 
-`set...^public void set\`S(R("varName"),".",'\\u&',"")\^( \`R("type")\^ val )
-    { \`R("varName")\^ = val; }^^
+XSETm END
+`set...^
+XSETm set...|post
+public `R("type")^ set`S(R("varName"),'.','\u&',"")^( `R('type')^ val )
+    { `R("varName")^ = val; return `R( 'varName' )^; }
+
+XSETm END
 
 
 XPT try hint=try\ ..\ catch\ (..)\ ..\ finally
 try
 {
     `what^
-}`...^
-catch (`except^ e)
+}` `catch...^
+XSETm catch...|post
+
+catch (`except^ `e^)
 {
     `handler^
-}`...^
-`catch...^catch (Exception e)
+}` `catch...^
+XSETm END
+`finally...{{^finally
 {
-    \`\^
-}^^
-`finally...^finally
-{
-    \`cursor\^
-}^^
+    `cursor^
+}`}}^
 
 
 

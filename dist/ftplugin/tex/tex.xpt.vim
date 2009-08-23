@@ -1,25 +1,26 @@
-if exists("b:__TEX_TEX_XPT_VIM__") 
-    finish 
-endif
-let b:__TEX_TEX_XPT_VIM__ = 1 
+XPTemplate priority=lang mark=`~
 
-" containers
 let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-" constant definition
-call extend(s:v, {'$TRUE': '1', '$FALSE': '0', '$NULL': 'NULL', '$UNDEFINED': '', '$IF_BRACKET_STL': "\n"})
+XPTinclude 
+      \ _common/common
+      \ _common/personal
 
-" inclusion
-XPTinclude
-    \ _common/common
-
-call XPTemplateMark( '`', '~' )
 
 " ========================= Function and Variables =============================
 
 
 " ================================= Snippets ===================================
 XPTemplateDef 
+
+
 XPT eq hint=\\begin{equation}\ ..\ \\end{equation}
 \begin{equation}
 `cursor~

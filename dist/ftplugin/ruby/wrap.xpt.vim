@@ -1,13 +1,25 @@
-if exists("b:__RUBY_WRAP_XPT_VIM__")
-    finish
-endif
-let b:__RUBY_WRAP_XPT_VIM__ = 1
+XPTemplate priority=lang
 
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-XPTinclude
+XPTinclude 
       \ _common/common
-"================ Wrapped Items ================"
-XPTemplateDef
+      \ _common/personal
+
+
+" ========================= Function and Variables =============================
+
+
+" ================================= Snippets ===================================
+XPTemplateDef 
+
 
 XPT invoke_ hint=..(SEL)
 XSET name.post=RubySnakeCase()

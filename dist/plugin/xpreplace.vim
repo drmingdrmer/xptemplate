@@ -62,6 +62,12 @@ fun! XPreplaceInternal(start, end, replacement, option)
         call cursor( a:end )
         silent! normal! dzO
     endif
+    if a:replacement == ''
+        if option.doJobs
+            call s:doPostJob( a:start, a:start, a:replacement )
+        endif
+        return copy( a:start )
+    endif
     let bStart = [a:start[0] - line( '$' ), a:start[1] - len(getline(a:start[0]))]
     call cursor( a:start )
     let @" = a:replacement . ';'
@@ -82,6 +88,7 @@ fun! XPreplaceInternal(start, end, replacement, option)
         call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 )
         silent! normal! xzo
     else
+        call cursor( positionAfterReplacement )
         silent! normal! XzO
     endif
     let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]

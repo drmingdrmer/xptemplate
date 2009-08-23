@@ -20,6 +20,8 @@ fun! XPTemplateFileDefinition( filename, ... )
         return 'finish'
     endif
     let b:__xpt_loaded[a:filename] = 1
+    let x = XPTbufData()
+    let x.snipFileScope = XPTnewSnipScope()
     for pair in a:000
         let kv = split( pair . ';', '=' )
         if len( kv ) == 1
@@ -48,7 +50,7 @@ fun! XPTsetVar( nameSpaceValue )
     let val  = matchstr(a:nameSpaceValue, '\s\+\zs.*')
     let val = substitute( val, '\\n', "\n", 'g' )
     let val = substitute( val, '\\ ', " ", 'g' )
-    let priority = x.bufsetting.priority
+    let priority = x.snipFileScope.priority
     if !has_key( x.varPriority, name ) || priority < x.varPriority[ name ]
         let [ x.vars[ name ], x.varPriority[ name ] ] = [ val, priority ]
     endif
@@ -58,7 +60,7 @@ fun! XPTinclude(...)
         return
     endif
     let x = XPTbufData()
-    let prio = x.bufsetting.priority
+    call XPTsnipScopePush()
     let list = a:000
     for v in list
         if type(v) == type([])
@@ -70,7 +72,7 @@ fun! XPTinclude(...)
             exe cmd
         endif
     endfor
-    let x.bufsetting.priority = prio
+    call XPTsnipScopePop()
 endfunction 
 fun! s:XPTemplateDefineSnippet(fn) 
     let lines = readfile(a:fn)

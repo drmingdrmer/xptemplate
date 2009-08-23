@@ -1,24 +1,26 @@
-if exists("b:__SH_XPT_VIM__")
-  finish
-endif
-let b:__SH_XPT_VIM__ = 1
+XPTemplate priority=lang mark=~^
 
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-" containers
-let [s:f, s:v] = XPTcontainer()
-
-" inclusion
-XPTinclude
+XPTinclude 
       \ _common/common
+      \ _common/personal
 
-" ========================= Function and Varaibles =============================
+
+" ========================= Function and Variables =============================
+
 
 " ================================= Snippets ===================================
-" in shell script '`' is used very widely 
-call XPTemplateMark('~', '^')
 
 call XPTemplate('sh', "#!/bin/sh\n")
-call XPTemplate('ba', "#!/bin/bash\n")
+call XPTemplate('bash', "#!/bin/bash\n")
 call XPTemplate('echodate', 'echo `date +~fmt^`')
 
 call XPTemplate('forin', [
@@ -55,3 +57,6 @@ call XPTemplate('case', [
       \'  ;;', 
       \'esac'
       \])
+
+
+XPTemplateDef 

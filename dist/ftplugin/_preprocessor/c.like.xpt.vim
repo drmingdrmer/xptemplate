@@ -1,40 +1,51 @@
-if exists("b:__PREPROCESSOR_C_LIKE_XPT_VIM__") 
-    finish 
-endif
-let b:__PREPROCESSOR_C_LIKE_XPT_VIM__ = 1 
+XPTemplate priority=like keyword=#
 
-" containers
 let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-" inclusion
 
-XPTemplateDef
-
-XPT #inc		hint=include\ <>
-include <`^.h>
+XPTinclude 
+      \ _common/common
 
 
-XPT #ind		hint=include\ ""
+" ========================= Function and Variables =============================
+
+
+" ================================= Snippets ===================================
+XPTemplateDef 
+
+
+XPT #include		hint=include\ <>
+#include <`^.h>
+
+
+XPT #include1		hint=include\ ""
 XSET me=fileRoot()
-include "`me^.h"
+#include "`me^.h"
 
 
-" TODO use comment variable instead
 XPT once	hint=#ifndef\ ..\ #define\ ..
 XSET symbol=headerSymbol()
 #ifndef `symbol^
-#define `symbol^
+#     define `symbol^
+
 `cursor^
-#endif /* `symbol^ */
+#endif `$CL^ `symbol^ `$CR^
 
 
-XPT ifndef	hint=#ifndef\ ..
+XPT #ifndef	hint=#ifndef\ ..
 XSET symbol=S(fileRoot(),'\.','_','g')
-XSET symbol|post=SV('.','\u&')
-ifndef `symbol^ 
-#    define `symbol^ 
+XSET symbol|post=UpperCase(V())
+#ifndef `symbol^ 
+#     define `symbol^ 
 
 `cursor^ 
-#endif /* `symbol^ */
+#endif `$CL^ `symbol^ `$CR^
 
 

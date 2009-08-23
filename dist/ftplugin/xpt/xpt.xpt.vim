@@ -23,8 +23,7 @@ XPTemplateDef
 " TODO detect path to generate popup list 
 XPT inc hint=XPTinclude\ ...
 XPTinclude 
-      \ _common/common
-      \ _common/personal`
+      \ _common/common`
       `...{{^`
       \ `a^E("%:p:h:t")^/`name^`
       `...^`}}^
@@ -46,7 +45,7 @@ XPT snip alias=tmpl
 XPT var hint=XPTvar\ $***\ ***
 XSET name|post=UpperCase(V())
 XSET value|post=escape(V(), ' ')
-XPTvar $`name^ `value^
+XPTvar $`name^ `cursor^
 
 
 XPT fun hint=fun!\ s:f.**
@@ -76,8 +75,8 @@ XPTvar $INDENT_HELPER /* void */;
 XPTvar $IF_BRACKET_STL \n
 
 `XPTinclude...^
-XSET XPTinclude...|post=`bridge^
-XSET bridge=Trigger('inc')
+XSET XPTinclude...|post=`incTrigger^
+XSET incTrigger=Trigger('inc')
 
 
 " ========================= Function and Variables =============================

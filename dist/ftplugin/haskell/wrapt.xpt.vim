@@ -1,23 +1,25 @@
-if exists("b:__HASKELL_WRAPT_XPT_VIM__") 
-    finish 
-endif
-let b:__HASKELL_WRAPT_XPT_VIM__ = 1 
+XPTemplate priority=lang mark=`~
 
-" containers
 let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-" constant definition
-call extend(s:v, {'$TRUE': '1', '$FALSE': '0', '$NULL': 'NULL', '$UNDEFINED': '', '$IF_BRACKET_STL': "\n"})
+XPTinclude 
+      \ _common/common
 
-" inclusion
-XPTinclude
-    \ _common/common
 
 " ========================= Function and Variables =============================
-call XPTemplateMark( '`', '~' )
+
 
 " ================================= Snippets ===================================
 XPTemplateDef 
+
+
 XPT str_ hint="SEL"
 "`wrapped~"
 
