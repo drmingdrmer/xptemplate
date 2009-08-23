@@ -1178,7 +1178,7 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
     let ctx.lastList = []
 
 
-    if 0 != s:buildPlaceHolders( ctx.marks.tmpl )
+    if 0 != s:BuildPlaceHolders( ctx.marks.tmpl )
         return s:crash()
     endif
 
@@ -1316,7 +1316,7 @@ endfunction "}}}
 " `name^ per-item post-filter ^^
 
 
-fun! s:createPlaceHolder( ctx, nameInfo, valueInfo ) "{{{
+fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
     " 1) Place holder with edge is the editable place holder, for edges of
     " uneditable place holder being ignored. So that only place holder is
@@ -1374,6 +1374,7 @@ fun! s:createPlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
         let val = s:textBetween( a:valueInfo[0], a:valueInfo[1] )
         let val = val[1:]
+        let val = s:UnescapeChar( val, xp.l . xp.r )
         let val = s:BuildFilterIndent( val, indent( a:valueInfo[0][0] ) )
 
 
@@ -1389,6 +1390,23 @@ fun! s:createPlaceHolder( ctx, nameInfo, valueInfo ) "{{{
     return placeHolder
 
 endfunction "}}}
+
+
+fun! s:UnescapeChar( str, chars )
+    " unescape only chars started with several '\' 
+
+    " remove all '\'.
+    let chars = substitute( a:chars, '\\', '', 'g' )
+
+    
+    let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]' ) . ']\)'
+    call s:log.Log( 'to unescape pattern='.pattern )
+    let unescaped = substitute( a:str, pattern, '\1\2', 'g' )
+    call s:log.Log( 'unescaped ='.unescaped )
+    return unescaped
+endfunction
+
+
 
 " TODO move me to where I should be
 " mark naming principle:
@@ -1534,7 +1552,7 @@ endfunction "}}}
 
 " to avoid name conflict between 2 building process
 let s:buildingNr = 0
-fun! s:buildPlaceHolders( markRange ) "{{{
+fun! s:BuildPlaceHolders( markRange ) "{{{
 
     let s:buildingNr += 1
 
@@ -1597,7 +1615,7 @@ fun! s:buildPlaceHolders( markRange ) "{{{
         call s:log.Log("got nameinfo, valueinfo:".string([nameInfo, valueInfo]))
 
 
-        let placeHolder = s:createPlaceHolder(renderContext, nameInfo, valueInfo)
+        let placeHolder = s:CreatePlaceHolder(renderContext, nameInfo, valueInfo)
 
         call s:log.Log( 'built placeHolder=' . string( placeHolder ) )
 
@@ -1948,7 +1966,7 @@ fun! s:ApplyPostFilter() "{{{
         if ifToBuild
             call cursor( start )
             let renderContext.firstList = []
-            if 0 != s:buildPlaceHolders( marks )
+            if 0 != s:BuildPlaceHolders( marks )
                 return s:crash()
             endif
         endif
@@ -1958,12 +1976,12 @@ fun! s:ApplyPostFilter() "{{{
     endif
 
     " after indent segment, there is something
-    if groupPostFilter =~ '\n.'
-        call s:updateFollowingPlaceHoldersWith( typed, { 'post' : text } )
-        return text
-    else
-        call s:updateFollowingPlaceHoldersWith( typed, {} )
+    if s:IsFilterEmpty( groupPostFilter )
+        call s:UpdateFollowingPlaceHoldersWith( typed, {} )
         return typed
+    else
+        call s:UpdateFollowingPlaceHoldersWith( typed, { 'post' : text } )
+        return text
     endif
 
 
@@ -1986,6 +2004,7 @@ fun! s:evalPostFilter( filter, typed ) "{{{
         if post.action == 'build'
             let res = [ post.text, 1, 0 ]
 
+            " TODO 
         " elseif post.action == 'expandTmpl'
             " let leader = renderContext.leadingPlaceHolder
             " let marks = leader.marks
@@ -2256,16 +2275,6 @@ fun! s:handleDefaultValueAction( ctx, act ) "{{{
 
 endfunction "}}}
 
-" TODO use the same indent adjust method
-" TODO negative indent support
-" TODO indent() called on empty line get nothing
-fun! s:addIndent( str, lineNr ) "{{{
-    let indent = indent(a:lineNr)
-    let indentSpaces = repeat(' ', indent)
-    let str = substitute( a:str, "\n", "\n" . indentSpaces, 'g' )
-    return str
-endfunction "}}}
-
 fun! s:embedSnippetInLeadingPlaceHolder( ctx, snippet ) "{{{
     " TODO remove needless marks
     let ph = a:ctx.leadingPlaceHolder
@@ -2278,7 +2287,7 @@ fun! s:embedSnippetInLeadingPlaceHolder( ctx, snippet ) "{{{
 
     call XPreplace( range[0], range[1] , a:snippet )
 
-    if 0 != s:buildPlaceHolders( marks )
+    if 0 != s:BuildPlaceHolders( marks )
         return s:crash('building place holder failed')
     endif
 
@@ -2306,7 +2315,7 @@ fun! s:fillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
     let xp = ctx.tmpl.ptn
 
     if str =~ '\V' . xp.lft . '\.\*' . xp.rt
-        if 0 != s:buildPlaceHolders( marks )
+        if 0 != s:BuildPlaceHolders( marks )
             return s:crash()
         endif
 
@@ -2371,7 +2380,6 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
         let filterIndent = matchstr( obj, '\s*\ze\n' )
         let filterText = matchstr( obj, '\n\zs\_.*' )
         let str = s:AdjustIndentAccordingToLine( filterText, filterIndent, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0] )
-        " let str = s:addIndent( obj, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0] )
 
         return s:fillinLeadingPlaceHolderAndSelect( renderContext, str )
 
@@ -2521,6 +2529,7 @@ fun! s:Eval(s, ...) "{{{
     let nonEscaped =   '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
 
+    " TODO how to add '$' ?
     let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . nonEscaped . '{\w\+(\[^($]\{-})}'
     let vptn = '\V' . '$\w\+' . '\|' . nonEscaped . '{$\w\+}'
 
@@ -2630,7 +2639,8 @@ fun! s:Eval(s, ...) "{{{
         " unescape \{ and \(
         " match the previous line )} - -..
         let tmp = k == 0 ? "" : (str[last : kn-1])
-        let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
+        " let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
+        let tmp = s:UnescapeChar( tmp, '[{$' )
         let sp .= tmp
 
 
@@ -2649,7 +2659,8 @@ fun! s:Eval(s, ...) "{{{
     endfor
 
     let tmp = str[last : ]
-    let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
+    " let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
+    let tmp = s:UnescapeChar( tmp, '[{$' )
     let sp .= tmp
 
     return sp
@@ -3012,7 +3023,7 @@ fun! s:CurSynNameStack() "{{{
 endfunction "}}}
 
 
-fun! s:updateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
+fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
     " TODO if nothing changed, skipping the replace
 
     let renderContext = s:getRenderContext()
@@ -3028,16 +3039,20 @@ fun! s:updateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
     let phList = renderContext.item.placeHolders
     for ph in phList
         let filter = ( renderContext.phase == 'post' ? ph.postFilter : ph.ontimeFilter )
-        let filter = filter == '' ? ph.ontimeFilter : filter
+        let filter = s:IsFilterEmpty( filter ) ? ph.ontimeFilter : filter
 
-        call s:log.Log( 'updateFollowingPlaceHoldersWith : filter=' . filter )
+        call s:log.Log( 'UpdateFollowingPlaceHoldersWith : filter=' . filter )
 
-        if filter != ''
-            let filtered = s:Eval( filter, { 'typed' : a:contentTyped } )
+        if s:IsFilterEmpty( filter )
+            let [ filterIndent, filterText ] = s:GetFilterIndentAndText( filter )
+            let filtered = s:Eval( filterText, { 'typed' : a:contentTyped } )
+
             " TODO ontime filter action support?
         else
             let filtered = groupPost
         endif
+
+        let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
 
 
         " call XPreplace( XPMpos( ph.mark.start ), XPMpos( ph.mark.end ), filtered )
@@ -3049,6 +3064,17 @@ fun! s:updateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
     call XPRendSession()
 
 endfunction "}}}
+
+fun! s:IsFilterEmpty( filter )
+    return a:filter !~ '\n.'
+endfunction
+
+
+fun! s:GetFilterIndentAndText( filter )
+    let filterIndent = matchstr( a:filter, '\s*\ze\n' )
+    let filterText = matchstr( a:filter, '\n\zs\_.*' )
+    return [ filterIndent, filterText ]
+endfunction
 
 fun! s:crash() "{{{
 
@@ -3176,7 +3202,7 @@ fun! s:XPTupdate(...) "{{{
         call s:log.Info( "marks before updating following:\n" . XPMallMark() )
 
         " TODO optimize?
-        call s:updateFollowingPlaceHoldersWith( contentTyped, {} )
+        call s:UpdateFollowingPlaceHoldersWith( contentTyped, {} )
 
         call s:gotoRelativePosToMark( relPos, renderContext.leadingPlaceHolder.mark.start )
 

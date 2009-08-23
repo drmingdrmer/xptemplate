@@ -431,7 +431,7 @@ fun! s:handleXSETcommand(setting, command, keyname, keytype, value) "{{{
 
     elseif a:keytype == "" || a:keytype ==# 'def'
         " first line is indent : empty indent
-        let a:setting.defaultValues[a:keyname] = '\n' . a:value
+        let a:setting.defaultValues[a:keyname] = "\n" . a:value
 
     elseif a:keytype ==# 'post'
         if a:keyname =~ '\V...'

@@ -38,30 +38,31 @@ subgraph `clusterName^
 
 XPT node hint=..\ [...]
 XSET shape=Choose(['box',  'polygon',  'ellipse',  'circle',  'point',  'egg',  'triangle',  'plaintext',  'diamond',  'trapezium',  'parallelogram',  'house',  'pentagon',  'hexagon',  'septagon',  'octagon',  'doublecircle',  'doubleoctagon',  'tripleoctagon',  'invtriangle',  'invtrapezium',  'invhouse',  'Mdiamond',  'Msquare',  'Mcircle',  'rect',  'rectangle',  'none',  'note',  'tab',  'folder',  'box3d',  'component'])
-`node^ `details...^[shape=\`shape\^, label="\`lbl\^"]^^
+`node^` `details...^[shape=\`shape\^, label="\`lbl\^"]^^
 
 ..XPT
 
 XPT lbl hint=[label=".."]
 [label="`cursor^"]
 
+
 XPT circle hint=..\[shape="circle"..]
-`node^ [shape=circle`label...^, label="\`lbl\^"^^]
+`node^ [shape=circle` `label...^, label="\`lbl\^"^^]
 
 ..XPT
 
 XPT diamond hint=..\[shape="diamond"..]
-`node^ [shape=diamond`label...^, label="\`lbl\^"^^]
+`node^ [shape=diamond` `label...^, label="\`lbl\^"^^]
 
 ..XPT
 
 XPT box hint=..\[shape="box"..]
-`node^ [shape=box`label...^, label="\`lbl\^"^^]
+`node^ [shape=box` `label...^, label="\`lbl\^"^^]
 
 ..XPT
 
 XPT ellipse hint=..\[shape="ellipse"..]
-`node^ [shape=ellipse`label...^, label="\`lbl\^"^^]
+`node^ [shape=ellipse` `label...^, label="\`lbl\^"^^]
 
 ..XPT
 
