@@ -1,25 +1,30 @@
-if exists("b:__C_WRAP_XPT_VIM__")
-  finish
-endif
-let b:__C_WRAP_XPT_VIM__ = 1
+XPTemplate priority=lang keyword=#
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-" inclusion
-" XPTinclude 
+XPTinclude 
+      \ _common/common
 
-" ========================= Function and Varaibles =============================
+
+" ========================= Function and Variables =============================
 
 
 " ================================= Snippets ===================================
-XPTemplateDef
+XPTemplateDef 
 
-XPT ifproc_ hint=#if\ ..\ SEL\ #endif
+
+XPT #if_ hint=#if\ ..\ SEL\ #endif
 #if `cond^0^
-`wrapped^
-`else...^#else
-\`cursor\^^^
+`wrapped^`
+`else...{{^#else
+`cursor^`}}^
 #endif
 
 XPT if_ hint=if\ (..)\ {\ SEL\ }

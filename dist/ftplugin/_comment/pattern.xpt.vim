@@ -1,5 +1,5 @@
-" priority is a bit lower than 'all'
-XPTemplate priority=all+
+" priority is a bit lower than 'spec'
+XPTemplate priority=spec+
 
 
 let [s:f, s:v] = XPTcontainer()

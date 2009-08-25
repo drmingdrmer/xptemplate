@@ -1,16 +1,24 @@
-if exists("b:__ADA_XPT_VIM__") 
-    finish 
-endif
-let b:__ADA_XPT_VIM__ = 1 
+XPTemplate priority=lang
 
-" containers
 let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-" inclusion
 XPTinclude 
-    \ _common/common
+      \ _common/common
 
-XPTemplateDef
+
+" ========================= Function and Variables =============================
+
+
+" ================================= Snippets ===================================
+XPTemplateDef 
+
 
 XPT acc hint=access
 access 
@@ -22,56 +30,56 @@ aliased
 
 XPT beg hint=begin\ ..\ end;
 begin
-	`cursor^
+        `cursor^
 end;
 ..XPT
 
 XPT case hint=case\ ..\ is\ ..\ end\ case;
 case `1^ is
-	`cursor^
+        `cursor^
 end case;
 ..XPT
 
 XPT eli hint=elsif\ ..\ then\ ...
 elsif `1^ then
-	`cursor^
+        `cursor^
 ..XPT
 
 XPT for hint=for\ ..\ in\ ..\ loop\ ...\ end\ loop;
 for `1^ in `2^ loop
-	`cursor^
+        `cursor^
 end loop;
 ..XPT
 
 XPT fun hint=function\ ..\ return\ ..\ is\ ..._ end;
 function `1^name^ return `2^ is
-	`3^
+        `3^
 begin -- `1^
-	`cursor^
+        `cursor^
 end `1^;
 ..XPT
 
 XPT if hint=if\ ..\ then\ ...\ end\ if;
 if `1^ then
-	`cursor^
+        `cursor^
 end if;
 ..XPT
 
 XPT loop hint=loop\ ..\ end\ loop;
 loop
-	`cursor^
+        `cursor^
 end loop;
 ..XPT
 
 XPT pbo hint=package\ body\ ..\ is\ ..\ end\ ;
 package body `1^name^ is
-	`cursor^
+        `cursor^
 end `1^;
 ..XPT
 
 XPT pac hint=package\ ..\ is\ ..\ end;
 package `1^name^ is
-	`cursor^
+        `cursor^
 end `1^;
 ..XPT
 
@@ -81,15 +89,15 @@ package `1^ is `cursor^
 
 XPT pro hint=procedure\ ..\ begin\ ..\ end;
 procedure `1^Procedure^ is
-	`2^
-begin -- `1^S(R('.'),'([a-zA-Z0-9_]*).*$','\1')^
-	`cursor^
-end `1^S(R('.'),'([a-zA-Z0-9_]*).*$','\1')^;
+        `2^
+begin -- `mark^S(R('1'),'([a-zA-Z0-9_]*).*$','\1')^
+        `cursor^
+end `mark^;
 ..XPT
 
 XPT rec hint=record\ ..\ end\ record;
 record
-	`cursor^
+        `cursor^
 end record;
 ..XPT
 
@@ -107,17 +115,17 @@ use `1^;
 
 XPT when hint=when\ ..\ =>\ ..
 when `1^ =>
-	`cursor^
+        `cursor^
 ..XPT
 
 XPT whi hint=while\ ..\ loop\ ..\ end\ loop;
 while `1^ loop
-	`cursor^
+        `cursor^
 end loop;
 ..XPT
 
 XPT wu hint=with\ ..;\ use\ ..;
-with ${1}; use `1^;
+with `what^; use `1^;
 `cursor^
 ..XPT
 

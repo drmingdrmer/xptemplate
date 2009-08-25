@@ -132,7 +132,11 @@ fun! s:XPTemplateParseSnippet(lines)
         if len(nameAndValue) > 1
             let propName = nameAndValue[0]
             let propValue = substitute( join( nameAndValue[1:], '=' ), '\\\(.\)', '\1', 'g' )
-            let setting[propName] = propValue
+            if propName == ''
+                throw 'empty property name at line:' . lines[0]
+            else
+                let setting[propName] = propValue
+            endif
         endif
     endfor
     call extend( setting, deepcopy( s:settingPrototype ), 'force' )
