@@ -23,17 +23,61 @@ let s:f = XPTcontainer()[ 0 ]
 
 let s:printfElts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
+"  %[flags][width][.precision][length]specifier  
+let s:printfItemPattern = '\V\C' . '%' . '\[+\- 0#]\*' . '\%(*\|\d\+\)\?' . '\(.*\|.\d\+\)\?' . '\[hlL]\?' . '\(\[cdieEfgGosuxXpn]\)'
+
+let s:printfEltMap = {
+      \'c' : 'char',
+      \'d' : 'int',
+      \'i' : 'int',
+      \'e' : 'scientific',
+      \'E' : 'scientific',
+      \'f' : 'float',
+      \'g' : 'float',
+      \'G' : 'float',
+      \'o' : 'octal',
+      \'s' : 'str',
+      \'u' : 'unsigned',
+      \'x' : 'decimal',
+      \'X' : 'Decimal',
+      \'p' : 'pointer',
+      \'n' : 'numWritten',
+      \}
+
 fun! s:f.c_printfItem( v )
-  let v = a:v
+  " remove '%%' representing a single '%'
+  let v = substitute( a:v, '\V%%', '', 'g' )
+
   if v =~ '\V%'
-    let len = len( substitute( v, '\V\[^%]', '', 'g' ) )
 
-    let re = s:printfElts[ : len - 1 ]
-    let re = substitute( re, '.', ', `&^', 'g' )
+    let start = 0
+    let post = ''
+    let i = -1
+    while 1
+      let i += 1
 
-    return re
+      let start = match( v, s:printfItemPattern, start )
+      if start < 0
+        break
+      endif
+
+      let eltList = matchlist( v, s:printfItemPattern, start )
+
+      if eltList[1] == '.*'
+        " need to specifying string length before string pointer
+        let post .= ', `' . s:printfElts[ i ] . '_len^'
+      endif
+
+      let post .= ', `' . s:printfElts[ i ] . '_' . s:printfEltMap[ eltList[2] ] . '^'
+
+      let start += len( eltList[0] )
+
+    endwhile
+    return post
+
   else 
     return self.Next( '' )
+
   endif
 endfunction
 
@@ -41,17 +85,23 @@ endfunction
 XPTemplateDef
 
 XPT printf	hint=printf\\(...)
-XSET printf=Next('printf')
 XSET elts=c_printfItem( R( 'pattern' ) )
-`printf^("`pattern^"`elts^ );
+printf( "`pattern^"`elts^ );
 
 
 XPT sprintf alias=printf
-XSET printf=Next( 'sprintf' )
+XSET elts=c_printfItem( R( 'pattern' ) )
+sprintf( `str^, "`pattern^"`elts^ );
+
+
+XPT snprintf alias=printf
+XSET elts=c_printfItem( R( 'pattern' ) )
+snprintf( `str^, `size^, "`pattern^"`elts^ );
 
 
 XPT fprintf alias=printf
-XSET printf=Next( 'fprintf' )
+XSET elts=c_printfItem( R( 'pattern' ) )
+fprintf( `stream^, "`pattern^"`elts^ );
 
 
 XPT assert	hint=assert\ (..,\ msg)
@@ -64,12 +114,13 @@ main(int argc, char **argv)
   `cursor^
   return 0;
 }
+..XPT
 
 " Quick-Repetition parameters list
 XPT fun		hint=func..\ (\ ..\ )\ {...
-XSET p..|post=ExpandIfNotEmpty(', ', 'p..')
+XSET p_disabled..|post=ExpandIfNotEmpty(', ', 'p..')
   `int^
-`name^(`p..^)
+`name^(`^)
 {
   `cursor^
 }

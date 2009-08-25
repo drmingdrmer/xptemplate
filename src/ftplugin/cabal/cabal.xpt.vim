@@ -25,7 +25,7 @@ XSET Description...|post=\nDescription: `_^
 XSET Author...|post=\nAuthor: `_^
 XSET Maintainer...|post=\nMaintainer: `_^
 Name:       `name^
-Version:    `ver^
+Version:    `version^
 Synopsis:   `synop^ 
 Build-Type: `Simple^
 Cabal-Version: >= `ver^1.2^`
@@ -36,18 +36,24 @@ Cabal-Version: >= `ver^1.2^`
 XPT if hint=if\ ...\ else\ ...
 if `cond^
     `what^
-`else...^else
-    \`cursor\^^^
+`else...{{^else
+    `cursor^`}}^
 
 
 XPT lib hint=library\ Exposed-Modules...
+XSET another..|post=ExpandIfNotEmpty( ', ', 'another..' )
 library
-  Exposed-Modules: `_^^`...0^
-                   `_^^`...0^
-  Build-Depends: base >= `ver^2.0^`...1^, `_^^`...1^
+  Exposed-Modules: `job^`
+                   `more...{{^
+                   `job^`
+                   `...{{^
+                   `job^`
+                   `...^`}}^`}}^
+  Build-Depends: base >= `ver^2.0^`, `another..^
 
 XPT exe hint=Main-Is:\ ..\ Build-Depends
+XSET another..|post=ExpandIfNotEmpty( ', ', 'another..' )
 Executable `execName^
     Main-Is: `mainFile^
-    Build-Depends: base >= `ver^2.0^`...1^, `_^^`...1^
+    Build-Depends: base >= `ver^2.0^`, `another..^
 
