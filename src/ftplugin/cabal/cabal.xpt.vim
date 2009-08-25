@@ -1,22 +1,26 @@
-if exists("g:__CABAL_XPT_VIM__")
-    finish
-endif
-let g:__CABAL_XPT_VIM__ = 1
+XPTemplate priority=lang
 
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-" containers
-let [s:f, s:v] = XPTcontainer()
-
-" inclusion
-XPTinclude
+XPTinclude 
       \ _common/common
 
-" ========================= Function and Varaibles =============================
+
+" ========================= Function and Variables =============================
+
 
 " ================================= Snippets ===================================
-XPTemplateDef
+XPTemplateDef 
 
-XPT infos hint=Name:\ Version\: Synopsys:\ Descr:\ Author:\ ...
+
+XPT infos hint=Name:\ Version\:\ Synopsys:\ Descr:\ Author:\ ...
 XSET Description...|post=\nDescription: `_^
 XSET Author...|post=\nAuthor: `_^
 XSET Maintainer...|post=\nMaintainer: `_^
