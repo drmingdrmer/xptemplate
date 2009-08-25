@@ -27,24 +27,15 @@ let [s:f, s:v] = XPTcontainer()
 " ================================= Snippets ===================================
 XPTemplateDef
 
+
 XPT enum hint=enum\ {\ ..\ }
 enum `name^
 {
-    `elt^`
-    `more...{{^,
-    `elt^`
-    `more...^`}}^
-}` `var^;
-..XPT
-
-XPT en hint=enum\ {\ ..\ }
-enum `name^
-{
-    `elt^`
+    `elt^`,
     `...{{^,
-    `elt^`
+    `elt^`,
     `...^`}}^
-};
+}` `var^;
 
 
 XPT struct hint=struct\ {\ ..\ }

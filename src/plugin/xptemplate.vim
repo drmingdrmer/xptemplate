@@ -19,6 +19,9 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO default $CL, $CR, $CM, using commentstr
+" TODO cursor pattern : using commentted string
+" TODO xpreplace line start with <tab> leaving a ';', ada:beg snippet
 " TODO cpp : class template is very slow
 " TODO removing mark is not safe that new mark maybe has the same name.
 " TODO XPT : inc bug

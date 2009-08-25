@@ -1,20 +1,23 @@
-if exists("b:___COMMENT_XML_XPT_VIM__")
-  finish
-endif
-let b:___COMMENT_XML_XPT_VIM__ = 1
+XPTemplate priority=spec keyword=<
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
+XPTvar $CL <!--
+XPTvar $CR -->
 
-" constant definition
-call extend(s:v, {'$CL': '<!--', '$CM' : '' , '$CR' : '-->', '$CS' : ''})
 
-" inclusion
-XPTinclude
+XPTinclude 
       \ _comment/pattern
 
-" ========================= Function and Varaibles =============================
+
+" ========================= Function and Variables =============================
 
 
 " ================================= Snippets ===================================
-
+XPTemplateDef 

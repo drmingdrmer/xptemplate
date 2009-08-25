@@ -1,44 +1,44 @@
-if exists("b:___CONDITION_ECMA_XPT_VIM__")
-  finish
-endif
-let b:___CONDITION_ECMA_XPT_VIM__ = 1
+XPTemplate priority=spec
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          true
+XPTvar $FALSE         false
+XPTvar $NULL          null
+XPTvar $UNDEFINED     undefined
+XPTvar $INDENT_HELPER /* void */;
+XPTvar $IF_BRACKET_STL \n
 
-" constant definition
-call extend(s:v, {'$TRUE': 'true', '$FALSE' : 'false',
-      \ '$NULL' : 'null', '$UNDEFINED' : 'undefined', 
-      \ '$INDENT_HELPER' : '/* */;'}, 'keep')
-
-" inclusion
-XPTinclude
+XPTinclude 
+      \ _common/common
       \ _condition/c.like
 
-call XPTemplatePriority('spec')
 
-" ========================= Function and Varaibles =============================
+" ========================= Function and Variables =============================
 
 
 " ================================= Snippets ===================================
-XPTemplateDef
+XPTemplateDef 
+
+
 XPT ifu		hint=if\ (undefined\ ===\ ..)\ {..} ..
 XSET job=$INDENT_HELPER
 if (`$UNDEFINED^ === `var^) {
   `job^
 }`
-`else...^
+`else...{{^
 else {
-  \`cursor\^
-}^^
+  `cursor^
+}`}}^
+
 
 XPT ifnu 	hint=if\ (undefined\ !==\ ..)\ {..} ..
 XSET job=$INDENT_HELPER
 if (`$UNDEFINED^ !== `var^) {
   `job^
 }`
-`else...^
+`else...{{^
 else {
-  \`cursor\^
-}^^
+  `cursor^
+}`}}^
 

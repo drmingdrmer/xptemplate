@@ -25,9 +25,10 @@ XPT #include		hint=include\ <>
 #include <`^.h>
 
 
-XPT #include1		hint=include\ ""
+XPT #include_user	hint=include\ ""
 XSET me=fileRoot()
 #include "`me^.h"
+XPT #ind	alias=#include_user
 
 
 XPT once	hint=#ifndef\ ..\ #define\ ..
