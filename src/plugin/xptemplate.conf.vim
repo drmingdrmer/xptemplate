@@ -13,7 +13,7 @@ let s:ep           = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
 
 
-fun! s:setIfNull(k, v) "{{{
+fun! s:SetIfNotExist(k, v) "{{{
   if !exists(a:k)
     exe "let ".a:k."=".string(a:v)
   endif
@@ -21,25 +21,25 @@ endfunction "}}}
 
 
 
-call s:setIfNull('g:xptemplate_strip_left',   1)
+call s:SetIfNotExist('g:xptemplate_strip_left',   1)
 " TODO 
-" call s:setIfNull('g:xptemplate_protect',      1) 
-" call s:setIfNull('g:xptemplate_limit_curosr', 0)
-" call s:setIfNull('g:xptemplate_show_stack',   1)
-call s:setIfNull('g:xptemplate_highlight',    1)
-call s:setIfNull('g:xptemplate_key',          '<C-\>')
+" call s:SetIfNotExist('g:xptemplate_protect',      1) 
+" call s:SetIfNotExist('g:xptemplate_limit_curosr', 0)
+" call s:SetIfNotExist('g:xptemplate_show_stack',   1)
+call s:SetIfNotExist('g:xptemplate_highlight',    1)
+call s:SetIfNotExist('g:xptemplate_key',          '<C-\>')
 " command?
-call s:setIfNull('g:xptemplate_goback',       '<C-g>')
-" call s:setIfNull('g:xptemplate_crash',        '<C-g>')
-call s:setIfNull('g:xptemplate_nav_next',     '<tab>')
-call s:setIfNull('g:xptemplate_nav_cancel',   '<cr>')
-call s:setIfNull('g:xptemplate_to_right',     "<C-l>")
-call s:setIfNull('g:xptemplate_fix',          1)
-call s:setIfNull('g:xptemplate_vars',         '')
-call s:setIfNull('g:xptemplate_hl',           1)
+call s:SetIfNotExist('g:xptemplate_goback',       '<C-g>')
+" call s:SetIfNotExist('g:xptemplate_crash',        '<C-g>')
+call s:SetIfNotExist('g:xptemplate_nav_next',     '<tab>')
+call s:SetIfNotExist('g:xptemplate_nav_cancel',   '<cr>')
+call s:SetIfNotExist('g:xptemplate_to_right',     "<C-l>")
+call s:SetIfNotExist('g:xptemplate_fix',          1)
+call s:SetIfNotExist('g:xptemplate_vars',         '')
+call s:SetIfNotExist('g:xptemplate_hl',           1)
 
 " for test script
-call s:setIfNull('g:xpt_post_action',         '')
+call s:SetIfNotExist('g:xpt_post_action',         '')
 
 let g:XPTpvs = {}
 
@@ -65,8 +65,8 @@ set cpo-=<
 " 'selTrigger' used in select mode trigger, but if 'selection' changed after this
 " script loaded, incSelTrigger or excSelTrigger should be used according to
 " runtime settings.
-let g:XPTkeys = {
-      \ 'popup'       : "<C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
+let g:XPTmappings = {
+      \ 'popup'         : "<C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
       \ 'trigger'       : "<C-r>=XPTemplateStart(0)<cr>", 
       \ 'wrapTrigger'   : "\"0di<C-r>=XPTemplatePreWrap(@0)<cr>", 
       \ 'incSelTrigger' : "<C-c>`>a<C-r>=XPTemplateStart(0)<cr>", 
@@ -77,9 +77,9 @@ let g:XPTkeys = {
       \ }
 
 
-exe "inoremap ".g:xptemplate_key." " . g:XPTkeys.trigger
-exe "xnoremap ".g:xptemplate_key." " . g:XPTkeys.wrapTrigger
-exe "snoremap ".g:xptemplate_key." " . g:XPTkeys.selTrigger
+exe "inoremap " . g:xptemplate_key . " " . g:XPTmappings.trigger
+exe "xnoremap " . g:xptemplate_key . " " . g:XPTmappings.wrapTrigger
+exe "snoremap " . g:xptemplate_key . " " . g:XPTmappings.selTrigger
 
 let &cpo = s:oldcpo
 
@@ -103,17 +103,35 @@ for s:v in s:pvs
 endfor
 
 
-fun! s:ApplyPersonalVariables() "{{{
+
+
+
+fun! s:FiletypeInit() "{{{
   let f = g:XPTfuncs()
   for [k, v] in items(g:XPTpvs)
     let f[k] = v
   endfor
+
+
+  if &l:commentstring != ''
+    let cms = split( &l:commentstring, '\V%s', 1 )
+    if cms[1] == ''
+      let f[ '$CS' ] = cms[0]
+    else
+      let [ f[ '$CL' ], f[ '$CR' ] ] = cms
+    endif
+  endif
+
 endfunction "}}}
+
 
 augroup XPTpvs
   au!
-  au FileType * call <SID>ApplyPersonalVariables()
+  au FileType * call <SID>FiletypeInit()
 augroup END
+
+
+
 
 
 

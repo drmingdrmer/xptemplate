@@ -4,13 +4,23 @@ XPTemplate priority=lang indent=auto
 XPTvar $TRUE           1
 XPTvar $FALSE          0
 XPTvar $NULL           NULL
-XPTvar $IF_BRACKET_STL \ 
+
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+
 XPTvar $INDENT_HELPER  /* void */;
+XPTvar $CURSOR_PH      /* cursor */
+
+XPTvar $CL  /*
+XPTvar $CM   *
+XPTvar $CR   */
 
 
 XPTinclude
-      \ _common/common 
-      \ _comment/c.like 
+      \ _common/common
+      \ _comment/c.like
       \ _condition/c.like
       \ _loops/c.like
       \ _structures/c.like

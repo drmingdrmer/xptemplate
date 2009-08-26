@@ -135,10 +135,25 @@ let s:stripPtn              = '\V\^\s\*\zs\.\*'
 let s:cursorName            = "cursor"
 let s:wrappedName           = "wrapped"
 let s:repetitionPattern     = '^\.\.\.\d*$'
-let s:templateSettingPrototype  = { 'defaultValues' : {}, 'postFilters' : {}, 
-            \'comeFirst' : [], 'comeLast' : [], 
-            \'postQuoter' : { 'start' : '{{', 'end' : '}}' } }
+let g:XPTemplateSettingPrototype  = { 
+            \    'preValues'        : {}, 
+            \    'defaultValues'    : {}, 
+            \    'postFilters'      : {}, 
+            \    'comeFirst'        : [], 
+            \    'comeLast'         : [], 
+            \}
 
+fun! s:SetIfEmpty( dict, name, value ) "{{{
+    if !has_key( a:dict, a:name )
+        let a:dict[ a:name ] = a:value
+    endif
+endfunction "}}}
+
+fun! g:XPTapplyTemplateSettingDefaultValue( setting ) "{{{
+    let s = a:setting
+    call s:SetIfEmpty( s,           'postQuoter', { 'start' : '{{', 'end' : '}}' } )
+    call s:SetIfEmpty( s.preValues, 'cursor', '$CURSOR_PH' )
+endfunction "}}}
 
 let s:renderContextPrototype      = {
             \    'tmpl'              : {},
@@ -326,16 +341,18 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     let xt = s:bufData().normalTemplates
     let xp = s:bufData().snipFileScope.ptn
 
-    let templateSetting = deepcopy(s:templateSettingPrototype)
+    let templateSetting = deepcopy(g:XPTemplateSettingPrototype)
 
     if a:0 == 0          " no syntax context
         let TmplObj = a:str_or_ctx
 
     elseif a:0 == 1      " with syntax context
-        call extend( templateSetting, a:str_or_ctx )
+        call extend( templateSetting, a:str_or_ctx, 'force' )
         let TmplObj = a:1
 
     endif
+
+    call g:XPTapplyTemplateSettingDefaultValue( templateSetting )
 
 
     if type(TmplObj) == type([])

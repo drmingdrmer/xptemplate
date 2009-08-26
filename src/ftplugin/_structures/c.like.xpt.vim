@@ -29,12 +29,13 @@ XPTemplateDef
 
 
 XPT enum hint=enum\ {\ ..\ }
+XSET postQuoter={,}
 enum `name^
 {
     `elt^`,
-    `...{{^,
+    `...{^,
     `elt^`,
-    `...^`}}^
+    `...^`}^
 }` `var^;
 
 

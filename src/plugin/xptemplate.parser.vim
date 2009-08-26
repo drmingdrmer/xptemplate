@@ -11,9 +11,9 @@ let g:__XPTEMPLATE_PARSER_VIM__ = 1
 "   ComeLast    : item names which come last after any other 
 "               // XSET ComeLast=i,len
 "
-"   PostQuoter  : Quoter to define repetition
-"               // XSET PostQuoter=<{[,]}>
-"               // defulat : <{[,]}>
+"   postQuoter  : Quoter to define repetition
+"               // XSET postQuoter=<{[,]}>
+"               // defulat : {{,}}
 " 
 "
 "
@@ -31,6 +31,7 @@ com! -nargs=* XPTemplate
 
 com!          XPTemplateDef call s:XPTemplateDefineSnippet(expand("<sfile>")) | finish
 com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
+com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
 com! -nargs=+ XPTinclude    call XPTinclude(<f-args>)
 com! -nargs=* XSET          call XPTbufferScopeSet( <q-args> )
 
@@ -83,6 +84,19 @@ fun! XPTemplateFileDefinition( filename, ... ) "{{{
     endfor
 
     return 'doit'
+endfunction "}}}
+
+fun! XPTsnipSet( dictNameValue ) "{{{
+    let x = XPTbufData()
+    let snipScope = x.snipFileScope
+
+    let [ dict, nameValue ] = split( a:dictNameValue, '\V.', 1 )
+    let name = matchstr( nameValue, '^.\{-}\ze=' )
+    let value = nameValue[ len( name ) + 1 :  ]
+
+    call s:log.Log( 'set snipScope:' . string( [ dict, name, value ] ) )
+    let snipScope[ dict ][ name ] = value
+
 endfunction "}}}
 
 fun! XPTsetVar( nameSpaceValue ) "{{{
@@ -199,15 +213,8 @@ fun! s:XPTemplateDefineSnippet(fn) "{{{
 
 endfunction "}}}
 
-let s:settingPrototype = {
-            \    'defaultValues' : {},
-            \    'postFilters' : {},
-            \    'comeFirst' : [],
-            \    'comeLast' : [],
-            \}
 
 fun! s:XPTemplateParseSnippet(lines) "{{{
-    " TODO arbitrary position of XSET
     let lines = a:lines
 
     let snippetLines = []
@@ -220,11 +227,9 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     call s:log.Log("line0=".lines[0])
     call s:log.Log('snippetName='.snippetName)
 
-    let snippetParameters = snippetParameters[2:]
+    let setting = deepcopy( g:XPTemplateSettingPrototype )
 
-    let setting = {}
-    " let setting.postQuoter = '<{[,]}>'
-    let setting.postQuoter = '{{,}}'
+    let snippetParameters = snippetParameters[2:]
 
     for pair in snippetParameters
         let nameAndValue = split(pair, '=', 1)
@@ -232,15 +237,17 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
         if len(nameAndValue) > 1
             let propName = nameAndValue[0]
             let propValue = substitute( join( nameAndValue[1:], '=' ), '\\\(.\)', '\1', 'g' )
+
             if propName == ''
                 throw 'empty property name at line:' . lines[0]
-            else
+
+            elseif !has_key( setting, propName )
                 let setting[propName] = propValue
+
             endif
         endif
     endfor
 
-    call extend( setting, deepcopy( s:settingPrototype ), 'force' )
 
     let start = 1
     let len = len( lines )
@@ -259,7 +266,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
             call s:log.Log("got value, start=".start)
 
 
-            let [ keyname, keytype ] = s:getKeyType( key )
+            let [ keyname, keytype ] = s:GetKeyType( key )
 
             call s:log.Log("parse XSET:" . keyname . "|" . keytype . '=' . val)
 
@@ -280,7 +287,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     endwhile
 
 
-    call s:parseSetting(setting)
+    call s:ParseSetting(setting)
 
 
     call s:log.Log("start:".start)
@@ -301,7 +308,10 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 
 endfunction "}}}
 
-fun! s:parseSetting( setting ) "{{{
+fun! s:ParseSetting( setting ) "{{{
+    if !has_key( a:setting, 'postQuoter' )
+        return
+    endif
     
     let quoters = split( a:setting.postQuoter, ',' )
     if len( quoters ) < 2
@@ -347,7 +357,7 @@ endfunction "}}}
 " XXX
 fun! s:XPTbufferScopeSet( str )
     let [ key, value, start ] = s:getXSETkeyAndValue( [ 'XSET ' . a:str ], 0 )
-    let [ keyname, keytype ] = s:getKeyType( key )
+    let [ keyname, keytype ] = s:GetKeyType( key )
 
 endfunction
 
@@ -408,7 +418,7 @@ fun! s:parseMultiLineValues(lines, start) "{{{
     return [ start, val ]
 endfunction "}}}
 
-fun! s:getKeyType(rawKey) "{{{
+fun! s:GetKeyType(rawKey) "{{{
 
     let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'|\zs\.\{-}\$')
     if keytype == ""
@@ -430,11 +440,14 @@ fun! s:handleXSETcommand(setting, command, keyname, keytype, value) "{{{
     elseif a:keyname ==# 'ComeLast'
         let a:setting.comeLast = s:splitWith( a:value, ' ' )
 
-    elseif a:keyname ==# 'PostQuoter'
+    elseif a:keyname ==# 'postQuoter'
         let a:setting.postQuoter = a:value
 
     elseif a:keytype == "" || a:keytype ==# 'def'
         " first line is indent : empty indent
+        let a:setting.defaultValues[a:keyname] = "\n" . a:value
+    elseif a:keytype ==# 'pre'
+
         let a:setting.defaultValues[a:keyname] = "\n" . a:value
 
     elseif a:keytype ==# 'post'
