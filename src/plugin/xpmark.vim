@@ -726,6 +726,11 @@ fun! s:updateMarksAfter( indexRange, changeStart, changeEnd ) dict "{{{
 
         if mark[0] > lineNrOfChangeEndInLastStat
             " after changed lines
+            if diffOfLine == 0
+                " Optimize : most changes are in single line. no need to
+                " update line number of marks after changes
+                break
+            endif
             let self.marks[ name ] = [ mark[0] + diffOfLine, mark[1], mark[2], mark[3] ]
             call s:log.Debug( 'after change:' . string( mark ) )
 
