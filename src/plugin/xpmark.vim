@@ -317,7 +317,7 @@ fun! s:snapshot() dict "{{{
     Assert has_key( self.markHistory, n-1 )
 
     while n < nr
-        call s:log.Info( 'to link markHistory ' . n . ' to ' .(n - 1) )
+        call s:log.Log( 'to link markHistory ' . n . ' to ' .(n - 1) )
         let self.markHistory[ n ] = self.markHistory[ n - 1 ]
 
         " clean the old
@@ -987,7 +987,7 @@ endfunction " }}}
 
 " TODO call back
 fun! s:removeMark(name) dict "{{{
-    call s:log.Info( "removed mark:" . a:name )
+    call s:log.Log( "removed mark:" . a:name )
     if !has_key( self.marks, a:name )
         return
     endif

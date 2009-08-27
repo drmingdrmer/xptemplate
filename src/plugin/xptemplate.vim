@@ -3034,7 +3034,7 @@ fun! s:XPTupdate(...) "{{{
 
 
     call s:log.Log("XPTupdate called, mode:".mode())
-    call s:log.Info( "marks before XPTupdate:\n" . XPMallMark() )
+    call s:log.Log( "marks before XPTupdate:\n" . XPMallMark() )
 
     call s:fixCrCausedIndentProblem()
     
@@ -3054,7 +3054,7 @@ fun! s:XPTupdate(...) "{{{
     let [ start, end ] = [ XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) ]
 
     if start == [0, 0] || end == [0, 0]
-        call s:log.Info( 'fail to get start/end mark:' . string( [ start, end ] ) . ' of name=' . string( leaderMark ) )
+        call s:log.Error( 'fail to get start/end mark:' . string( [ start, end ] ) . ' of name=' . string( leaderMark ) )
         return s:Crash()
     endif
 
@@ -3087,7 +3087,7 @@ fun! s:XPTupdate(...) "{{{
         " change taken in current focused place holder
         let relPos = s:recordRelativePosToMark( [ line( '.' ), col( '.' ) ], renderContext.leadingPlaceHolder.mark.start )
 
-        call s:log.Info( "marks before updating following:\n" . XPMallMark() )
+        call s:log.Log( "marks before updating following:\n" . XPMallMark() )
 
         " TODO optimize?
         call s:UpdateFollowingPlaceHoldersWith( contentTyped, {} )
@@ -3111,7 +3111,7 @@ fun! s:XPTupdate(...) "{{{
 
     
 
-    call s:log.Info( "marks after XPTupdate:\n" . XPMallMark() )
+    call s:log.Log( "marks after XPTupdate:\n" . XPMallMark() )
 
     call XPMupdateStat()
 
