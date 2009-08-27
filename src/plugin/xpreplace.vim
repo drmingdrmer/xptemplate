@@ -196,11 +196,15 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     " remove ';'
     if ifPasteAtEnd
         call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 )
-        silent! normal! xzo
+        silent! normal! xzO
     else
         call cursor( positionAfterReplacement )
         call s:log.Log( 'before remove ";" positionAfterReplacement='.string( positionAfterReplacement ) )
-        silent! normal! XzO
+        silent! normal! X
+        if foldclosed( '.' ) != -1
+            normal zO
+            " zO
+        endif
     endif
 
 
