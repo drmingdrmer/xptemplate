@@ -25,20 +25,20 @@ let s:log = CreateLogger( 'debug' )
 
 
 com! -nargs=* XPTemplate
-            \   if XPTemplateFileDefinition( expand( "<sfile>" ), <f-args> ) == 'finish'
+            \   if XPTsnippetFileInit( expand( "<sfile>" ), <f-args> ) == 'finish'
             \ |     finish
             \ | endif
 
-com!          XPTemplateDef call s:XPTemplateDefineSnippet(expand("<sfile>")) | finish
+com!          XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | finish
 com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
 com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
 com! -nargs=+ XPTinclude    call XPTinclude(<f-args>)
-com! -nargs=* XSET          call XPTbufferScopeSet( <q-args> )
+" com! -nargs=* XSET          call XPTbufferScopeSet( <q-args> )
 
 
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
-fun! XPTemplateFileDefinition( filename, ... ) "{{{
+fun! XPTsnippetFileInit( filename, ... ) "{{{
     if !exists( 'b:__xpt_loaded' )
         let b:__xpt_loaded = {}
     endif
@@ -151,7 +151,7 @@ fun! XPTinclude(...) "{{{
 endfunction "}}}
 
 " TODO refine me
-fun! s:XPTemplateDefineSnippet(fn) "{{{
+fun! s:XPTstartSnippetPart(fn) "{{{
     call s:log.Log("parse file :".a:fn)
     let lines = readfile(a:fn)
 
@@ -212,7 +212,6 @@ fun! s:XPTemplateDefineSnippet(fn) "{{{
     endif
 
 endfunction "}}}
-
 
 fun! s:XPTemplateParseSnippet(lines) "{{{
     let lines = a:lines
@@ -355,11 +354,11 @@ fun! s:getXSETkeyAndValue(lines, start) "{{{
 endfunction "}}}
 
 " XXX
-fun! s:XPTbufferScopeSet( str )
-    let [ key, value, start ] = s:getXSETkeyAndValue( [ 'XSET ' . a:str ], 0 )
-    let [ keyname, keytype ] = s:GetKeyType( key )
-
-endfunction
+" fun! s:XPTbufferScopeSet( str )
+    " let [ key, value, start ] = s:getXSETkeyAndValue( [ 'XSET ' . a:str ], 0 )
+    " let [ keyname, keytype ] = s:GetKeyType( key )
+" 
+" endfunction
 
 fun! s:parseMultiLineValues(lines, start) "{{{
     " @return  [ which_line_XSETm_ends, multi_line_text ]
