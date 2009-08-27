@@ -200,11 +200,7 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     else
         call cursor( positionAfterReplacement )
         call s:log.Log( 'before remove ";" positionAfterReplacement='.string( positionAfterReplacement ) )
-        silent! normal! X
-        if foldclosed( '.' ) != -1
-            normal zO
-            " zO
-        endif
+        silent! normal! XzO
     endif
 
 

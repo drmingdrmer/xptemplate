@@ -19,14 +19,14 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO default $CL, $CR, $CM, using commentstr
+" TODO default $CL, $CR, $CM, using commentstring
 " TODO cursor pattern : using commentted string
-" TODO xpreplace line start with <tab> leaving a ';', ada:beg snippet
 " TODO simple place holder : just a postion waiting for user input
 " TODO cpp : class template is very slow
 " TODO removing mark is not safe that new mark maybe has the same name.
 " TODO XPT : inc bug
 " TODO do not let xpt throw error if calling undefined s:f.function..
+" TODO xpreplace line start with <tab> leaving a ';', ada:beg snippet
 " TODO compatibility to old post-filter syntax
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 " TODO on the first time template rendering, replace all vars with its value.
@@ -43,7 +43,6 @@
 " TODO in windows & in select mode to trigger wrapped or normal?
 " TODO change on previous item
 " TODO implement wrapping in more natural way. nested maybe.
-" TODO lock key variables
 " TODO as function call template
 " TODO highlight all pending item instead of using mark
 " TODO item popup: repopup
