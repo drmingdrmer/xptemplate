@@ -34,11 +34,13 @@ rm -rf	\
 # grep -v "call \(Fatal\|Error\|Warn\|Info\|Log\|Debug\)(" plugin/$file |\
 for file in `ls plugin/`;do
 
+  if [[ $file == "debug.vim" ]];then
+    continue
+  fi
+
   echo remove Log and comments from $file
 
   grep -v "call s:log.\(Log\|Debug\)(" plugin/$file |\
-  grep -v "CreateLogger(" |\
-  grep -v "runtime plugin/debug.vim" |\
   grep -v "^\s*\"" |\
   grep -v "^\s*$" |\
   sed 's/"\s*{{{//; s/"\s*}}}//' > .tmp
