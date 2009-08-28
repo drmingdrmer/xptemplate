@@ -271,7 +271,6 @@ fun! XPTemplateIndent(p) "{{{
     call s:ParseIndent(x, a:p)
 endfunction "}}}
 
-" TODO this is problemtic if in future mark can be set for each snippet
 fun! XPTmark() "{{{
     let renderContext = s:getRenderContext()
     let xp = renderContext.tmpl.ptn
@@ -341,28 +340,29 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     let xt = g:XPTobject().normalTemplates
     let xp = g:XPTobject().snipFileScope.ptn
 
+    " using dictionary member instead of direct variable for type limit
+    let foo = { 'snip' : '' }
+
     let templateSetting = deepcopy(g:XPTemplateSettingPrototype)
 
     if a:0 == 0          " no syntax context
-        let TmplObj = a:str_or_ctx
+        let foo.snip = a:str_or_ctx
 
     elseif a:0 == 1      " with syntax context
         call extend( templateSetting, a:str_or_ctx, 'force' )
-        let TmplObj = a:1
+        let foo.snip = a:1
 
     endif
 
     call g:XPTapplyTemplateSettingDefaultValue( templateSetting )
 
 
-    if type(TmplObj) == type([])
-        let Str = join(TmplObj, "\n")
 
-    elseif type(TmplObj) == type(function("tr"))
-        let Str = TmplObj
+    if type(foo.snip) == type([])
+        let foo.snip = join(foo.snip, "\n")
 
-    else
-        let Str = TmplObj
+    elseif type(foo.snip) == type(function("tr"))
+        let foo.snip = foo.snip
 
     endif
 
@@ -370,45 +370,33 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     let name = a:name
 
     let idt = deepcopy(x.snipFileScope.indent)
-    " if '=' is a keyword, ignore indent setting
-    if '=' !~ '\V' . x.keyword
-        call s:log.Log("parse indent in template name")
-        let istr = matchstr(name, '=[^!=]*')
-        let name = substitute(name, '=[^!=]*', '', 'g')
 
-        if istr != ""
-            call s:ParseIndent(idt, istr)
-        elseif has_key(templateSetting, 'indent')
-            call s:ParseIndent(idt, templateSetting.indent)
-        endif
-    else
-        if has_key(templateSetting, 'indent')
-            call s:ParseIndent(idt, templateSetting.indent)
-        endif
+    if has_key(templateSetting, 'indent')
+        call s:ParseIndent(idt, templateSetting.indent)
     endif
 
 
     call s:log.Log("keyword is : ".x.keyword)
 
-    if '!' !~ '\V' . x.keyword
-        call s:log.Log("parse priority in template name")
-        " priority 9999 is the lowest
-        let pstr = matchstr(name, '\V!\zs\.\+\$')
-
-        if pstr != ""
-            call s:log.Log("parse tmpl name priority")
-            let override_priority = s:ParsePriority(pstr)
-        elseif has_key(templateSetting, 'priority')
-            call s:log.Log("parse templateSetting priority")
-            let override_priority = s:ParsePriority(templateSetting.priority)
-        else
-            call s:log.Log("buf priority")
-            let override_priority = x.snipFileScope.priority
-        endif
-
-        let name = pstr == "" ? name : matchstr(name, '[^!]*\ze!')
-
-    else
+    " if '!' !~ '\V' . x.keyword
+        " call s:log.Log("parse priority in template name")
+        " " priority 9999 is the lowest
+        " let pstr = matchstr(name, '\V!\zs\.\+\$')
+" 
+        " if pstr != ""
+            " call s:log.Log("parse tmpl name priority")
+            " let override_priority = s:ParsePriority(pstr)
+        " elseif has_key(templateSetting, 'priority')
+            " call s:log.Log("parse templateSetting priority")
+            " let override_priority = s:ParsePriority(templateSetting.priority)
+        " else
+            " call s:log.Log("buf priority")
+            " let override_priority = x.snipFileScope.priority
+        " endif
+" 
+        " let name = pstr == "" ? name : matchstr(name, '[^!]*\ze!')
+" 
+    " else
         if has_key(templateSetting, 'priority')
             call s:log.Log("parse templateSetting priority")
             let override_priority = s:ParsePriority(templateSetting.priority)
@@ -416,7 +404,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
             call s:log.Log("buf priority")
             let override_priority = x.snipFileScope.priority
         endif
-    endif
+    " endif
 
 
 
@@ -429,15 +417,15 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
         call s:log.Log("tmpl :name=".name." priority=".override_priority)
         let xt[name] = {
                     \ 'name'        : name,
-                    \ 'tmpl'        : Str,
+                    \ 'tmpl'        : foo.snip,
                     \ 'priority'    : override_priority,
                     \ 'setting'     : templateSetting,
                     \ 'ptn'         : deepcopy(g:XPTobject().snipFileScope.ptn),
                     \ 'indent'      : idt,
-                    \ 'wrapped'     : type(Str) != type(function("tr")) && Str =~ '\V' . xp.lft . s:wrappedName . xp.rt }
+                    \ 'wrapped'     : type(foo.snip) != type(function("tr")) && foo.snip =~ '\V' . xp.lft . s:wrappedName . xp.rt }
 
-        if type( Str ) == type( '' )
-            let xt[ name ].tmpl = s:parseQuotedPostFilter( xt[ name ], Str )
+        if type( foo.snip ) == type( '' )
+            let xt[ name ].tmpl = s:parseQuotedPostFilter( xt[ name ], foo.snip )
         endif
 
         call s:log.Debug( 'create template name=' . name . ' tmpl=' . xt[ name ].tmpl )

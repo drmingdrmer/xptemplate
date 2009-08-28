@@ -122,8 +122,8 @@ XPT main hint=main\ (argc,\ argv)
   int
 main(int argc, char **argv)
 {
-  `cursor^
-  return 0;
+    `cursor^
+    return 0;
 }
 ..XPT
 

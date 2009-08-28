@@ -239,7 +239,7 @@ fun! XPPprocess(list) "{{{
         let postAction = sess.longest
 
     elseif actionName == 'popup'
-        call s:ApplyMap()
+        call s:ApplyMapAndSetting()
         call complete( sess.col, sess.currentList )
 
     elseif actionName == 'fixPopup'
@@ -475,7 +475,7 @@ endfunction "}}}
 " }}}
 
 " Internal {{{
-fun! s:ApplyMap() "{{{
+fun! s:ApplyMapAndSetting() "{{{
     if exists("b:__xpp_mapped")
         return
     endif
@@ -487,9 +487,14 @@ fun! s:ApplyMap() "{{{
     exe 'inoremap <buffer> <bs>' '<C-r>=XPPshorten()<cr>'
     exe 'inoremap <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
 
+    " disable indent keys or cinkeys, or for c language, <C-\>, then selecting
+    " snippet start with '#' causes a choas.
+    call SettingPush( '&l:cinkeys', '' )
+    call SettingPush( '&l:indentkeys', '' )
+
 endfunction "}}}
 
-fun! s:ClearMap() "{{{
+fun! s:ClearMapAndSetting() "{{{
     if !exists("b:__xpp_mapped")
         return
     endif
@@ -497,11 +502,15 @@ fun! s:ClearMap() "{{{
     call g:MapPop(b:__xpp_mapped.i_tab)
     call g:MapPop(b:__xpp_mapped.i_bs)
 
+
+    call SettingPop() " cinkeys 
+    call SettingPop() " indentkeys 
+
     unlet b:__xpp_mapped
 endfunction "}}}
 
 fun! s:End() "{{{
-    call s:ClearMap()
+    call s:ClearMapAndSetting()
     if exists("b:__xpp_current_session")
         unlet b:__xpp_current_session
     endif
