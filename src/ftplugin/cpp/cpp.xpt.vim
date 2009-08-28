@@ -15,7 +15,7 @@ XPTvar $INDENT_HELPER /* void */;
 XPTinclude
       \ _common/common
       \ _comment/cpp.like
-      \ _loops/java.like
+      \ _loops/java.for.like
 
 " ========================= Function and Varaibles =============================
 let [s:f, s:v] = XPTcontainer()

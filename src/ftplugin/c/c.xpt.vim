@@ -22,7 +22,8 @@ XPTinclude
       \ _common/common
       \ _comment/c.like
       \ _condition/c.like
-      \ _loops/c.like
+      \ _loops/c.for.like
+      \ _loops/c.while.like
       \ _structures/c.like
       \ _preprocessor/c.like
 

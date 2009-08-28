@@ -6,14 +6,22 @@ XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
-XPTvar $INDENT_HELPER /* void */;
-XPTvar $IF_BRACKET_STL \n
+
+XPTvar $INDENT_HELPER # void;
+XPTvar $CURSOR_PH     cursor
+
+XPTvar $IF_BRACKET_STL     \n
+XPTvar $FOR_BRACKET_STL    \n
+XPTvar $WHILE_BRACKET_STL  \n
+XPTvar $STRUCT_BRACKET_STL \n
+XPTvar $FUNC_BRACKET_STL   \n
 
 XPTvar $CS #
 
 XPTinclude 
       \ _common/common
       \ _comment/singleSign
+      \ _loops/c.while.like
 
 
 " ========================= Function and Variables =============================
@@ -23,6 +31,11 @@ XPTinclude
 XPTemplateDef 
 
 
+
+XPT perl hint=#!/usr/bin/env\ perl
+#!/usr/bin/env perl
+
+..XPT
 
 
 XPT xif hint=..\ if\ ..;
@@ -43,12 +56,6 @@ XPT xforeach hint=..\ foreach\ ..;
 
 XPT sub hint=sub\ ..\ {\ ..\ }
 sub `fun_name^ {
-    `cursor^
-}
-
-
-XPT while hint=while\ (\ ..\ )\ {\ ..\ }
-while (`cond^) {
     `cursor^
 }
 
@@ -93,7 +100,7 @@ elif ( `cond2^ )
 `else...{{^
 else
 {
-    `body^
+    `cursor^
 }`}}^
 
 XPT package hint=
