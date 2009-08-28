@@ -9,8 +9,11 @@ XPTvar $UNDEFINED     NULL
 XPTvar $INDENT_HELPER /* void */;
 XPTvar $IF_BRACKET_STL \n
 
+XPTvar $CS #
+
 XPTinclude 
       \ _common/common
+      \ _comment/singleSign
 
 
 " ========================= Function and Variables =============================
@@ -18,6 +21,9 @@ XPTinclude
 
 " ================================= Snippets ===================================
 XPTemplateDef 
+
+
+
 
 XPT xif hint=..\ if\ ..;
 `expr^ if `cond^;
@@ -84,11 +90,11 @@ elif ( `cond2^ )
     `body^
 }`
 `...^`
-`else...^
+`else...{{^
 else
 {
-    \`body\^
-}^^
+    `body^
+}`}}^
 
 XPT package hint=
 package `className^;
