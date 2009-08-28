@@ -255,7 +255,7 @@ fun! XPTemplatePriority(...) "{{{
     let x = g:XPTobject()
     let p = a:0 == 0 ? 'lang' : a:1
 
-    let x.snipFileScope.priority = s:ParsePriority(p)
+    let x.snipFileScope.priority = s:ParsePriorityString(p)
 endfunction "}}}
 
 fun! XPTemplateMark(sl, sr) "{{{
@@ -332,16 +332,17 @@ endfunction "}}}
 
 " ********* XXX ********* 
 fun! XPTemplate(name, str_or_ctx, ...) " {{{
+
     " @param String name	 		tempalte name
     " @param String context			[optional] context syntax name
     " @param String|List|FunCRef str	template string
 
-    let x = g:XPTobject()
-    let xt = g:XPTobject().normalTemplates
-    let xp = g:XPTobject().snipFileScope.ptn
+    let x         = g:XPTobject()
+    let templates = g:XPTobject().normalTemplates
+    let xp        = g:XPTobject().snipFileScope.ptn
 
     " using dictionary member instead of direct variable for type limit
-    let foo = { 'snip' : '' }
+    let foo       = { 'snip' : '' }
 
     let templateSetting = deepcopy(g:XPTemplateSettingPrototype)
 
@@ -358,6 +359,19 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
 
 
+    let prio =  has_key(templateSetting, 'priority') ? 
+                \ s:ParsePriorityString(templateSetting.priority) :
+                \ x.snipFileScope.priority
+
+
+    " existed template is not overrided.
+    if has_key(templates, a:name) && templates[a:name].priority <= prio
+        return
+    endif
+
+
+    call s:ParseTemplateSetting( x, templateSetting )
+
     if type(foo.snip) == type([])
         let foo.snip = join(foo.snip, "\n")
 
@@ -367,76 +381,45 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     endif
 
 
-    let name = a:name
 
-    let idt = deepcopy(x.snipFileScope.indent)
+    call s:log.Log("tmpl :name=".a:name." priority=".prio)
+    let templates[a:name] = {
+                \ 'name'        : a:name,
+                \ 'tmpl'        : foo.snip,
+                \ 'priority'    : prio,
+                \ 'setting'     : templateSetting,
+                \ 'ptn'         : deepcopy(g:XPTobject().snipFileScope.ptn),
+                \ 'wrapped'     : type(foo.snip) != type(function("tr")) && foo.snip =~ '\V' . xp.lft . s:wrappedName . xp.rt }
 
-    if has_key(templateSetting, 'indent')
-        call s:ParseIndent(idt, templateSetting.indent)
-    endif
+    call s:InitTemplateObject( templates[ a:name ] )
 
-
-    call s:log.Log("keyword is : ".x.keyword)
-
-    " if '!' !~ '\V' . x.keyword
-        " call s:log.Log("parse priority in template name")
-        " " priority 9999 is the lowest
-        " let pstr = matchstr(name, '\V!\zs\.\+\$')
-" 
-        " if pstr != ""
-            " call s:log.Log("parse tmpl name priority")
-            " let override_priority = s:ParsePriority(pstr)
-        " elseif has_key(templateSetting, 'priority')
-            " call s:log.Log("parse templateSetting priority")
-            " let override_priority = s:ParsePriority(templateSetting.priority)
-        " else
-            " call s:log.Log("buf priority")
-            " let override_priority = x.snipFileScope.priority
-        " endif
-" 
-        " let name = pstr == "" ? name : matchstr(name, '[^!]*\ze!')
-" 
-    " else
-        if has_key(templateSetting, 'priority')
-            call s:log.Log("parse templateSetting priority")
-            let override_priority = s:ParsePriority(templateSetting.priority)
-        else
-            call s:log.Log("buf priority")
-            let override_priority = x.snipFileScope.priority
-        endif
-    " endif
-
-
-
-    call s:GetHint(templateSetting)
-
-
-    " TODO refactor this step : check priority earlier than doing something to template.
-    " TODO merge something into setting.
-    if !has_key(xt, name) || xt[name].priority > override_priority
-        call s:log.Log("tmpl :name=".name." priority=".override_priority)
-        let xt[name] = {
-                    \ 'name'        : name,
-                    \ 'tmpl'        : foo.snip,
-                    \ 'priority'    : override_priority,
-                    \ 'setting'     : templateSetting,
-                    \ 'ptn'         : deepcopy(g:XPTobject().snipFileScope.ptn),
-                    \ 'indent'      : idt,
-                    \ 'wrapped'     : type(foo.snip) != type(function("tr")) && foo.snip =~ '\V' . xp.lft . s:wrappedName . xp.rt }
-
-        if type( foo.snip ) == type( '' )
-            let xt[ name ].tmpl = s:parseQuotedPostFilter( xt[ name ], foo.snip )
-        endif
-
-        call s:log.Debug( 'create template name=' . name . ' tmpl=' . xt[ name ].tmpl )
-
-        call s:initItemOrderDict( xt[name].setting )
-
-        " apply some default settings 
-        let xt[ name ].setting.defaultValues.cursor = 'Finish()'
-
-    endif
 endfunction " }}}
+
+fun! s:InitTemplateObject( tmplObj )
+    if type( a:tmplObj.tmpl ) == type( '' )
+        let a:tmplObj.tmpl = s:parseQuotedPostFilter( a:tmplObj )
+    endif
+
+    call s:log.Debug( 'create template name=' . a:tmplObj.name . ' tmpl=' . a:tmplObj.tmpl )
+
+    call s:initItemOrderDict( a:tmplObj.setting )
+
+    " apply some default settings 
+    let a:tmplObj.setting.defaultValues.cursor = 'Finish()'
+endfunction
+
+fun! s:ParseTemplateSetting( xptObj, setting )
+    let idt = deepcopy(a:xptObj.snipFileScope.indent)
+
+    if has_key(a:setting, 'indent')
+        call s:ParseIndent(idt, a:setting.indent)
+    endif
+
+    let a:setting.indent = idt
+
+
+    call s:GetHint(a:setting)
+endfunction
 
 fun! s:initItemOrderDict( setting ) "{{{
     " create name-to-index dictionary
@@ -595,7 +578,7 @@ fun! s:GetHint(ctx) "{{{
 
 endfunction "}}}
 
-fun! s:ParsePriority(s) "{{{
+fun! s:ParsePriorityString(s) "{{{
     let x = g:XPTobject()
 
     let pstr = a:s
@@ -797,22 +780,26 @@ endfunction "}}}
 " TODO bad name, bad arguments
 fun! s:ApplyTmplIndent(renderContext, templateText) "{{{
     let renderContext = a:renderContext
+    let indent = renderContext.tmpl.setting.indent
     let tmpl = a:templateText
 
     let baseIndent = repeat(" ", indent("."))
     " at first, only use default indent
-    if renderContext.tmpl.indent.type =~# 'keep\|rate\|auto'
-        if renderContext.tmpl.indent.type ==# "rate"
-            let patternOfOriginalIndent = repeat(' ', renderContext.tmpl.indent.rate[0])
+    if indent.type =~# 'keep\|rate\|auto'
+
+        if indent.type ==# "rate"
+            let patternOfOriginalIndent = repeat(' ', indent.rate[0])
             let patternOfOriginalIndent ='\(\%('.patternOfOriginalIndent.'\)*\)'
 
-            let expandedIndent = repeat('\1', renderContext.tmpl.indent.rate[1] / renderContext.tmpl.indent.rate[0])
+            let expandedIndent = repeat('\1', indent.rate[1] / indent.rate[0])
 
             call s:log.Log("indent:ptn, rep", patternOfOriginalIndent, expandedIndent)
 
             let tmpl = substitute(tmpl, '\%(^\|\n\)\zs'.patternOfOriginalIndent, expandedIndent, 'g')
         endif
+
         let tmpl = substitute(tmpl, '\n', '&' . baseIndent, 'g')
+
     endif
 
     return tmpl
@@ -902,7 +889,7 @@ fun! s:GetIndentBeforeEdge( tmplObj, textBeforeLeftMark )
 endfunction
 
 
-fun! s:parseQuotedPostFilter( tmplObj, snippet ) "{{{
+fun! s:parseQuotedPostFilter( tmplObj ) "{{{
     let xp = a:tmplObj.ptn
     let postFilters = a:tmplObj.setting.postFilters
     let quoter = a:tmplObj.setting.postQuoter
@@ -915,7 +902,7 @@ fun! s:parseQuotedPostFilter( tmplObj, snippet ) "{{{
     call s:log.Log( 'startPattern=' . startPattern )
     call s:log.Log( 'endPattern=' . endPattern )
 
-    let snip = a:snippet
+    let snip = a:tmplObj.tmpl
 
 
     " Note: pattern can not satisfy that most prefix and most xp.lft can be
