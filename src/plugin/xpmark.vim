@@ -619,7 +619,8 @@ fun! s:updateForLinewiseDeletion( fromLine, toLine ) dict "{{{
 
         elseif mark[0] >= a:fromLine && mark[0] < a:toLine
             call s:log.Log( 'remove mark at position:' . string( mark ) )
-            call remove( self.marks, n )
+            call self.removeMark( n )
+            " call remove( self.marks, n )
 
         endif
     endfor

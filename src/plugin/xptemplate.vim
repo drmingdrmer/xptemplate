@@ -107,7 +107,7 @@ fun! XPTmarkCompare( o, markToAdd, existedMark )
             return -1
         endif
     
-    elseif renderContext.phase == 'build' && has_key( renderContext, 'buildingMarkRange' ) 
+    elseif renderContext.action == 'build' && has_key( renderContext, 'buildingMarkRange' ) 
                 \&& renderContext.buildingMarkRange.end ==  a:existedMark
         call s:log.Debug( a:markToAdd . ' < ' . a:existedMark )
         return -1
@@ -159,6 +159,7 @@ let s:renderContextPrototype      = {
             \    'tmpl'              : {},
             \    'evalCtx'           : {},
             \    'phase'             : 'uninit',
+            \    'action'            : '',
             \    'markNamePre'       : '', 
             \    'item'              : {}, 
             \    'leadingPlaceHolder' : {}, 
@@ -405,7 +406,7 @@ fun! s:CleanupSnippet( foo ) "{{{
 
     if type( foo.snip ) == type( '' )
         let tabspace = repeat( ' ', &l:tabstop )
-        let foo.snip = substitute( foo.snip, '\t', tabspace, 'g' )
+        " let foo.snip = substitute( foo.snip, '\t', tabspace, 'g' )
     endif
 
     return foo.snip
@@ -1428,7 +1429,7 @@ fun! s:addItemToRenderContext( ctx, item ) "{{{
     endif
 
     " TODO precise phase, do not use false condition
-    if ctx.phase != 'inited'
+    if ctx.phase != 'rendering'
         " fillin phase 
         " call insert( ctx.itemList, item, 0 )
         call add( ctx.firstList, item )
@@ -1475,7 +1476,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
     let xp = renderContext.tmpl.ptn
 
 
-    let renderContext.phase = 'build'
+    let renderContext.action = 'build'
 
     if renderContext.firstList == []
         let renderContext.firstList = copy(renderContext.tmpl.setting.firstListSkeleton)
@@ -1587,6 +1588,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
     call cursor( end )
 
+    let renderContext.action = ''
     return 0
 endfunction "}}}
 
@@ -1910,6 +1912,9 @@ fun! s:ApplyPostFilter() "{{{
             if 0 != s:BuildPlaceHolders( marks )
                 return s:Crash()
             endif
+
+            " change back the phase
+            let renderContext.phase = 'post'
         endif
 
         " call s:RemovePlaceHolderMark( leader )
@@ -2983,7 +2988,9 @@ endfunction "}}}
 fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
     " TODO if nothing changed, skipping the replace
 
+    call s:log.Debug( 'option=' . string( a:option ) )
     let renderContext = s:getRenderContext()
+    call s:log.Debug( 'phase=' . renderContext.phase )
 
     let useGroupPost = renderContext.phase == 'post' && has_key( a:option, 'post' )
     if useGroupPost
@@ -3043,9 +3050,9 @@ fun! s:GetFilterIndentAndText( filter ) "{{{
     return [ filterIndent, filterText ]
 endfunction "}}}
 
-fun! s:Crash() "{{{
+fun! s:Crash(...) "{{{
 
-    let msg = "XPTemplate snippet crashed :"
+    let msg = "XPTemplate snippet crashed :" . join( a:000, "\n" )
 
     let x = g:XPTobject()
 
@@ -3078,6 +3085,9 @@ fun! s:fixCrCausedIndentProblem() "{{{
     let currentFollowingSpace = getline( currentPos[0] )[ currentPos[1] - 1 : ]
     let currentFollowingSpace = matchstr( currentFollowingSpace, '^\s*' )
 
+    call s:log.Log( 'lastFollowingSpace=' . string( renderContext.lastFollowingSpace ) )
+    call s:log.Log( 'lastTotalLine=' . string( renderContext.lastTotalLine ) )
+    call s:log.Log( 'currentTotalLine=' . string( currentTotalLine ) )
     if renderContext.lastFollowingSpace == ''
                 \ || renderContext.lastTotalLine >= currentTotalLine
 
@@ -3124,18 +3134,21 @@ fun! s:XPTupdate(...) "{{{
     " TODO check current cursor position for crashing or fixing
 
     let leaderMark = renderContext.leadingPlaceHolder.mark
+    let [ start, end ] = [ XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) ]
+
+    if start == [0, 0] || end == [0, 0]
+        " call s:log.Info( 'fail to get start/end mark:' . string( [ start, end ] ) . ' of name=' . string( leaderMark ) )
+        return s:Crash( 'fail to get start/end mark:' . string( [ start, end ] ) . ' of name=' . string( leaderMark ) )
+    endif
+
+
     call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
 
     let rc = XPMupdate()
 
-
-
     let [ start, end ] = [ XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) ]
 
-    if start == [0, 0] || end == [0, 0]
-        call s:log.Error( 'fail to get start/end mark:' . string( [ start, end ] ) . ' of name=' . string( leaderMark ) )
-        return s:Crash()
-    endif
+
 
     let contentTyped = s:TextBetween( start, end )
 

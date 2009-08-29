@@ -93,7 +93,12 @@ fun! s:f.c_printfElts( v )
 endfunction
 
 fun! s:f.fff()
-  return self.UpperCase( self.V() )
+  let v = self.V()
+  if v == 'aa' 
+    return ''
+  else
+    return ', another'
+  endif
 endfunction
 
 " ================================= Snippets ===================================
@@ -101,8 +106,8 @@ XPTemplateDef
 
 
 XPT tt hint=tips
-XSET abb..|post=fff()
-`, `abb..^
+XSET a2|post=fff()
+`aa^`aa^fff()^
 
 XPT printf	hint=printf\\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )
@@ -159,6 +164,7 @@ XPT para syn=comment	hint=comment\ parameter
 
 
 XPT filehead
+XSET cursor|pre=CURSOR
 /**-------------------------/// `sum^ \\\---------------------------
  *
  * <b>`function^</b>
