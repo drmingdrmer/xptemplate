@@ -116,9 +116,13 @@ fun! s:FiletypeInit() "{{{
   if &l:commentstring != ''
     let cms = split( &l:commentstring, '\V%s', 1 )
     if cms[1] == ''
-      let f[ '$CS' ] = cms[0]
+      if !has_key( f, '$CS' )
+        let f[ '$CS' ] = cms[0]
+      endif
     else
-      let [ f[ '$CL' ], f[ '$CR' ] ] = cms
+      if !has_key( f, '$CL' ) && !has_key( f, '$CR' )
+        let [ f[ '$CL' ], f[ '$CR' ] ] = cms
+      endif
     endif
   endif
 

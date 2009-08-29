@@ -128,7 +128,7 @@ main(int argc, char **argv)
 ..XPT
 
 " Quick-Repetition parameters list
-XPT fun		hint=func..\ (\ ..\ )\ {...
+XPT fun 	hint=func..\ (\ ..\ )\ {...
 XSET p_disabled..|post=ExpandIfNotEmpty(', ', 'p..')
   `int^
 `name^(`^)

@@ -530,6 +530,9 @@ fun! s:normalModeUpdate() dict "{{{
 
         let lineNrOfChangeEndInLastStat = ce[0] - diffOfLine
 
+        call s:log.Log( 'iseq = ' . (stat.positionOfMarkP[0] == line( "'" . g:xpm_mark_nextline )) )
+        call s:log.Log( 'lastMode=' . self.lastMode . ' match:' . (self.lastMode =~ '[vV]') )
+
         if linewiseDeletion
             if cs == ce
                 " linewise deletion "{{{
@@ -557,14 +560,20 @@ fun! s:normalModeUpdate() dict "{{{
             return self.updateWithNewChangeRange( endPos, endPos )
 
 
+
+        elseif self.lastMode =~ '[vVsS]'
+
+
         elseif diffOfLine == -1
             " join command, join 1 line
-            " NOTE: multi line joining is not supported yet
+            " Note: multi line joining is not supported yet
 
-            let cs = [ stat.lastPositionAndLength[0], stat.lastPositionAndLength[2] + 1 ]
+            let cs = [ self.lastPositionAndLength[0], self.lastPositionAndLength[2] + 1 ]
 
             " end of the change is at least 1 space after line end
-            let ce = [ stat.lastPositionAndLength[0], stat.lastPositionAndLength[2] + 2 ]
+            let ce = [ self.lastPositionAndLength[0], self.lastPositionAndLength[2] + 2 ]
+
+            call s:log.Error( 'any chance going here?' )
 
             return self.updateWithNewChangeRange( cs, ce )
 
@@ -1162,9 +1171,9 @@ fun! PrintDebug()
     return substitute( debugString, '\s', '' , 'g' )
 endfunction
 
-" nnoremap ,m :call XPMhere('c')<cr>
-" nnoremap ,M :call XPMhere('c','r')<cr>
-" nnoremap ,g :call XPMgoto('c')<cr>
+nnoremap ,m :call XPMhere('c', 'l')<cr>
+nnoremap ,M :call XPMhere('c', 'r')<cr>
+nnoremap ,g :call XPMgoto('c')<cr>
 " test range
 "
 " 000000000000000000000000000000000000000

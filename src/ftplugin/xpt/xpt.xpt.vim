@@ -111,6 +111,7 @@ XPTvar $IF_BRACKET_STL     \n
 XPTvar $FOR_BRACKET_STL    \n
 XPTvar $WHILE_BRACKET_STL  \n
 XPTvar $STRUCT_BRACKET_STL \n
+XPTvar $FUNC_BRACKET_STL   \n
 
 `XPTinclude...^
 XSET XPTinclude...|post=`incTrigger^

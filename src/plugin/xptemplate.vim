@@ -1,5 +1,5 @@
 " XPTEMPLATE ENGIE:
-"   code template engine
+"   snippet template engine
 " VERSION: 0.3.9.0
 " BY: drdr.xp | drdr.xp@gmail.com
 "
@@ -19,16 +19,6 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO default $CL, $CR, $CM, using commentstring
-" TODO cursor pattern : using commentted string
-" TODO simple place holder : just a postion waiting for user input
-" TODO cpp : class template is very slow
-" TODO removing mark is not safe that new mark maybe has the same name.
-" TODO XPT : inc bug
-" TODO do not let xpt throw error if calling undefined s:f.function..
-" TODO xpreplace line start with <tab> leaving a ';', ada:beg snippet
-" TODO compatibility to old post-filter syntax
-" TODO install guide
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 " TODO on the first time template rendering, replace all vars with its value.
 " TODO snippets bundle and bundle selection
@@ -36,8 +26,6 @@
 " TODO block context check
 " TODO eval default value in-time
 " TODO without template rendering, xpmark update complains error.
-" TODO expandable has to be adjuested
-" TODO ontime filter
 " TODO use i^gu to protect template
 " expected mode() when cursor stopped to wait for input
 " TODO ontime repetition
@@ -47,7 +35,10 @@
 " TODO as function call template
 " TODO highlight all pending item instead of using mark
 " TODO item popup: repopup
+" TODO install guide
+" TODO do not let xpt throw error if calling undefined s:f.function..
 " TODO buffer/snippet scope template setting.
+" TODO simple place holder : just a postion waiting for user input
 " TODO undo
 " TODO test more : char before snippet, char after, last cursor position,
 " TODO wrapping on different visual mode
@@ -62,7 +53,6 @@
 " TODO separately store wrapped templates and normal ones
 " TODO match snippet names from middle
 " TODO snippets bundle and bundle selection
-" TODO hidden template or used only internally.
 "
 " "}}}
 "
@@ -352,15 +342,8 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
     endif
 
-
     call g:XPTapplyTemplateSettingDefaultValue( templateSetting )
 
-
-
-    if type(foo.snip) == type([])
-        let foo.snip = join(foo.snip, "\n")
-
-    endif
 
 
     let prio =  has_key(templateSetting, 'priority') ? 
@@ -375,6 +358,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
 
 
+    call s:CleanupSnippet( foo )
 
     let isWrapped = type(foo.snip) != type(function("tr")) && foo.snip =~ '\V' . xp.lft . s:wrappedName . xp.rt
 
@@ -392,6 +376,27 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     call s:InitTemplateObject( x, templates[ a:name ] )
 
 endfunction " }}}
+
+fun! s:CleanupSnippet( foo ) "{{{
+    if type( a:foo.snip ) == type( 'tr' )
+        return a:foo.snip
+    endif
+
+
+    let foo = a:foo
+    if type(foo.snip) == type([])
+        let foo.snip = join(foo.snip, "\n")
+
+    endif
+
+    if type( foo.snip ) == type( '' )
+        let tabspace = repeat( ' ', &l:tabstop )
+        let foo.snip = substitute( foo.snip, '\t', tabspace, 'g' )
+    endif
+
+    return foo.snip
+
+endfunction "}}}
 
 fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
@@ -729,20 +734,20 @@ fun! s:FinishRendering(...) "{{{
 
     match none
 
-    let l = line(".")
-    let toEnd = col(".") - len(getline("."))
+    " let l = line(".")
+    " let toEnd = col(".") - len(getline("."))
 
-    " unescape
-    exe "silent! %snomagic/\\V" .s:TmplRange() . s:unescapeHead . xp.l . '/\1' . xp.l . '/g'
-    exe "silent! %snomagic/\\V" .s:TmplRange() . s:unescapeHead . xp.r . '/\1' . xp.r . '/g'
+    " " unescape
+    " exe "silent! %snomagic/\\V" .s:TmplRange() . s:unescapeHead . xp.l . '/\1' . xp.l . '/g'
+    " exe "silent! %snomagic/\\V" .s:TmplRange() . s:unescapeHead . xp.r . '/\1' . xp.r . '/g'
 
-    " format template text
-    if &ft =~ s:ftNeedToRedraw
-        redraw
-    endif
-    call s:Format(1)
+    " " format template text
+    " if &ft =~ s:ftNeedToRedraw
+        " redraw
+    " endif
+    " call s:Format(1)
 
-    call cursor(l, toEnd + len(getline(l)))
+    " call cursor(l, toEnd + len(getline(l)))
 
     call s:removeMarksInRenderContext(renderContext)
 
@@ -793,6 +798,10 @@ fun! s:Popup(pref, coln) "{{{
         endif
 
         if has_key(templateObject.setting, "syn") && templateObject.setting.syn != '' && match(ctxs, '\c'.templateObject.setting.syn) == -1
+            continue
+        endif
+
+        if has_key( templateObject.setting, 'hidden' ) && templateObject.setting.hidden == '1'
             continue
         endif
 
@@ -2026,66 +2035,66 @@ fun! s:GotoNextItem() "{{{
 
 endfunction "}}}
 
-fun! s:Format(range) "{{{
-
-    " TODO 
-    return
-
-
-
-    let x = g:XPTobject()
-    let ctx = x.renderContext
-
-    if ctx.tmpl.indent.type !=# "auto"
-        return
-    endif
-
-    call s:PushBackPos()
-
-    let pt = s:TL()
-    let pt[1] = pt[1] - len(getline(pt[0]))
-
-
-
-
-    if ctx.processing && ctx.pos.curpos != {}
-        let pi = ctx.pos.editpos.start.pos
-        let pi[1] = pi[1] - len(getline(pi[0]))
-
-        let pc = s:CTL(x)
-        let pc[1] = pc[1] - len(getline(pc[0]))
-        " let bf = matchstr(x.renderContext.lastBefore, s:stripPtn)
-    endif
-
-    if a:range == 1
-        call s:log.Log("template before last format:", s:TextBetween(s:TL(), s:BR()))
-        call s:log.Log("template range : ".string([s:TL(), s:BR()]))
-        " call s:log.Log("current syntax:".string(SynNameStack(3, 1)))
-        call s:TmplRange()
-        normal! gv=
-    elseif a:range == 2
-        call s:TopTmplRange()
-        normal! gv=
-    else
-        normal! ==
-    endif
-    call s:log.Log("template after last format:", s:TextBetween(s:TL(), s:BR()))
-
-
-    if ctx.processing && ctx.pos.curpos != {}
-        call ctx.pos.editpos.start.set( pi[0], max([pi[1] + len(getline(pi[0])), 1]))
-        " let x.renderContext.pos.curpos.l = max([pc[1] + len(getline(pc[0])), 1])
-        " let x.renderContext.lastBefore = matchstr(getline(pc[0]), '\V\^\s\*'.escape(bf, '\'))
-        " call s:log.Log("bf is:" . bf)
-        call s:log.Log("current line:".getline(pc[0]))
-        " call s:log.Log("lastBefore after format:".x.renderContext.lastBefore)
-    endif
-
-
-    call s:PopBackPos()
-    " call cursor(p[0], p[1] + len(getline(".")))
-
-endfunction "}}}
+" fun! s:Format(range) "{{{
+" 
+    " " TODO 
+    " return
+" 
+" 
+" 
+    " let x = g:XPTobject()
+    " let ctx = x.renderContext
+" 
+    " if ctx.tmpl.indent.type !=# "auto"
+        " return
+    " endif
+" 
+    " call s:PushBackPos()
+" 
+    " let pt = s:TL()
+    " let pt[1] = pt[1] - len(getline(pt[0]))
+" 
+" 
+" 
+" 
+    " if ctx.processing && ctx.pos.curpos != {}
+        " let pi = ctx.pos.editpos.start.pos
+        " let pi[1] = pi[1] - len(getline(pi[0]))
+" 
+        " let pc = s:CTL(x)
+        " let pc[1] = pc[1] - len(getline(pc[0]))
+        " " let bf = matchstr(x.renderContext.lastBefore, s:stripPtn)
+    " endif
+" 
+    " if a:range == 1
+        " call s:log.Log("template before last format:", s:TextBetween(s:TL(), s:BR()))
+        " call s:log.Log("template range : ".string([s:TL(), s:BR()]))
+        " " call s:log.Log("current syntax:".string(SynNameStack(3, 1)))
+        " call s:TmplRange()
+        " normal! gv=
+    " elseif a:range == 2
+        " call s:TopTmplRange()
+        " normal! gv=
+    " else
+        " normal! ==
+    " endif
+    " call s:log.Log("template after last format:", s:TextBetween(s:TL(), s:BR()))
+" 
+" 
+    " if ctx.processing && ctx.pos.curpos != {}
+        " call ctx.pos.editpos.start.set( pi[0], max([pi[1] + len(getline(pi[0])), 1]))
+        " " let x.renderContext.pos.curpos.l = max([pc[1] + len(getline(pc[0])), 1])
+        " " let x.renderContext.lastBefore = matchstr(getline(pc[0]), '\V\^\s\*'.escape(bf, '\'))
+        " " call s:log.Log("bf is:" . bf)
+        " call s:log.Log("current line:".getline(pc[0]))
+        " " call s:log.Log("lastBefore after format:".x.renderContext.lastBefore)
+    " endif
+" 
+" 
+    " call s:PopBackPos()
+    " " call cursor(p[0], p[1] + len(getline(".")))
+" 
+" endfunction "}}}
 
 fun! s:TL(...)
     return XPMpos( g:XPTobject().renderContext.marks.tmpl.start )
