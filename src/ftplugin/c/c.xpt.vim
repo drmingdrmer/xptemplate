@@ -55,7 +55,7 @@ let s:printfEltMap = {
       \'n' : 'numWritten',
       \}
 
-fun! s:f.c_printfItem( v )
+fun! s:f.c_printfElts( v )
   " remove '%%' representing a single '%'
   let v = substitute( a:v, '\V%%', '', 'g' )
 
@@ -96,22 +96,22 @@ endfunction
 XPTemplateDef
 
 XPT printf	hint=printf\\(...)
-XSET elts=c_printfItem( R( 'pattern' ) )
+XSET elts=c_printfElts( R( 'pattern' ) )
 printf( "`pattern^"`elts^ );
 
 
 XPT sprintf alias=printf
-XSET elts=c_printfItem( R( 'pattern' ) )
+XSET elts=c_printfElts( R( 'pattern' ) )
 sprintf( `str^, "`pattern^"`elts^ );
 
 
 XPT snprintf alias=printf
-XSET elts=c_printfItem( R( 'pattern' ) )
+XSET elts=c_printfElts( R( 'pattern' ) )
 snprintf( `str^, `size^, "`pattern^"`elts^ );
 
 
 XPT fprintf alias=printf
-XSET elts=c_printfItem( R( 'pattern' ) )
+XSET elts=c_printfElts( R( 'pattern' ) )
 fprintf( `stream^, "`pattern^"`elts^ );
 
 

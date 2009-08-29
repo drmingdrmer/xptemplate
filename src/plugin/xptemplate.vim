@@ -128,19 +128,15 @@ let s:NullDict              = {}
 let s:NullList              = []
 
 let s:ftNeedToRedraw        = '\<\%(' . join([ 'perl' ], '\|') . '\)\>'
-" let s:selectAction          = "\<esc>gv\<C-g>"
-" let s:escapeHead            = '\v(\\*)\V'
 let s:unescapeHead          = '\v(\\*)\1\\?\V'
 
 let s:nonEscaped            = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 let s:escaped               = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<=' . '\\'
 
 let s:stripPtn              = '\V\^\s\*\zs\.\*'
-" let s:cursorName            = "cursor"
 let s:wrappedName           = "wrapped"
-" let s:repetitionPattern     = '^\.\.\.\d*$'
 let g:XPTemplateSettingPrototype  = { 
-            \    'preValues'        : {}, 
+            \    'preValues'        : { 'cursor' : "\n" . '$CURSOR_PH' }, 
             \    'defaultValues'    : {}, 
             \    'postFilters'      : {}, 
             \    'comeFirst'        : [], 
@@ -355,8 +351,15 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
     endif
 
+
     call g:XPTapplyTemplateSettingDefaultValue( templateSetting )
 
+
+
+    if type(foo.snip) == type([])
+        let foo.snip = join(foo.snip, "\n")
+
+    endif
 
 
     let prio =  has_key(templateSetting, 'priority') ? 
@@ -370,16 +373,9 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     endif
 
 
-    call s:ParseTemplateSetting( x, templateSetting )
 
-    if type(foo.snip) == type([])
-        let foo.snip = join(foo.snip, "\n")
 
-    elseif type(foo.snip) == type(function("tr"))
-        let foo.snip = foo.snip
-
-    endif
-
+    let isWrapped = type(foo.snip) != type(function("tr")) && foo.snip =~ '\V' . xp.lft . s:wrappedName . xp.rt
 
 
     call s:log.Log("tmpl :name=".a:name." priority=".prio)
@@ -389,37 +385,80 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
                 \ 'priority'    : prio,
                 \ 'setting'     : templateSetting,
                 \ 'ptn'         : deepcopy(g:XPTobject().snipFileScope.ptn),
-                \ 'wrapped'     : type(foo.snip) != type(function("tr")) && foo.snip =~ '\V' . xp.lft . s:wrappedName . xp.rt }
+                \ 'wrapped'     : isWrapped, 
+                \}
 
-    call s:InitTemplateObject( templates[ a:name ] )
+    call s:InitTemplateObject( x, templates[ a:name ] )
 
 endfunction " }}}
 
-fun! s:InitTemplateObject( tmplObj )
+fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
+
+    call s:ParseTemplateSetting( a:xptObj, a:tmplObj )
+
     if type( a:tmplObj.tmpl ) == type( '' )
         let a:tmplObj.tmpl = s:parseQuotedPostFilter( a:tmplObj )
     endif
 
     call s:log.Debug( 'create template name=' . a:tmplObj.name . ' tmpl=' . a:tmplObj.tmpl )
 
+    call s:addCursorToComeLast(a:tmplObj.setting)
     call s:initItemOrderDict( a:tmplObj.setting )
 
-    " apply some default settings 
-    let a:tmplObj.setting.defaultValues.cursor = 'Finish()'
-endfunction
 
-fun! s:ParseTemplateSetting( xptObj, setting )
+
+
+    let a:tmplObj.setting.defaultValues.cursor = 'Finish()'
+endfunction "}}}
+
+
+fun! s:ParseTemplateSetting( xptObj, tmplObj ) "{{{
+    let setting = a:tmplObj.setting
+
+
     let idt = deepcopy(a:xptObj.snipFileScope.indent)
 
-    if has_key(a:setting, 'indent')
-        call s:ParseIndent(idt, a:setting.indent)
+    if has_key(setting, 'indent')
+        call s:ParseIndent(idt, setting.indent)
     endif
 
-    let a:setting.indent = idt
+    let setting.indent = idt
 
 
-    call s:GetHint(a:setting)
-endfunction
+    call s:GetHint(setting)
+
+    call s:ParsePostQuoter( setting )
+
+endfunction "}}}
+
+fun! s:ParsePostQuoter( setting ) "{{{
+    if !has_key( a:setting, 'postQuoter' ) 
+                \ || type( a:setting.postQuoter ) == type( {} )
+        return
+    endif
+
+    
+    let quoters = split( a:setting.postQuoter, ',' )
+    if len( quoters ) < 2
+        throw 'postQuoter must be separated with ","! :' . a:setting.postQuoter
+    endif
+
+    let a:setting.postQuoter = { 'start' : quoters[0], 'end' : quoters[1] }
+endfunction "}}}
+
+fun! s:addCursorToComeLast(setting) "{{{
+  let comeLast = copy( a:setting.comeLast )
+
+  let cursorItem = filter( comeLast, 'v:val == "cursor"' )
+  call s:log.Debug( 'has cursor item?:' . string( cursorItem ) )
+
+  if cursorItem == []
+    call add( a:setting.comeLast, 'cursor' )
+  endif
+
+  call s:log.Debug( 'has cursor item?:' . string( a:setting.comeLast ) )
+
+endfunction "}}}
 
 fun! s:initItemOrderDict( setting ) "{{{
     " create name-to-index dictionary
@@ -1497,31 +1536,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
             call s:log.Debug( 'built ph='.string( placeHolder ) )
 
-            " TODO need to be more precise for default, ontime, etc.
-            if placeHolder.name != ''
-              call s:log.Debug( 'ph''s name is not empty' )
-              let defaultValue = has_key( tmplObj.setting.defaultValues, placeHolder.name ) ? 
-                    \tmplObj.setting.defaultValues[ placeHolder.name ] 
-                    \: placeHolder.ontimeFilter
-
-              call s:log.Debug( 'default value=' . defaultValue )
-
-              if !s:IsFilterEmpty( defaultValue )
-                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( defaultValue )
-
-                if filterText !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
-                  let text = s:Eval( filterText )
-
-                  let marks = placeHolder.isKey ? placeHolder.editMark : placeHolder.mark
-                  let text = s:AdjustIndentAccordingToLine( text, filterIndent, XPMpos( marks.start )[0] )
-                  call XPRstartSession()
-                  call XPreplaceByMarkInternal( marks.start, marks.end, text )
-                  call XPRendSession()
-
-                endif
-              endif
-
-            endif
+            call s:ApplyPreValues( placeHolder )
 
 
             call cursor( XPMpos( placeHolder.mark.end ) )
@@ -1545,6 +1560,47 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
     return 0
 endfunction "}}}
+
+fun! s:ApplyPreValues( placeHolder )
+    let renderContext = s:getRenderContext()
+    let tmplObj = renderContext.tmpl
+    let xp = tmplObj.ptn
+    let setting = tmplObj.setting
+
+    let preValue = a:placeHolder.name == '' ? '' : 
+                \ (has_key( setting.preValues, a:placeHolder.name ) ? setting.preValues[ a:placeHolder.name ] : '')
+
+    if !s:IsFilterEmpty( preValue ) 
+        let [ filterIndent, filterText ] = s:GetFilterIndentAndText( preValue )
+        call s:SetPreValue( a:placeHolder, filterIndent, filterText )
+
+    else
+        let preValue = has_key( setting.defaultValues, a:placeHolder.name ) ? 
+                    \setting.defaultValues[ a:placeHolder.name ] 
+                    \: a:placeHolder.ontimeFilter
+
+        if !s:IsFilterEmpty( preValue ) 
+            let [ filterIndent, filterText ] = s:GetFilterIndentAndText( preValue )
+            if filterText !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
+                call s:SetPreValue( a:placeHolder, filterIndent, filterText )
+            endif
+        endif
+
+    endif
+endfunction
+
+
+fun! s:SetPreValue( placeHolder, indent, text )
+    let text = s:Eval( a:text )
+
+    let marks = a:placeHolder.isKey ? a:placeHolder.editMark : a:placeHolder.mark
+    let text = s:AdjustIndentAccordingToLine( text, a:indent, XPMpos( marks.start )[0] )
+    call XPRstartSession()
+    call XPreplaceByMarkInternal( marks.start, marks.end, text )
+    call XPRendSession()
+endfunction
+
+
 
 fun! s:BuildItemForPlaceHolder( ctx, placeHolder ) "{{{
     " anonymous item with name set to '' will never been added to a:ctx.itemDict
@@ -2761,7 +2817,14 @@ endfunction "}}}
 
 fun! g:XPTobject() "{{{
     if !exists("b:xptemplateData")
-        let b:xptemplateData = {'tmplarr' : [], 'normalTemplates' : {}, 'funcs' : {}, 'wrapStartPos' : 0, 'wrap' : '', 'functionContainer' : {}}
+        let b:xptemplateData = {
+                    \    'tmplarr' : [], 
+                    \    'normalTemplates' : {}, 
+                    \    'funcs' : { '$CURSOR_PH' : 'CURSOR' }, 
+                    \    'wrapStartPos' : 0, 
+                    \    'wrap' : '', 
+                    \    'functionContainer' : {}
+                    \}
         let b:xptemplateData.vars = b:xptemplateData.funcs
         let b:xptemplateData.varPriority = {}
         let b:xptemplateData.posStack = []

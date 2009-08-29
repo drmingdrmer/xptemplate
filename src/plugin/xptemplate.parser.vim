@@ -286,13 +286,9 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     endwhile
 
 
-    call s:ParseSetting(setting)
-
-
     call s:log.Log("start:".start)
     call s:log.Log("to parse tmpl : snippetName=" . snippetName)
 
-    call s:addCursorToComeLast(setting)
 
 
     call s:log.Log("tmpl setting:".string(setting))
@@ -307,20 +303,6 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 
 endfunction "}}}
 
-fun! s:ParseSetting( setting ) "{{{
-    if !has_key( a:setting, 'postQuoter' )
-        return
-    endif
-    
-    let quoters = split( a:setting.postQuoter, ',' )
-    if len( quoters ) < 2
-        throw 'postQuoter must be separated with ','! :' . a:setting.postQuoter
-    endif
-
-    let a:setting.postQuoter = { 'start' : quoters[0], 'end' : quoters[1] }
-
-
-endfunction "}}}
 
 fun! s:getXSETkeyAndValue(lines, start) "{{{
     let start = a:start
@@ -445,9 +427,10 @@ fun! s:handleXSETcommand(setting, command, keyname, keytype, value) "{{{
     elseif a:keytype == "" || a:keytype ==# 'def'
         " first line is indent : empty indent
         let a:setting.defaultValues[a:keyname] = "\n" . a:value
+
     elseif a:keytype ==# 'pre'
 
-        let a:setting.defaultValues[a:keyname] = "\n" . a:value
+        let a:setting.preValues[a:keyname] = "\n" . a:value
 
     elseif a:keytype ==# 'post'
         if a:keyname =~ '\V...'
@@ -469,19 +452,6 @@ fun! s:handleXSETcommand(setting, command, keyname, keytype, value) "{{{
 
 endfunction "}}}
 
-fun! s:addCursorToComeLast(setting) "{{{
-  let comeLast = copy( a:setting.comeLast )
-
-  let cursorItem = filter( comeLast, 'v:val == "cursor"' )
-  call s:log.Debug( 'has cursor item?:' . string( cursorItem ) )
-
-  if cursorItem == []
-    call add( a:setting.comeLast, 'cursor' )
-  endif
-
-  call s:log.Debug( 'has cursor item?:' . string( a:setting.comeLast ) )
-
-endfunction "}}}
 
 fun! s:splitWith( str, char ) "{{{
   let s = split( a:str, '\V' . s:nonEscaped . a:char, 1 )
