@@ -169,12 +169,17 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     call s:log.Log( 'ifPasteAtEnd=' . ifPasteAtEnd )
 
 
+
+    call s:log.Log( 'before append content, line=' . string( getline( a:start[0] ) ) )
+    call s:log.Log( 'to append=' . @" )
+
     " NOTE: When just entering insert mode from select mode, it is impossible to paste at line end.
     " May be bug of vim
     if ifPasteAtEnd
-        " paste before last char 
-        call cursor( a:start[0], a:start[1] - 1 )
-        normal! ""p
+        " " paste before last char 
+        " call cursor( a:start[0], a:start[1] - 1 )
+        " normal! ""p
+        normal! ""P
     else
         normal! ""P
     endif

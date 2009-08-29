@@ -247,7 +247,7 @@ fun! XPMupdateStat() "{{{
 
     call d.saveCurrentStat()
 
-    call s:log.Debug( 'after XPMupdateStat, self=' . string( d ) )
+    " call s:log.Debug( 'after XPMupdateStat, self=' . string( d ) )
 endfunction "}}}
 
 fun! XPMupdateCursorStat(...) "{{{
@@ -1009,6 +1009,8 @@ fun! s:removeMark(name) dict "{{{
 endfunction "}}}
 
 fun! s:addMarkOrder( name ) dict "{{{
+
+    call s:log.Log( 'likely mark is:' . string( self.changeLikelyBetween ) )
     let markToAdd = self.marks[ a:name ]
 
     let nPos = markToAdd[0] * 10000 + markToAdd[1]

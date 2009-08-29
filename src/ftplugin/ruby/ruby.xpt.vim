@@ -164,7 +164,7 @@ XSET content=
 
 XPT BEG hint=BEGIN\ {\ ..\ }
 BEGIN {
-`cursor^
+    `cursor^
 }
 
 
@@ -172,13 +172,13 @@ XPT Comp hint=include\ Comparable\ def\ <=>\ ...
 include Comparable
 
 def <=>(other)
-`cursor^
+    `cursor^
 end
 
 
 XPT END hint=END\ {\ ..\ }
 END {
-`cursor^
+    `cursor^
 }
 
 
@@ -186,7 +186,7 @@ XPT Enum hint=include\ Enumerable\ def\ each\ ...
 include Enumerable
 
 def each(&block)
-`cursor^
+    `cursor^
 end
 
 
@@ -254,7 +254,7 @@ any? { |`element^| `cursor^ }
 
 XPT app hint=if\ __FILE__\ ==\ $PROGRAM_NAME\ ...
 if __FILE__ == $PROGRAM_NAME
-`cursor^
+    `cursor^
 end
 
 
@@ -275,18 +275,23 @@ XSET what=Choose(["accessor", "reader", "writer"])
 XSET what|post=SV("^_$",'','')
 XSET attr..|post=ExpandIfNotEmpty(', :', 'attr..')
 attr`_`what^ :`attr..^
+..XPT
 
+" TODO indent problem on else and ensure
 XPT begin hint=begin\ ..\ rescue\ ..\ else\ ..\ end
 XSETm rescue...|post
+
 rescue `exception^` => `e^
 `block^`
 `rescue...^
 XSETm END
 XSETm else...|post
+
 else
   `block^
 XSETm END
 XSETm ensure...|post
+
 ensure
   `cursor^
 XSETm END
@@ -304,20 +309,22 @@ XSET times=10_000
 TESTS = `times^
 
 Benchmark.bmbm do |result|
-`cursor^
+    `cursor^
 end
 
 
 XPT case hint=case\ ..\ when\ ..\ end
 XSET block=# block
 XSETm when...|post
+
 when `comparison^
 `block^`
 `when...^
 XSETm END
 XSETm else...|post
+
 else
-  `cursor^
+    `cursor^
 XSETm END
 XSET _=
 case `target^`
@@ -333,7 +340,7 @@ classify { |`element^| `cursor^ }
 XPT cl hint=class\ ..\ end
 XSET ClassName.post=RubyCamelCase()
 class `ClassName^
-`cursor^
+    `cursor^
 end
 
 
@@ -351,28 +358,30 @@ end
 
 
 XPT cli hint=class\ ..\ def\ initialize\\(..)\ ...
-XSET ClassName.post=RubyCamelCase()
+XSET ClassName|post=RubyCamelCase()
 XSET name|post=RubySnakeCase()
 XSET init=Trigger('defi')
 XSET def=Trigger('def')
 class `ClassName^
-  `init^`...^
+  `init^`
+  `...^
 
-  `def^`...^
+  `def^`
+  `...^
 end
 
 
 XPT cls hint=class\ <<\ ..\ end
 XSET self=self
 class << `self^
-`cursor^
+    `cursor^
 end
 
 
 XPT clstr hint=..\ =\ Struct.new\ ...
 XSETm do...|post
-do
-`cursor^
+ do
+    `cursor^
 end
 XSETm END
 XSET ClassName|post=RubyCamelCase()
@@ -392,7 +401,7 @@ XPT def hint=def\ ..\ end
 XSET method|post=RubySnakeCase()
 XSET arg..|post=RepeatInsideEdges(', ')
 def `method^`(`arg..`)^
-`cursor^
+    `cursor^
 end
 
 
@@ -407,13 +416,13 @@ def_delegators :`del obj^, :`del methods^
 XPT defi hint=def\ initialize\ ..\ end
 XSET arg..|post=RepeatInsideEdges(', ')
 def initialize`(`arg..`)^
-`cursor^
+    `cursor^
 end
 
 
 XPT defmm hint=def\ method_missing\\(..)\ ..\ end
 def method_missing(meth, *args, &block)
-`cursor^
+    `cursor^
 end
 
 
@@ -421,7 +430,7 @@ XPT defs hint=def\ self...\ end
 XSET method.post=RubySnakeCase()
 XSET arg..|post=RepeatInsideEdges(', ')
 def self.`method^`(`arg..`)^
-`cursor^
+    `cursor^
 end
 
 
@@ -429,7 +438,7 @@ XPT deft hint=def\ test_..\ ..\ end
 XSET name|post=RubySnakeCase()
 XSET arg..|post=RepeatInsideEdges(', ')
 def test_`name^`(`arg..`)^
-`cursor^
+    `cursor^
 end
 
 
@@ -454,7 +463,7 @@ Dir.glob('`dir^') { |`f^| `cursor^ }
 XPT do hint=do\ |..|\ ..\ end
 XSET arg..|post=RepeatInsideEdges(', ')
 do` |`arg..`|^
-`cursor^
+    `cursor^
 end
 
 
@@ -524,15 +533,15 @@ Hash.new { |`hash^,`key^| `hash^[`key^] = `cursor^ }
 
 XPT if hint=if\ ..\ end
 if `boolean exp^
-  `cursor^
+    `cursor^
 end
 
 XPT ife hint=if\ ..\ else\ ..\ end
 XSET block=# block
 if `boolean exp^
-  `block^
+    `block^
 else
-  `cursor^
+    `cursor^
 end
 
 XPT ifei hint=if\ ..\ elsif\ ..\ else\ ..\ end
@@ -566,7 +575,7 @@ lambda {` |`args`|^ `cursor^ }
 
 XPT loop hint=loop\ do\ ...\ end
 loop do
-`cursor^
+    `cursor^
 end
 
 XPT map hint=map\ {\ |..|\ ..\ }
@@ -694,7 +703,7 @@ XPT subcl hint=class\ ..\ <\ ..\ end
 XSET ClassName.post=RubyCamelCase()
 XSET Parent.post=RubyCamelCase()
 class `ClassName^ < `Parent^
-`cursor^
+    `cursor^
 end
 
 
@@ -703,7 +712,7 @@ XSET task name|post=RubySnakeCase()
 XSET dep..|post=RepeatInsideEdges(', :')
 desc "`task description^"
 task :`task name^` => [:`dep..`]^ do
-`cursor^
+    `cursor^
 end
 
 
@@ -737,19 +746,19 @@ transaction(`_^) { `cursor^ }
 XPT unif hint=Unix\ Filter
 XSET line=line
 ARGF.each_line do |`line^|
-`cursor^
+    `cursor^
 end
 
 
 XPT unless hint=unless\ ..\ end
 unless `boolean cond^
-`cursor^
+    `cursor^
 end
 
 
 XPT until hint=until\ ..\ end
 until `boolean cond^
-`cursor^
+    `cursor^
 end
 
 
@@ -777,7 +786,7 @@ end
 
 XPT while hint=while\ ..\ end
 while `boolean cond^
-`cursor^
+    `cursor^
 end
 
 

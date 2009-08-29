@@ -18,7 +18,14 @@
 "     template
 " "}}}
 "
+" BUG: "{{{
+"
+"
+" "}}}
+"
 " TODOLIST: "{{{
+" TODO error complained when delete all snip, Assert failed inside
+" XPMsetLikely
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 " TODO on the first time template rendering, replace all vars with its value.
 " TODO snippets bundle and bundle selection
@@ -93,7 +100,14 @@ call XPMsetUpdateStrategy( 'normalMode' )
 fun! XPTmarkCompare( o, markToAdd, existedMark )
     call s:log.Log( 'compare : ' . a:markToAdd . ' and ' . a:existedMark )
     let renderContext = s:getRenderContext()
-    if has_key( renderContext, 'buildingMarkRange' ) 
+
+    if renderContext.phase == 'rendering' 
+        let [ lm, rm ] = [ a:o.changeLikelyBetween.start, a:o.changeLikelyBetween.end ]
+        if a:existedMark ==# rm
+            return -1
+        endif
+    
+    elseif renderContext.phase == 'build' && has_key( renderContext, 'buildingMarkRange' ) 
                 \&& renderContext.buildingMarkRange.end ==  a:existedMark
         call s:log.Debug( a:markToAdd . ' < ' . a:existedMark )
         return -1
@@ -1037,6 +1051,8 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
     let ctx = s:getRenderContext()
     let xp = s:getRenderContext().tmpl.ptn
 
+    let ctx.phase = 'rendering'
+
     let tmpl = ctx.tmpl.tmpl
 
     if type(tmpl) == type(function("tr"))
@@ -1457,6 +1473,9 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
     let renderContext = s:getRenderContext()
     let tmplObj = renderContext.tmpl
     let xp = renderContext.tmpl.ptn
+
+
+    let renderContext.phase = 'build'
 
     if renderContext.firstList == []
         let renderContext.firstList = copy(renderContext.tmpl.setting.firstListSkeleton)
@@ -2010,6 +2029,11 @@ fun! s:GotoNextItem() "{{{
     let postaction = s:InitItem()
 
 
+    " InitItem may change template stack
+    let renderContext = s:getRenderContext()
+    let leader =  renderContext.leadingPlaceHolder
+
+
 
     call s:log.Log( 'after InitItem, postaction='.postaction )
 
@@ -2170,7 +2194,15 @@ fun! s:HandleDefaultValueAction( ctx, act ) "{{{
             call XPreplace(XPMpos( ctx.leadingPlaceHolder.mark.start ), XPMpos( ctx.leadingPlaceHolder.mark.end )
                         \, has_key( a:act, 'postTyping' ) ? a:act.postTyping : '' )
 
-            return s:FinishRendering()
+            let xptObj = g:XPTobject() 
+
+            if empty( xptObj.stack )
+                return s:FinishRendering()
+            else
+                " TODO for cursor item in nested template, this is ok. what if
+                " need to select something or doing something else?
+                return ''
+            endif
 
         elseif a:act.action ==# 'embed'
             " embed a piece of snippet

@@ -92,8 +92,17 @@ fun! s:f.c_printfElts( v )
   endif
 endfunction
 
+fun! s:f.fff()
+  return self.UpperCase( self.V() )
+endfunction
+
 " ================================= Snippets ===================================
 XPTemplateDef
+
+
+XPT tt hint=tips
+XSET abb..|post=fff()
+`, `abb..^
 
 XPT printf	hint=printf\\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )
