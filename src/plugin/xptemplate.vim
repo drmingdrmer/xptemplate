@@ -28,6 +28,7 @@
 " TODO do not let xpt throw error if calling undefined s:f.function..
 " TODO xpreplace line start with <tab> leaving a ';', ada:beg snippet
 " TODO compatibility to old post-filter syntax
+" TODO install guide
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 " TODO on the first time template rendering, replace all vars with its value.
 " TODO snippets bundle and bundle selection

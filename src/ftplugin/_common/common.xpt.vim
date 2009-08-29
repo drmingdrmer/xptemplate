@@ -5,11 +5,25 @@ let [s:f, s:v] = XPTcontainer()
 
 XPTvar $author        $author is not set, you need to set g:xptemplate_vars="$author=your_name"
 XPTvar $email         $email is not set, you need to set g:xptemplate_vars="$author=your_email@com"
-XPTvar $IF_BRACKET_STL  
+
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \ 
+
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          0
+XPTvar $UNDEFINED     0
+
+XPTvar $INDENT_HELPER  
+XPTvar $CURSOR_PH      CURSOR
 
 
 XPTinclude
       \ _common/personal
+      \ _common/cmn.counter
 
 " ========================= Function and Varaibles =============================
 
@@ -268,31 +282,6 @@ fun! s:f.LowerCase( v )
 endfunction
 
 
-" draft increment implementation
-fun! s:f.CntD() "{{{
-  let ctx = self._ctx
-  if !has_key(ctx, '__counter')
-    let ctx.__counter = {}
-  endif
-  return ctx.__counter
-endfunction "}}}
-fun! s:f.CntStart(name, ...) "{{{
-  let d = self.CntD()
-  let i = a:0 >= 1 ? 0 + a:1 : 0
-  let d[a:name] = 0 + i
-  return ""
-endfunction "}}}
-fun! s:f.Cnt(name) "{{{
-  let d = self.CntD()
-  return d[a:name]
-endfunction "}}}
-fun! s:f.CntIncr(name, ...)"{{{
-  let i = a:0 >= 1 ? 0 + a:1 : 1
-  let d = self.CntD()
-
-  let d[a:name] += i
-  return d[a:name]
-endfunction"}}}
 
 " Return Item Edges
 fun! s:f.ItemEdges() "{{{

@@ -97,7 +97,7 @@ XSET mark...|post= mark=`char^
 XSET indent...|post= indent=`indentValue^
 XSET indentValue=ChooseStr( 'auto', 'keep' )
 
-let [s:f, s:v] = XPTcontainer() 
+let s:f = XPTcontainer()[0]
  
 XPTvar $TRUE          1
 XPTvar $FALSE         0

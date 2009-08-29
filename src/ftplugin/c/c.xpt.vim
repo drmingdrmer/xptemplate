@@ -30,7 +30,7 @@ XPTinclude
 
 " ========================= Function and Varaibles =============================
 
-let s:f = XPTcontainer()[ 0 ]
+let s:f = XPTcontainer()[0]
 
 let s:printfElts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
