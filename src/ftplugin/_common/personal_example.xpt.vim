@@ -1,3 +1,5 @@
+" Move me to your own fptlugin/_common, and config your personal information
+"
 " Here is the place to set personal preference
 " "priority=personal" is the highest which overrides any other XPTvar setting
 "
@@ -5,6 +7,5 @@
 XPTemplate priority=personal
 
 
-" XPTvar $IF_BRACKET_STL \n
 " XPTvar $author       you have not yet set $author variable
 " XPTvar $email        you have not yet set $email variable

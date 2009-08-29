@@ -37,7 +37,7 @@ let s:printfElts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 "  %[flags][width][.precision][length]specifier  
 let s:printfItemPattern = '\V\C' . '%' . '\[+\- 0#]\*' . '\%(*\|\d\+\)\?' . '\(.*\|.\d\+\)\?' . '\[hlL]\?' . '\(\[cdieEfgGosuxXpn]\)'
 
-let s:printfEltMap = {
+let s:printfSpecifierMap = {
       \'c' : 'char',
       \'d' : 'int',
       \'i' : 'int',
@@ -79,7 +79,7 @@ fun! s:f.c_printfElts( v )
         let post .= ', `' . s:printfElts[ i ] . '_len^'
       endif
 
-      let post .= ', `' . s:printfElts[ i ] . '_' . s:printfEltMap[ eltList[2] ] . '^'
+      let post .= ', `' . s:printfElts[ i ] . '_' . s:printfSpecifierMap[ eltList[2] ] . '^'
 
       let start += len( eltList[0] )
 
@@ -97,26 +97,26 @@ XPTemplateDef
 
 XPT printf	hint=printf\\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )
-printf( "`pattern^"`elts^ );
+printf( "`pattern^"`elts^ )
 
 
 XPT sprintf alias=printf
 XSET elts=c_printfElts( R( 'pattern' ) )
-sprintf( `str^, "`pattern^"`elts^ );
+sprintf( `str^, "`pattern^"`elts^ )
 
 
 XPT snprintf alias=printf
 XSET elts=c_printfElts( R( 'pattern' ) )
-snprintf( `str^, `size^, "`pattern^"`elts^ );
+snprintf( `str^, `size^, "`pattern^"`elts^ )
 
 
 XPT fprintf alias=printf
 XSET elts=c_printfElts( R( 'pattern' ) )
-fprintf( `stream^, "`pattern^"`elts^ );
+fprintf( `stream^, "`pattern^"`elts^ )
 
 
 XPT assert	hint=assert\ (..,\ msg)
-assert(`isTrue^, "`text^");
+assert(`isTrue^, "`text^")
 
 XPT main hint=main\ (argc,\ argv)
   int

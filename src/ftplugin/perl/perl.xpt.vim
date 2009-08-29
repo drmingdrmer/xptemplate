@@ -8,7 +8,7 @@ XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
 
 XPTvar $INDENT_HELPER # void;
-XPTvar $CURSOR_PH     cursor
+XPTvar $CURSOR_PH     # cursor
 
 XPTvar $IF_BRACKET_STL     \n
 XPTvar $FOR_BRACKET_STL    \n
