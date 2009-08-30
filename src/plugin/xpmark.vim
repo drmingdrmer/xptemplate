@@ -1156,7 +1156,7 @@ endif
 " through rulerformat
 set ruler
 
-let &statusline   = '%{PrintDebug()}' . &statusline
+" let &statusline   = '%{PrintDebug()}' . &statusline
 let &rulerformat .= '%{XPMautoUpdate("ruler")}'
 let &statusline  .= '%{XPMautoUpdate("statusline")}'
 
