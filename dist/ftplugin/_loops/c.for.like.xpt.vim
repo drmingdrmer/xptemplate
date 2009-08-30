@@ -1,38 +1,44 @@
-if exists("b:___LOOPS_C_FOR_LIKE_XPT_VIM__")
-  finish
-endif
-let b:___LOOPS_C_FOR_LIKE_XPT_VIM__ = 1
+XPTemplate priority=like
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+let [s:f, s:v] = XPTcontainer() 
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
 
-" constant definition
-call extend(s:v, {'$TRUE': '1', '$FALSE' : '0', '$NULL' : 'NULL', '$INDENT_HELPER' : '/* void */;'}, 'keep')
+XPTvar $INDENT_HELPER  /* void */;
+XPTvar $CURSOR_PH      /* cursor */
 
-" inclusion
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
 
-call XPTemplatePriority('like')
 
-" ========================= Function and Varaibles =============================
+
+
+" ========================= Function and Variables =============================
 
 
 " ================================= Snippets ===================================
-XPTemplateDef
+XPTemplateDef 
+
 
 XPT for hint=for\ (..;..;++)
-for (`i^ = `0^; `i^ < `len^; ++`i^)`$IF_BRACKET_STL^{
-  `cursor^
+for (`i^ = `0^; `i^ < `len^; ++`i^)`$FOR_BRACKET_STL^{
+    `cursor^
 }
 
 
 XPT forr hint=for\ (..;..;--)
-for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$IF_BRACKET_STL^{
-  `cursor^
+for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$FOR_BRACKET_STL^{
+    `cursor^
 }
 
 
 XPT forever hint=for\ (;;)\ ..
 XSET body=$INDENT_HELPER
-for (;;) `body^
+for (;;)`$FOR_BRACKET_STL^`body^
 
 

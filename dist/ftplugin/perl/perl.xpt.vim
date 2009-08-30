@@ -6,11 +6,22 @@ XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
-XPTvar $INDENT_HELPER /* void */;
-XPTvar $IF_BRACKET_STL \n
+
+XPTvar $INDENT_HELPER # void;
+XPTvar $CURSOR_PH     # cursor
+
+XPTvar $IF_BRACKET_STL     \n
+XPTvar $FOR_BRACKET_STL    \n
+XPTvar $WHILE_BRACKET_STL  \n
+XPTvar $STRUCT_BRACKET_STL \n
+XPTvar $FUNC_BRACKET_STL   \n
+
+XPTvar $CS #
 
 XPTinclude 
       \ _common/common
+      \ _comment/singleSign
+      \ _loops/c.while.like
 
 
 " ========================= Function and Variables =============================
@@ -18,6 +29,14 @@ XPTinclude
 
 " ================================= Snippets ===================================
 XPTemplateDef 
+
+
+
+XPT perl hint=#!/usr/bin/env\ perl
+#!/usr/bin/env perl
+
+..XPT
+
 
 XPT xif hint=..\ if\ ..;
 `expr^ if `cond^;
@@ -41,12 +60,6 @@ sub `fun_name^ {
 }
 
 
-XPT while hint=while\ (\ ..\ )\ {\ ..\ }
-while (`cond^) {
-    `cursor^
-}
-
-
 XPT unless hint=unless\ (\ ..\ )\ {\ ..\ }
 unless (`cond^) {
     `cursor^
@@ -62,6 +75,11 @@ if ($@) {
 }
 
 
+XPT whileeach hint=while\ \\(\ \\(\ key,\ val\ )\ =\ each\\(\ %**\ )\ )
+while ( ( $`key^, $`val^ ) = each( %`array^ ) )`WHILE_BRACKET_STL^{
+    `cursor^
+}
+
 XPT for hint=for\ (my\ ..;..;++)
 for (my $`var^ = 0; $`var^ < `count^; $`var^++) {
     `cursor^
@@ -72,6 +90,19 @@ XPT foreach hint=foreach\ my\ ..\ (..){}
 foreach my $`var^ (@`array^) {
     `cursor^
 }
+
+
+XPT forkeys hint=foreach\ my\ var\ \\(\ keys\ %**\ )
+foreach my $`var^ ( keys @`array^ ) {
+    `cursor^
+}
+
+
+XPT forvalues hint=foreach\ my\ var\ \\(\ keys\ %**\ )
+foreach my $`var^ ( values @`array^ ) {
+    `cursor^
+}
+
 
 XPT if hint=if\ (\ ..\ )\ {\ ..\ }\ ...
 if ( `cond^ )
@@ -84,11 +115,11 @@ elif ( `cond2^ )
     `body^
 }`
 `...^`
-`else...^
+`else...{{^
 else
 {
-    \`body\^
-}^^
+    `cursor^
+}`}}^
 
 XPT package hint=
 package `className^;

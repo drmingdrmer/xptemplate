@@ -2,25 +2,26 @@ if exists("g:__XPTEMPLATE_CONF_VIM__")
   finish
 endif
 let g:__XPTEMPLATE_CONF_VIM__ = 1
+runtime plugin/debug.vim
 let s:escapeHead   = '\v(\\*)\V'
 let s:unescapeHead = '\v(\\*)\1\\?\V'
 let s:ep           = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
-fun! s:setIfNull(k, v) 
+fun! s:SetIfNotExist(k, v) 
   if !exists(a:k)
     exe "let ".a:k."=".string(a:v)
   endif
 endfunction 
-call s:setIfNull('g:xptemplate_strip_left',   1)
-call s:setIfNull('g:xptemplate_highlight',    1)
-call s:setIfNull('g:xptemplate_key',          '<C-\>')
-call s:setIfNull('g:xptemplate_goback',       '<C-g>')
-call s:setIfNull('g:xptemplate_nav_next',     '<tab>')
-call s:setIfNull('g:xptemplate_nav_cancel',   '<cr>')
-call s:setIfNull('g:xptemplate_to_right',     "<C-l>")
-call s:setIfNull('g:xptemplate_fix',          1)
-call s:setIfNull('g:xptemplate_vars',         '')
-call s:setIfNull('g:xptemplate_hl',           1)
-call s:setIfNull('g:xpt_post_action',         '')
+call s:SetIfNotExist('g:xptemplate_strip_left',   1)
+call s:SetIfNotExist('g:xptemplate_highlight',    1)
+call s:SetIfNotExist('g:xptemplate_key',          '<C-\>')
+call s:SetIfNotExist('g:xptemplate_goback',       '<C-g>')
+call s:SetIfNotExist('g:xptemplate_nav_next',     '<tab>')
+call s:SetIfNotExist('g:xptemplate_nav_cancel',   '<cr>')
+call s:SetIfNotExist('g:xptemplate_to_right',     "<C-l>")
+call s:SetIfNotExist('g:xptemplate_fix',          1)
+call s:SetIfNotExist('g:xptemplate_vars',         '')
+call s:SetIfNotExist('g:xptemplate_hl',           1)
+call s:SetIfNotExist('g:xpt_post_action',         '')
 let g:XPTpvs = {}
 if !hlID('XPTCurrentItem') && g:xptemplate_hl
   hi XPTCurrentItem ctermbg=darkgreen gui=none guifg=#d59619 guibg=#efdfc1
@@ -30,8 +31,8 @@ if !hlID('XPTIgnoredMark') && g:xptemplate_hl
 endif
 let s:oldcpo = &cpo
 set cpo-=<
-let g:XPTkeys = {
-      \ 'popup'       : "<C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
+let g:XPTmappings = {
+      \ 'popup'         : "<C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
       \ 'trigger'       : "<C-r>=XPTemplateStart(0)<cr>", 
       \ 'wrapTrigger'   : "\"0di<C-r>=XPTemplatePreWrap(@0)<cr>", 
       \ 'incSelTrigger' : "<C-c>`>a<C-r>=XPTemplateStart(0)<cr>", 
@@ -40,9 +41,9 @@ let g:XPTkeys = {
       \                       "<C-c>`>a<C-r>=XPTemplateStart(0)<cr>" 
       \                     : "<C-c>`>i<C-r>=XPTemplateStart(0)<cr>", 
       \ }
-exe "inoremap ".g:xptemplate_key." " . g:XPTkeys.trigger
-exe "xnoremap ".g:xptemplate_key." " . g:XPTkeys.wrapTrigger
-exe "snoremap ".g:xptemplate_key." " . g:XPTkeys.selTrigger
+exe "inoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.trigger
+exe "xnoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.wrapTrigger
+exe "snoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.selTrigger
 let &cpo = s:oldcpo
 let s:pvs = split(g:xptemplate_vars, '\V'.s:ep.'&')
 for s:v in s:pvs
@@ -56,15 +57,27 @@ for s:v in s:pvs
   let s:val = matchstr(s:v, '\V\^\[^=]\*=\zs\.\*')
   let g:XPTpvs[s:key] = substitute(s:val, s:unescapeHead.'&', '\1\&', 'g')
 endfor
-fun! s:ApplyPersonalVariables() 
+fun! s:FiletypeInit() 
   let f = g:XPTfuncs()
   for [k, v] in items(g:XPTpvs)
     let f[k] = v
   endfor
+  if &l:commentstring != ''
+    let cms = split( &l:commentstring, '\V%s', 1 )
+    if cms[1] == ''
+      if !has_key( f, '$CS' )
+        let f[ '$CS' ] = cms[0]
+      endif
+    else
+      if !has_key( f, '$CL' ) && !has_key( f, '$CR' )
+        let [ f[ '$CL' ], f[ '$CR' ] ] = cms
+      endif
+    endif
+  endif
 endfunction 
 augroup XPTpvs
   au!
-  au FileType * call <SID>ApplyPersonalVariables()
+  au FileType * call <SID>FiletypeInit()
 augroup END
 let bs=&bs
 if bs != 2 && bs !~ "start" 

@@ -1,6 +1,7 @@
 if exists("g:__XPREPLACE_VIM__")
 endif
 let g:__XPREPLACE_VIM__ = 1
+runtime plugin/debug.vim
 runtime plugin/mapstack.vim
 runtime plugin/xpmark.vim
 fun! TestXPR()
@@ -12,6 +13,7 @@ fun! TestXPR()
     call XPMremove( 'a' )
     call XPMremove( 'b' )
 endfunction
+let s:log = CreateLogger( 'debug' )
 fun! XPRstartSession() 
     if exists( 'b:_xpr_session' )
         return
@@ -58,7 +60,7 @@ fun! XPreplaceInternal(start, end, replacement, option)
     endif
     call cursor( a:start )
     if a:start != a:end
-        normal! v
+        silent! normal! v
         call cursor( a:end )
         silent! normal! dzO
     endif
@@ -70,13 +72,16 @@ fun! XPreplaceInternal(start, end, replacement, option)
     endif
     let bStart = [a:start[0] - line( '$' ), a:start[1] - len(getline(a:start[0]))]
     call cursor( a:start )
-    let @" = a:replacement . ';'
     let ifPasteAtEnd = ( col( [ a:start[0], '$' ] ) == a:start[1] && a:start[1] > 1 ) 
+    let isAtStart = ( a:start[1] == 1 )
+    let @" = a:replacement . ';'
     if ifPasteAtEnd
         call cursor( a:start[0], a:start[1] - 1 )
-        normal! ""p
+        let char = getline( "." )[ -1:-1 ]
+        let @" = char . a:replacement
+        silent! normal! ""P
     else
-        normal! ""P
+        silent! normal! ""P
     endif
     let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
     let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
@@ -86,7 +91,7 @@ fun! XPreplaceInternal(start, end, replacement, option)
     silent! '',.foldopen!
     if ifPasteAtEnd
         call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 )
-        silent! normal! xzo
+        silent! normal! DzO
     else
         call cursor( positionAfterReplacement )
         silent! normal! XzO

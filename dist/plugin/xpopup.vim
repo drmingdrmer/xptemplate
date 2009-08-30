@@ -2,11 +2,13 @@ if exists("g:__XPOPUP_VIM__")
     finish
 endif
 let g:__XPOPUP_VIM__ = 1
+runtime plugin/debug.vim
 runtime plugin/xpreplace.vim
 runtime plugin/mapstack.vim
 com! XPPgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPPgetSID
 delc XPPgetSID
+let s:log = CreateLogger( 'debug' )
 let s:sessionPrototype = {
             \ 'callback'    : {},
             \ 'list'        : [],
@@ -121,7 +123,7 @@ fun! XPPprocess(list)
     elseif actionName == 'typeLongest'
         let postAction = sess.longest
     elseif actionName == 'popup'
-        call s:ApplyMap()
+        call s:ApplyMapAndSetting()
         call complete( sess.col, sess.currentList )
     elseif actionName == 'fixPopup'
         let current = getline(".")[ sess.col - 1 : col(".") - 2 ]
@@ -226,26 +228,30 @@ fun! XPPcorrectPos()
         return ""
     endif
 endfunction 
-fun! s:ApplyMap() 
+fun! s:ApplyMapAndSetting() 
     if exists("b:__xpp_mapped")
         return
     endif
     let b:__xpp_mapped = {}
     let b:__xpp_mapped.i_bs     =  g:MapPush('<bs>', 'i', 1)
     let b:__xpp_mapped.i_tab    =  g:MapPush('<tab>', 'i', 1)
-    exe 'inoremap <buffer> <bs>' '<C-r>=XPPshorten()<cr>'
-    exe 'inoremap <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
+    exe 'inoremap <silent> <buffer> <bs>' '<C-r>=XPPshorten()<cr>'
+    exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
+    call SettingPush( '&l:cinkeys', '' )
+    call SettingPush( '&l:indentkeys', '' )
 endfunction 
-fun! s:ClearMap() 
+fun! s:ClearMapAndSetting() 
     if !exists("b:__xpp_mapped")
         return
     endif
     call g:MapPop(b:__xpp_mapped.i_tab)
     call g:MapPop(b:__xpp_mapped.i_bs)
+    call SettingPop() " cinkeys 
+    call SettingPop() " indentkeys 
     unlet b:__xpp_mapped
 endfunction 
 fun! s:End() 
-    call s:ClearMap()
+    call s:ClearMapAndSetting()
     if exists("b:__xpp_current_session")
         unlet b:__xpp_current_session
     endif

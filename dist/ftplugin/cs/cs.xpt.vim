@@ -13,8 +13,8 @@ XPTinclude
       \ _common/common
       \ _comment/c.like
       \ _condition/c.like
-      \ _loops/c.like
-      \ _loops/java.like
+      \ _loops/c.while.like
+      \ _loops/java.for.like
       \ c/wrap
 
 

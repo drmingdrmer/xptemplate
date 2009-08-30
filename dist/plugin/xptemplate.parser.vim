@@ -2,17 +2,19 @@ if exists("g:__XPTEMPLATE_PARSER_VIM__")
   finish
 endif
 let g:__XPTEMPLATE_PARSER_VIM__ = 1
+runtime plugin/debug.vim
 runtime plugin/xptemplate.vim
+let s:log = CreateLogger( 'debug' )
 com! -nargs=* XPTemplate
-            \   if XPTemplateFileDefinition( expand( "<sfile>" ), <f-args> ) == 'finish'
+            \   if XPTsnippetFileInit( expand( "<sfile>" ), <f-args> ) == 'finish'
             \ |     finish
             \ | endif
-com!          XPTemplateDef call s:XPTemplateDefineSnippet(expand("<sfile>")) | finish
+com!          XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | finish
 com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
+com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
 com! -nargs=+ XPTinclude    call XPTinclude(<f-args>)
-com! -nargs=* XSET          call XPTbufferScopeSet( <q-args> )
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
-fun! XPTemplateFileDefinition( filename, ... ) 
+fun! XPTsnippetFileInit( filename, ... ) 
     if !exists( 'b:__xpt_loaded' )
         let b:__xpt_loaded = {}
     endif
@@ -40,6 +42,14 @@ fun! XPTemplateFileDefinition( filename, ... )
         endif
     endfor
     return 'doit'
+endfunction 
+fun! XPTsnipSet( dictNameValue ) 
+    let x = XPTbufData()
+    let snipScope = x.snipFileScope
+    let [ dict, nameValue ] = split( a:dictNameValue, '\V.', 1 )
+    let name = matchstr( nameValue, '^.\{-}\ze=' )
+    let value = nameValue[ len( name ) + 1 :  ]
+    let snipScope[ dict ][ name ] = value
 endfunction 
 fun! XPTsetVar( nameSpaceValue ) 
     let x = XPTbufData()
@@ -74,7 +84,7 @@ fun! XPTinclude(...)
     endfor
     call XPTsnipScopePop()
 endfunction 
-fun! s:XPTemplateDefineSnippet(fn) 
+fun! s:XPTstartSnippetPart(fn) 
     let lines = readfile(a:fn)
     let [i, len] = [0, len(lines)]
     while i < len
@@ -113,20 +123,13 @@ fun! s:XPTemplateDefineSnippet(fn)
         call s:XPTemplateParseSnippet(lines[s : min([blk, i])])
     endif
 endfunction 
-let s:settingPrototype = {
-            \    'defaultValues' : {},
-            \    'postFilters' : {},
-            \    'comeFirst' : [],
-            \    'comeLast' : [],
-            \}
 fun! s:XPTemplateParseSnippet(lines) 
     let lines = a:lines
     let snippetLines = []
     let snippetParameters = split(lines[0], '\V'.s:nonEscaped.'\s\+')
     let snippetName = snippetParameters[1]
+    let setting = deepcopy( g:XPTemplateSettingPrototype )
     let snippetParameters = snippetParameters[2:]
-    let setting = {}
-    let setting.postQuoter = '{{,}}'
     for pair in snippetParameters
         let nameAndValue = split(pair, '=', 1)
         if len(nameAndValue) > 1
@@ -134,12 +137,11 @@ fun! s:XPTemplateParseSnippet(lines)
             let propValue = substitute( join( nameAndValue[1:], '=' ), '\\\(.\)', '\1', 'g' )
             if propName == ''
                 throw 'empty property name at line:' . lines[0]
-            else
+            elseif !has_key( setting, propName )
                 let setting[propName] = propValue
             endif
         endif
     endfor
-    call extend( setting, deepcopy( s:settingPrototype ), 'force' )
     let start = 1
     let len = len( lines )
     while start < len
@@ -150,7 +152,7 @@ fun! s:XPTemplateParseSnippet(lines)
                 let start += 1
                 continue
             endif
-            let [ keyname, keytype ] = s:getKeyType( key )
+            let [ keyname, keytype ] = s:GetKeyType( key )
             call s:handleXSETcommand(setting, command, keyname, keytype, val)
         elseif lines[start] =~# '^\\XSET\%[m]' " escaped XSET or XSETm
             let snippetLines += [ lines[ start ][1:] ]
@@ -159,20 +161,11 @@ fun! s:XPTemplateParseSnippet(lines)
         endif
         let start += 1
     endwhile
-    call s:parseSetting(setting)
-    call s:addCursorToComeLast(setting)
     if has_key( setting, 'alias' )
         call XPTemplateAlias( snippetName, setting.alias, setting )
     else
         call XPTemplate(snippetName, setting, snippetLines)
     endif
-endfunction 
-fun! s:parseSetting( setting ) 
-    let quoters = split( a:setting.postQuoter, ',' )
-    if len( quoters ) < 2
-        throw 'postQuoter must be separated with ','! :' . a:setting.postQuoter
-    endif
-    let a:setting.postQuoter = { 'start' : quoters[0], 'end' : quoters[1] }
 endfunction 
 fun! s:getXSETkeyAndValue(lines, start) 
     let start = a:start
@@ -191,10 +184,6 @@ fun! s:getXSETkeyAndValue(lines, start)
     endif
     return [ key, val, start ]
 endfunction 
-fun! s:XPTbufferScopeSet( str )
-    let [ key, value, start ] = s:getXSETkeyAndValue( [ 'XSET ' . a:str ], 0 )
-    let [ keyname, keytype ] = s:getKeyType( key )
-endfunction
 fun! s:parseMultiLineValues(lines, start) 
     let lines = a:lines
     let start = a:start
@@ -217,7 +206,7 @@ fun! s:parseMultiLineValues(lines, start)
     let val = join(multiLineValues, "\n")
     return [ start, val ]
 endfunction 
-fun! s:getKeyType(rawKey) 
+fun! s:GetKeyType(rawKey) 
     let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'|\zs\.\{-}\$')
     if keytype == ""
         let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'.\zs\.\{-}\$')
@@ -231,10 +220,12 @@ fun! s:handleXSETcommand(setting, command, keyname, keytype, value)
         let a:setting.comeFirst = s:splitWith( a:value, ' ' )
     elseif a:keyname ==# 'ComeLast'
         let a:setting.comeLast = s:splitWith( a:value, ' ' )
-    elseif a:keyname ==# 'PostQuoter'
+    elseif a:keyname ==# 'postQuoter'
         let a:setting.postQuoter = a:value
     elseif a:keytype == "" || a:keytype ==# 'def'
         let a:setting.defaultValues[a:keyname] = "\n" . a:value
+    elseif a:keytype ==# 'pre'
+        let a:setting.preValues[a:keyname] = "\n" . a:value
     elseif a:keytype ==# 'post'
         if a:keyname =~ '\V...'
             let a:setting.postFilters[a:keyname] = "\n" . 'BuildIfNoChange(' . string(a:value) . ')'
@@ -244,13 +235,6 @@ fun! s:handleXSETcommand(setting, command, keyname, keytype, value)
     else
         throw "unknown key name or type:" . a:keyname . ' ' . a:keytype
     endif
-endfunction 
-fun! s:addCursorToComeLast(setting) 
-  let comeLast = copy( a:setting.comeLast )
-  let cursorItem = filter( comeLast, 'v:val == "cursor"' )
-  if cursorItem == []
-    call add( a:setting.comeLast, 'cursor' )
-  endif
 endfunction 
 fun! s:splitWith( str, char ) 
   let s = split( a:str, '\V' . s:nonEscaped . a:char, 1 )

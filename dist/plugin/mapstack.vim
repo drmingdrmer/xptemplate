@@ -2,6 +2,8 @@ if exists("g:__MAPSTACK_VIM__")
   finish
 endif
 let g:__MAPSTACK_VIM__ = 1
+runtime plugin/debug.vim
+let s:log = CreateLogger( 'debug' )
 fun! s:InitStacks() 
   let b:__setting_stack__ = []
   let b:__map_stack__ = []

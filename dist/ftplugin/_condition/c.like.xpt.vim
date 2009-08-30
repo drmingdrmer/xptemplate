@@ -3,8 +3,10 @@ XPTemplate priority=like
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
+
 XPTvar $IF_BRACKET_STL  \ 
 XPTvar $INDENT_HELPER /* void */;
+
 
 
 " ================================= Snippets ===================================
@@ -21,17 +23,28 @@ XSETm else...|post
 }
 XSETm END
 
+
+XPT else hint=else\ {\ ...\ }
+else`$IF_BRACKET_STL^{
+  `cursor^
+}
+
+
 XPT ifn  alias=if	hint=if\ ($NULL\ ==\ ..)\ {..}\ else...
 XSET condition=Embed('`$NULL^ == `var^')
+
 
 XPT ifnn alias=if	hint=if\ ($NULL\ !=\ ..)\ {..}\ else...
 XSET condition=Embed('`$NULL^ != `var^')
 
+
 XPT if0  alias=if	hint=if\ (0\ ==\ ..)\ {..}\ else...
 XSET condition=Embed('0 == `var^')
 
+
 XPT ifn0 alias=if	hint=if\ (0\ !=\ ..)\ {..}\ else...
 XSET condition=Embed('0 != `var^')
+
 
 XPT ifee	hint=if\ (..)\ {..}\ elseif...
 XSET job=$INDENT_HELPER

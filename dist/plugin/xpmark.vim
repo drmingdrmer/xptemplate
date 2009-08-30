@@ -5,6 +5,7 @@ let g:__XPMARK_VIM__ = 1
 com! XPMgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPMgetSID
 delc XPMgetSID
+runtime plugin/debug.vim
 let g:xpm_mark = 'p'
 let g:xpm_mark_nextline = 'l'
 let g:xpm_changenr_level = 1000
@@ -15,6 +16,7 @@ let g:XPM_RET = {
             \   'undo_redo' : {},
             \   'updated' : {},
             \}
+let s:log = CreateLogger( 'debug' )
 let g:XPMpreferLeft = 'l'
 let g:XPMpreferRight = 'r'
 fun! XPMadd( name, pos, prefer ) 
@@ -183,7 +185,6 @@ fun! s:snapshot() dict
     endif
     Assert has_key( self.markHistory, n-1 )
     while n < nr
-        call s:log.Info( 'to link markHistory ' . n . ' to ' .(n - 1) )
         let self.markHistory[ n ] = self.markHistory[ n - 1 ]
         if has_key( self.markHistory,  n - g:xpm_changenr_level )
             unlet self.markHistory[ n - g:xpm_changenr_level ]
@@ -276,9 +277,11 @@ fun! s:normalModeUpdate() dict
                     \&& stat.totalLine < self.lastTotalLine
             let endPos = [ self.lastPositionAndLength[0], self.lastPositionAndLength[2] ]
             return self.updateWithNewChangeRange( endPos, endPos )
+        elseif self.lastMode =~ '[vVsS]'
         elseif diffOfLine == -1
-            let cs = [ stat.lastPositionAndLength[0], stat.lastPositionAndLength[2] + 1 ]
-            let ce = [ stat.lastPositionAndLength[0], stat.lastPositionAndLength[2] + 2 ]
+            let cs = [ self.lastPositionAndLength[0], self.lastPositionAndLength[2] + 1 ]
+            let ce = [ self.lastPositionAndLength[0], self.lastPositionAndLength[2] + 2 ]
+            call s:log.Error( 'any chance going here?' )
             return self.updateWithNewChangeRange( cs, ce )
         elseif cs == [1, 1] && ce == [ stat.totalLine, 1 ] 
                     \|| diffOfLine < -1
@@ -302,7 +305,7 @@ fun! s:updateForLinewiseDeletion( fromLine, toLine ) dict
         if mark[0] >= a:toLine
             let self.marks[ n ] = [ mark[0] + self.stat.totalLine - self.lastTotalLine, mark[1], mark[2], mark[3] ]
         elseif mark[0] >= a:fromLine && mark[0] < a:toLine
-            call remove( self.marks, n )
+            call self.removeMark( n )
         endif
     endfor
 endfunction 
@@ -357,6 +360,9 @@ fun! s:updateMarksAfter( indexRange, changeStart, changeEnd ) dict
         let mark = self.marks[ name ]
         let bMark = [ mark[0] - self.lastTotalLine, mark[1] - mark[2] ]
         if mark[0] > lineNrOfChangeEndInLastStat
+            if diffOfLine == 0
+                break
+            endif
             let self.marks[ name ] = [ mark[0] + diffOfLine, mark[1], mark[2], mark[3] ]
         elseif bMark[0] == bChangeEnd[0] && bMark[1] >= bChangeEnd[1]
             let self.marks[ name ] = [ a:changeEnd[0], bMark[1] + lineLengthCE, lineLengthCE, mark[3] ]
@@ -479,7 +485,6 @@ fun! s:saveCurrentStat() dict
     let self.lastTotalLine = line( "$" )
 endfunction 
 fun! s:removeMark(name) dict 
-    call s:log.Info( "removed mark:" . a:name )
     if !has_key( self.marks, a:name )
         return
     endif
@@ -602,3 +607,6 @@ fun! PrintDebug()
     let debugString .= " " . mode() . string( [line( "." ), col( "." )] ) . ' last:' .string( d.lastPositionAndLength )
     return substitute( debugString, '\s', '' , 'g' )
 endfunction
+nnoremap ,m :call XPMhere('c', 'l')<cr>
+nnoremap ,M :call XPMhere('c', 'r')<cr>
+nnoremap ,g :call XPMgoto('c')<cr>

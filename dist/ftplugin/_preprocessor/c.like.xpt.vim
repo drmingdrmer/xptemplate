@@ -43,8 +43,8 @@ XSET symbol=headerSymbol()
 XPT #ifndef	hint=#ifndef\ ..
 XSET symbol=S(fileRoot(),'\.','_','g')
 XSET symbol|post=UpperCase(V())
-#ifndef `symbol^ 
-#     define `symbol^ 
+#ifndef `symbol^
+#     define `symbol^
 
 `cursor^ 
 #endif `$CL^ `symbol^ `$CR^

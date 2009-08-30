@@ -4,29 +4,40 @@ XPTemplate priority=lang indent=auto
 XPTvar $TRUE           1
 XPTvar $FALSE          0
 XPTvar $NULL           NULL
-XPTvar $IF_BRACKET_STL \ 
+
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+
 XPTvar $INDENT_HELPER  /* void */;
+XPTvar $CURSOR_PH      /* cursor */
+
+XPTvar $CL  /*
+XPTvar $CM   *
+XPTvar $CR   */
 
 
 XPTinclude
-      \ _common/common 
-      \ _comment/c.like 
+      \ _common/common
+      \ _comment/c.like
       \ _condition/c.like
-      \ _loops/c.like
+      \ _loops/c.for.like
+      \ _loops/c.while.like
       \ _structures/c.like
       \ _preprocessor/c.like
 
 
 " ========================= Function and Varaibles =============================
 
-let s:f = XPTcontainer()[ 0 ]
+let s:f = XPTcontainer()[0]
 
 let s:printfElts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 "  %[flags][width][.precision][length]specifier  
 let s:printfItemPattern = '\V\C' . '%' . '\[+\- 0#]\*' . '\%(*\|\d\+\)\?' . '\(.*\|.\d\+\)\?' . '\[hlL]\?' . '\(\[cdieEfgGosuxXpn]\)'
 
-let s:printfEltMap = {
+let s:printfSpecifierMap = {
       \'c' : 'char',
       \'d' : 'int',
       \'i' : 'int',
@@ -44,7 +55,7 @@ let s:printfEltMap = {
       \'n' : 'numWritten',
       \}
 
-fun! s:f.c_printfItem( v )
+fun! s:f.c_printfElts( v )
   " remove '%%' representing a single '%'
   let v = substitute( a:v, '\V%%', '', 'g' )
 
@@ -68,7 +79,7 @@ fun! s:f.c_printfItem( v )
         let post .= ', `' . s:printfElts[ i ] . '_len^'
       endif
 
-      let post .= ', `' . s:printfElts[ i ] . '_' . s:printfEltMap[ eltList[2] ] . '^'
+      let post .= ', `' . s:printfElts[ i ] . '_' . s:printfSpecifierMap[ eltList[2] ] . '^'
 
       let start += len( eltList[0] )
 
@@ -81,43 +92,57 @@ fun! s:f.c_printfItem( v )
   endif
 endfunction
 
+fun! s:f.fff()
+  let v = self.V()
+  if v == 'aa' 
+    return ''
+  else
+    return ', another'
+  endif
+endfunction
+
 " ================================= Snippets ===================================
 XPTemplateDef
 
+
+XPT tt hint=tips
+XSET a2|post=fff()
+`aa^`aa^fff()^
+
 XPT printf	hint=printf\\(...)
-XSET elts=c_printfItem( R( 'pattern' ) )
-printf( "`pattern^"`elts^ );
+XSET elts=c_printfElts( R( 'pattern' ) )
+printf( "`pattern^"`elts^ )
 
 
 XPT sprintf alias=printf
-XSET elts=c_printfItem( R( 'pattern' ) )
-sprintf( `str^, "`pattern^"`elts^ );
+XSET elts=c_printfElts( R( 'pattern' ) )
+sprintf( `str^, "`pattern^"`elts^ )
 
 
 XPT snprintf alias=printf
-XSET elts=c_printfItem( R( 'pattern' ) )
-snprintf( `str^, `size^, "`pattern^"`elts^ );
+XSET elts=c_printfElts( R( 'pattern' ) )
+snprintf( `str^, `size^, "`pattern^"`elts^ )
 
 
 XPT fprintf alias=printf
-XSET elts=c_printfItem( R( 'pattern' ) )
-fprintf( `stream^, "`pattern^"`elts^ );
+XSET elts=c_printfElts( R( 'pattern' ) )
+fprintf( `stream^, "`pattern^"`elts^ )
 
 
 XPT assert	hint=assert\ (..,\ msg)
-assert(`isTrue^, "`text^");
+assert(`isTrue^, "`text^")
 
 XPT main hint=main\ (argc,\ argv)
   int
 main(int argc, char **argv)
 {
-  `cursor^
-  return 0;
+    `cursor^
+    return 0;
 }
 ..XPT
 
 " Quick-Repetition parameters list
-XPT fun		hint=func..\ (\ ..\ )\ {...
+XPT fun 	hint=func..\ (\ ..\ )\ {...
 XSET p_disabled..|post=ExpandIfNotEmpty(', ', 'p..')
   `int^
 `name^(`^)
@@ -139,6 +164,7 @@ XPT para syn=comment	hint=comment\ parameter
 
 
 XPT filehead
+XSET cursor|pre=CURSOR
 /**-------------------------/// `sum^ \\\---------------------------
  *
  * <b>`function^</b>
@@ -146,7 +172,7 @@ XPT filehead
  * @since : `strftime("%Y %b %d")^
  * 
  * @description :
- *   `cursor^
+ *     `cursor^
  * @usage : 
  * 
  * @author : `$author^ | `$email^

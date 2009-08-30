@@ -7,7 +7,6 @@ XPTvar $FALSE         0
 
 XPTinclude 
       \ _common/common
-      \ _common/personal
 
 
 " ========================= Function and Variables =============================
@@ -48,6 +47,39 @@ XSET value|post=escape(V(), ' ')
 XPTvar $`name^ `cursor^
 
 
+
+XPT formatVar hint=variables\ to\ define\ format
+XPTvar $IF_BRACKET_STL     \n
+XPTvar $FOR_BRACKET_STL    \n
+XPTvar $WHILE_BRACKET_STL  \n
+XPTvar $STRUCT_BRACKET_STL \n
+XPTvar $FUNC_BRACKET_STL   \n
+
+
+XPT constVar hint=variables\ to\ define\ constants
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+
+
+XPT helperVar hint=variables\ to\ define\ helper\ place\ holders
+XPTvar $INDENT_HELPER  
+XPTvar $CURSOR_PH      `cursor^
+
+
+XPT commentVar1 hint=variables\ to\ define\ single\ sign\ comments
+XPTvar $CS    `cursor^
+
+XPT commentVar2 hint=variables\ to\ define\ double\ sign\ comments
+XPTvar $CL    `left sign^
+XPTvar $CM    `cursor^
+XPTvar $CR    `right sign^
+
+
+
+
+
 XPT fun hint=fun!\ s:f.**
 XSET parameters|def=
 XSET parameters|post=Echo( V() =~ '^\s*$' ? '' : V() )
@@ -65,14 +97,21 @@ XSET mark...|post= mark=`char^
 XSET indent...|post= indent=`indentValue^
 XSET indentValue=ChooseStr( 'auto', 'keep' )
 
-let [s:f, s:v] = XPTcontainer() 
+let s:f = XPTcontainer()[0]
  
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
-XPTvar $INDENT_HELPER /* void */;
-XPTvar $IF_BRACKET_STL \n
+
+XPTvar $INDENT_HELPER  /* void */;
+XPTvar $CURSOR_PH      cursor
+
+XPTvar $IF_BRACKET_STL     \n
+XPTvar $FOR_BRACKET_STL    \n
+XPTvar $WHILE_BRACKET_STL  \n
+XPTvar $STRUCT_BRACKET_STL \n
+XPTvar $FUNC_BRACKET_STL   \n
 
 `XPTinclude...^
 XSET XPTinclude...|post=`incTrigger^
@@ -81,9 +120,9 @@ XSET incTrigger=Trigger('inc')
 
 " ========================= Function and Variables =============================
 
-
 " ================================= Snippets ===================================
 XPTemplateDef 
+
 
 `cursor^
 ..XPT
