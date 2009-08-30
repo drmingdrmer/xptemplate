@@ -103,7 +103,7 @@ fun! Log_core(level, ...) "{{{
     let l[0] = l[0][1:]
     let l[ -1 ] = l[ -1 ][ :-2 ]
     for v in l
-      silent echom v
+      silent! echom v
     endfor
   endfor
   redir END
