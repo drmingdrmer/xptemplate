@@ -722,7 +722,7 @@ fun! s:DoStart(sess) " {{{
 
     let action =  s:GotoNextItem()
 
-    call s:log.Debug("post action =".action)
+    call s:log.Debug("post action =".action.g:xpt_post_action)
     call s:log.Debug("mode:".mode())
 
     call s:log.Debug( "tmpl:", s:TextBetween( XPMpos( ctx.marks.tmpl.start ), XPMpos( ctx.marks.tmpl.end ) ) )
