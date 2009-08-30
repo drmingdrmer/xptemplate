@@ -279,30 +279,20 @@ attr`_`what^ :`attr..^
 
 " TODO indent problem on else and ensure
 XPT begin hint=begin\ ..\ rescue\ ..\ else\ ..\ end
-XSETm rescue...|post
-
-rescue `exception^` => `e^
-`block^`
-`rescue...^
-XSETm END
-XSETm else...|post
-
-else
-  `block^
-XSETm END
-XSETm ensure...|post
-
-ensure
-  `cursor^
-XSETm END
-XSET exception=Exception
 XSET block=# block
 begin
-  `expr^`
-`rescue...^`
-`else...^`
-`ensure...^
-end
+  `expr^
+``rescue...`
+{{^rescue `Exception^` => `e^
+  `block^
+``rescue...`
+^`}}^``else...`
+{{^else
+  `block^
+`}}^``ensure...`
+{{^ensure
+  `cursor^
+`}}^end
 
 XPT bm hint=Benchmark.bmbm\ do\ ...\ end
 XSET times=10_000
