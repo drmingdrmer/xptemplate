@@ -20,7 +20,7 @@ let [s:f, s:v] = XPTcontainer()
   " if v == a:ptn
     " return ''
   " else
-    " return ",\n  elt"
+    " return ";\n  elt"
   " endif
 " endfunction
 
@@ -32,9 +32,9 @@ XPT enum hint=enum\ {\ ..\ }
 XSET postQuoter={,}
 enum `name^
 {
-    `elt^`,
-    `...{^,
-    `elt^`,
+    `elt^;`
+    `...{^
+    `elt^;`
     `...^`}^
 }` `var^;
 
