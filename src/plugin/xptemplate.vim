@@ -20,7 +20,6 @@
 "
 " BUG: "{{{
 "
-"
 " "}}}
 "
 " TODOLIST: "{{{
@@ -1777,13 +1776,18 @@ fun! s:finishCurrentAndGotoNextItem(action) " {{{
 
     " if typing and <tab> pressed together, no update called
     " TODO do not call this if no need to update
-    call s:XPTupdate()
+    let rc = s:XPTupdate()
+    if rc == -1
+        " crashed
+        return ''
+    endif
+
 
 
     " let p = [line("."), col(".")]
     let name = renderContext.item.name
 
-    call s:HighLightItem(name, 0)
+    " call s:HighLightItem(name, 0)
 
     call s:log.Log("finishCurrentAndGotoNextItem action:" . a:action)
 
@@ -3052,14 +3056,25 @@ endfunction "}}}
 
 fun! s:Crash(...) "{{{
 
-    let msg = "XPTemplate snippet crashed :" . join( a:000, "\n" )
+    " try
+        " throw ''
+    " catch /.*/
+        " let stack = matchstr( v:throwpoint, 'function\s\+\zs.\{-}\ze\.\.\%(Fatal\|Error\|Warn\|Info\|Log\|Debug\).*' )
+        " let stack = substitute( stack, '<SNR>\d\+_', '', 'g' )
+    " endtry
+
+    " throw "crashed"
+
+    let msg = "XPTemplate snippet crashed :" . join( a:000, "\n" ) 
 
     let x = g:XPTobject()
 
-    for ctx in x.stack
-        " TODO nicer message
-        let msg .= ctx.tmpl.name . ' -> '
-    endfor
+    " let stack = 'snippet stack:'
+    " for ctx in x.stack
+        " " TODO nicer message
+        " let stack .= ctx.tmpl.name . ' -> '
+    " endfor
+    " let stack .= x.renderContext.tmpl.name
 
     call s:ClearMap()
 
@@ -3071,6 +3086,7 @@ fun! s:Crash(...) "{{{
 
     echohl WarningMsg
     echom msg
+    " echom stack
     echohl
 
     " no post typing action
@@ -3118,7 +3134,7 @@ fun! s:XPTupdate(...) "{{{
         " update XPM is necessary
         call XPMupdate()
         " call XPMupdateStat()
-        return
+        return 0
     endif
 
 
@@ -3138,7 +3154,8 @@ fun! s:XPTupdate(...) "{{{
 
     if start == [0, 0] || end == [0, 0]
         " call s:log.Info( 'fail to get start/end mark:' . string( [ start, end ] ) . ' of name=' . string( leaderMark ) )
-        return s:Crash( 'fail to get start/end mark:' . string( [ start, end ] ) . ' of name=' . string( leaderMark ) )
+        call s:Crash( 'mark lost :' . string( leaderMark ) )
+        return -1
     endif
 
 
@@ -3156,7 +3173,7 @@ fun! s:XPTupdate(...) "{{{
     if contentTyped ==# renderContext.lastContent
         call s:log.Log( "nothing different typed" )
         call XPMupdateStat()
-        return
+        return 0
     endif
 
     call s:log.Log( "typed:".contentTyped )
