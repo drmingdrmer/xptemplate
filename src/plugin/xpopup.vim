@@ -484,8 +484,8 @@ fun! s:ApplyMapAndSetting() "{{{
     let b:__xpp_mapped.i_bs     =  g:MapPush('<bs>', 'i', 1)
     let b:__xpp_mapped.i_tab    =  g:MapPush('<tab>', 'i', 1)
 
-    exe 'inoremap <buffer> <bs>' '<C-r>=XPPshorten()<cr>'
-    exe 'inoremap <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
+    exe 'inoremap <silent> <buffer> <bs>' '<C-r>=XPPshorten()<cr>'
+    exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
 
     " disable indent keys or cinkeys, or for c language, <C-\>, then selecting
     " snippet start with '#' causes a choas.
