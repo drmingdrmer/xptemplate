@@ -77,9 +77,9 @@ let g:XPTmappings = {
       \ }
 
 
-exe "inoremap " . g:xptemplate_key . " " . g:XPTmappings.trigger
-exe "xnoremap " . g:xptemplate_key . " " . g:XPTmappings.wrapTrigger
-exe "snoremap " . g:xptemplate_key . " " . g:XPTmappings.selTrigger
+exe "inoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.trigger
+exe "xnoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.wrapTrigger
+exe "snoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.selTrigger
 
 let &cpo = s:oldcpo
 
