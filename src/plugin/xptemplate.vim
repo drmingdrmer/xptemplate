@@ -28,8 +28,6 @@
 " TODO block context check
 " TODO eval default value in-time
 " TODO without template rendering, xpmark update complains error.
-" TODO use i^gu to protect template
-" expected mode() when cursor stopped to wait for input
 " TODO ontime repetition
 " TODO in windows & in select mode to trigger wrapped or normal?
 " TODO change on previous item
