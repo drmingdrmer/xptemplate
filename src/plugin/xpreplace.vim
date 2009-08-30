@@ -134,7 +134,7 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
 
 
     if a:start != a:end
-        normal! v
+        silent! normal! v
         call cursor( a:end )
         silent! normal! dzO
     endif
@@ -211,10 +211,10 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
         let char = getline( "." )[ -1:-1 ]
         let @" = char . a:replacement
         call s:log.Debug( 'at last , to append=' . @" )
-        normal! ""P
+        silent! normal! ""P
 
     else
-        normal! ""P
+        silent! normal! ""P
     endif
 
 
