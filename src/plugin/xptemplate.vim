@@ -23,9 +23,6 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO error complained when delete all snip, Assert failed inside
-" XPMsetLikely
-" TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 " TODO on the first time template rendering, replace all vars with its value.
 " TODO snippets bundle and bundle selection
 " TODO snippet-file scope XSET
@@ -50,15 +47,12 @@
 " TODO wrapping on different visual mode
 " TODO prefixed template trigger
 " TODO class-style
-" TODO ruby snippet:cli indent problem
-" TODO 'switch' snippet has indent problem. placeholder spanning multi lines
-" is difficult to adjust indent for its expansion.
-"
 " TODO simplify if no need to popup, popup session
 " TODO pre-build expression to evaluate
 " TODO separately store wrapped templates and normal ones
 " TODO match snippet names from middle
 " TODO snippets bundle and bundle selection
+" TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 "
 " "}}}
 "

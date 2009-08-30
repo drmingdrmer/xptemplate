@@ -154,8 +154,6 @@ fun! s:f.BuildIfNoChange( ... )
   let v = substitute( self.V(), "\\V\n\\|\\s", '', 'g')
   let fn = substitute( self.ItemFullname(), "\\V\n\\|\\s", '', 'g')
 
-  echom string( [ v, fn ] ). '-----------'
-
   if v ==# fn
     return { 'action' : 'build', 'text' : join( a:000, '' ) }
   else
