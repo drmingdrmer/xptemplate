@@ -23,7 +23,6 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO on the first time template rendering, replace all vars with its value.
 " TODO snippets bundle and bundle selection
 " TODO snippet-file scope XSET
 " TODO block context check
@@ -48,6 +47,7 @@
 " TODO prefixed template trigger
 " TODO class-style
 " TODO simplify if no need to popup, popup session
+" TODO on the first time template rendering, replace all vars with its value.
 " TODO pre-build expression to evaluate
 " TODO separately store wrapped templates and normal ones
 " TODO match snippet names from middle
