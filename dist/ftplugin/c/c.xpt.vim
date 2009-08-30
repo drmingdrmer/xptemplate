@@ -92,22 +92,22 @@ fun! s:f.c_printfElts( v )
   endif
 endfunction
 
-fun! s:f.fff()
-  let v = self.V()
-  if v == 'aa' 
-    return ''
-  else
-    return ', another'
-  endif
-endfunction
+" fun! s:f.fff()
+"   let v = self.V()
+"   if v == 'aa' 
+"     return ''
+"   else
+"     return ', another'
+"   endif
+" endfunction
 
 " ================================= Snippets ===================================
 XPTemplateDef
 
 
-XPT tt hint=tips
-XSET a2|post=fff()
-`aa^`aa^fff()^
+" XPT tt hint=tips
+" XSET a2|post=fff()
+" `aa^`aa^fff()^
 
 XPT printf	hint=printf\\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )
@@ -127,6 +127,7 @@ snprintf( `str^, `size^, "`pattern^"`elts^ )
 XPT fprintf alias=printf
 XSET elts=c_printfElts( R( 'pattern' ) )
 fprintf( `stream^, "`pattern^"`elts^ )
+
 
 
 XPT assert	hint=assert\ (..,\ msg)
