@@ -57,7 +57,7 @@ if (`condition^)`$IF_BRACKET_STL^{
     `job^
 }` `else_if...^
 XSETm else_if...|post
-`$IF_BRACKET_STL^else if (`another_cond^)`$IF_BRACKET_STL^{ 
+`$IF_BRACKET_STL^else if (`another_cond^)`$IF_BRACKET_STL^{
     `job^
 }` `else_if...^
 XSETm END
