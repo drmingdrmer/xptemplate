@@ -17,7 +17,7 @@ fun! g:ClassPrototype(...)
 endfunction 
 fun! s:UnescapeChar( str, chars ) 
     let chars = substitute( a:chars, '\\', '', 'g' )
-    let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]-' ) . ']\)'
+    let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]-^' ) . ']\)'
     let unescaped = substitute( a:str, pattern, '\1\2', 'g' )
     return unescaped
 endfunction 

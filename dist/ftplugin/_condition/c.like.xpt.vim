@@ -5,7 +5,11 @@ XPTvar $FALSE         0
 XPTvar $NULL          NULL
 
 XPTvar $IF_BRACKET_STL  \ 
-XPTvar $INDENT_HELPER /* void */;
+
+XPTvar $INDENT_HELPER  /* void */;
+XPTvar $CURSOR_PH      /* cursor */
+
+
 
 
 
@@ -15,18 +19,18 @@ XPTemplateDef
 XPT if		hint=if\ (..)\ {..}\ else...
 XSET job=$INDENT_HELPER
 if (`condition^)`$IF_BRACKET_STL^{ 
-  `job^
+    `job^
 }` `else...^
 XSETm else...|post
 `$IF_BRACKET_STL^else`$IF_BRACKET_STL^{ 
-  `cursor^
+    `cursor^
 }
 XSETm END
 
 
 XPT else hint=else\ {\ ...\ }
 else`$IF_BRACKET_STL^{
-  `cursor^
+    `cursor^
 }
 
 
@@ -50,11 +54,11 @@ XPT ifee	hint=if\ (..)\ {..}\ elseif...
 XSET job=$INDENT_HELPER
 XSET another_cond=R('condition')
 if (`condition^)`$IF_BRACKET_STL^{
-  `job^
+    `job^
 }` `else_if...^
 XSETm else_if...|post
 `$IF_BRACKET_STL^else if (`another_cond^)`$IF_BRACKET_STL^{ 
-  `job^
+    `job^
 }` `else_if...^
 XSETm END
 
@@ -62,26 +66,26 @@ XSETm END
 XPT switch	hint=switch\ (..)\ {case..}
 XSET job=$INDENT_HELPER
 switch (`var^)`$IF_BRACKET_STL^{
-  case `constant^ :
-    `job^
-    break;
+    case `constant^ :
+        `job^
+        break;
 `
-  `case...`
+    `case...`
 ^`
-  `default...^
+    `default...^
 }
 XSETm case...|post
 
-  case `constant^ :
-    `job^
-    break;
+    case `constant^ :
+        `job^
+        break;
 `
-  `case...`
+    `case...`
 ^
 XSETm END
 XSETm default...|post
 
-  default:
-    `cursor^
+    default:
+        `cursor^
 XSETm END
 

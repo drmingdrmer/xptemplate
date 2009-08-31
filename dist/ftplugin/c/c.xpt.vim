@@ -9,6 +9,7 @@ XPTvar $IF_BRACKET_STL     \
 XPTvar $FOR_BRACKET_STL    \ 
 XPTvar $WHILE_BRACKET_STL  \ 
 XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \ 
 
 XPTvar $INDENT_HELPER  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
@@ -148,7 +149,7 @@ XSET p_disabled..|post=ExpandIfNotEmpty(', ', 'p..')
   `int^
 `name^(`^)
 {
-  `cursor^
+    `cursor^
 }
 
 XPT cmt

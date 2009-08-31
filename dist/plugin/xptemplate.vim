@@ -185,7 +185,7 @@ fun! XPTemplate(name, str_or_ctx, ...)
     if has_key(templates, a:name) && templates[a:name].priority <= prio
         return
     endif
-    call s:CleanupSnippet( foo )
+    call s:CleanupSnippet( x, foo )
     let isWrapped = type(foo.snip) != type(function("tr")) && foo.snip =~ '\V' . xp.lft . s:wrappedName . xp.rt
     let templates[a:name] = {
                 \ 'name'        : a:name,
@@ -197,7 +197,7 @@ fun! XPTemplate(name, str_or_ctx, ...)
                 \}
     call s:InitTemplateObject( x, templates[ a:name ] )
 endfunction 
-fun! s:CleanupSnippet( foo ) 
+fun! s:CleanupSnippet( xptObj, foo ) 
     if type( a:foo.snip ) == type( 'tr' )
         return a:foo.snip
     endif
@@ -765,6 +765,14 @@ fun! s:BuildPlaceHolders( markRange )
     let renderContext = s:getRenderContext()
     let tmplObj = renderContext.tmpl
     let xp = renderContext.tmpl.ptn
+    let [ start, end ] = XPMposList( a:markRange.start, a:markRange.end )
+    let content = s:TextBetween( start, end )
+    let contentUnescpaed = g:xptutil.UnescapeChar( content, xp.l . xp.r )
+    if content !=# contentUnescpaed
+        call XPRstartSession()
+        call XPreplaceByMarkInternal( a:markRange.start, a:markRange.end, contentUnescpaed )
+        call XPRendSession()
+    endif
     let renderContext.action = 'build'
     if renderContext.firstList == []
         let renderContext.firstList = copy(renderContext.tmpl.setting.firstListSkeleton)

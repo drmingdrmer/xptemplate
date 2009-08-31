@@ -6,14 +6,25 @@ XPTvar $TRUE          true
 XPTvar $FALSE         false
 XPTvar $NULL          null
 XPTvar $UNDEFINED     undefined
-XPTvar $INDENT_HELPER /* void */;
-XPTvar $IF_BRACKET_STL \ 
+
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \ 
+
+XPTvar $INDENT_HELPER  /* void */;
+XPTvar $CURSOR_PH      /* cursor */
+
+XPTvar $CL  /*
+XPTvar $CM   *
+XPTvar $CR   */
+
 
 XPTinclude 
       \ _common/common
-      \ _condition/ecma
-      \ _comment/c.like
       \ _condition/c.like
+      \ _comment/doubleSign
 
 
 " ========================= Function and Variables =============================
@@ -30,11 +41,11 @@ XSET job=$INDENT_HELPER
 XSET jobn=$INDENT_HELPER
 var t0 = new Date().getTime();
 for (var i = 0; i < `times^; ++i){
-  `job^
+    `job^
 }
 var t1 = new Date().getTime();
 for (var i = 0; i < `times^; ++i){
-  `jobn^
+    `jobn^
 }
 var t2 = new Date().getTime();
 `log^(t1-t0, t2-t1);
@@ -59,15 +70,6 @@ XSET email=$email
 
 XPT cpr hint=@param
 @param {`Object^} `name^ `desc^
-
-
-XPT if hint=if\ (..)\ {..}
-XSET job=$INDENT_HELPER
-XSET else...|post=\nelse {\n`cursor^\n}
-if (`condition^){
-  `job^
-}`
-`else...^
 
 
 " file comment
@@ -95,55 +97,55 @@ XSET email=$email
 XPT fun hint=function\ ..(\ ..\ )\ {..}
 XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
 function` `name^ (`arg..^) {
-  `cursor^
-  return;
+    `cursor^
 }
 
 
 XPT for hint=for\ (var..;..;++)
-for (var `i^ = 0; `i^ < `ar^.length; ++`i^){
-  var `e^ = `ar^[`i^];
-  `cursor^
+for (var `i^ = 0; `i^ < `ar^.length; ++`i^)`$FOR_BRACKET_STL^{
+    var `e^ = `ar^[`i^];
+    `cursor^
 }
 
 
 XPT forin hint=for\ (var\ ..\ in\ ..)\ {..}
-for (var `i^ in `ar^){
-  var `e^ = `ar^[`i^];
-  `cursor^
+for ( var `i^ in `array^ )`$FOR_BRACKET_STL^{
+    var `e^ = `array^[`i^];
+    `cursor^
 }
 
-XPT kv hint=..\ = \..
-`key^ = `value^;
 
 XPT new hint=var\ ..\ =\ new\ ..\(..)
 XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
-var `^ = new `Constructor^(`arg..^)
+var `instant^ = new `Constructor^(`arg..^)
+
 
 XPT proto hint=...prototype...\ =\ function\(..)\ {\ ..\ }
 XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
-`Class^.prototype.`method^ = function(`arg..^) {
+`Class^.prototype.`method^ = function(`arg..^)`$FUNC_BRACKET_STL^{
 `cursor^
 }
 
-XPT setT hint=setTimeout\(function\()\ {\ ..\ },\ ..)
+
+XPT setTimeout hint=setTimeout\(function\()\ {\ ..\ },\ ..)
 XSET job=$INDENT_HELPER
-XSET milliseconds=1000
 setTimeout(function() { `job^ }, `milliseconds^)
 
-XPT this hint=this...\ = \..;
-this.`var^ = `cursor^;
 
 XPT try hint=try\ {..}\ catch\ {..}\ finally
-XSET finally...|post=\nfinally {\n`cursor^\n}
+XSET dealError=/* error handling */
 XSET job=$INDENT_HELPER
-try {
-  `job^
+try`$IF_BRACKET_STL^{
+    `job^
 }
-catch (`err^) {
-  `dealError^
+catch (`err^)`$IF_BRACKET_STL^{
+    `dealError^
 }`...^
-catch (`err^) {
-  `dealError^
-  }`...^`
-`finally...^
+catch (`err^)`$IF_BRACKET_STL^{
+    `dealError^
+}`...^`
+`finally...{{^
+finally`$IF_BRACKET_STL^{
+    `cursor^
+}`}}^
+
