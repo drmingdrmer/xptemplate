@@ -2596,6 +2596,7 @@ fun! s:Eval(s, ...) "{{{
         " match the previous line )} - -..
         let tmp = k == 0 ? "" : (str[last : kn-1])
         " let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
+        " TODO need to unescape '[' ?
         let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
         let sp .= tmp
 
