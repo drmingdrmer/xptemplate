@@ -23,6 +23,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO escaped mark in snippet '`' and '^' and in nested.
 " TODO snippets bundle and bundle selection
 " TODO snippet-file scope XSET
 " TODO block context check
@@ -367,7 +368,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
 
 
-    call s:CleanupSnippet( foo )
+    call s:CleanupSnippet( x, foo )
 
     let isWrapped = type(foo.snip) != type(function("tr")) && foo.snip =~ '\V' . xp.lft . s:wrappedName . xp.rt
 
@@ -386,7 +387,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
 endfunction " }}}
 
-fun! s:CleanupSnippet( foo ) "{{{
+fun! s:CleanupSnippet( xptObj, foo ) "{{{
     if type( a:foo.snip ) == type( 'tr' )
         return a:foo.snip
     endif
@@ -402,6 +403,9 @@ fun! s:CleanupSnippet( foo ) "{{{
         let tabspace = repeat( ' ', &l:tabstop )
         " let foo.snip = substitute( foo.snip, '\t', tabspace, 'g' )
     endif
+
+    " let ptn = a:xptObj.snipFileScope.ptn
+    " let foo.snip = g:xptutil.UnescapeChar( foo.snip, ptn.l . ptn.r )
 
     return foo.snip
 
@@ -1468,6 +1472,18 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
     let renderContext = s:getRenderContext()
     let tmplObj = renderContext.tmpl
     let xp = renderContext.tmpl.ptn
+
+
+    let [ start, end ] = XPMposList( a:markRange.start, a:markRange.end )
+    let content = s:TextBetween( start, end )
+    let contentUnescpaed = g:xptutil.UnescapeChar( content, xp.l . xp.r )
+
+    if content !=# contentUnescpaed
+
+        call XPRstartSession()
+        call XPreplaceByMarkInternal( a:markRange.start, a:markRange.end, contentUnescpaed )
+        call XPRendSession()
+    endif
 
 
     let renderContext.action = 'build'

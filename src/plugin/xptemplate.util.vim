@@ -39,7 +39,7 @@ fun! s:UnescapeChar( str, chars ) "{{{
     let chars = substitute( a:chars, '\\', '', 'g' )
 
     
-    let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]-' ) . ']\)'
+    let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]-^' ) . ']\)'
     call s:log.Log( 'to unescape pattern='.pattern )
     let unescaped = substitute( a:str, pattern, '\1\2', 'g' )
     call s:log.Log( 'unescaped ='.unescaped )
@@ -50,3 +50,6 @@ endfunction "}}}
 let g:xptutil =  g:ClassPrototype(
             \    'UnescapeChar', 
             \ )
+
+
+" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}

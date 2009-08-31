@@ -1,0 +1,942 @@
+
+
+
+    //  -------------`--------------- 
+    // \``wrapped^\`                  
+
+
+
+`WRAPPED_TEXT`
+
+`WRAPPED_TEXT` =
+
+    - `WRAPPED_TEXT` =
+
+    - `WRAPPED_TEXT`
+
+
+    //  -------------comment--------------- 
+    // `$CL^ `cursor^ `$CR^                 
+
+
+
+/*  */
+
+/*  */ =
+
+- /*  */ =
+
+    - /*  */
+
+
+    //  -------------Author--------------- 
+    // `$author^                           
+
+
+
+drdr.xp
+
+drdr.xp =
+
+    - drdr.xp =
+
+    - drdr.xp
+
+
+    //  -------------fun--------------- 
+    // function` `name^ (`arg..^) {     
+    //     `cursor^                     
+    // }                                
+
+
+
+function name () {
+    
+}
+
+function name_TYPED (arg_TYPED, arg_TYPED) {
+    
+} =
+
+- function name () {
+    
+} =
+
+- function name () {
+    
+}
+
+
+    //  -------------asoe--------------- 
+    // assertObjectEquals(`mess^         
+    //                   , `arr^         
+    //                   , `expr^);      
+
+
+
+    assertObjectEquals(mess
+                      , arr
+                      , expr);
+
+                  assertObjectEquals(mess_TYPED
+                                    , arr_TYPED
+                                    , expr_TYPED); =
+
+                                - assertObjectEquals(mess
+                                                  , arr
+                                                  , expr); =
+
+                                          - assertObjectEquals(mess
+                                                            , arr
+                                                            , expr);
+
+
+    //  -------------else--------------- 
+    // else`$IF_BRACKET_STL^{            
+    //     `cursor^                      
+    // }                                 
+
+
+
+    else {
+        
+    }
+
+    else {
+        
+    } =
+
+    - else {
+        
+    } =
+
+- else {
+    
+}
+
+
+    //  -------------if0---------------    
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+    if (0 == var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+    if (0 == var_TYPED) { 
+        job_TYPED
+    } else_TYPED =
+
+    - if (0 == var) { 
+        /* void */;
+    } else { 
+        
+    } =
+
+    - if (0 == var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+
+    //  -------------bench--------------- 
+    // var t0 = new Date().getTime();     
+    // for (var i = 0; i < `times^; ++i){ 
+    //     `job^                          
+    // }                                  
+    // var t1 = new Date().getTime();     
+    // for (var i = 0; i < `times^; ++i){ 
+    //     `jobn^                         
+    // }                                  
+    // var t2 = new Date().getTime();     
+    // `log^(t1-t0, t2-t1);               
+
+
+
+    var t0 = new Date().getTime();
+    for (var i = 0; i < times; ++i){
+        /* void */;
+    }
+    var t1 = new Date().getTime();
+    for (var i = 0; i < times; ++i){
+        /* void */;
+    }
+    var t2 = new Date().getTime();
+    console.log(t1-t0, t2-t1);
+
+    var t0 = new Date().getTime();
+    for (var i = 0; i < times_TYPED; ++i){
+        job_TYPED
+    }
+    var t1 = new Date().getTime();
+    for (var i = 0; i < times_TYPED; ++i){
+        jobn_TYPED
+    }
+    var t2 = new Date().getTime();
+    log_TYPED(t1-t0, t2-t1); =
+
+        - var t0 = new Date().getTime();
+        for (var i = 0; i < times; ++i){
+            /* void */;
+        }
+        var t1 = new Date().getTime();
+        for (var i = 0; i < times; ++i){
+            /* void */;
+        }
+        var t2 = new Date().getTime();
+        console.log(t1-t0, t2-t1); =
+
+            - var t0 = new Date().getTime();
+            for (var i = 0; i < times; ++i){
+                /* void */;
+            }
+            var t1 = new Date().getTime();
+            for (var i = 0; i < times; ++i){
+                /* void */;
+            }
+            var t2 = new Date().getTime();
+            console.log(t1-t0, t2-t1);
+
+
+    //  -------------comment_--------------- 
+    // `$CL^ `wrapped^ `$CR^                 
+
+
+
+/* WRAPPED_TEXT */
+
+/* WRAPPED_TEXT */ =
+
+- /* WRAPPED_TEXT */ =
+
+    - /* WRAPPED_TEXT */
+
+
+    //  -------------cpr--------------- 
+    // @param {`Object^} `name^ `desc^  
+
+
+
+@param {Object} name desc
+
+@param {Object_TYPED} name_TYPED desc_TYPED =
+
+    - @param {Object} name desc =
+
+    - @param {Object} name desc
+
+
+    //  -------------new---------------           
+    // var `instant^ = new `Constructor^(`arg..^) 
+
+
+
+var instant = new Constructor()
+
+var instant_TYPED = new Constructor_TYPED(arg_TYPED, arg_TYPED) =
+
+    - var instant = new Constructor() =
+
+    - var instant = new Constructor()
+
+
+    //  -------------if---------------     
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+if (condition) { 
+    /* void */;
+} else { 
+    
+}
+
+if (condition_TYPED) { 
+    job_TYPED
+} else_TYPED =
+
+- if (condition) { 
+    /* void */;
+} else { 
+    
+} =
+
+- if (condition) { 
+    /* void */;
+} else { 
+    
+}
+
+
+    //  -------------forin---------------            
+    // for ( var `i^ in `array^ )`$FOR_BRACKET_STL^{ 
+    //     var `e^ = `array^[`i^];                   
+    //     `cursor^                                  
+    // }                                             
+
+
+
+    for ( var i in array ) {
+        var e = array[i];
+        
+    }
+
+    for ( var i_TYPED in array_TYPED ) {
+        var e_TYPED = array_TYPED[i_TYPED];
+        
+    } =
+
+    - for ( var i in array ) {
+        var e = array[i];
+        
+    } =
+
+- for ( var i in array ) {
+    var e = array[i];
+    
+}
+
+
+    //  -------------fcmt---------------                                      
+    // /**-------------------------/// `sum^ \\\---------------------------   
+    //  *                                                                     
+    //  * <b>`function^</b>                                                   
+    //  * @version : `1.0^                                                    
+    //  * @since : `date^                                                     
+    //  *                                                                     
+    //  * @description :                                                      
+    //  *   `cursor^                                                          
+    //  * @usage :                                                            
+    //  *                                                                     
+    //  * @author : `author^ | `email^                                        
+    //  * @copyright :                                                        
+    //  * @TODO :                                                             
+    //  *                                                                     
+    //  *--------------------------\\\ `sum^ ///---------------------------*/ 
+
+
+
+    /**-------------------------/// sum \\\---------------------------
+     *
+     * <b>function</b>
+     * @version : 1.0
+     * @since : date
+     * 
+     * @description :
+     *   
+     * @usage : 
+     * 
+     * @author : drdr.xp | drdr.xp@gmail.com
+     * @copyright : 
+     * @TODO : 
+     * 
+     *--------------------------\\\ sum ///---------------------------*/
+
+    /**-------------------------/// sum_TYPED \\\---------------------------
+     *
+     * <b>function_TYPED</b>
+     * @version : 10_TYPED
+     * @since : date_TYPED
+     * 
+     * @description :
+     *   
+     * @usage : 
+     * 
+     * @author : author_TYPED | email_TYPED
+     * @copyright : 
+     * @TODO : 
+     * 
+     *--------------------------\\\ sum_TYPED ///---------------------------*/ =
+
+    - /**-------------------------/// sum \\\---------------------------
+     *
+     * <b>function</b>
+     * @version : 1.0
+     * @since : date
+     * 
+     * @description :
+     *   
+     * @usage : 
+     * 
+     * @author : drdr.xp | drdr.xp@gmail.com
+     * @copyright : 
+     * @TODO : 
+     * 
+     *--------------------------\\\ sum ///---------------------------*/ =
+
+    - /**-------------------------/// sum \\\---------------------------
+     *
+     * <b>function</b>
+     * @version : 1.0
+     * @since : date
+     * 
+     * @description :
+     *   
+     * @usage : 
+     * 
+     * @author : drdr.xp | drdr.xp@gmail.com
+     * @copyright : 
+     * @TODO : 
+     * 
+     *--------------------------\\\ sum ///---------------------------*/
+
+
+    //  -------------ifee---------------  
+    // if (`condition^)`$IF_BRACKET_STL^{ 
+    //     `job^                          
+    // }` `else_if...^                    
+
+
+
+    if (condition) {
+        /* void */;
+    } else if (condition) { 
+        /* void */;
+    } else if (condition) { 
+        /* void */;
+    }
+
+    if (condition_TYPED) {
+        job_TYPED
+    } else_if_TYPED =
+
+    - if (condition) {
+        /* void */;
+    } else if (condition ) { 
+        /* void */;
+    } else if (condition ) { 
+        /* void */;
+    } =
+
+    - if (condition) {
+        /* void */;
+    } else if (condition) { 
+        /* void */;
+    } else if (condition) { 
+        /* void */;
+    }
+
+
+    //  -------------[--------------- 
+    // [`wrapped^]                    
+
+
+
+[WRAPPED_TEXT]
+
+[WRAPPED_TEXT] =
+
+- [WRAPPED_TEXT] =
+
+- [WRAPPED_TEXT]
+
+
+    //  -------------Email--------------- 
+    // `$email^                           
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com =
+
+    - drdr.xp@gmail.com =
+
+    - drdr.xp@gmail.com
+
+
+    //  -------------"--------------- 
+    // "`wrapped^"                    
+
+
+
+"WRAPPED_TEXT"
+
+"WRAPPED_TEXT" =
+
+    - "WRAPPED_TEXT" =
+
+    - "WRAPPED_TEXT"
+
+
+    //  -------------commentLine--------------- 
+    // `$CL^ `cursor^ `$CR^                     
+
+
+
+/*  */
+
+/*  */ =
+
+- /*  */ =
+
+    - /*  */
+
+
+    //  -------------proto---------------                                 
+    // `Class^.prototype.`method^ = function(`arg..^)`$FUNC_BRACKET_STL^{ 
+    // `cursor^                                                           
+    // }                                                                  
+
+
+
+Class.prototype.method = function() {
+
+}
+
+Class_TYPED.prototype.method_TYPED = function(arg_TYPED, arg_TYPED) {
+
+} =
+
+- Class.prototype.method = function() {
+
+} =
+
+- Class.prototype.method = function() {
+
+}
+
+
+    //  -------------for---------------                               
+    // for (var `i^ = 0; `i^ < `ar^.length; ++`i^)`$FOR_BRACKET_STL^{ 
+    //     var `e^ = `ar^[`i^];                                       
+    //     `cursor^                                                   
+    // }                                                              
+
+
+
+    for (var i = 0; i < ar.length; ++i) {
+        var e = ar[i];
+        
+    }
+
+    for (var i_TYPED = 0; i_TYPED < ar_TYPED.length; ++i_TYPED) {
+        var e_TYPED = ar_TYPED[i_TYPED];
+        
+    } =
+
+    - for (var i = 0; i < ar.length; ++i) {
+        var e = ar[i];
+        
+    } =
+
+- for (var i = 0; i < ar.length; ++i) {
+    var e = ar[i];
+    
+}
+
+
+    //  -------------switch--------------- 
+    // switch (`var^)`$IF_BRACKET_STL^{    
+    //     case `constant^ :               
+    //         `job^                       
+    //         break;                      
+    // `                                   
+    //     `case...`                       
+    // ^`                                  
+    //     `default...^                    
+    // }                                   
+
+
+
+    switch (var) {
+        case constant :
+            /* void */;
+            break;
+    
+        case constant :
+            /* void */;
+            break;
+    
+        case constant :
+            /* void */;
+            break;
+    
+        default:
+            
+    }
+
+    switch (var_TYPED) {
+        case constant_TYPED :
+            job_TYPED
+            break;
+    
+            case_TYPED
+        
+                default_TYPED
+    } =
+
+    - switch (var) {
+        case constant :
+            /* void */;
+            break;
+    
+        case constant :
+            /* void */;
+            break;
+    
+        case constant :
+            /* void */;
+            break;
+    
+        default:
+            
+    } =
+
+    - switch (var) {
+        case constant :
+            /* void */;
+            break;
+    
+        case constant :
+            /* void */;
+            break;
+    
+        case constant :
+            /* void */;
+            break;
+    
+        default:
+            
+    }
+
+
+    //  -------------'--------------- 
+    // '`wrapped^'                    
+
+
+
+'WRAPPED_TEXT'
+
+'WRAPPED_TEXT' =
+
+    - 'WRAPPED_TEXT' =
+
+    - 'WRAPPED_TEXT'
+
+
+    //  -------------(--------------- 
+    // (`wrapped^)                    
+
+
+
+(WRAPPED_TEXT)
+
+(WRAPPED_TEXT) =
+
+- (WRAPPED_TEXT) =
+
+- (WRAPPED_TEXT)
+
+
+    //  -------------commentDoc--------------- 
+    // `$CL^`$CM^                              
+    //  `$CM^ `cursor^                         
+    //  `$CR^                                  
+
+
+
+/** 
+ * 
+ */
+
+/** 
+ * 
+ */ =
+
+- /** 
+ * 
+ */ =
+
+- /** 
+ * 
+ */
+
+
+    //  -------------try--------------- 
+    // try`$IF_BRACKET_STL^{            
+    //     `job^                        
+    // }                                
+    // catch (`err^)`$IF_BRACKET_STL^{  
+    //     `dealError^                  
+    // }`...^                           
+    // catch (`err^)`$IF_BRACKET_STL^{  
+    //     `dealError^                  
+    // }`...^`                          
+    // `finally...^                     
+
+
+
+    try {
+        /* void */;
+    }
+    catch (err) {
+        /* error handling */
+    }
+    catch (err) {
+        /* error handling */
+    }
+    catch (err) {
+        /* error handling */
+    }
+    finally {
+        
+    }
+
+    try {
+        job_TYPED
+    }
+    catch (err_TYPED) {
+        dealError_TYPED
+    }_TYPED
+        finally_TYPED =
+
+            - try {
+                /* void */;
+            }
+            catch (err) {
+                /* error handling */
+            }
+            catch (err) {
+                /* error handling */
+            }
+            catch (err) {
+                /* error handling */
+            }
+            finally {
+                
+            } =
+
+            - try {
+                /* void */;
+            }
+            catch (err) {
+                /* error handling */
+            }
+            catch (err) {
+                /* error handling */
+            }
+            catch (err) {
+                /* error handling */
+            }
+            finally {
+                
+            }
+
+
+    //  -------------ifn---------------    
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+    if (null == var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+    if (null == var_TYPED) { 
+        job_TYPED
+    } else_TYPED =
+
+    - if (null == var) { 
+        /* void */;
+    } else { 
+        
+    } =
+
+    - if (null == var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+
+    //  -------------commentBlock--------------- 
+    // `$CL^                                     
+    //  `$CM^ `cursor^                           
+    //  `$CR^                                    
+
+
+
+    /* 
+     * 
+     */
+
+    /* 
+     * 
+     */ =
+
+    - /* 
+     * 
+     */ =
+
+    - /* 
+     * 
+     */
+
+
+    //  -------------ifnn---------------   
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+    if (null != var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+    if (null != var_TYPED) { 
+        job_TYPED
+    } else_TYPED =
+
+    - if (null != var) { 
+        /* void */;
+    } else { 
+        
+    } =
+
+    - if (null != var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+
+    //  -------------File--------------- 
+    // `file()^                          
+
+
+
+    test.page
+
+    test.page =
+
+        - test.page =
+
+        - test.page
+
+
+    //  -------------ifn0---------------   
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+    if (0 != var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+    if (0 != var_TYPED) { 
+        job_TYPED
+    } else_TYPED =
+
+    - if (0 != var) { 
+        /* void */;
+    } else { 
+        
+    } =
+
+    - if (0 != var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+
+    //  -------------cmt--------------- 
+    // /**                              
+    // * @author : `author^ | `email^   
+    // * @description                   
+    // *     `cursor^                   
+    // * @return {`Object^} `desc^      
+    // */                               
+
+
+
+    /**
+    * @author : drdr.xp | drdr.xp@gmail.com
+    * @description
+    *     
+    * @return {Object} desc
+    */
+
+    /**
+    * @author : author_TYPED | email_TYPED
+    * @description
+    *     
+    * @return {Object_TYPED} desc_TYPED
+    */ =
+
+    - /**
+    * @author : drdr.xp | drdr.xp@gmail.com
+    * @description
+    *     
+    * @return {Object} desc
+    */ =
+
+    - /**
+    * @author : drdr.xp | drdr.xp@gmail.com
+    * @description
+    *     
+    * @return {Object} desc
+    */
+
+
+    //  -------------{--------------- 
+    // {`wrapped^}                    
+
+
+
+{WRAPPED_TEXT}
+
+{WRAPPED_TEXT} =
+
+- {WRAPPED_TEXT} =
+
+- {WRAPPED_TEXT}
+
+
+    //  -------------<--------------- 
+    // <`wrapped^>                    
+
+
+
+<WRAPPED_TEXT>
+
+<WRAPPED_TEXT> =
+
+    - <WRAPPED_TEXT> =
+
+    - <WRAPPED_TEXT>
+
+
+    //  -------------setTimeout---------------          
+    // setTimeout(function() { `job^ }, `milliseconds^) 
+
+
+
+setTimeout(function() { /* void */; }, milliseconds)
+
+setTimeout(function() { job_TYPED }, milliseconds_TYPED) =
+
+    - setTimeout(function() { /* void */; }, milliseconds) =
+
+    - setTimeout(function() { /* void */; }, milliseconds)
+
