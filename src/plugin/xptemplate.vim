@@ -1602,6 +1602,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
     return 0
 endfunction "}}}
 
+" TODO simplify : if PH has preValue, replace it at once, without replacing with the name
 fun! s:ApplyPreValues( placeHolder )
     let renderContext = s:getRenderContext()
     let tmplObj = renderContext.tmpl

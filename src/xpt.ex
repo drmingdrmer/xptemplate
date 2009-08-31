@@ -27,7 +27,9 @@ rm -rf	\
   doc/tags	\
   xpt.files.txt	\
   bench.vim	\
+  
 
+find -name "test.page" | xargs rm
 
 
 # remove 'call Log'

@@ -50,11 +50,12 @@ for (var i = 0; i < `times^; ++i){
 var t2 = new Date().getTime();
 `log^(t1-t0, t2-t1);
 
+..XPT
 
 XPT asoe hint=assertObjectEquals
 assertObjectEquals(`mess^
                   , `arr^
-                  , `expr^);
+                  , `expr^)
 
 
 XPT cmt hint=/**\ @auth...\ */

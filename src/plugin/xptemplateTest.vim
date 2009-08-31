@@ -22,8 +22,14 @@ let s:FIRST_PHASE = s:phases[ 0 ]
 let s:LAST_PHASE = s:phases[ -1 ]
 
 
+let s:preinputs = {
+            \'before' : " =\<left>\<left>", 
+            \'between' : "-  =\<left>\<left>", 
+            \'after' : "- ", 
+            \}
 
-" com! XPTSlow redraw! | sleep 100m
+
+" com! XPTSlow redraw! | sleep 50m
 com! XPTSlow echo
 
 fun s:XPTtrigger(name) "{{{
@@ -56,7 +62,16 @@ fun s:XPTwrapNew(name, preinput) "{{{
 
     call feedkeys("\<C-o>maWRAPPED_TEXT\<left>\<C-o>mb", 'nt')
 
-    call feedkeys("\<C-c>`av", 'nt')
+    call feedkeys( "\<C-o>:XPTSlow\<cr>" )
+
+    call feedkeys("\<C-c>`a", 'nt')
+
+    " TODO very bad!
+    if &l:ve !~ 'all\|onemore' && a:preinput == s:preinputs.after
+        call feedkeys( 'l', 'nt' )
+    endif
+
+    call feedkeys("v", 'nt')
     if &slm =~ 'cmd'
         call feedkeys("\<C-g>", 'nt')
     endif
@@ -278,13 +293,13 @@ fun! s:StartNewTemplate() "{{{
     endif
 
     if s:TYPED == b:testPhase
-        let charAround =  " =\<left>\<left>" 
+        let charAround = s:preinputs.before
 
     elseif s:CHAR_AROUND == b:testPhase
-        let charAround =  "-  =\<left>\<left>" 
+        let charAround = s:preinputs.between
 
     elseif s:NESTED == b:testPhase
-        let charAround =  "- " 
+        let charAround = s:preinputs.after
 
     else
         let charAround = ''
@@ -303,6 +318,7 @@ fun! s:StartNewTemplate() "{{{
 
 endfunction "}}}
 
+" TODO bug: c:ifee in the repetition part, condition followed by a space with full .vimrc but not with simple .vimrc
 fun! s:FillinTemplate() "{{{
     let x = XPTbufData()
     let ctx = x.renderContext

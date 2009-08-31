@@ -398,9 +398,9 @@ if (condition_TYPED) {
 
     if (condition) {
         /* void */;
-    } else if (condition) { 
+    } else if (condition) {
         /* void */;
-    } else if (condition) { 
+    } else if (condition) {
         /* void */;
     }
 
@@ -410,17 +410,17 @@ if (condition_TYPED) {
 
     - if (condition) {
         /* void */;
-    } else if (condition ) { 
+    } else if (condition ) {
         /* void */;
-    } else if (condition ) { 
+    } else if (condition ) {
         /* void */;
     } =
 
     - if (condition) {
         /* void */;
-    } else if (condition) { 
+    } else if (condition) {
         /* void */;
-    } else if (condition) { 
+    } else if (condition) {
         /* void */;
     }
 
