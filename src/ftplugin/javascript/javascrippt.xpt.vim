@@ -116,17 +116,17 @@ for (var `i^ in `ar^){
 XPT kv hint=..\ = \..
 `key^ = `value^;
 
-XPT new hint=var\ ..\ =\ new\ ..\\(..)
+XPT new hint=var\ ..\ =\ new\ ..\(..)
 XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
 var `^ = new `Constructor^(`arg..^)
 
-XPT proto hint=...prototype...\ =\ function\\(..)\ {\ ..\ }
+XPT proto hint=...prototype...\ =\ function\(..)\ {\ ..\ }
 XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
 `Class^.prototype.`method^ = function(`arg..^) {
 `cursor^
 }
 
-XPT setT hint=setTimeout\\(function\\()\ {\ ..\ },\ ..)
+XPT setT hint=setTimeout\(function\()\ {\ ..\ },\ ..)
 XSET job=$INDENT_HELPER
 XSET milliseconds=1000
 setTimeout(function() { `job^ }, `milliseconds^)

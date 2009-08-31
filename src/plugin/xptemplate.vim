@@ -72,6 +72,7 @@ delc XPTgetSID
 
 " runtime plugin/position.vim
 runtime plugin/debug.vim
+runtime plugin/xptemplate.util.vim
 runtime plugin/mapstack.vim
 runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
@@ -287,11 +288,13 @@ endfunction "}}}
 
 fun! XPTemplateAlias( name, toWhich, setting ) "{{{
     " TODO wrapping templates
-    let xt = g:XPTobject().normalTemplates
+    let xptObj = g:XPTobject()
+    let xt = xptObj.normalTemplates
 
     if has_key( xt, a:toWhich )
         let xt[ a:name ] = deepcopy( xt[ a:toWhich ] )
         let xt[ a:name ].name = a:name
+        call s:ParseTemplateSetting( xptObj, a:setting )
         call s:deepExtend( xt[ a:name ].setting, a:setting )
     endif
 
@@ -406,7 +409,7 @@ endfunction "}}}
 
 fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
-    call s:ParseTemplateSetting( a:xptObj, a:tmplObj )
+    call s:ParseTemplateSetting( a:xptObj, a:tmplObj.setting )
 
     if type( a:tmplObj.tmpl ) == type( '' )
         let a:tmplObj.tmpl = s:parseQuotedPostFilter( a:tmplObj )
@@ -424,8 +427,8 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 endfunction "}}}
 
 
-fun! s:ParseTemplateSetting( xptObj, tmplObj ) "{{{
-    let setting = a:tmplObj.setting
+fun! s:ParseTemplateSetting( xptObj, setting ) "{{{
+    let setting = a:setting
 
 
     let idt = deepcopy(a:xptObj.snipFileScope.indent)
@@ -1282,7 +1285,7 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
         let val = s:TextBetween( a:valueInfo[0], a:valueInfo[1] )
         let val = val[1:]
-        let val = s:UnescapeChar( val, xp.l . xp.r )
+        let val = g:xptutil.UnescapeChar( val, xp.l . xp.r )
         let val = s:BuildFilterIndent( val, indent( a:valueInfo[0][0] ) )
 
 
@@ -1300,19 +1303,19 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 endfunction "}}}
 
 
-fun! s:UnescapeChar( str, chars )
-    " unescape only chars started with several '\' 
-
-    " remove all '\'.
-    let chars = substitute( a:chars, '\\', '', 'g' )
-
-    
-    let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]' ) . ']\)'
-    call s:log.Log( 'to unescape pattern='.pattern )
-    let unescaped = substitute( a:str, pattern, '\1\2', 'g' )
-    call s:log.Log( 'unescaped ='.unescaped )
-    return unescaped
-endfunction
+" fun! g:xptutil.UnescapeChar( str, chars )
+    " " unescape only chars started with several '\' 
+" 
+    " " remove all '\'.
+    " let chars = substitute( a:chars, '\\', '', 'g' )
+" 
+    " 
+    " let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]' ) . ']\)'
+    " call s:log.Log( 'to unescape pattern='.pattern )
+    " let unescaped = substitute( a:str, pattern, '\1\2', 'g' )
+    " call s:log.Log( 'unescaped ='.unescaped )
+    " return unescaped
+" endfunction
 
 
 
@@ -2483,7 +2486,7 @@ fun! s:Eval(s, ...) "{{{
 
     " TODO how to add '$' ?
     let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . nonEscaped . '{\w\+(\[^($]\{-})}'
-    let vptn = '\V' . '$\w\+' . '\|' . nonEscaped . '{$\w\+}'
+    let vptn = '\V' . nonEscaped . '$\w\+' . '\|' . nonEscaped . '{$\w\+}'
 
     let patternVarOrFunc = fptn . '\|' . vptn
 
@@ -2581,6 +2584,8 @@ fun! s:Eval(s, ...) "{{{
     let offsetsOfEltsToEval = sort(keys(rangesToEval), "S2l")
 
 
+
+
     for k in offsetsOfEltsToEval
 
         let kn = 0 + k
@@ -2591,7 +2596,7 @@ fun! s:Eval(s, ...) "{{{
         " match the previous line )} - -..
         let tmp = k == 0 ? "" : (str[last : kn-1])
         " let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
-        let tmp = s:UnescapeChar( tmp, '[{$' )
+        let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
         let sp .= tmp
 
 
@@ -2611,7 +2616,7 @@ fun! s:Eval(s, ...) "{{{
 
     let tmp = str[last : ]
     " let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
-    let tmp = s:UnescapeChar( tmp, '[{$' )
+    let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
     let sp .= tmp
 
     return sp

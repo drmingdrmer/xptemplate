@@ -18,7 +18,7 @@ XPTinclude
 XPTemplateDef
 
 
-XPT while hint=while\ \\(\ ...\ )
+XPT while hint=while\ \(\ ...\ )
 while (`condition^)`$WHILE_BRACKET_STL^{
     `cursor^
 }
@@ -38,7 +38,7 @@ XPT while1 alias=while hint=while\ ($TRUE)\ {\ ..\ }
 XSET condition|def=Embed( $TRUE )
 
 
-XPT whilenn alias=while hint=while\ \\(\ $NULL\ !=\ var\ )\ {\ ..\ }
+XPT whilenn alias=while hint=while\ \(\ $NULL\ !=\ var\ )\ {\ ..\ }
 XSET condition|def=Embed( $NULL . ' != `var^' )
 
 
