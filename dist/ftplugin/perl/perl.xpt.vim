@@ -81,6 +81,10 @@ while ( ( $`key^, $`val^ ) = each( %`array^ ) )`WHILE_BRACKET_STL^{
 }
 
 XPT whileline hint=while\ \(\ defined\(\ \$line\ =\ <FILE>\ )\ )
+while ( defined( $`line^ = <`STDIN^> ) )
+{
+    `cursor^
+}
 
 
 XPT for hint=for\ (my\ ..;..;++)
