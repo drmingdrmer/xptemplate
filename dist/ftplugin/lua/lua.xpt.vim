@@ -33,7 +33,7 @@ do
 `cursor^
 end
 
-XPT fn hint=function\ \\(..) .. end
+XPT fn hint=function\ \(..) .. end
 XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
 function (`arg..^) `cursor^ end
 
@@ -51,21 +51,21 @@ for `var..^ in `expr^ do
 `cursor^
 end
 
-XPT forip hint=for\ ..,..\ in\ ipairs\\(..)\ do\ ...\ end
+XPT forip hint=for\ ..,..\ in\ ipairs\(..)\ do\ ...\ end
 XSET var1=i
 XSET var2=v
 for `var1^,`var2^ in ipairs(`table^) do
 `cursor^
 end
 
-XPT forp hint=for\ ..,..\ in\ pairs\\(..)\ do\ ...\ end
+XPT forp hint=for\ ..,..\ in\ pairs\(..)\ do\ ...\ end
 XSET var1=k
 XSET var2=v
 for `var1^,`var2^ in pairs(`table^) do
 `cursor^
 end
 
-XPT fun hint=function\ ..\\(..)\ ..\ end
+XPT fun hint=function\ ..\(..)\ ..\ end
 XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
 function `name^(`arg..^)
 `cursor^
@@ -94,7 +94,7 @@ elseif `condn^ then
 `else...^
 end
 
-XPT locf hint=local\ function\ ..\\(..)\ ...\ end
+XPT locf hint=local\ function\ ..\(..)\ ...\ end
 XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
 local function `name^(`arg..^)
 `cursor^
@@ -104,7 +104,7 @@ end
 XPT locv hint=local\ ..\ =\ ..
 local `var^ = 
 
-XPT p hint=print\\(..)
+XPT p hint=print\(..)
 print(`cursor^)
 
 " !!! snippet ends with a space !!!

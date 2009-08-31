@@ -109,7 +109,7 @@ XPTemplateDef
 " XSET a2|post=fff()
 " `aa^`aa^fff()^
 
-XPT printf	hint=printf\\(...)
+XPT printf	hint=printf\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )
 printf( "`pattern^"`elts^ )
 

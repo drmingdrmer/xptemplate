@@ -98,9 +98,9 @@ XPT fdesc hint=description\ of\ file
 ..XPT
 
 XPT sid hint=//\ generate\ s:sid\ variable
-com! `E(  )^getSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
-XPTgetSID
-delc XPTgetSID
+com! `name^GetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
+`name^GetSID
+delc `name^GetSID
 
 
 

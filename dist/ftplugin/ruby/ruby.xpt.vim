@@ -204,7 +204,7 @@ XSET file=file
 File.open("`filename^", "rb") { |`file^| Marshal.load(`file^) }
 
 
-XPT Pn hint=PStore.new\\(..)
+XPT Pn hint=PStore.new\(..)
 PStore.new("`filename^")
 
 
@@ -258,12 +258,12 @@ if __FILE__ == $PROGRAM_NAME
 end
 
 
-XPT array hint=Array.new\\(..)\ {\ ...\ }
+XPT array hint=Array.new\(..)\ {\ ...\ }
 XSET arg=i
 XSET size=5
 Array.new(`size^) { |`arg^| `cursor^ }
 
-XPT ass hint=assert**\\(..)\ ...
+XPT ass hint=assert**\(..)\ ...
 XSET what=RubyAssertPopup()
 XSET what|post=RubyAssertMethod()
 XSET message|post=RemoveIfUnchanged()
@@ -347,7 +347,7 @@ class `ClassName^ < DelegateClass(`ParentClass^)
 end
 
 
-XPT cli hint=class\ ..\ def\ initialize\\(..)\ ...
+XPT cli hint=class\ ..\ def\ initialize\(..)\ ...
 XSET ClassName|post=RubyCamelCase()
 XSET name|post=RubySnakeCase()
 XSET init=Trigger('defi')
@@ -410,7 +410,7 @@ def initialize`(`arg..`)^
 end
 
 
-XPT defmm hint=def\ method_missing\\(..)\ ..\ end
+XPT defmm hint=def\ method_missing\(..)\ ..\ end
 def method_missing(meth, *args, &block)
     `cursor^
 end
@@ -445,7 +445,7 @@ XSET _='/**/*'
 Dir[`_^]
 
 
-XPT dirg hint=Dir.glob\\(..)\ {\ |..|\ ..\ }
+XPT dirg hint=Dir.glob\(..)\ {\ |..|\ ..\ }
 XSET d=file
 Dir.glob('`dir^') { |`f^| `cursor^ }
 
@@ -457,7 +457,7 @@ do` |`arg..`|^
 end
 
 
-XPT dow hint=downto\\(..)\ {\ ..\ }
+XPT dow hint=downto\(..)\ {\ ..\ }
 XSET arg=i
 XSET lbound=0
 downto(`lbound^) { |`arg^| `cursor^ }
@@ -470,16 +470,16 @@ XSET vars=RubyEachPair()
 each`_`what^ { |`vars^| `cursor^ }
 
 
-XPT fdir hint=File.dirname\\(..)
+XPT fdir hint=File.dirname\(..)
 XSET _=
 File.dirname(`_^)
 
 
-XPT fet hint=fetch\\(..)\ {\ |..|\ ..\ }
+XPT fet hint=fetch\(..)\ {\ |..|\ ..\ }
 fetch(`name^) { |`key^| `cursor^ }
 
 
-XPT file hint=File.foreach\\(..)\ ...
+XPT file hint=File.foreach\(..)\ ...
 XSET line=line
 File.foreach('`filename^') { |`line^| `cursor^ }
 
@@ -492,7 +492,7 @@ XPT fina hint=find_all\ {\ |..|\ ..\ }
 find_all { |`element^| `cursor^ }
 
 
-XPT fjoin hint=File.join\\(..)
+XPT fjoin hint=File.join\(..)
 File.join(`dir^, `path^)
 
 
@@ -502,16 +502,16 @@ XSET a=a
 inject(Array.new) { |`arr^, `a^| `arr^.push(*`a^) }
 
 
-XPT fread hint=File.read\\(..)
+XPT fread hint=File.read\(..)
 File.read('`filename^')
 
 
-XPT grep hint=grep\\(..)\ {\ |..|\ ..\ }
+XPT grep hint=grep\(..)\ {\ |..|\ ..\ }
 XSET match=m
 grep(/`pattern^/) { |`match^| `cursor^ }
 
 
-XPT gsub hint=gsub\\(..)\ {\ |..|\ ..\ }
+XPT gsub hint=gsub\(..)\ {\ |..|\ ..\ }
 XSET match=m
 gsub(/`pattern^/) { |`match^| `cursor^ }
 
@@ -552,7 +552,7 @@ if `boolean exp^
 end
 
 
-XPT inj hint=inject\\(..)\ {\ |..|\ ..\ }
+XPT inj hint=inject\(..)\ {\ |..|\ ..\ }
 XSET accumulator=acc
 XSET element=el
 inject`(`arg`)^ { |`accumulator^, `element^| `cursor^ }
@@ -609,7 +609,7 @@ XSET arg..|post=RepeatInsideEdges(', ')
 `var^ = `Object^.new`(`arg..`)^
 
 
-XPT open hint=open\\(..)\ {\ |..|\ ..\ }
+XPT open hint=open\(..)\ {\ |..|\ ..\ }
 XSET mode...|post=, '`wb^'
 XSET wb=wb
 XSET io=io
@@ -652,7 +652,7 @@ XPT reve hint=reverse_each\ {\ ..\ }
 reverse_each { |`element^| `cursor^ }
 
 
-XPT scan hint=scan\\(..)\ {\ |..|\ ..\ }
+XPT scan hint=scan\(..)\ {\ |..|\ ..\ }
 XSET match=m
 scan(/`pattern^/) { |`match^| `cursor^ }
 
@@ -677,14 +677,14 @@ XPT sorb hint=sort_by\ {\ |..|\ ..\ }
 sort_by {` |`arg`|^ `cursor^ }
 
 
-XPT ste hint=step\\(..)\ {\ ..\ }
+XPT ste hint=step\(..)\ {\ ..\ }
 XSET arg=i
 XSET count=10
 XSET step=2
 step(`count^`, `step^) { |`arg^| `cursor^ }
 
 
-XPT sub hint=sub\\(..)\ {\ |..|\ ..\ }
+XPT sub hint=sub\(..)\ {\ |..|\ ..\ }
 XSET match=m
 sub(/`pattern^/) { |`match^| `cursor^ }
 
@@ -728,7 +728,7 @@ XPT tim hint=times\ {\ ..\ }
 times {` |`index`|^ `cursor^ }
 
 
-XPT tra hint=transaction\\(..)\ {\ ...\ }
+XPT tra hint=transaction\(..)\ {\ ...\ }
 XSET _=true
 transaction(`_^) { `cursor^ }
 
@@ -752,13 +752,13 @@ until `boolean cond^
 end
 
 
-XPT upt hint=upto\\(..)\ {\ ..\ }
+XPT upt hint=upto\(..)\ {\ ..\ }
 XSET arg=i
 XSET ubound=10
 upto(`ubound^) { |`arg^| `cursor^ }
 
 
-XPT usai hint=if\ ARGV..\ abort\\("Usage...
+XPT usai hint=if\ ARGV..\ abort\("Usage...
 XSET _=
 XSET args=[options]
 if ARGV`_^
@@ -766,7 +766,7 @@ if ARGV`_^
 end
 
 
-XPT usau hint=unless\ ARGV..\ abort\\("Usage...
+XPT usau hint=unless\ ARGV..\ abort\("Usage...
 XSET _=
 XSET args=[options]
 unless ARGV`_^
@@ -785,7 +785,7 @@ XSET index=i
 with_index { |`element^, `index^| `cursor^ }
 
 
-XPT xml hint=REXML::Document.new\\(..)
+XPT xml hint=REXML::Document.new\(..)
 REXML::Document.new(File.read("`filename^"))
 
 
@@ -793,6 +793,6 @@ XPT y syn=comment hint=:yields:
 :yields:
 
 
-XPT zip hint=zip\\(..)\ {\ |..|\ ..\ }
+XPT zip hint=zip\(..)\ {\ |..|\ ..\ }
 XSET row=row
 zip(`enum^) { |`row^| `cursor^ }

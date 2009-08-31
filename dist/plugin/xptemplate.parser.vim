@@ -3,6 +3,7 @@ if exists("g:__XPTEMPLATE_PARSER_VIM__")
 endif
 let g:__XPTEMPLATE_PARSER_VIM__ = 1
 runtime plugin/debug.vim
+runtime plugin/xptemplate.util.vim
 runtime plugin/xptemplate.vim
 let s:log = CreateLogger( 'debug' )
 com! -nargs=* XPTemplate
@@ -134,7 +135,7 @@ fun! s:XPTemplateParseSnippet(lines)
         let nameAndValue = split(pair, '=', 1)
         if len(nameAndValue) > 1
             let propName = nameAndValue[0]
-            let propValue = substitute( join( nameAndValue[1:], '=' ), '\\\(.\)', '\1', 'g' )
+            let propValue = g:xptutil.UnescapeChar( join( nameAndValue[1:], '=' ), ' ' )
             if propName == ''
                 throw 'empty property name at line:' . lines[0]
             elseif !has_key( setting, propName )

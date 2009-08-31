@@ -75,10 +75,13 @@ if ($@) {
 }
 
 
-XPT whileeach hint=while\ \\(\ \\(\ key,\ val\ )\ =\ each\\(\ %**\ )\ )
+XPT whileeach hint=while\ \(\ \(\ key,\ val\ )\ =\ each\(\ %**\ )\ )
 while ( ( $`key^, $`val^ ) = each( %`array^ ) )`WHILE_BRACKET_STL^{
     `cursor^
 }
+
+XPT whileline hint=while\ \(\ defined\(\ \$line\ =\ <FILE>\ )\ )
+
 
 XPT for hint=for\ (my\ ..;..;++)
 for (my $`var^ = 0; $`var^ < `count^; $`var^++) {
@@ -92,13 +95,13 @@ foreach my $`var^ (@`array^) {
 }
 
 
-XPT forkeys hint=foreach\ my\ var\ \\(\ keys\ %**\ )
+XPT forkeys hint=foreach\ my\ var\ \(\ keys\ %**\ )
 foreach my $`var^ ( keys @`array^ ) {
     `cursor^
 }
 
 
-XPT forvalues hint=foreach\ my\ var\ \\(\ keys\ %**\ )
+XPT forvalues hint=foreach\ my\ var\ \(\ keys\ %**\ )
 foreach my $`var^ ( values @`array^ ) {
     `cursor^
 }

@@ -6,6 +6,7 @@ com! XPTgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPTgetSID
 delc XPTgetSID
 runtime plugin/debug.vim
+runtime plugin/xptemplate.util.vim
 runtime plugin/mapstack.vim
 runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
@@ -137,10 +138,12 @@ fun! g:XPTfuncs()
     return g:XPTobject().funcs
 endfunction 
 fun! XPTemplateAlias( name, toWhich, setting ) 
-    let xt = g:XPTobject().normalTemplates
+    let xptObj = g:XPTobject()
+    let xt = xptObj.normalTemplates
     if has_key( xt, a:toWhich )
         let xt[ a:name ] = deepcopy( xt[ a:toWhich ] )
         let xt[ a:name ].name = a:name
+        call s:ParseTemplateSetting( xptObj, a:setting )
         call s:deepExtend( xt[ a:name ].setting, a:setting )
     endif
 endfunction 
@@ -208,7 +211,7 @@ fun! s:CleanupSnippet( foo )
     return foo.snip
 endfunction 
 fun! s:InitTemplateObject( xptObj, tmplObj ) 
-    call s:ParseTemplateSetting( a:xptObj, a:tmplObj )
+    call s:ParseTemplateSetting( a:xptObj, a:tmplObj.setting )
     if type( a:tmplObj.tmpl ) == type( '' )
         let a:tmplObj.tmpl = s:parseQuotedPostFilter( a:tmplObj )
     endif
@@ -216,8 +219,8 @@ fun! s:InitTemplateObject( xptObj, tmplObj )
     call s:initItemOrderDict( a:tmplObj.setting )
     let a:tmplObj.setting.defaultValues.cursor = 'Finish()'
 endfunction 
-fun! s:ParseTemplateSetting( xptObj, tmplObj ) 
-    let setting = a:tmplObj.setting
+fun! s:ParseTemplateSetting( xptObj, setting ) 
+    let setting = a:setting
     let idt = deepcopy(a:xptObj.snipFileScope.indent)
     if has_key(setting, 'indent')
         call s:ParseIndent(idt, setting.indent)
@@ -679,7 +682,7 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo )
                     \&& a:valueInfo[1][1] + 1 == a:valueInfo[2][1]
         let val = s:TextBetween( a:valueInfo[0], a:valueInfo[1] )
         let val = val[1:]
-        let val = s:UnescapeChar( val, xp.l . xp.r )
+        let val = g:xptutil.UnescapeChar( val, xp.l . xp.r )
         let val = s:BuildFilterIndent( val, indent( a:valueInfo[0][0] ) )
         if isPostFilter
             let placeHolder.postFilter = val
@@ -689,12 +692,6 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo )
     endif
     return placeHolder
 endfunction 
-fun! s:UnescapeChar( str, chars )
-    let chars = substitute( a:chars, '\\', '', 'g' )
-    let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]' ) . ']\)'
-    let unescaped = substitute( a:str, pattern, '\1\2', 'g' )
-    return unescaped
-endfunction
 let s:anonymouseIndex = 0
 fun! s:buildMarksOfPlaceHolder(ctx, item, placeHolder, nameInfo, valueInfo) 
     let [ctx, item, placeHolder, nameInfo, valueInfo] = 
@@ -1306,7 +1303,7 @@ fun! s:Eval(s, ...)
     endif
     let nonEscaped =   '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
     let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . nonEscaped . '{\w\+(\[^($]\{-})}'
-    let vptn = '\V' . '$\w\+' . '\|' . nonEscaped . '{$\w\+}'
+    let vptn = '\V' . nonEscaped . '$\w\+' . '\|' . nonEscaped . '{$\w\+}'
     let patternVarOrFunc = fptn . '\|' . vptn
     let stringMask = s:CreateStringMask( a:s )
     let xfunc._ctx = ctx.evalCtx
@@ -1363,7 +1360,7 @@ fun! s:Eval(s, ...)
         let kn = 0 + k
         let vn = 0 + k + rangesToEval[k]
         let tmp = k == 0 ? "" : (str[last : kn-1])
-        let tmp = s:UnescapeChar( tmp, '[{$' )
+        let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
         let sp .= tmp
         let evaledResult = eval(str[kn : vn-1])
         if type(evaledResult) != type('')
@@ -1373,7 +1370,7 @@ fun! s:Eval(s, ...)
         let last = vn
     endfor
     let tmp = str[last : ]
-    let tmp = s:UnescapeChar( tmp, '[{$' )
+    let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
     let sp .= tmp
     return sp
 endfunction 
