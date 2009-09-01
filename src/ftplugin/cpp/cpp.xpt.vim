@@ -130,6 +130,7 @@ template <`templateParam^>
 ..XPT
 
 XPT try hint=try\ ...\ catch...
+XSET handler=$CL void $CR
 try
 {
     `what^
@@ -138,9 +139,18 @@ catch ( `except^ )
 {
     `handler^
 }`...^
-`catch...^catch ( ... )
+
+
+
+XPT try_ hint=try\ {\ SEL\ }\ catch...
+XSET handler=$CL void $CR
+try
 {
-    \`cursor\^
-}^^
+    `wrapped^
+}
+`...^catch ( `except^ )
+{
+    `handler^
+}`...^
 
-
+..XPT

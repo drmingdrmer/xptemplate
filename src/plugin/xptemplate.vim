@@ -1043,7 +1043,14 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
     endif
     let tmpl = s:ParseRepetition(tmpl, x)
 
-    let tmpl = substitute(tmpl, '\V' . xp.lft . s:wrappedName . xp.rt, x.wrap, 'g')
+    " Note: simple implementation of wrapping, the better way is by default value
+    " TODO use default value!
+    let wrapPos = match( tmpl, xp.lft . s:wrappedName . xp.rt )
+    if wrapPos != -1
+        let indent = matchstr( tmpl[ : wrapPos - 1 ], '\V\.\*\%(\^\|\n\)\zs\s\*' )
+        let wrapped = substitute( x.wrap, '\n', "\n" . indent, 'g' )
+        let tmpl = substitute(tmpl, '\V' . xp.lft . s:wrappedName . xp.rt, wrapped, 'g')
+    endif
 
 
 
