@@ -132,6 +132,16 @@ fun! s:NewTestFile(ft) "{{{
     endif
 endfunction "}}}
 
+fun! XPTtestSort(a, b)
+    if a:a.name == a:b.name
+        return 0
+    elseif a:a.name < a:b.name
+        return -1
+    else
+        return 1
+    endif
+endfunction
+
 fun! s:XPTtest(ft) "{{{
     let g:xpt_post_action = "\<C-r>=TestProcess()\<cr>"
     augroup XPTtestGroup
@@ -152,6 +162,7 @@ fun! s:XPTtest(ft) "{{{
 
     let tmpls = XPTgetAllTemplates()
 
+
     " remove 'Path' and 'Date' template0
     unlet tmpls.Path
     unlet tmpls.Date
@@ -164,6 +175,7 @@ fun! s:XPTtest(ft) "{{{
     " endfor
 
     let tmplList = values(tmpls)
+    let tmplList = sort( tmplList, "XPTtestSort" )
 
     let b:tmplToTest = tmplList
     " let b:tmplToTest = []
@@ -330,7 +342,7 @@ fun! s:FillinTemplate() "{{{
         XPTSlow
 
         " repitition, expandable or super repetition
-        if ctx.item.name =~ '\V..'
+        if ctx.item.name =~ '\V..\|?'
             let b:itemSteps += [ ctx.item.name ]
 
             " keep at most 5 steps

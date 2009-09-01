@@ -46,9 +46,35 @@ fun! s:UnescapeChar( str, chars ) "{{{
     return unescaped
 endfunction "}}}
 
+fun! s:DeepExtend( to, from ) "{{{
+    for key in keys( a:from )
+
+        if type( a:from[ key ] ) == 4
+            " dict 
+            if has_key( a:to, key )
+                call g:xptutil.DeepExtend( a:to[ key ], a:from[ key ] )
+            else
+                let a:to[ key ] = a:from[key]
+            endif
+
+        elseif type( a:from[key] ) == 3
+            " list 
+
+            if has_key( a:to, key )
+                call extend( a:to[ key ], a:from[key] )
+            else
+                let a:to[ key ] = a:from[key]
+            endif
+        else
+            let a:to[ key ] = a:from[key]
+        endif
+
+    endfor
+endfunction "}}}
 
 let g:xptutil =  g:ClassPrototype(
             \    'UnescapeChar', 
+            \    'DeepExtend', 
             \ )
 
 

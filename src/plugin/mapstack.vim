@@ -23,14 +23,15 @@ runtime plugin/debug.vim
 let s:log = CreateLogger( 'debug' )
 
 fun! s:InitStacks() "{{{
-  let b:__setting_stack__ = []
-  let b:__map_stack__ = []
+    let b:__setting_stack__ = []
+    let b:__map_stack__ = []
+
 endfunction "}}}
 
 " pre alloc setting stack to speed up
 augroup SettingStack
   au!
-  au BufRead,BufNewFile,BufNew * call <SID>InitStacks()
+  au BufRead,BufNewFile,BufNew,BufAdd,BufCreate,FileType * call <SID>InitStacks()
 augroup END
 
 
@@ -123,6 +124,9 @@ fun! s:GetMapInfo(key, mode, isbuffer) "{{{
 endfunction "}}}
 
 fun! g:MapPush(key, mode, isbuffer) "{{{
+  if !exists( 'b:__map_stack__' )
+    call s:InitStacks()
+  endif
 
   let info = s:GetMapInfo(a:key, a:mode, a:isbuffer)
 
@@ -133,6 +137,9 @@ fun! g:MapPush(key, mode, isbuffer) "{{{
 endfunction "}}}
 
 fun! g:MapPop(expected) "{{{
+  if !exists( 'b:__map_stack__' )
+    call s:InitStacks()
+  endif
   let st = b:__map_stack__
 
   let info = st[-1]
@@ -177,6 +184,9 @@ endfunction "}}}
 
 
 fun! SettingPush(key, value) "{{{
+  if !exists( 'b:__setting_stack__' )
+    call s:InitStacks()
+  endif
 
     let b:__setting_stack__ += [{'key' : a:key, 'val' : eval(a:key)}]
 
@@ -185,6 +195,9 @@ fun! SettingPush(key, value) "{{{
 endfunction "}}}
 
 fun! SettingPop() "{{{
+  if !exists( 'b:__setting_stack__' )
+    call s:InitStacks()
+  endif
 
     let d = b:__setting_stack__[-1]
     exe 'let '.d.key.'='.string(d.val)

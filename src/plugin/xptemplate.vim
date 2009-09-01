@@ -296,36 +296,11 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
         let xt[ a:name ] = deepcopy( xt[ a:toWhich ] )
         let xt[ a:name ].name = a:name
         call s:ParseTemplateSetting( xptObj, a:setting )
-        call s:deepExtend( xt[ a:name ].setting, a:setting )
+        call g:xptutil.DeepExtend( xt[ a:name ].setting, a:setting )
     endif
 
 endfunction "}}}
 
-fun! s:deepExtend( to, from ) "{{{
-    for key in keys( a:from )
-
-        if type( a:from[ key ] ) == 4
-            " dict 
-            if has_key( a:to, key )
-                call s:deepExtend( a:to[ key ], a:from[ key ] )
-            else
-                let a:to[ key ] = a:from[key]
-            endif
-
-        elseif type( a:from[key] ) == 3
-            " list 
-
-            if has_key( a:to, key )
-                call extend( a:to[ key ], a:from[key] )
-            else
-                let a:to[ key ] = a:from[key]
-            endif
-        else
-            let a:to[ key ] = a:from[key]
-        endif
-
-    endfor
-endfunction "}}}
 
 " ********* XXX ********* 
 fun! XPTemplate(name, str_or_ctx, ...) " {{{
@@ -524,7 +499,7 @@ fun! XPTreload() "{{{
 endfunction "}}}
 
 fun! XPTgetAllTemplates() "{{{
-    return g:XPTobject().normalTemplates
+    return copy( g:XPTobject().normalTemplates )
 endfunction "}}}
 
 
@@ -631,7 +606,8 @@ fun! s:GetHint(ctx) "{{{
     if has_key(a:ctx, 'hint')
         let a:ctx.hint = s:Eval(a:ctx.hint)
     else
-        let a:ctx.hint = ""
+        " Note: empty means nothing, "" means something that can override others
+        " let a:ctx.hint = ""
     endif
 
 endfunction "}}}
@@ -818,11 +794,13 @@ fun! s:Popup(pref, coln) "{{{
             continue
         endif
 
+        let hint = has_key( templateObject.setting, 'hint' ) ? templateObject.setting.hint : ''
+
         " buildins come last
         if key =~# "^[A-Z]"
-            call add(cmpl2, {'word' : key, 'menu' : templateObject.setting.hint})
+            call add(cmpl2, {'word' : key, 'menu' : hint })
         else
-            call add(cmpl, {'word' : key, 'menu' : templateObject.setting.hint})
+            call add(cmpl, {'word' : key, 'menu' : hint})
         endif
 
     endfor
@@ -1553,9 +1531,19 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
             " TODO save this 'value' variable?
             let value = s:Eval( placeHolder.value )
-            if value =~ '\n'
+            if value == '\n'
+                " simple format, without indent setting 
+
                 let indentSpace = repeat( ' ', indent( nameInfo[0][0] ) )
                 let value = substitute( value, '\n', '&' . indentSpace, 'g' )
+            elseif value !~ '\n'
+                " simple format, without indent setting 
+                
+            else
+                " with indent setting 
+                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( value )
+                let value = s:AdjustIndentAccordingToLine( filterText, filterIndent, nameInfo[0][0] )
+                call s:log.Log( "instant value with indent setting:" . string( value ) )
             endif
 
             let valueInfo[-1][1] += 1

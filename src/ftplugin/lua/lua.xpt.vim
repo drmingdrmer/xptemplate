@@ -34,8 +34,8 @@ do
 end
 
 XPT fn hint=function\ \(..) .. end
-XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
-function (`arg..^) `cursor^ end
+XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
+function (`arg?^) `cursor^ end
 
 XPT for hint=for\ ..=..,..\ do\ ...\ end
 XSET start=1
@@ -46,8 +46,8 @@ for `var^ = `start^, `end^`, `step^ do
 end
 
 XPT forin hint=for\ ..\ in\ ..\ do\ ...\ end
-XSET var..|post=ExpandIfNotEmpty(', ', 'var')
-for `var..^ in `expr^ do
+XSET var?|post=ExpandIfNotEmpty(', ', 'var')
+for `var?^ in `expr^ do
 `cursor^
 end
 
@@ -66,8 +66,8 @@ for `var1^,`var2^ in pairs(`table^) do
 end
 
 XPT fun hint=function\ ..\(..)\ ..\ end
-XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
-function `name^(`arg..^)
+XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
+function `name^(`arg?^)
 `cursor^
 end
 
@@ -95,8 +95,8 @@ elseif `condn^ then
 end
 
 XPT locf hint=local\ function\ ..\(..)\ ...\ end
-XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
-local function `name^(`arg..^)
+XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
+local function `name^(`arg?^)
 `cursor^
 end
 

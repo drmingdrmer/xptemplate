@@ -273,8 +273,8 @@ assert`_`what^
 XPT attr hint=attr_**\ :...
 XSET what=Choose(["accessor", "reader", "writer"])
 XSET what|post=SV("^_$",'','')
-XSET attr..|post=ExpandIfNotEmpty(', :', 'attr..')
-attr`_`what^ :`attr..^
+XSET attr?|post=ExpandIfNotEmpty(', :', 'attr?')
+attr`_`what^ :`attr?^
 ..XPT
 
 " TODO indent problem on else and ensure
@@ -337,9 +337,9 @@ end
 XPT cld hint=class\ ..\ <\ DelegateClass\ ..\ end
 XSET ClassName.post=RubyCamelCase()
 XSET ParentClass.post=RubyCamelCase()
-XSET arg..|post=RepeatInsideEdges(', ')
+XSET arg?|post=RepeatInsideEdges(', ')
 class `ClassName^ < DelegateClass(`ParentClass^)
-  def initialize`(`arg..`)^
+  def initialize`(`arg?`)^
     super(`delegate object^)
 
     `cursor^
@@ -375,8 +375,8 @@ XSETm do...|post
 end
 XSETm END
 XSET ClassName|post=RubyCamelCase()
-XSET attr..|post=RepeatInsideEdges(', :')
-`ClassName^ = Struct.new`(:`attr..`)^` `do...^
+XSET attr?|post=RepeatInsideEdges(', :')
+`ClassName^ = Struct.new`(:`attr?`)^` `do...^
 
 
 XPT col hint=collect\ {\ ..\ }
@@ -389,8 +389,8 @@ Marshal.load(Marshal.dump(`obj^))
 
 XPT def hint=def\ ..\ end
 XSET method|post=RubySnakeCase()
-XSET arg..|post=RepeatInsideEdges(', ')
-def `method^`(`arg..`)^
+XSET arg?|post=RepeatInsideEdges(', ')
+def `method^`(`arg?`)^
     `cursor^
 end
 
@@ -404,8 +404,8 @@ def_delegators :`del obj^, :`del methods^
 
 
 XPT defi hint=def\ initialize\ ..\ end
-XSET arg..|post=RepeatInsideEdges(', ')
-def initialize`(`arg..`)^
+XSET arg?|post=RepeatInsideEdges(', ')
+def initialize`(`arg?`)^
     `cursor^
 end
 
@@ -418,16 +418,16 @@ end
 
 XPT defs hint=def\ self...\ end
 XSET method.post=RubySnakeCase()
-XSET arg..|post=RepeatInsideEdges(', ')
-def self.`method^`(`arg..`)^
+XSET arg?|post=RepeatInsideEdges(', ')
+def self.`method^`(`arg?`)^
     `cursor^
 end
 
 
 XPT deft hint=def\ test_..\ ..\ end
 XSET name|post=RubySnakeCase()
-XSET arg..|post=RepeatInsideEdges(', ')
-def test_`name^`(`arg..`)^
+XSET arg?|post=RepeatInsideEdges(', ')
+def test_`name^`(`arg?`)^
     `cursor^
 end
 
@@ -451,8 +451,8 @@ Dir.glob('`dir^') { |`f^| `cursor^ }
 
 
 XPT do hint=do\ |..|\ ..\ end
-XSET arg..|post=RepeatInsideEdges(', ')
-do` |`arg..`|^
+XSET arg?|post=RepeatInsideEdges(', ')
+do` |`arg?`|^
     `cursor^
 end
 
@@ -605,8 +605,8 @@ end
 
 XPT new hint=Instanciate\ new\ object
 XSET Object|post=RubyCamelCase()
-XSET arg..|post=RepeatInsideEdges(', ')
-`var^ = `Object^.new`(`arg..`)^
+XSET arg?|post=RepeatInsideEdges(', ')
+`var^ = `Object^.new`(`arg?`)^
 
 
 XPT open hint=open\(..)\ {\ |..|\ ..\ }
@@ -644,8 +644,8 @@ require '`lib^'
 
 
 XPT reqs hint=%w[..].map\ {\ |lib|\ require\ lib\ }
-XSET lib..|post=ExpandIfNotEmpty(' ', 'lib..')
-%w[`lib..^].map { |lib| require lib }
+XSET lib?|post=ExpandIfNotEmpty(' ', 'lib?')
+%w[`lib?^].map { |lib| require lib }
 
 
 XPT reve hint=reverse_each\ {\ ..\ }
@@ -699,9 +699,9 @@ end
 
 XPT tas hint=Rake\ Task
 XSET task name|post=RubySnakeCase()
-XSET dep..|post=RepeatInsideEdges(', :')
+XSET dep?|post=RepeatInsideEdges(', :')
 desc "`task description^"
-task :`task name^` => [:`dep..`]^ do
+task :`task name^` => [:`dep?`]^ do
     `cursor^
 end
 

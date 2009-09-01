@@ -9,7 +9,7 @@ XPTvar $IF_BRACKET_STL     \
 XPTvar $FOR_BRACKET_STL    \ 
 XPTvar $WHILE_BRACKET_STL  \ 
 XPTvar $STRUCT_BRACKET_STL \ 
-XPTvar $FUNC_BRACKET_STL   \ 
+XPTvar $FUNC_BRACKET_STL   \n
 
 XPTvar $INDENT_HELPER  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
@@ -102,6 +102,24 @@ endfunction
 "   endif
 " endfunction
 
+
+fun! s:f.c_fun_type_indent()
+  if self[ '$FUNC_BRACKET_STL' ] == "\n"
+    return "    "
+  else
+    return ""
+  endif
+endfunction
+
+fun! s:f.c_fun_body_indent()
+  if self[ '$FUNC_BRACKET_STL' ] == "\n"
+    return "    \n\n"
+  else
+    return " "
+  endif
+endfunction
+
+
 " ================================= Snippets ===================================
 XPTemplateDef
 
@@ -145,14 +163,11 @@ main(int argc, char **argv)
 
 " Quick-Repetition parameters list
 XPT fun 	hint=func..\ (\ ..\ )\ {...
-XSET p_disabled..|post=ExpandIfNotEmpty(', ', 'p..')
-  `int^
-`name^(`^)
-{
+`c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`^)`$FUNC_BRACKET_STL^{
     `cursor^
 }
 
-XPT cmt
+XPT fcomment
 /**
  * @author : `$author^ | `$email^
  * @description
@@ -182,4 +197,17 @@ XSET cursor|pre=CURSOR
  * @TODO : 
  * 
  *--------------------------\\\ `sum^ ///---------------------------*/
+
+..XPT
+
+
+
+
+" ================================= Wrapper ===================================
+
+
+XPT call_ hint=..(\ SEL\ )
+XSET p?|post=ExpandIfNotEmpty(', ', 'p?')
+`name^(`wrapped^`, `p?^)`cursor^
+
 
