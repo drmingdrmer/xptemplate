@@ -93,16 +93,6 @@ fun! s:f.c_printfElts( v )
   endif
 endfunction
 
-" fun! s:f.fff()
-"   let v = self.V()
-"   if v == 'aa' 
-"     return ''
-"   else
-"     return ', another'
-"   endif
-" endfunction
-
-
 fun! s:f.c_fun_type_indent()
   if self[ '$FUNC_BRACKET_STL' ] == "\n"
     return "    "
@@ -148,13 +138,12 @@ XSET elts=c_printfElts( R( 'pattern' ) )
 fprintf( `stream^, "`pattern^"`elts^ )
 
 
-
 XPT assert	hint=assert\ (..,\ msg)
 assert(`isTrue^, "`text^")
 
+
 XPT main hint=main\ (argc,\ argv)
-  int
-main(int argc, char **argv)
+`c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv)
 {
     `cursor^
     return 0;
@@ -166,6 +155,7 @@ XPT fun 	hint=func..\ (\ ..\ )\ {...
 `c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`^)`$FUNC_BRACKET_STL^{
     `cursor^
 }
+
 
 XPT fcomment
 /**

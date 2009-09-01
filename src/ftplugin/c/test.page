@@ -1033,38 +1033,37 @@ if (NULL != var_TYPED) {
 }
 
 
-    /*  -------------main--------------- */
-    /*   int                             */
-    /* main(int argc, char **argv)       */
-    /* {                                 */
-    /*     `cursor^                      */
-    /*     return 0;                     */
-    /* }                                 */
+    /*  -------------main---------------                                        */
+    /* `c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv) */
+    /* {                                                                        */
+    /*     `cursor^                                                             */
+    /*     return 0;                                                            */
+    /* }                                                                        */
 
 
 
-  int
+    int
 main(int argc, char **argv)
 {
     
     return 0;
 }
 
-  int
+    int
 main(int argc, char **argv)
 {
     
     return 0;
 } =
 
--   int
+-     int
 main(int argc, char **argv)
 {
     
     return 0;
 } =
 
--   int
+-     int
 main(int argc, char **argv)
 {
     
