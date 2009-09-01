@@ -8,10 +8,13 @@ echo export "$CurrentDir" to "$DistDir"
 # exit
 
 
-# vim -S genfile.vim
-
 
 v=`grep VERSION plugin/xptemplate.vim | awk '{print $3}'`
+
+
+# remove old files those may not exist in src
+cd $DistDir
+find -name "*.vim" | xargs rm -f
 
 
 cd $ParentDir

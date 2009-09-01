@@ -26,12 +26,11 @@ while (`condition^)`$WHILE_BRACKET_STL^{
 XPT do hint=do\ {\ ..\ }\ while\ (..)
 do`$WHILE_BRACKET_STL^{
     `cursor^
-}`$WHILE_BRACKET_STL^while (`condition^)
+}`$WHILE_BRACKET_STL^while (`condition^);
 
 
 XPT while0 alias=do hint=do\ {\ ..\ }\ while\ ($FALSE)
 XSET condition|def=Embed( $FALSE )
-
 
 
 XPT while1 alias=while hint=while\ ($TRUE)\ {\ ..\ }

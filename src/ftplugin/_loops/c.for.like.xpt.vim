@@ -39,6 +39,6 @@ for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$FOR_BRACKET_STL^{
 
 XPT forever hint=for\ (;;)\ ..
 XSET body=$INDENT_HELPER
-for (;;)`$FOR_BRACKET_STL^`body^
+for (;;) `body^
 
 

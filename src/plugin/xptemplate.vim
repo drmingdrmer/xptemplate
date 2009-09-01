@@ -1538,7 +1538,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
             " TODO save this 'value' variable?
             let value = s:Eval( placeHolder.value )
-            if value == '\n'
+            if value == "\n"
                 " simple format, without indent setting 
 
                 let indentSpace = repeat( ' ', indent( nameInfo[0][0] ) )

@@ -71,18 +71,18 @@ XSET symbol=headerSymbol()
 
 XPT #if_ hint=#if\ ..\ SEL\ #endif
 #if `0^
-`wrapped^`
+`wrapped^
 `cursor^
 #endif
 
 XPT #ifdef_ hint=#if\ ..\ SEL\ #endif
 #ifdef `identifier^
-`wrapped^`
+`wrapped^
 `cursor^
 #endif
 
 XPT #ifndef_ hint=#if\ ..\ SEL\ #endif
 #ifndef `identifier^
-`wrapped^`
+`wrapped^
 `cursor^
 #endif
