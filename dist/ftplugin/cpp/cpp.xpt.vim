@@ -74,8 +74,6 @@ public:
 private:
 };
  
-// Scratch implementation
-// feel free to copy/paste or destroy
 `className^::`className^( `ctorParam^ )
 {
 }
@@ -111,8 +109,6 @@ public:
 private:
 };
  
-// Scratch implementation
-// feel free to copy/paste or destroy
 template <`templateParam^>
 `className^<`_^cleanTempl(R('templateParam'))^^>::`className^( `ctorParam^ )
 {

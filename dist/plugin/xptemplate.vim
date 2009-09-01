@@ -790,7 +790,7 @@ fun! s:BuildPlaceHolders( markRange )
         let placeHolder = s:CreatePlaceHolder(renderContext, nameInfo, valueInfo)
         if has_key( placeHolder, 'value' )
             let value = s:Eval( placeHolder.value )
-            if value == '\n'
+            if value == "\n"
                 let indentSpace = repeat( ' ', indent( nameInfo[0][0] ) )
                 let value = substitute( value, '\n', '&' . indentSpace, 'g' )
             elseif value !~ '\n'
