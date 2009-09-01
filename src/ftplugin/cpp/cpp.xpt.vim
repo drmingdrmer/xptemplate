@@ -8,14 +8,33 @@ XPTemplate priority=sub
 XPTvar $TRUE          true
 XPTvar $FALSE         false
 XPTvar $NULL          NULL
-XPTvar $IF_BRACKET_STL  \n
-XPTvar $INDENT_HELPER /* void */;
+
+XPTvar $IF_BRACKET_STL     \n
+XPTvar $FOR_BRACKET_STL    \n
+XPTvar $WHILE_BRACKET_STL  \n
+XPTvar $STRUCT_BRACKET_STL \n
+XPTvar $FUNC_BRACKET_STL   \n
+
+XPTvar $INDENT_HELPER  /* void */;
+XPTvar $CURSOR_PH      /* cursor */
+
+XPTvar $CL  /*
+XPTvar $CM   *
+XPTvar $CR   */
+
+XPTvar $CS   //
+
 
 
 XPTinclude
       \ _common/common
-      \ _comment/cpp.like
+      \ _comment/singleDouble
+      \ _condition/c.like
+      \ _func/c.like
+      \ _loops/c.while.like
       \ _loops/java.for.like
+      \ _preprocessor/c.like
+      \ _structures/c.like
 
 " ========================= Function and Varaibles =============================
 let [s:f, s:v] = XPTcontainer()
@@ -70,12 +89,6 @@ private:
 }
 ..XPT
 
-XPT fun=..\ ..\ (..)
-`int^ `name^(`_^^)
-{
-    `cursor^
-}
-
 
 XPT namespace hint=namespace\ {}
 namespace `name^
@@ -84,12 +97,6 @@ namespace `name^
 }
 ..XPT
 
-XPT main hint=main\ (argc,\ argv)
-int main(int argc, char *argv[])
-{
-    `cursor^
-    return 0;
-}
 
 XPT templateclass   hint=template\ <>\ class
 template

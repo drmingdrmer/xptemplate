@@ -1,0 +1,74 @@
+XPTemplate priority=like
+
+let s:f = XPTcontainer()[0]
+ 
+XPTvar $TRUE           1
+XPTvar $FALSE          0
+XPTvar $NULL           NULL
+
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \n
+
+XPTvar $INDENT_HELPER  /* void */;
+XPTvar $CURSOR_PH      /* cursor */
+
+XPTvar $CL  /*
+XPTvar $CM   *
+XPTvar $CR   */
+
+XPTinclude 
+      \ _common/common
+
+
+" ========================= Function and Variables =============================
+
+fun! s:f.c_fun_type_indent()
+  if self[ '$FUNC_BRACKET_STL' ] == "\n"
+    return "    "
+  else
+    return ""
+  endif
+endfunction
+
+fun! s:f.c_fun_body_indent()
+  if self[ '$FUNC_BRACKET_STL' ] == "\n"
+    return "    \n\n"
+  else
+    return " "
+  endif
+endfunction
+
+" ================================= Snippets ===================================
+XPTemplateDef 
+
+
+
+XPT main hint=main\ (argc,\ argv)
+`c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv)
+{
+    `cursor^
+    return 0;
+}
+..XPT
+
+XPT fun 	hint=func..\ (\ ..\ )\ {...
+XSET param|def=$CL no parameters $CR
+XSET param|post=Echo( V() == $CL . " no parameters " . $CR ? '' : V() )
+`c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`param^)`$FUNC_BRACKET_STL^{
+    `cursor^
+}
+
+
+
+
+" ================================= Wrapper ===================================
+XPT fun 	hint=func..\ (\ SEL\ )\ {...
+XSET param|def=$CL no parameters $CR
+XSET param|post=Echo( V() == $CL . " no parameters " . $CR ? '' : V() )
+`c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`param^)`$FUNC_BRACKET_STL^{
+    `wrapped^
+    `cursor^
+}

@@ -21,12 +21,13 @@ XPTvar $CR   */
 
 XPTinclude
       \ _common/common
-      \ _comment/c.like
+      \ _comment/singleSign
       \ _condition/c.like
+      \ _func/c.like
       \ _loops/c.for.like
       \ _loops/c.while.like
-      \ _structures/c.like
       \ _preprocessor/c.like
+      \ _structures/c.like
 
 
 " ========================= Function and Varaibles =============================
@@ -93,21 +94,6 @@ fun! s:f.c_printfElts( v )
   endif
 endfunction
 
-fun! s:f.c_fun_type_indent()
-  if self[ '$FUNC_BRACKET_STL' ] == "\n"
-    return "    "
-  else
-    return ""
-  endif
-endfunction
-
-fun! s:f.c_fun_body_indent()
-  if self[ '$FUNC_BRACKET_STL' ] == "\n"
-    return "    \n\n"
-  else
-    return " "
-  endif
-endfunction
 
 
 " ================================= Snippets ===================================
@@ -140,21 +126,6 @@ fprintf( `stream^, "`pattern^"`elts^ )
 
 XPT assert	hint=assert\ (..,\ msg)
 assert(`isTrue^, "`text^")
-
-
-XPT main hint=main\ (argc,\ argv)
-`c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv)
-{
-    `cursor^
-    return 0;
-}
-..XPT
-
-" Quick-Repetition parameters list
-XPT fun 	hint=func..\ (\ ..\ )\ {...
-`c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`^)`$FUNC_BRACKET_STL^{
-    `cursor^
-}
 
 
 XPT fcomment
