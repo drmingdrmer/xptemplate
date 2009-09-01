@@ -5,12 +5,12 @@ let g:__MAPSTACK_VIM__ = 1
 runtime plugin/debug.vim
 let s:log = CreateLogger( 'debug' )
 fun! s:InitStacks() 
-  let b:__setting_stack__ = []
-  let b:__map_stack__ = []
+    let b:__setting_stack__ = []
+    let b:__map_stack__ = []
 endfunction 
 augroup SettingStack
   au!
-  au BufRead,BufNewFile,BufNew * call <SID>InitStacks()
+  au BufRead,BufNewFile,BufNew,BufAdd,BufCreate,FileType * call <SID>InitStacks()
 augroup END
 fun! s:GetCmdOutput(cmd) 
   let l:a = ""
@@ -59,12 +59,18 @@ fun! s:GetMapInfo(key, mode, isbuffer)
         \'cont'  : line[2:]}
 endfunction 
 fun! g:MapPush(key, mode, isbuffer) 
+  if !exists( 'b:__map_stack__' )
+    call s:InitStacks()
+  endif
   let info = s:GetMapInfo(a:key, a:mode, a:isbuffer)
   let st = b:__map_stack__
   call add(st, info)
   return info
 endfunction 
 fun! g:MapPop(expected) 
+  if !exists( 'b:__map_stack__' )
+    call s:InitStacks()
+  endif
   let st = b:__map_stack__
   let info = st[-1]
   unlet st[-1]
@@ -85,10 +91,16 @@ fun! g:MapPop(expected)
   endtry
 endfunction 
 fun! SettingPush(key, value) 
+  if !exists( 'b:__setting_stack__' )
+    call s:InitStacks()
+  endif
     let b:__setting_stack__ += [{'key' : a:key, 'val' : eval(a:key)}]
     exe 'let ' . a:key . '=' . string(a:value)
 endfunction 
 fun! SettingPop() 
+  if !exists( 'b:__setting_stack__' )
+    call s:InitStacks()
+  endif
     let d = b:__setting_stack__[-1]
     exe 'let '.d.key.'='.string(d.val)
     call remove(b:__setting_stack__, -1)

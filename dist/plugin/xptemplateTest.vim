@@ -83,6 +83,15 @@ fun! s:NewTestFile(ft)
         let b:cms += ['']
     endif
 endfunction 
+fun! XPTtestSort(a, b)
+    if a:a.name == a:b.name
+        return 0
+    elseif a:a.name < a:b.name
+        return -1
+    else
+        return 1
+    endif
+endfunction
 fun! s:XPTtest(ft) 
     let g:xpt_post_action = "\<C-r>=TestProcess()\<cr>"
     augroup XPTtestGroup
@@ -100,6 +109,7 @@ fun! s:XPTtest(ft)
     unlet tmpls.Path
     unlet tmpls.Date
     let tmplList = values(tmpls)
+    let tmplList = sort( tmplList, "XPTtestSort" )
     let b:tmplToTest = tmplList
     normal o
     call TestProcess()
@@ -194,7 +204,7 @@ fun! s:FillinTemplate()
     let ctx = x.renderContext
     if ctx.phase == 'fillin' 
         XPTSlow
-        if ctx.item.name =~ '\V..'
+        if ctx.item.name =~ '\V..\|?'
             let b:itemSteps += [ ctx.item.name ]
             if len( b:itemSteps ) > 5 
                 call remove(b:itemSteps, 0)

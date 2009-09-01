@@ -88,4 +88,21 @@ XSETm default...|post
     default:
         `cursor^
 XSETm END
+..XPT
 
+
+
+
+" ================================= Wrapper ===================================
+
+
+XPT if_ hint=if\ (..)\ {\ SEL\ }
+if (`condition^)`$IF_BRACKET_STL^{
+    `wrapped^
+}
+
+
+XPT else_ hint=else\ {\ SEL\ }
+else`$IF_BRACKET_STL^{
+    `wrapped^
+}

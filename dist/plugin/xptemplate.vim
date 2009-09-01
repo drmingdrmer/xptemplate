@@ -144,27 +144,8 @@ fun! XPTemplateAlias( name, toWhich, setting )
         let xt[ a:name ] = deepcopy( xt[ a:toWhich ] )
         let xt[ a:name ].name = a:name
         call s:ParseTemplateSetting( xptObj, a:setting )
-        call s:deepExtend( xt[ a:name ].setting, a:setting )
+        call g:xptutil.DeepExtend( xt[ a:name ].setting, a:setting )
     endif
-endfunction 
-fun! s:deepExtend( to, from ) 
-    for key in keys( a:from )
-        if type( a:from[ key ] ) == 4
-            if has_key( a:to, key )
-                call s:deepExtend( a:to[ key ], a:from[ key ] )
-            else
-                let a:to[ key ] = a:from[key]
-            endif
-        elseif type( a:from[key] ) == 3
-            if has_key( a:to, key )
-                call extend( a:to[ key ], a:from[key] )
-            else
-                let a:to[ key ] = a:from[key]
-            endif
-        else
-            let a:to[ key ] = a:from[key]
-        endif
-    endfor
 endfunction 
 fun! XPTemplate(name, str_or_ctx, ...) 
     let x         = g:XPTobject()
@@ -276,7 +257,7 @@ fun! XPTreload()
   e
 endfunction 
 fun! XPTgetAllTemplates() 
-    return g:XPTobject().normalTemplates
+    return copy( g:XPTobject().normalTemplates )
 endfunction 
 fun! XPTemplatePreWrap(wrap) 
     let x = g:XPTobject()
@@ -334,7 +315,6 @@ fun! s:GetHint(ctx)
     if has_key(a:ctx, 'hint')
         let a:ctx.hint = s:Eval(a:ctx.hint)
     else
-        let a:ctx.hint = ""
     endif
 endfunction 
 fun! s:ParsePriorityString(s) 
@@ -439,10 +419,11 @@ fun! s:Popup(pref, coln)
         if has_key( templateObject.setting, 'hidden' ) && templateObject.setting.hidden == '1'
             continue
         endif
+        let hint = has_key( templateObject.setting, 'hint' ) ? templateObject.setting.hint : ''
         if key =~# "^[A-Z]"
-            call add(cmpl2, {'word' : key, 'menu' : templateObject.setting.hint})
+            call add(cmpl2, {'word' : key, 'menu' : hint })
         else
-            call add(cmpl, {'word' : key, 'menu' : templateObject.setting.hint})
+            call add(cmpl, {'word' : key, 'menu' : hint})
         endif
     endfor
     call sort(cmpl)
@@ -574,7 +555,12 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition)
         let tmpl = s:ApplyTmplIndent(ctx, tmpl)
     endif
     let tmpl = s:ParseRepetition(tmpl, x)
-    let tmpl = substitute(tmpl, '\V' . xp.lft . s:wrappedName . xp.rt, x.wrap, 'g')
+    let wrapPos = match( tmpl, xp.lft . s:wrappedName . xp.rt )
+    if wrapPos != -1
+        let indent = matchstr( tmpl[ : wrapPos - 1 ], '\V\.\*\%(\^\|\n\)\zs\s\*' )
+        let wrapped = substitute( x.wrap, '\n', "\n" . indent, 'g' )
+        let tmpl = substitute(tmpl, '\V' . xp.lft . s:wrappedName . xp.rt, wrapped, 'g')
+    endif
     call XPMupdate()
     call XPMadd( ctx.marks.tmpl.start, a:nameStartPosition, g:XPMpreferLeft )
     call XPMadd( ctx.marks.tmpl.end, a:nameEndPosition, g:XPMpreferRight )
@@ -804,9 +790,13 @@ fun! s:BuildPlaceHolders( markRange )
         let placeHolder = s:CreatePlaceHolder(renderContext, nameInfo, valueInfo)
         if has_key( placeHolder, 'value' )
             let value = s:Eval( placeHolder.value )
-            if value =~ '\n'
+            if value == '\n'
                 let indentSpace = repeat( ' ', indent( nameInfo[0][0] ) )
                 let value = substitute( value, '\n', '&' . indentSpace, 'g' )
+            elseif value !~ '\n'
+            else
+                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( value )
+                let value = s:AdjustIndentAccordingToLine( filterText, filterIndent, nameInfo[0][0] )
             endif
             let valueInfo[-1][1] += 1
             call XPreplace( nameInfo[0], valueInfo[-1], value )

@@ -9,7 +9,7 @@ XPTvar $IF_BRACKET_STL     \
 XPTvar $FOR_BRACKET_STL    \ 
 XPTvar $WHILE_BRACKET_STL  \ 
 XPTvar $STRUCT_BRACKET_STL \ 
-XPTvar $FUNC_BRACKET_STL   \ 
+XPTvar $FUNC_BRACKET_STL   \n
 
 XPTvar $INDENT_HELPER  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
@@ -21,12 +21,13 @@ XPTvar $CR   */
 
 XPTinclude
       \ _common/common
-      \ _comment/c.like
+      \ _comment/singleSign
       \ _condition/c.like
+      \ _func/c.like
       \ _loops/c.for.like
       \ _loops/c.while.like
-      \ _structures/c.like
       \ _preprocessor/c.like
+      \ _structures/c.like
 
 
 " ========================= Function and Varaibles =============================
@@ -93,14 +94,7 @@ fun! s:f.c_printfElts( v )
   endif
 endfunction
 
-" fun! s:f.fff()
-"   let v = self.V()
-"   if v == 'aa' 
-"     return ''
-"   else
-"     return ', another'
-"   endif
-" endfunction
+
 
 " ================================= Snippets ===================================
 XPTemplateDef
@@ -130,29 +124,11 @@ XSET elts=c_printfElts( R( 'pattern' ) )
 fprintf( `stream^, "`pattern^"`elts^ )
 
 
-
 XPT assert	hint=assert\ (..,\ msg)
 assert(`isTrue^, "`text^")
 
-XPT main hint=main\ (argc,\ argv)
-  int
-main(int argc, char **argv)
-{
-    `cursor^
-    return 0;
-}
-..XPT
 
-" Quick-Repetition parameters list
-XPT fun 	hint=func..\ (\ ..\ )\ {...
-XSET p_disabled..|post=ExpandIfNotEmpty(', ', 'p..')
-  `int^
-`name^(`^)
-{
-    `cursor^
-}
-
-XPT cmt
+XPT fcomment
 /**
  * @author : `$author^ | `$email^
  * @description
@@ -182,4 +158,17 @@ XSET cursor|pre=CURSOR
  * @TODO : 
  * 
  *--------------------------\\\ `sum^ ///---------------------------*/
+
+..XPT
+
+
+
+
+" ================================= Wrapper ===================================
+
+
+XPT call_ hint=..(\ SEL\ )
+XSET p?|post=ExpandIfNotEmpty(', ', 'p?')
+`name^(`wrapped^`, `p?^)`cursor^
+
 

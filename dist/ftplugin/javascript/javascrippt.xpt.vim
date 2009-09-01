@@ -96,8 +96,8 @@ XSET email=$email
 
 
 XPT fun hint=function\ ..(\ ..\ )\ {..}
-XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
-function` `name^ (`arg..^) {
+XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
+function` `name^ (`arg?^) {
     `cursor^
 }
 
@@ -117,13 +117,13 @@ for ( var `i^ in `array^ )`$FOR_BRACKET_STL^{
 
 
 XPT new hint=var\ ..\ =\ new\ ..\(..)
-XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
-var `instant^ = new `Constructor^(`arg..^)
+XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
+var `instant^ = new `Constructor^(`arg?^)
 
 
 XPT proto hint=...prototype...\ =\ function\(..)\ {\ ..\ }
-XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
-`Class^.prototype.`method^ = function(`arg..^)`$FUNC_BRACKET_STL^{
+XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
+`Class^.prototype.`method^ = function(`arg?^)`$FUNC_BRACKET_STL^{
 `cursor^
 }
 

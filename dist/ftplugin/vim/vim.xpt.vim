@@ -33,8 +33,8 @@ endif
 
 
 XPT fun hint=fun!\ ..(..)\ ..\ endfunction
-XSET arg..|post=ExpandIfNotEmpty(', ', 'arg..')
-fun! `name^(`arg..^) "{{{
+XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
+fun! `name^(`arg?^) "{{{
   `cursor^
 endfunction "}}}
 
