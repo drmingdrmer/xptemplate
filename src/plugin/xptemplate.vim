@@ -3077,6 +3077,8 @@ fun! s:Crash(...) "{{{
 
     let msg = "XPTemplate snippet crashed :" . join( a:000, "\n" ) 
 
+    call XPRend()
+
     let x = g:XPTobject()
 
     " let stack = 'snippet stack:'
@@ -3137,6 +3139,11 @@ endfunction "}}}
 fun! s:XPTupdate(...) "{{{
 
     let renderContext = s:getRenderContext()
+
+    if renderContext.phase == 'uninit'
+        call XPMflush()
+        return 0
+    endif
 
 
     if !renderContext.processing

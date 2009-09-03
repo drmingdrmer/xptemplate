@@ -2,15 +2,16 @@ XPTemplate priority=lang
 
 let [s:f, s:v] = XPTcontainer() 
  
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $UNDEFINED     NULL
-XPTvar $INDENT_HELPER /* void */;
-XPTvar $IF_BRACKET_STL \n
+XPTvar $INDENT_HELPER  /* void */;
+XPTvar $CURSOR_PH      /* cursor */
+
+XPTvar $CL  /*
+XPTvar $CM   *
+XPTvar $CR   */
 
 XPTinclude 
       \ _common/common
+      \ _comment/doubleSign
 
 
 " ========================= Function and Variables =============================

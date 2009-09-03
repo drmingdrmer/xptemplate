@@ -126,7 +126,9 @@ fun! s:popup(start_col, ...) dict "{{{
         let sess.matchedCallback = 'onOneMatch'
         let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
 
-    elseif sess.prefix != "" && sess.longest ==? sess.prefix && doCallback
+    elseif sess.prefix != "" 
+                \&& sess.longest ==? sess.prefix 
+                \&& doCallback
         " If the typed text matches all items with case ignored, Try to find
         " the first matched item.
 
@@ -243,7 +245,9 @@ fun! XPPprocess(list) "{{{
         call complete( sess.col, sess.currentList )
 
     elseif actionName == 'fixPopup'
-        let current = getline(".")[ sess.col - 1 : col(".") - 2 ]
+        let beforeCursor = col( "." ) - 2
+        let beforeCursor = beforeCursor == -1 ? 0 : beforeCursor
+        let current = getline(".")[ sess.col - 1 : beforeCursor ]
 
         " find out where we are in the popup list
         let i = 0
@@ -276,6 +280,10 @@ fun! XPPprocess(list) "{{{
         else 
             let postAction = ""
         endif
+
+    elseif actionName == 'end'
+        call s:End()
+        let postAction = ''
 
     else
         " nothing to do 
@@ -441,9 +449,36 @@ fun! XPPenlarge() "{{{
     " if pumvisible
 
     return "\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
-    " return "\<space>\<bs>\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
-    " return "\<space>\<bs>\<C-y>\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
 endfunction "}}}
+
+fun! XPPcancel()
+    if !s:PopupCheck()
+        " use feedkeys, instead of <C-r>= for <C-r>= does not remap keys.
+        call feedkeys("\<C-e>", 'mt')
+        return ""
+    endif
+
+    return "\<C-r>=XPPprocess(" . string( [ 'clearPum', 'clearPrefix', 'typeLongest', 'end' ] ) . ")\<cr>"
+
+endfunction
+
+fun! XPPaccept()
+    if !s:PopupCheck()
+        " use feedkeys, instead of <C-r>= for <C-r>= does not remap keys.
+        call feedkeys("\<C-y>", 'mt')
+        return ""
+    endif
+
+    let sess = b:__xpp_current_session
+    let beforeCursor = col( "." ) - 2
+    let beforeCursor = beforeCursor == -1 ? 0 : beforeCursor
+
+    " Note: bad! using longest as the content holder. 
+    let sess.longest = getline( sess.line )[ sess.col - 1 : beforeCursor ]
+
+    return "\<C-r>=XPPprocess(" . string( [ 'clearPum', 'clearPrefix', 'typeLongest', 'end' ] ) . ")\<cr>"
+
+endfunction
 
 fun! XPPrepopup(doCallback, ifEnlarge) "{{{
     " If re-popup is called by XPPshorten, matched item should not trigger callback,
@@ -483,9 +518,13 @@ fun! s:ApplyMapAndSetting() "{{{
 
     let b:__xpp_mapped.i_bs     =  g:MapPush('<bs>', 'i', 1)
     let b:__xpp_mapped.i_tab    =  g:MapPush('<tab>', 'i', 1)
+    let b:__xpp_mapped.i_c_e    =  g:MapPush('<C-e>', 'i', 1)
+    let b:__xpp_mapped.i_c_y    =  g:MapPush('<C-y>', 'i', 1)
 
     exe 'inoremap <silent> <buffer> <bs>' '<C-r>=XPPshorten()<cr>'
     exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
+    exe 'inoremap <silent> <buffer> <C-e>' '<C-r>=XPPcancel()<cr>'
+    exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
 
     " disable indent keys or cinkeys, or for c language, <C-\>, then selecting
     " snippet start with '#' causes a choas.
@@ -499,6 +538,8 @@ fun! s:ClearMapAndSetting() "{{{
         return
     endif
 
+    call g:MapPop(b:__xpp_mapped.i_c_y)
+    call g:MapPop(b:__xpp_mapped.i_c_e)
     call g:MapPop(b:__xpp_mapped.i_tab)
     call g:MapPop(b:__xpp_mapped.i_bs)
 
@@ -508,6 +549,11 @@ fun! s:ClearMapAndSetting() "{{{
 
     unlet b:__xpp_mapped
 endfunction "}}}
+
+
+fun! XPRend()
+    call s:End()
+endfunction
 
 fun! s:End() "{{{
     call s:ClearMapAndSetting()
