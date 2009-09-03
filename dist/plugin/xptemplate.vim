@@ -1145,8 +1145,10 @@ fun! s:HandleDefaultValueAction( ctx, act )
         elseif a:act.action ==# 'embed'
             return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:act.snippet )
         elseif a:act.action ==# 'next'
-            let text = has_key( a:act, 'text' ) ? a:act.text : ''
-            call s:FillinLeadingPlaceHolderAndSelect( ctx, text )
+            if has_key( a:act, 'text' )
+                let text = has_key( a:act, 'text' ) ? a:act.text : ''
+                call s:FillinLeadingPlaceHolderAndSelect( ctx, text )
+            endif
             return s:finishCurrentAndGotoNextItem( '' )
         else " other action
         endif
@@ -1205,6 +1207,7 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter )
         let [ start, end ] = XPMposList( marks.start, marks.end )
         call XPreplace( start, end, '')
         call cursor(start)
+        let renderContext.phase = 'fillin'
         return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."), 1, 0)
     else 
         let filterIndent = matchstr( obj, '\s*\ze\n' )
@@ -1653,6 +1656,7 @@ fun! s:GetFilterIndentAndText( filter )
 endfunction 
 fun! s:Crash(...) 
     let msg = "XPTemplate snippet crashed :" . join( a:000, "\n" ) 
+    call XPRend()
     let x = g:XPTobject()
     call s:ClearMap()
     let x.stack = []
@@ -1684,6 +1688,10 @@ fun! s:fixCrCausedIndentProblem()
 endfunction 
 fun! s:XPTupdate(...) 
     let renderContext = s:getRenderContext()
+    if renderContext.phase == 'uninit'
+        call XPMflush()
+        return 0
+    endif
     if !renderContext.processing
         call XPMupdate()
         return 0

@@ -6,7 +6,7 @@ if exists("g:__XPTEMPLATETEST_VIM__")
 endif
 let g:__XPTEMPLATETEST_VIM__ = 1
 runtime plugin/debug.vim
-let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
 let s:phases = [ 1, 2, 3, 4 ]
 let [ s:DEFAULT, s:TYPED, s:CHAR_AROUND, s:NESTED ] = s:phases
 let s:FIRST_PHASE = s:phases[ 0 ]
@@ -210,7 +210,9 @@ fun! s:FillinTemplate()
                 call remove(b:itemSteps, 0)
             endif
         endif
-        if len(b:itemSteps) >= 3 && b:itemSteps[-3] == ctx.item.name
+        if pumvisible()
+            call s:XPTtype( "\<C-n>" )
+        elseif len(b:itemSteps) >= 3 && b:itemSteps[-3] == ctx.item.name
             call s:XPTcancel()
         elseif b:testPhase == s:DEFAULT
             call s:XPTtype('')

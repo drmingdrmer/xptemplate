@@ -22,6 +22,7 @@ let s:sessionPrototype = {
             \ 'matched'     : '',
             \ 'matchedCallback' : '', 
             \ 'currentList' : [],
+            \ 'finalAction' : '', 
             \ }
 fun! XPPopupNew(callback, data, ...) 
     let list = ( a:0 == 0 ) ? [] : a:1
@@ -59,7 +60,9 @@ fun! s:popup(start_col, ...) dict
         let sess.matched = type(sess.currentList[0]) == type({}) ? sess.currentList[0].word : sess.currentList[0]
         let sess.matchedCallback = 'onOneMatch'
         let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
-    elseif sess.prefix != "" && sess.longest ==? sess.prefix && doCallback
+    elseif sess.prefix != "" 
+                \&& sess.longest ==? sess.prefix 
+                \&& doCallback
         let sess.matched = ''
         for item in sess.currentList
             let key = type(item) == type({}) ? item.word : item
@@ -102,14 +105,14 @@ fun! s:sessionPrototype.updatePrefixIndex(list)
     endfor
 endfunction 
 fun! XPPprocess(list) 
-    if len(a:list) == 0
-        return ""
-    endif
     if !exists("b:__xpp_current_session")
         call s:log.Error("session does not exist!")
         return ""
     endif
     let sess = b:__xpp_current_session
+    if len(a:list) == 0
+        return g:xpt_post_action
+    endif
     let actionName = a:list[ 0 ]
     let nextList = a:list[ 1 : ]
     let postAction = ""
@@ -122,11 +125,15 @@ fun! XPPprocess(list)
         endif
     elseif actionName == 'typeLongest'
         let postAction = sess.longest
+    elseif actionName == 'type'
+        let postAction = remove( nextList, 0 )
     elseif actionName == 'popup'
         call s:ApplyMapAndSetting()
         call complete( sess.col, sess.currentList )
     elseif actionName == 'fixPopup'
-        let current = getline(".")[ sess.col - 1 : col(".") - 2 ]
+        let beforeCursor = col( "." ) - 2
+        let beforeCursor = beforeCursor == -1 ? 0 : beforeCursor
+        let current = getline(".")[ sess.col - 1 : beforeCursor ]
         let i = 0
         let j = -1
         for v in sess.currentList
@@ -142,15 +149,20 @@ fun! XPPprocess(list)
         endif
     elseif actionName == 'callback'
         call s:End()
+        let postAction = ""
         if has_key(sess.callback, sess.matchedCallback)
             let postAction = sess.callback[ sess.matchedCallback ](sess)
-        else 
-            let postAction = ""
+            return postAction
         endif
+    elseif actionName == 'end'
+        call s:End()
+        let postAction = ''
     else
     endif
     if !empty(nextList)
         let  postAction .= "\<C-r>=XPPprocess(" . string( nextList ) . ")\<cr>"
+    else
+        let postAction .= g:xpt_post_action
     endif
     return postAction
 endfunction 
@@ -211,6 +223,24 @@ fun! XPPenlarge()
     endif
     return "\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
 endfunction 
+fun! XPPcancel()
+    if !s:PopupCheck()
+        call feedkeys("\<C-e>", 'mt')
+        return ""
+    endif
+    return "\<C-r>=XPPprocess(" . string( [ 'clearPum', 'clearPrefix', 'typeLongest', 'end' ] ) . ")\<cr>"
+endfunction
+fun! XPPaccept()
+    if !s:PopupCheck()
+        call feedkeys("\<C-y>", 'mt')
+        return ""
+    endif
+    let sess = b:__xpp_current_session
+    let beforeCursor = col( "." ) - 2
+    let beforeCursor = beforeCursor == -1 ? 0 : beforeCursor
+    let toType = getline( sess.line )[ sess.col - 1 : beforeCursor ]
+    return "\<C-r>=XPPprocess(" . string( [ 'clearPum', 'clearPrefix', 'type', toType, 'end' ] ) . ")\<cr>"
+endfunction
 fun! XPPrepopup(doCallback, ifEnlarge) 
     if !exists("b:__xpp_current_session")
         return ""
@@ -235,8 +265,12 @@ fun! s:ApplyMapAndSetting()
     let b:__xpp_mapped = {}
     let b:__xpp_mapped.i_bs     =  g:MapPush('<bs>', 'i', 1)
     let b:__xpp_mapped.i_tab    =  g:MapPush('<tab>', 'i', 1)
+    let b:__xpp_mapped.i_c_e    =  g:MapPush('<C-e>', 'i', 1)
+    let b:__xpp_mapped.i_c_y    =  g:MapPush('<C-y>', 'i', 1)
     exe 'inoremap <silent> <buffer> <bs>' '<C-r>=XPPshorten()<cr>'
     exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
+    exe 'inoremap <silent> <buffer> <C-e>' '<C-r>=XPPcancel()<cr>'
+    exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
     call SettingPush( '&l:cinkeys', '' )
     call SettingPush( '&l:indentkeys', '' )
 endfunction 
@@ -244,12 +278,17 @@ fun! s:ClearMapAndSetting()
     if !exists("b:__xpp_mapped")
         return
     endif
+    call g:MapPop(b:__xpp_mapped.i_c_y)
+    call g:MapPop(b:__xpp_mapped.i_c_e)
     call g:MapPop(b:__xpp_mapped.i_tab)
     call g:MapPop(b:__xpp_mapped.i_bs)
     call SettingPop() " cinkeys 
     call SettingPop() " indentkeys 
     unlet b:__xpp_mapped
 endfunction 
+fun! XPRend()
+    call s:End()
+endfunction
 fun! s:End() 
     call s:ClearMapAndSetting()
     if exists("b:__xpp_current_session")

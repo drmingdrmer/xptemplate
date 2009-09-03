@@ -2,19 +2,30 @@ XPTemplate priority=lang
 
 let [s:f, s:v] = XPTcontainer() 
  
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $UNDEFINED     NULL
-XPTvar $INDENT_HELPER /* void */;
-XPTvar $IF_BRACKET_STL \n
+XPTvar $INDENT_HELPER  /* void */;
+XPTvar $CURSOR_PH      /* cursor */
+
+XPTvar $CL  /*
+XPTvar $CM   *
+XPTvar $CR   */
 
 XPTinclude 
       \ _common/common
+      \ _comment/doubleSign
 
 
 " ========================= Function and Variables =============================
 
+fun! s:f.css_color_rgb_post()
+  let v = self.V()
+  let v = substitute( v, '^\s*$', '', 'g' )
+
+  if v =~ 'rgb()'
+    return self.Build( ' rgb(' . self.ItemCreate( 'clr', {}, {} ) . ')' )
+  else
+    return v
+  endif
+endfunction
 
 " ================================= Snippets ===================================
 XPTemplateDef 
@@ -45,8 +56,9 @@ XSET thick=Choose(['thin', 'thick', 'medium'])
 XSET thick|post=SV('^\s*$', '', 'g')
 XSET kind=Choose(['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset'])
 XSET kind|post=SV('^\s*$', '', 'g')
-XSET color=Choose(['rgb(', '#', 'transparent'])
-XSET color|post=SV('^\s*$', '', 'g')
+XSET color=Choose(['rgb()', '#', 'transparent'])
+XSET color2|post=SV('^\s*$', '', 'g')
+XSET color|post=css_color_rgb_post()
 border`pos^:` `thick^` `kind^` `color^;
 
 
@@ -86,8 +98,8 @@ border-color: `selec^;
 
 
 XPT borderspacing hint=border-spacing
-XSET selec_disabled=Choose([''])
-border-spacing: `selec^;
+XSET select_disabled=Choose([''])
+border-spacing: `select^;
 
 
 XPT borderstyle hint=border-style

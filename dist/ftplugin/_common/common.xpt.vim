@@ -188,8 +188,12 @@ fun! s:f.Embed( snippet )
   return { 'action' : 'embed', 'snippet' : a:snippet }
 endfunction
 
-fun! s:f.Next( text )
-  return { 'action' : 'next', 'text' : a:text }
+fun! s:f.Next( ... )
+  if a:0 == 0
+    return { 'action' : 'next' }
+  else
+    return { 'action' : 'next', 'text' : a:text }
+  endif
 endfunction
 
 " XXX
