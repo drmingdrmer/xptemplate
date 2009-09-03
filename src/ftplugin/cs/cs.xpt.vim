@@ -5,17 +5,27 @@ let [s:f, s:v] = XPTcontainer()
 XPTvar $TRUE          true
 XPTvar $FALSE         false
 XPTvar $NULL          null
-XPTvar $UNDEFINED     null
-XPTvar $INDENT_HELPER /* void */;
-XPTvar $IF_BRACKET_STL \n
 
-XPTinclude 
+XPTvar $IF_BRACKET_STL     \n
+XPTvar $FOR_BRACKET_STL    \n
+XPTvar $WHILE_BRACKET_STL  \n
+XPTvar $STRUCT_BRACKET_STL \n
+XPTvar $FUNC_BRACKET_STL   \n
+
+XPTvar $INDENT_HELPER  /* void */;
+XPTvar $CURSOR_PH      /* cursor */
+
+XPTvar $CL  /*
+XPTvar $CM   *
+XPTvar $CR   */
+
+XPTinclude
       \ _common/common
-      \ _comment/c.like
+      \ _comment/singleSign
       \ _condition/c.like
       \ _loops/c.while.like
       \ _loops/java.for.like
-      \ c/wrap
+      \ _structures/c.like
 
 
 " ========================= Function and Variables =============================
@@ -26,23 +36,13 @@ XPTemplateDef
 
 
 XPT foreach hint=foreach\ (..\ in\ ..)\ {..}
-foreach ( `var^ `e^ in `what^ )
-{
+foreach ( `var^ `e^ in `what^ )`$FOR_BRACKET_STL^{
     `cursor^
 }
 
 
-XPT enum hint=enum\ {\ ..\ }
-enum `enumName^
-{
-    `elem^`...^,
-    `subElem^`...^
-};
-`cursor^
-
-
 XPT struct hint=struct\ {\ ..\ }
-`access^public^ struct `structName^
+`public^ struct `structName^
 {
     `fieldAccess^public^ `type^ `name^;`...^
     `fieldAccess^public^ `type^ `name^;`...^
