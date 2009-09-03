@@ -2228,8 +2228,11 @@ fun! s:HandleDefaultValueAction( ctx, act ) "{{{
         elseif a:act.action ==# 'next'
             " goto next 
 
-            let text = has_key( a:act, 'text' ) ? a:act.text : ''
-            call s:FillinLeadingPlaceHolderAndSelect( ctx, text )
+            " Note: update following?
+            if has_key( a:act, 'text' )
+                let text = has_key( a:act, 'text' ) ? a:act.text : ''
+                call s:FillinLeadingPlaceHolderAndSelect( ctx, text )
+            endif
 
             return s:finishCurrentAndGotoNextItem( '' )
 
@@ -2338,6 +2341,8 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
         let [ start, end ] = XPMposList( marks.start, marks.end )
         call XPreplace( start, end, '')
         call cursor(start)
+
+        let renderContext.phase = 'fillin'
 
         " to pop up, but do not enlarge matching, thus empty string is selected at first
         return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."), 1, 0)

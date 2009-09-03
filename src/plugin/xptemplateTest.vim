@@ -8,8 +8,8 @@ endif
 let g:__XPTEMPLATETEST_VIM__ = 1
 
 runtime plugin/debug.vim
-" let s:log = CreateLogger( 'debug' )
-let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
+" let s:log = CreateLogger( 'warn' )
 
 
 " TODO indent test 
@@ -351,8 +351,10 @@ fun! s:FillinTemplate() "{{{
             endif
         endif
 
+        if pumvisible()
+            call s:XPTtype( "\<C-n>" )
 
-        if len(b:itemSteps) >= 3 && b:itemSteps[-3] == ctx.item.name
+        elseif len(b:itemSteps) >= 3 && b:itemSteps[-3] == ctx.item.name
             " too many repetition 
             call s:XPTcancel()
 

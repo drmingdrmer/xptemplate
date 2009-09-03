@@ -43,6 +43,7 @@ let s:sessionPrototype = {
             \ 'matched'     : '',
             \ 'matchedCallback' : '', 
             \ 'currentList' : [],
+            \ 'finalAction' : '', 
             \ }
             " \ 'postAction'  : '',
 " }}}
@@ -207,18 +208,25 @@ fun! XPPprocess(list) "{{{
     " Deal with action chains 
 
     " no more actions pending
-    if len(a:list) == 0
-        return ""
-    endif
 
     if !exists("b:__xpp_current_session")
         call s:log.Error("session does not exist!")
         return ""
     endif
 
-
-
     let sess = b:__xpp_current_session
+
+    if len(a:list) == 0
+        " let fa = sess.finalAction
+        " call s:log.Debug( 'finalAction=' . string( fa ) )
+        " let sess.finalAction = ''
+        " return fa
+        return g:xpt_post_action
+    endif
+
+
+
+
     let actionName = a:list[ 0 ]
     let nextList = a:list[ 1 : ]
     let postAction = ""
@@ -239,6 +247,9 @@ fun! XPPprocess(list) "{{{
 
     elseif actionName == 'typeLongest'
         let postAction = sess.longest
+
+    elseif actionName == 'type'
+        let postAction = remove( nextList, 0 )
 
     elseif actionName == 'popup'
         call s:ApplyMapAndSetting()
@@ -275,10 +286,12 @@ fun! XPPprocess(list) "{{{
         call s:log.Debug("callback is:".sess.matchedCallback)
         call s:End()
 
+        " Note: after s:End(), b:__xpp_current_session is not valid any more
+
+        let postAction = ""
         if has_key(sess.callback, sess.matchedCallback)
             let postAction = sess.callback[ sess.matchedCallback ](sess)
-        else 
-            let postAction = ""
+            return postAction
         endif
 
     elseif actionName == 'end'
@@ -292,9 +305,16 @@ fun! XPPprocess(list) "{{{
 
     if !empty(nextList)
         let  postAction .= "\<C-r>=XPPprocess(" . string( nextList ) . ")\<cr>"
+
+    else
+        " test concern
+        let postAction .= g:xpt_post_action
+
     endif
 
     call s:log.Log("postAction=" . postAction)
+
+
 
     return postAction
     
@@ -473,10 +493,9 @@ fun! XPPaccept()
     let beforeCursor = col( "." ) - 2
     let beforeCursor = beforeCursor == -1 ? 0 : beforeCursor
 
-    " Note: bad! using longest as the content holder. 
-    let sess.longest = getline( sess.line )[ sess.col - 1 : beforeCursor ]
+    let toType = getline( sess.line )[ sess.col - 1 : beforeCursor ]
 
-    return "\<C-r>=XPPprocess(" . string( [ 'clearPum', 'clearPrefix', 'typeLongest', 'end' ] ) . ")\<cr>"
+    return "\<C-r>=XPPprocess(" . string( [ 'clearPum', 'clearPrefix', 'type', toType, 'end' ] ) . ")\<cr>"
 
 endfunction
 
