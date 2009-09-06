@@ -26,7 +26,8 @@ com! XPPgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPPgetSID
 delc XPPgetSID
 
-let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'warn' )
+" let s:log = CreateLogger( 'debug' )
 
 
 " Script scope variables {{{
@@ -221,7 +222,8 @@ fun! XPPprocess(list) "{{{
         " call s:log.Debug( 'finalAction=' . string( fa ) )
         " let sess.finalAction = ''
         " return fa
-        return g:xpt_post_action
+        " return g:xpt_post_action
+        return ''
     endif
 
 
@@ -308,7 +310,7 @@ fun! XPPprocess(list) "{{{
 
     else
         " test concern
-        let postAction .= g:xpt_post_action
+        " let postAction .= g:xpt_post_action
 
     endif
 

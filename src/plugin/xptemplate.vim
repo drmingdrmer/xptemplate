@@ -81,7 +81,8 @@ runtime plugin/xpopup.vim
 runtime plugin/xptemplate.conf.vim
 
 
-let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'warn' )
+" let s:log = CreateLogger( 'debug' )
 
 call XPRaddPreJob( 'XPMupdateCursorStat' )
 call XPRaddPostJob( 'XPMupdateSpecificChangedRange' )
@@ -221,7 +222,7 @@ fun! s:ItemPumCB.onOneMatch(sess) "{{{
     " TODO  next item is better?
     call s:XPTupdate()
 
-    return s:finishCurrentAndGotoNextItem( '' )
+    return s:FinishCurrentAndGotoNextItem( '' )
     " return ""
 endfunction "}}}
 
@@ -677,7 +678,8 @@ fun! s:DoStart(sess) " {{{
     let x = g:XPTobject()
 
     if !has_key( x.normalTemplates, a:sess.matched )
-        return g:xpt_post_action
+        return ''
+        " return g:xpt_post_action
     endif
 
     let [lineNr, column] = [ a:sess.line, a:sess.col ]
@@ -703,13 +705,16 @@ fun! s:DoStart(sess) " {{{
 
     let action =  s:GotoNextItem()
 
-    call s:log.Debug("post action =".action.g:xpt_post_action)
+    " NOTE: g:xpt_post_action is for debug only
+    let action .= ''
+    " let action .= g:xpt_post_action
+
+    call s:log.Debug("post action =".action)
     call s:log.Debug("mode:".mode())
 
     call s:log.Debug( "tmpl:", s:TextBetween( XPMpos( ctx.marks.tmpl.start ), XPMpos( ctx.marks.tmpl.end ) ) )
 
-    " NOTE: g:xpt_post_action is for debug only
-    return action . g:xpt_post_action
+    return action
 
 endfunction " }}}
 
@@ -719,7 +724,6 @@ fun! s:FinishRendering(...) "{{{
     let renderContext = s:getRenderContext()
     let xp = renderContext.tmpl.ptn
 
-    " call s:log.Log("FinishRendering...........")
 
     match none
 
@@ -744,16 +748,18 @@ fun! s:FinishRendering(...) "{{{
         let renderContext.processing = 0
         let renderContext.phase = 'finished'
         call s:ClearMap()
+        return ''
+        " return '' . g:xpt_post_action
     else
         call s:PopCtx()
         let renderContext = s:getRenderContext()
         let behavior = renderContext.item.behavior
         if has_key( behavior, 'gotoNextAtOnce' ) && behavior.gotoNextAtOnce
           return s:GotoNextItem()
+          " return s:GotoNextItem() . g:xpt_post_action
         endif
     endif
 
-    return ''
 endfunction "}}}
 
 fun! s:removeMarksInRenderContext( renderContext ) "{{{
@@ -1777,7 +1783,7 @@ fun! s:GetRangeBetween(p1, p2, ...) "{{{
 
 endfunction "}}}
 
-fun! s:finishCurrentAndGotoNextItem(action) " {{{
+fun! s:FinishCurrentAndGotoNextItem(action) " {{{
     let renderContext = s:getRenderContext()
     let marks = renderContext.leadingPlaceHolder.mark
 
@@ -1796,7 +1802,7 @@ fun! s:finishCurrentAndGotoNextItem(action) " {{{
 
     " call s:HighLightItem(name, 0)
 
-    call s:log.Log("finishCurrentAndGotoNextItem action:" . a:action)
+    call s:log.Log("FinishCurrentAndGotoNextItem action:" . a:action)
 
     if a:action ==# 'clear'
         call s:log.Log( 'to clear:' . string( [ XPMpos( marks.start ),XPMpos( marks.end ) ] ) )
@@ -2234,7 +2240,7 @@ fun! s:HandleDefaultValueAction( ctx, act ) "{{{
                 call s:FillinLeadingPlaceHolderAndSelect( ctx, text )
             endif
 
-            return s:finishCurrentAndGotoNextItem( '' )
+            return s:FinishCurrentAndGotoNextItem( '' )
 
 
         else " other action
@@ -2755,9 +2761,9 @@ fun! s:ApplyMap() " {{{
     " inoremap <silent> <buffer> <C-w> <C-r>=<SID>CheckAndBS("C-w")<cr>
     " inoremap <silent> <buffer> <Del> <C-r>=<SID>CheckAndDel("Del")<cr>
 
-    exe 'inoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <C-r>=<SID>finishCurrentAndGotoNextItem("")<cr>'
-    exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <Esc>`>a<C-r>=<SID>finishCurrentAndGotoNextItem("")<cr>'
-    exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_cancel.' <Esc>i<C-r>=<SID>finishCurrentAndGotoNextItem("clear")<cr>'
+    exe 'inoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <C-r>=<SID>FinishCurrentAndGotoNextItem("")<cr>'
+    exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <Esc>`>a<C-r>=<SID>FinishCurrentAndGotoNextItem("")<cr>'
+    exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_cancel.' <Esc>i<C-r>=<SID>FinishCurrentAndGotoNextItem("clear")<cr>'
 
     exe 'nnoremap <silent> <buffer> '.g:xptemplate_goback . ' i<C-r>=<SID>Goback()<cr>'
 

@@ -41,7 +41,7 @@
 
     /*  -------------#if_--------------- */
     /* #if `0^                           */
-    /* `wrapped^`                        */
+    /* `wrapped^                         */
     /* `cursor^                          */
     /* #endif                            */
 
@@ -49,18 +49,22 @@
 
 #if 0
 WRAPPED_TEXT
+
 #endif
 
 #if 0_TYPED
 WRAPPED_TEXT
+
 #endif =
 
 - #if 0
 WRAPPED_TEXT
+
 #endif =
 
 - #if 0
 WRAPPED_TEXT
+
 #endif
 
 
@@ -90,7 +94,7 @@ WRAPPED_TEXT
 
     /*  -------------#ifdef_--------------- */
     /* #ifdef `identifier^                  */
-    /* `wrapped^`                           */
+    /* `wrapped^                            */
     /* `cursor^                             */
     /* #endif                               */
 
@@ -98,18 +102,22 @@ WRAPPED_TEXT
 
 #ifdef identifier
 WRAPPED_TEXT
+
 #endif
 
 #ifdef identifier_TYPED
 WRAPPED_TEXT
+
 #endif =
 
 - #ifdef identifier
 WRAPPED_TEXT
+
 #endif =
 
 - #ifdef identifier
 WRAPPED_TEXT
+
 #endif
 
 
@@ -149,7 +157,7 @@ WRAPPED_TEXT
 
     /*  -------------#ifndef_--------------- */
     /* #ifndef `identifier^                  */
-    /* `wrapped^`                            */
+    /* `wrapped^                             */
     /* `cursor^                              */
     /* #endif                                */
 
@@ -157,18 +165,22 @@ WRAPPED_TEXT
 
 #ifndef identifier
 WRAPPED_TEXT
+
 #endif
 
 #ifndef identifier_TYPED
 WRAPPED_TEXT
+
 #endif =
 
 - #ifndef identifier
 WRAPPED_TEXT
+
 #endif =
 
 - #ifndef identifier
 WRAPPED_TEXT
+
 #endif
 
 
@@ -365,32 +377,8 @@ name(WRAPPED_TEXT)
     - name(WRAPPED_TEXT)
 
 
-    /*  -------------cb--------------- */
-    /* `$CL^                           */
-    /*  `$CM^ `cursor^                 */
-    /*  `$CR^                          */
-
-
-
-    /*
-     * 
-     */
-
-    /*
-     * 
-     */ =
-
-    - /*
-     * 
-     */ =
-
-    - /*
-     * 
-     */
-
-
-    /*  -------------cc--------------- */
-    /* `$CL^ `cursor^ `$CR^            */
+    /*  -------------comment--------------- */
+    /* `$CL^ `cursor^ `$CR^                 */
 
 
 
@@ -403,8 +391,8 @@ name(WRAPPED_TEXT)
     - /*  */
 
 
-    /*  -------------cc_--------------- */
-    /* `$CL^ `wrapped^ `$CR^            */
+    /*  -------------comment_--------------- */
+    /* `$CL^ `wrapped^ `$CR^                 */
 
 
 
@@ -417,32 +405,56 @@ name(WRAPPED_TEXT)
     - /* WRAPPED_TEXT */
 
 
-    /*  -------------cd--------------- */
-    /* `$CL^`$CM^                      */
-    /*  `$CM^ `cursor^                 */
-    /*  `$CR^                          */
+    /*  -------------commentBlock--------------- */
+    /* `$CL^                                     */
+    /*  `$CM^ `cursor^                           */
+    /*  `$CR^                                    */
 
 
 
-    /**
+    /* 
      * 
      */
 
-    /**
+    /* 
      * 
      */ =
 
-    - /**
+    - /* 
      * 
      */ =
 
-    - /**
+    - /* 
      * 
      */
 
 
-    /*  -------------cl--------------- */
-    /* `$CL^ `cursor^ `$CR^            */
+    /*  -------------commentDoc--------------- */
+    /* `$CL^`$CM^                              */
+    /*  `$CM^ `cursor^                         */
+    /*  `$CR^                                  */
+
+
+
+    /** 
+     * 
+     */
+
+    /** 
+     * 
+     */ =
+
+    - /** 
+     * 
+     */ =
+
+    - /** 
+     * 
+     */
+
+
+    /*  -------------commentLine--------------- */
+    /* `$CL^ `cursor^ `$CR^                     */
 
 
 
@@ -455,28 +467,28 @@ name(WRAPPED_TEXT)
     - /*  */
 
 
-    /*  -------------do---------------          */
-    /* do`$WHILE_BRACKET_STL^{                  */
-    /*     `cursor^                             */
-    /* }`$WHILE_BRACKET_STL^while (`condition^) */
+    /*  -------------do---------------           */
+    /* do`$WHILE_BRACKET_STL^{                   */
+    /*     `cursor^                              */
+    /* }`$WHILE_BRACKET_STL^while (`condition^); */
 
 
 
     do {
         
-    } while (condition)
+    } while (condition);
 
 do {
     
-} while (condition_TYPED) =
+} while (condition_TYPED); =
 
 - do {
     
-} while (condition) =
+} while (condition); =
 
 - do {
     
-} while (condition)
+} while (condition);
 
 
     /*  -------------else--------------- */
@@ -654,7 +666,7 @@ test.page =
  *
  * <b>function</b>
  * @version : 1.0
- * @since : 2009 Sep 01
+ * @since : 2009 Sep 07
  * 
  * @description :
  *     
@@ -671,7 +683,7 @@ test.page =
  *
  * <b>function_TYPED</b>
  * @version : 10_TYPED
- * @since : 2009 Sep 01
+ * @since : 2009 Sep 07
  * 
  * @description :
  *     
@@ -688,7 +700,7 @@ test.page =
   *
   * <b>function</b>
   * @version : 1.0
-  * @since : 2009 Sep 01
+  * @since : 2009 Sep 07
   * 
   * @description :
   *     
@@ -705,7 +717,7 @@ test.page =
    *
    * <b>function</b>
    * @version : 1.0
-   * @since : 2009 Sep 01
+   * @since : 2009 Sep 07
    * 
    * @description :
    *     
@@ -744,7 +756,7 @@ for (i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED) {
 
 
     /*  -------------forever--------------- */
-    /* for (;;)`$FOR_BRACKET_STL^`body^     */
+    /* for (;;) `body^                      */
 
 
 
@@ -795,30 +807,34 @@ printf( "pattern_TYPED" ) =
 - printf( "pattern" )
 
 
-    /*  -------------fun---------------                                              */
-    /* `c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`^)`$FUNC_BRACKET_STL^{ */
-    /*     `cursor^                                                                  */
-    /* }                                                                             */
+    /*  -------------fun---------------                                                   */
+    /* `c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`param^)`$FUNC_BRACKET_STL^{ */
+    /*     `cursor^                                                                       */
+    /* }                                                                                  */
 
 
 
     int
-name(){
+name()
+{
     
 }
 
     int_TYPED
-name_TYPED(_TYPED){
+name_TYPED(param_TYPED)
+{
     
 } =
 
 -     int
-name(){
+name()
+{
     
 } =
 
 -     int
-name(){
+name()
+{
     
 }
 
@@ -1299,28 +1315,28 @@ while (condition_TYPED) {
 }
 
 
-    /*  -------------while0---------------      */
-    /* do`$WHILE_BRACKET_STL^{                  */
-    /*     `cursor^                             */
-    /* }`$WHILE_BRACKET_STL^while (`condition^) */
+    /*  -------------while0---------------       */
+    /* do`$WHILE_BRACKET_STL^{                   */
+    /*     `cursor^                              */
+    /* }`$WHILE_BRACKET_STL^while (`condition^); */
 
 
 
 do {
     
-} while (0)
+} while (0);
 
 do {
     
-} while (0) =
+} while (0); =
 
 - do {
     
-} while (0) =
+} while (0); =
 
 - do {
     
-} while (0)
+} while (0);
 
 
     /*  -------------while1---------------      */

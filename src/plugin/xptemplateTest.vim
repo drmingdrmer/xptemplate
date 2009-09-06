@@ -29,7 +29,7 @@ let s:preinputs = {
             \}
 
 
-" com! XPTSlow redraw! | sleep 50m
+" com! XPTSlow redraw! | sleep 250m
 com! XPTSlow echo
 
 fun s:XPTtrigger(name) "{{{
@@ -132,7 +132,7 @@ fun! s:NewTestFile(ft) "{{{
     endif
 endfunction "}}}
 
-fun! XPTtestSort(a, b)
+fun! XPTtestSort(a, b) "{{{
     if a:a.name == a:b.name
         return 0
     elseif a:a.name < a:b.name
@@ -140,7 +140,7 @@ fun! XPTtestSort(a, b)
     else
         return 1
     endif
-endfunction
+endfunction "}}}
 
 fun! s:XPTtest(ft) "{{{
     let g:xpt_post_action = "\<C-r>=TestProcess()\<cr>"
@@ -149,7 +149,6 @@ fun! s:XPTtest(ft) "{{{
         au CursorHoldI * call TestProcess()
         au CursorMoved * call TestProcess()
         au CursorMovedI * call TestProcess()
-        " au InsertEnter * call TestProcess()
     augroup END
 
     call s:NewTestFile(a:ft)
@@ -176,6 +175,7 @@ fun! s:XPTtest(ft) "{{{
 
     let tmplList = values(tmpls)
     let tmplList = sort( tmplList, "XPTtestSort" )
+
 
     let b:tmplToTest = tmplList
     " let b:tmplToTest = []
@@ -225,7 +225,6 @@ endfunction "}}}
 
 
 fun! TestProcess() "{{{
-    call s:log.Log( "mode=".mode()." popup=".pumvisible() )
     XPTSlow
 
     if b:testProcessing == 0
@@ -239,7 +238,8 @@ fun! TestProcess() "{{{
         " Insert mode or select mode.
         " If it is in normal mode, maybe something else is going. In normal mode,
         " just ignore it
-        call s:log.Log("processing, mode=".mode())
+        
+        " call s:log.Log("processing, mode=".mode())
         if mode() =~? "[is]"
             call s:FillinTemplate()
         endif
@@ -335,7 +335,10 @@ fun! s:FillinTemplate() "{{{
     let x = XPTbufData()
     let ctx = x.renderContext
 
+    call s:log.Log( "mode=".mode()." popup=".pumvisible() )
     call s:log.Log("phase:" . ctx.phase)
+    call s:log.Log( 'b:testPhase=' . b:testPhase )
+    call s:log.Log( 'item=' . string( ctx.item ) )
 
     if ctx.phase == 'fillin' 
 
@@ -352,23 +355,28 @@ fun! s:FillinTemplate() "{{{
         endif
 
         if pumvisible()
+            call s:log.Log( "has pum, select the first" )
             call s:XPTtype( "\<C-n>" )
 
         elseif len(b:itemSteps) >= 3 && b:itemSteps[-3] == ctx.item.name
+            call s:log.Log( "too many repetition done, cancel it" )
             " too many repetition 
             call s:XPTcancel()
 
         elseif b:testPhase == s:DEFAULT
+            call s:log.Log( 'type nothing, goto next' )
             " next
             call s:XPTtype('')
 
         elseif b:testPhase == s:TYPED
             " pseudo type
+            call s:log.Log( 'to type, item name=' . string( ctx.item.name ) )
             call s:XPTtype(substitute(ctx.item.name, '\W', '', 'g') . "_TYPED")
 
         " elseif b:testPhase == s:CHAR_AROUND
         " elseif b:testPhase == s:NESTED
         else
+            call s:log.Log( "other, just goto next" )
             " not implemented yet
             call s:XPTtype('')
         endif

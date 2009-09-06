@@ -192,7 +192,7 @@ fun! s:f.Next( ... )
   if a:0 == 0
     return { 'action' : 'next' }
   else
-    return { 'action' : 'next', 'text' : a:text }
+    return { 'action' : 'next', 'text' : join( a:000, '' ) }
   endif
 endfunction
 

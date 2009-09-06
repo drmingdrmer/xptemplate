@@ -21,7 +21,7 @@ XPTvar $CR   */
 
 XPTinclude
       \ _common/common
-      \ _comment/singleSign
+      \ _comment/doubleSign
       \ _condition/c.like
       \ _func/c.like
       \ _loops/c.for.like
