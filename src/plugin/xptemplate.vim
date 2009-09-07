@@ -19,10 +19,16 @@
 " "}}}
 "
 " BUG: "{{{
+" command V<C-\> generates a empty line in html
+"
+" wrapping snippet building wrapped content as placeholder!
+"
+" wrapping snippet clearing left-space should not start at line start
 "
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO test html
 " TODO escaped mark in snippet '`' and '^' and in nested.
 " TODO snippets bundle and bundle selection
 " TODO snippet-file scope XSET

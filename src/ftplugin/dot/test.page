@@ -487,17 +487,17 @@ subgraph clusterName_TYPED
 subgraph clusterName
 {
     WRAPPED_TEXT
-}clusterName_TYPED  
+}
 
-subgraph clusterName
+subgraph clusterName_TYPED
 {
     WRAPPED_TEXT
-}clusterName_TYPED =
+} =
 
 - subgraph clusterName
 {
     WRAPPED_TEXT
-}    =
+} =
 
 - subgraph clusterName
 {

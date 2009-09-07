@@ -1,0 +1,988 @@
+
+
+
+    --   -------------"--------------- 
+    --  "`wrapped^"                    
+
+
+
+"WRAPPED_TEXT"
+
+"WRAPPED_TEXT" =
+
+- "WRAPPED_TEXT" =
+-
+- "WRAPPED_TEXT"
+-
+
+    --   -------------#if--------------- 
+    --  #if `0^                          
+    --  `cursor^                         
+    --  #endif                           
+
+
+
+#if 0
+
+#endif
+
+    #if 0_TYPED
+    
+    #endif =
+
+    - #if 0
+    
+    #endif =
+
+    - #if 0
+    
+    #endif
+
+
+    --   -------------#if_--------------- 
+    --  #if `0^                           
+    --  `wrapped^                         
+    --  `cursor^                          
+    --  #endif                            
+
+
+
+#if 0
+WRAPPED_TEXT
+
+#endif
+
+#if 0_TYPED
+WRAPPED_TEXT
+
+#endif =
+
+- #if 0
+WRAPPED_TEXT
+
+#endif =
+
+- #if 0
+WRAPPED_TEXT
+
+#endif
+
+
+    --   -------------#ifdef--------------- 
+    --  #ifdef `identifier^                 
+    --  `cursor^                            
+    --  #endif                              
+
+
+
+#ifdef identifier
+
+#endif
+
+    #ifdef identifier_TYPED
+    
+    #endif =
+
+    - #ifdef identifier
+    
+    #endif =
+
+    - #ifdef identifier
+    
+    #endif
+
+
+    --   -------------#ifdef_--------------- 
+    --  #ifdef `identifier^                  
+    --  `wrapped^                            
+    --  `cursor^                             
+    --  #endif                               
+
+
+
+#ifdef identifier
+WRAPPED_TEXT
+
+#endif
+
+#ifdef identifier_TYPED
+WRAPPED_TEXT
+
+#endif =
+
+- #ifdef identifier
+WRAPPED_TEXT
+
+#endif =
+
+- #ifdef identifier
+WRAPPED_TEXT
+
+#endif
+
+
+    --   -------------#ifndef--------------- 
+    --  #ifndef `symbol^                     
+    --  #     define `symbol^                
+    --                                       
+    --  `cursor^                             
+    --  #endif `$CL^ `symbol^ `$CR^          
+
+
+
+#ifndef TEST
+#     define TEST
+
+ 
+#endif  TEST 
+
+    #ifndef SYMBOL_TYPED
+    #     define SYMBOL_TYPED
+    
+     
+    #endif  SYMBOL_TYPED  =
+
+    - #ifndef TEST
+    #     define TEST
+    
+     
+    #endif  TEST  =
+
+    - #ifndef TEST
+    #     define TEST
+    
+     
+    #endif  TEST 
+
+
+    --   -------------#ifndef_--------------- 
+    --  #ifndef `identifier^                  
+    --  `wrapped^                             
+    --  `cursor^                              
+    --  #endif                                
+
+
+
+#ifndef identifier
+WRAPPED_TEXT
+
+#endif
+
+#ifndef identifier_TYPED
+WRAPPED_TEXT
+
+#endif =
+
+- #ifndef identifier
+WRAPPED_TEXT
+
+#endif =
+
+- #ifndef identifier
+WRAPPED_TEXT
+
+#endif
+
+
+    --   -------------#inc--------------- 
+    --  #include <`^.h>                   
+
+
+
+#include <.h>
+
+    #include <_TYPED.h> =
+
+    - #include <.h> =
+    -
+    - #include <.h>
+    -
+
+    --   -------------#include_user--------------- 
+    --  #include "`me^.h"                          
+
+
+
+#include "test.h"
+
+    #include "me_TYPED.h" =
+
+    - #include "test.h" =
+    -
+    - #include "test.h"
+    -
+
+    --   -------------#ind--------------- 
+    --  #include "`me^.h"                 
+
+
+
+#include "test.h"
+
+    #include "me_TYPED.h" =
+
+    - #include "test.h" =
+    -
+    - #include "test.h"
+    -
+
+    --   -------------'--------------- 
+    --  '`wrapped^'                    
+
+
+
+'WRAPPED_TEXT'
+
+'WRAPPED_TEXT' =
+
+- 'WRAPPED_TEXT' =
+-
+- 'WRAPPED_TEXT'
+-
+
+    --   -------------(--------------- 
+    --  (`wrapped^)                    
+
+
+
+(WRAPPED_TEXT)
+
+(WRAPPED_TEXT) =
+
+- (WRAPPED_TEXT) =
+-
+- (WRAPPED_TEXT)
+-
+
+    --   -------------<--------------- 
+    --  <`wrapped^>                    
+
+
+
+<WRAPPED_TEXT>
+
+    <WRAPPED_TEXT> =
+
+    - <WRAPPED_TEXT> =
+    -
+    - <WRAPPED_TEXT>
+    -
+
+    --   -------------Author--------------- 
+    --  `$author^                           
+
+
+
+    drdr.xp
+
+    drdr.xp =
+
+    - drdr.xp =
+    -
+    - drdr.xp
+    -
+
+    --   -------------Email--------------- 
+    --  `$email^                           
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com =
+
+    - drdr.xp@gmail.com =
+    -
+    - drdr.xp@gmail.com
+    -
+
+    --   -------------File--------------- 
+    --  `file()^                          
+
+
+
+    test.page
+
+    test.page =
+
+    - test.page =
+    -
+    - test.page
+    -
+
+    --   -------------[--------------- 
+    --  [`wrapped^]                    
+
+
+
+[WRAPPED_TEXT]
+
+[WRAPPED_TEXT] =
+
+- [WRAPPED_TEXT] =
+-
+- [WRAPPED_TEXT]
+-
+
+    --   -------------`--------------- 
+    --  \``wrapped^\`                  
+
+
+
+`WRAPPED_TEXT`
+
+`WRAPPED_TEXT` =
+
+- `WRAPPED_TEXT` =
+-
+- `WRAPPED_TEXT`
+-
+
+    --   -------------class---------------            
+    --  class `context...~`className~ `types~a~ where 
+    --      `ar~ :: `type~ `...~                      
+    --      `methodName~ :: `methodType~`...~         
+    --  `cursor~                                      
+
+
+
+    class (ctxt) => className a where
+        ar :: type 
+        methodName :: methodType
+        methodName :: methodType
+    
+
+        class context_TYPEDclassName_TYPED types_TYPED where
+            ar_TYPED :: type_TYPED _TYPED
+         =
+
+         - class (ctxt) => className a where
+             ar :: type 
+             methodName :: methodType
+             methodName :: methodType
+          =
+
+          - class (ctxt) => className a where
+              ar :: type 
+              methodName :: methodType
+              methodName :: methodType
+          
+
+
+    --   -------------classcom---------------         
+    --  -- | `classDescr~                             
+    --  class `context...~`className~ `types~a~ where 
+    --      -- | `methodDescr~                        
+    --      `ar~ :: `type~ `...~                      
+    --      -- | `method_Descr~                       
+    --      `methodName~ :: `methodType~`...~         
+    --  `cursor~                                      
+
+
+
+    -- | classDescr
+    class (ctxt) => className a where
+        -- | methodDescr
+        ar :: type 
+        -- | method_Descr
+        methodName :: methodType
+        -- | method_Descr
+        methodName :: methodType
+    
+
+        -- | classDescr_TYPED
+        class context_TYPEDclassName_TYPED types_TYPED where
+            -- | methodDescr_TYPED
+            ar_TYPED :: type_TYPED _TYPED
+         =
+
+         - -- | classDescr
+         class (ctxt) => className a where
+             -- | methodDescr
+             ar :: type 
+             -- | method_Descr
+             methodName :: methodType
+             -- | method_Descr
+             methodName :: methodType
+          =
+
+          - -- | classDescr
+          class (ctxt) => className a where
+              -- | methodDescr
+              ar :: type 
+              -- | method_Descr
+              methodName :: methodType
+              -- | method_Descr
+              methodName :: methodType
+          
+
+
+    --   -------------cmt_--------------- 
+    --  {-                                
+    --  `wrapped~                         
+    --  -}                                
+
+
+
+{-
+WRAPPED_TEXT
+-}
+
+{-
+WRAPPED_TEXT
+-} =
+
+- {-
+WRAPPED_TEXT
+-} =
+
+- {-
+WRAPPED_TEXT
+-}
+
+
+    --   -------------datarecord---------------    
+    --  data `context...~`typename~`typeParams~ ~= 
+    --       `Constructor~ {                       
+    --         `field~ :: `type~`                  
+    --         `...~                               
+    --       }                                     
+    --       `deriving...~                         
+    --  `cursor~                                   
+
+
+
+    data (ctxt) => typename =
+         Constructor {
+           field :: type,
+           fieldn :: typen,
+           fieldn :: typen
+         }
+         deriving (Eq, Show)
+    
+
+    data context_TYPEDtypename_TYPEDtypeParams_TYPED=
+         Constructor_TYPED {
+           field_TYPED :: type_TYPED
+                      _TYPED
+         }
+         deriving_TYPED
+     =
+
+     - data (ctxt) => typename =
+          Constructor {
+            field :: type,
+            fieldn :: typen,
+            fieldn :: typen
+          }
+          deriving (Eq, Show)
+      =
+
+      - data (ctxt) => typename =
+           Constructor {
+             field :: type,
+             fieldn :: typen,
+             fieldn :: typen
+           }
+           deriving (Eq, Show)
+      
+
+
+    --   -------------datarecordcom---------------  
+    --  -- | `typeDescr~                            
+    --  data `context...~`typename~`typeParams~ ~=  
+    --       `Constructor~ {                        
+    --         `field~ :: `type~ -- ^ `fieldDescr~` 
+    --         `...~                                
+    --       }                                      
+    --       `deriving...~                          
+    --  `cursor~                                    
+
+
+
+    -- | typeDescr
+    data (ctxt) => typename =
+         Constructor {
+           field :: type -- ^ fieldDescr, 
+           fieldn :: typen -- ^ fielddescr, 
+           fieldn :: typen -- ^ fielddescr
+         }
+         deriving (Eq,Show)
+    
+
+    -- | typeDescr_TYPED
+    data context_TYPEDtypename_TYPEDtypeParams_TYPED=
+         Constructor_TYPED {
+           field_TYPED :: type_TYPED -- ^ fieldDescr_TYPED
+                      _TYPED
+         }
+         deriving_TYPED
+     =
+
+     - -- | typeDescr
+     data (ctxt) => typename =
+          Constructor {
+            field :: type -- ^ fieldDescr, 
+            fieldn :: typen -- ^ fielddescr, 
+            fieldn :: typen -- ^ fielddescr
+          }
+          deriving (Eq,Show)
+      =
+
+      - -- | typeDescr
+      data (ctxt) => typename =
+           Constructor {
+             field :: type -- ^ fieldDescr, 
+             fieldn :: typen -- ^ fielddescr, 
+             fieldn :: typen -- ^ fielddescr
+           }
+           deriving (Eq,Show)
+      
+
+
+    --   -------------datasum---------------       
+    --  data `context...~`typename~`typeParams~ ~= 
+    --      `Constructor~ `ctorParams~VOID()~`     
+    --    `...~                                    
+    --    | `Ctor~ `params~VOID()~                 
+    --      `...~                                  
+    --    `deriving...~                            
+    --  `cursor~                                   
+
+
+
+    data (ctxt) => typename =
+        Constructor 
+      | Ctor 
+        
+      | Ctor 
+        
+      deriving (Eq,Show)
+    
+
+    data context_TYPEDtypename_TYPEDtypeParams_TYPED=
+        Constructor_TYPED ctorParams_TYPED
+            _TYPED
+      deriving_TYPED
+     =
+
+     - data (ctxt) => typename =
+         Constructor 
+       | Ctor 
+         
+       | Ctor 
+         
+       deriving (Eq,Show)
+      =
+
+      - data (ctxt) => typename =
+          Constructor 
+        | Ctor 
+          
+        | Ctor 
+          
+        deriving (Eq,Show)
+      
+
+
+    --   -------------datasumcom---------------      
+    --  -- | `typeDescr~VOID()~                      
+    --  data `context...~`typename~` `typeParams~ ~= 
+    --      -- | `ConstructorDescr~                  
+    --      `Constructor~ `ctorParams~VOID()~`       
+    --      `...~                                    
+    --      -- | `Ctor descr~VOID()~                 
+    --      | `Ctor~ `params~VOID()~`                
+    --      `...~                                    
+    --    `deriving...~                              
+    --  `cursor~                                     
+
+
+
+    -- | 
+    data (ctxt) => typename  =
+        -- | ConstructorDescr
+        Constructor 
+        -- | 
+        | Ctor 
+        -- | 
+        | Ctor 
+      deriving (Eq,Show)
+    
+
+    -- | typeDescr_TYPED
+    data context_TYPEDtypename_TYPED typeParams_TYPED=
+        -- | ConstructorDescr_TYPED
+        Constructor_TYPED ctorParams_TYPED
+                _TYPED
+      deriving_TYPED
+     =
+
+     - -- | 
+     data (ctxt) => typename  =
+         -- | ConstructorDescr
+         Constructor 
+         -- | 
+         | Ctor 
+         -- | 
+         | Ctor 
+       deriving (Eq,Show)
+      =
+
+      - -- | 
+      data (ctxt) => typename  =
+          -- | ConstructorDescr
+          Constructor 
+          -- | 
+          | Ctor 
+          -- | 
+          | Ctor 
+        deriving (Eq,Show)
+      
+
+
+    --   -------------deriving---------------        
+    --  deriving (`classname~`...~,`classname~`...~) 
+
+
+
+    deriving (classname,classname,classname)
+
+    deriving (classname_TYPED_TYPED) =
+
+    - deriving (classname,classname,classname) =
+    -
+    - deriving (classname,classname,classname)
+    -
+
+    --   -------------derivingstand---------------   
+    --  deriving instance `context...~`class~ `type~ 
+
+
+
+    deriving instance ctxt => class type
+
+    deriving instance context_TYPEDclass_TYPED type_TYPED =
+
+    - deriving instance ctxt => class type =
+    -
+    - deriving instance ctxt => class type
+    -
+
+    --   -------------fun--------------- 
+    --  `funName~ `pattern~ = `def~`     
+    --  `...~                            
+
+
+
+    funName pattern = def
+    funName pattern = def
+    funName pattern = def
+
+    funName_TYPED pattern_TYPED = def_TYPED
+        _TYPED =
+
+        - funName pattern = def
+        funName pattern = def
+        funName pattern = def =
+
+        - funName pattern = def
+        funName pattern = def
+        funName pattern = def
+
+
+    --   -------------funcom---------------    
+    --  -- | `function_description~            
+    --  `funName~ :: `type~                    
+    --  `name~R("funName")~ `pattern~ = `def~` 
+    --  `...~                                  
+
+
+
+    -- | function_description
+    funName :: type
+    funName pattern = def
+    funName pattern = def
+    funName pattern = def
+
+    -- | function_description_TYPED
+    funName_TYPED :: type_TYPED
+    name_TYPED pattern_TYPED = def_TYPED
+        _TYPED =
+
+        - -- | function_description
+        funName :: type
+        funName pattern = def
+        funName pattern = def
+        funName pattern = def =
+
+        - -- | function_description
+        funName :: type
+        funName pattern = def
+        funName pattern = def
+        funName pattern = def
+
+
+    --   -------------funtype---------------        
+    --  `funName~ :: `context...~ `type~ -- ^ `is~` 
+    --            `...~                             
+
+
+
+    funName :: (ctxt)
+              => type -- ^ is
+              -> type -- ^ is
+              -> type -- ^ is
+
+              funName_TYPED :: context_TYPED type_TYPED -- ^ is_TYPED
+                                      _TYPED =
+
+                                      - funName :: (ctxt)
+                                                => type -- ^ is
+                                                -> type -- ^ is
+                                                -> type -- ^ is =
+
+                                                - funName :: (ctxt)
+                                                          => type -- ^ is
+                                                          -> type -- ^ is
+                                                          -> type -- ^ is
+
+
+    --   -------------if--------------- 
+    --  if `expr~                       
+    --      then `thenCode~             
+    --      else `cursor~               
+
+
+
+    if expr
+        then thenCode
+        else 
+
+        if expr_TYPED
+            then thenCode_TYPED
+            else  =
+
+            - if expr
+                then thenCode
+                else  =
+
+                - if expr
+                    then thenCode
+                    else 
+
+
+    --   -------------inline--------------- 
+    --  {-# INLINE `phase...~`funName~ #-}  
+
+
+
+    {-# INLINE [2] funName #-}
+
+    {-# INLINE phase_TYPEDfunName_TYPED #-} =
+
+    - {-# INLINE [2] funName #-} =
+
+    - {-# INLINE [2] funName #-}
+
+
+    --   -------------instance---------------      
+    --  instance `className~ `instanceTypes~ where 
+    --      `methodName~ `~ = `decl~ `...~         
+    --      `method~ `~ = `declaration~`...~       
+    --  `cursor~                                   
+
+
+
+    instance className instanceTypes where
+        methodName  = decl 
+        method  = declaration
+        method  = declaration
+    
+
+        instance className_TYPED instanceTypes_TYPED where
+            methodName_TYPED _TYPED = decl_TYPED _TYPED
+         =
+
+         - instance className instanceTypes where
+             methodName  = decl 
+             method  = declaration
+             method  = declaration
+          =
+
+          - instance className instanceTypes where
+              methodName  = decl 
+              method  = declaration
+              method  = declaration
+          
+
+
+    --   -------------lang--------------- 
+    --  {-# LANGUAGE `langName~ #-}       
+
+
+
+    {-# LANGUAGE langName #-}
+
+    {-# LANGUAGE langName_TYPED #-} =
+
+    - {-# LANGUAGE langName #-} =
+
+    - {-# LANGUAGE langName #-}
+
+
+    --   -------------module---------------   
+    --  module `moduleName~ `exports...~where 
+
+
+
+    module .Home.Drdrxp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
+        ) where
+
+    module moduleName_TYPED exports_TYPEDwhere =
+
+    - module .Home.Drdrxp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
+        ) where =
+
+    - module .Home.Drdrxp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
+        ) where
+
+
+    --   -------------noninline--------------- 
+    --  {-# NOINLINE `funName~ #-}             
+
+
+
+    {-# NOINLINE funName #-}
+
+    {-# NOINLINE funName_TYPED #-} =
+
+    - {-# NOINLINE funName #-} =
+
+    - {-# NOINLINE funName #-}
+
+
+    --   -------------once--------------- 
+    --  #ifndef `symbol^                  
+    --  #     define `symbol^             
+    --                                    
+    --  `cursor^                          
+    --  #endif `$CL^ `symbol^ `$CR^       
+
+
+
+    #ifndef __TEST_PAGE__
+    #     define __TEST_PAGE__
+    
+    
+    #endif  __TEST_PAGE__ 
+
+    #ifndef symbol_TYPED
+    #     define symbol_TYPED
+    
+    
+    #endif  symbol_TYPED  =
+
+    - #ifndef __TEST_PAGE__
+    #     define __TEST_PAGE__
+    
+    
+    #endif  __TEST_PAGE__  =
+
+    - #ifndef __TEST_PAGE__
+    #     define __TEST_PAGE__
+    
+    
+    #endif  __TEST_PAGE__ 
+
+
+    --   -------------p_--------------- 
+    --  (`wrapped~)                     
+
+
+
+(WRAPPED_TEXT)
+
+    (WRAPPED_TEXT) =
+
+    - (WRAPPED_TEXT) =
+    -
+    - (WRAPPED_TEXT)
+    -
+
+    --   -------------parser--------------- 
+    --  `funName~ = `rule~`                 
+    --           `another_rule...~          
+    --           `err...~                   
+    --  `cursor~                            
+
+
+
+    funName = rule
+             <|> rule
+             <|> rule
+             <|> rule
+             <?> "descr"
+    
+
+             funName_TYPED = rule_TYPED
+                                   another_rule_TYPED
+                      err_TYPED
+              =
+
+              - funName = rule
+                       <|> rule
+                       <|> rule
+                       <|> rule
+                       <?> "descr"
+               =
+
+               - funName = rule
+                        <|> rule
+                        <|> rule
+                        <|> rule
+                        <?> "descr"
+               
+
+
+    --   -------------str_--------------- 
+    --  "`wrapped~"                       
+
+
+
+"WRAPPED_TEXT"
+
+"WRAPPED_TEXT" =
+
+- "WRAPPED_TEXT" =
+-
+- "WRAPPED_TEXT"
+-
+
+    --   -------------type---------------          
+    --  `context...~`t1~ -> `t2~`...~ -> `t3~`...~ 
+
+
+
+    (ctxt) => t1 -> t2 -> t3 -> t3
+
+    context_TYPEDt1_TYPED -> t2_TYPED_TYPED =
+
+    - (ctxt) => t1 -> t2 -> t3 -> t3 =
+    -
+    - (ctxt) => t1 -> t2 -> t3 -> t3
+    -
+
+    --   -------------{--------------- 
+    --  {`wrapped^}                    
+
+
+
+{WRAPPED_TEXT}
+
+{WRAPPED_TEXT} =
+
+- {WRAPPED_TEXT} =
+-
+- {WRAPPED_TEXT}
+-

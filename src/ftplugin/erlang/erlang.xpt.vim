@@ -109,8 +109,8 @@ try `what^ of
    `patternn^ ->
        `body^` `more...^
 catch
-    `excep^ -> `toRet^ `...^;
-    `except^ -> `toRet^`...^`
+    `excep^ -> `toRet^` `...^;
+    `except^ -> `toRet^` `...^`
 `after...{{^
 after
     `afterBody^`}}^
