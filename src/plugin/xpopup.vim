@@ -28,6 +28,7 @@ delc XPPgetSID
 
 let s:log = CreateLogger( 'warn' )
 " let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'log' )
 
 
 " Script scope variables {{{
@@ -49,7 +50,7 @@ let s:sessionPrototype = {
             " \ 'postAction'  : '',
 " }}}
 
-" API {{{
+" API
 
 " Additional argument can be a list
 fun! XPPopupNew(callback, data, ...) "{{{
@@ -201,9 +202,8 @@ fun! s:sessionPrototype.updatePrefixIndex(list) "{{{
     endfor
 endfunction "}}}
 
-" }}}
 
-" Operations of <C-R> {{{
+" Operations of <C-R>
 
 fun! XPPprocess(list) "{{{
     " Deal with action chains 
@@ -310,7 +310,7 @@ fun! XPPprocess(list) "{{{
 
     else
         " test concern
-        " let postAction .= g:xpt_post_action
+        let postAction .= g:xpt_post_action
 
     endif
 
@@ -528,9 +528,9 @@ fun! XPPcorrectPos() "{{{
         return ""
     endif
 endfunction "}}}
-" }}}
 
-" Internal {{{
+" Internal --------------------------------------------------------
+
 fun! s:ApplyMapAndSetting() "{{{
     if exists("b:__xpp_mapped")
         return
@@ -572,7 +572,7 @@ fun! s:ClearMapAndSetting() "{{{
 endfunction "}}}
 
 
-fun! XPRend()
+fun! XPPend()
     call s:End()
 endfunction
 
@@ -610,9 +610,9 @@ fun! s:PopupCheck(...) "{{{
     return 1
 endfunction "}}}
 
-" }}}
 
-" Utils {{{
+" Utils -------------------------------------------------------- 
+
 fun! s:UpdateIndex(map, key) "{{{
     let  [ i, len ] = [ 0, len(a:key) ]
 
@@ -699,7 +699,6 @@ fun! s:FindShorter(map, key) "{{{
     return key
 endfunction "}}}
 
-" }}}
 
 fun! s:ClassPrototype(...) "{{{
     let p = {}

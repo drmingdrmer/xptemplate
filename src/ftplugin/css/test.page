@@ -132,27 +132,27 @@ test.page =
 
 
 
-azimuth: left-side; 
+azimuth: left-side;
 
-azimuth: left-side;  =
+azimuth: left-side; =
 
-- azimuth: left-side;    =
+- azimuth: left-side; =
 
-- azimuth: left-side;   
+- azimuth: left-side;
 
 
     /*  -------------background--------------- */
-    /* background: `selec^;                    */
+    /* background:` `selec^;                   */
 
 
 
-background: url(;   
+background: url();
 
-background: url(;    =
+background: url(_TYPED); =
 
-- background: url(;  =
+- background: url(); =
 
-- background: url(; 
+- background: url();
 
 
     /*  -------------backgroundattachment--------------- */
@@ -160,41 +160,41 @@ background: url(;    =
 
 
 
-background-attachment: scroll;  
+background-attachment: scroll;
 
-background-attachment: scroll;   =
+background-attachment: scroll; =
 
-- background-attachment: scroll;     =
+- background-attachment: scroll; =
 
-- background-attachment: scroll;    
+- background-attachment: scroll;
 
 
     /*  -------------backgroundcolor--------------- */
-    /* background-color: `selec^;                   */
+    /* background-color:` `selec^;                  */
 
 
 
-background-color: transparent;  
+background-color: transparent;
 
-background-color: transparent;   =
+background-color: transparent; =
 
-- background-color: transparent;     =
+- background-color: transparent; =
 
-- background-color: transparent;    
+- background-color: transparent;
 
 
     /*  -------------backgroundimage--------------- */
-    /* background-image: `selec^;                   */
+    /* background-image:` `selec^;                  */
 
 
 
-background-image: url(; 
+background-image: url();
 
-background-image: url(;  =
+background-image: url(_TYPED); =
 
-- background-image: url(;    =
+- background-image: url(); =
 
-- background-image: url(;   
+- background-image: url();
 
 
     /*  -------------backgroundrepeat--------------- */
@@ -202,13 +202,13 @@ background-image: url(;  =
 
 
 
-background-repeat: repeat;  
+background-repeat: repeat;
 
-background-repeat: repeat;   =
+background-repeat: repeat; =
 
-- background-repeat: repeat;     =
+- background-repeat: repeat; =
 
-- background-repeat: repeat;    
+- background-repeat: repeat;
 
 
     /*  -------------backpos---------------     */
@@ -216,13 +216,13 @@ background-repeat: repeat;   =
 
 
 
-background-position: top left;  
+background-position: top left;
 
-background-position: top left;   =
+background-position: top left; =
 
-- background-position: top left;     =
+- background-position: top left; =
 
-- background-position: top left;    
+- background-position: top left;
 
 
     /*  -------------backrep--------------- */
@@ -230,13 +230,13 @@ background-position: top left;   =
 
 
 
-background-repeat repeat;   
+background-repeat repeat;
 
-background-repeat repeat;    =
+background-repeat repeat; =
 
-- background-repeat repeat;  =
+- background-repeat repeat; =
 
-- background-repeat repeat; 
+- background-repeat repeat;
 
 
     /*  -------------border---------------     */
@@ -244,27 +244,27 @@ background-repeat repeat;    =
 
 
 
-border-top: thin none rgb(clr); 
+border-top: thin none rgb();
 
-border-top: thin none rgb(clr);clr_TYPED     =
+border-top: thin none rgb(_TYPED); =
 
-- border-top: thin none rgb(clr);    =
+- border-top: thin none rgb(); =
 
-- border-top: thin none rgb(clr);   
+- border-top: thin none rgb();
 
 
     /*  -------------borderbottomcolor--------------- */
-    /* border-bottom-color: `col^;                    */
+    /* border-bottom-color:` `col^;                   */
 
 
 
-border-bottom-color: rgb(;  
+border-bottom-color: rgb();
 
-border-bottom-color: rgb(;   =
+border-bottom-color: rgb(_TYPED); =
 
-- border-bottom-color: rgb(;     =
+- border-bottom-color: rgb(); =
 
-- border-bottom-color: rgb(;    
+- border-bottom-color: rgb();
 
 
     /*  -------------borderbottomstyle--------------- */
@@ -272,13 +272,13 @@ border-bottom-color: rgb(;   =
 
 
 
-border-bottom-style: none;  
+border-bottom-style: none;
 
-border-bottom-style: none;   =
+border-bottom-style: none; =
 
-- border-bottom-style: none;     =
+- border-bottom-style: none; =
 
-- border-bottom-style: none;    
+- border-bottom-style: none;
 
 
     /*  -------------borderbottomwidth--------------- */
@@ -286,13 +286,13 @@ border-bottom-style: none;   =
 
 
 
-border-bottom-width: thin;  
+border-bottom-width: thin;
 
-border-bottom-width: thin;   =
+border-bottom-width: thin; =
 
-- border-bottom-width: thin;     =
+- border-bottom-width: thin; =
 
-- border-bottom-width: thin;    
+- border-bottom-width: thin;
 
 
     /*  -------------bordercollapse--------------- */
@@ -300,41 +300,41 @@ border-bottom-width: thin;   =
 
 
 
-border-collapse: collapse;  
+border-collapse: collapse;
 
-border-collapse: collapse;   =
+border-collapse: collapse; =
 
-- border-collapse: collapse;     =
+- border-collapse: collapse; =
 
-- border-collapse: collapse;    
+- border-collapse: collapse;
 
 
     /*  -------------bordercolor--------------- */
-    /* border-color: `selec^;                   */
+    /* border-color:` `selec^;                  */
 
 
 
-border-color: rgb(; 
+border-color: rgb();
 
-border-color: rgb(;  =
+border-color: rgb(_TYPED); =
 
-- border-color: rgb(;    =
+- border-color: rgb(); =
 
-- border-color: rgb(;   
+- border-color: rgb();
 
 
     /*  -------------borderleftcolor--------------- */
-    /* border-left-color: `col^;                    */
+    /* border-left-color:` `col^;                   */
 
 
 
-border-left-color: rgb(;    
+border-left-color: rgb();
 
-border-left-color: rgb(;     =
+border-left-color: rgb(_TYPED); =
 
-- border-left-color: rgb(;   =
+- border-left-color: rgb(); =
 
-- border-left-color: rgb(;  
+- border-left-color: rgb();
 
 
     /*  -------------borderleftstyle--------------- */
@@ -342,13 +342,13 @@ border-left-color: rgb(;     =
 
 
 
-border-left-style: none;    
+border-left-style: none;
 
-border-left-style: none;     =
+border-left-style: none; =
 
-- border-left-style: none;   =
+- border-left-style: none; =
 
-- border-left-style: none;  
+- border-left-style: none;
 
 
     /*  -------------borderleftwidth--------------- */
@@ -356,27 +356,27 @@ border-left-style: none;     =
 
 
 
-border-left-width: thin;    
+border-left-width: thin;
 
-border-left-width: thin;     =
+border-left-width: thin; =
 
-- border-left-width: thin;   =
+- border-left-width: thin; =
 
-- border-left-width: thin;  
+- border-left-width: thin;
 
 
     /*  -------------borderrightcolor--------------- */
-    /* border-right-color: `col^;                    */
+    /* border-right-color:` `col^;                   */
 
 
 
-border-right-color: rgb(;   
+border-right-color: rgb();
 
-border-right-color: rgb(;    =
+border-right-color: rgb(_TYPED); =
 
-- border-right-color: rgb(;  =
+- border-right-color: rgb(); =
 
-- border-right-color: rgb(; 
+- border-right-color: rgb();
 
 
     /*  -------------borderrightstyle--------------- */
@@ -384,13 +384,13 @@ border-right-color: rgb(;    =
 
 
 
-border-right-style: none;   
+border-right-style: none;
 
-border-right-style: none;    =
+border-right-style: none; =
 
-- border-right-style: none;  =
+- border-right-style: none; =
 
-- border-right-style: none; 
+- border-right-style: none;
 
 
     /*  -------------borderrightwidth--------------- */
@@ -398,13 +398,13 @@ border-right-style: none;    =
 
 
 
-border-right-width: thin;   
+border-right-width: thin;
 
-border-right-width: thin;    =
+border-right-width: thin; =
 
-- border-right-width: thin;  =
+- border-right-width: thin; =
 
-- border-right-width: thin; 
+- border-right-width: thin;
 
 
     /*  -------------borderspacing--------------- */
@@ -426,27 +426,27 @@ border-spacing: select_TYPED; =
 
 
 
-border-style: none; 
+border-style: none;
 
-border-style: none;  =
+border-style: none; =
 
-- border-style: none;    =
+- border-style: none; =
 
-- border-style: none;   
+- border-style: none;
 
 
     /*  -------------bordertopcolor--------------- */
-    /* border-top-color: `col^;                    */
+    /* border-top-color:` `col^;                   */
 
 
 
-border-top-color: rgb(; 
+border-top-color: rgb();
 
-border-top-color: rgb(;  =
+border-top-color: rgb(_TYPED); =
 
-- border-top-color: rgb(;    =
+- border-top-color: rgb(); =
 
-- border-top-color: rgb(;   
+- border-top-color: rgb();
 
 
     /*  -------------bordertopstyle--------------- */
@@ -454,27 +454,27 @@ border-top-color: rgb(;  =
 
 
 
-border-top-style: none; 
+border-top-style: none;
 
-border-top-style: none;  =
+border-top-style: none; =
 
-- border-top-style: none;    =
+- border-top-style: none; =
 
-- border-top-style: none;   
+- border-top-style: none;
 
 
     /*  -------------bordertopwidth--------------- */
-    /* border-top-width: `col^;                    */
+    /* border-top-width:` `col^;                   */
 
 
 
-border-top-width: rgb(; 
+border-top-width: rgb();
 
-border-top-width: rgb(;  =
+border-top-width: rgb(_TYPED); =
 
-- border-top-width: rgb(;    =
+- border-top-width: rgb(); =
 
-- border-top-width: rgb(;   
+- border-top-width: rgb();
 
 
     /*  -------------borderwidth--------------- */
@@ -482,13 +482,13 @@ border-top-width: rgb(;  =
 
 
 
-border-width: thin; 
+border-width: thin;
 
-border-width: thin;  =
+border-width: thin; =
 
-- border-width: thin;    =
+- border-width: thin; =
 
-- border-width: thin;   
+- border-width: thin;
 
 
     /*  -------------bottom--------------- */
@@ -510,13 +510,13 @@ bottom: ; =
 
 
 
-caption-side: top;  
+caption-side: top;
 
-caption-side: top;   =
+caption-side: top; =
 
-- caption-side: top;     =
+- caption-side: top; =
 
-- caption-side: top;    
+- caption-side: top;
 
 
     /*  -------------clear--------------- */
@@ -524,13 +524,13 @@ caption-side: top;   =
 
 
 
-clear: none;    
+clear: none;
 
-clear: none;     =
+clear: none; =
 
-- clear: none;   =
+- clear: none; =
 
-- clear: none;  
+- clear: none;
 
 
     /*  -------------clip--------------- */
@@ -538,27 +538,27 @@ clear: none;     =
 
 
 
-clip: auto; 
+clip: auto;
 
-clip: auto;  =
+clip: auto; =
 
-- clip: auto;    =
+- clip: auto; =
 
-- clip: auto;   
+- clip: auto;
 
 
     /*  -------------color--------------- */
-    /* color: `selec^;                    */
+    /* color:` `selec^;                   */
 
 
 
-color: rgb(;    
+color: rgb();
 
-color: rgb(;     =
+color: rgb(_TYPED); =
 
-- color: rgb(;   =
+- color: rgb(); =
 
-- color: rgb(;  
+- color: rgb();
 
 
     /*  -------------comment--------------- */
@@ -656,27 +656,27 @@ color: rgb(;     =
 
 
 
-content: normal;    
+content: normal;
 
-content: normal;     =
+content: normal; =
 
-- content: normal;   =
+- content: normal; =
 
-- content: normal;  
+- content: normal;
 
 
     /*  -------------cursor--------------- */
-    /* cursor: `selec^;                    */
+    /* cursor:` `selec^;                   */
 
 
 
-cursor: url(;   
+cursor: url();
 
-cursor: url(;    =
+cursor: url(_TYPED); =
 
-- cursor: url(;  =
+- cursor: url(); =
 
-- cursor: url(; 
+- cursor: url();
 
 
     /*  -------------direction--------------- */
@@ -684,13 +684,13 @@ cursor: url(;    =
 
 
 
-direction: ltr; 
+direction: ltr;
 
-direction: ltr;  =
+direction: ltr; =
 
-- direction: ltr;    =
+- direction: ltr; =
 
-- direction: ltr;   
+- direction: ltr;
 
 
     /*  -------------display--------------- */
@@ -698,13 +698,13 @@ direction: ltr;  =
 
 
 
-display: inline;    
+display: inline;
 
-display: inline;     =
+display: inline; =
 
-- display: inline;   =
+- display: inline; =
 
-- display: inline;  
+- display: inline;
 
 
     /*  -------------elevation--------------- */
@@ -712,13 +712,13 @@ display: inline;     =
 
 
 
-elevation: below;   
+elevation: below;
 
-elevation: below;    =
+elevation: below; =
 
-- elevation: below;  =
+- elevation: below; =
 
-- elevation: below; 
+- elevation: below;
 
 
     /*  -------------emptycells--------------- */
@@ -726,13 +726,13 @@ elevation: below;    =
 
 
 
-empty-cells: show;  
+empty-cells: show;
 
-empty-cells: show;   =
+empty-cells: show; =
 
-- empty-cells: show;     =
+- empty-cells: show; =
 
-- empty-cells: show;    
+- empty-cells: show;
 
 
     /*  -------------float--------------- */
@@ -740,13 +740,13 @@ empty-cells: show;   =
 
 
 
-float: left;    
+float: left;
 
-float: left;     =
+float: left; =
 
-- float: left;   =
+- float: left; =
 
-- float: left;  
+- float: left;
 
 
     /*  -------------font--------------- */
@@ -754,13 +754,13 @@ float: left;     =
 
 
 
-font: normal xx-small sans-serif;   
+font: normal xx-small sans-serif;
 
-font: normal xx-small sans-serif;    =
+font: normal xx-small sans-serif; =
 
-- font: normal xx-small sans-serif;  =
+- font: normal xx-small sans-serif; =
 
-- font: normal xx-small sans-serif; 
+- font: normal xx-small sans-serif;
 
 
     /*  -------------fontfamily--------------- */
@@ -768,13 +768,13 @@ font: normal xx-small sans-serif;    =
 
 
 
-font-family: sans-serif;    
+font-family: sans-serif;
 
-font-family: sans-serif;     =
+font-family: sans-serif; =
 
-- font-family: sans-serif;   =
+- font-family: sans-serif; =
 
-- font-family: sans-serif;  
+- font-family: sans-serif;
 
 
     /*  -------------fontsize--------------- */
@@ -782,13 +782,13 @@ font-family: sans-serif;     =
 
 
 
-font-size: xx-small;    
+font-size: xx-small;
 
-font-size: xx-small;     =
+font-size: xx-small; =
 
-- font-size: xx-small;   =
+- font-size: xx-small; =
 
-- font-size: xx-small;  
+- font-size: xx-small;
 
 
     /*  -------------fontstyle--------------- */
@@ -796,13 +796,13 @@ font-size: xx-small;     =
 
 
 
-font-style: normal; 
+font-style: normal;
 
-font-style: normal;  =
+font-style: normal; =
 
-- font-style: normal;    =
+- font-style: normal; =
 
-- font-style: normal;   
+- font-style: normal;
 
 
     /*  -------------fontvariant--------------- */
@@ -810,13 +810,13 @@ font-style: normal;  =
 
 
 
-font-variant: normal;   
+font-variant: normal;
 
-font-variant: normal;    =
+font-variant: normal; =
 
-- font-variant: normal;  =
+- font-variant: normal; =
 
-- font-variant: normal; 
+- font-variant: normal;
 
 
     /*  -------------fontweight--------------- */
@@ -824,13 +824,13 @@ font-variant: normal;    =
 
 
 
-font-weight: normal;    
+font-weight: normal;
 
-font-weight: normal;     =
+font-weight: normal; =
 
-- font-weight: normal;   =
+- font-weight: normal; =
 
-- font-weight: normal;  
+- font-weight: normal;
 
 
     /*  -------------letterspacing--------------- */
@@ -862,17 +862,17 @@ line-height: ; =
 
 
     /*  -------------liststyleimage--------------- */
-    /* list-style-image: `selec^;                  */
+    /* list-style-image:` `selec^;                 */
 
 
 
-list-style-image: url(; 
+list-style-image: url();
 
-list-style-image: url(;  =
+list-style-image: url(_TYPED); =
 
-- list-style-image: url(;    =
+- list-style-image: url(); =
 
-- list-style-image: url(;   
+- list-style-image: url();
 
 
     /*  -------------liststyleposition--------------- */
@@ -880,13 +880,13 @@ list-style-image: url(;  =
 
 
 
-list-style-position: inside;    
+list-style-position: inside;
 
-list-style-position: inside;     =
+list-style-position: inside; =
 
-- list-style-position: inside;   =
+- list-style-position: inside; =
 
-- list-style-position: inside;  
+- list-style-position: inside;
 
 
     /*  -------------liststyletype--------------- */
@@ -894,13 +894,13 @@ list-style-position: inside;     =
 
 
 
-list-style-type: disc;  
+list-style-type: disc;
 
-list-style-type: disc;   =
+list-style-type: disc; =
 
-- list-style-type: disc;     =
+- list-style-type: disc; =
 
-- list-style-type: disc;    
+- list-style-type: disc;
 
 
     /*  -------------margin--------------- */
@@ -978,27 +978,27 @@ min-width: ; =
 
 
 
-outline: thin none rgb(;    
+outline: thin none rgb();
 
-outline: thin none rgb(;     =
+outline: thin none rgb(_TYPED); =
 
-- outline: thin none rgb(;   =
+- outline: thin none rgb(); =
 
-- outline: thin none rgb(;  
+- outline: thin none rgb();
 
 
     /*  -------------outlinecolor--------------- */
-    /* outline-color: `selec^;                   */
+    /* outline-color:` `selec^;                  */
 
 
 
-outline-color: rgb(;    
+outline-color: rgb();
 
-outline-color: rgb(;     =
+outline-color: rgb(_TYPED); =
 
-- outline-color: rgb(;   =
+- outline-color: rgb(); =
 
-- outline-color: rgb(;  
+- outline-color: rgb();
 
 
     /*  -------------outlinestyle--------------- */
@@ -1006,13 +1006,13 @@ outline-color: rgb(;     =
 
 
 
-outline-style: none;    
+outline-style: none;
 
-outline-style: none;     =
+outline-style: none; =
 
-- outline-style: none;   =
+- outline-style: none; =
 
-- outline-style: none;  
+- outline-style: none;
 
 
     /*  -------------outlinewidth--------------- */
@@ -1020,13 +1020,13 @@ outline-style: none;     =
 
 
 
-outline-width: thin;    
+outline-width: thin;
 
-outline-width: thin;     =
+outline-width: thin; =
 
-- outline-width: thin;   =
+- outline-width: thin; =
 
-- outline-width: thin;  
+- outline-width: thin;
 
 
     /*  -------------overflow--------------- */
@@ -1034,13 +1034,13 @@ outline-width: thin;     =
 
 
 
-overflow: visible;  
+overflow: visible;
 
-overflow: visible;   =
+overflow: visible; =
 
-- overflow: visible;     =
+- overflow: visible; =
 
-- overflow: visible;    
+- overflow: visible;
 
 
     /*  -------------pagebreakafter--------------- */
@@ -1048,13 +1048,13 @@ overflow: visible;   =
 
 
 
-page-break-after: auto; 
+page-break-after: auto;
 
-page-break-after: auto;  =
+page-break-after: auto; =
 
-- page-break-after: auto;    =
+- page-break-after: auto; =
 
-- page-break-after: auto;   
+- page-break-after: auto;
 
 
     /*  -------------pagebreakbefore--------------- */
@@ -1062,13 +1062,13 @@ page-break-after: auto;  =
 
 
 
-page-break-before: auto;    
+page-break-before: auto;
 
-page-break-before: auto;     =
+page-break-before: auto; =
 
-- page-break-before: auto;   =
+- page-break-before: auto; =
 
-- page-break-before: auto;  
+- page-break-before: auto;
 
 
     /*  -------------pagebreakinside--------------- */
@@ -1076,13 +1076,13 @@ page-break-before: auto;     =
 
 
 
-page-break-inside: auto;    
+page-break-inside: auto;
 
-page-break-inside: auto;     =
+page-break-inside: auto; =
 
-- page-break-inside: auto;   =
+- page-break-inside: auto; =
 
-- page-break-inside: auto;  
+- page-break-inside: auto;
 
 
     /*  -------------pitch--------------- */
@@ -1090,27 +1090,27 @@ page-break-inside: auto;     =
 
 
 
-pitch: x-low;   
+pitch: x-low;
 
-pitch: x-low;    =
+pitch: x-low; =
 
-- pitch: x-low;  =
+- pitch: x-low; =
 
-- pitch: x-low; 
+- pitch: x-low;
 
 
     /*  -------------playduring--------------- */
-    /* play-during: `selec^;                   */
+    /* play-during:` `selec^;                  */
 
 
 
-play-during: url(;  
+play-during: url();
 
-play-during: url(;   =
+play-during: url(_TYPED); =
 
-- play-during: url(;     =
+- play-during: url(); =
 
-- play-during: url(;    
+- play-during: url();
 
 
     /*  -------------position--------------- */
@@ -1118,13 +1118,13 @@ play-during: url(;   =
 
 
 
-position: static;   
+position: static;
 
-position: static;    =
+position: static; =
 
-- position: static;  =
+- position: static; =
 
-- position: static; 
+- position: static;
 
 
     /*  -------------quotes--------------- */
@@ -1146,13 +1146,13 @@ quotes: ; =
 
 
 
-speak: normal;  
+speak: normal;
 
-speak: normal;   =
+speak: normal; =
 
-- speak: normal;     =
+- speak: normal; =
 
-- speak: normal;    
+- speak: normal;
 
 
     /*  -------------speakheader--------------- */
@@ -1160,13 +1160,13 @@ speak: normal;   =
 
 
 
-speak-header: once; 
+speak-header: once;
 
-speak-header: once;  =
+speak-header: once; =
 
-- speak-header: once;    =
+- speak-header: once; =
 
-- speak-header: once;   
+- speak-header: once;
 
 
     /*  -------------speaknumeral--------------- */
@@ -1174,13 +1174,13 @@ speak-header: once;  =
 
 
 
-speak-numeral: digits;  
+speak-numeral: digits;
 
-speak-numeral: digits;   =
+speak-numeral: digits; =
 
-- speak-numeral: digits;     =
+- speak-numeral: digits; =
 
-- speak-numeral: digits;    
+- speak-numeral: digits;
 
 
     /*  -------------speakpunctuation--------------- */
@@ -1188,13 +1188,13 @@ speak-numeral: digits;   =
 
 
 
-speak-punctuation: code;    
+speak-punctuation: code;
 
-speak-punctuation: code;     =
+speak-punctuation: code; =
 
-- speak-punctuation: code;   =
+- speak-punctuation: code; =
 
-- speak-punctuation: code;  
+- speak-punctuation: code;
 
 
     /*  -------------speechrate--------------- */
@@ -1202,13 +1202,13 @@ speak-punctuation: code;     =
 
 
 
-speech-rate: x-slow;    
+speech-rate: x-slow;
 
-speech-rate: x-slow;     =
+speech-rate: x-slow; =
 
-- speech-rate: x-slow;   =
+- speech-rate: x-slow; =
 
-- speech-rate: x-slow;  
+- speech-rate: x-slow;
 
 
     /*  -------------tablelayout--------------- */
@@ -1216,13 +1216,13 @@ speech-rate: x-slow;     =
 
 
 
-table-layout: auto; 
+table-layout: auto;
 
-table-layout: auto;  =
+table-layout: auto; =
 
-- table-layout: auto;    =
+- table-layout: auto; =
 
-- table-layout: auto;   
+- table-layout: auto;
 
 
     /*  -------------textalign--------------- */
@@ -1230,13 +1230,13 @@ table-layout: auto;  =
 
 
 
-text-align: left;   
+text-align: left;
 
-text-align: left;    =
+text-align: left; =
 
-- text-align: left;  =
+- text-align: left; =
 
-- text-align: left; 
+- text-align: left;
 
 
     /*  -------------textdecoration--------------- */
@@ -1244,13 +1244,13 @@ text-align: left;    =
 
 
 
-text-decoration: none;  
+text-decoration: none;
 
-text-decoration: none;   =
+text-decoration: none; =
 
-- text-decoration: none;     =
+- text-decoration: none; =
 
-- text-decoration: none;    
+- text-decoration: none;
 
 
     /*  -------------texttransform--------------- */
@@ -1258,13 +1258,13 @@ text-decoration: none;   =
 
 
 
-text-transform: capitalize; 
+text-transform: capitalize;
 
-text-transform: capitalize;  =
+text-transform: capitalize; =
 
-- text-transform: capitalize;    =
+- text-transform: capitalize; =
 
-- text-transform: capitalize;   
+- text-transform: capitalize;
 
 
     /*  -------------top--------------- */
@@ -1286,13 +1286,13 @@ top: ; =
 
 
 
-unicode-bidi: normal;   
+unicode-bidi: normal;
 
-unicode-bidi: normal;    =
+unicode-bidi: normal; =
 
-- unicode-bidi: normal;  =
+- unicode-bidi: normal; =
 
-- unicode-bidi: normal; 
+- unicode-bidi: normal;
 
 
     /*  -------------verticalalign--------------- */
@@ -1300,13 +1300,13 @@ unicode-bidi: normal;    =
 
 
 
-vertical-align: baseline;   
+vertical-align: baseline;
 
-vertical-align: baseline;    =
+vertical-align: baseline; =
 
-- vertical-align: baseline;  =
+- vertical-align: baseline; =
 
-- vertical-align: baseline; 
+- vertical-align: baseline;
 
 
     /*  -------------visibility--------------- */
@@ -1314,13 +1314,13 @@ vertical-align: baseline;    =
 
 
 
-visibility: visible;    
+visibility: visible;
 
-visibility: visible;     =
+visibility: visible; =
 
-- visibility: visible;   =
+- visibility: visible; =
 
-- visibility: visible;  
+- visibility: visible;
 
 
     /*  -------------volume--------------- */
@@ -1328,13 +1328,13 @@ visibility: visible;     =
 
 
 
-volume: silent; 
+volume: silent;
 
-volume: silent;  =
+volume: silent; =
 
-- volume: silent;    =
+- volume: silent; =
 
-- volume: silent;   
+- volume: silent;
 
 
     /*  -------------whitespace--------------- */
@@ -1342,13 +1342,13 @@ volume: silent;  =
 
 
 
-white-space: normal;    
+white-space: normal;
 
-white-space: normal;     =
+white-space: normal; =
 
-- white-space: normal;   =
+- white-space: normal; =
 
-- white-space: normal;  
+- white-space: normal;
 
 
     /*  -------------wordspacing--------------- */

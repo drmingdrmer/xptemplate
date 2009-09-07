@@ -666,7 +666,7 @@ test.page =
  *
  * <b>function</b>
  * @version : 1.0
- * @since : 2009 Sep 07
+ * @since : 2009 Sep 08
  * 
  * @description :
  *     
@@ -683,7 +683,7 @@ test.page =
  *
  * <b>function_TYPED</b>
  * @version : 10_TYPED
- * @since : 2009 Sep 07
+ * @since : 2009 Sep 08
  * 
  * @description :
  *     
@@ -700,7 +700,7 @@ test.page =
   *
   * <b>function</b>
   * @version : 1.0
-  * @since : 2009 Sep 07
+  * @since : 2009 Sep 08
   * 
   * @description :
   *     
@@ -717,7 +717,7 @@ test.page =
    *
    * <b>function</b>
    * @version : 1.0
-   * @since : 2009 Sep 07
+   * @since : 2009 Sep 08
    * 
    * @description :
    *     
@@ -793,18 +793,18 @@ for (i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED) {
 }
 
 
-    /*  -------------fprintf--------------- */
-    /* printf( "`pattern^"`elts^ )          */
+    /*  -------------fprintf---------------   */
+    /* fprintf( `stream^, "`pattern^"`elts^ ) */
 
 
 
-printf( "pattern" )
+fprintf( stream, "pattern" )
 
-printf( "pattern_TYPED" ) =
+fprintf( stream_TYPED, "pattern_TYPED" ) =
 
-- printf( "pattern" ) =
+- fprintf( stream, "pattern" ) =
 
-- printf( "pattern" )
+- fprintf( stream, "pattern" )
 
 
     /*  -------------fun---------------                                                   */
@@ -1121,20 +1121,6 @@ main(int argc, char **argv)
 #endif /* __TEST_PAGE__ */
 
 
-    /*  -------------para--------------- */
-    /* @param {`Object^} `name^ `desc^   */
-
-
-
-para
-
-para =
-
-- para =
-
-- para
-
-
     /*  -------------printf--------------- */
     /* printf( "`pattern^"`elts^ )         */
 
@@ -1149,32 +1135,32 @@ printf( "pattern_TYPED" ) =
 - printf( "pattern" )
 
 
-    /*  -------------snprintf--------------- */
-    /* printf( "`pattern^"`elts^ )           */
+    /*  -------------snprintf---------------        */
+    /* snprintf( `str^, `size^, "`pattern^"`elts^ ) */
 
 
 
-printf( "pattern" )
+snprintf( str, size, "pattern" )
 
-printf( "pattern_TYPED" ) =
+snprintf( str_TYPED, size_TYPED, "pattern_TYPED" ) =
 
-- printf( "pattern" ) =
+- snprintf( str, size, "pattern" ) =
 
-- printf( "pattern" )
+- snprintf( str, size, "pattern" )
 
 
     /*  -------------sprintf--------------- */
-    /* printf( "`pattern^"`elts^ )          */
+    /* sprintf( `str^, "`pattern^"`elts^ )  */
 
 
 
-printf( "pattern" )
+sprintf( str, "pattern" )
 
-printf( "pattern_TYPED" ) =
+sprintf( str_TYPED, "pattern_TYPED" ) =
 
-- printf( "pattern" ) =
+- sprintf( str, "pattern" ) =
 
-- printf( "pattern" )
+- sprintf( str, "pattern" )
 
 
     /*  -------------struct--------------- */

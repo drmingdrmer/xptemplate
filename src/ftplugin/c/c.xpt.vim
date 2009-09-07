@@ -109,17 +109,17 @@ XSET elts=c_printfElts( R( 'pattern' ) )
 printf( "`pattern^"`elts^ )
 
 
-XPT sprintf alias=printf
+XPT sprintf	hint=sprintf\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )
 sprintf( `str^, "`pattern^"`elts^ )
 
 
-XPT snprintf alias=printf
+XPT snprintf	hint=snprintf\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )
 snprintf( `str^, `size^, "`pattern^"`elts^ )
 
 
-XPT fprintf alias=printf
+XPT fprintf	hint=fprintf\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )
 fprintf( `stream^, "`pattern^"`elts^ )
 

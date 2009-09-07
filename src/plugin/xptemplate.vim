@@ -773,6 +773,9 @@ fun! s:Popup(pref, coln) "{{{
 
     let x = g:XPTobject()
 
+    " TODO bad code!
+    let ctx = s:getRenderContext()
+    let ctx.phase = 'uninit'
 
     let cmpl=[]
     let cmpl2 = []
@@ -1419,7 +1422,6 @@ fun! s:addItemToRenderContext( ctx, item ) "{{{
 
     " TODO precise phase, do not use false condition
     if ctx.phase != 'rendering'
-        " fillin phase 
         " call insert( ctx.itemList, item, 0 )
         call add( ctx.firstList, item )
 
@@ -1566,7 +1568,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
             " start
 
         else
-            " build item and marks, as a fillin place holder
+            " build item and marks, as a fill in place holder
 
             let item = s:BuildItemForPlaceHolder( renderContext, placeHolder )
 
@@ -3088,7 +3090,7 @@ fun! s:Crash(...) "{{{
 
     let msg = "XPTemplate snippet crashed :" . join( a:000, "\n" ) 
 
-    call XPRend()
+    call XPPend()
 
     let x = g:XPTobject()
 

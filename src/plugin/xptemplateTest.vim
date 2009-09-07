@@ -174,6 +174,7 @@ fun! s:XPTtest(ft) "{{{
     " endfor
 
     let tmplList = values(tmpls)
+    call filter( tmplList, '!has_key(v:val.setting, "syn")' )
     let tmplList = sort( tmplList, "XPTtestSort" )
 
 
@@ -234,6 +235,12 @@ fun! TestProcess() "{{{
         XPTSlow
 
     else " b:testProcessing = 1
+
+        let x = XPTbufData()
+        let ctx = x.renderContext
+        if ctx.phase == 'uninit'
+            return ""
+        endif
 
         " Insert mode or select mode.
         " If it is in normal mode, maybe something else is going. In normal mode,
@@ -335,10 +342,17 @@ fun! s:FillinTemplate() "{{{
     let x = XPTbufData()
     let ctx = x.renderContext
 
+    " if pumvisible()
+        " call confirm(  "can not be!" )
+    " endif
+
+    call s:log.Log( "template name=" . ctx.tmpl.name . ' ============================================================ ' )
     call s:log.Log( "mode=".mode()." popup=".pumvisible() )
-    call s:log.Log("phase:" . ctx.phase)
+    call s:log.Log( "render phase:" . ctx.phase)
     call s:log.Log( 'b:testPhase=' . b:testPhase )
+    call s:log.Log( 'itemList=' . string( ctx.itemList ) )
     call s:log.Log( 'item=' . string( ctx.item ) )
+
 
     if ctx.phase == 'fillin' 
 
@@ -357,6 +371,7 @@ fun! s:FillinTemplate() "{{{
         if pumvisible()
             call s:log.Log( "has pum, select the first" )
             call s:XPTtype( "\<C-n>" )
+
 
         elseif len(b:itemSteps) >= 3 && b:itemSteps[-3] == ctx.item.name
             call s:log.Log( "too many repetition done, cancel it" )
@@ -386,6 +401,7 @@ fun! s:FillinTemplate() "{{{
     elseif ctx.phase == 'finished'
         " template finished
 
+        call s:log.Log( "finished" )
         let b:phaseIndex = (b:phaseIndex + 1) % len(s:phases)
         let b:testPhase = s:phases[ b:phaseIndex ]
         let b:testProcessing = 0
