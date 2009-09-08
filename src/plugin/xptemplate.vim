@@ -496,6 +496,7 @@ fun! s:initItemOrderDict( setting ) "{{{
 
 endfunction "}}}
 
+" TODO it does NOT work well
 fun! XPTreload() "{{{
   try
     unlet b:__xpt_loaded
@@ -533,7 +534,8 @@ fun! XPTemplatePreWrap(wrap) "{{{
     return ppr
 endfunction "}}}
 
-fun! XPTemplateStart(pos, ...) " {{{
+" TODO remove the first argument
+fun! XPTemplateStart(pos_nonused_any_more, ...) " {{{
     let x = g:XPTobject()
 
     call s:log.Log("a:000".string(a:000))
