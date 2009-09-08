@@ -28,7 +28,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO test html
+" TODO test lua
 " TODO escaped mark in snippet '`' and '^' and in nested.
 " TODO snippets bundle and bundle selection
 " TODO snippet-file scope XSET

@@ -1,32 +1,44 @@
 XPTemplate priority=lang
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+let s:f = XPTcontainer()[0]
+ 
+XPTvar $TRUE          true
+XPTvar $FALSE         false
+XPTvar $NULL          null
+XPTvar $UNDEFINED     null
 
-" constant definition
-call extend(s:v, { '$TRUE': 'true'
-               \ , '$FALSE' : 'false'
-               \ , '$NULL' : 'null'
-               \ , '$UNDEFINED' : ''
-               \ , '$IF_BRACKET_STL' : ''
-               \ , '$INDENT_HELPER' : ';'})
+XPTvar $INDENT_HELPER  /* void */;
+XPTvar $CURSOR_PH      /* cursor */
 
-" inclusion
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \ 
+
+XPTvar $CL    /*
+XPTvar $CM    *
+XPTvar $CR    */
+
+
 XPTinclude 
       \ _common/common
-      \ _comment/c.like
+      \ _comment/doubleSign
       \ _condition/c.like
       \ _loops/java.for.like
       \ _loops/c.while.like
-      \ c/wrap
 
-" ========================= Function and Varaibles =============================
+
+" ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
-XPTemplateDef
+XPTemplateDef 
+
+
+
 
 XPT foreach hint=for\ \(\ ..\ :\ ..\ \)
-for ( `type^ `var^ : `inWhat^ ) {
+for ( `type^ `var^ : `inWhat^ )`$FOR_BRACKET_STL^{
     `cursor^
 }
 
@@ -42,24 +54,23 @@ protected `type^ `varName^;
 
 XPT class hint=class\ ..\ ctor
 public class `className^ {
-    public `className^( `ctorParam^^ ) {
+    public `className^(` `ctorParam` ^)`$FUNC_BRACKET_STL^{
         `cursor^
     }
 }
 
 
 XPT main hint=main\ (\ String\ )
-public static void main( String[] args )
-{
+public static void main( String[] args )`$FUNC_BRACKET_STL^{
     `cursor^
 }
 
 
 XPT enum hint=public\ enum\ {\ ..\ }
-`access^public^ enum `enumName^
+`public^ enum `enumName^
 {
-    `elem^`...^,
-    `subElem^`...^
+    `elem^` `...^,
+    `subElem^` `...^
 };
 `cursor^
 
@@ -81,13 +92,14 @@ XSETm END
 
 
 XPT try hint=try\ ..\ catch\ (..)\ ..\ finally
+XSET handler=$CL handling $CR
 try
 {
     `what^
 }` `catch...^
 XSETm catch...|post
 
-catch (`except^ `e^)
+catch (`Exception^ `e^)
 {
     `handler^
 }` `catch...^
@@ -99,3 +111,23 @@ XSETm END
 
 
 
+" ================================= Wrapper ===================================
+
+
+XPT try_ hint=try\ {\ SEL\ }\ catch...
+XSET handler=$CL handling $CR
+try
+{
+    `wrapped^
+}` `catch...^
+XSETm catch...|post
+
+catch (`Exception^ `e^)
+{
+    `handler^
+}` `catch...^
+XSETm END
+`finally...{{^finally
+{
+    `cursor^
+}`}}^

@@ -1,32 +1,60 @@
 
 
 
-    //  -------------`--------------- 
-    // \``wrapped^\`                  
+    //  -------------"--------------- 
+    // "`wrapped^"                    
 
 
 
-`WRAPPED_TEXT`
+"WRAPPED_TEXT"
 
-`WRAPPED_TEXT` =
+"WRAPPED_TEXT" =
 
-    - `WRAPPED_TEXT` =
+    - "WRAPPED_TEXT" =
 
-    - `WRAPPED_TEXT`
-
-
-    //  -------------comment--------------- 
-    // `$CL^ `cursor^ `$CR^                 
+    - "WRAPPED_TEXT"
 
 
+    //  -------------'--------------- 
+    // '`wrapped^'                    
 
-/*  */
 
-/*  */ =
 
-- /*  */ =
+'WRAPPED_TEXT'
 
-    - /*  */
+'WRAPPED_TEXT' =
+
+    - 'WRAPPED_TEXT' =
+
+    - 'WRAPPED_TEXT'
+
+
+    //  -------------(--------------- 
+    // (`wrapped^)                    
+
+
+
+(WRAPPED_TEXT)
+
+(WRAPPED_TEXT) =
+
+- (WRAPPED_TEXT) =
+
+- (WRAPPED_TEXT)
+
+
+    //  -------------<--------------- 
+    // <`wrapped^>                    
+
+
+
+<WRAPPED_TEXT>
+
+<WRAPPED_TEXT> =
+
+    - <WRAPPED_TEXT> =
+
+    - <WRAPPED_TEXT>
 
 
     //  -------------Author--------------- 
@@ -43,106 +71,84 @@ drdr.xp =
     - drdr.xp
 
 
-    //  -------------fun--------------- 
-    // function` `name^ (`arg..^) {     
-    //     `cursor^                     
-    // }                                
+    //  -------------Email--------------- 
+    // `$email^                           
 
 
 
-function name () {
-    
-}
+drdr.xp@gmail.com
 
-function name_TYPED (arg_TYPED, arg_TYPED) {
-    
-} =
+drdr.xp@gmail.com =
 
-- function name () {
-    
-} =
+    - drdr.xp@gmail.com =
 
-- function name () {
-    
-}
+    - drdr.xp@gmail.com
+
+
+    //  -------------File--------------- 
+    // `file()^                          
+
+
+
+test.page
+
+test.page =
+
+    - test.page =
+
+    - test.page
+
+
+    //  -------------[--------------- 
+    // [`wrapped^]                    
+
+
+
+[WRAPPED_TEXT]
+
+[WRAPPED_TEXT] =
+
+- [WRAPPED_TEXT] =
+
+- [WRAPPED_TEXT]
+
+
+    //  -------------`--------------- 
+    // \``wrapped^\`                  
+
+
+
+`WRAPPED_TEXT`
+
+`WRAPPED_TEXT` =
+
+    - `WRAPPED_TEXT` =
+
+    - `WRAPPED_TEXT`
 
 
     //  -------------asoe--------------- 
     // assertObjectEquals(`mess^         
     //                   , `arr^         
-    //                   , `expr^);      
+    //                   , `expr^)       
 
 
 
-    assertObjectEquals(mess
-                      , arr
-                      , expr);
+assertObjectEquals(mess
+                  , arr
+                  , expr)
 
-                  assertObjectEquals(mess_TYPED
-                                    , arr_TYPED
-                                    , expr_TYPED); =
+              assertObjectEquals(mess_TYPED
+                                , arr_TYPED
+                                , expr_TYPED) =
 
-                                - assertObjectEquals(mess
-                                                  , arr
-                                                  , expr); =
+                            - assertObjectEquals(mess
+                                              , arr
+                                              , expr) =
 
-                                          - assertObjectEquals(mess
-                                                            , arr
-                                                            , expr);
-
-
-    //  -------------else--------------- 
-    // else`$IF_BRACKET_STL^{            
-    //     `cursor^                      
-    // }                                 
-
-
-
-    else {
-        
-    }
-
-    else {
-        
-    } =
-
-    - else {
-        
-    } =
-
-- else {
-    
-}
-
-
-    //  -------------if0---------------    
-    // if (`condition^)`$IF_BRACKET_STL^{  
-    //     `job^                           
-    // }` `else...^                        
-
-
-
-    if (0 == var) { 
-        /* void */;
-    } else { 
-        
-    }
-
-    if (0 == var_TYPED) { 
-        job_TYPED
-    } else_TYPED =
-
-    - if (0 == var) { 
-        /* void */;
-    } else { 
-        
-    } =
-
-    - if (0 == var) { 
-        /* void */;
-    } else { 
-        
-    }
+                                      - assertObjectEquals(mess
+                                                        , arr
+                                                        , expr)
 
 
     //  -------------bench--------------- 
@@ -169,6 +175,7 @@ function name_TYPED (arg_TYPED, arg_TYPED) {
     }
     var t2 = new Date().getTime();
     console.log(t1-t0, t2-t1);
+    
 
     var t0 = new Date().getTime();
     for (var i = 0; i < times_TYPED; ++i){
@@ -179,29 +186,186 @@ function name_TYPED (arg_TYPED, arg_TYPED) {
         jobn_TYPED
     }
     var t2 = new Date().getTime();
-    log_TYPED(t1-t0, t2-t1); =
+    log_TYPED(t1-t0, t2-t1);
+     =
+
+         - var t0 = new Date().getTime();
+         for (var i = 0; i < times; ++i){
+             /* void */;
+         }
+         var t1 = new Date().getTime();
+         for (var i = 0; i < times; ++i){
+             /* void */;
+         }
+         var t2 = new Date().getTime();
+         console.log(t1-t0, t2-t1);
+          =
+
+              - var t0 = new Date().getTime();
+              for (var i = 0; i < times; ++i){
+                  /* void */;
+              }
+              var t1 = new Date().getTime();
+              for (var i = 0; i < times; ++i){
+                  /* void */;
+              }
+              var t2 = new Date().getTime();
+              console.log(t1-t0, t2-t1);
+              
+
+
+    //  -------------bench_--------------- 
+    // var t0 = new Date().getTime();      
+    // for (var i = 0; i < `times^; ++i){  
+    //   `wrapped^                         
+    // }                                   
+    // var t1 = new Date().getTime();      
+    // `log^(t1-t0);                       
+
+
+
+var t0 = new Date().getTime();
+for (var i = 0; i < times; ++i){
+  WRAPPED_TEXT
+}
+var t1 = new Date().getTime();
+console.log(t1-t0);
+
+var t0 = new Date().getTime();
+for (var i = 0; i < times_TYPED; ++i){
+  WRAPPED_TEXT
+}
+var t1 = new Date().getTime();
+log_TYPED(t1-t0); =
+
+    - var t0 = new Date().getTime();
+    for (var i = 0; i < times; ++i){
+      WRAPPED_TEXT
+    }
+    var t1 = new Date().getTime();
+    console.log(t1-t0); =
 
         - var t0 = new Date().getTime();
         for (var i = 0; i < times; ++i){
-            /* void */;
+          WRAPPED_TEXT
         }
         var t1 = new Date().getTime();
-        for (var i = 0; i < times; ++i){
-            /* void */;
-        }
-        var t2 = new Date().getTime();
-        console.log(t1-t0, t2-t1); =
+        console.log(t1-t0);
 
-            - var t0 = new Date().getTime();
-            for (var i = 0; i < times; ++i){
-                /* void */;
-            }
-            var t1 = new Date().getTime();
-            for (var i = 0; i < times; ++i){
-                /* void */;
-            }
-            var t2 = new Date().getTime();
-            console.log(t1-t0, t2-t1);
+
+    //  -------------cmt--------------- 
+    // /**                              
+    // * @author : `author^ | `email^   
+    // * @description                   
+    // *     `cursor^                   
+    // * @return {`Object^} `desc^      
+    // */                               
+
+
+
+    /**
+    * @author : drdr.xp | drdr.xp@gmail.com
+    * @description
+    *     
+    * @return {Object} desc
+    */
+
+    /**
+    * @author : author_TYPED | email_TYPED
+    * @description
+    *     
+    * @return {Object_TYPED} desc_TYPED
+    */ =
+
+    - /**
+    * @author : drdr.xp | drdr.xp@gmail.com
+    * @description
+    *     
+    * @return {Object} desc
+    */ =
+
+    - /**
+    * @author : drdr.xp | drdr.xp@gmail.com
+    * @description
+    *     
+    * @return {Object} desc
+    */
+
+
+    //  -------------comment--------------- 
+    // `$CL^ `cursor^ `$CR^                 
+
+
+
+    /*  */
+
+    /*  */ =
+
+    - /*  */ =
+
+        - /*  */
+
+
+    //  -------------commentBlock--------------- 
+    // `$CL^                                     
+    //  `$CM^ `cursor^                           
+    //  `$CR^                                    
+
+
+
+    /* 
+     * 
+     */
+
+    /* 
+     * 
+     */ =
+
+    - /* 
+     * 
+     */ =
+
+    - /* 
+     * 
+     */
+
+
+    //  -------------commentDoc--------------- 
+    // `$CL^`$CM^                              
+    //  `$CM^ `cursor^                         
+    //  `$CR^                                  
+
+
+
+    /** 
+     * 
+     */
+
+    /** 
+     * 
+     */ =
+
+    - /** 
+     * 
+     */ =
+
+    - /** 
+     * 
+     */
+
+
+    //  -------------commentLine--------------- 
+    // `$CL^ `cursor^ `$CR^                     
+
+
+
+    /*  */
+
+    /*  */ =
+
+    - /*  */ =
+
+        - /*  */
 
 
     //  -------------comment_--------------- 
@@ -211,11 +375,11 @@ function name_TYPED (arg_TYPED, arg_TYPED) {
 
 /* WRAPPED_TEXT */
 
-/* WRAPPED_TEXT */ =
+    /* WRAPPED_TEXT */ =
 
-- /* WRAPPED_TEXT */ =
+    - /* WRAPPED_TEXT */ =
 
-    - /* WRAPPED_TEXT */
+        - /* WRAPPED_TEXT */
 
 
     //  -------------cpr--------------- 
@@ -223,85 +387,60 @@ function name_TYPED (arg_TYPED, arg_TYPED) {
 
 
 
-@param {Object} name desc
+    @param {Object} name desc
 
-@param {Object_TYPED} name_TYPED desc_TYPED =
+    @param {Object_TYPED} name_TYPED desc_TYPED =
 
-    - @param {Object} name desc =
+        - @param {Object} name desc =
 
-    - @param {Object} name desc
-
-
-    //  -------------new---------------           
-    // var `instant^ = new `Constructor^(`arg..^) 
+        - @param {Object} name desc
 
 
-
-var instant = new Constructor()
-
-var instant_TYPED = new Constructor_TYPED(arg_TYPED, arg_TYPED) =
-
-    - var instant = new Constructor() =
-
-    - var instant = new Constructor()
-
-
-    //  -------------if---------------     
-    // if (`condition^)`$IF_BRACKET_STL^{  
-    //     `job^                           
-    // }` `else...^                        
+    //  -------------else--------------- 
+    // else`$IF_BRACKET_STL^{            
+    //     `cursor^                      
+    // }                                 
 
 
 
-if (condition) { 
-    /* void */;
-} else { 
-    
-}
-
-if (condition_TYPED) { 
-    job_TYPED
-} else_TYPED =
-
-- if (condition) { 
-    /* void */;
-} else { 
-    
-} =
-
-- if (condition) { 
-    /* void */;
-} else { 
-    
-}
-
-
-    //  -------------forin---------------            
-    // for ( var `i^ in `array^ )`$FOR_BRACKET_STL^{ 
-    //     var `e^ = `array^[`i^];                   
-    //     `cursor^                                  
-    // }                                             
-
-
-
-    for ( var i in array ) {
-        var e = array[i];
+    else {
         
     }
 
-    for ( var i_TYPED in array_TYPED ) {
-        var e_TYPED = array_TYPED[i_TYPED];
+    else {
         
     } =
 
-    - for ( var i in array ) {
-        var e = array[i];
+    - else {
         
     } =
 
-- for ( var i in array ) {
-    var e = array[i];
+- else {
     
+}
+
+
+    //  -------------else_--------------- 
+    // else`$IF_BRACKET_STL^{             
+    //     `wrapped^                      
+    // }                                  
+
+
+
+else {
+    WRAPPED_TEXT
+}
+
+else {
+    WRAPPED_TEXT
+} =
+
+- else {
+    WRAPPED_TEXT
+} =
+
+- else {
+    WRAPPED_TEXT
 }
 
 
@@ -389,6 +528,201 @@ if (condition_TYPED) {
      *--------------------------\\\ sum ///---------------------------*/
 
 
+    //  -------------for---------------                               
+    // for (var `i^ = 0; `i^ < `ar^.length; ++`i^)`$FOR_BRACKET_STL^{ 
+    //     var `e^ = `ar^[`i^];                                       
+    //     `cursor^                                                   
+    // }                                                              
+
+
+
+    for (var i = 0; i < ar.length; ++i) {
+        var e = ar[i];
+        
+    }
+
+    for (var i_TYPED = 0; i_TYPED < ar_TYPED.length; ++i_TYPED) {
+        var e_TYPED = ar_TYPED[i_TYPED];
+        
+    } =
+
+    - for (var i = 0; i < ar.length; ++i) {
+        var e = ar[i];
+        
+    } =
+
+- for (var i = 0; i < ar.length; ++i) {
+    var e = ar[i];
+    
+}
+
+
+    //  -------------forin---------------            
+    // for ( var `i^ in `array^ )`$FOR_BRACKET_STL^{ 
+    //     var `e^ = `array^[`i^];                   
+    //     `cursor^                                  
+    // }                                             
+
+
+
+    for ( var i in array ) {
+        var e = array[i];
+        
+    }
+
+    for ( var i_TYPED in array_TYPED ) {
+        var e_TYPED = array_TYPED[i_TYPED];
+        
+    } =
+
+    - for ( var i in array ) {
+        var e = array[i];
+        
+    } =
+
+- for ( var i in array ) {
+    var e = array[i];
+    
+}
+
+
+    //  -------------fun--------------- 
+    // function` `name^ (`arg?^) {      
+    //     `cursor^                     
+    // }                                
+
+
+
+    function name () {
+        
+    }
+
+    function name_TYPED (arg_TYPED, arg_TYPED) {
+        
+    } =
+
+    - function name () {
+        
+    } =
+
+- function name () {
+    
+}
+
+
+    //  -------------fun_--------------- 
+    // function` `name^ (`param^) {      
+    //   `wrapped^                       
+    //   return;                         
+    // }                                 
+
+
+
+function name (param) {
+  WRAPPED_TEXT
+  return;
+}
+
+function name_TYPED (param_TYPED) {
+  WRAPPED_TEXT
+  return;
+} =
+
+- function name (param) {
+  WRAPPED_TEXT
+  return;
+} =
+
+- function name (param) {
+  WRAPPED_TEXT
+  return;
+}
+
+
+    //  -------------if---------------     
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+    if (condition) { 
+        /* void */;
+    } else { 
+        
+    }
+
+    if (condition_TYPED) { 
+        job_TYPED
+    } else_TYPED =
+
+    - if (condition) { 
+        /* void */;
+    } else { 
+        
+    } =
+
+    - if (condition) { 
+        /* void */;
+    } else { 
+        
+    }
+
+
+    //  -------------if0---------------    
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+    if (0 == var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+    if (0 == var_TYPED) { 
+        job_TYPED
+    } else_TYPED =
+
+    - if (0 == var) { 
+        /* void */;
+    } else { 
+        
+    } =
+
+    - if (0 == var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+
+    //  -------------if_---------------   
+    // if (`condition^)`$IF_BRACKET_STL^{ 
+    //     `wrapped^                      
+    // }                                  
+
+
+
+if (condition) {
+    WRAPPED_TEXT
+}
+
+if (condition_TYPED) {
+    WRAPPED_TEXT
+} =
+
+- if (condition) {
+    WRAPPED_TEXT
+} =
+
+- if (condition) {
+    WRAPPED_TEXT
+}
+
+
     //  -------------ifee---------------  
     // if (`condition^)`$IF_BRACKET_STL^{ 
     //     `job^                          
@@ -425,113 +759,146 @@ if (condition_TYPED) {
     }
 
 
-    //  -------------[--------------- 
-    // [`wrapped^]                    
+    //  -------------ifn---------------    
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
 
 
 
-[WRAPPED_TEXT]
-
-[WRAPPED_TEXT] =
-
-- [WRAPPED_TEXT] =
-
-- [WRAPPED_TEXT]
-
-
-    //  -------------Email--------------- 
-    // `$email^                           
-
-
-
-drdr.xp@gmail.com
-
-drdr.xp@gmail.com =
-
-    - drdr.xp@gmail.com =
-
-    - drdr.xp@gmail.com
-
-
-    //  -------------"--------------- 
-    // "`wrapped^"                    
-
-
-
-"WRAPPED_TEXT"
-
-"WRAPPED_TEXT" =
-
-    - "WRAPPED_TEXT" =
-
-    - "WRAPPED_TEXT"
-
-
-    //  -------------commentLine--------------- 
-    // `$CL^ `cursor^ `$CR^                     
-
-
-
-/*  */
-
-/*  */ =
-
-- /*  */ =
-
-    - /*  */
-
-
-    //  -------------proto---------------                                 
-    // `Class^.prototype.`method^ = function(`arg..^)`$FUNC_BRACKET_STL^{ 
-    // `cursor^                                                           
-    // }                                                                  
-
-
-
-Class.prototype.method = function() {
-
-}
-
-Class_TYPED.prototype.method_TYPED = function(arg_TYPED, arg_TYPED) {
-
-} =
-
-- Class.prototype.method = function() {
-
-} =
-
-- Class.prototype.method = function() {
-
-}
-
-
-    //  -------------for---------------                               
-    // for (var `i^ = 0; `i^ < `ar^.length; ++`i^)`$FOR_BRACKET_STL^{ 
-    //     var `e^ = `ar^[`i^];                                       
-    //     `cursor^                                                   
-    // }                                                              
-
-
-
-    for (var i = 0; i < ar.length; ++i) {
-        var e = ar[i];
+    if (null == var) { 
+        /* void */;
+    } else { 
         
     }
 
-    for (var i_TYPED = 0; i_TYPED < ar_TYPED.length; ++i_TYPED) {
-        var e_TYPED = ar_TYPED[i_TYPED];
+    if (null == var_TYPED) { 
+        job_TYPED
+    } else_TYPED =
+
+    - if (null == var) { 
+        /* void */;
+    } else { 
         
     } =
 
-    - for (var i = 0; i < ar.length; ++i) {
-        var e = ar[i];
+    - if (null == var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+
+    //  -------------ifn0---------------   
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+    if (0 != var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+    if (0 != var_TYPED) { 
+        job_TYPED
+    } else_TYPED =
+
+    - if (0 != var) { 
+        /* void */;
+    } else { 
         
     } =
 
-- for (var i = 0; i < ar.length; ++i) {
-    var e = ar[i];
+    - if (0 != var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+
+    //  -------------ifnn---------------   
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+    if (null != var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+    if (null != var_TYPED) { 
+        job_TYPED
+    } else_TYPED =
+
+    - if (null != var) { 
+        /* void */;
+    } else { 
+        
+    } =
+
+    - if (null != var) { 
+        /* void */;
+    } else { 
+        
+    }
+
+
+    //  -------------new---------------          
+    // var `instant^ = new `Constructor^(`arg?^) 
+
+
+
+    var instant = new Constructor()
+
+    var instant_TYPED = new Constructor_TYPED(arg_TYPED, arg_TYPED) =
+
+        - var instant = new Constructor() =
+
+        - var instant = new Constructor()
+
+
+    //  -------------proto---------------                                
+    // `Class^.prototype.`method^ = function(`arg?^)`$FUNC_BRACKET_STL^{ 
+    // `cursor^                                                          
+    // }                                                                 
+
+
+
+    Class.prototype.method = function() {
     
+    }
+
+    Class_TYPED.prototype.method_TYPED = function(arg_TYPED, arg_TYPED) {
+    
+    } =
+
+    - Class.prototype.method = function() {
+    
+    } =
+
+- Class.prototype.method = function() {
+
 }
+
+
+    //  -------------setTimeout---------------          
+    // setTimeout(function() { `job^ }, `milliseconds^) 
+
+
+
+    setTimeout(function() { /* void */; }, milliseconds)
+
+    setTimeout(function() { job_TYPED }, milliseconds_TYPED) =
+
+        - setTimeout(function() { /* void */; }, milliseconds) =
+
+        - setTimeout(function() { /* void */; }, milliseconds)
 
 
     //  -------------switch--------------- 
@@ -609,58 +976,6 @@ Class_TYPED.prototype.method_TYPED = function(arg_TYPED, arg_TYPED) {
     }
 
 
-    //  -------------'--------------- 
-    // '`wrapped^'                    
-
-
-
-'WRAPPED_TEXT'
-
-'WRAPPED_TEXT' =
-
-    - 'WRAPPED_TEXT' =
-
-    - 'WRAPPED_TEXT'
-
-
-    //  -------------(--------------- 
-    // (`wrapped^)                    
-
-
-
-(WRAPPED_TEXT)
-
-(WRAPPED_TEXT) =
-
-- (WRAPPED_TEXT) =
-
-- (WRAPPED_TEXT)
-
-
-    //  -------------commentDoc--------------- 
-    // `$CL^`$CM^                              
-    //  `$CM^ `cursor^                         
-    //  `$CR^                                  
-
-
-
-/** 
- * 
- */
-
-/** 
- * 
- */ =
-
-- /** 
- * 
- */ =
-
-- /** 
- * 
- */
-
-
     //  -------------try--------------- 
     // try`$IF_BRACKET_STL^{            
     //     `job^                        
@@ -732,171 +1047,75 @@ Class_TYPED.prototype.method_TYPED = function(arg_TYPED, arg_TYPED) {
             }
 
 
-    //  -------------ifn---------------    
-    // if (`condition^)`$IF_BRACKET_STL^{  
-    //     `job^                           
-    // }` `else...^                        
+    //  -------------try_--------------- 
+    // try`$IF_BRACKET_STL^{             
+    //     `wrapped^                     
+    // }                                 
+    // catch (`err^)`$IF_BRACKET_STL^{   
+    //     `dealError^                   
+    // }`...^                            
+    // catch (`err^)`$IF_BRACKET_STL^{   
+    //     `dealError^                   
+    // }`...^`                           
+    // `finally...^                      
 
 
 
-    if (null == var) { 
-        /* void */;
-    } else { 
-        
+try {
+    WRAPPED_TEXT
+}
+catch (err) {
+    /* error handling */
+}
+catch (err) {
+    /* error handling */
+}
+catch (err) {
+    /* error handling */
+}
+finally {
+    
+}
+
+try {
+    WRAPPED_TEXT
+}
+catch (err_TYPED) {
+    dealError_TYPED
+}_TYPED
+finally_TYPED =
+
+    - try {
+        WRAPPED_TEXT
     }
-
-    if (null == var_TYPED) { 
-        job_TYPED
-    } else_TYPED =
-
-    - if (null == var) { 
-        /* void */;
-    } else { 
+    catch (err) {
+        /* error handling */
+    }
+    catch (err) {
+        /* error handling */
+    }
+    catch (err) {
+        /* error handling */
+    }
+    finally {
         
     } =
 
-    - if (null == var) { 
-        /* void */;
-    } else { 
+    - try {
+        WRAPPED_TEXT
+    }
+    catch (err) {
+        /* error handling */
+    }
+    catch (err) {
+        /* error handling */
+    }
+    catch (err) {
+        /* error handling */
+    }
+    finally {
         
     }
-
-
-    //  -------------commentBlock--------------- 
-    // `$CL^                                     
-    //  `$CM^ `cursor^                           
-    //  `$CR^                                    
-
-
-
-    /* 
-     * 
-     */
-
-    /* 
-     * 
-     */ =
-
-    - /* 
-     * 
-     */ =
-
-    - /* 
-     * 
-     */
-
-
-    //  -------------ifnn---------------   
-    // if (`condition^)`$IF_BRACKET_STL^{  
-    //     `job^                           
-    // }` `else...^                        
-
-
-
-    if (null != var) { 
-        /* void */;
-    } else { 
-        
-    }
-
-    if (null != var_TYPED) { 
-        job_TYPED
-    } else_TYPED =
-
-    - if (null != var) { 
-        /* void */;
-    } else { 
-        
-    } =
-
-    - if (null != var) { 
-        /* void */;
-    } else { 
-        
-    }
-
-
-    //  -------------File--------------- 
-    // `file()^                          
-
-
-
-    test.page
-
-    test.page =
-
-        - test.page =
-
-        - test.page
-
-
-    //  -------------ifn0---------------   
-    // if (`condition^)`$IF_BRACKET_STL^{  
-    //     `job^                           
-    // }` `else...^                        
-
-
-
-    if (0 != var) { 
-        /* void */;
-    } else { 
-        
-    }
-
-    if (0 != var_TYPED) { 
-        job_TYPED
-    } else_TYPED =
-
-    - if (0 != var) { 
-        /* void */;
-    } else { 
-        
-    } =
-
-    - if (0 != var) { 
-        /* void */;
-    } else { 
-        
-    }
-
-
-    //  -------------cmt--------------- 
-    // /**                              
-    // * @author : `author^ | `email^   
-    // * @description                   
-    // *     `cursor^                   
-    // * @return {`Object^} `desc^      
-    // */                               
-
-
-
-    /**
-    * @author : drdr.xp | drdr.xp@gmail.com
-    * @description
-    *     
-    * @return {Object} desc
-    */
-
-    /**
-    * @author : author_TYPED | email_TYPED
-    * @description
-    *     
-    * @return {Object_TYPED} desc_TYPED
-    */ =
-
-    - /**
-    * @author : drdr.xp | drdr.xp@gmail.com
-    * @description
-    *     
-    * @return {Object} desc
-    */ =
-
-    - /**
-    * @author : drdr.xp | drdr.xp@gmail.com
-    * @description
-    *     
-    * @return {Object} desc
-    */
 
 
     //  -------------{--------------- 
@@ -911,32 +1130,4 @@ Class_TYPED.prototype.method_TYPED = function(arg_TYPED, arg_TYPED) {
 - {WRAPPED_TEXT} =
 
 - {WRAPPED_TEXT}
-
-
-    //  -------------<--------------- 
-    // <`wrapped^>                    
-
-
-
-<WRAPPED_TEXT>
-
-<WRAPPED_TEXT> =
-
-    - <WRAPPED_TEXT> =
-
-    - <WRAPPED_TEXT>
-
-
-    //  -------------setTimeout---------------          
-    // setTimeout(function() { `job^ }, `milliseconds^) 
-
-
-
-setTimeout(function() { /* void */; }, milliseconds)
-
-setTimeout(function() { job_TYPED }, milliseconds_TYPED) =
-
-    - setTimeout(function() { /* void */; }, milliseconds) =
-
-    - setTimeout(function() { /* void */; }, milliseconds)
 

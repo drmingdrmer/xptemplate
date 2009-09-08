@@ -23,8 +23,8 @@ XPTvar $CR   */
 
 XPTinclude 
       \ _common/common
-      \ _condition/c.like
       \ _comment/doubleSign
+      \ _condition/c.like
 
 
 " ========================= Function and Variables =============================
@@ -150,3 +150,38 @@ finally`$IF_BRACKET_STL^{
     `cursor^
 }`}}^
 
+" ================================= Wrapper ===================================
+
+XPT bench_ hint=Benchmark
+XSET log=console.log
+var t0 = new Date().getTime();
+for (var i = 0; i < `times^; ++i){
+  `wrapped^
+}
+var t1 = new Date().getTime();
+`log^(t1-t0);
+
+
+XPT fun_ hint=function\ ..(\ ..\ )\ {..}
+function` `name^ (`param^) {
+  `wrapped^
+  return;
+}
+
+
+XPT try_ hint=try\ {..}\ catch\ {..}\ finally
+XSET dealError=/* error handling */
+XSET job=$INDENT_HELPER
+try`$IF_BRACKET_STL^{
+    `wrapped^
+}
+catch (`err^)`$IF_BRACKET_STL^{
+    `dealError^
+}`...^
+catch (`err^)`$IF_BRACKET_STL^{
+    `dealError^
+}`...^`
+`finally...{{^
+finally`$IF_BRACKET_STL^{
+    `cursor^
+}`}}^

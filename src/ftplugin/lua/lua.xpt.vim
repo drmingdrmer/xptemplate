@@ -117,3 +117,13 @@ XPT while hint=while\ ..\ do\ ...\ end
 while `cond^ do
   `cursor^
 end
+
+
+
+" ================================= Wrapper ===================================
+XPT comment_ hint=--\ SEL
+-- `wrapped^
+
+XPT invoke_ hint=..(SEL)
+`name^(`wrapped^)
+
