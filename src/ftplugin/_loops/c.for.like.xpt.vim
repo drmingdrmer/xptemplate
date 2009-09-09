@@ -22,7 +22,7 @@ XPTvar $STRUCT_BRACKET_STL \
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT for hint=for\ (..;..;++)

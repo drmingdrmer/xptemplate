@@ -1,59 +1,62 @@
-if exists("b:__OCAML_XPT_VIM__")
-    finish
-endif
+XPTemplate priority=lang
 
-let b:__OCAML_XPT_VIM__ = 1
+let s:f = XPTcontainer()[0]
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+XPTvar $INDENT_HELPER  (* void *)
+XPTvar $CURSOR_PH      (* cursor *)
 
-" inclusion
-XPTinclude
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \ 
+
+XPTvar $CL    (*
+XPTvar $CM    *
+XPTvar $CR    *)
+
+XPTinclude 
       \ _common/common
+      \ _comment/doubleSign
 
-" ========================= Function and Varaibles =============================
+
+" ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
 XPTemplateDef
 
-XPT letin hint=let\ ..\ =\ ..\ in
-let `name^ `_^^ =
-    `what^ `...^
-and `subname^ `_^^ =
-    `subwhat^`...^
-in
 
 
-XPT letrecin hint=let\ rec\ ..\ =\ ..\ in
-let rec `name^ `_^^ =
-    `what^ `...^
-and `subname^ `_^^ =
-    `subwhat^`...^
-in
 
 
 XPT if hint=if\ ..\ then\ ..\ else\ ..
 if `cond^
-    then `thenexpr^`else...^
-    else \`cursor\^^^
+then `cursor^
 
 
-XPT match hint=match\ ..\ with\ ..\ ->\ ..\ |
+XPT match hint=match\ ..\ with\ [..\ ->\ ..\ |\ ..]
 match `expr^ with
-  | `what0^ -> `with0^`...^
+  [ `what0^ -> `with0^`...^
   | `what^ -> `with^`...^
+  ]
 
 
 XPT moduletype hint=module\ type\ ..\ =\ sig\ ..\ end
-module type `name^ `^^ = sig
+module type `name^ `^ = sig
     `cursor^
-end
+end;
 
 
 XPT module hint=module\ ..\ =\ struct\ ..\ end
-module `name^ `^^ = struct
+XSET name|post=SV( '^\w', '\u&' )
+module `name^ `^ = struct
     `cursor^
-end
+end;
 
 XPT while hint=while\ ..\ do\ ..\ done
 while `cond^ do
@@ -70,15 +73,15 @@ XPT class hint=class\ ..\ =\ object\ ..\ end
 class `_^^ `name^ =
 object (self)
     `cursor^
-end
+end;
 
 
 XPT classtype hint=class\ type\ ..\ =\ object\ ..\ end
 class type `name^ =
 object
-   method `field0^ : `type0^`...^
-   method `field^ : `type^`...^
-end
+   method `field^ : `type^` `...^
+   method `field^ : `type^` `...^
+end;
 
             
 
@@ -87,57 +90,102 @@ XPT classtypecom hint=(**\ ..\ *)\ class\ type\ ..\ =\ object\ ..\ end
 class type `name^ =
 object
    (** `method_descr^^ *)
-   method `field0^ : `type0^`...^
-   (** `method_descr2^^ *)
-   method `field^ : `type^`...^
-end
+   method `field^ : `type^` `...^
+   (** `method_descr^^ *)
+   method `field^ : `type^` `...^
+end;
 
 
 XPT typesum hint=type\ ..\ =\ ..\ |\ ..
-type `typeParams...^\`a\^ ^^`typename^ =
+XSET typeParams?|post=EchoIfNoChange( '' )
+type `typename^` `typeParams?^ =
+  [ `constructor^`...^
   | `constructor^`...^
-  | `constructor2^`...^
+  ];
 
             
 XPT typesumcom hint=(**\ ..\ *)\ type\ ..\ =\ ..\ |\ ..
+XSET typeParams?|post=EchoIfNoChange( '' )
 (** `typeDescr^ *)
-type `typeParams...^\`a\^ ^^`typename^ =
+type `typename^` `typeParams?^ =
+  [ `constructor^ (** `ctordescr^ *)`...^
   | `constructor^ (** `ctordescr^ *)`...^
-  | `constructor2^ (** `ctordescr^ *)`...^
+  ];
 
 
 XPT typerecord hint=type\ ..\ =\ {\ ..\ }
-type `typeParams...^\`a\^ ^^`typename^ =
-    { `recordField^ : `fType^ `...^
-    ; `otherfield^ : `othertype^`...^
-    }
+XSET typeParams?|post=EchoIfNoChange( '' )
+type `typename^` `typeParams?^ =
+    { `recordField^ : `fType^` `...^
+    ; `recordField^ : `fType^` `...^
+    };
 
 
 XPT typerecordcom hint=(**\ ..\ *)type\ ..\ =\ {\ ..\ }
 (** `type_descr^ *)
-type `_^^ `typename^ =
+type `typename^ `_^^=
     { `recordField^ : `fType^ (** `desc^ *)`...^
     ; `otherfield^ : `othertype^ (** `desc^ *)`...^
-    }
+    };
 
-XPT fun hint=(fun\ ..\ ->\ ..)
-(fun `args^ -> `cursor^)
             
 XPT try hint=try\ ..\ with\ ..\ ->\ ..
 try `expr^
-with `exc^ -> `rez^`...^
-   | `exc2^ -> `rez2^`...^
+with [ `exc^ -> `rez^
+`     `...`
+{{^     | `exc2^ -> `rez2^
+`     `...`
+^`}}^     ]
+
+XPT val hint=value\ ..\ :\ ..
+value `thing^ : `cursor^
 
 XPT ty hint=..\ ->\ ..
 `t^`...^ -> `t2^`...^
 
-XPT func hint=let\ ..\ :\ ..\ =\ fun\ ..\ ->
-let `funName^ : `ty^ =
-fun `args^ ->
-    `cursor^;
+XPT do hint=do\ {\ ..\ }
+do {
+    `cursor^
+}
 
 XPT begin hint=begin\ ..\ end
 begin
     `cursor^
 end
+
+XPT fun hint=(fun\ ..\ ->\ ..)
+(fun `args^ -> `^)
+
+XPT func hint=value\ ..\ :\ ..\ =\ fun\ ..\ ->
+value `funName^ : `ty^ =
+fun `args^ ->
+    `cursor^;
+
+
+XPT letin hint=let\ ..\ =\ ..\ in
+let `name^ `_^^ =
+    `what^ `...^
+and `subname^ `_^^ =
+    `subwhat^`...^
+in
+
+
+XPT letrecin hint=let\ rec\ ..\ =\ ..\ in
+let rec `name^ `_^^ =
+    `what^ `...^
+and `subname^ `_^^ =
+    `subwhat^`...^
+in
+
+" ================================= Wrapper ===================================
+
+
+XPT try_ hint=try\ SEL\ with\ ..\ ->\ ..
+try 
+    `wrapped^
+with [ `exc^ -> `rez^
+`     `...`
+{{^     | `exc2^ -> `rez2^
+`     `...`
+^`}}^     ]
 

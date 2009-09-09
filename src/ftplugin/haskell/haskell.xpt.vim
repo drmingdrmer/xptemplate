@@ -18,7 +18,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT class hint=class\ ..\ where..

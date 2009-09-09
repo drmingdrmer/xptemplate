@@ -15,7 +15,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 XPT comment hint=$CS\ ...
 `$CS^ `cursor^

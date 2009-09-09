@@ -17,7 +17,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT if_ hint=if\ (..)\ {\ SEL\ }\ ...

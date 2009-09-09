@@ -59,4 +59,4 @@ call XPTemplate('case', [
       \])
 
 
-XPTemplateDef 
+XPTemplateDef

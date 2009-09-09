@@ -37,7 +37,7 @@ fun! s:f.RemoveIfUnchanged() "{{{
 endfunction "}}}
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 

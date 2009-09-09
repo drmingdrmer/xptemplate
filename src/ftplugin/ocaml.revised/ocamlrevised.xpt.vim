@@ -1,18 +1,31 @@
+XPTemplate priority=lang
 
-if exists("b:__OCAML_REVISED_XPT_VIM__")
-    finish
-endif
+let s:f = XPTcontainer()[0]
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
 
-let b:__OCAML_REVISED_XPT_VIM__ = 1
+XPTvar $INDENT_HELPER  (* void *)
+XPTvar $CURSOR_PH      (* cursor *)
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \ 
 
-" inclusion
-XPTinclude
+XPTvar $CL    (*
+XPTvar $CM    *
+XPTvar $CR    *)
+
+XPTinclude 
       \ _common/common
+      \ _comment/doubleSign
 
-" ========================= Function and Varaibles =============================
+
+" ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
 XPTemplateDef
@@ -154,4 +167,6 @@ XPT func hint=value\ ..\ :\ ..\ =\ fun\ ..\ ->
 value `funName^ : `ty^ =
 fun `args^ ->
     `cursor^;
+
+" ================================= Snippets ===================================
 

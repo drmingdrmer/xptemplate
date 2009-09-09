@@ -18,7 +18,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT invoke_ hint=..(SEL)

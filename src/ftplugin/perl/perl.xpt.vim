@@ -28,7 +28,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 

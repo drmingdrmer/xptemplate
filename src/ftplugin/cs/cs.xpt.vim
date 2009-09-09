@@ -32,7 +32,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT foreach hint=foreach\ (..\ in\ ..)\ {..}

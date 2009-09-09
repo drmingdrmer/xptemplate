@@ -32,7 +32,7 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 

@@ -9,11 +9,11 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT comment hint=$CL\ $CR
-`$CL^ `cursor^ `$CR^
+`$CL^ `what^ `$CR^
 
 
 XPT commentBlock hint=$CL\ ...
@@ -32,7 +32,7 @@ XPT commentLine hint=$CS\ ...
 
 
 XPT commentLine2 hint=$CL\ ...\ $CR
-`$CL^ `cursor^ `$CR^
+`$CL^ `what^ `$CR^
 
 
 " ================================= Wrapper ===================================

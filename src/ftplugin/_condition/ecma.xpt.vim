@@ -18,7 +18,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT ifu		hint=if\ (undefined\ ===\ ..)\ {..} ..

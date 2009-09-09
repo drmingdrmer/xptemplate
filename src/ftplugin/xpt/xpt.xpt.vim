@@ -17,7 +17,7 @@ fun! s:f.hintEscape()
 endfunction
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 " TODO detect path to generate popup list 
 XPT inc hint=XPTinclude\ ...
@@ -121,7 +121,7 @@ XSET incTrigger=Trigger('inc')
 " ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 `cursor^

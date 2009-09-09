@@ -18,7 +18,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT try_ hint=try:\ SEL\ except...

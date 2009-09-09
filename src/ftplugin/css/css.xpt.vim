@@ -29,10 +29,9 @@ fun! s:f.css_braced_post()
 endfunction
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
-XPTemplateDef 
 XPT backrep hint=background-repeat
 XSET rep=Choose(['repeat', 'repeat-x','repeat-y','no-repeat'])
 background-repeat `rep^;

@@ -16,7 +16,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT < hint=<Tag>..</Tag>

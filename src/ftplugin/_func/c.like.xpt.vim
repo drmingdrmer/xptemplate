@@ -42,7 +42,7 @@ fun! s:f.c_fun_body_indent()
 endfunction
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 

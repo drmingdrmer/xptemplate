@@ -91,7 +91,7 @@ call XPTemplate("class", {'syn' : 'tag'}, 'class="`^"')
 
 
 
-XPTemplateDef 
+XPTemplateDef
 
 
 

@@ -17,7 +17,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT infos hint=Name:\ Version\:\ Synopsys:\ Descr:\ Author:\ ...

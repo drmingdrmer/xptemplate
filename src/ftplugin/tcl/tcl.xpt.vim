@@ -18,7 +18,7 @@ XPTinclude
 
 " ================================= Snippets ===================================
 
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT tcl hint=#!/bin/sh\ ..\ exec\ tclsh..
