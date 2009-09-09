@@ -1,4 +1,4 @@
-XPTemplate priority=all
+XPTemplate priority=all-
 
 
 " snippets for language whose comment sign is 2 signs, like c:"/* */" 
@@ -19,8 +19,6 @@ XPT comment hint=$CL\ $CR
 `$CL^ `cursor^ `$CR^
 
 
-XPT comment_ hint=$CL\ $CR
-`$CL^ `wrapped^ `$CR^
 
 XPT commentBlock hint=$CL\ ...
 `$CL^ 
@@ -33,5 +31,27 @@ XPT commentDoc hint=$CL$CM\ ...
  `$CM^ `cursor^
  `$CR^
 
+
 XPT commentLine hint=$CL\ ...\ $CR
 `$CL^ `cursor^ `$CR^
+
+" ================================= Wrapper ===================================
+
+XPT comment_ hint=$CL\ $CR
+`$CL^ `wrapped^ `$CR^
+
+
+XPT commentBlock_ hint=$CL\ ...
+`$CL^ 
+ `$CM^ `wrapped^
+ `$CR^
+
+
+XPT commentDoc_ hint=$CL$CM\ ...
+`$CL^`$CM^ 
+ `$CM^ `wrapped^
+ `$CR^
+
+
+XPT commentLine_ hint=$CL\ ...\ $CR
+`$CL^ `wrapped^ `$CR^

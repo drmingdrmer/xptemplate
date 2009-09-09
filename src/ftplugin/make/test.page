@@ -1,0 +1,436 @@
+
+
+
+    #   -------------"--------------- 
+    #  "`wrapped^"                    
+
+
+
+"WRAPPED_TEXT"
+
+"WRAPPED_TEXT" =
+
+- "WRAPPED_TEXT" =
+
+- "WRAPPED_TEXT"
+
+
+    #   -------------'--------------- 
+    #  '`wrapped^'                    
+
+
+
+'WRAPPED_TEXT'
+
+'WRAPPED_TEXT' =
+
+- 'WRAPPED_TEXT' =
+
+- 'WRAPPED_TEXT'
+
+
+    #   -------------(--------------- 
+    #  (`wrapped^)                    
+
+
+
+(WRAPPED_TEXT)
+
+(WRAPPED_TEXT) =
+
+- (WRAPPED_TEXT) =
+
+- (WRAPPED_TEXT)
+
+
+    #   -------------<--------------- 
+    #  <`wrapped^>                    
+
+
+
+<WRAPPED_TEXT>
+
+<WRAPPED_TEXT> =
+
+- <WRAPPED_TEXT> =
+
+- <WRAPPED_TEXT>
+
+
+    #   -------------Author--------------- 
+    #  `$author^                           
+
+
+
+drdr.xp
+
+drdr.xp =
+
+- drdr.xp =
+
+- drdr.xp
+
+
+    #   -------------Email--------------- 
+    #  `$email^                           
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com =
+
+- drdr.xp@gmail.com =
+
+- drdr.xp@gmail.com
+
+
+    #   -------------File--------------- 
+    #  `file()^                          
+
+
+
+test.page
+
+test.page =
+
+- test.page =
+
+- test.page
+
+
+    #   -------------[--------------- 
+    #  [`wrapped^]                    
+
+
+
+[WRAPPED_TEXT]
+
+[WRAPPED_TEXT] =
+
+- [WRAPPED_TEXT] =
+
+- [WRAPPED_TEXT]
+
+
+    #   -------------`--------------- 
+    #  \``wrapped^\`                  
+
+
+
+`WRAPPED_TEXT`
+
+`WRAPPED_TEXT` =
+
+- `WRAPPED_TEXT` =
+
+- `WRAPPED_TEXT`
+
+
+    #   -------------addprefix--------------- 
+    #  $(addprefix `prefix^, `elemList^)      
+
+
+
+$(addprefix prefix, elemList)
+
+$(addprefix prefix_TYPED, elemList_TYPED) =
+
+- $(addprefix prefix, elemList) =
+
+- $(addprefix prefix, elemList)
+
+
+    #   -------------addsuffix--------------- 
+    #  $(addsuffix `suffix^, `elemList^)      
+
+
+
+$(addsuffix suffix, elemList)
+
+$(addsuffix suffix_TYPED, elemList_TYPED) =
+
+- $(addsuffix suffix, elemList) =
+
+- $(addsuffix suffix, elemList)
+
+
+    #   -------------basevar---------------      
+    #  `lang^C^C := `compiler^gcc^               
+    #  `lang^C^FLAGS := `switches^-Wall -Wextra^ 
+
+
+
+CC := gcc
+CFLAGS := -Wall -Wextra
+
+lang_TYPEDC := compiler_TYPED
+CFLAGS := switches_TYPED =
+
+- CC := gcc
+CFLAGS := -Wall -Wextra =
+
+- CC := gcc
+CFLAGS := -Wall -Wextra
+
+
+    #   -------------comment--------------- 
+    #  `$CS^ `cursor^                       
+
+
+
+# 
+#
+#  =
+#
+- #  =
+
+- # 
+
+
+    #   -------------commentBlock--------------- 
+    #  `$CS^ `cursor^                            
+    #  `$CS^                                     
+
+
+
+# 
+#
+#
+# 
+# =
+#
+- # 
+# =
+#
+- # 
+#
+#
+
+    #   -------------commentDoc--------------- 
+    #  `$CS^                                   
+    #  `$CS^ `cursor^                          
+    #  `$CS^                                   
+
+
+
+#
+# 
+#
+#
+#
+# 
+# =
+#
+- #
+# 
+# =
+#
+- #
+# 
+#
+#
+
+    #   -------------commentLine--------------- 
+    #  `$CS^ `cursor^                           
+
+
+
+# 
+#
+#  =
+#
+- #  =
+
+- # 
+
+
+    #   -------------commentLine_--------------- 
+    #  `$CS^ `wrapped^                           
+
+
+
+# WRAPPED_TEXT
+#
+# WRAPPED_TEXT =
+#
+- # WRAPPED_TEXT =
+
+- # WRAPPED_TEXT
+
+
+    #   -------------comment_--------------- 
+    #  `$CS^ `wrapped^                       
+
+
+
+# WRAPPED_TEXT
+#
+# WRAPPED_TEXT =
+#
+- # WRAPPED_TEXT =
+
+- # WRAPPED_TEXT
+
+
+    #   -------------filterout--------------- 
+    #  $(filter-out `toRemove^, `elemList^)   
+
+
+
+$(filter-out toRemove, elemList)
+
+$(filter-out toRemove_TYPED, elemList_TYPED) =
+
+- $(filter-out toRemove, elemList) =
+
+- $(filter-out toRemove, elemList)
+
+
+    #   -------------ifeq--------------- 
+    #  ifeq (`what^, `with^)             
+    #      `job^                         
+    #  ``else...`                        
+    #  ^endif                            
+
+
+
+ifeq (what, with)
+    # job
+else
+    
+endif
+
+ifeq (what_TYPED, with_TYPED)
+    job_TYPED
+else_TYPED
+endif =
+
+- ifeq (what, with)
+    # job
+else
+    
+endif =
+
+- ifeq (what, with)
+    # job
+else
+    
+endif
+
+
+    #   -------------ifneq--------------- 
+    #  ifneq (`what^, `with^)             
+    #      `job^                          
+    #  ``else...`                         
+    #  ^endif                             
+
+
+
+ifneq (what, with)
+    job
+else
+    
+endif
+
+ifneq (what_TYPED, with_TYPED)
+    job_TYPED
+else_TYPED
+endif =
+
+- ifneq (what, with)
+    job
+else
+    
+endif =
+
+- ifneq (what, with)
+    job
+else
+    
+endif
+
+
+    #   -------------patsubst---------------                       
+    #  $(patsubst `sourcePattern^%.c^,  `destPattern^%.o^, `list^) 
+
+
+
+$(patsubst %.c,  %.o, list)
+
+$(patsubst sourcePattern_TYPED,  destPattern_TYPED, list_TYPED) =
+
+- $(patsubst %.c,  %.o, list) =
+
+- $(patsubst %.c,  %.o, list)
+
+
+    #   -------------shell--------------- 
+    #  $(shell `command^)                 
+
+
+
+$(shell command)
+
+$(shell command_TYPED) =
+
+- $(shell command) =
+
+- $(shell command)
+
+
+    #   -------------subst---------------              
+    #  $(subst `sourceString^, `destString^, `string^) 
+
+
+
+$(subst sourceString, destString, string)
+
+$(subst sourceString_TYPED, destString_TYPED, string_TYPED) =
+
+- $(subst sourceString, destString, string) =
+
+- $(subst sourceString, destString, string)
+
+
+    #   -------------var_--------------- 
+    #  $(`wrapped^)                      
+
+
+
+$(WRAPPED_TEXT)
+
+$(WRAPPED_TEXT) =
+
+- $(WRAPPED_TEXT) =
+
+- $(WRAPPED_TEXT)
+
+
+    #   -------------wildcard--------------- 
+    #  $(wildcard `globpattern^)             
+
+
+
+$(wildcard globpattern)
+
+$(wildcard globpattern_TYPED) =
+
+- $(wildcard globpattern) =
+
+- $(wildcard globpattern)
+
+
+    #   -------------{--------------- 
+    #  {`wrapped^}                    
+
+
+
+{WRAPPED_TEXT}
+
+{WRAPPED_TEXT} =
+
+- {WRAPPED_TEXT} =
+
+- {WRAPPED_TEXT}
+
