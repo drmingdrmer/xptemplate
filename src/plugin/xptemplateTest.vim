@@ -8,8 +8,8 @@ endif
 let g:__XPTEMPLATETEST_VIM__ = 1
 
 runtime plugin/debug.vim
+let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )
-" let s:log = CreateLogger( 'warn' )
 
 
 " TODO indent test 
@@ -22,75 +22,89 @@ let s:FIRST_PHASE = s:phases[ 0 ]
 let s:LAST_PHASE = s:phases[ -1 ]
 
 
+" Note: using a/b instead of -/= to avoid indent problem that cause text auto
+"       wrapped which make XPM not work well
 let s:preinputs = {
-            \'before' : " =\<left>\<left>", 
-            \'between' : "-  =\<left>\<left>", 
-            \'after' : "- ", 
+            \'before' : " b\<left>\<left>", 
+            \'between' : "a  b\<left>\<left>", 
+            \'after' : "a ", 
             \}
 
 
 " com! XPTSlow redraw! | sleep 250m
 com! XPTSlow echo
 
+fun! s:Feedkeys( text, mode )
+    call s:log.Debug( 'Feedkeys=' . string( [ a:text, a:mode ] ) )
+    return feedkeys( a:text, a:mode )
+endfunction
+
 fun s:XPTtrigger(name) "{{{
-    call feedkeys(a:name . "", 'mt')
+    call s:Feedkeys(a:name . "", 'mt')
 endfunction "}}}
 fun s:XPTtype(...) "{{{
+    let ln = line( '.' )
+    let lns = [ ln - 10, ln + 10 ]
+    if lns[0] < 1 
+        let lns[0] = 1
+    endif
+    call s:log.Debug( 'lines context=' . join( getline( lns[0], lns[1] ), "\n" ) )
+
     for v in a:000
-        call feedkeys(v, 'nt')
-        call feedkeys("\<tab>", 'mt')
+        call s:Feedkeys(v, 'nt')
+        call s:Feedkeys("\<tab>", 'mt')
     endfor
 endfunction "}}}
 fun s:XPTcancel(...) "{{{
-    call feedkeys("\<cr>", 'mt')
+    call s:Feedkeys("\<cr>", 'mt')
 endfunction "}}}
 fun! s:LastLine() "{{{
-    call feedkeys("\<C-c>G:silent a\<cr>\<cr>.\<cr>G", 'nt')
+    call s:Feedkeys("\<C-c>G:silent a\<cr>\<cr>.\<cr>G", 'nt')
 endfunction "}}}
 fun s:XPTnew(name, preinput) "{{{
     " 'S' for indent test. it takes the indent from line above
-    call feedkeys("S", 'nt')
-    call feedkeys(a:preinput, 'nt')
+    call s:Feedkeys("S", 'nt')
+    call s:Feedkeys(a:preinput, 'nt')
     call s:XPTtrigger(a:name)
 endfunction "}}}
 fun s:XPTwrapNew(name, preinput) "{{{
     let wrapText = "WRAPPED_TEXT"
 
     " 'S' for indent test. it takes the indent from line above
-    call feedkeys("S", 'nt')
-    call feedkeys( a:preinput, 'nt' )
+    call s:Feedkeys("S", 'nt')
+    call s:Feedkeys( a:preinput, 'nt' )
 
-    call feedkeys("\<C-o>maWRAPPED_TEXT\<left>\<C-o>mb", 'nt')
+    call s:Feedkeys("\<C-o>maWRAPPED_TEXT\<left>\<C-o>mb", 'nt')
 
-    call feedkeys( "\<C-o>:XPTSlow\<cr>" )
+    call s:Feedkeys( "\<C-o>:XPTSlow\<cr>", '' )
 
-    call feedkeys("\<C-c>`a", 'nt')
+    call s:Feedkeys("\<C-c>`a", 'nt')
 
     " TODO very bad!
     if &l:ve !~ 'all\|onemore' && a:preinput == s:preinputs.after
-        call feedkeys( 'l', 'nt' )
+        call s:Feedkeys( 'l', 'nt' )
     endif
 
-    call feedkeys("v", 'nt')
+    call s:Feedkeys("v", 'nt')
     if &slm =~ 'cmd'
-        call feedkeys("\<C-g>", 'nt')
+        call s:Feedkeys("\<C-g>", 'nt')
     endif
 
-    " call feedkeys(":call cursor(b:q)\<cr>", 'nt')
+    " call s:Feedkeys(":call cursor(b:q)\<cr>", 'nt')
     
-    call feedkeys("`b", 'nt')
+    call s:Feedkeys("`b", 'nt')
 
     if &sel == 'exclusive'
-        call feedkeys("l", 'nt')
+        call s:Feedkeys("l", 'nt')
     endif
 
 
 
-    " call feedkeys("\<C-w>", 'mt')
-    call feedkeys("", 'mt')
-    call feedkeys(a:name, 'nt')
-    call feedkeys("	", 'mt')
-    " call feedkeys("\<cr>", 'nt')
+    " call s:Feedkeys("\<C-w>", 'mt')
+    call s:Feedkeys("", 'mt')
+    call s:Feedkeys(a:name, 'nt')
+    call s:Feedkeys("	", 'mt')
+    " call s:Feedkeys("\<cr>", 'nt')
 
 
 endfunction "}}}
@@ -165,6 +179,8 @@ fun! s:XPTtest(ft) "{{{
     " remove 'Path' and 'Date' template0
     unlet tmpls.Path
     unlet tmpls.Date
+
+    " call filter( tmpls, 'v:val.name =~ "^[a-m]"' )
 
     
     " for [k, v] in items(tmpls)
@@ -252,7 +268,7 @@ fun! TestProcess() "{{{
         endif
     endif
 
-    call feedkeys("")
+    " call s:Feedkeys("", '')
 
     XPTSlow
 
@@ -295,8 +311,11 @@ fun! s:StartNewTemplate() "{{{
 
         let tmpl = []
         for line in tmpl0
-            if b:cms[ 1 ] != ''
-                let line = substitute( line, '\V'.b:cms[ 1 ], '_cmt_', 'g' )
+            if b:cms[0] != ''
+                let line = substitute( line, '\V'.b:cms[0], '_CMT_', 'g' )
+            endif
+            if b:cms[1] != ''
+                let line = substitute( line, '\V'.b:cms[1], '_cmt_', 'g' )
             endif
 
             let line2 = ''
@@ -307,7 +326,7 @@ fun! s:StartNewTemplate() "{{{
             let tmpl += [ line2 ]
         endfor
 
-        call feedkeys( ":silent a\n" . '    ' . join( tmpl, "\n" ) . "\n\n\n\n", 'nt' )
+        call s:Feedkeys( ":silent a\n" . '    ' . join( tmpl, "\n" ) . "\n\n\n\n", 'nt' )
         call s:LastLine()
     endif
 
@@ -405,7 +424,7 @@ fun! s:FillinTemplate() "{{{
         let b:phaseIndex = (b:phaseIndex + 1) % len(s:phases)
         let b:testPhase = s:phases[ b:phaseIndex ]
         let b:testProcessing = 0
-        call feedkeys("\<C-c>Go\<C-c>", 'nt')
+        call s:Feedkeys("\<C-c>Go\<C-c>", 'nt')
     endif
 
 

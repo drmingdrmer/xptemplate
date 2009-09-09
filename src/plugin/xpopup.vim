@@ -28,7 +28,7 @@ delc XPPgetSID
 
 let s:log = CreateLogger( 'warn' )
 " let s:log = CreateLogger( 'debug' )
-let s:log = CreateLogger( 'log' )
+" let s:log = CreateLogger( 'log' )
 
 
 " Script scope variables {{{

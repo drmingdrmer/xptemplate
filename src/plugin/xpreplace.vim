@@ -37,7 +37,7 @@ endfunction
 
 
 let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'debug' )
 
 fun! XPRstartSession() "{{{
     if exists( 'b:_xpr_session' )

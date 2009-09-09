@@ -36,7 +36,7 @@ let g:XPM_RET = {
 
 
 let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'debug' )
 
 
 let g:XPMpreferLeft = 'l'

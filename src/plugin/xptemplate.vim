@@ -19,6 +19,9 @@
 " "}}}
 "
 " BUG: "{{{
+"
+" text auto-wrap(>80 char) makes xp-marks failed to update correctly
+"
 " command V<C-\> generates a empty line in html
 "
 " wrapping snippet building wrapped content as placeholder!
@@ -88,7 +91,7 @@ runtime plugin/xptemplate.conf.vim
 
 
 let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'debug' )
 
 call XPRaddPreJob( 'XPMupdateCursorStat' )
 call XPRaddPostJob( 'XPMupdateSpecificChangedRange' )
@@ -1647,7 +1650,7 @@ fun! s:SetPreValue( placeHolder, indent, text )
     let text = s:Eval( a:text )
 
     let marks = a:placeHolder.isKey ? a:placeHolder.editMark : a:placeHolder.mark
-    let text = s:AdjustIndentAccordingToLine( text, a:indent, XPMpos( marks.start )[0] )
+    let text = s:AdjustIndentAccordingToLine( text, a:indent, XPMpos( marks.start )[0], a:placeHolder )
     call XPRstartSession()
     call XPreplaceByMarkInternal( marks.start, marks.end, text )
     call XPRendSession()
@@ -2005,8 +2008,26 @@ fun! s:EvalPostFilter( filter, typed ) "{{{
     return res
 endfunction "}}}
 
-fun! s:AdjustIndentAccordingToLine( snip, indent, lineNr ) "{{{
+fun! s:AdjustIndentAccordingToLine( snip, indent, lineNr, ... ) "{{{
+    if a:0 == 1
+        let ph = a:1
+    else
+        let renderContext = s:getRenderContext()
+        let ph = renderContext.leadingPlaceHolder
+    endif
+
+    let leftMostMark = ph.mark.start
+    let pos = XPMpos( leftMostMark )
+
     let indent = indent( a:lineNr )
+
+    " Note: left edge may be spaces, that expected indent is actually space
+    "       before left mark
+    if pos[0] == a:lineNr && pos[1] - 1 < indent
+        let indent = pos[1] - 1
+    endif
+
+
     call s:log.Debug( 'line to get indent:' . getline( a:lineNr ) )
     call s:log.Debug( 'post filter indent at line[' . a:lineNr . ']:' . indent )
 
