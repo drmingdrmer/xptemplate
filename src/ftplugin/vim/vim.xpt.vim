@@ -60,8 +60,12 @@ endfor
 
 XPT forin hint=for\ ..\ in\ ..\ ..\ endfor
 for `value^ in `list^
-  `cursor^
+    `cursor^
 endfor
+
+XPT foreach alias=forin hint=for\ ..\ in\ ..\ ..\ endfor
+
+
 
 
 XPT try hint=try\ ..\ catch\ ..\ finally...

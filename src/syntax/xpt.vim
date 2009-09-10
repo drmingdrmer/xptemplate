@@ -45,7 +45,7 @@ syntax keyword  XptSnippetInclude     XPTinclude nextgroup=XptSnippetIncludeBody
 " Xpt snippets definition
 " =======================
 " use the max priority to find the XPTemplateDef
-syntax keyword  XPTemplateDefStartKey XPTemplateDef nextgroup=XPTregion skipnl skipempty
+syntax keyword  XPTemplateDefStartKey XPTemplateDef nextgroup=XPTregion skipnl skipempty skipwhite
 syntax region   XPTregion start=/^/ end=/\%$/ contained contains=XPTsnippetTitle
 
 

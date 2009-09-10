@@ -16,15 +16,48 @@ fun! s:f.hintEscape()
   return escape( v, '\ ' )
 endfunction
 
+let s:xpt_snip = split( globpath( &rtp, "**/*.xpt.vim" ), "\n" )
+call map( s:xpt_snip, 'substitute(v:val, ''\V\'', ''/'', ''g'')' )
+call map( s:xpt_snip, 'matchstr(v:val, ''\Vftplugin/\zs\.\*\ze.xpt.vim'')' )
+
+let s:xpts = {}
+for v in s:xpt_snip
+  let [ ft, snip ] = split( v, '/' )
+  if !has_key( s:xpts, ft )
+    let s:xpts[ ft ] = []
+  endif
+
+  let s:xpts[ ft ] += [ snip ]
+endfor
+
+" echom string( s:xpts )
+
+
+
+fun! s:f.xpt_vim_path()
+  return keys( s:xpts )
+endfunction
+
+fun! s:f.xpt_vim_name(path)
+  let path = matchstr( a:path, '\w\+' )
+  if has_key( s:xpts, path )
+    return s:xpts[ path ]
+  else 
+    return ''
+  endif
+endfunction
+
 " ================================= Snippets ===================================
 XPTemplateDef
 
 " TODO detect path to generate popup list 
 XPT inc hint=XPTinclude\ ...
+XSET path=xpt_vim_path()
+XSET name=xpt_vim_name( R( 'path' ) )
 XPTinclude 
       \ _common/common`
       `...{{^`
-      \ `a^E("%:p:h:t")^/`name^`
+      \ `path^/`name^`
       `...^`}}^
 
 
@@ -50,6 +83,7 @@ XPTvar $`name^ `cursor^
 
 XPT formatVar hint=variables\ to\ define\ format
 XPTvar $IF_BRACKET_STL     \n
+XPTvar $ELSE_BRACKET_STL   \n
 XPTvar $FOR_BRACKET_STL    \n
 XPTvar $WHILE_BRACKET_STL  \n
 XPTvar $STRUCT_BRACKET_STL \n
@@ -108,6 +142,7 @@ XPTvar $INDENT_HELPER  /* void */;
 XPTvar $CURSOR_PH      cursor
 
 XPTvar $IF_BRACKET_STL     \n
+XPTvar $ELSE_BRACKET_STL   \n
 XPTvar $FOR_BRACKET_STL    \n
 XPTvar $WHILE_BRACKET_STL  \n
 XPTvar $STRUCT_BRACKET_STL \n
@@ -125,6 +160,9 @@ XPTemplateDef
 
 
 `cursor^
+
+" ================================= Wrapper ===================================
+
 ..XPT
 
 
