@@ -289,6 +289,45 @@ a `WRAPPED_TEXT`
     }
 
 
+    #  -------------eval_--------------- 
+    # eval`$IF_BRACKET_STL^{             
+    #     `wrapped^                      
+    # };                                 
+    # if ($@)`$IF_BRACKET_STL^{          
+    #     `handle^                       
+    # }                                  
+
+
+
+eval {
+    WRAPPED_TEXT
+};
+if ($@) {
+    handle
+}
+
+eval {
+    WRAPPED_TEXT
+};
+if ($@) {
+    handle_TYPED
+} b
+
+a eval {
+    WRAPPED_TEXT
+};
+if ($@) {
+    handle
+} b
+
+a eval {
+    WRAPPED_TEXT
+};
+if ($@) {
+    handle
+}
+
+
     #  -------------for---------------                                   
     # for (my $`var^ = 0; $`var^ < `count^; $`var^++)`$FOR_BRACKET_STL^{ 
     #     `cursor^                                                       
@@ -687,6 +726,45 @@ else {
     if ($@) {
         handle
     }
+
+
+    #  -------------try_--------------- 
+    # eval`$IF_BRACKET_STL^{            
+    #     `wrapped^                     
+    # };                                
+    # if ($@)`$IF_BRACKET_STL^{         
+    #     `handle^                      
+    # }                                 
+
+
+
+eval {
+    WRAPPED_TEXT
+};
+if ($@) {
+    handle
+}
+
+eval {
+    WRAPPED_TEXT
+};
+if ($@) {
+    handle_TYPED
+} b
+
+a eval {
+    WRAPPED_TEXT
+};
+if ($@) {
+    handle
+} b
+
+a eval {
+    WRAPPED_TEXT
+};
+if ($@) {
+    handle
+}
 
 
     #  -------------unless--------------- 

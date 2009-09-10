@@ -156,3 +156,14 @@ if ( `cond^ )`$IF_BRACKET_STL^{
 `else...{{^`$ELSE_BRACKET_STL^else`$IF_BRACKET_STL^{
     `cursor^
 }`}}^
+
+
+XPT eval_ hint=eval\ {\ ..\ };if...
+eval`$IF_BRACKET_STL^{
+    `wrapped^
+};
+if ($@)`$IF_BRACKET_STL^{
+    `handle^
+}
+
+XPT try_ alias=eval_ hint=eval\ {\ ..\ };\ if\ ...

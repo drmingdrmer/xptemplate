@@ -80,14 +80,16 @@ XSET value|post=escape(V(), ' ')
 XPTvar $`name^ `cursor^
 
 
+XPT varLang hint=variables\ to\ define\ language\ properties
+XPTvar $VAR_PRE            
 
 XPT formatVar hint=variables\ to\ define\ format
-XPTvar $IF_BRACKET_STL     \n
+XPTvar $IF_BRACKET_STL     \ 
 XPTvar $ELSE_BRACKET_STL   \n
-XPTvar $FOR_BRACKET_STL    \n
-XPTvar $WHILE_BRACKET_STL  \n
-XPTvar $STRUCT_BRACKET_STL \n
-XPTvar $FUNC_BRACKET_STL   \n
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \ 
 
 
 XPT constVar hint=variables\ to\ define\ constants
@@ -141,12 +143,12 @@ XPTvar $UNDEFINED     NULL
 XPTvar $INDENT_HELPER  /* void */;
 XPTvar $CURSOR_PH      cursor
 
-XPTvar $IF_BRACKET_STL     \n
+XPTvar $IF_BRACKET_STL     \ 
 XPTvar $ELSE_BRACKET_STL   \n
-XPTvar $FOR_BRACKET_STL    \n
-XPTvar $WHILE_BRACKET_STL  \n
-XPTvar $STRUCT_BRACKET_STL \n
-XPTvar $FUNC_BRACKET_STL   \n
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \ 
 
 `XPTinclude...^
 XSET XPTinclude...|post=`incTrigger^
