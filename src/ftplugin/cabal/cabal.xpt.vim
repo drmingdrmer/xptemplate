@@ -55,5 +55,5 @@ XPT exe hint=Main-Is:\ ..\ Build-Depends
 XSET another*|post=ExpandIfNotEmpty( ', ', 'another*' )
 Executable `execName^
     Main-Is: `mainFile^
-    Build-Depends: base >= `ver^2.0^`, `another?^
+    Build-Depends: base >= `ver^2.0^`, `another*^
 
