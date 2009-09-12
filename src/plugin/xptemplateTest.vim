@@ -179,6 +179,8 @@ fun! s:XPTtest(ft) "{{{
     unlet tmpls.Path
     unlet tmpls.Date
 
+    call filter( tmpls, '!has_key(v:val.setting, "hidden") || !v:val.setting.hidden' )
+
     " call filter( tmpls, 'v:val.name =~ "^[a-m]"' )
 
     

@@ -6,13 +6,17 @@
 
 
 
-"WRAPPED_TEXT"
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
-"WRAPPED_TEXT" b
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-a "WRAPPED_TEXT" b
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-a "WRAPPED_TEXT"
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
 
     #  -------------'--------------- 
@@ -20,13 +24,17 @@ a "WRAPPED_TEXT"
 
 
 
-'WRAPPED_TEXT'
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
-'WRAPPED_TEXT' b
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-a 'WRAPPED_TEXT' b
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-a 'WRAPPED_TEXT'
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
 
     #  -------------(--------------- 
@@ -34,13 +42,17 @@ a 'WRAPPED_TEXT'
 
 
 
-(WRAPPED_TEXT)
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
-(WRAPPED_TEXT) b
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
 
-a (WRAPPED_TEXT) b
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
 
-a (WRAPPED_TEXT)
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
 
     #  -------------<--------------- 
@@ -48,13 +60,17 @@ a (WRAPPED_TEXT)
 
 
 
-<WRAPPED_TEXT>
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
 
-<WRAPPED_TEXT> b
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
 
-a <WRAPPED_TEXT> b
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
 
-a <WRAPPED_TEXT>
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
 
 
     #  -------------Author--------------- 
@@ -104,13 +120,17 @@ a <WRAPPED_TEXT>
 
 
 
-[WRAPPED_TEXT]
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
 
-[WRAPPED_TEXT] b
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
 
-a [WRAPPED_TEXT] b
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
 
-a [WRAPPED_TEXT]
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
 
 
     #  -------------`--------------- 
@@ -118,13 +138,17 @@ a [WRAPPED_TEXT]
 
 
 
-`WRAPPED_TEXT`
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
-`WRAPPED_TEXT` b
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
 
-a `WRAPPED_TEXT` b
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
 
-a `WRAPPED_TEXT`
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
 
     #  -------------comment--------------- 
@@ -204,12 +228,16 @@ a `WRAPPED_TEXT`
 
 
 # WRAPPED_TEXT
-#
-    # WRAPPED_TEXT b
-    #
-    a # WRAPPED_TEXT b
+WRAPPED_TEXT_line2
 
-    a # WRAPPED_TEXT
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
 
     #  -------------comment_--------------- 
@@ -218,12 +246,16 @@ a `WRAPPED_TEXT`
 
 
 # WRAPPED_TEXT
-#
-    # WRAPPED_TEXT b
-    #
-    a # WRAPPED_TEXT b
+WRAPPED_TEXT_line2
 
-    a # WRAPPED_TEXT
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
 
     #  -------------do---------------           
@@ -301,6 +333,7 @@ a `WRAPPED_TEXT`
 
 eval {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 };
 if ($@) {
     handle
@@ -308,46 +341,49 @@ if ($@) {
 
 eval {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 };
 if ($@) {
     handle_TYPED
-} b
+}b
 
 a eval {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 };
 if ($@) {
     handle
-} b
+}b
 
 a eval {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 };
 if ($@) {
     handle
 }
 
 
-    #  -------------for---------------                                   
-    # for (my $`var^ = 0; $`var^ < `count^; $`var^++)`$FOR_BRACKET_STL^{ 
-    #     `cursor^                                                       
-    # }                                                                  
+    #  -------------for---------------                                                                   
+    # for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$FOR_BRACKET_STL^{ 
+    #     `cursor^                                                                                       
+    # }                                                                                                  
 
 
 
-    for (my $var = 0; $var < count; $var++) {
+    for ( my $i = 0; $i < len; ++$i ) {
         
     }
 
-    for (my $var_TYPED = 0; $var_TYPED < count_TYPED; $var_TYPED++) {
+    for ( my $i_TYPED = 0_TYPED; $i_TYPED < len_TYPED; ++$i_TYPED ) {
         
     } b
 
-    a for (my $var = 0; $var < count; $var++) {
+    a for ( my $i = 0; $i < len; ++$i ) {
         
     } b
 
-    a for (my $var = 0; $var < count; $var++) {
+    a for ( my $i = 0; $i < len; ++$i ) {
         
     }
 
@@ -381,13 +417,13 @@ if ($@) {
 
 
 
-    for (;;) # void;
+    for (;;) # void
 
     for (;;) body_TYPED b
 
-    a for (;;) # void; b
+    a for (;;) # void b
 
-    a for (;;) # void;
+    a for (;;) # void
 
 
     #  -------------forkeys---------------                   
@@ -414,26 +450,26 @@ if ($@) {
     }
 
 
-    #  -------------forr---------------                         
-    # for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$FOR_BRACKET_STL^{ 
-    #     `cursor^                                              
-    # }                                                         
+    #  -------------forr---------------                                                                     
+    # for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$FOR_BRACKET_STL^{ 
+    #     `cursor^                                                                                          
+    # }                                                                                                     
 
 
 
-    for (i = n; i >= end; --i) {
+    for ( my $i = 0; $i >= end; --$i ) {
         
     }
 
-    for (i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED) {
+    for ( my $i_TYPED = 0_TYPED; $i_TYPED >_TYPED end_TYPED; --$i_TYPED ) {
         
     } b
 
-    a for (i = n; i >= end; --i) {
+    a for ( my $i = 0; $i >= end; --$i ) {
         
     } b
 
-    a for (i = n; i >= end; --i) {
+    a for ( my $i = 0; $i >= end; --$i ) {
         
     }
 
@@ -534,6 +570,7 @@ if ($@) {
 
 if ( cond ) {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
 elsif ( cond2 ) {
     # job
@@ -547,12 +584,14 @@ else {
 
 if ( cond_TYPED ) {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
 _TYPED
-else_TYPED b
+else_TYPEDb
 
 a if ( cond ) {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
 elsif ( cond2 ) {
     # job
@@ -562,10 +601,11 @@ elsif ( cond2 ) {
 }
 else {
     
-} b
+}b
 
 a if ( cond ) {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
 elsif ( cond2 ) {
     # job
@@ -606,6 +646,7 @@ else {
     }
     
     1;
+    
 
     package className_TYPED;
     
@@ -618,33 +659,36 @@ else {
         $self;
     }
     
-    1; b
-
-    a package className;
-    
-    use base qw(parent);
-    
-    sub new {
-        my $class = shift;
-        $class = ref $class if ref $class;
-        my $self = bless {}, $class;
-        $self;
-    }
-    
-    1; b
-
-    a package className;
-    
-    use base qw(parent);
-    
-    sub new {
-        my $class = shift;
-        $class = ref $class if ref $class;
-        my $self = bless {}, $class;
-        $self;
-    }
-    
     1;
+     b
+
+     a package className;
+     
+     use base qw(parent);
+     
+     sub new {
+         my $class = shift;
+         $class = ref $class if ref $class;
+         my $self = bless {}, $class;
+         $self;
+     }
+     
+     1;
+      b
+
+      a package className;
+      
+      use base qw(parent);
+      
+      sub new {
+          my $class = shift;
+          $class = ref $class if ref $class;
+          my $self = bless {}, $class;
+          $self;
+      }
+      
+      1;
+      
 
 
     #  -------------perl--------------- 
@@ -740,6 +784,7 @@ else {
 
 eval {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 };
 if ($@) {
     handle
@@ -747,20 +792,23 @@ if ($@) {
 
 eval {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 };
 if ($@) {
     handle_TYPED
-} b
+}b
 
 a eval {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 };
 if ($@) {
     handle
-} b
+}b
 
 a eval {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 };
 if ($@) {
     handle
@@ -911,30 +959,6 @@ if ($@) {
     }
 
 
-    #  -------------whilenn---------------     
-    # while (`condition^)`$WHILE_BRACKET_STL^{ 
-    #     `cursor^                             
-    # }                                        
-
-
-
-    while (NULL != var) {
-        
-    }
-
-    while (NULL != var_TYPED) {
-        
-    } b
-
-    a while (NULL != var) {
-        
-    } b
-
-    a while (NULL != var) {
-        
-    }
-
-
     #  -------------xforeach--------------- 
     # `expr^ foreach @`array^;              
 
@@ -996,11 +1020,15 @@ if ($@) {
 
 
 
-{WRAPPED_TEXT}
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 
-{WRAPPED_TEXT} b
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
 
-a {WRAPPED_TEXT} b
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
 
-a {WRAPPED_TEXT}
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 

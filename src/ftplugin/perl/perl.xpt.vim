@@ -43,6 +43,9 @@ XPTemplateDef
 " perl has no NULL value
 XPT fornn hidden=1
 
+XPT whilenn hidden=1
+
+
 XPT perl hint=#!/usr/bin/env\ perl
 #!/usr/bin/env perl
 

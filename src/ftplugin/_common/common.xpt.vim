@@ -164,6 +164,21 @@ fun! s:f.BuildIfNoChange( ... )
 endfunction
 
 
+fun! s:f.Commentize( text )
+  if has_key( self, '$CL' )
+    return self[ '$CL' ] . ' ' . a:text . ' ' . self[ '$CR' ]
+
+  elseif has_key( self, '$CS' )
+    return self[ '$CS' ] . ' ' . a:text
+
+  endif
+
+  return a:text
+endfunction
+
+fun! s:f.VoidLine()
+  return self.Commentize( 'void' )
+endfunction
 
 
 

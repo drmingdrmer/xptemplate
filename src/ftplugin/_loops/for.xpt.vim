@@ -8,7 +8,6 @@ let s:f = XPTcontainer()[0]
  
 XPTvar $NULL          NULL
 
-XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      CURSOR
 
 XPTvar $FOR_BRACKET_STL    \ 
@@ -48,7 +47,7 @@ for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PR
 
 
 XPT forever hint=for\ (;;)\ ..
-XSET body=$CL void $CR;
+XSET body|pre=VoidLine()
 for (;;) `body^
 
 " ================================= Wrapper ===================================
