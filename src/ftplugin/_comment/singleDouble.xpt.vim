@@ -1,4 +1,4 @@
-XPTemplate priority=all
+XPTemplate priority=all-
 
 
 XPTinclude 

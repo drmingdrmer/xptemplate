@@ -9,11 +9,6 @@ XPTvar $NULL           NULL
 XPTvar $WHILE_BRACKET_STL  \ 
 
 
-XPTinclude
-      \ _loops/c.for.like
-
-
-
 " ================================= Snippets ===================================
 XPTemplateDef
 

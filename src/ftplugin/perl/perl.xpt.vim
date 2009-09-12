@@ -4,8 +4,8 @@ let [s:f, s:v] = XPTcontainer()
  
 XPTvar $TRUE          1
 XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $UNDEFINED     NULL
+XPTvar $NULL          
+XPTvar $UNDEFINED     
 
 XPTvar $INDENT_HELPER # void;
 XPTvar $CURSOR_PH     # cursor
@@ -17,11 +17,19 @@ XPTvar $WHILE_BRACKET_STL  \
 XPTvar $STRUCT_BRACKET_STL \ 
 XPTvar $FUNC_BRACKET_STL   \ 
 
-XPTvar $CS #
-
 XPTinclude 
       \ _common/common
+
+XPTvar $CS #
+XPTinclude 
       \ _comment/singleSign
+
+XPTvar $VAR_PRE    $
+XPTvar $FOR_SCOPE  my\ 
+XPTinclude 
+      \ _loops/for
+
+XPTinclude 
       \ _loops/c.while.like
 
 
@@ -32,6 +40,8 @@ XPTinclude
 XPTemplateDef
 
 
+" perl has no NULL value
+XPT fornn hidden=1
 
 XPT perl hint=#!/usr/bin/env\ perl
 #!/usr/bin/env perl
@@ -79,6 +89,7 @@ XPT try alias=eval hint=eval\ {\ ..\ };\ if\ ...
 
 
 
+
 XPT whileeach hint=while\ \(\ \(\ key,\ val\ )\ =\ each\(\ %**\ )\ )
 while ( ( $`key^, $`val^ ) = each( %`array^ ) )`$WHILE_BRACKET_STL^{
     `cursor^
@@ -86,12 +97,6 @@ while ( ( $`key^, $`val^ ) = each( %`array^ ) )`$WHILE_BRACKET_STL^{
 
 XPT whileline hint=while\ \(\ defined\(\ \$line\ =\ <FILE>\ )\ )
 while ( defined( $`line^ = <`STDIN^> ) )`$WHILE_BRACKET_STL^{
-    `cursor^
-}
-
-
-XPT for hint=for\ (my\ ..;..;++)
-for (my $`var^ = 0; $`var^ < `count^; $`var^++)`$FOR_BRACKET_STL^{
     `cursor^
 }
 
@@ -140,6 +145,8 @@ sub new`$FUNC_BRACKET_STL^{
 }
 
 1;
+
+..XPT
 
 
 " ================================= Wrapper ===================================
