@@ -170,6 +170,6 @@ XSET cursor|pre=CURSOR
 
 XPT call_ hint=..(\ SEL\ )
 XSET p*|post=ExpandIfNotEmpty(', ', 'p*')
-`name^(`wrapped^`, `p?^)`cursor^
+`name^(`wrapped^`, `p*^)`cursor^
 
 

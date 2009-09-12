@@ -274,7 +274,7 @@ XPT attr hint=attr_**\ :...
 XSET what=Choose(["accessor", "reader", "writer"])
 XSET what|post=SV("^_$",'','')
 XSET attr*|post=ExpandIfNotEmpty(', :', 'attr*')
-attr`_`what^ :`attr?^
+attr`_`what^ :`attr*^
 ..XPT
 
 " TODO indent problem on else and ensure
@@ -645,7 +645,7 @@ require '`lib^'
 
 XPT reqs hint=%w[..].map\ {\ |lib|\ require\ lib\ }
 XSET lib*|post=ExpandIfNotEmpty(' ', 'lib*')
-%w[`lib?^].map { |lib| require lib }
+%w[`lib*^].map { |lib| require lib }
 
 
 XPT reve hint=reverse_each\ {\ ..\ }

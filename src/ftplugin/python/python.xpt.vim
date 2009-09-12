@@ -40,7 +40,7 @@ for `vars^ in range(`0^):
 
 XPT def hint=def\ ..(\ ..\ ):\ ...
 XSET para*|post=ExpandIfNotEmpty( ', ', 'para*' )
-def `fun_name^( `para?^ ):
+def `fun_name^( `para*^ ):
     `cursor^
 
 
