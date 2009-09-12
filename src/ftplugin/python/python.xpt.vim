@@ -6,7 +6,7 @@ XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
-XPTvar $INDENT_HELPER # nothing
+XPTvar $VOID_LINE # nothing
 XPTvar $IF_BRACKET_STL \n
 
 XPTinclude 
@@ -22,7 +22,7 @@ XPTemplateDef
 
 
 XPT if hint=if\ ..:\ ..\ else...
-XSET job=$INDENT_HELPER
+XSET job=$VOID_LINE
 if `cond^:
     `job`
 ``elif...`

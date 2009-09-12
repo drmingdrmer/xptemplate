@@ -6,7 +6,7 @@ XPTvar $NULL          NULL
 
 XPTvar $IF_BRACKET_STL  \ 
 
-XPTvar $INDENT_HELPER  /* void */;
+XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 
@@ -17,7 +17,7 @@ XPTvar $CURSOR_PH      /* cursor */
 XPTemplateDef
 
 XPT if		hint=if\ (..)\ {..}\ else...
-XSET job=$INDENT_HELPER
+XSET job=$VOID_LINE
 if (`condition^)`$IF_BRACKET_STL^{ 
     `job^
 }` `else...^
@@ -51,7 +51,7 @@ XSET condition=Embed('0 != `var^')
 
 
 XPT ifee	hint=if\ (..)\ {..}\ elseif...
-XSET job=$INDENT_HELPER
+XSET job=$VOID_LINE
 XSET another_cond=R('condition')
 if (`condition^)`$IF_BRACKET_STL^{
     `job^
@@ -64,7 +64,7 @@ XSETm END
 
 
 XPT switch	hint=switch\ (..)\ {case..}
-XSET job=$INDENT_HELPER
+XSET job=$VOID_LINE
 switch (`var^)`$IF_BRACKET_STL^{
     case `constant^ :
         `job^

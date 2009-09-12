@@ -99,7 +99,7 @@ XPTvar $UNDEFINED     NULL
 
 
 XPT helperVar hint=variables\ to\ define\ helper\ place\ holders
-XPTvar $INDENT_HELPER  
+XPTvar $VOID_LINE  
 XPTvar $CURSOR_PH      `cursor^
 
 
@@ -139,7 +139,7 @@ XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
 
-XPTvar $INDENT_HELPER  /* void */;
+XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      cursor
 
 XPTvar $IF_BRACKET_STL     \ 

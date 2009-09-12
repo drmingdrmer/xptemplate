@@ -8,7 +8,7 @@ let s:f = XPTcontainer()[0]
  
 XPTvar $NULL          NULL
 
-XPTvar $INDENT_HELPER  /* void */;
+XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      CURSOR
 
 XPTvar $FOR_BRACKET_STL    \ 

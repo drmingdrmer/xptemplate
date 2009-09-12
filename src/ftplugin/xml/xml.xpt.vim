@@ -4,7 +4,7 @@ let [s:f, s:v] = XPTcontainer()
  
 XPTvar $TRUE          1
 XPTvar $FALSE         0
-XPTvar $INDENT_HELPER /* void */;
+XPTvar $VOID_LINE /* void */;
 
 XPTinclude 
       \ _common/common

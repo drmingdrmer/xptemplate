@@ -19,7 +19,7 @@ XPTvar $FALSE         0
 XPTvar $NULL          0
 XPTvar $UNDEFINED     0
 
-XPTvar $INDENT_HELPER  
+XPTvar $VOID_LINE  
 XPTvar $CURSOR_PH      CURSOR
 
 

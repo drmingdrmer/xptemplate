@@ -5,7 +5,7 @@ XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $IF_BRACKET_STL  \ 
-XPTvar $INDENT_HELPER /* void */;
+XPTvar $VOID_LINE /* void */;
 
 " containers
 let [s:f, s:v] = XPTcontainer() 

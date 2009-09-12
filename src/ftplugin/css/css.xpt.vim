@@ -2,7 +2,7 @@ XPTemplate priority=lang
 
 let [s:f, s:v] = XPTcontainer() 
  
-XPTvar $INDENT_HELPER  /* void */;
+XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $CL  /*

@@ -13,7 +13,7 @@ XPTvar $WHILE_BRACKET_STL  \
 XPTvar $STRUCT_BRACKET_STL \ 
 XPTvar $FUNC_BRACKET_STL   \ 
 
-XPTvar $INDENT_HELPER  /* void */;
+XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $CL  /*
@@ -37,8 +37,8 @@ XPTemplateDef
 
 XPT bench hint=Benchmark
 XSET log=console.log
-XSET job=$INDENT_HELPER
-XSET jobn=$INDENT_HELPER
+XSET job=$VOID_LINE
+XSET jobn=$VOID_LINE
 var t0 = new Date().getTime();
 for (var i = 0; i < `times^; ++i){
     `job^
@@ -129,13 +129,13 @@ XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
 
 
 XPT setTimeout hint=setTimeout\(function\()\ {\ ..\ },\ ..)
-XSET job=$INDENT_HELPER
+XSET job=$VOID_LINE
 setTimeout(function() { `job^ }, `milliseconds^)
 
 
 XPT try hint=try\ {..}\ catch\ {..}\ finally
 XSET dealError=/* error handling */
-XSET job=$INDENT_HELPER
+XSET job=$VOID_LINE
 try`$IF_BRACKET_STL^{
     `job^
 }
@@ -171,7 +171,7 @@ function` `name^ (`param^) {
 
 XPT try_ hint=try\ {..}\ catch\ {..}\ finally
 XSET dealError=/* error handling */
-XSET job=$INDENT_HELPER
+XSET job=$VOID_LINE
 try`$IF_BRACKET_STL^{
     `wrapped^
 }

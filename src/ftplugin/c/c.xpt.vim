@@ -11,7 +11,7 @@ XPTvar $WHILE_BRACKET_STL  \
 XPTvar $STRUCT_BRACKET_STL \ 
 XPTvar $FUNC_BRACKET_STL   \n
 
-XPTvar $INDENT_HELPER  /* void */;
+XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $CL  /*
