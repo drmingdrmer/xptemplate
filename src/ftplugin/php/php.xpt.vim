@@ -7,7 +7,7 @@ XPTvar $FALSE         false
 XPTvar $NULL          null
 XPTvar $UNDEFINED     null
 
-XPTvar $VOID_LINE  /* void */
+XPTvar $VOID_LINE      /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $IF_BRACKET_STL     \ 
@@ -17,14 +17,24 @@ XPTvar $WHILE_BRACKET_STL  \
 XPTvar $STRUCT_BRACKET_STL \ 
 XPTvar $FUNC_BRACKET_STL   \ 
 
+XPTinclude 
+      \ _common/common
+
 XPTvar $CL    /*
 XPTvar $CM    *
 XPTvar $CR    */
+XPTinclude 
+      \ _comment/doubleSign
+
+XPTvar $VAR_PRE   $
+XPTvar $FOR_SCOPE 
+XPTinclude 
+      \ _loops/for
 
 XPTinclude 
-      \ _common/common
-      \ _comment/doubleSign
       \ _condition/c.like
+
+XPTinclude 
       \ _loops/c.while.like
 
 
@@ -34,19 +44,6 @@ XPTinclude
 XPTemplateDef
 
 
-
-XPT for hint=for\ (..;..;++)
-for ($`i^ = `init^; $`i^ < `val^; $`i^++)`$FOR_BRACKET_STL^{
-    `cursor^
-}
-
-
-XPT forr hint=for\ (..;..;--)
-for ($`i^ = `init^; $`i^ >= `0^; $`i^--)`$FOR_BRACKET_STL^{
-    `cursor^
-}
-
-
 XPT foreach hint=foreach\ (..\ as\ ..)\ {..}
 foreach ($`var^ as `container^)`$FOR_BRACKET_STL^{
     `cursor^
@@ -54,7 +51,9 @@ foreach ($`var^ as `container^)`$FOR_BRACKET_STL^{
 
 
 XPT fun hint=function\ ..(\ ..\ )\ {..}
-function `funName^( `params^ )`$FUNC_BRACKET_STL^{
+XSET params=Void()
+XSET params|post=EchoIfEq('  ', '')
+function `funName^(` `params` ^)`$FUNC_BRACKET_STL^{
     `cursor^
 }
 

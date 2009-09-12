@@ -158,7 +158,8 @@ XPT div hint=<div>\ ..\ </div>
 
 
 XPT p hint=<p>\ ..\ </p>
-<p`^>`cursor^</p>
+XSET attr?|post=EchoIfNoChange('')
+<p` `attr?^>`cursor^</p>
 
 
 XPT ul hint=<ul>\ <li>...

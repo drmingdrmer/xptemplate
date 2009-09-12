@@ -8,6 +8,7 @@ XPTvar $NULL          null
 XPTvar $UNDEFINED     undefined
 
 XPTvar $IF_BRACKET_STL     \ 
+XPTvar $ELSE_BRACKET_STL   \n
 XPTvar $FOR_BRACKET_STL    \ 
 XPTvar $WHILE_BRACKET_STL  \ 
 XPTvar $STRUCT_BRACKET_STL \ 
@@ -96,8 +97,8 @@ XSET email=$email
 
 
 XPT fun hint=function\ ..(\ ..\ )\ {..}
-XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
-function` `name^ (`arg?^) {
+XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
+function` `name^ (`arg*^) {
     `cursor^
 }
 

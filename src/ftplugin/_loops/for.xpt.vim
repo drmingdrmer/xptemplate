@@ -14,7 +14,6 @@ XPTvar $FOR_BRACKET_STL    \
 
 XPTvar $VAR_PRE 
 XPTvar $FOR_SCOPE 
-XPTvar $FOR_SCOPE 
 
 XPTinclude 
       \ _common/common
