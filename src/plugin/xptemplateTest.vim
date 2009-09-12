@@ -68,13 +68,12 @@ fun s:XPTnew(name, preinput) "{{{
     call s:XPTtrigger(a:name)
 endfunction "}}}
 fun s:XPTwrapNew(name, preinput) "{{{
-    let wrapText = "WRAPPED_TEXT"
 
     " 'S' for indent test. it takes the indent from line above
     call s:Feedkeys("S", 'nt')
     call s:Feedkeys( a:preinput, 'nt' )
 
-    call s:Feedkeys("\<C-o>maWRAPPED_TEXT\<left>\<C-o>mb", 'nt')
+    call s:Feedkeys("\<C-o>maWRAPPED_TEXT\<cr>WRAPPED_TEXT_line2\<left>\<C-o>mb", 'nt')
 
     call s:Feedkeys( "\<C-o>:XPTSlow\<cr>", '' )
 

@@ -24,10 +24,12 @@ XPTinclude
       \ _comment/doubleSign
       \ _condition/c.like
       \ _func/c.like
-      \ _loops/c.for.like
       \ _loops/c.while.like
       \ _preprocessor/c.like
       \ _structures/c.like
+
+XPTinclude
+      \ _loops/for
 
 
 " ========================= Function and Varaibles =============================

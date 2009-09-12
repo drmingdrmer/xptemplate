@@ -1931,7 +1931,7 @@ fun! s:ApplyPostFilter() "{{{
 
         let [ start, end ] = XPMposList( marks.start, marks.end )
 
-        let snip = s:AdjustIndentAccordingToLine( text, filterIndent, start[0] )
+        let snip = s:AdjustIndentAccordingToLine( text, filterIndent, start[0], leader )
         call XPMsetLikelyBetween( marks.start, marks.end )
         call XPreplace(start, end, snip)
 
@@ -2009,23 +2009,22 @@ fun! s:EvalPostFilter( filter, typed ) "{{{
 endfunction "}}}
 
 fun! s:AdjustIndentAccordingToLine( snip, indent, lineNr, ... ) "{{{
-    if a:0 == 1
-        let ph = a:1
-    else
-        let renderContext = s:getRenderContext()
-        let ph = renderContext.leadingPlaceHolder
-    endif
-
-    let leftMostMark = ph.mark.start
-    let pos = XPMpos( leftMostMark )
-
     let indent = indent( a:lineNr )
 
-    " Note: left edge may be spaces, that expected indent is actually space
-    "       before left mark
-    if pos[0] == a:lineNr && pos[1] - 1 < indent
-        let indent = pos[1] - 1
+    if a:0 == 1
+        let ph = a:1
+
+        let leftMostMark = ph.mark.start
+        let pos = XPMpos( leftMostMark )
+
+
+        " Note: left edge may be spaces, that expected indent is actually space
+        "       before left mark
+        if pos[0] == a:lineNr && pos[1] - 1 < indent
+            let indent = pos[1] - 1
+        endif
     endif
+
 
 
     call s:log.Debug( 'line to get indent:' . getline( a:lineNr ) )
@@ -2388,7 +2387,7 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
         " string
         let filterIndent = matchstr( obj, '\s*\ze\n' )
         let filterText = matchstr( obj, '\n\zs\_.*' )
-        let str = s:AdjustIndentAccordingToLine( filterText, filterIndent, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0] )
+        let str = s:AdjustIndentAccordingToLine( filterText, filterIndent, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0], renderContext.leadingPlaceHolder )
 
         return s:FillinLeadingPlaceHolderAndSelect( renderContext, str )
 

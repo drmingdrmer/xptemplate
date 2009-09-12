@@ -12,8 +12,7 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 fun! s:f.hintEscape()
-  let v = substitute( self.V(), '(', '\\&', 'g' )
-  return escape( v, '\ ' )
+  let v = substitute( self.V(), '[({$]', '\\&', 'g' )
 endfunction
 
 let s:xpt_snip = split( globpath( &rtp, "**/*.xpt.vim" ), "\n" )
