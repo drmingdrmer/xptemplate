@@ -32,6 +32,7 @@
 "
 " TODOLIST: "{{{
 " TODO test lua
+" TODO how to load different language snippets like html in php in single buffer
 " TODO escaped mark in snippet '`' and '^' and in nested.
 " TODO snippets bundle and bundle selection
 " TODO snippet-file scope XSET

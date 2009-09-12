@@ -773,14 +773,14 @@ a for ( $i = 0; $i >= end; --$i ) {
 }
 
 
-    /*  -------------fun---------------                   */
-/* function `funName^( `params^ )`$FUNC_BRACKET_STL^{ */
-/*     `cursor^                                       */
-/* }                                                  */
+    /*  -------------fun---------------                     */
+/* function `funName^(` `params` ^)`$FUNC_BRACKET_STL^{ */
+/*     `cursor^                                         */
+/* }                                                    */
 
 
 
-function funName( params ) {
+function funName() {
     
 }
 
@@ -788,11 +788,11 @@ function funName_TYPED( params_TYPED ) {
     
 } b
 
-a function funName( params ) {
+a function funName() {
     
 } b
 
-a function funName( params ) {
+a function funName() {
     
 }
 
@@ -1183,13 +1183,13 @@ a <ol>
 
 
     /*  -------------p--------------- */
-/* <p`^>`cursor^</p>              */
+/* <p` `attr?^>`cursor^</p>       */
 
 
 
 <p></p>
 
-<p_TYPED></p> b
+<p attr_TYPED></p> b
 
 a <p></p> b
 
@@ -1342,138 +1342,16 @@ a switch (var) {
 
 
     /*  -------------table--------------- */
-/* `createTable()^                    */
-
-
-
-<tr>
-<td id="`pre^_1_1"></td>
-</tr>
-<tr>
-<td id="`pre^_1_2"></td>
-</tr>
-<tr>
-<td id="`pre^_1_3"></td>
-</tr>
-<tr>
-<td id="`pre^_2_1"></td>
-</tr>
-<tr>
-<td id="`pre^_2_2"></td>
-</tr>
-<tr>
-<td id="`pre^_2_3"></td>
-</tr>
-<tr>
-<td id="`pre^_3_1"></td>
-</tr>
-<tr>
-<td id="`pre^_3_2"></td>
-</tr>
-<tr>
-<td id="`pre^_3_3"></td>
-</tr>
-</table>
-
-<tr>
-<td id="`pre^_1_1"></td>
-</tr>
-<tr>
-<td id="`pre^_1_2"></td>
-</tr>
-<tr>
-<td id="`pre^_1_3"></td>
-</tr>
-<tr>
-<td id="`pre^_2_1"></td>
-</tr>
-<tr>
-<td id="`pre^_2_2"></td>
-</tr>
-<tr>
-<td id="`pre^_2_3"></td>
-</tr>
-<tr>
-<td id="`pre^_3_1"></td>
-</tr>
-<tr>
-<td id="`pre^_3_2"></td>
-</tr>
-<tr>
-<td id="`pre^_3_3"></td>
-</tr>
-</table> b
-
-a <tr>
-<td id="`pre^_1_1"></td>
-</tr>
-<tr>
-<td id="`pre^_1_2"></td>
-</tr>
-<tr>
-<td id="`pre^_1_3"></td>
-</tr>
-<tr>
-<td id="`pre^_2_1"></td>
-</tr>
-<tr>
-<td id="`pre^_2_2"></td>
-</tr>
-<tr>
-<td id="`pre^_2_3"></td>
-</tr>
-<tr>
-<td id="`pre^_3_1"></td>
-</tr>
-<tr>
-<td id="`pre^_3_2"></td>
-</tr>
-<tr>
-<td id="`pre^_3_3"></td>
-</tr>
-</table> b
-
-a <tr>
-<td id="`pre^_1_1"></td>
-</tr>
-<tr>
-<td id="`pre^_1_2"></td>
-</tr>
-<tr>
-<td id="`pre^_1_3"></td>
-</tr>
-<tr>
-<td id="`pre^_2_1"></td>
-</tr>
-<tr>
-<td id="`pre^_2_2"></td>
-</tr>
-<tr>
-<td id="`pre^_2_3"></td>
-</tr>
-<tr>
-<td id="`pre^_3_1"></td>
-</tr>
-<tr>
-<td id="`pre^_3_2"></td>
-</tr>
-<tr>
-<td id="`pre^_3_3"></td>
-</tr>
-</table>
-
-
-    /*  -------------table2--------------- */
-/* <table>                             */
-/*   <tr>                              */
-/*     <td>`text^^</td>`...2^          */
-/*     <td>`text^^</td>`...2^          */
-/*   </tr>`...0^                       */
-/*   <tr>                              */
-/*     <td>`text^^</td>`...1^          */
-/*     <td>`text^^</td>`...1^          */
-/*   </tr>`...0^                       */
-/* </table>                            */
+/* <table>                            */
+/*   <tr>                             */
+/*     <td>`text^^</td>`...2^         */
+/*     <td>`text^^</td>`...2^         */
+/*   </tr>`...0^                      */
+/*   <tr>                             */
+/*     <td>`text^^</td>`...1^         */
+/*     <td>`text^^</td>`...1^         */
+/*   </tr>`...0^                      */
+/* </table>                           */
 
 
 
@@ -1529,67 +1407,6 @@ a <table>
   <tr>
     <td></td>
   </tr>
-</table>
-
-
-    /*  -------------table3---------------                                                                */
-/* <table id="`id^">`CntStart("i", "0")^                                                              */
-/*   <tr>`CntStart("j", "0")^                                                                         */
-/*     <td id="`^R("id")_{Cnt("i")}_{CntIncr("j")}^">`text^^</td>`...2^                               */
-/*     <td id="`^R("id")_{Cnt("i")}_{CntIncr("j")}^">`text^^</td>`...2^                               */
-/*   </tr>`tr...^                                                                                     */
-/*   <tr>                                                                                             */
-/*     <td id="\`\^CntStart("j","0")R("id")_{CntIncr("i")}_{CntIncr("j")}\^">\`text\^\^</td>\`td...\^ */
-/*     <td id="\\\`\\\^R("id")_{Cnt("i")}_{CntIncr("j")}\\\^">\\\`text\\\^\\\^</td>\\\`td...\\\^\^\^  */
-/*   </tr>\`tr...\^^^                                                                                 */
-/* </table>                                                                                           */
-
-
-
-<table id="id">
-  <tr>
-    <td id=""></td>
-    <td id=""></td>
-    <td id=""></td>
-  </tr>tr...
-  <tr>
-    <td id=""></td>
-    <td id=""></td>td...
-  </tr>tr...
-</table>
-
-<table id="id_TYPED">
-  <tr>
-    <td id="_TYPED">text_TYPED</td>2_TYPED
-  </tr>tr_TYPED
-  <tr>
-    <td id="_TYPED">text_TYPED</td>
-    <td id="_TYPED">text_TYPED</td>td_TYPED
-  </tr>tr_TYPED
-</table> b
-
-a <table id="id">
-  <tr>
-    <td id=""></td>
-    <td id=""></td>
-    <td id=""></td>
-  </tr>tr...
-  <tr>
-    <td id=""></td>
-    <td id=""></td>td...
-  </tr>tr...
-</table> b
-
-a <table id="id">
-  <tr>
-    <td id=""></td>
-    <td id=""></td>
-    <td id=""></td>
-  </tr>tr...
-  <tr>
-    <td id=""></td>
-    <td id=""></td>td...
-  </tr>tr...
 </table>
 
 

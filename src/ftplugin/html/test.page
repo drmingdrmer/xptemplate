@@ -1,299 +1,632 @@
 
-<!--  -------------Author--------------- -->
-<!-- `$author^                           -->
+
+
+    <!--  -------------"--------------- -->
+    <!-- "`wrapped^"                    -->
 
 
 
-drdr.xp
+"WRAPPED_TEXT
+    WRAPPED_TEXT_line2"
 
-drdr.xp
+    "WRAPPED_TEXT
+    WRAPPED_TEXT_line2"b
 
+    a "WRAPPED_TEXT
+    WRAPPED_TEXT_line2"b
 
-<!--  -------------doctype_html3---------------              -->
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"> -->
-
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+    a "WRAPPED_TEXT
+    WRAPPED_TEXT_line2"
 
 
-<!--  -------------doctype_xhtml1_strict---------------                                                            -->
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> -->
+    <!--  -------------'--------------- -->
+    <!-- '`wrapped^'                    -->
 
 
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+'WRAPPED_TEXT
+    WRAPPED_TEXT_line2'
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    'WRAPPED_TEXT
+    WRAPPED_TEXT_line2'b
 
+    a 'WRAPPED_TEXT
+    WRAPPED_TEXT_line2'b
 
-<!--  -------------Date--------------- -->
-<!-- `date()^                          -->
-
-
-
-2009 May 10
-
-2009 May 10
+    a 'WRAPPED_TEXT
+    WRAPPED_TEXT_line2'
 
 
-<!--  -------------br--------------- -->
-<!-- <br/>                           -->
+    <!--  -------------(--------------- -->
+    <!-- (`wrapped^)                    -->
 
 
 
-<br/>
+(WRAPPED_TEXT
+    WRAPPED_TEXT_line2)
 
-<br/>
+    (WRAPPED_TEXT
+    WRAPPED_TEXT_line2)b
 
+    a (WRAPPED_TEXT
+    WRAPPED_TEXT_line2)b
 
-<!--  -------------doctype_html4_frameset---------------                                                       -->
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN" "http://www.w3.org/TR/REC-html40/frameset.dtd"> -->
-
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN" "http://www.w3.org/TR/REC-html40/frameset.dtd">
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Frameset//EN" "http://www.w3.org/TR/REC-html40/frameset.dtd">
+    a (WRAPPED_TEXT
+    WRAPPED_TEXT_line2)
 
 
-<!--  -------------script---------------                   -->
-<!-- <script language="javascript" type="text/javascript"> -->
-<!-- `cursor^                                              -->
-<!-- </script>                                             -->
+    <!--  -------------<--------------- -->
+    <!-- <`tag^` `...^>                 -->
+    <!--     `cursor^                   -->
+    <!-- </`tag^>                       -->
 
 
 
-<script language="javascript" type="text/javascript">
-  
-</script>
+    <tag name="val" name="val">
+        
+    </tag>
 
-<script language="javascript" type="text/javascript">
-  
-</script>
+    <tag_TYPED _TYPED>
+        
+    </tag_TYPED> b
+
+    a <tag name="val" name="val">
+        
+    </tag> b
+
+    a <tag name="val" name="val">
+        
+    </tag>
 
 
-<!--  -------------doctype_xhtml1_transitional---------------                                                                  -->
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
+    <!--  -------------<_--------------- -->
+    <!-- <`span^>`wrapped^</`span^>      -->
+
+
+
+<span>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</span>
+
+<span_TYPED>WRAPPED_TEXT
+WRAPPED_TEXT_line2</span_TYPED>b
+
+a <span>WRAPPED_TEXT
+WRAPPED_TEXT_line2</span>b
+
+a <span>WRAPPED_TEXT
+WRAPPED_TEXT_line2</span>
+
+
+    <!--  -------------Author--------------- -->
+    <!-- `$author^                           -->
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    a drdr.xp b
+
+    a drdr.xp
+
+
+    <!--  -------------CDATA_--------------- -->
+    <!-- <![CDATA[                           -->
+    <!-- `cursor^                            -->
+    <!-- ]]>                                 -->
+
+
+
+    <![CDATA[
+    
+    ]]>
+
+    <![CDATA[
+    
+    ]]> b
+
+    a <![CDATA[
+    
+    ]]> b
+
+    a <![CDATA[
+    
+    ]]>
+
+
+    <!--  -------------Email--------------- -->
+    <!-- `$email^                           -->
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com
+
+
+    <!--  -------------File--------------- -->
+    <!-- `file()^                          -->
+
+
+
+    test.page
+
+    test.page b
+
+    a test.page b
+
+    a test.page
+
+
+    <!--  -------------[--------------- -->
+    <!-- [`wrapped^]                    -->
+
+
+
+[WRAPPED_TEXT
+    WRAPPED_TEXT_line2]
+
+    [WRAPPED_TEXT
+    WRAPPED_TEXT_line2]b
+
+    a [WRAPPED_TEXT
+    WRAPPED_TEXT_line2]b
+
+    a [WRAPPED_TEXT
+    WRAPPED_TEXT_line2]
+
+
+    <!--  -------------`--------------- -->
+    <!-- \``wrapped^\`                  -->
+
+
+
+`WRAPPED_TEXT
+    WRAPPED_TEXT_line2`
+
+    `WRAPPED_TEXT
+    WRAPPED_TEXT_line2`b
+
+    a `WRAPPED_TEXT
+    WRAPPED_TEXT_line2`b
+
+    a `WRAPPED_TEXT
+    WRAPPED_TEXT_line2`
+
+
+    <!--  -------------a--------------- -->
+    <!-- <a href="`href^">`cursor^</a>  -->
+
+
+
+    <a href="href"></a>
+
+    <a href="href_TYPED"></a> b
+
+    a <a href="href"></a> b
+
+    a <a href="href"></a>
+
+
+    <!--  -------------a_--------------- -->
+    <!-- <a href="">`wrapped^</a>        -->
+
+
+
+<a href="">WRAPPED_TEXT
+    WRAPPED_TEXT_line2</a>
+
+<a href="">WRAPPED_TEXT
+WRAPPED_TEXT_line2</a>b
+
+a <a href="">WRAPPED_TEXT
+WRAPPED_TEXT_line2</a>b
+
+a <a href="">WRAPPED_TEXT
+WRAPPED_TEXT_line2</a>
+
+
+    <!--  -------------br--------------- -->
+    <!-- <br />                          -->
+
+
+
+    <br />
+
+    <br /> b
+
+    a <br /> b
+
+    a <br />
+
+
+    <!--  -------------cb--------------- -->
+    <!-- `$CL^                           -->
+    <!--  `$CM^ `cursor^                 -->
+    <!--  `$CR^                          -->
+
+
+
+    <!--
+      
+     -->
+
+     <!--
+       
+      --> b
+
+      a <!--
+        
+       --> b
+
+       a <!--
+         
+        -->
+
+
+    <!--  -------------cc--------------- -->
+    <!-- `$CL^ `cursor^ `$CR^            -->
+
+
+
+    <!--  -->
+
+    <!--  --> b
+
+    a <!--  --> b
+
+    a <!--  -->
+
+
+    <!--  -------------cc_--------------- -->
+    <!-- `$CL^ `wrapped^ `$CR^            -->
+
+
+
+<!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->
+
+    <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->b
+
+    a <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->b
+
+    a <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->
+
+
+    <!--  -------------cd--------------- -->
+    <!-- `$CL^`$CM^                      -->
+    <!--  `$CM^ `cursor^                 -->
+    <!--  `$CR^                          -->
+
+
+
+    <!--
+      
+     -->
+
+     <!--
+       
+      --> b
+
+      a <!--
+        
+       --> b
+
+       a <!--
+         
+        -->
+
+
+    <!--  -------------cl--------------- -->
+    <!-- `$CL^ `cursor^ `$CR^            -->
+
+
+
+    <!--  -->
+
+    <!--  --> b
+
+    a <!--  --> b
+
+    a <!--  -->
+
+
+    <!--  -------------div--------------- -->
+    <!-- <div`^>`cursor^</div>            -->
+
+
+
+    <div></div>
+
+    <div_TYPED></div> b
+
+a <div></div> b
+
+a <div></div>
+
+
+    <!--  -------------div_--------------- -->
+    <!-- <div>`wrapped^</div>              -->
+
+
+
+<div>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</div>
+
+<div>WRAPPED_TEXT
+WRAPPED_TEXT_line2</div>b
+
+a <div>WRAPPED_TEXT
+WRAPPED_TEXT_line2</div>b
+
+a <div>WRAPPED_TEXT
+WRAPPED_TEXT_line2</div>
+
+
+    <!--  -------------doctype--------------- -->
+    <!-- <!DOCTYPE html PUBLIC `doctype^>     -->
+
+
+
+    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> b
+
+    a <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> b
+
+    a <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+
+    <!--  -------------h--------------- -->
+    <!-- <h`n^>`cursor^</h`n^>          -->
+
+
+
+    <h1></h1>
+
+    <hn_TYPED></hn_TYPED> b
+
+    a <h1></h1> b
+
+    a <h1></h1>
+
+
+    <!--  -------------h_--------------- -->
+    <!-- <h`n^>`wrapped^</h`n^>          -->
+
+
+
+<h1>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</h1>
+
+<hn_TYPED>WRAPPED_TEXT
+WRAPPED_TEXT_line2</hn_TYPED>b
+
+a <h1>WRAPPED_TEXT
+WRAPPED_TEXT_line2</h1>b
+
+a <h1>WRAPPED_TEXT
+WRAPPED_TEXT_line2</h1>
+
+
+    <!--  -------------html---------------                                                                                         -->
+    <!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
+    <!-- <html>                                                                                                                    -->
+    <!--   <head>                                                                                                                  -->
+    <!--     <meta http-equiv="Content-Type" content="text/html; charset=`encoding^utf-8^"/>                                       -->
+    <!--     <link rel="stylesheet" type="text/css" href="" />                                                                     -->
+    <!--     <style></style>                                                                                                       -->
+    <!--     <title>`title^E('%:r')^</title>                                                                                       -->
+    <!--     <script language="javascript" type="text/javascript">                                                                 -->
+    <!--       _CMT_ _cmt_                                                                                                         -->
+    <!--     </script>                                                                                                             -->
+    <!--   </head>                                                                                                                 -->
+    <!--   <body>                                                                                                                  -->
+    <!--     `cursor^                                                                                                              -->
+    <!--   </body>                                                                                                                 -->
+    <!-- </html>                                                                                                                   -->
 
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="" />
+    <style></style>
+    <title>/home/xp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
+    <script language="javascript" type="text/javascript">
+      <!-- -->
+    </script>
+  </head>
+  <body>
+    
+  </body>
+</html>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=encoding_TYPED"/>
+    <link rel="stylesheet" type="text/css" href="" />
+    <style></style>
+    <title>title_TYPED</title>
+    <script language="javascript" type="text/javascript">
+      <!-- -->
+    </script>
+  </head>
+  <body>
+    
+  </body>
+</html> b
+
+a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="" />
+    <style></style>
+    <title>/home/xp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
+    <script language="javascript" type="text/javascript">
+      <!-- -->
+    </script>
+  </head>
+  <body>
+    
+  </body>
+</html> b
 
+a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="" />
+    <style></style>
+    <title>/home/xp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
+    <script language="javascript" type="text/javascript">
+      <!-- -->
+    </script>
+  </head>
+  <body>
+    
+  </body>
+</html>
 
-<!--  -------------div_--------------- -->
-<!-- <div>`wrapped^</div>              -->
 
+    <!--  -------------ol--------------- -->
+    <!-- <ol>                            -->
+    <!--     <li>`val^</li>`...^         -->
+    <!--     <li>`val^</li>`...^         -->
+    <!-- </ol>                           -->
 
-<div>WRAPPED_TEXT</div>
 
-<div>WRAPPED_TEXT</div>
 
+<ol>
+    <li>val</li>
+    <li>val</li>
+    <li>val</li>
+</ol>
 
+<ol>
+    <li>val_TYPED</li>_TYPED
+</ol> b
 
-<!--  -------------scrlink---------------                                          -->
-<!-- <script language="javascript" type="text/javascript" src="`cursor^"></script> -->
+a <ol>
+    <li>val</li>
+    <li>val</li>
+    <li>val</li>
+</ol> b
 
+a <ol>
+    <li>val</li>
+    <li>val</li>
+    <li>val</li>
+</ol>
 
 
-<script language="javascript" type="text/javascript" src=""></script>
+    <!--  -------------p--------------- -->
+    <!-- <p` `attr?^>`cursor^</p>       -->
 
-<script language="javascript" type="text/javascript" src=""></script>
 
 
-<!--  -------------ver---------------                    -->
-<!-- <?xml version="`ver^1.0^" encoding="`enc^utf-8^" ?> -->
+    <p></p>
 
+    <p attr_TYPED></p> b
 
+    a <p></p> b
 
-<?xml version="1.0" encoding="utf-8" ?>
+    a <p></p>
 
-<?xml version="ver_TYPED" encoding="enc_TYPED" ?>
 
+    <!--  -------------p_--------------- -->
+    <!-- <p>`wrapped^</p>                -->
 
-<!--  -------------cc_--------------- -->
-<!-- `$CL^ `wrapped^ `$CR^            -->
 
 
-<!-- WRAPPED_TEXT -->
+<p>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</p>
 
-<!-- WRAPPED_TEXT -->
+    <p>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</p>b
 
+    a <p>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</p>b
 
+    a <p>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</p>
 
-<!--  -------------_---------------                    -->
-<!-- <`tag^`...^ `name^="`val^"`...^>`wrapped^</`tag^> -->
 
+    <!--  -------------script---------------                   -->
+    <!-- <script language="javascript" type="text/javascript"> -->
+    <!-- `cursor^                                              -->
+    <!-- </script>                                             -->
 
-<tag name="val" name="val">WRAPPED_TEXT</tag>
 
-<tag_TYPED_TYPED>WRAPPED_TEXT</tag_TYPED>
 
+<script language="javascript" type="text/javascript">
 
+</script>
 
-<!--  -------------a--------------- -->
-<!-- <a href="`href^">`cursor^</a>  -->
+<script language="javascript" type="text/javascript">
 
+</script> b
 
+a <script language="javascript" type="text/javascript">
 
-<a href="href"></a>
+</script> b
 
-<a href="href_TYPED"></a>
+a <script language="javascript" type="text/javascript">
 
+</script>
 
-<!--  -------------h_--------------- -->
-<!-- <h`n^>`wrapped^</h`n^>          -->
 
+    <!--  -------------scrlink---------------                                          -->
+    <!-- <script language="javascript" type="text/javascript" src="`cursor^"></script> -->
 
-<h1>WRAPPED_TEXT</h1>
 
-<hn_TYPED>WRAPPED_TEXT</hn_TYPED>
 
+    <script language="javascript" type="text/javascript" src=""></script>
 
+    <script language="javascript" type="text/javascript" src=""></script> b
 
-<!--  -------------h--------------- -->
-<!-- <h`n^>`cursor^</h`n^>          -->
+    a <script language="javascript" type="text/javascript" src=""></script> b
 
+    a <script language="javascript" type="text/javascript" src=""></script>
 
 
-<h1></h1>
+    <!--  -------------style---------------                      -->
+    <!-- <?xml-stylesheet type="`style^text/css^" href="`from^"> -->
 
-<hn_TYPED></hn_TYPED>
 
 
-<!--  -------------doctype_xthml1_frameset---------------                                                              -->
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"> -->
+    <?xml-stylesheet type="text/css" href="from">
 
+    <?xml-stylesheet type="style_TYPED" href="from_TYPED"> b
 
+    a <?xml-stylesheet type="text/css" href="from"> b
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+    a <?xml-stylesheet type="text/css" href="from">
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 
-
-<!--  -------------doctype_html41_strict---------------                                         -->
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> -->
-
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-
-
-<!--  -------------p--------------- -->
-<!-- <p`^>`cursor^</p>              -->
-
-
-
-<p></p>
-
-<p_TYPED></p>
-
-
-<!--  -------------cb--------------- -->
-<!-- `$CL^                           -->
-<!--  `$CM^ `cursor^                 -->
-<!--  `$CR^                          -->
-
-
-
-<!--
-
--->
-
-<!--
-
--->
-
-
-<!--  -------------cc--------------- -->
-<!-- `$CL^ `cursor^ `$CR^            -->
-
-
-
-<!--  -->
-
-<!--  -->
-
-
-<!--  -------------cd--------------- -->
-<!-- `$CL^`$CM^                      -->
-<!--  `$CM^ `cursor^                 -->
-<!--  `$CR^                          -->
-
-
-
-<!--
-
--->
-
-<!--
-
--->
-
-
-<!--  -------------t---------------   -->
-<!-- <`tag^`...^ `name^="`val^"`...^> -->
-<!--     `cursor^                     -->
-<!-- </`tag^>                         -->
-
-
-
-<tag name="val" name="val">
-
-</tag>
-
-<tag_TYPED_TYPED>
-
-</tag_TYPED>
-
-
-<!--  -------------doctype_html41_frameset---------------                                                  -->
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd"> -->
-
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-
-
-<!--  -------------class--------------- -->
-<!-- class="`^"                         -->
-
-
-
-class
-
-class
-
-
-<!--  -------------cl--------------- -->
-<!-- `$CS^ `cursor^                  -->
-
-
-
-
-
-
-
-
-<!--  -------------table2--------------- -->
-<!-- <table>                             -->
-<!--   <tr>                              -->
-<!--     <td>`text^^</td>`...2^          -->
-<!--     <td>`text^^</td>`...2^          -->
-<!--   </tr>`...0^                       -->
-<!--   <tr>                              -->
-<!--     <td>`text^^</td>`...1^          -->
-<!--     <td>`text^^</td>`...1^          -->
-<!--   </tr>`...0^                       -->
-<!-- </table>                            -->
+    <!--  -------------table--------------- -->
+    <!-- <table>                            -->
+    <!--   <tr>                             -->
+    <!--     <td>`text^^</td>`...2^         -->
+    <!--     <td>`text^^</td>`...2^         -->
+    <!--   </tr>`...0^                      -->
+    <!--   <tr>                             -->
+    <!--     <td>`text^^</td>`...1^         -->
+    <!--     <td>`text^^</td>`...1^         -->
+    <!--   </tr>`...0^                      -->
+    <!-- </table>                           -->
 
 
 
@@ -317,238 +650,100 @@ class
   <tr>
     <td>text_TYPED</td>2_TYPED
   </tr>0_TYPED
-</table>
+</table> b
 
-
-<!--  -------------table3---------------                                                                -->
-<!-- <table id="`id^">`CntStart("i", "0")^                                                              -->
-<!--   <tr>`CntStart("j", "0")^                                                                         -->
-<!--     <td id="`^R("id")_{Cnt("i")}_{CntIncr("j")}^">`text^^</td>`...2^                               -->
-<!--     <td id="`^R("id")_{Cnt("i")}_{CntIncr("j")}^">`text^^</td>`...2^                               -->
-<!--   </tr>`tr...^                                                                                     -->
-<!--   <tr>                                                                                             -->
-<!--     <td id="\`\^CntStart("j","0")R("id")_{CntIncr("i")}_{CntIncr("j")}\^">\`text\^\^</td>\`td...\^ -->
-<!--     <td id="\\\`\\\^R("id")_{Cnt("i")}_{CntIncr("j")}\\\^">\\\`text\\\^\\\^</td>\\\`td...\\\^\^\^  -->
-<!--   </tr>\`tr...\^^^                                                                                 -->
-<!-- </table>                                                                                           -->
-
-
-
-<table id="id">
+a <table>
   <tr>
-    <td id="id_0_1"></td>
-    <td id="id_0_2"></td>
-    <td id="id_0_3"></td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
   <tr>
-    <td id="id_1_1"></td>
-    <td id="id_1_2"></td>
-    <td id="id_1_3"></td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
   <tr>
-    <td id="id_2_1"></td>
+    <td></td>
   </tr>
-</table>
+</table> b
 
-<table id="id_TYPED">
+a <table>
   <tr>
-    <td id="0_TYPED">text_TYPED</td>2_TYPED
-  </tr>tr_TYPED
-</table>
-
-
-<!--  -------------html---------------                                                                                             -->
-<!-- <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"> -->
-<!-- <html>                                                                                                                        -->
-<!--   <head>                                                                                                                      -->
-<!--     <meta http-equiv=\"Content-Type\" content=\"text/html; charset=`encoding^utf-8^\"/>                                       -->
-<!--     <link rel=\"stylesheet\" type=\"text/css\" href=\"\" />                                                                   -->
-<!--     <style></style>                                                                                                           -->
-<!--     <title>`title^E('%:r')^</title>                                                                                           -->
-<!--     <script language=\"javascript\" type=\"text/javascript\">                                                                 -->
-<!--       <!-- _cmt_                                                                                                              -->
-<!--     </script>                                                                                                                 -->
-<!--   </head>                                                                                                                     -->
-<!--   <body>                                                                                                                      -->
-<!--     `cursor^                                                                                                                  -->
-<!--   </body>                                                                                                                     -->
-<!-- </html>                                                                                                                       -->
-
-
-
-<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
-<html>
-  <head>
-    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"\" />
-    <style></style>
-    <title>/tmp/v966569/0/test</title>
-    <script language=\"javascript\" type=\"text/javascript\">
-      <!-- -->
-    </script>
-  </head>
-  <body>
-    
-  </body>
-</html>
-
-<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
-<html>
-  <head>
-    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=encoding_TYPED\"/>
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"\" />
-    <style></style>
-    <title>title_TYPED</title>
-    <script language=\"javascript\" type=\"text/javascript\">
-      <!-- -->
-    </script>
-  </head>
-  <body>
-    
-  </body>
-</html>
-
-
-<!--  -------------doctype_xhtml11---------------                                      -->
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/1999/xhtml"> -->
-
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/1999/xhtml">
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/1999/xhtml">
-
-
-<!--  -------------p_--------------- -->
-<!-- <p>`wrapped^</p>                -->
-
-
-<p>WRAPPED_TEXT</p>
-
-<p>WRAPPED_TEXT</p>
-
-
-
-<!--  -------------doctype_html4_strict---------------                                              -->
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd"> -->
-
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
-
-
-<!--  -------------CDATA_--------------- -->
-<!-- <![CDATA[                           -->
-<!-- `cursor^                            -->
-<!-- ]]>                                 -->
-
-
-
-<![CDATA[
-
-]]>
-
-<![CDATA[
-
-]]>
-
-
-<!--  -------------a_--------------- -->
-<!-- <a href="">`wrapped^</a>        -->
-
-
-<a href="">WRAPPED_TEXT</a>
-
-<a href="">WRAPPED_TEXT</a>
-
-
-
-<!--  -------------div--------------- -->
-<!-- <div`^>`cursor^</div>            -->
-
-
-
-<div></div>
-
-<div_TYPED></div>
-
-
-<!--  -------------doctype_html4_loose---------------                                                           -->
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"> -->
-
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-
-
-<!--  -------------table--------------- -->
-<!-- `createTable()^                    -->
-
-
-
-<table id='id'>
-  <tr>
-    <td id="pre_1_1"></td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
-</table>
-
-<table id='id_TYPED'>
   <tr>
-    <td id="pre_TYPED_1_1"></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
   </tr>
 </table>
 
 
-<!--  -------------doctype_html41_loose---------------                                                      -->
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> -->
+    <!--  -------------ul--------------- -->
+    <!-- <ul>                            -->
+    <!--     <li>`val^</li>`...^         -->
+    <!--     <li>`val^</li>`...^         -->
+    <!-- </ul>                           -->
 
 
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ul>
+    <li>val</li>
+    <li>val</li>
+    <li>val</li>
+</ul>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ul>
+    <li>val_TYPED</li>_TYPED
+</ul> b
 
+a <ul>
+    <li>val</li>
+    <li>val</li>
+    <li>val</li>
+</ul> b
 
-<!--  -------------id--------------- -->
-<!-- id="`^"                         -->
-
-
-
-id
-
-id
-
-
-<!--  -------------Email--------------- -->
-<!-- `$email^                           -->
-
-
-
-bal@bla
-
-bal@bla
+a <ul>
+    <li>val</li>
+    <li>val</li>
+    <li>val</li>
+</ul>
 
 
-<!--  -------------File--------------- -->
-<!-- `file()^                          -->
+    <!--  -------------ver---------------                    -->
+    <!-- <?xml version="`ver^1.0^" encoding="`enc^utf-8^" ?> -->
 
 
 
-test.page
+    <?xml version="1.0" encoding="utf-8" ?>
 
-test.page
+    <?xml version="ver_TYPED" encoding="enc_TYPED" ?> b
+
+    a <?xml version="1.0" encoding="utf-8" ?> b
+
+    a <?xml version="1.0" encoding="utf-8" ?>
 
 
-<!--  -------------style---------------                      -->
-<!-- <?xml-stylesheet type="`style^text/css^" href="`from^"> -->
+    <!--  -------------{--------------- -->
+    <!-- {`wrapped^}                    -->
 
 
 
-<?xml-stylesheet type="text/css" href="from">
+{WRAPPED_TEXT
+    WRAPPED_TEXT_line2}
 
-<?xml-stylesheet type="style_TYPED" href="from_TYPED">
+    {WRAPPED_TEXT
+    WRAPPED_TEXT_line2}b
+
+    a {WRAPPED_TEXT
+    WRAPPED_TEXT_line2}b
+
+    a {WRAPPED_TEXT
+    WRAPPED_TEXT_line2}
 

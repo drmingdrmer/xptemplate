@@ -95,7 +95,7 @@ XPTemplateDef
 
 
 
-XPT table2
+XPT table
 <table>
   <tr>
     <td>`text^^</td>`...2^
@@ -108,7 +108,7 @@ XPT table2
 </table>
 ..XPT
 
-XPT table3
+XPT tablecounter hidden=1
 <table id="`id^">`CntStart("i", "0")^
   <tr>`CntStart("j", "0")^
     <td id="`^R("id")_{Cnt("i")}_{CntIncr("j")}^">`text^^</td>`...2^
@@ -121,7 +121,7 @@ XPT table3
 </table>
 ..XPT
 
-XPT table
+XPT table0 hidden=1
 `createTable()^
 
 

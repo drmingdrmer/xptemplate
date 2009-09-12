@@ -130,7 +130,7 @@ fun! s:f.EchoIf( isTrue, ... )
 endfunction
 
 fun! s:f.EchoIfEq( expected, ... )
-  if self.V() ==# expected
+  if self.V() ==# a:expected
     return join( a:000, '' )
   else
     return self.V()
