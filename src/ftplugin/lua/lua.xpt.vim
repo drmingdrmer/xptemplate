@@ -48,7 +48,7 @@ end
 
 
 XPT fn hint=function\ \(..) .. end
-XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
+XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 function (`arg?^) `cursor^ end
 
 
@@ -60,7 +60,7 @@ end
 
 
 XPT forin hint=for\ ..\ in\ ..\ do\ ...\ end
-XSET var?|post=ExpandIfNotEmpty(', ', 'var?')
+XSET var*|post=ExpandIfNotEmpty(', ', 'var*')
 for `var?^ in `expr^ do
     `cursor^
 end
@@ -79,7 +79,7 @@ end
 
 
 XPT fun hint=function\ ..\(..)\ ..\ end
-XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
+XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 function `name^(`arg?^)
     `cursor^
 end
@@ -113,7 +113,7 @@ end
 
 
 XPT locf hint=local\ function\ ..\(..)\ ...\ end
-XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
+XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 local function `name^(`arg?^)
     `cursor^
 end

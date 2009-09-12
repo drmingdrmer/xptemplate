@@ -41,7 +41,7 @@ if `cond^
 
 
 XPT lib hint=library\ Exposed-Modules...
-XSET another?|post=ExpandIfNotEmpty( ', ', 'another?' )
+XSET another*|post=ExpandIfNotEmpty( ', ', 'another*' )
 library
   Exposed-Modules: `job^`
                    `more...{{^
@@ -49,10 +49,10 @@ library
                    `...{{^
                    `job^`
                    `...^`}}^`}}^
-  Build-Depends: base >= `ver^2.0^`, `another?^
+  Build-Depends: base >= `ver^2.0^`, `another*^
 
 XPT exe hint=Main-Is:\ ..\ Build-Depends
-XSET another?|post=ExpandIfNotEmpty( ', ', 'another?' )
+XSET another*|post=ExpandIfNotEmpty( ', ', 'another*' )
 Executable `execName^
     Main-Is: `mainFile^
     Build-Depends: base >= `ver^2.0^`, `another?^
