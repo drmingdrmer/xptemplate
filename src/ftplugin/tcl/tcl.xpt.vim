@@ -6,7 +6,9 @@ XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
-XPTvar $VOID_LINE /* void */;
+XPTvar $VOID_LINE     /* void */;
+XPTvar $CURSOR_PH     
+
 XPTvar $IF_BRACKET_STL \n
 
 XPTinclude 
@@ -25,56 +27,58 @@ XPT tcl hint=#!/bin/sh\ ..\ exec\ tclsh..
 #!/bin/sh
 #\
 exec tclsh "$0" "$@""
+
+..XPT
                         
 
 XPT for hint=for\ {...}
 for {set ~i^ ~x^} {$~i^ <= ~len^} {incr ~i^} {
-      ~cursor^
+    ~cursor^
 }                                              
                                                
 
 XPT foreach hint=foreach\ i\ var\ {...
 foreach ~i^ ~var^ {
-      ~cursor^
+    ~cursor^
 }
 
 
 XPT while hint=while\ {i\ <=\ ?}\ {...
 while {~i^ <= ~len^} {
-      ~cursor^
+    ~cursor^
 }
 
 
 XPT if hint=if\ {\ ...\ }\ {\ ...
 if {~a^} {
-      ~cursor^
+     ~cursor^
 }
 
 
 XPT elseif hint=elseif\ {...
 elseif {~a^} {
-      ~cursor^
+     ~cursor^
 }
 
 
 XPT else hint=else\ {...
 else {
-      ~cursor^
+     ~cursor^
 }
 
 
 XPT switch hint=switch\ ...\ {... 
 switch ~var^ {
-      ~1^     { ~body1^ }
-      ~2^     { ~body2^ }
-      ~3^     { ~body3^ }
-      default { ~body4^ }
+    ~1^     { ~body1^ }
+    ~2^     { ~body2^ }
+    ~3^     { ~body3^ }
+    default { ~body4^ }
 }
 
 
 XPT proc hint=proc\ ***\ {...
 proc ~name^ {~args^} {
-      ~cursor^
+     ~cursor^
 }
 
 
