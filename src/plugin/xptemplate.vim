@@ -912,6 +912,7 @@ fun! s:ParseRepetition(str, x) "{{{
         call s:log.Log( 'bef=' . bef )
         call s:log.Log( 'indent=' . indent )
         let repeatPart = matchstr(rest, repContPtn)
+        call s:log.Log( 'raw repeatPart=' . repeatPart )
         let repeatPart = 'BuildIfNoChange(' . string( repeatPart ) . ')'
         let repeatPart = s:BuildFilterIndent( repeatPart, indent )
         let symbol = matchstr(rest, rp)
@@ -1480,15 +1481,15 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
 
     let [ start, end ] = XPMposList( a:markRange.start, a:markRange.end )
-    let content = s:TextBetween( start, end )
-    let contentUnescpaed = g:xptutil.UnescapeChar( content, xp.l . xp.r )
+    " let content = s:TextBetween( start, end )
+    " let contentUnescpaed = g:xptutil.UnescapeChar( content, xp.l . xp.r )
 
-    if content !=# contentUnescpaed
-
-        call XPRstartSession()
-        call XPreplaceByMarkInternal( a:markRange.start, a:markRange.end, contentUnescpaed )
-        call XPRendSession()
-    endif
+    " if content !=# contentUnescpaed
+" 
+        " call XPRstartSession()
+        " call XPreplaceByMarkInternal( a:markRange.start, a:markRange.end, contentUnescpaed )
+        " call XPRendSession()
+    " endif
 
 
     let renderContext.action = 'build'
@@ -1515,17 +1516,65 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
         call s:log.Log( "build from here" )
 
 
-        let end = XPMpos( a:markRange.end )
-        let nEnd = end[0] * 10000 + end[1]
-
-        call s:log.Log("build place holders : end=".string(end))
 
 
-        " TODO move this action to GetNameInfo
-        let nn = searchpos(xp.lft, 'cW')
-        if nn == [0, 0] || nn[0] * 10000 + nn[1] >= nEnd
+
+        while 1
+
+            let end = XPMpos( a:markRange.end )
+            let nEnd = end[0] * 10000 + end[1]
+
+            call s:log.Log("build place holders : end=".string(end))
+
+        
+            " TODO '^' need to be escaped
+            let markPos = searchpos( '\V\\\*\[' . xp.l . xp.r . ']', 'cW' )
+            if markPos == [0, 0] || markPos[0] * 10000 + markPos[1] >= nEnd
+                break
+            endif
+
+
+            let content = getline( markPos[0] )[ markPos[1] - 1 : ]
+            let char = matchstr( content, '[' . xp.l . xp.r . ']' )
+            let content = matchstr( content, '^\\*' )
+
+            call s:log.Log( 'content=' . content, 'char=' . char )
+
+            let newEsc = repeat( '\', len( content ) / 2 )
+            call XPreplace( markPos, [ markPos[0], markPos[1] + len( content ) ], newEsc )
+
+            if len( content ) % 2 == 0 && char == xp.l
+                call cursor( [ markPos[0], markPos[1] + len( newEsc ) ] )
+                let end = XPMpos( a:markRange.end )
+                let nEnd = end[0] * 10000 + end[1]
+                break
+            endif
+
+            call cursor( [ markPos[0], markPos[1] + len( newEsc ) + 1 ] )
+
+
+        endwhile
+
+        if markPos == [0, 0] || markPos[0] * 10000 + markPos[1] >= nEnd
             break
         endif
+
+        call s:log.Log( "building now" )
+        call s:log.Log(" : end=".string(end))
+
+
+
+        let nn = [ line( "." ), col( "." ) ]
+
+        " " TODO move this action to GetNameInfo
+        " let nn = searchpos(xp.lft, 'cW')
+        " call s:log.Debug( 'nn=' . string( nn ) )
+        " if nn == [0, 0] || nn[0] * 10000 + nn[1] >= nEnd
+            " break
+        " endif
+
+        
+
 
         let nameInfo = s:GetNameInfo(end)
         if nameInfo[0] == [0, 0]
@@ -1608,6 +1657,9 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
     let renderContext.firstList = []
     let renderContext.lastList = []
     call s:log.Log( "itemList:" . String( renderContext.itemList ) )
+
+
+
 
     let end = XPMpos( a:markRange.end )
 

@@ -47,17 +47,17 @@ XPT abstract hint=begin{abstract}\ ..\ end{abstract}
 
 XPT array hint=begin{array}{..}...\ end{array}
 \begin{array}{`kind~rcl~}
-`what~~`...0~ & `what~~`...0~ \\`...1~
-`what~~`...2~ & `what~~`...2~ \\`...1~
+`what~` `...0~ & `what~` `...0~ \\\\` `...1~
+`what~` `...2~ & `what~` `...2~ \\\\` `...1~
 \end{array}
 ..XPT
 
 XPT table hint=begin{tabular}{..}...\ end{tabular}
 \begin{tabular}{`kind~|r|c|l|~}
 `hline...~\\hline~~
-`what~~`...0~ & `what~~`...0~ \\`...1~
+`what~~`...0~ & `what~~`...0~ \\\\` `...1~
 `hline...~\\hline~~
-`what~~`...2~ & `what~~`...2~ \\`...1~
+`what~~`...2~ & `what~~`...2~ \\\\` `...1~
 \end{tabular}
 ..XPT
 
@@ -100,7 +100,7 @@ XPT enumerate hint=begin{enumerate}\ ...\ end{enumerate}
 ..XPT
 
 XPT sqrt hint=sqrt[..]{..}
-\sqrt`n...~[\`nth\~]~~{`cursor~}
+\sqrt`n...{{~[`nth~]`}}~{`cursor~}
 ..XPT
 
 XPT sum hint=sum{..}~..{}
@@ -129,10 +129,10 @@ XPT beg hint=begin{..}\ ..\ end{..}
 ..XPT
 
 XPT as_ hint=SEL{..}
-\`wrapped~{`cursor~}
+\\`wrapped~{`cursor~}
 ..XPT
 
 XPT with_ hint=\\..\ {SEL}
-\`cursor~{`wrapped~}
+\\`cursor~{`wrapped~}
 ..XPT
 

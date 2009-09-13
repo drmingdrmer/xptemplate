@@ -1,8 +1,8 @@
 
 
 
-    /*  -------------"--------------- */
-    /* "`wrapped^"                    */
+    /*  -------------"_--------------- */
+    /* "`wrapped^"                     */
 
 
 
@@ -242,8 +242,8 @@ a #include "test.h" b
 a #include "test.h"
 
 
-    /*  -------------'--------------- */
-    /* '`wrapped^'                    */
+    /*  -------------'_--------------- */
+    /* '`wrapped^'                     */
 
 
 
@@ -260,8 +260,8 @@ a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
-    /*  -------------(--------------- */
-    /* (`wrapped^)                    */
+    /*  -------------(_--------------- */
+    /* (`wrapped^)                     */
 
 
 
@@ -278,8 +278,8 @@ a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
-    /*  -------------<--------------- */
-    /* <`wrapped^>                    */
+    /*  -------------<_--------------- */
+    /* <`wrapped^>                     */
 
 
 
@@ -296,8 +296,8 @@ a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
-    /*  -------------[--------------- */
-    /* [`wrapped^]                    */
+    /*  -------------[_--------------- */
+    /* [`wrapped^]                     */
 
 
 
@@ -314,8 +314,8 @@ a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
-    /*  -------------`--------------- */
-    /* \``wrapped^\`                  */
+    /*  -------------`_--------------- */
+    /* \``wrapped^\`                   */
 
 
 
@@ -400,7 +400,7 @@ a struct structName
 
 
     /*  -------------call_--------------- */
-    /* `name^(`wrapped^`, `p?^)`cursor^   */
+    /* `name^(`wrapped^`, `p*^)`cursor^   */
 
 
 
@@ -788,7 +788,7 @@ a test.page
  *
  * <b>function</b>
  * @version : 1.0
- * @since : 2009 Sep 12
+ * @since : 2009 Sep 14
  * 
  * @description :
  *     
@@ -805,7 +805,7 @@ a test.page
  *
  * <b>function_TYPED</b>
  * @version : 10_TYPED
- * @since : 2009 Sep 12
+ * @since : 2009 Sep 14
  * 
  * @description :
  *     
@@ -822,7 +822,7 @@ a test.page
   *
   * <b>function</b>
   * @version : 1.0
-  * @since : 2009 Sep 12
+  * @since : 2009 Sep 14
   * 
   * @description :
   *     
@@ -839,7 +839,7 @@ a test.page
    *
    * <b>function</b>
    * @version : 1.0
-   * @since : 2009 Sep 12
+   * @since : 2009 Sep 14
    * 
    * @description :
    *     
@@ -853,26 +853,26 @@ a test.page
   
 
 
-    /*  -------------for---------------                       */
-    /* for (`i^ = `0^; `i^ < `len^; ++`i^)`$FOR_BRACKET_STL^{ */
-    /*     `cursor^                                           */
-    /* }                                                      */
+    /*  -------------for---------------                                                                   */
+    /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$FOR_BRACKET_STL^{ */
+    /*     `cursor^                                                                                       */
+    /* }                                                                                                  */
 
 
 
-  for (i = 0; i < len; ++i) {
+  for ( i = 0; i < len; ++i ) {
       
   }
 
-for (i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED) {
+for ( i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED ) {
     
 } b
 
-a for (i = 0; i < len; ++i) {
+a for ( i = 0; i < len; ++i ) {
     
 } b
 
-a for (i = 0; i < len; ++i) {
+a for ( i = 0; i < len; ++i ) {
     
 }
 
@@ -882,13 +882,13 @@ a for (i = 0; i < len; ++i) {
 
 
 
-for (;;) /* void */;
+for (;;) /* void */
 
 for (;;) body_TYPED b
 
-a for (;;) /* void */; b
+a for (;;) /* void */ b
 
-a for (;;) /* void */;
+a for (;;) /* void */
 
 
     /*  -------------fornn---------------                                                                             */
@@ -915,26 +915,26 @@ a for ( ptr = init; NULL != ptr; ptr ) {
 }
 
 
-    /*  -------------forr---------------                         */
-    /* for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$FOR_BRACKET_STL^{ */
-    /*     `cursor^                                              */
-    /* }                                                         */
+    /*  -------------forr---------------                                                                     */
+    /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$FOR_BRACKET_STL^{ */
+    /*     `cursor^                                                                                          */
+    /* }                                                                                                     */
 
 
 
-for (i = n; i >= end; --i) {
+for ( i = 0; i >= end; --i ) {
     
 }
 
-for (i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED) {
+for ( i_TYPED = 0_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED ) {
     
 } b
 
-a for (i = n; i >= end; --i) {
+a for ( i = 0; i >= end; --i ) {
     
 } b
 
-a for (i = n; i >= end; --i) {
+a for ( i = 0; i >= end; --i ) {
     
 }
 
@@ -1523,8 +1523,8 @@ a while (NULL != var) {
 }
 
 
-    /*  -------------{--------------- */
-    /* {`wrapped^}                    */
+    /*  -------------{_--------------- */
+    /* {`wrapped^}                     */
 
 
 
