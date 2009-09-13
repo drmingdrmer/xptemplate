@@ -2379,7 +2379,8 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
         call XPreplace( start, end, '')
         call cursor(start)
 
-        let renderContext.phase = 'fillin'
+        " done in InitItem
+        " let renderContext.phase = 'fillin'
 
         " to pop up, but do not enlarge matching, thus empty string is selected at first
         return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."), 1, 0)
@@ -2398,7 +2399,7 @@ endfunction "}}}
 " return type action
 fun! s:InitItem() " {{{
     let renderContext = s:getRenderContext()
-    let renderContext.phase = 'inititem'
+    let renderContext.phase = 'fillin'
 
 
     " apply default value
@@ -2436,7 +2437,8 @@ fun! s:selectCurrent( renderContext ) "{{{
 
     let [ ctl, cbr ] = [ XPMpos( marks.start ), XPMpos( marks.end ) ]
 
-    let a:renderContext.phase = 'fillin'
+    " done in InitItem
+    " let a:renderContext.phase = 'fillin'
 
     if ctl == cbr 
         return ''

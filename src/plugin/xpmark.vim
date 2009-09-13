@@ -629,7 +629,7 @@ endfunction "}}}
 fun! s:updateWithNewChangeRange( changeStart, changeEnd ) dict "{{{
 
     call s:log.Log( "parameters : " . string( [ a:changeStart, a:changeEnd ] ) )
-    call s:log.Debug( 'self:' . string( self ) )
+    " call s:log.Debug( 'self:' . string( self ) )
 
 
     let bChangeEnd = [ a:changeEnd[0] - self.stat.totalLine, 

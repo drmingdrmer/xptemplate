@@ -379,7 +379,7 @@ fun! s:FillinTemplate() "{{{
         XPTSlow
 
         " repitition, expandable or super repetition
-        if ctx.item.name =~ '\V..\|?'
+        if ctx.item.name =~ '\V..\|?\|*'
             let b:itemSteps += [ ctx.item.name ]
 
             " keep at most 5 steps
@@ -421,11 +421,16 @@ fun! s:FillinTemplate() "{{{
     elseif ctx.phase == 'finished'
         " template finished
 
-        call s:log.Log( "finished" )
-        let b:phaseIndex = (b:phaseIndex + 1) % len(s:phases)
-        let b:testPhase = s:phases[ b:phaseIndex ]
-        let b:testProcessing = 0
-        call s:Feedkeys("\<C-c>Go\<C-c>", 'nt')
+        if empty( x.stack )
+            call s:log.Log( "finished" )
+            let b:phaseIndex = (b:phaseIndex + 1) % len(s:phases)
+            let b:testPhase = s:phases[ b:phaseIndex ]
+            let b:testProcessing = 0
+            call s:Feedkeys("\<C-c>Go\<C-c>", 'nt')
+        else
+            call s:log.Log( "finish nested" )
+            call s:XPTtype( 'NESTED_TYPED' )
+        endif
     endif
 
 
