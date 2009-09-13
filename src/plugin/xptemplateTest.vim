@@ -40,7 +40,8 @@ fun! s:Feedkeys( text, mode )
 endfunction
 
 fun s:XPTtrigger(name) "{{{
-    call s:Feedkeys(a:name . "", 'mt')
+    call s:Feedkeys(a:name, 'nt')
+    call s:Feedkeys("", 'mt')
 endfunction "}}}
 fun s:XPTtype(...) "{{{
     let ln = line( '.' )
@@ -143,6 +144,7 @@ fun! s:NewTestFile(ft) "{{{
     elseif len(b:cms) == 1
         let b:cms += ['']
     endif
+
 endfunction "}}}
 
 fun! XPTtestSort(a, b) "{{{

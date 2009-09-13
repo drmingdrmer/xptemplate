@@ -1926,13 +1926,16 @@ fun! s:ApplyPostFilter() "{{{
 
         let [ text, ifToBuild, rc ] = s:EvalPostFilter( filterText, typed )
 
+
         call s:log.Log("before replace, tmpl=\n".s:TextBetween(s:TL(), s:BR()))
+        call s:log.Log( 'text=' . text )
 
 
 
         let [ start, end ] = XPMposList( marks.start, marks.end )
 
         let snip = s:AdjustIndentAccordingToLine( text, filterIndent, start[0], leader )
+        call s:log.Log( 'snip after AdjustIndentAccordingToLine=' . snip )
         call XPMsetLikelyBetween( marks.start, marks.end )
         call XPreplace(start, end, snip)
 

@@ -2,7 +2,33 @@
 " XPTemplate command to define snippet file 
 " =========================================
 
+fun! s:GetMark()
+
+    let cur = [ line( '.' ), col( '.' ) ]
+
+
+    call cursor( 0, 0 )
+    let lnr = search( '^XPTemplate .*mark=..', 'c' )
+
+    if lnr == 0
+	call cursor ( cur )
+	return ['`', '^', '`^']
+    endif
+
+    let line = getline( lnr )
+
+    let marks = matchstr( line, '\Vmark=\zs\.\.' )
+
+    call cursor ( cur )
+    return [ marks[0:0], marks[1:1], marks ]
+    
+endfunction
+
+
+
+
 setlocal foldmethod=syntax
+
 
 syntax keyword  XPTemplateSnippetKey XPTemplate nextgroup=XPTfileMeta skipwhite
 
@@ -89,8 +115,14 @@ syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
 " syntax match XPTcomment /^"\%(\s\|"\)*[^"]*$/ containedin=XPTregion
 syntax match XPTcomment /^".*$/ containedin=XPTregion
 
-syntax match XPTitemPost /\%([^`^]\|\(\\*\)\1\\[`^]\)*[^\\`^]\^\{1,2}/ contains=XPTmark containedin=XPTsnippetBody
-syntax match XPTitem /`\%(\_[^^]\)\{-}\^/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost
+
+
+" TODO mark may be need escaping in regexp
+let s:m = s:GetMark()
+
+exe 'syntax match XPTitemPost /\V\%(\[^' . s:m[2] . ']\|\(\\\*\)\1\\\[' . s:m[2] . ']\)\*\[^\\' . s:m[2] . ']' . s:m[1] . '\{1,2}/ contains=XPTmark containedin=XPTsnippetBody'
+exe 'syntax match XPTitem /\V' . s:m[0] . '\%(\_[^' . s:m[1] . ']\)\{-}' . s:m[1] . '/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost'
+
       " \%(\%([^`^]\|\(\\*\)\1\\\^\)*\^\)\?
 " syntax match XPTmark /`\|\^/ contained
 

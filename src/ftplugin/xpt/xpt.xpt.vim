@@ -12,7 +12,8 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 fun! s:f.hintEscape()
-  let v = substitute( self.V(), '[({$]', '\\&', 'g' )
+  let v = substitute( self.V(), '\(\\*\)\([( ]\)', '\1\1\\\2', 'g' )
+  return v
 endfunction
 
 let s:xpt_snip = split( globpath( &rtp, "**/*.xpt.vim" ), "\n" )
@@ -82,7 +83,7 @@ XPTvar $`name^ `cursor^
 XPT varLang hint=variables\ to\ define\ language\ properties
 XPTvar $VAR_PRE            
 
-XPT formatVar hint=variables\ to\ define\ format
+XPT varFormat hint=variables\ to\ define\ format
 XPTvar $IF_BRACKET_STL     \ 
 XPTvar $ELSE_BRACKET_STL   \n
 XPTvar $FOR_BRACKET_STL    \ 
@@ -91,22 +92,22 @@ XPTvar $STRUCT_BRACKET_STL \
 XPTvar $FUNC_BRACKET_STL   \ 
 
 
-XPT constVar hint=variables\ to\ define\ constants
+XPT varConst hint=variables\ to\ define\ constants
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
 
 
-XPT helperVar hint=variables\ to\ define\ helper\ place\ holders
+XPT varHelper hint=variables\ to\ define\ helper\ place\ holders
 XPTvar $VOID_LINE  
 XPTvar $CURSOR_PH      `cursor^
 
 
-XPT commentVar1 hint=variables\ to\ define\ single\ sign\ comments
+XPT varComment1 hint=variables\ to\ define\ single\ sign\ comments
 XPTvar $CS    `cursor^
 
-XPT commentVar2 hint=variables\ to\ define\ double\ sign\ comments
+XPT varComment2 hint=variables\ to\ define\ double\ sign\ comments
 XPTvar $CL    `left sign^
 XPTvar $CM    `cursor^
 XPTvar $CR    `right sign^
