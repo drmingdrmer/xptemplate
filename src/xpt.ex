@@ -59,7 +59,11 @@ done
 
 cd -
 
-# tar -czf $DistDir-$v.tgz $DistDir
+cd $ParentDir
+svn export dist xpt
+
+tar -czf xpt-$v.tgz xpt
+
 # rm -rdf $DistDir
 
 # ls $DistDir-*.tgz
