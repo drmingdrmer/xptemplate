@@ -53,12 +53,15 @@ XPT array hint=begin{array}{..}...\ end{array}
 ..XPT
 
 XPT table hint=begin{tabular}{..}...\ end{tabular}
+XSET hline..|post=\hline
+XSET what*|post=ExpandIfNotEmpty( ' & ', 'what*' )
 \begin{tabular}{`kind~|r|c|l|~}
-`hline...~\\hline~~
-`what~~`...0~ & `what~~`...0~ \\\\` `...1~
-`hline...~\\hline~~
-`what~~`...2~ & `what~~`...2~ \\\\` `...1~
+`hline..~
+`what*~ \\\\` `...1~
+`hline..~
+`what*~ \\\\` `...1~
 \end{tabular}
+
 ..XPT
 
 XPT section hint=section{..}

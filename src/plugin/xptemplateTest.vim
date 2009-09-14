@@ -385,7 +385,7 @@ fun! s:FillinTemplate() "{{{
             let b:itemSteps += [ ctx.item.name ]
 
             " keep at most 5 steps
-            if len( b:itemSteps ) > 5 
+            if len( b:itemSteps ) > 8 
                 call remove(b:itemSteps, 0)
             endif
         endif
@@ -395,7 +395,9 @@ fun! s:FillinTemplate() "{{{
             call s:XPTtype( "\<C-n>" )
 
 
-        elseif len(b:itemSteps) >= 3 && b:itemSteps[-3] == ctx.item.name
+        elseif len(b:itemSteps) >= 4 
+                    \&& ( b:itemSteps[-3] == ctx.item.name 
+                    \    || b:itemSteps[ -4 ] == ctx.item.name )
             call s:log.Log( "too many repetition done, cancel it" )
             " too many repetition 
             call s:XPTcancel()

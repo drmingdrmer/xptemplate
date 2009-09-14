@@ -1,0 +1,630 @@
+
+
+
+    %  -------------"_--------------- 
+    % "`wrapped^"                     
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    %  -------------'_--------------- 
+    % '`wrapped^'                     
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    %  -------------(_--------------- 
+    % (`wrapped^)                     
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    %  -------------<_--------------- 
+    % <`wrapped^>                     
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    %  -------------Author--------------- 
+    % `$author^                           
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    a drdr.xp b
+
+    a drdr.xp
+
+
+    %  -------------Email--------------- 
+    % `$email^                           
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com
+
+
+    %  -------------File--------------- 
+    % `file()^                          
+
+
+
+    test.page
+
+    test.page b
+
+    a test.page b
+
+    a test.page
+
+
+    %  -------------[_--------------- 
+    % [`wrapped^]                     
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    %  -------------`_--------------- 
+    % \``wrapped^\`                   
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    %  -------------abstract--------------- 
+    % \begin{abstract}                      
+    %     `cursor~                          
+    % \end{abstract}                        
+
+
+
+    \begin{abstract}
+        
+    \end{abstract}
+
+    \begin{abstract}
+        
+    \end{abstract} b
+
+    a \begin{abstract}
+        
+    \end{abstract} b
+
+    a \begin{abstract}
+        
+    \end{abstract}
+
+
+    %  -------------array---------------           
+    % \begin{array}{`kind~rcl~}                    
+    % `what~` `...0~ & `what~` `...0~ \\\\` `...1~ 
+    % `what~` `...2~ & `what~` `...2~ \\\\` `...1~ 
+    % \end{array}                                  
+
+
+
+    \begin{array}{rcl}
+    what & what & what & what \\
+    what & what & what \\
+    what \\
+    \end{array}
+
+    \begin{array}{kind_TYPED}
+    what_TYPED 0_TYPED \\ 1_TYPED
+    \end{array} b
+
+    a \begin{array}{rcl}
+    what & what & what & what \\
+    what & what & what \\
+    what \\
+    \end{array} b
+
+    a \begin{array}{rcl}
+    what & what & what & what \\
+    what & what & what \\
+    what \\
+    \end{array}
+
+
+    %  -------------as_--------------- 
+    % \\`wrapped~{`cursor~}            
+
+
+
+\\WRAPPED_TEXT
+WRAPPED_TEXT_line2{}
+
+\\WRAPPED_TEXT
+WRAPPED_TEXT_line2{}b
+
+a \\WRAPPED_TEXT
+WRAPPED_TEXT_line2{}b
+
+a \\WRAPPED_TEXT
+WRAPPED_TEXT_line2{}
+
+
+    %  -------------beg--------------- 
+    % \begin{`something~}              
+    % `cursor~                         
+    % \end{`something~}                
+
+
+
+    \begin{something}
+    
+    \end{something}
+
+    \begin{something_TYPED}
+    
+    \end{something_TYPED} b
+
+    a \begin{something}
+    
+    \end{something} b
+
+    a \begin{something}
+    
+    \end{something}
+
+
+    %  -------------doc--------------- 
+    % \begin{document}                 
+    %     `cursor~                     
+    % \end{document}                   
+
+
+
+    \begin{document}
+        
+    \end{document}
+
+    \begin{document}
+        
+    \end{document} b
+
+    a \begin{document}
+        
+    \end{document} b
+
+    a \begin{document}
+        
+    \end{document}
+
+
+    %  -------------documentclass--------------- 
+    % \documentclass[`size~11~pt]{`kind~}        
+
+
+
+    \documentclass[11pt]{article}
+
+    \documentclass[size_TYPEDpt]{article} b
+
+    a \documentclass[11pt]{article} b
+
+    a \documentclass[11pt]{article}
+
+
+    %  -------------enumerate--------------- 
+    % \begin{enumerate}                      
+    % \item `what~~`...~                     
+    % \item `what~~`...~                     
+    % \end{enumerate}                        
+
+
+
+    \begin{enumerate}
+    \item 
+    \item 
+    \item 
+    \item 
+    \end{enumerate}
+
+    \begin{enumerate}
+    \item what_TYPED_TYPED
+    \end{enumerate} b
+
+    a \begin{enumerate}
+    \item 
+    \item 
+    \item 
+    \item 
+    \end{enumerate} b
+
+    a \begin{enumerate}
+    \item 
+    \item 
+    \item 
+    \item 
+    \end{enumerate}
+
+
+    %  -------------eq--------------- 
+    % \begin{equation}                
+    % `cursor~                        
+    % \end{equation}                  
+
+
+
+    \begin{equation}
+    
+    \end{equation}
+
+    \begin{equation}
+    
+    \end{equation} b
+
+    a \begin{equation}
+    
+    \end{equation} b
+
+    a \begin{equation}
+    
+    \end{equation}
+
+
+    %  -------------frac--------------- 
+    % \frac{`a~}{`b~}                   
+
+
+
+    \frac{a}{b}
+
+    \frac{a_TYPED}{b_TYPED} b
+
+    a \frac{a}{b} b
+
+    a \frac{a}{b}
+
+
+    %  -------------info--------------- 
+    % \title{`title~}                   
+    % \author{`$author~}                
+    % \date{`date()~}                   
+
+
+
+    \title{title}
+    \author{drdr.xp}
+    \date{2009 Sep 14}
+
+    \title{title_TYPED}
+    \author{drdr.xp}
+    \date{2009 Sep 14} b
+
+    a \title{title}
+    \author{drdr.xp}
+    \date{2009 Sep 14} b
+
+    a \title{title}
+    \author{drdr.xp}
+    \date{2009 Sep 14}
+
+
+    %  -------------integral--------------- 
+    % \int_`begin~^`end~{`cursor~}          
+
+
+
+    \int_begin^end{}
+
+    \int_begin_TYPED^end_TYPED{} b
+
+    a \int_begin^end{} b
+
+    a \int_begin^end{}
+
+
+    %  -------------itemize--------------- 
+    % \begin{itemize}                      
+    % \item `what~~`...~                   
+    % \item `what~~`...~                   
+    % \end{itemize}                        
+
+
+
+    \begin{itemize}
+    \item 
+    \item 
+    \item 
+    \item 
+    \end{itemize}
+
+    \begin{itemize}
+    \item what_TYPED_TYPED
+    \end{itemize} b
+
+    a \begin{itemize}
+    \item 
+    \item 
+    \item 
+    \item 
+    \end{itemize} b
+
+    a \begin{itemize}
+    \item 
+    \item 
+    \item 
+    \item 
+    \end{itemize}
+
+
+    %  -------------lbl--------------- 
+    % \label{`cursor~}                 
+
+
+
+    \label{}
+
+    \label{} b
+
+    a \label{} b
+
+    a \label{}
+
+
+    %  -------------lim--------------- 
+    % \lim_{`what^}                    
+
+
+
+    \lim_{`what^}
+
+    \lim_{`what^} b
+
+    a \lim_{`what^} b
+
+    a \lim_{`what^}
+
+
+    %  -------------ref--------------- 
+    % \ref{`curosr~}                   
+
+
+
+    \ref{curosr}
+
+    \ref{curosr_TYPED} b
+
+    a \ref{curosr} b
+
+    a \ref{curosr}
+
+
+    %  -------------section--------------- 
+    % \section{`sectionTitle~}             
+
+
+
+    \section{sectionTitle}
+
+    \section{sectionTitle_TYPED} b
+
+    a \section{sectionTitle} b
+
+    a \section{sectionTitle}
+
+
+    %  -------------slide--------------- 
+    % \begin{slide}                      
+    % `cursor~                           
+    % \end{slide}                        
+
+
+
+    \begin{slide}
+    
+    \end{slide}
+
+    \begin{slide}
+    
+    \end{slide} b
+
+    a \begin{slide}
+    
+    \end{slide} b
+
+    a \begin{slide}
+    
+    \end{slide}
+
+
+    %  -------------sqrt--------------- 
+    % \sqrt`n...~{`cursor~}             
+
+
+
+    \sqrt[nth]{}
+
+    \sqrtn_TYPED{} b
+
+    a \sqrt[nth]{} b
+
+    a \sqrt[nth]{}
+
+
+    %  -------------sum--------------- 
+    % \sum_{`init~}^`end~{`cursor~}    
+
+
+
+    \sum_{init}^end{}
+
+    \sum_{init_TYPED}^end_TYPED{} b
+
+    a \sum_{init}^end{} b
+
+    a \sum_{init}^end{}
+
+
+    %  -------------table--------------- 
+    % \begin{tabular}{`kind~|r|c|l|~}    
+    % `hline..~                          
+    % `what*~ \\\\` `...1~               
+    % `hline..~                          
+    % `what*~ \\\\` `...1~               
+    % \end{tabular}                      
+
+
+
+    \begin{tabular}{|r|c|l|}
+    \hline
+     \\
+     \hline
+      \\
+    \end{tabular}
+    
+
+    \begin{tabular}{kind_TYPED}
+    \hline
+    what_TYPED & what_TYPED \\ 1_TYPED
+    \end{tabular}
+     b
+
+     a \begin{tabular}{|r|c|l|}
+     \hline
+      \\
+      \hline
+       \\
+     \end{tabular}
+      b
+
+      a \begin{tabular}{|r|c|l|}
+      \hline
+       \\
+       \hline
+        \\
+      \end{tabular}
+      
+
+
+    %  -------------toc--------------- 
+    % \tableofcontents                 
+
+
+
+    \tableofcontents
+
+    \tableofcontents b
+
+    a \tableofcontents b
+
+    a \tableofcontents
+
+
+    %  -------------with_--------------- 
+    % \\`cursor~{`wrapped~}              
+
+
+
+\{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+\{WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
+
+a \{WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
+
+a \{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+
+    %  -------------{_--------------- 
+    % {`wrapped^}                     
+
+
+
+{WRAPPED_TEXT
+    WRAPPED_TEXT_line2}
+
+    {WRAPPED_TEXT
+    WRAPPED_TEXT_line2}b
+
+    a {WRAPPED_TEXT
+    WRAPPED_TEXT_line2}b
+
+    a {WRAPPED_TEXT
+    WRAPPED_TEXT_line2}
+
