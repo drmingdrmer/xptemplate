@@ -12,6 +12,7 @@ runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
 runtime plugin/xpopup.vim
 runtime plugin/xptemplate.conf.vim
+let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )
 call XPRaddPreJob( 'XPMupdateCursorStat' )
 call XPRaddPostJob( 'XPMupdateSpecificChangedRange' )
@@ -98,7 +99,7 @@ endfunction
 let s:ItemPumCB = {}
 fun! s:ItemPumCB.onOneMatch(sess) 
     call s:XPTupdate()
-    return s:finishCurrentAndGotoNextItem( '' )
+    return s:FinishCurrentAndGotoNextItem( '' )
 endfunction 
 fun! XPTemplateKeyword(val) 
     let x = g:XPTobject()
@@ -198,7 +199,13 @@ fun! s:InitTemplateObject( xptObj, tmplObj )
     endif
     call s:addCursorToComeLast(a:tmplObj.setting)
     call s:initItemOrderDict( a:tmplObj.setting )
-    let a:tmplObj.setting.defaultValues.cursor = 'Finish()'
+    if has_key( a:tmplObj.setting.defaultValues, 'cursor' )
+    else
+    endif
+    if !has_key( a:tmplObj.setting.defaultValues, 'cursor' )
+                \ || a:tmplObj.setting.defaultValues.cursor !~ 'Finish'
+        let a:tmplObj.setting.defaultValues.cursor = "\n" . 'Finish()'
+    endif
 endfunction 
 fun! s:ParseTemplateSetting( xptObj, setting ) 
     let setting = a:setting
@@ -274,7 +281,7 @@ fun! XPTemplatePreWrap(wrap)
     let ppr = s:Popup("", x.wrapStartPos)
     return ppr
 endfunction 
-fun! XPTemplateStart(pos, ...) 
+fun! XPTemplateStart(pos_nonused_any_more, ...) 
     let x = g:XPTobject()
     if a:0 == 1 &&  type(a:1) == type({}) && has_key( a:1, 'tmplName' )  
         let startColumn = a:1.startPos[1]
@@ -361,7 +368,7 @@ endfunction
 fun! s:DoStart(sess) 
     let x = g:XPTobject()
     if !has_key( x.normalTemplates, a:sess.matched )
-        return g:xpt_post_action
+        return ''
     endif
     let [lineNr, column] = [ a:sess.line, a:sess.col ]
     let cursorColumn = col(".")
@@ -376,7 +383,8 @@ fun! s:DoStart(sess)
     let x.wrap = ''
     let x.wrapStartPos = 0
     let action =  s:GotoNextItem()
-    return action . g:xpt_post_action
+    let action .= ''
+    return action
 endfunction 
 fun! s:FinishRendering(...) 
     let x = g:XPTobject()
@@ -388,6 +396,7 @@ fun! s:FinishRendering(...)
         let renderContext.processing = 0
         let renderContext.phase = 'finished'
         call s:ClearMap()
+        return ''
     else
         call s:PopCtx()
         let renderContext = s:getRenderContext()
@@ -396,7 +405,6 @@ fun! s:FinishRendering(...)
           return s:GotoNextItem()
         endif
     endif
-    return ''
 endfunction 
 fun! s:removeMarksInRenderContext( renderContext ) 
     let renderContext = a:renderContext
@@ -404,6 +412,8 @@ fun! s:removeMarksInRenderContext( renderContext )
 endfunction 
 fun! s:Popup(pref, coln) 
     let x = g:XPTobject()
+    let ctx = s:getRenderContext()
+    let ctx.phase = 'uninit'
     let cmpl=[]
     let cmpl2 = []
     let dic = x.normalTemplates
@@ -752,13 +762,6 @@ fun! s:BuildPlaceHolders( markRange )
     let tmplObj = renderContext.tmpl
     let xp = renderContext.tmpl.ptn
     let [ start, end ] = XPMposList( a:markRange.start, a:markRange.end )
-    let content = s:TextBetween( start, end )
-    let contentUnescpaed = g:xptutil.UnescapeChar( content, xp.l . xp.r )
-    if content !=# contentUnescpaed
-        call XPRstartSession()
-        call XPreplaceByMarkInternal( a:markRange.start, a:markRange.end, contentUnescpaed )
-        call XPRendSession()
-    endif
     let renderContext.action = 'build'
     if renderContext.firstList == []
         let renderContext.firstList = copy(renderContext.tmpl.setting.firstListSkeleton)
@@ -772,12 +775,30 @@ fun! s:BuildPlaceHolders( markRange )
     let i = 0
     while i < 10000
         let i += 1
-        let end = XPMpos( a:markRange.end )
-        let nEnd = end[0] * 10000 + end[1]
-        let nn = searchpos(xp.lft, 'cW')
-        if nn == [0, 0] || nn[0] * 10000 + nn[1] >= nEnd
+        while 1
+            let end = XPMpos( a:markRange.end )
+            let nEnd = end[0] * 10000 + end[1]
+            let markPos = searchpos( '\V\\\*\[' . xp.l . xp.r . ']', 'cW' )
+            if markPos == [0, 0] || markPos[0] * 10000 + markPos[1] >= nEnd
+                break
+            endif
+            let content = getline( markPos[0] )[ markPos[1] - 1 : ]
+            let char = matchstr( content, '[' . xp.l . xp.r . ']' )
+            let content = matchstr( content, '^\\*' )
+            let newEsc = repeat( '\', len( content ) / 2 )
+            call XPreplace( markPos, [ markPos[0], markPos[1] + len( content ) ], newEsc )
+            if len( content ) % 2 == 0 && char == xp.l
+                call cursor( [ markPos[0], markPos[1] + len( newEsc ) ] )
+                let end = XPMpos( a:markRange.end )
+                let nEnd = end[0] * 10000 + end[1]
+                break
+            endif
+            call cursor( [ markPos[0], markPos[1] + len( newEsc ) + 1 ] )
+        endwhile
+        if markPos == [0, 0] || markPos[0] * 10000 + markPos[1] >= nEnd
             break
         endif
+        let nn = [ line( "." ), col( "." ) ]
         let nameInfo = s:GetNameInfo(end)
         if nameInfo[0] == [0, 0]
             break
@@ -842,7 +863,7 @@ endfunction
 fun! s:SetPreValue( placeHolder, indent, text )
     let text = s:Eval( a:text )
     let marks = a:placeHolder.isKey ? a:placeHolder.editMark : a:placeHolder.mark
-    let text = s:AdjustIndentAccordingToLine( text, a:indent, XPMpos( marks.start )[0] )
+    let text = s:AdjustIndentAccordingToLine( text, a:indent, XPMpos( marks.start )[0], a:placeHolder )
     call XPRstartSession()
     call XPreplaceByMarkInternal( marks.start, marks.end, text )
     call XPRendSession()
@@ -947,7 +968,7 @@ fun! s:GetRangeBetween(p1, p2, ...)
     endif
     return s:vrange
 endfunction 
-fun! s:finishCurrentAndGotoNextItem(action) 
+fun! s:FinishCurrentAndGotoNextItem(action) 
     let renderContext = s:getRenderContext()
     let marks = renderContext.leadingPlaceHolder.mark
     let rc = s:XPTupdate()
@@ -1014,7 +1035,7 @@ fun! s:ApplyPostFilter()
     if filterText != ''
         let [ text, ifToBuild, rc ] = s:EvalPostFilter( filterText, typed )
         let [ start, end ] = XPMposList( marks.start, marks.end )
-        let snip = s:AdjustIndentAccordingToLine( text, filterIndent, start[0] )
+        let snip = s:AdjustIndentAccordingToLine( text, filterIndent, start[0], leader )
         call XPMsetLikelyBetween( marks.start, marks.end )
         call XPreplace(start, end, snip)
         if ifToBuild
@@ -1050,8 +1071,16 @@ fun! s:EvalPostFilter( filter, typed )
     endif
     return res
 endfunction 
-fun! s:AdjustIndentAccordingToLine( snip, indent, lineNr ) 
+fun! s:AdjustIndentAccordingToLine( snip, indent, lineNr, ... ) 
     let indent = indent( a:lineNr )
+    if a:0 == 1
+        let ph = a:1
+        let leftMostMark = ph.mark.start
+        let pos = XPMpos( leftMostMark )
+        if pos[0] == a:lineNr && pos[1] - 1 < indent
+            let indent = pos[1] - 1
+        endif
+    endif
     let indentspaces = repeat(' ', indent)
     if len( indentspaces ) > len( a:indent )
       let indentspaces = substitute( indentspaces, a:indent, '', '' )
@@ -1149,7 +1178,7 @@ fun! s:HandleDefaultValueAction( ctx, act )
                 let text = has_key( a:act, 'text' ) ? a:act.text : ''
                 call s:FillinLeadingPlaceHolderAndSelect( ctx, text )
             endif
-            return s:finishCurrentAndGotoNextItem( '' )
+            return s:FinishCurrentAndGotoNextItem( '' )
         else " other action
         endif
         return -1
@@ -1207,18 +1236,17 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter )
         let [ start, end ] = XPMposList( marks.start, marks.end )
         call XPreplace( start, end, '')
         call cursor(start)
-        let renderContext.phase = 'fillin'
         return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."), 1, 0)
     else 
         let filterIndent = matchstr( obj, '\s*\ze\n' )
         let filterText = matchstr( obj, '\n\zs\_.*' )
-        let str = s:AdjustIndentAccordingToLine( filterText, filterIndent, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0] )
+        let str = s:AdjustIndentAccordingToLine( filterText, filterIndent, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0], renderContext.leadingPlaceHolder )
         return s:FillinLeadingPlaceHolderAndSelect( renderContext, str )
     endif
 endfunction 
 fun! s:InitItem() 
     let renderContext = s:getRenderContext()
-    let renderContext.phase = 'inititem'
+    let renderContext.phase = 'fillin'
     if has_key(renderContext.tmpl.setting.defaultValues, renderContext.item.name)
         return s:ApplyDefaultValueToPH( renderContext, 
                     \renderContext.tmpl.setting.defaultValues[ renderContext.item.name ])
@@ -1237,7 +1265,6 @@ fun! s:selectCurrent( renderContext )
     let ph = a:renderContext.leadingPlaceHolder
     let marks = ph.isKey ? ph.editMark : ph.mark
     let [ ctl, cbr ] = [ XPMpos( marks.start ), XPMpos( marks.end ) ]
-    let a:renderContext.phase = 'fillin'
     if ctl == cbr 
         return ''
     else
@@ -1452,9 +1479,9 @@ fun! s:ApplyMap()
     let savedMap.s_bs       = g:MapPush("<bs>", "s", 1)
     let savedMap.s_right    = g:MapPush(g:xptemplate_to_right, "s", 1)
     let savedMap.n_back     = g:MapPush(g:xptemplate_goback, "n", 1)
-    exe 'inoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <C-r>=<SID>finishCurrentAndGotoNextItem("")<cr>'
-    exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <Esc>`>a<C-r>=<SID>finishCurrentAndGotoNextItem("")<cr>'
-    exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_cancel.' <Esc>i<C-r>=<SID>finishCurrentAndGotoNextItem("clear")<cr>'
+    exe 'inoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <C-r>=<SID>FinishCurrentAndGotoNextItem("")<cr>'
+    exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <Esc>`>a<C-r>=<SID>FinishCurrentAndGotoNextItem("")<cr>'
+    exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_cancel.' <Esc>i<C-r>=<SID>FinishCurrentAndGotoNextItem("clear")<cr>'
     exe 'nnoremap <silent> <buffer> '.g:xptemplate_goback . ' i<C-r>=<SID>Goback()<cr>'
     snoremap <silent> <buffer> <Del> <Del>i
     snoremap <silent> <buffer> <bs> <esc>`>a<bs>
@@ -1656,7 +1683,7 @@ fun! s:GetFilterIndentAndText( filter )
 endfunction 
 fun! s:Crash(...) 
     let msg = "XPTemplate snippet crashed :" . join( a:000, "\n" ) 
-    call XPRend()
+    call XPPend()
     let x = g:XPTobject()
     call s:ClearMap()
     let x.stack = []

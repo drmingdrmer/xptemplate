@@ -6,15 +6,18 @@ XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
-XPTvar $INDENT_HELPER /* void */;
+XPTvar $VOID_LINE /* void */;
 XPTvar $IF_BRACKET_STL \n
 
 XPTinclude 
       \ _common/common
-      \ _comment/xml
       \ xml/xml
-      \ xml/wrap
 
+XPTvar $CL    <!--
+XPTvar $CM    
+XPTvar $CR    -->
+XPTinclude 
+      \ _comment/doubleSign
 
 " ========================= Function and Variables =============================
 
@@ -91,11 +94,11 @@ call XPTemplate("class", {'syn' : 'tag'}, 'class="`^"')
 
 
 
-XPTemplateDef 
+XPTemplateDef
 
 
 
-XPT table2
+XPT table
 <table>
   <tr>
     <td>`text^^</td>`...2^
@@ -108,7 +111,7 @@ XPT table2
 </table>
 ..XPT
 
-XPT table3
+XPT tablecounter hidden=1
 <table id="`id^">`CntStart("i", "0")^
   <tr>`CntStart("j", "0")^
     <td id="`^R("id")_{Cnt("i")}_{CntIncr("j")}^">`text^^</td>`...2^
@@ -121,7 +124,7 @@ XPT table3
 </table>
 ..XPT
 
-XPT table
+XPT table0 hidden=1
 `createTable()^
 
 
@@ -158,7 +161,8 @@ XPT div hint=<div>\ ..\ </div>
 
 
 XPT p hint=<p>\ ..\ </p>
-<p`^>`cursor^</p>
+XSET attr?|post=EchoIfNoChange('')
+<p` `attr?^>`cursor^</p>
 
 
 XPT ul hint=<ul>\ <li>...

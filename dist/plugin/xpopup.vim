@@ -8,7 +8,7 @@ runtime plugin/mapstack.vim
 com! XPPgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPPgetSID
 delc XPPgetSID
-let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'warn' )
 let s:sessionPrototype = {
             \ 'callback'    : {},
             \ 'list'        : [],
@@ -111,7 +111,7 @@ fun! XPPprocess(list)
     endif
     let sess = b:__xpp_current_session
     if len(a:list) == 0
-        return g:xpt_post_action
+        return ''
     endif
     let actionName = a:list[ 0 ]
     let nextList = a:list[ 1 : ]
@@ -286,7 +286,7 @@ fun! s:ClearMapAndSetting()
     call SettingPop() " indentkeys 
     unlet b:__xpp_mapped
 endfunction 
-fun! XPRend()
+fun! XPPend()
     call s:End()
 endfunction
 fun! s:End() 

@@ -16,6 +16,7 @@ let g:XPM_RET = {
             \   'undo_redo' : {},
             \   'updated' : {},
             \}
+let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )
 let g:XPMpreferLeft = 'l'
 let g:XPMpreferRight = 'r'

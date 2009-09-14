@@ -1,24 +1,40 @@
-if exists("b:__XSLT_XPT_VIM__")
-    finish
-endif
-let b:__XSLT_XPT_VIM__ = 1
+XPTemplate priority=lang- keyword=<
 
+let s:f = XPTcontainer()[0]
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+XPTvar $VOID_LINE  /* void */;
+XPTvar $CURSOR_PH      cursor
 
-" inclusion
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $ELSE_BRACKET_STL   \n
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \ 
+
 XPTinclude
       \ _common/common
-      \ _comment/xml
       \ html/html
       \ xml/xml
-      \ xml/wrap
 
-" ========================= Function and Varaibles =============================
+XPTvar $CL    <!--
+XPTvar $CM    
+XPTvar $CR    -->
+XPTinclude 
+      \ _comment/doubleSign
+
+" ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
 XPTemplateDef
+
+
+
 
 XPT sort hint=<xsl:sort\ ...
 <xsl:sort select="`what^" />
@@ -33,7 +49,7 @@ XPT apply hint=<xsl:apply-templates\ ...
 
 
 XPT param hint=<xsl:param\ ...
-<xsl:param name="`name^" `select...^select="\`expr\^"^^ />
+<xsl:param name="`name^" `select...{{^select="`expr^"`}}^ />
 
 
 XPT import hint=<xsl:import\ ...
@@ -50,7 +66,7 @@ XPT stylesheet hint=<xsl:stylesheet\ ...
 
     <xsl:output method="xml" indent="yes"/>
 
-    <xsl:template match="`cursor^/^">
+    <xsl:template match="/`cursor^">
     </xsl:template>
 </xsl:stylesheet>
 
@@ -74,22 +90,23 @@ XPT if hint=<xsl:if\ test=\ ...
 
 
 XPT choose hint=<xsl:choose\ ...
+XSET job=$CL void $CR
 <xsl:choose>
-  <xsl:when test="`expr^">
-    `_^^
-  </xsl:when>`...^
-  <xsl:when test="`ex^">
-    `what^
-  </xsl:when>`...^
-  `otherwise...^<xsl:otherwise>
-    \`cursor\^
-  </xsl:otherwise>^^
+    <xsl:when test="`expr^">
+        `job^
+    </xsl:when>`...^
+    <xsl:when test="`ex^">
+        `job^
+    </xsl:when>`...^
+    `otherwise...{{^<xsl:otherwise>
+        `cursor^
+    </xsl:otherwise>`}}^
 </xsl:choose>
 
 
 XPT when hint=<xsl:when\ test=\ ...
 <xsl:when test="`ex^">
-  `what^
+    `what^
 </xsl:when>
 
 

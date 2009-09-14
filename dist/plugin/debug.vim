@@ -7,6 +7,9 @@ let g:__DEBUG_VIM__ = 1
 let s:globalLogLevel = 'warn'
 " let s:globalLogLevel = 'debug'
 
+com! DebugGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
+DebugGetSID
+delc DebugGetSID
 
 fun! CreateLogger( level ) "{{{
 
@@ -44,32 +47,42 @@ let s:logLevels = {
       \ }
 
 let s:loggerPrototype = {}
-fun! s:loggerPrototype.Fatal(...) dict "{{{
+fun! s:Fatal(...) dict "{{{
     return call('Log_core', ['Fatal'] + a:000)
 endfunction "}}}
 
-fun! s:loggerPrototype.Error(...) dict "{{{
+fun! s:Error(...) dict "{{{
     return call('Log_core', ['Error'] + a:000)
 endfunction "}}}
 
-fun! s:loggerPrototype.Warn(...) dict "{{{
+fun! s:Warn(...) dict "{{{
     return call('Log_core', ['Warn'] + a:000)
 endfunction "}}}
 
-fun! s:loggerPrototype.Info(...) dict "{{{
+fun! s:Info(...) dict "{{{
     return call('Log_core', ['Info'] + a:000)
 endfunction "}}}
 
-fun! s:loggerPrototype.Log(...) dict "{{{
+fun! s:Log(...) dict "{{{
     return call('Log_core', ['Log'] + a:000)
 endfunction "}}}
 
-fun! s:loggerPrototype.Debug(...) dict "{{{
+fun! s:Debug(...) dict "{{{
     return call('Log_core', ['Debug'] + a:000)
 endfunction "}}}
 
-fun! s:loggerPrototype.LogNothing(...) "{{{
+fun! s:LogNothing(...) "{{{
 endfunction "}}}
+
+
+
+let s:loggerPrototype.Fatal       = function( "<SNR>" . s:sid . "Fatal"      )
+let s:loggerPrototype.Error       = function( "<SNR>" . s:sid . "Error"      )
+let s:loggerPrototype.Warn        = function( "<SNR>" . s:sid . "Warn"       )
+let s:loggerPrototype.Info        = function( "<SNR>" . s:sid . "Info"       )
+let s:loggerPrototype.Log         = function( "<SNR>" . s:sid . "Log"        )
+let s:loggerPrototype.Debug       = function( "<SNR>" . s:sid . "Debug"      )
+let s:loggerPrototype.LogNothing  = function( "<SNR>" . s:sid . "LogNothing" )
 
 
 if len( finddir( '~/tmp' ) ) > 0

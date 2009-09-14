@@ -1,66 +1,75 @@
 XPTemplate priority=lang-
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+let s:f = XPTcontainer()[0]
+ 
+XPTvar $TRUE          true
+XPTvar $FALSE         false
+XPTvar $NULL          null
+XPTvar $UNDEFINED     null
 
-XPTvar $TRUE TRUE
-XPTvar $FALSE FALSE
-XPTvar $IF_BRACKET_STL \n
-XPTvar $NULL NULL
+XPTvar $VOID_LINE      /* void */;
+XPTvar $CURSOR_PH      /* cursor */
 
-" inclusion
-XPTinclude
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $ELSE_BRACKET_STL   \n
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \ 
+
+XPTinclude 
       \ _common/common
+
+XPTvar $CL    /*
+XPTvar $CM    *
+XPTvar $CR    */
+XPTinclude 
+      \ _comment/doubleSign
+
+XPTvar $VAR_PRE   $
+XPTvar $FOR_SCOPE 
+XPTinclude 
+      \ _loops/for
+
+XPTinclude 
       \ _condition/c.like
-      \ _loops/c.like
+
+XPTinclude 
+      \ _loops/c.while.like
+
 
 " ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
-" Based on snipmate's php templates
 XPTemplateDef
-
-XPT while hint=while\ (\ ..\ )\ {\ ..\ }
-while (`cond^)`$IF_BRACKET_STL^{
-  `cursor^
-}
-
-
-XPT for hint=for\ (..;..;++)
-for ($`var^i^ = `init^; $`var^ < `val^; $`var^++)`$IF_BRACKET_STL^{
-  `cursor^
-}
-
-
-XPT forr hint=for\ (..;..;--)
-for ($`var^i^ = `init^; $`var^ >= `val^0^; $`var^--)`$IF_BRACKET_STL^{
-  `cursor^
-}
 
 
 XPT foreach hint=foreach\ (..\ as\ ..)\ {..}
-foreach ($`var^ as `container^)`$IF_BRACKET_STL^{
-  `cursor^
+foreach ($`var^ as `container^)`$FOR_BRACKET_STL^{
+    `cursor^
 }
 
 
 XPT fun hint=function\ ..(\ ..\ )\ {..}
-function `funName^( `params^ )`$IF_BRACKET_STL^{
-  `cursor^
+XSET params=Void()
+XSET params|post=EchoIfEq('  ', '')
+function `funName^(` `params` ^)`$FUNC_BRACKET_STL^{
+    `cursor^
 }
 
 
 XPT class hint=class\ ..\ {\ ..\ }
-class `className^`$IF_BRACKET_STL^{
-  function __construct( `args^ )`$IF_BRACKET_STL^{
-    `cursor^
-  }
+class `className^`$FUNC_BRACKET_STL^{
+    function __construct( `args^ )`$FUNC_BRACKET_STL^{
+        `cursor^
+    }
 }
 
 
 XPT interface hint=interface\ ..\ {\ ..\ }
-interface `interfaceName^`$IF_BRACKET_STL^{
-  `cursor^
+interface `interfaceName^`$FUNC_BRACKET_STL^{
+    `cursor^
 }
 
 
+" ================================= Wrapper ===================================

@@ -6,12 +6,11 @@ XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
-XPTvar $INDENT_HELPER /* void */;
+XPTvar $VOID_LINE     /* void */;
 XPTvar $IF_BRACKET_STL \n
 
 XPTinclude 
       \ _common/common
-      \ _common/personal
       \ _condition/lisp.like
 
 " ========================= Function and Varaibles =============================

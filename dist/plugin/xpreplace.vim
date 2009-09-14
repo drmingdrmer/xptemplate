@@ -13,7 +13,7 @@ fun! TestXPR()
     call XPMremove( 'a' )
     call XPMremove( 'b' )
 endfunction
-let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'warn' )
 fun! XPRstartSession() 
     if exists( 'b:_xpr_session' )
         return

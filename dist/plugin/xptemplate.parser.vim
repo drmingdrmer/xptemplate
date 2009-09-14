@@ -5,7 +5,7 @@ let g:__XPTEMPLATE_PARSER_VIM__ = 1
 runtime plugin/debug.vim
 runtime plugin/xptemplate.util.vim
 runtime plugin/xptemplate.vim
-let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'warn' )
 com! -nargs=* XPTemplate
             \   if XPTsnippetFileInit( expand( "<sfile>" ), <f-args> ) == 'finish'
             \ |     finish

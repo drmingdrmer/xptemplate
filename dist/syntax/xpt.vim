@@ -2,7 +2,33 @@
 " XPTemplate command to define snippet file 
 " =========================================
 
+fun! s:GetMark()
+
+    let cur = [ line( '.' ), col( '.' ) ]
+
+
+    call cursor( 0, 0 )
+    let lnr = search( '^XPTemplate .*mark=..', 'c' )
+
+    if lnr == 0
+	call cursor ( cur )
+	return ['`', '^', '`^']
+    endif
+
+    let line = getline( lnr )
+
+    let marks = matchstr( line, '\Vmark=\zs\.\.' )
+
+    call cursor ( cur )
+    return [ marks[0:0], marks[1:1], marks ]
+    
+endfunction
+
+
+
+
 setlocal foldmethod=syntax
+
 
 syntax keyword  XPTemplateSnippetKey XPTemplate nextgroup=XPTfileMeta skipwhite
 
@@ -37,7 +63,7 @@ syntax match    XptSnippetIncludeItemDir /\%(\w\+\/\)\+/ containedin=XptSnippetI
 syntax match    XptSnippetIncludeItemFile /[a-zA-Z0-9_.]\+\s*$/ containedin=XptSnippetIncludeItem
 syntax match    XptSnippetIncludeItem /\w\+\/.*/ containedin=XptSnippetIncludeBody
 syntax region   XptSnippetIncludeBody start=/^\s*\\/ end=/^\ze\s*[^\\ 	]/ keepend skipwhite
-syntax keyword  XptSnippetInclude     XPTinclude nextgroup=XptSnippetIncludeBody skipnl
+syntax keyword  XptSnippetInclude     XPTinclude nextgroup=XptSnippetIncludeBody skipnl skipwhite
 
 
 
@@ -45,7 +71,7 @@ syntax keyword  XptSnippetInclude     XPTinclude nextgroup=XptSnippetIncludeBody
 " Xpt snippets definition
 " =======================
 " use the max priority to find the XPTemplateDef
-syntax keyword  XPTemplateDefStartKey XPTemplateDef nextgroup=XPTregion skipnl skipempty
+syntax keyword  XPTemplateDefStartKey XPTemplateDef nextgroup=XPTregion skipnl skipempty skipwhite
 syntax region   XPTregion start=/^/ end=/\%$/ contained contains=XPTsnippetTitle
 
 
@@ -65,7 +91,7 @@ syntax region XPTsnippetBody  start=/^/ end=/\ze\%(^$\n\)*\%$\|\ze\%(^$\n\)*XPT\
 " syntax region XPTsnippetBody  start=/^/ end=/\%$/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
 " syntax region XPTsnippetBody  start=/^/ end=/$\n^\zeXPT\s/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
 " syntax region XPTsnippetBody  start=/^/ end=/\ze\.\.XPT/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
-syntax match XPTxset /^XSET\s\+\%(\w\|[.?]\)\+\([|.]\%(pre\|def\|post\)\)\?=.*/ containedin=XPTsnippetBody
+syntax match XPTxset /^XSET\s\+\%(\w\|[.?*]\)\+\([|.]\%(pre\|def\|post\)\)\?=.*/ containedin=XPTsnippetBody
 syntax region XPTxsetm start=/^XSETm\s\+/ end=/XSETm END$/ containedin=XPTsnippetBody fold
 syntax keyword XPTkeyword_XSET XSET containedin=XPTxset nextgroup=XPTxset_name1,XPTxset_name2,XPTxset_name3 skipwhite transparent
 " priorities are low to high
@@ -89,8 +115,14 @@ syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
 " syntax match XPTcomment /^"\%(\s\|"\)*[^"]*$/ containedin=XPTregion
 syntax match XPTcomment /^".*$/ containedin=XPTregion
 
-syntax match XPTitemPost /\%([^`^]\|\(\\*\)\1\\[`^]\)*[^\\`^]\^\{1,2}/ contains=XPTmark containedin=XPTsnippetBody
-syntax match XPTitem /`\%(\_[^^]\)\{-}\^/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost
+
+
+" TODO mark may be need escaping in regexp
+let s:m = s:GetMark()
+
+exe 'syntax match XPTitemPost /\V\%(\[^' . s:m[2] . ']\|\(\\\*\)\1\\\[' . s:m[2] . ']\)\*\[^\\' . s:m[2] . ']' . s:m[1] . '\{1,2}/ contains=XPTmark containedin=XPTsnippetBody'
+exe 'syntax match XPTitem /\V' . s:m[0] . '\%(\_[^' . s:m[1] . ']\)\{-}' . s:m[1] . '/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost'
+
       " \%(\%([^`^]\|\(\\*\)\1\\\^\)*\^\)\?
 " syntax match XPTmark /`\|\^/ contained
 

@@ -2,7 +2,7 @@ XPTemplate priority=lang
 
 let [s:f, s:v] = XPTcontainer() 
  
-XPTvar $INDENT_HELPER  /* void */
+XPTvar $VOID_LINE  /* void */
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $CL    /*
@@ -18,7 +18,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT digraph hint=digraph\ ..\ {\ ..\ }
@@ -99,5 +99,19 @@ XPT row hint={..|...\ }
 XPT col hint={..|...\ }
 {`<`id`>^ `lbl^`...^| `<`id`>^ `lbl^`...^}
 
+..XPT
+
+
+
+
+
+
+
+
+XPT subgraph_ hint=subgraph\ ..\ {\ SEL\ }
+subgraph `clusterName^
+{
+    `wrapped^
+}
 ..XPT
 

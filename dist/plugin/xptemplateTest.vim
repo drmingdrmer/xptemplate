@@ -6,58 +6,67 @@ if exists("g:__XPTEMPLATETEST_VIM__")
 endif
 let g:__XPTEMPLATETEST_VIM__ = 1
 runtime plugin/debug.vim
+let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )
 let s:phases = [ 1, 2, 3, 4 ]
 let [ s:DEFAULT, s:TYPED, s:CHAR_AROUND, s:NESTED ] = s:phases
 let s:FIRST_PHASE = s:phases[ 0 ]
 let s:LAST_PHASE = s:phases[ -1 ]
 let s:preinputs = {
-            \'before' : " =\<left>\<left>", 
-            \'between' : "-  =\<left>\<left>", 
-            \'after' : "- ", 
+            \'before' : " b\<left>\<left>", 
+            \'between' : "a  b\<left>\<left>", 
+            \'after' : "a ", 
             \}
 com! XPTSlow echo
+fun! s:Feedkeys( text, mode )
+    return feedkeys( a:text, a:mode )
+endfunction
 fun s:XPTtrigger(name) 
-    call feedkeys(a:name . "", 'mt')
+    call s:Feedkeys(a:name, 'nt')
+    call s:Feedkeys("", 'mt')
 endfunction 
 fun s:XPTtype(...) 
+    let ln = line( '.' )
+    let lns = [ ln - 10, ln + 10 ]
+    if lns[0] < 1 
+        let lns[0] = 1
+    endif
     for v in a:000
-        call feedkeys(v, 'nt')
-        call feedkeys("\<tab>", 'mt')
+        call s:Feedkeys(v, 'nt')
+        call s:Feedkeys("\<tab>", 'mt')
     endfor
 endfunction 
 fun s:XPTcancel(...) 
-    call feedkeys("\<cr>", 'mt')
+    call s:Feedkeys("\<cr>", 'mt')
 endfunction 
 fun! s:LastLine() 
-    call feedkeys("\<C-c>G:silent a\<cr>\<cr>.\<cr>G", 'nt')
+    call s:Feedkeys("\<C-c>G:silent a\<cr>\<cr>.\<cr>G", 'nt')
 endfunction 
 fun s:XPTnew(name, preinput) 
-    call feedkeys("S", 'nt')
-    call feedkeys(a:preinput, 'nt')
+    call s:Feedkeys("S", 'nt')
+    call s:Feedkeys(a:preinput, 'nt')
     call s:XPTtrigger(a:name)
 endfunction 
 fun s:XPTwrapNew(name, preinput) 
-    let wrapText = "WRAPPED_TEXT"
-    call feedkeys("S", 'nt')
-    call feedkeys( a:preinput, 'nt' )
-    call feedkeys("\<C-o>maWRAPPED_TEXT\<left>\<C-o>mb", 'nt')
-    call feedkeys( "\<C-o>:XPTSlow\<cr>" )
-    call feedkeys("\<C-c>`a", 'nt')
+    call s:Feedkeys("S", 'nt')
+    call s:Feedkeys( a:preinput, 'nt' )
+    call s:Feedkeys("\<C-o>maWRAPPED_TEXT\<cr>WRAPPED_TEXT_line2\<left>\<C-o>mb", 'nt')
+    call s:Feedkeys( "\<C-o>:XPTSlow\<cr>", '' )
+    call s:Feedkeys("\<C-c>`a", 'nt')
     if &l:ve !~ 'all\|onemore' && a:preinput == s:preinputs.after
-        call feedkeys( 'l', 'nt' )
+        call s:Feedkeys( 'l', 'nt' )
     endif
-    call feedkeys("v", 'nt')
+    call s:Feedkeys("v", 'nt')
     if &slm =~ 'cmd'
-        call feedkeys("\<C-g>", 'nt')
+        call s:Feedkeys("\<C-g>", 'nt')
     endif
-    call feedkeys("`b", 'nt')
+    call s:Feedkeys("`b", 'nt')
     if &sel == 'exclusive'
-        call feedkeys("l", 'nt')
+        call s:Feedkeys("l", 'nt')
     endif
-    call feedkeys("", 'mt')
-    call feedkeys(a:name, 'nt')
-    call feedkeys("	", 'mt')
+    call s:Feedkeys("", 'mt')
+    call s:Feedkeys(a:name, 'nt')
+    call s:Feedkeys("	", 'mt')
 endfunction 
 fun! s:NewTestFile(ft) 
     let subft = matchstr(a:ft, '[^.]*')
@@ -83,7 +92,7 @@ fun! s:NewTestFile(ft)
         let b:cms += ['']
     endif
 endfunction 
-fun! XPTtestSort(a, b)
+fun! XPTtestSort(a, b) 
     if a:a.name == a:b.name
         return 0
     elseif a:a.name < a:b.name
@@ -91,7 +100,7 @@ fun! XPTtestSort(a, b)
     else
         return 1
     endif
-endfunction
+endfunction 
 fun! s:XPTtest(ft) 
     let g:xpt_post_action = "\<C-r>=TestProcess()\<cr>"
     augroup XPTtestGroup
@@ -108,7 +117,9 @@ fun! s:XPTtest(ft)
     let tmpls = XPTgetAllTemplates()
     unlet tmpls.Path
     unlet tmpls.Date
+    call filter( tmpls, '!has_key(v:val.setting, "hidden") || !v:val.setting.hidden' )
     let tmplList = values(tmpls)
+    call filter( tmplList, '!has_key(v:val.setting, "syn")' )
     let tmplList = sort( tmplList, "XPTtestSort" )
     let b:tmplToTest = tmplList
     normal o
@@ -143,11 +154,15 @@ fun! TestProcess()
         call s:StartNewTemplate()
         XPTSlow
     else " b:testProcessing = 1
+        let x = XPTbufData()
+        let ctx = x.renderContext
+        if ctx.phase == 'uninit'
+            return ""
+        endif
         if mode() =~? "[is]"
             call s:FillinTemplate()
         endif
     endif
-    call feedkeys("")
     XPTSlow
     return ""
 endfunction 
@@ -172,8 +187,11 @@ fun! s:StartNewTemplate()
         endfor
         let tmpl = []
         for line in tmpl0
-            if b:cms[ 1 ] != ''
-                let line = substitute( line, '\V'.b:cms[ 1 ], '_cmt_', 'g' )
+            if b:cms[0] != ''
+                let line = substitute( line, '\V'.b:cms[0], '_CMT_', 'g' )
+            endif
+            if b:cms[1] != ''
+                let line = substitute( line, '\V'.b:cms[1], '_cmt_', 'g' )
             endif
             let line2 = ''
             let line2 .= b:cms[0] . ' ' . line                      " content 
@@ -181,7 +199,7 @@ fun! s:StartNewTemplate()
             let line2 .= ' ' . b:cms[ 1 ]                           " eend
             let tmpl += [ line2 ]
         endfor
-        call feedkeys( ":silent a\n" . '    ' . join( tmpl, "\n" ) . "\n\n\n\n", 'nt' )
+        call s:Feedkeys( ":silent a\n" . '    ' . join( tmpl, "\n" ) . "\n\n\n\n", 'nt' )
         call s:LastLine()
     endif
     if s:TYPED == b:testPhase
@@ -204,15 +222,17 @@ fun! s:FillinTemplate()
     let ctx = x.renderContext
     if ctx.phase == 'fillin' 
         XPTSlow
-        if ctx.item.name =~ '\V..\|?'
+        if ctx.item.name =~ '\V..\|?\|*'
             let b:itemSteps += [ ctx.item.name ]
-            if len( b:itemSteps ) > 5 
+            if len( b:itemSteps ) > 8 
                 call remove(b:itemSteps, 0)
             endif
         endif
         if pumvisible()
             call s:XPTtype( "\<C-n>" )
-        elseif len(b:itemSteps) >= 3 && b:itemSteps[-3] == ctx.item.name
+        elseif len(b:itemSteps) >= 4 
+                    \&& ( b:itemSteps[-3] == ctx.item.name 
+                    \    || b:itemSteps[ -4 ] == ctx.item.name )
             call s:XPTcancel()
         elseif b:testPhase == s:DEFAULT
             call s:XPTtype('')
@@ -223,10 +243,14 @@ fun! s:FillinTemplate()
         endif
         XPTSlow
     elseif ctx.phase == 'finished'
-        let b:phaseIndex = (b:phaseIndex + 1) % len(s:phases)
-        let b:testPhase = s:phases[ b:phaseIndex ]
-        let b:testProcessing = 0
-        call feedkeys("\<C-c>Go\<C-c>", 'nt')
+        if empty( x.stack )
+            let b:phaseIndex = (b:phaseIndex + 1) % len(s:phases)
+            let b:testPhase = s:phases[ b:phaseIndex ]
+            let b:testProcessing = 0
+            call s:Feedkeys("\<C-c>Go\<C-c>", 'nt')
+        else
+            call s:XPTtype( 'NESTED_TYPED' )
+        endif
     endif
 endfunction 
 com -nargs=1 XPTtest call <SID>XPTtest(<f-args>)

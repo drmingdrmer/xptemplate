@@ -6,7 +6,7 @@ XPTvar $TRUE          true
 XPTvar $FALSE         false
 XPTvar $NULL          null
 XPTvar $UNDEFINED     undefined
-XPTvar $INDENT_HELPER /* void */;
+XPTvar $VOID_LINE /* void */;
 XPTvar $IF_BRACKET_STL \n
 
 XPTinclude 
@@ -18,11 +18,11 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT ifu		hint=if\ (undefined\ ===\ ..)\ {..} ..
-XSET job=$INDENT_HELPER
+XSET job=$VOID_LINE
 if (`$UNDEFINED^ === `var^) {
   `job^
 }`
@@ -33,7 +33,7 @@ else {
 
 
 XPT ifnu 	hint=if\ (undefined\ !==\ ..)\ {..} ..
-XSET job=$INDENT_HELPER
+XSET job=$VOID_LINE
 if (`$UNDEFINED^ !== `var^) {
   `job^
 }`

@@ -6,7 +6,7 @@ XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
-XPTvar $INDENT_HELPER /* void */;
+XPTvar $VOID_LINE /* void */;
 XPTvar $IF_BRACKET_STL \n
 
 XPTinclude 
@@ -18,7 +18,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT class hint=class\ ..\ where..
@@ -38,8 +38,10 @@ class `context...{{~(`ctxt~) => `}}~`className~ `types~a~ where
 
 XPT datasum hint=data\ ..\ =\ ..|..|..
 data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
-    `Constructor~ `ctorParams~VOID()~ `...~
-  | `Ctor~ `params~VOID()~` `...~
+    `Constructor~ `ctorParams~VOID()~`
+  `...~
+  | `Ctor~ `params~VOID()~
+    `...~
   `deriving...{{~deriving (`Eq,Show~)`}}~
 `cursor~
 
@@ -48,9 +50,11 @@ XPT datasumcom hint=--\ |\ data\ ..\ =\ ..|..|..
 -- | `typeDescr~VOID()~
 data `context...{{~(`ctxt~) => `}}~`typename~` `typeParams~ ~=
     -- | `ConstructorDescr~
-    `Constructor~ `ctorParams~VOID()~ `...~
+    `Constructor~ `ctorParams~VOID()~`
+    `...~
     -- | `Ctor descr~VOID()~
-  | `Ctor~ `params~VOID()~` `...~
+    | `Ctor~ `params~VOID()~`
+    `...~
   `deriving...{{~deriving (`Eq,Show~)`}}~
 `cursor~
 

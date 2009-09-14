@@ -6,7 +6,7 @@ XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
-XPTvar $INDENT_HELPER /* void */;
+XPTvar $VOID_LINE /* void */;
 XPTvar $IF_BRACKET_STL \n
 
 XPTinclude 
@@ -17,7 +17,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT infos hint=Name:\ Version\:\ Synopsys:\ Descr:\ Author:\ ...
@@ -41,7 +41,7 @@ if `cond^
 
 
 XPT lib hint=library\ Exposed-Modules...
-XSET another?|post=ExpandIfNotEmpty( ', ', 'another?' )
+XSET another*|post=ExpandIfNotEmpty( ', ', 'another*' )
 library
   Exposed-Modules: `job^`
                    `more...{{^
@@ -49,11 +49,11 @@ library
                    `...{{^
                    `job^`
                    `...^`}}^`}}^
-  Build-Depends: base >= `ver^2.0^`, `another?^
+  Build-Depends: base >= `ver^2.0^`, `another*^
 
 XPT exe hint=Main-Is:\ ..\ Build-Depends
-XSET another?|post=ExpandIfNotEmpty( ', ', 'another?' )
+XSET another*|post=ExpandIfNotEmpty( ', ', 'another*' )
 Executable `execName^
     Main-Is: `mainFile^
-    Build-Depends: base >= `ver^2.0^`, `another?^
+    Build-Depends: base >= `ver^2.0^`, `another*^
 

@@ -7,7 +7,7 @@ XPTvar $TRUE          true
 XPTvar $FALSE         false
 XPTvar $NULL          null
 XPTvar $IF_BRACKET_STL  
-XPTvar $INDENT_HELPER /* void */;
+XPTvar $VOID_LINE /* void */;
 
 " ================================= Snippets ===================================
 XPTemplateDef

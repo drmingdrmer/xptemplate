@@ -12,7 +12,7 @@ XPTvar $WHILE_BRACKET_STL  \n
 XPTvar $STRUCT_BRACKET_STL \n
 XPTvar $FUNC_BRACKET_STL   \n
 
-XPTvar $INDENT_HELPER  /* void */;
+XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $CL  /*
@@ -32,7 +32,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT foreach hint=foreach\ (..\ in\ ..)\ {..}

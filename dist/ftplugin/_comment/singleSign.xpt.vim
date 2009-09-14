@@ -1,4 +1,4 @@
-XPTemplate priority=all
+XPTemplate priority=all-
 
 
 " snippets for language whose comment sign is only 1 sign, like perl:"#" 
@@ -6,6 +6,7 @@ XPTemplate priority=all
 " assuming only $CM defined 
 "
 " TODO friendly cursor place holder
+
 
 XPTinclude 
       \ _comment/common
@@ -15,7 +16,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 XPT comment hint=$CS\ ...
 `$CS^ `cursor^
@@ -34,3 +35,10 @@ XPT commentDoc hint=$CS\ ...
 XPT commentLine hint=$CS\ ...
 `$CS^ `cursor^
 
+" ================================= Wrapper ===================================
+
+XPT comment_ hint=$CS\ ...
+`$CS^ `wrapped^
+
+XPT commentLine_ hint=$CS\ ...
+`$CS^ `wrapped^

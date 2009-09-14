@@ -2,29 +2,31 @@ XPTemplate priority=lang
 
 let [s:f, s:v] = XPTcontainer() 
  
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $UNDEFINED     NULL
-XPTvar $INDENT_HELPER # nothing
+XPTvar $TRUE          True
+XPTvar $FALSE         False
+XPTvar $NULL          None
+XPTvar $UNDEFINED     None
+
+XPTvar $VOID_LINE     # nothing
+XPTvar $CURSOR_PH     # cursor
+
 XPTvar $IF_BRACKET_STL \n
 
 XPTinclude 
       \ _common/common
-      \ _common/personal
 
 
 " ========================= Function and Variables =============================
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT if hint=if\ ..:\ ..\ else...
-XSET job=$INDENT_HELPER
+XSET job=$VOID_LINE
 if `cond^:
-    `job`
+    `job^
 ``elif...`
 {{^elif `cond2^:
     `job^
@@ -33,14 +35,14 @@ if `cond^:
     `cursor^`}}^
 
 
-XPT for hint=for\ ..\ in\ ..:\ ...
+XPT forin hint=for\ ..\ in\ ..:\ ...
 for `vars^ in range(`0^):
     `cursor^
 
 
 XPT def hint=def\ ..(\ ..\ ):\ ...
-XSET para?|post=ExpandIfNotEmpty( ', ', 'para?' )
-def `fun_name^( `para?^ ):
+XSET para*|post=ExpandIfNotEmpty( ', ', 'para*' )
+def `fun_name^( `para*^ ):
     `cursor^
 
 
@@ -81,6 +83,21 @@ class `className^ `inherit^^:
 
 XPT ifmain hint=if\ __name__\ ==\ __main__
 if __name__ == "__main__" :
-  `cursor^
+    `cursor^
 
+
+" ================================= Wrapper ===================================
+
+
+XPT try_ hint=try:\ SEL\ except...
+try:
+    `wrapped^
+except `except^:
+    `handler^`...^
+except `exc^:
+    `handle^`...^
+`else...{{^else:
+    `^`}}^
+`finally...{{^finally:
+   `^`}}^
 

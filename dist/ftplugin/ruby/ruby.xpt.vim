@@ -147,6 +147,7 @@ endfunction "}}}
 
 " ================================= Snippets ===================================
 XPTemplateDef
+
 XPT # hint=#{..} syn=string
 XSET _=
 #{`_^}
@@ -273,25 +274,24 @@ assert`_`what^
 XPT attr hint=attr_**\ :...
 XSET what=Choose(["accessor", "reader", "writer"])
 XSET what|post=SV("^_$",'','')
-XSET attr?|post=ExpandIfNotEmpty(', :', 'attr?')
-attr`_`what^ :`attr?^
+XSET attr*|post=ExpandIfNotEmpty(', :', 'attr*')
+attr`_`what^ :`attr*^
 ..XPT
 
-" TODO indent problem on else and ensure
 XPT begin hint=begin\ ..\ rescue\ ..\ else\ ..\ end
 XSET block=# block
 begin
-  `expr^
+    `expr^
 ``rescue...`
 {{^rescue `Exception^` => `e^
-  `block^
+    `block^
 ``rescue...`
 ^`}}^``else...`
 {{^else
-  `block^
+    `block^
 `}}^``ensure...`
 {{^ensure
-  `cursor^
+    `cursor^
 `}}^end
 
 XPT bm hint=Benchmark.bmbm\ do\ ...\ end
@@ -305,22 +305,17 @@ end
 
 XPT case hint=case\ ..\ when\ ..\ end
 XSET block=# block
-XSETm when...|post
-
-when `comparison^
-`block^`
-`when...^
-XSETm END
-XSETm else...|post
-
-else
-    `cursor^
-XSETm END
-XSET _=
 case `target^`
-`when...^`
-`else...^
-end
+when `comparison^
+    `block^
+``when...`
+{{^when `comparison^
+    `block^
+``when...`
+^`}}^``else...`
+{{^else
+    `cursor^
+`}}^end
 
 
 XPT cfy hint=classify\ {\ |..|\ ..\ }
@@ -337,13 +332,13 @@ end
 XPT cld hint=class\ ..\ <\ DelegateClass\ ..\ end
 XSET ClassName.post=RubyCamelCase()
 XSET ParentClass.post=RubyCamelCase()
-XSET arg?|post=RepeatInsideEdges(', ')
+XSET arg*|post=RepeatInsideEdges(', ')
 class `ClassName^ < DelegateClass(`ParentClass^)
-  def initialize`(`arg?`)^
-    super(`delegate object^)
+    def initialize`(`arg*`)^
+        super(`delegate object^)
 
-    `cursor^
-  end
+        `cursor^
+    end
 end
 
 
@@ -353,11 +348,11 @@ XSET name|post=RubySnakeCase()
 XSET init=Trigger('defi')
 XSET def=Trigger('def')
 class `ClassName^
-  `init^`
-  `...^
+    `init^`
+    `def...^
 
-  `def^`
-  `...^
+    `def^`
+    `def...^
 end
 
 
@@ -375,8 +370,8 @@ XSETm do...|post
 end
 XSETm END
 XSET ClassName|post=RubyCamelCase()
-XSET attr?|post=RepeatInsideEdges(', :')
-`ClassName^ = Struct.new`(:`attr?`)^` `do...^
+XSET attr*|post=RepeatInsideEdges(', :')
+`ClassName^ = Struct.new`(:`attr*`)^` `do...^
 
 
 XPT col hint=collect\ {\ ..\ }
@@ -389,8 +384,8 @@ Marshal.load(Marshal.dump(`obj^))
 
 XPT def hint=def\ ..\ end
 XSET method|post=RubySnakeCase()
-XSET arg?|post=RepeatInsideEdges(', ')
-def `method^`(`arg?`)^
+XSET arg*|post=RepeatInsideEdges(', ')
+def `method^`(`arg*`)^
     `cursor^
 end
 
@@ -404,8 +399,8 @@ def_delegators :`del obj^, :`del methods^
 
 
 XPT defi hint=def\ initialize\ ..\ end
-XSET arg?|post=RepeatInsideEdges(', ')
-def initialize`(`arg?`)^
+XSET arg*|post=RepeatInsideEdges(', ')
+def initialize`(`arg*`)^
     `cursor^
 end
 
@@ -418,16 +413,16 @@ end
 
 XPT defs hint=def\ self...\ end
 XSET method.post=RubySnakeCase()
-XSET arg?|post=RepeatInsideEdges(', ')
-def self.`method^`(`arg?`)^
+XSET arg*|post=RepeatInsideEdges(', ')
+def self.`method^`(`arg*`)^
     `cursor^
 end
 
 
 XPT deft hint=def\ test_..\ ..\ end
 XSET name|post=RubySnakeCase()
-XSET arg?|post=RepeatInsideEdges(', ')
-def test_`name^`(`arg?`)^
+XSET arg*|post=RepeatInsideEdges(', ')
+def test_`name^`(`arg*`)^
     `cursor^
 end
 
@@ -451,8 +446,8 @@ Dir.glob('`dir^') { |`f^| `cursor^ }
 
 
 XPT do hint=do\ |..|\ ..\ end
-XSET arg?|post=RepeatInsideEdges(', ')
-do` |`arg?`|^
+XSET arg*|post=RepeatInsideEdges(', ')
+do` |`arg*`|^
     `cursor^
 end
 
@@ -536,17 +531,19 @@ end
 
 XPT ifei hint=if\ ..\ elsif\ ..\ else\ ..\ end
 XSETm else...|post
+
 else
-`cursor^
+    `cursor^
 XSETm END
 XSETm elsif...|post
+
 elsif `boolean exp^
 `block^`
 `elsif...^
 XSETm END
 XSET block=# block
 if `boolean exp^
-`block^`
+    `block^`
 `elsif...^`
 `else...^
 end
@@ -559,8 +556,8 @@ inject`(`arg`)^ { |`accumulator^, `element^| `cursor^ }
 
 
 XPT lam hint=lambda\ {\ ..\ }
-XSET args|post=RepeatInsideEdges(', ')
-lambda {` |`args`|^ `cursor^ }
+XSET arg*|post=RepeatInsideEdges(', ')
+lambda {` |`arg*`|^ `cursor^ }
 
 
 XPT loop hint=loop\ do\ ...\ end
@@ -583,30 +580,30 @@ min { |`element1^, `element2^| `cursor^ }
 XPT mod hint=module\ ..\ ..\ end
 XSET module name|post=RubyCamelCase()
 module `module name^
-`cursor^
+    `cursor^
 end
 
 
 XPT modf hint=module\ ..\ module_function\ ..\ end
 XSET module name|post=RubyCamelCase()
 module `module name^
-  module_function
+    module_function
 
-  `cursor^
+    `cursor^
 end
 
 
 XPT nam hint=Rake\ Namespace
 XSET ns=fileRoot()
 namespace :`ns^ do
-`cursor^
+    `cursor^
 end
 
 
 XPT new hint=Instanciate\ new\ object
 XSET Object|post=RubyCamelCase()
-XSET arg?|post=RepeatInsideEdges(', ')
-`var^ = `Object^.new`(`arg?`)^
+XSET arg*|post=RepeatInsideEdges(', ')
+`var^ = `Object^.new`(`arg*`)^
 
 
 XPT open hint=open\(..)\ {\ |..|\ ..\ }
@@ -627,7 +624,7 @@ File.join(File.dirname(__FILE__), "`path^")
 
 XPT rdoc syn=comment hint=RDoc\ description
 =begin rdoc
-#`cursor^
+# `cursor^
 #=end
 
 
@@ -644,8 +641,8 @@ require '`lib^'
 
 
 XPT reqs hint=%w[..].map\ {\ |lib|\ require\ lib\ }
-XSET lib?|post=ExpandIfNotEmpty(' ', 'lib?')
-%w[`lib?^].map { |lib| require lib }
+XSET lib*|post=ExpandIfNotEmpty(' ', 'lib*')
+%w[`lib*^].map { |lib| require lib }
 
 
 XPT reve hint=reverse_each\ {\ ..\ }
@@ -661,8 +658,8 @@ XPT sel hint=select\ {\ |..|\ ..\ }
 select { |`element^| `cursor^ }
 
 
-XPT shebang hint=#!/usr/bin/env\ ruby\ -w
-#!/usr/bin/env ruby -w
+XPT shebang hint=#!/usr/bin/env\ ruby
+#!/usr/bin/env ruby
 
 
 XPT sinc hint=class\ <<\ self;\ self;\ end
@@ -699,9 +696,9 @@ end
 
 XPT tas hint=Rake\ Task
 XSET task name|post=RubySnakeCase()
-XSET dep?|post=RepeatInsideEdges(', :')
+XSET dep*|post=RepeatInsideEdges(', :')
 desc "`task description^"
-task :`task name^` => [:`dep?`]^ do
+task :`task name^` => [:`dep*`]^ do
     `cursor^
 end
 
@@ -714,9 +711,9 @@ require "test/unit"
 require "`module^"
 
 class Test`ClassName^ < Test::Unit:TestCase
-  `deft^`...^
+    `deft^`...^
 
-  `deft^`...^
+    `deft^`...^
 end
 
 
@@ -796,3 +793,53 @@ XPT y syn=comment hint=:yields:
 XPT zip hint=zip\(..)\ {\ |..|\ ..\ }
 XSET row=row
 zip(`enum^) { |`row^| `cursor^ }
+
+
+
+
+" ================================= Wrapper ===================================
+
+
+
+XPT invoke_ hint=..(SEL)
+XSET name.post=RubySnakeCase()
+`name^(`wrapped^)
+
+
+XPT def_ hint=def\ ..()\ SEL\ end
+XSET _.post=RubySnakeCase()
+def `_^`(`args`)^
+    `wrapped^
+end
+
+
+XPT class_ hint=class\ ..\ SEL\ end
+XSET _.post=RubyCamelCase()
+class `_^
+    `wrapped^
+end
+
+
+XPT module_ hint=module\ ..\ SEL\ end
+XSET _.post=RubyCamelCase()
+module `_^
+    `wrapped^
+end
+
+
+XPT begin_ hint=begin\ SEL\ rescue\ ..\ else\ ..\ end
+XSET block=# block
+begin
+    `wrapped^
+``rescue...`
+{{^rescue `Exception^` => `e^
+    `block^
+``rescue...`
+^`}}^``else...`
+{{^else
+    `block^
+`}}^``ensure...`
+{{^ensure
+    `cursor^
+`}}^end
+

@@ -7,7 +7,7 @@ XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
 
-XPTvar $INDENT_HELPER  /* void */;
+XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $IF_BRACKET_STL     \ 
@@ -22,7 +22,7 @@ XPTvar $STRUCT_BRACKET_STL \
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT for hint=for\ (..;..;++)
@@ -38,7 +38,7 @@ for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$FOR_BRACKET_STL^{
 
 
 XPT forever hint=for\ (;;)\ ..
-XSET body=$INDENT_HELPER
+XSET body=$CL void $CR;
 for (;;) `body^
 
 

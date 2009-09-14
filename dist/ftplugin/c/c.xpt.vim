@@ -11,7 +11,7 @@ XPTvar $WHILE_BRACKET_STL  \
 XPTvar $STRUCT_BRACKET_STL \ 
 XPTvar $FUNC_BRACKET_STL   \n
 
-XPTvar $INDENT_HELPER  /* void */;
+XPTvar $VOID_LINE      /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $CL  /*
@@ -21,13 +21,15 @@ XPTvar $CR   */
 
 XPTinclude
       \ _common/common
-      \ _comment/singleSign
+      \ _comment/doubleSign
       \ _condition/c.like
       \ _func/c.like
-      \ _loops/c.for.like
       \ _loops/c.while.like
       \ _preprocessor/c.like
       \ _structures/c.like
+
+XPTinclude
+      \ _loops/for
 
 
 " ========================= Function and Varaibles =============================
@@ -109,17 +111,17 @@ XSET elts=c_printfElts( R( 'pattern' ) )
 printf( "`pattern^"`elts^ )
 
 
-XPT sprintf alias=printf
+XPT sprintf	hint=sprintf\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )
 sprintf( `str^, "`pattern^"`elts^ )
 
 
-XPT snprintf alias=printf
+XPT snprintf	hint=snprintf\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )
 snprintf( `str^, `size^, "`pattern^"`elts^ )
 
 
-XPT fprintf alias=printf
+XPT fprintf	hint=fprintf\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )
 fprintf( `stream^, "`pattern^"`elts^ )
 
@@ -163,12 +165,11 @@ XSET cursor|pre=CURSOR
 
 
 
-
 " ================================= Wrapper ===================================
 
 
 XPT call_ hint=..(\ SEL\ )
-XSET p?|post=ExpandIfNotEmpty(', ', 'p?')
-`name^(`wrapped^`, `p?^)`cursor^
+XSET p*|post=ExpandIfNotEmpty(', ', 'p*')
+`name^(`wrapped^`, `p*^)`cursor^
 
 

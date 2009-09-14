@@ -1,4 +1,4 @@
-XPTemplate priority=all
+XPTemplate priority=all-
 
 
 XPTinclude 
@@ -9,15 +9,12 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT comment hint=$CL\ $CR
-`$CL^ `cursor^ `$CR^
+`$CL^ `what^ `$CR^
 
-
-XPT comment_ hint=$CL\ $CR
-`$CL^ `wrapped^ `$CR^
 
 XPT commentBlock hint=$CL\ ...
 `$CL^ 
@@ -33,5 +30,30 @@ XPT commentDoc hint=$CL$CM\ ...
 XPT commentLine hint=$CS\ ...
 `$CS^ `cursor^
 
+
 XPT commentLine2 hint=$CL\ ...\ $CR
-`$CL^ `cursor^ `$CR^
+`$CL^ `what^ `$CR^
+
+
+" ================================= Wrapper ===================================
+
+XPT comment_ hint=$CL\ $CR
+`$CL^ `wrapped^ `$CR^
+
+
+XPT commentBlock_ hint=$CL\ ...
+`$CL^ 
+ `$CM^ `wrapped^
+ `$CR^
+
+
+XPT commentDoc_ hint=$CL$CM\ ...
+`$CL^`$CM^ 
+ `$CM^ `wrapped^
+ `$CR^
+
+XPT commentLine_ hint=$CS\ ...
+`$CS^ `wrapped^
+
+XPT commentLine2_ hint=$CL\ ...\ $CR
+`$CL^ `wrapped^ `$CR^

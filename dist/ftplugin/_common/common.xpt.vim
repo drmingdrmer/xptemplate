@@ -6,6 +6,8 @@ let [s:f, s:v] = XPTcontainer()
 XPTvar $author        $author is not set, you need to set g:xptemplate_vars="$author=your_name"
 XPTvar $email         $email is not set, you need to set g:xptemplate_vars="$author=your_email@com"
 
+XPTvar $VOID
+
 XPTvar $IF_BRACKET_STL     \ 
 XPTvar $FOR_BRACKET_STL    \ 
 XPTvar $WHILE_BRACKET_STL  \ 
@@ -17,7 +19,7 @@ XPTvar $FALSE         0
 XPTvar $NULL          0
 XPTvar $UNDEFINED     0
 
-XPTvar $INDENT_HELPER  
+XPTvar $VOID_LINE  
 XPTvar $CURSOR_PH      CURSOR
 
 
@@ -128,7 +130,7 @@ fun! s:f.EchoIf( isTrue, ... )
 endfunction
 
 fun! s:f.EchoIfEq( expected, ... )
-  if self.V() ==# expected
+  if self.V() ==# a:expected
     return join( a:000, '' )
   else
     return self.V()
@@ -162,6 +164,21 @@ fun! s:f.BuildIfNoChange( ... )
 endfunction
 
 
+fun! s:f.Commentize( text )
+  if has_key( self, '$CL' )
+    return self[ '$CL' ] . ' ' . a:text . ' ' . self[ '$CR' ]
+
+  elseif has_key( self, '$CS' )
+    return self[ '$CS' ] . ' ' . a:text
+
+  endif
+
+  return a:text
+endfunction
+
+fun! s:f.VoidLine()
+  return self.Commentize( 'void' )
+endfunction
 
 
 
@@ -180,8 +197,8 @@ fun! s:f.ChooseStr(...) "{{{
   return copy( a:000 )
 endfunction "}}}
 
-fun! s:f.Finish()
-    return { 'action' : 'finishTemplate', 'postTyping' : '' }
+fun! s:f.Finish(...)
+    return { 'action' : 'finishTemplate', 'postTyping' : join( a:000 ) }
 endfunction
 
 fun! s:f.Embed( snippet )
@@ -192,7 +209,7 @@ fun! s:f.Next( ... )
   if a:0 == 0
     return { 'action' : 'next' }
   else
-    return { 'action' : 'next', 'text' : a:text }
+    return { 'action' : 'next', 'text' : join( a:000, '' ) }
   endif
 endfunction
 
@@ -323,15 +340,22 @@ endfunction
 " If nothing typed but only <tab> to next, clear it.
 "
 " Normal clear typed, also clear it
+" TODO escape mark character in a:sep or a:item
 " }}}
-fun! s:f.ExpandIfNotEmpty(sep, item) "{{{
+fun! s:f.ExpandIfNotEmpty( sep, item, ... ) "{{{
   let v = self.V()
 
   let marks = XPTmark()
+
+  if a:0 != 0
+    let r = a:1
+  else
+    let r = ''
+  endif
   
   let t = ( v == '' || v == a:item || v == ( a:sep . a:item ) )
         \ ? ''
-        \ : ( v . marks[0] . a:sep . marks[0] . a:item . marks[1] . 'ExpandIfNotEmpty("' . a:sep . '", "' . a:item  . '")' . marks[1] . marks[1] )
+        \ : ( v . marks[0] . a:sep . marks[0] . a:item . marks[0] . r . marks[1] . 'ExpandIfNotEmpty("' . a:sep . '", "' . a:item  . '")' . marks[1] . marks[1] )
 
   return t
 endfunction "}}}
@@ -347,10 +371,10 @@ call XPTemplate("File", "`file()^")
 call XPTemplate("Path", "`path()^")
 
 " wrapping snippets do not need using \w as name
-call XPTemplate('"', {'hint' : '" ... "'}, '"`wrapped^"')
-call XPTemplate("'", {'hint' : "' ... '"}, "'`wrapped^'")
-call XPTemplate("<", {'hint' : '< ... >'}, '<`wrapped^>')
-call XPTemplate("(", {'hint' : '( ... )'}, '(`wrapped^)')
-call XPTemplate("[", {'hint' : '[ ... ]'}, '[`wrapped^]')
-call XPTemplate("{", {'hint' : '{ ... }'}, '{`wrapped^}')
-call XPTemplate("`", {'hint' : '` ... `'}, '\``wrapped^\`')
+call XPTemplate('"_', {'hint' : '" ... "'}, '"`wrapped^"')
+call XPTemplate("'_", {'hint' : "' ... '"}, "'`wrapped^'")
+call XPTemplate("<_", {'hint' : '< ... >'}, '<`wrapped^>')
+call XPTemplate("(_", {'hint' : '( ... )'}, '(`wrapped^)')
+call XPTemplate("[_", {'hint' : '[ ... ]'}, '[`wrapped^]')
+call XPTemplate("{_", {'hint' : '{ ... }'}, '{`wrapped^}')
+call XPTemplate("`_", {'hint' : '` ... `'}, '\``wrapped^\`')

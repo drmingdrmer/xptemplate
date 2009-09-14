@@ -3,7 +3,7 @@ if exists("g:__XPTEMPLATE_UTIL_VIM__")
 endif
 let g:__XPTEMPLATE_UTIL_VIM__ = 1
 runtime plugin/debug.vim
-let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'warn' )
 com! XPTutilGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPTutilGetSID
 delc XPTutilGetSID

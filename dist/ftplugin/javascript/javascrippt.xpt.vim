@@ -8,12 +8,13 @@ XPTvar $NULL          null
 XPTvar $UNDEFINED     undefined
 
 XPTvar $IF_BRACKET_STL     \ 
+XPTvar $ELSE_BRACKET_STL   \n
 XPTvar $FOR_BRACKET_STL    \ 
 XPTvar $WHILE_BRACKET_STL  \ 
 XPTvar $STRUCT_BRACKET_STL \ 
 XPTvar $FUNC_BRACKET_STL   \ 
 
-XPTvar $INDENT_HELPER  /* void */;
+XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $CL  /*
@@ -23,22 +24,22 @@ XPTvar $CR   */
 
 XPTinclude 
       \ _common/common
-      \ _condition/c.like
       \ _comment/doubleSign
+      \ _condition/c.like
 
 
 " ========================= Function and Variables =============================
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 
 XPT bench hint=Benchmark
 XSET log=console.log
-XSET job=$INDENT_HELPER
-XSET jobn=$INDENT_HELPER
+XSET job=$VOID_LINE
+XSET jobn=$VOID_LINE
 var t0 = new Date().getTime();
 for (var i = 0; i < `times^; ++i){
     `job^
@@ -96,8 +97,8 @@ XSET email=$email
 
 
 XPT fun hint=function\ ..(\ ..\ )\ {..}
-XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
-function` `name^ (`arg?^) {
+XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
+function` `name^ (`arg*^) {
     `cursor^
 }
 
@@ -117,25 +118,25 @@ for ( var `i^ in `array^ )`$FOR_BRACKET_STL^{
 
 
 XPT new hint=var\ ..\ =\ new\ ..\(..)
-XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
-var `instant^ = new `Constructor^(`arg?^)
+XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
+var `instant^ = new `Constructor^(`arg*^)
 
 
 XPT proto hint=...prototype...\ =\ function\(..)\ {\ ..\ }
-XSET arg?|post=ExpandIfNotEmpty(', ', 'arg?')
-`Class^.prototype.`method^ = function(`arg?^)`$FUNC_BRACKET_STL^{
+XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
+`Class^.prototype.`method^ = function(`arg*^)`$FUNC_BRACKET_STL^{
 `cursor^
 }
 
 
 XPT setTimeout hint=setTimeout\(function\()\ {\ ..\ },\ ..)
-XSET job=$INDENT_HELPER
+XSET job=$VOID_LINE
 setTimeout(function() { `job^ }, `milliseconds^)
 
 
 XPT try hint=try\ {..}\ catch\ {..}\ finally
 XSET dealError=/* error handling */
-XSET job=$INDENT_HELPER
+XSET job=$VOID_LINE
 try`$IF_BRACKET_STL^{
     `job^
 }
@@ -150,3 +151,38 @@ finally`$IF_BRACKET_STL^{
     `cursor^
 }`}}^
 
+" ================================= Wrapper ===================================
+
+XPT bench_ hint=Benchmark
+XSET log=console.log
+var t0 = new Date().getTime();
+for (var i = 0; i < `times^; ++i){
+  `wrapped^
+}
+var t1 = new Date().getTime();
+`log^(t1-t0);
+
+
+XPT fun_ hint=function\ ..(\ ..\ )\ {..}
+function` `name^ (`param^) {
+  `wrapped^
+  return;
+}
+
+
+XPT try_ hint=try\ {..}\ catch\ {..}\ finally
+XSET dealError=/* error handling */
+XSET job=$VOID_LINE
+try`$IF_BRACKET_STL^{
+    `wrapped^
+}
+catch (`err^)`$IF_BRACKET_STL^{
+    `dealError^
+}`...^
+catch (`err^)`$IF_BRACKET_STL^{
+    `dealError^
+}`...^`
+`finally...{{^
+finally`$IF_BRACKET_STL^{
+    `cursor^
+}`}}^

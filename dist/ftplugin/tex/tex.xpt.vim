@@ -6,7 +6,7 @@ XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
-XPTvar $INDENT_HELPER /* void */;
+XPTvar $VOID_LINE     /* void */;
 XPTvar $IF_BRACKET_STL \n
 
 XPTinclude 
@@ -18,7 +18,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef 
+XPTemplateDef
 
 
 XPT eq hint=\\begin{equation}\ ..\ \\end{equation}
@@ -47,18 +47,21 @@ XPT abstract hint=begin{abstract}\ ..\ end{abstract}
 
 XPT array hint=begin{array}{..}...\ end{array}
 \begin{array}{`kind~rcl~}
-`what~~`...0~ & `what~~`...0~ \\`...1~
-`what~~`...2~ & `what~~`...2~ \\`...1~
+`what~` `...0~ & `what~` `...0~ \\\\` `...1~
+`what~` `...2~ & `what~` `...2~ \\\\` `...1~
 \end{array}
 ..XPT
 
 XPT table hint=begin{tabular}{..}...\ end{tabular}
+XSET hline..|post=\hline
+XSET what*|post=ExpandIfNotEmpty( ' & ', 'what*' )
 \begin{tabular}{`kind~|r|c|l|~}
-`hline...~\\hline~~
-`what~~`...0~ & `what~~`...0~ \\`...1~
-`hline...~\\hline~~
-`what~~`...2~ & `what~~`...2~ \\`...1~
+`hline..~
+`what*~ \\\\` `...1~
+`hline..~
+`what*~ \\\\` `...1~
 \end{tabular}
+
 ..XPT
 
 XPT section hint=section{..}
@@ -100,7 +103,7 @@ XPT enumerate hint=begin{enumerate}\ ...\ end{enumerate}
 ..XPT
 
 XPT sqrt hint=sqrt[..]{..}
-\sqrt`n...~[\`nth\~]~~{`cursor~}
+\sqrt`n...{{~[`nth~]`}}~{`cursor~}
 ..XPT
 
 XPT sum hint=sum{..}~..{}
@@ -129,10 +132,10 @@ XPT beg hint=begin{..}\ ..\ end{..}
 ..XPT
 
 XPT as_ hint=SEL{..}
-\`wrapped~{`cursor~}
+\\`wrapped~{`cursor~}
 ..XPT
 
 XPT with_ hint=\\..\ {SEL}
-\`cursor~{`wrapped~}
+\\`cursor~{`wrapped~}
 ..XPT
 
