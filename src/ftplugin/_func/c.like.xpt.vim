@@ -12,7 +12,7 @@ XPTvar $WHILE_BRACKET_STL  \
 XPTvar $STRUCT_BRACKET_STL \ 
 XPTvar $FUNC_BRACKET_STL   \n
 
-XPTvar $VOID_LINE  /* void */;
+XPTvar $VOID_LINE      /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $CL  /*
@@ -47,8 +47,7 @@ XPTemplateDef
 
 
 XPT main hint=main\ (argc,\ argv)
-`c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv)
-{
+`c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv)`$FUNC_BRACKET_STL^{
     `cursor^
     return 0;
 }

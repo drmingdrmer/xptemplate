@@ -31,6 +31,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO standardize html/xml snippets.
 " TODO test lua
 " TODO how to load different language snippets like html in php in single buffer
 " TODO escaped mark in snippet '`' and '^' and in nested.
@@ -412,8 +413,18 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
 
 
+    if has_key( a:tmplObj.setting.defaultValues, 'cursor' )
+        call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . a:tmplObj.setting.defaultValues.cursor )
+    else
+        call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . 'empty!' )
+    endif
+    if !has_key( a:tmplObj.setting.defaultValues, 'cursor' )
+                \ || a:tmplObj.setting.defaultValues.cursor !~ 'Finish'
+        let a:tmplObj.setting.defaultValues.cursor = "\n" . 'Finish()'
+    endif
 
-    let a:tmplObj.setting.defaultValues.cursor = 'Finish()'
+    call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . a:tmplObj.setting.defaultValues.cursor )
+
 endfunction "}}}
 
 
@@ -2304,6 +2315,8 @@ fun! s:HandleDefaultValueAction( ctx, act ) "{{{
 
             let xptObj = g:XPTobject() 
 
+            
+            " TODO controled by behavior is better?
             if empty( xptObj.stack )
                 return s:FinishRendering()
             else
@@ -2457,6 +2470,7 @@ fun! s:InitItem() " {{{
     let renderContext.phase = 'fillin'
 
 
+    " TODO place holder default value with higher priority!
     " apply default value
     if has_key(renderContext.tmpl.setting.defaultValues, renderContext.item.name)
         return s:ApplyDefaultValueToPH( renderContext, 

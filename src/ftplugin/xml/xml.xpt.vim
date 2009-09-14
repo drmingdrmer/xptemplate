@@ -4,12 +4,16 @@ let [s:f, s:v] = XPTcontainer()
  
 XPTvar $TRUE          1
 XPTvar $FALSE         0
-XPTvar $VOID_LINE /* void */;
+XPTvar $VOID_LINE     <!-- void -->;
 
 XPTinclude 
       \ _common/common
-      \ _common/personal
-      \ _comment/xml
+
+XPTvar $CL    <!--
+XPTvar $CM    
+XPTvar $CR    -->
+XPTinclude 
+      \ _comment/doubleSign
 
 
 " ========================= Function and Variables =============================
@@ -36,6 +40,19 @@ XPT style hint=<?xml-stylesheet...
 XPT CDATA_ hint=<![CDATA[...
 <![CDATA[
 `cursor^
+]]>
+
+
+
+" ================================= Wrapper ===================================
+
+XPT <_ hint=<Tag>\ SEL\ </Tag>
+<`tag^` `...{{^ `name^="`val^"` `...^`}}^>`wrapped^</`tag^>
+
+
+XPT CDATA_ hint=<![CDATA[\ SEL\ ]]>
+<![CDATA[
+`wrapped^
 ]]>
 
 

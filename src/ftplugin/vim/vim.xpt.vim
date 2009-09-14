@@ -7,8 +7,10 @@ XPTvar $FALSE         0
 
 XPTinclude 
       \ _common/common
-      \ _common/personal
 
+XPTvar $CS    #
+XPTinclude 
+      \ _comment/singleSign
 
 " ========================= Function and Variables =============================
 
@@ -69,9 +71,10 @@ XPT foreach alias=forin hint=for\ ..\ in\ ..\ ..\ endfor
 
 
 XPT try hint=try\ ..\ catch\ ..\ finally...
+XSET exception=.*
 try
 
-catch /`^/
+catch /`exception^/
 `
 `finally...{{^
 finally

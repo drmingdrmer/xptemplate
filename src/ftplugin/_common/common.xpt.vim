@@ -197,8 +197,8 @@ fun! s:f.ChooseStr(...) "{{{
   return copy( a:000 )
 endfunction "}}}
 
-fun! s:f.Finish()
-    return { 'action' : 'finishTemplate', 'postTyping' : '' }
+fun! s:f.Finish(...)
+    return { 'action' : 'finishTemplate', 'postTyping' : join( a:000 ) }
 endfunction
 
 fun! s:f.Embed( snippet )
@@ -340,15 +340,22 @@ endfunction
 " If nothing typed but only <tab> to next, clear it.
 "
 " Normal clear typed, also clear it
+" TODO escape mark character in a:sep or a:item
 " }}}
-fun! s:f.ExpandIfNotEmpty(sep, item) "{{{
+fun! s:f.ExpandIfNotEmpty( sep, item, ... ) "{{{
   let v = self.V()
 
   let marks = XPTmark()
+
+  if a:0 != 0
+    let r = a:1
+  else
+    let r = ''
+  endif
   
   let t = ( v == '' || v == a:item || v == ( a:sep . a:item ) )
         \ ? ''
-        \ : ( v . marks[0] . a:sep . marks[0] . a:item . marks[1] . 'ExpandIfNotEmpty("' . a:sep . '", "' . a:item  . '")' . marks[1] . marks[1] )
+        \ : ( v . marks[0] . a:sep . marks[0] . a:item . marks[0] . r . marks[1] . 'ExpandIfNotEmpty("' . a:sep . '", "' . a:item  . '")' . marks[1] . marks[1] )
 
   return t
 endfunction "}}}

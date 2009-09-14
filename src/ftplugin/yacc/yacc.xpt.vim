@@ -1,19 +1,34 @@
-if exists("b:__YACC_XPT_VIM__") 
-    finish 
-endif
-let b:__YACC_XPT_VIM__ = 1 
+XPTemplate priority=lang-
 
-" containers
-let [s:f, s:v] = XPTcontainer() 
+let s:f = XPTcontainer()[0]
+ 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
 
-" constant definition
+XPTvar $VOID_LINE      /* void */;
+XPTvar $CURSOR_PH      /* cursor */
 
-" inclusion
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $ELSE_BRACKET_STL   \n
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \ 
+
+
 XPTinclude 
     \ _common/common
     \ c/c
 
+
+" ========================= Function and Variables =============================
+
+" ================================= Snippets ===================================
 XPTemplateDef
+
+
 XPT yacc hint=Basic\ yacc\ file
 %{
 /* includes */
@@ -25,15 +40,18 @@ XPT yacc hint=Basic\ yacc\ file
 /* C code */
 
 XPT rule hint=..:\ ..\ |\ ..\ |\ ...
-`ruleName^: `pattern^   { `action^ }`...^
-          | `pattern^   { `action^ }`...^
-          ;
+`ruleName^: `pattern^   { `action^ }
+`        `...`
+{{^        | `pattern^   { `action^ }
+`        `...`
+^`}}^        ;
 
 XPT tok hint=%token\ ...
 %token 
 
 XPT prio hint=%left\ ...\ %right\ ...
-%left   '`op^'`...0^ '`op^'`...0^`...1^
-%left   '`op^'`...2^ '`op^'`...2^`...1^
+XSET op*|post=ExpandIfNotEmpty( "' '", 'op*', "" )
+%left   '`op*^'` `...^
+%left   '`op*^'` `...^
 
 

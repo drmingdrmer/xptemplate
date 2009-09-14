@@ -4,8 +4,10 @@ XPTemplate priority=like
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
-XPTvar $IF_BRACKET_STL  \ 
+
 XPTvar $VOID_LINE /* void */;
+
+XPTvar $STRUCT_BRACKET_STL \ 
 
 " containers
 let [s:f, s:v] = XPTcontainer() 
@@ -30,8 +32,7 @@ XPTemplateDef
 
 XPT enum hint=enum\ {\ ..\ }
 XSET postQuoter={,}
-enum `name^
-{
+enum `name^`$STRUCT_BRACKET_STL^{
     `elt^;`
     `...{^
     `elt^;`
@@ -40,8 +41,7 @@ enum `name^
 
 
 XPT struct hint=struct\ {\ ..\ }
-struct `structName^
-{
+struct `structName^`$STRUCT_BRACKET_STL^{
     `type^ `field^;`
     `...^
     `type^ `field^;`
@@ -50,8 +50,7 @@ struct `structName^
 
 
 XPT bitfield hint=struct\ {\ ..\ :\ n\ }
-struct `structName^
-{
+struct `structName^`$STRUCT_BRACKET_STL^{
     `type^ `field^ : `bits^;`
     `...^
     `type^ `field^ : `bits^;`
