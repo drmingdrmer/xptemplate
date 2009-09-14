@@ -32,7 +32,11 @@ rm -rf	\
   bench.vim	\
   
 
-find -name "test.page" | xargs rm
+if [ "$1" = "no" ]; then
+  echo
+else
+  find -name "test.page" | xargs rm
+fi
 
 
 # remove 'call Log'
