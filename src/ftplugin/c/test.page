@@ -360,39 +360,37 @@ a drdr.xp b
 a drdr.xp
 
 
-    /*  -------------bitfield--------------- */
-    /* struct `structName^                   */
-    /* {                                     */
-    /*     `type^ `field^ : `bits^;`         */
-    /*     `...^                             */
-    /*     `type^ `field^ : `bits^;`         */
-    /*     `...^                             */
-    /* }` `var^^;                            */
+    /*  -------------bitfield---------------     */
+    /* struct `structName^`$STRUCT_BRACKET_STL^{ */
+    /*     `type^ `field^ : `bits^;`             */
+    /*     `...^                                 */
+    /*     `type^ `field^ : `bits^;`             */
+    /*     `...^                                 */
+    /* }` `var^^;                                */
 
 
 
-struct structName
-{
+struct structName {
+    type field : bits;
     type field : bits;
     type field : bits;
     type field : bits;
 } ;
 
-struct structName_TYPED
-{
+struct structName_TYPED {
     type_TYPED field_TYPED : bits_TYPED;
         _TYPED
 } var_TYPED; b
 
-a struct structName
-{
+a struct structName {
+    type field : bits;
     type field : bits;
     type field : bits;
     type field : bits;
 } ; b
 
-a struct structName
-{
+a struct structName {
+    type field : bits;
     type field : bits;
     type field : bits;
     type field : bits;
@@ -408,7 +406,7 @@ name(WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 name_TYPED(WRAPPED_TEXT
-WRAPPED_TEXT_line2, p_TYPED, p_TYPED)b
+WRAPPED_TEXT_line2, p_TYPED, p_TYPED, p_TYPED)b
 
 a name(WRAPPED_TEXT
 WRAPPED_TEXT_line2)b
@@ -676,36 +674,34 @@ a drdr.xp@gmail.com
 
 
     /*  -------------enum--------------- */
-    /* enum `name^                       */
-    /* {                                 */
+    /* enum `name^`$STRUCT_BRACKET_STL^{ */
     /*     `elt^;`                       */
     /*     `...^                         */
     /* }` `var^;                         */
 
 
 
-enum name
-{
+enum name {
+    elt;
     elt;
     elt;
     elt;
 } var;
 
-enum name_TYPED
-{
+enum name_TYPED {
     elt_TYPED;
         _TYPED
 } var_TYPED; b
 
-a enum name
-{
+a enum name {
+    elt;
     elt;
     elt;
     elt;
 } var; b
 
-a enum name
-{
+a enum name {
+    elt;
     elt;
     elt;
     elt;
@@ -1086,6 +1082,8 @@ if (condition) {
     /* void */;
 } else if (condition) {
     /* void */;
+} else if (condition) {
+    /* void */;
 }
 
 if (condition_TYPED) {
@@ -1098,9 +1096,13 @@ a if (condition) {
     /* void */;
 } else if (condition ) {
     /* void */;
+} else if (condition ) {
+    /* void */;
 } b
 
 a if (condition) {
+    /* void */;
+} else if (condition) {
     /* void */;
 } else if (condition) {
     /* void */;
@@ -1199,12 +1201,11 @@ a if (NULL != var) {
 }
 
 
-    /*  -------------main---------------                                        */
-    /* `c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv) */
-    /* {                                                                        */
-    /*     `cursor^                                                             */
-    /*     return 0;                                                            */
-    /* }                                                                        */
+    /*  -------------main---------------                                                            */
+    /* `c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv)`$FUNC_BRACKET_STL^{ */
+    /*     `cursor^                                                                                 */
+    /*     return 0;                                                                                */
+    /* }                                                                                            */
 
 
 
@@ -1313,39 +1314,37 @@ a sprintf( str, "pattern" ) b
 a sprintf( str, "pattern" )
 
 
-    /*  -------------struct--------------- */
-    /* struct `structName^                 */
-    /* {                                   */
-    /*     `type^ `field^;`                */
-    /*     `...^                           */
-    /*     `type^ `field^;`                */
-    /*     `...^                           */
-    /* }` `var^^;                          */
+    /*  -------------struct---------------       */
+    /* struct `structName^`$STRUCT_BRACKET_STL^{ */
+    /*     `type^ `field^;`                      */
+    /*     `...^                                 */
+    /*     `type^ `field^;`                      */
+    /*     `...^                                 */
+    /* }` `var^^;                                */
 
 
 
-struct structName
-{
+struct structName {
+    type field;
     type field;
     type field;
     type field;
 } ;
 
-struct structName_TYPED
-{
+struct structName_TYPED {
     type_TYPED field_TYPED;
         _TYPED
 } var_TYPED; b
 
-a struct structName
-{
+a struct structName {
+    type field;
     type field;
     type field;
     type field;
 } ; b
 
-a struct structName
-{
+a struct structName {
+    type field;
     type field;
     type field;
     type field;
@@ -1366,6 +1365,10 @@ a struct structName
 
 
 switch (var) {
+    case constant :
+        /* void */;
+        break;
+
     case constant :
         /* void */;
         break;
@@ -1405,11 +1408,19 @@ a switch (var) {
         /* void */;
         break;
 
+    case constant :
+        /* void */;
+        break;
+
     default:
         
 } b
 
 a switch (var) {
+    case constant :
+        /* void */;
+        break;
+
     case constant :
         /* void */;
         break;
