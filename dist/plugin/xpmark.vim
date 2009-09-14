@@ -182,7 +182,11 @@ fun! s:snapshot() dict
     endif
     let n = self.lastChangenr + 1
     if !has_key( self.markHistory, n-1 )
-        throw 'no history nr:' . ( n-1 ) . ' lastNr:' . self.lastChangenr . ' history:' . string( self.markHistory )
+        if has_key( self.markHistory, n-2 )
+            let self.markHistory[ n-1 ] = self.markHistory[ n-2 ]
+        else
+            throw 'no history nr:' . ( n-1 ) . ' lastNr:' . self.lastChangenr . ' history:' . string( self.markHistory )
+        endif
     endif
     Assert has_key( self.markHistory, n-1 )
     while n < nr
