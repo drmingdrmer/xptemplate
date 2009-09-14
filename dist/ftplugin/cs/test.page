@@ -1,0 +1,1289 @@
+
+
+
+    /*  -------------"--------------- */
+    /* "`wrapped^"                    */
+
+
+
+"WRAPPED_TEXT"
+
+"WRAPPED_TEXT" =
+
+- "WRAPPED_TEXT" =
+
+- "WRAPPED_TEXT"
+
+
+    /*  -------------'--------------- */
+    /* '`wrapped^'                    */
+
+
+
+'WRAPPED_TEXT'
+
+'WRAPPED_TEXT' =
+
+- 'WRAPPED_TEXT' =
+
+- 'WRAPPED_TEXT'
+
+
+    /*  -------------(--------------- */
+    /* (`wrapped^)                    */
+
+
+
+(WRAPPED_TEXT)
+
+    (WRAPPED_TEXT) =
+
+    - (WRAPPED_TEXT) =
+
+    - (WRAPPED_TEXT)
+
+
+    /*  -------------<--------------- */
+    /* <`wrapped^>                    */
+
+
+
+<WRAPPED_TEXT>
+
+<WRAPPED_TEXT> =
+
+- <WRAPPED_TEXT> =
+
+- <WRAPPED_TEXT>
+
+
+    /*  -------------Author--------------- */
+    /* `$author^                           */
+
+
+
+drdr.xp
+
+drdr.xp =
+
+- drdr.xp =
+
+- drdr.xp
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com =
+
+- drdr.xp@gmail.com =
+
+- drdr.xp@gmail.com
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+test.page
+
+test.page =
+
+- test.page =
+
+- test.page
+
+
+    /*  -------------[--------------- */
+    /* [`wrapped^]                    */
+
+
+
+[WRAPPED_TEXT]
+
+[WRAPPED_TEXT] =
+
+- [WRAPPED_TEXT] =
+
+- [WRAPPED_TEXT]
+
+
+    /*  -------------`--------------- */
+    /* \``wrapped^\`                  */
+
+
+
+`WRAPPED_TEXT`
+
+`WRAPPED_TEXT` =
+
+- `WRAPPED_TEXT` =
+
+- `WRAPPED_TEXT`
+
+
+    /*  -------------bitfield--------------- */
+    /* struct `structName^                   */
+    /* {                                     */
+    /*     `type^ `field^ : `bits^;`         */
+    /*     `...^                             */
+    /*     `type^ `field^ : `bits^;`         */
+    /*     `...^                             */
+    /* }` `var^^;                            */
+
+
+
+struct structName
+{
+    type field : bits;
+    type field : bits;
+    type field : bits;
+} ;
+
+struct structName_TYPED
+{
+    type_TYPED field_TYPED : bits_TYPED;
+        _TYPED
+} var_TYPED; =
+
+- struct structName
+{
+    type field : bits;
+    type field : bits;
+    type field : bits;
+} ; =
+
+- struct structName
+{
+    type field : bits;
+    type field : bits;
+    type field : bits;
+} ;
+
+
+    /*  -------------class---------------      */
+    /* class `className^                       */
+    /* {                                       */
+    /*     public `className^(` `ctorParam` ^) */
+    /*     {                                   */
+    /*         `cursor^                        */
+    /*     }                                   */
+    /* }                                       */
+
+
+
+class className
+{
+    public className( ctorParam )
+    {
+        
+    }
+}
+
+class className_TYPED
+{
+    public className_TYPED( ctorParam_TYPED )
+    {
+        
+    }
+} =
+
+- class className
+{
+    public className( ctorParam )
+    {
+        
+    }
+} =
+
+- class className
+{
+    public className( ctorParam )
+    {
+        
+    }
+}
+
+
+    /*  -------------comment--------------- */
+    /* `$CL^ `cursor^ `$CR^                 */
+
+
+
+/*  */
+
+/*  */ =
+
+- /*  */ =
+
+- /*  */
+
+
+    /*  -------------commentBlock--------------- */
+    /* `$CL^                                     */
+    /*  `$CM^ `cursor^                           */
+    /*  `$CR^                                    */
+
+
+
+/* 
+ * 
+ */
+
+/* 
+ * 
+ */ =
+
+- /* 
+ * 
+ */ =
+
+- /* 
+ * 
+ */
+
+
+    /*  -------------commentDoc--------------- */
+    /* `$CL^`$CM^                              */
+    /*  `$CM^ `cursor^                         */
+    /*  `$CR^                                  */
+
+
+
+/** 
+ * 
+ */
+
+/** 
+ * 
+ */ =
+
+- /** 
+ * 
+ */ =
+
+- /** 
+ * 
+ */
+
+
+    /*  -------------commentLine--------------- */
+    /* `$CL^ `cursor^ `$CR^                     */
+
+
+
+/*  */
+
+/*  */ =
+
+- /*  */ =
+
+- /*  */
+
+
+    /*  -------------comment_--------------- */
+    /* `$CL^ `wrapped^ `$CR^                 */
+
+
+
+/* WRAPPED_TEXT */
+
+/* WRAPPED_TEXT */ =
+
+- /* WRAPPED_TEXT */ =
+
+- /* WRAPPED_TEXT */
+
+
+    /*  -------------do---------------           */
+    /* do`$WHILE_BRACKET_STL^{                   */
+    /*     `cursor^                              */
+    /* }`$WHILE_BRACKET_STL^while (`condition^); */
+
+
+
+do
+{
+    
+}
+while (condition);
+
+do
+{
+    
+}
+while (condition_TYPED); =
+
+- do
+{
+    
+}
+while (condition); =
+
+- do
+{
+    
+}
+while (condition);
+
+
+    /*  -------------else--------------- */
+    /* else`$IF_BRACKET_STL^{            */
+    /*     `cursor^                      */
+    /* }                                 */
+
+
+
+else
+{
+    
+}
+
+else
+{
+    
+} =
+
+- else
+{
+    
+} =
+
+- else
+{
+    
+}
+
+
+    /*  -------------else_--------------- */
+    /* else`$IF_BRACKET_STL^{             */
+    /*     `wrapped^                      */
+    /* }                                  */
+
+
+
+else
+{
+    WRAPPED_TEXT
+}
+
+else
+{
+    WRAPPED_TEXT
+} =
+
+- else
+{
+    WRAPPED_TEXT
+} =
+
+- else
+{
+    WRAPPED_TEXT
+}
+
+
+    /*  -------------enum--------------- */
+    /* enum `name^                       */
+    /* {                                 */
+    /*     `elt^;`                       */
+    /*     `...^                         */
+    /* }` `var^;                         */
+
+
+
+enum name
+{
+    elt;
+    elt;
+    elt;
+} var;
+
+enum name_TYPED
+{
+    elt_TYPED;
+        _TYPED
+} var_TYPED; =
+
+- enum name
+{
+    elt;
+    elt;
+    elt;
+} var; =
+
+- enum name
+{
+    elt;
+    elt;
+    elt;
+} var;
+
+
+    /*  -------------for---------------                             */
+    /* for (`int^ `i^ = `0^; `i^ < `len^; ++`i^) `$IF_BRACKET_STL^{ */
+    /*     `cursor^                                                 */
+    /* }                                                            */
+
+
+
+for (int i = 0; i < len; ++i) 
+{
+    
+}
+
+for (int_TYPED i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED) 
+{
+    
+} =
+
+- for (int i = 0; i < len; ++i) 
+{
+    
+} =
+
+- for (int i = 0; i < len; ++i) 
+{
+    
+}
+
+
+    /*  -------------foreach---------------               */
+    /* foreach ( `var^ `e^ in `what^ )`$FOR_BRACKET_STL^{ */
+    /*     `cursor^                                       */
+    /* }                                                  */
+
+
+
+foreach ( var e in what )
+{
+    
+}
+
+foreach ( var_TYPED e_TYPED in what_TYPED )
+{
+    
+} =
+
+- foreach ( var e in what )
+{
+    
+} =
+
+- foreach ( var e in what )
+{
+    
+}
+
+
+    /*  -------------forever--------------- */
+    /* for (;;) `body^                      */
+
+
+
+for (;;) /* void */;
+
+for (;;) body_TYPED =
+
+- for (;;) /* void */; =
+
+- for (;;) /* void */;
+
+
+    /*  -------------forr---------------                               */
+    /* for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^) `$IF_BRACKET_STL^{ */
+    /*     `cursor^                                                    */
+    /* }                                                               */
+
+
+
+for (int i = n; i >= end; --i) 
+{
+    
+}
+
+for (int_TYPED i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED) 
+{
+    
+} =
+
+- for (int i = n; i >= end; --i) 
+{
+    
+} =
+
+- for (int i = n; i >= end; --i) 
+{
+    
+}
+
+
+    /*  -------------if---------------     */
+    /* if (`condition^)`$IF_BRACKET_STL^{  */
+    /*     `job^                           */
+    /* }` `else...^                        */
+
+
+
+if (condition)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+}
+
+if (condition_TYPED)
+{ 
+    job_TYPED
+} else_TYPED =
+
+- if (condition)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+} =
+
+- if (condition)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+}
+
+
+    /*  -------------if0---------------    */
+    /* if (`condition^)`$IF_BRACKET_STL^{  */
+    /*     `job^                           */
+    /* }` `else...^                        */
+
+
+
+if (0 == var)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+}
+
+if (0 == var_TYPED)
+{ 
+    job_TYPED
+} else_TYPED =
+
+- if (0 == var)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+} =
+
+- if (0 == var)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+}
+
+
+    /*  -------------if_---------------   */
+    /* if (`condition^)`$IF_BRACKET_STL^{ */
+    /*     `wrapped^                      */
+    /* }                                  */
+
+
+
+if (condition)
+{
+    WRAPPED_TEXT
+}
+
+if (condition_TYPED)
+{
+    WRAPPED_TEXT
+} =
+
+- if (condition)
+{
+    WRAPPED_TEXT
+} =
+
+- if (condition)
+{
+    WRAPPED_TEXT
+}
+
+
+    /*  -------------ifee---------------  */
+    /* if (`condition^)`$IF_BRACKET_STL^{ */
+    /*     `job^                          */
+    /* }` `else_if...^                    */
+
+
+
+if (condition)
+{
+    /* void */;
+}
+else if (condition)
+{
+    /* void */;
+}
+else if (condition)
+{
+    /* void */;
+}
+
+if (condition_TYPED)
+{
+    job_TYPED
+} else_if_TYPED =
+
+- if (condition)
+{
+    /* void */;
+}
+else if (condition )
+{
+    /* void */;
+}
+else if (condition )
+{
+    /* void */;
+} =
+
+- if (condition)
+{
+    /* void */;
+}
+else if (condition)
+{
+    /* void */;
+}
+else if (condition)
+{
+    /* void */;
+}
+
+
+    /*  -------------ifn---------------    */
+    /* if (`condition^)`$IF_BRACKET_STL^{  */
+    /*     `job^                           */
+    /* }` `else...^                        */
+
+
+
+if (null == var)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+}
+
+if (null == var_TYPED)
+{ 
+    job_TYPED
+} else_TYPED =
+
+- if (null == var)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+} =
+
+- if (null == var)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+}
+
+
+    /*  -------------ifn0---------------   */
+    /* if (`condition^)`$IF_BRACKET_STL^{  */
+    /*     `job^                           */
+    /* }` `else...^                        */
+
+
+
+if (0 != var)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+}
+
+if (0 != var_TYPED)
+{ 
+    job_TYPED
+} else_TYPED =
+
+- if (0 != var)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+} =
+
+- if (0 != var)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+}
+
+
+    /*  -------------ifnn---------------   */
+    /* if (`condition^)`$IF_BRACKET_STL^{  */
+    /*     `job^                           */
+    /* }` `else...^                        */
+
+
+
+if (null != var)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+}
+
+if (null != var_TYPED)
+{ 
+    job_TYPED
+} else_TYPED =
+
+- if (null != var)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+} =
+
+- if (null != var)
+{ 
+    /* void */;
+}
+else
+{ 
+    
+}
+
+
+    /*  -------------main---------------        */
+    /* public static void Main( string[] args ) */
+    /* {                                        */
+    /*     `cursor^                             */
+    /* }                                        */
+
+
+
+public static void Main( string[] args )
+{
+    
+}
+
+public static void Main( string[] args )
+{
+    
+} =
+
+- public static void Main( string[] args )
+{
+    
+} =
+
+- public static void Main( string[] args )
+{
+    
+}
+
+
+    /*  -------------namespace--------------- */
+    /* namespace `name^                       */
+    /* {                                      */
+    /*     `cursor^                           */
+    /* }                                      */
+
+
+
+namespace name
+{
+    
+}
+
+namespace name_TYPED
+{
+    
+} =
+
+- namespace name
+{
+    
+} =
+
+- namespace name
+{
+    
+}
+
+
+    /*  -------------prop--------------- */
+    /* public `type^ `Name^              */
+    /* {`                                */
+    /*     `get...^`                     */
+    /*     `set...^                      */
+    /* }                                 */
+
+
+
+public type Name
+{
+    get { return what; }
+    set { what = value; }
+}
+
+public type_TYPED Name_TYPED
+{
+    get_TYPED
+        set_TYPED
+} =
+
+- public type Name
+{
+    get { return what; }
+    set { what = value; }
+} =
+
+- public type Name
+{
+    get { return what; }
+    set { what = value; }
+}
+
+
+    /*  -------------struct---------------          */
+    /* `public^ struct `structName^                 */
+    /* {                                            */
+    /*     `fieldAccess^public^ `type^ `name^;`...^ */
+    /*     `fieldAccess^public^ `type^ `name^;`...^ */
+    /* }                                            */
+
+
+
+public struct structName
+{
+    public type name;
+    public type name;
+    public type name;
+}
+
+public_TYPED struct structName_TYPED
+{
+    fieldAccess_TYPED type_TYPED name_TYPED;_TYPED
+} =
+
+- public struct structName
+{
+    public type name;
+    public type name;
+    public type name;
+} =
+
+- public struct structName
+{
+    public type name;
+    public type name;
+    public type name;
+}
+
+
+    /*  -------------switch--------------- */
+    /* switch (`var^)`$IF_BRACKET_STL^{    */
+    /*     case `constant^ :               */
+    /*         `job^                       */
+    /*         break;                      */
+    /* `                                   */
+    /*     `case...`                       */
+    /* ^`                                  */
+    /*     `default...^                    */
+    /* }                                   */
+
+
+
+switch (var)
+{
+    case constant :
+        /* void */;
+        break;
+
+    case constant :
+        /* void */;
+        break;
+
+    case constant :
+        /* void */;
+        break;
+
+    default:
+        
+}
+
+switch (var_TYPED)
+{
+    case constant_TYPED :
+        job_TYPED
+        break;
+
+    case_TYPED
+
+    default_TYPED
+} =
+
+- switch (var)
+{
+    case constant :
+        /* void */;
+        break;
+
+    case constant :
+        /* void */;
+        break;
+
+    case constant :
+        /* void */;
+        break;
+
+    default:
+        
+} =
+
+- switch (var)
+{
+    case constant :
+        /* void */;
+        break;
+
+    case constant :
+        /* void */;
+        break;
+
+    case constant :
+        /* void */;
+        break;
+
+    default:
+        
+}
+
+
+    /*  -------------try--------------- */
+    /* try                              */
+    /* {                                */
+    /*     `what^                       */
+    /* }`                               */
+    /* `...^                            */
+    /* catch (`except^ e)               */
+    /* {                                */
+    /*     `handler^                    */
+    /* }`                               */
+    /* `...^`                           */
+    /* `finally...^                     */
+
+
+
+try
+{
+    what
+}
+catch (except e)
+{
+    /* handler */
+}
+catch (except e)
+{
+    /* handler */
+}
+finally
+{
+    
+}
+
+try
+{
+    what_TYPED
+}
+_TYPED
+finally_TYPED =
+
+- try
+{
+    what
+}
+catch (except e)
+{
+    /* handler */
+}
+catch (except e)
+{
+    /* handler */
+}
+finally
+{
+    
+} =
+
+- try
+{
+    what
+}
+catch (except e)
+{
+    /* handler */
+}
+catch (except e)
+{
+    /* handler */
+}
+finally
+{
+    
+}
+
+
+    /*  -------------try_--------------- */
+    /* try                               */
+    /* {                                 */
+    /*     `wrapped^                     */
+    /* }`                                */
+    /* `...^                             */
+    /* catch (`except^ e)                */
+    /* {                                 */
+    /*     `handler^                     */
+    /* }`                                */
+    /* `...^`                            */
+    /* `finally...^                      */
+
+
+
+try
+{
+    WRAPPED_TEXT
+}
+catch (except e)
+{
+    /* handler */
+}
+catch (except e)
+{
+    /* handler */
+}
+finally
+{
+    
+}
+
+try
+{
+    WRAPPED_TEXT
+}
+_TYPED
+finally_TYPED =
+
+- try
+{
+    WRAPPED_TEXT
+}
+catch (except e)
+{
+    /* handler */
+}
+catch (except e)
+{
+    /* handler */
+}
+finally
+{
+    
+} =
+
+- try
+{
+    WRAPPED_TEXT
+}
+catch (except e)
+{
+    /* handler */
+}
+catch (except e)
+{
+    /* handler */
+}
+finally
+{
+    
+}
+
+
+    /*  -------------while---------------       */
+    /* while (`condition^)`$WHILE_BRACKET_STL^{ */
+    /*     `cursor^                             */
+    /* }                                        */
+
+
+
+while (condition)
+{
+    
+}
+
+while (condition_TYPED)
+{
+    
+} =
+
+- while (condition)
+{
+    
+} =
+
+- while (condition)
+{
+    
+}
+
+
+    /*  -------------while0---------------       */
+    /* do`$WHILE_BRACKET_STL^{                   */
+    /*     `cursor^                              */
+    /* }`$WHILE_BRACKET_STL^while (`condition^); */
+
+
+
+do
+{
+    
+}
+while (false);
+
+do
+{
+    
+}
+while (false); =
+
+- do
+{
+    
+}
+while (false); =
+
+- do
+{
+    
+}
+while (false);
+
+
+    /*  -------------while1---------------      */
+    /* while (`condition^)`$WHILE_BRACKET_STL^{ */
+    /*     `cursor^                             */
+    /* }                                        */
+
+
+
+while (true)
+{
+    
+}
+
+while (true)
+{
+    
+} =
+
+- while (true)
+{
+    
+} =
+
+- while (true)
+{
+    
+}
+
+
+    /*  -------------whilenn---------------     */
+    /* while (`condition^)`$WHILE_BRACKET_STL^{ */
+    /*     `cursor^                             */
+    /* }                                        */
+
+
+
+while (null != var)
+{
+    
+}
+
+while (null != var_TYPED)
+{
+    
+} =
+
+- while (null != var)
+{
+    
+} =
+
+- while (null != var)
+{
+    
+}
+
+
+    /*  -------------{--------------- */
+    /* {`wrapped^}                    */
+
+
+
+{WRAPPED_TEXT}
+
+{WRAPPED_TEXT} =
+
+- {WRAPPED_TEXT} =
+
+- {WRAPPED_TEXT}
+

@@ -1,0 +1,668 @@
+
+
+
+    "  -------------_CMT__--------------- 
+    " _CMT_`wrapped^_CMT_             
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    "  -------------'_--------------- 
+    " '`wrapped^'                     
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    "  -------------(_--------------- 
+    " (`wrapped^)                     
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    "  -------------<_--------------- 
+    " <`wrapped^>                     
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    "  -------------Author--------------- 
+    " `$author^                           
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    a drdr.xp b
+
+    a drdr.xp
+
+
+    "  -------------Email--------------- 
+    " `$email^                           
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com
+
+
+    "  -------------File--------------- 
+    " `file()^                          
+
+
+
+    test.page
+
+    test.page b
+
+    a test.page b
+
+    a test.page
+
+
+    "  -------------[_--------------- 
+    " [`wrapped^]                     
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    "  -------------`_--------------- 
+    " \``wrapped^\`                   
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    "  -------------comment--------------- 
+    " `$CS^ `cursor^                       
+
+
+
+    # 
+
+    #  b
+
+    a #  b
+
+    a # 
+
+
+    "  -------------commentBlock--------------- 
+    " `$CS^ `cursor^                            
+    " `$CS^                                     
+
+
+
+    # 
+    #
+
+    # 
+    # b
+
+    a # 
+    # b
+
+    a # 
+    #
+
+
+    "  -------------commentDoc--------------- 
+    " `$CS^                                   
+    " `$CS^ `cursor^                          
+    " `$CS^                                   
+
+
+
+    #
+    # 
+    #
+
+    #
+    # 
+    # b
+
+    a #
+    # 
+    # b
+
+    a #
+    # 
+    #
+
+
+    "  -------------commentLine--------------- 
+    " `$CS^ `cursor^                           
+
+
+
+    # 
+
+    #  b
+
+    a #  b
+
+    a # 
+
+
+    "  -------------commentLine_--------------- 
+    " `$CS^ `wrapped^                           
+
+
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+
+    "  -------------comment_--------------- 
+    " `$CS^ `wrapped^                       
+
+
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+
+    "  -------------fdesc---------------                                              
+    " _CMT_ File Description {{{                                                      
+    " _CMT_ ============================================================================= 
+    " _CMT_ `cursor^                                                                  
+    " _CMT_                                                  by `$author^             
+    " _CMT_                                                     `$email^              
+    " _CMT_ Usage :                                                                   
+    " _CMT_                                                                           
+    " _CMT_ ============================================================================= 
+    " _CMT_ }}}                                                                       
+
+
+
+    " File Description {{{
+    " =============================================================================
+    " 
+    "                                                  by drdr.xp
+    "                                                     drdr.xp@gmail.com
+    " Usage :
+    "
+    " =============================================================================
+    " }}}
+    "
+    " File Description {{{
+    " =============================================================================
+    " 
+    "                                                  by drdr.xp
+    "                                                     drdr.xp@gmail.com
+    " Usage :
+    "
+    " =============================================================================
+    " }}} b
+    "
+    a " File Description {{{
+    " =============================================================================
+    " 
+    "                                                  by drdr.xp
+    "                                                     drdr.xp@gmail.com
+    " Usage :
+    "
+    " =============================================================================
+    " }}} b
+    "
+    a " File Description {{{
+    " =============================================================================
+    " 
+    "                                                  by drdr.xp
+    "                                                     drdr.xp@gmail.com
+    " Usage :
+    "
+    " =============================================================================
+    " }}}
+    "
+
+    "  -------------fordic---------------  
+    " for [`key^, `value^] in items(`dic^) 
+    "   `cursor^                           
+    " endfor                               
+
+
+
+    for [key, value] in items(dic)
+      
+    endfor
+
+    for [key_TYPED, value_TYPED] in items(dic_TYPED)
+      
+    endfor b
+
+    a for [key, value] in items(dic)
+      
+    endfor b
+
+    a for [key, value] in items(dic)
+      
+    endfor
+
+
+    "  -------------foreach--------------- 
+    " for `value^ in `list^                
+    "     `cursor^                         
+    " endfor                               
+
+
+
+    for value in list
+        
+    endfor
+
+    for value_TYPED in list_TYPED
+        
+    endfor b
+
+    a for value in list
+        
+    endfor b
+
+    a for value in list
+        
+    endfor
+
+
+    "  -------------forin--------------- 
+    " for `value^ in `list^              
+    "     `cursor^                       
+    " endfor                             
+
+
+
+    for value in list
+        
+    endfor
+
+    for value_TYPED in list_TYPED
+        
+    endfor b
+
+    a for value in list
+        
+    endfor b
+
+    a for value in list
+        
+    endfor
+
+
+    "  -------------fun--------------- 
+    " fun! `name^(`arg*^) _CMT_{{{     
+    "   `cursor^                       
+    " endfunction _CMT_}}}             
+
+
+
+    fun! name() "{{{
+      
+    endfunction "}}}
+
+    fun! name_TYPED(arg_TYPED, arg_TYPED, arg_TYPED) "{{{
+      
+    endfunction "}}} b
+
+    a fun! name() "{{{
+      
+    endfunction "}}} b
+
+    a fun! name() "{{{
+      
+    endfunction "}}}
+
+
+    "  -------------if--------------- 
+    " if `cond^                       
+    "   `job^Echo()^                  
+    " ``else...`                      
+    " ^endif                          
+
+
+
+    if cond
+      
+    else
+      
+    endif
+
+    if cond_TYPED
+      job_TYPED
+  else_TYPED
+      endif b
+
+      a if cond
+        
+      else
+        
+      endif b
+
+      a if cond
+        
+      else
+        
+      endif
+
+
+    "  -------------once--------------- 
+    " if exists(_CMT_`g^:`i^_CMT_)      
+    "   finish                          
+    " endif                             
+    " let `g^:`i^ = 1                   
+    " `cursor^                          
+
+
+
+    if exists("g:__TEST_PAGE__")
+      finish
+    endif
+    let g:__TEST_PAGE__ = 1
+    
+
+    if exists("g_TYPED:i_TYPED")
+      finish
+    endif
+    let g_TYPED:i_TYPED = 1
+     b
+
+     a if exists("g:__TEST_PAGE__")
+       finish
+     endif
+     let g:__TEST_PAGE__ = 1
+      b
+
+      a if exists("g:__TEST_PAGE__")
+        finish
+      endif
+      let g:__TEST_PAGE__ = 1
+      
+
+
+    "  -------------sid---------------                                
+    " com! `name^GetSID let s:sid =  matchstr(_CMT_<SID>_CMT_, '\zs\d\+_\ze') 
+    " `name^GetSID                                                    
+    " delc `name^GetSID                                               
+
+
+
+    com! nameGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
+    nameGetSID
+    delc nameGetSID
+
+    com! name_TYPEDGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
+    name_TYPEDGetSID
+    delc name_TYPEDGetSID b
+
+    a com! nameGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
+    nameGetSID
+    delc nameGetSID b
+
+    a com! nameGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
+    nameGetSID
+    delc nameGetSID
+
+
+    "  -------------str_--------------- 
+    " string(`wrapped^)                 
+
+
+
+string(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+string(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a string(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a string(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    "  -------------try--------------- 
+    " try                              
+    "                                  
+    " catch /`exception^/              
+    " `                                
+    " `finally...^                     
+    " endtry                           
+
+
+
+    try
+    
+    catch /.*/
+    
+    finally
+      
+    endtry
+
+    try
+    
+    catch /exception_TYPED/
+    
+        finally_TYPED
+    endtry b
+
+    a try
+    
+    catch /.*/
+    
+    finally
+      
+    endtry b
+
+    a try
+    
+    catch /.*/
+    
+    finally
+      
+    endtry
+
+
+    "  -------------varconf--------------- 
+    " if !exists(_CMT_`access^g^:`varname^_CMT_) 
+    "     let `access^:`varname^ = `val^   
+    " endif                                
+
+
+
+    if !exists("g:varname")
+        let g:varname = val
+    endif
+
+    if !exists("access_TYPED:varname_TYPED")
+        let access_TYPED:varname_TYPED = val_TYPED
+    endif b
+
+    a if !exists("g:varname")
+        let g:varname = val
+    endif b
+
+    a if !exists("g:varname")
+        let g:varname = val
+    endif
+
+
+    "  -------------vimformat---------------                     
+    " _CMT_ vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:fmr={{{,}}} 
+
+
+
+    " vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:fmr={{{,}}}
+    "
+    " vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:fmr={{{,}}} b
+    "
+    a " vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:fmr={{{,}}} b
+
+    a " vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:fmr={{{,}}}
+
+
+    "  -------------while--------------- 
+    " while `cond^                       
+    "   `cursor^                         
+    " endwhile                           
+
+
+
+    while cond
+      
+    endwhile
+
+    while cond_TYPED
+      
+    endwhile b
+
+    a while cond
+      
+    endwhile b
+
+    a while cond
+      
+    endwhile
+
+
+    "  -------------whilei---------------              
+    " let [ `i^, `len^ ] = [ `0^ - 1, `len_expr^ - 1 ] 
+    " while `i^ < `len^ | let `i^ += 1                 
+    "   `cursor^                                       
+    " endwhile                                         
+
+
+
+    let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+    while i < len | let i += 1
+      
+    endwhile
+
+    let [ i_TYPED, len_TYPED ] = [ 0_TYPED - 1, len_expr_TYPED - 1 ]
+    while i_TYPED < len_TYPED | let i_TYPED += 1
+      
+    endwhile b
+
+    a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+    while i < len | let i += 1
+      
+    endwhile b
+
+    a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+    while i < len | let i += 1
+      
+    endwhile
+
+
+    "  -------------{_--------------- 
+    " {`wrapped^}                     
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+

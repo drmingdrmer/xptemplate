@@ -1,0 +1,1087 @@
+
+
+
+    //  -------------"--------------- 
+    // "`wrapped^"                    
+
+
+
+"WRAPPED_TEXT"
+
+"WRAPPED_TEXT" =
+
+- "WRAPPED_TEXT" =
+
+- "WRAPPED_TEXT"
+
+
+    //  -------------'--------------- 
+    // '`wrapped^'                    
+
+
+
+'WRAPPED_TEXT'
+
+'WRAPPED_TEXT' =
+
+- 'WRAPPED_TEXT' =
+
+- 'WRAPPED_TEXT'
+
+
+    //  -------------(--------------- 
+    // (`wrapped^)                    
+
+
+
+(WRAPPED_TEXT)
+
+    (WRAPPED_TEXT) =
+
+    - (WRAPPED_TEXT) =
+
+    - (WRAPPED_TEXT)
+
+
+    //  -------------<--------------- 
+    // <`wrapped^>                    
+
+
+
+<WRAPPED_TEXT>
+
+<WRAPPED_TEXT> =
+
+- <WRAPPED_TEXT> =
+
+- <WRAPPED_TEXT>
+
+
+    //  -------------Author--------------- 
+    // `$author^                           
+
+
+
+drdr.xp
+
+drdr.xp =
+
+- drdr.xp =
+
+- drdr.xp
+
+
+    //  -------------Email--------------- 
+    // `$email^                           
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com =
+
+- drdr.xp@gmail.com =
+
+- drdr.xp@gmail.com
+
+
+    //  -------------File--------------- 
+    // `file()^                          
+
+
+
+test.page
+
+test.page =
+
+- test.page =
+
+- test.page
+
+
+    //  -------------[--------------- 
+    // [`wrapped^]                    
+
+
+
+[WRAPPED_TEXT]
+
+[WRAPPED_TEXT] =
+
+- [WRAPPED_TEXT] =
+
+- [WRAPPED_TEXT]
+
+
+    //  -------------`--------------- 
+    // \``wrapped^\`                  
+
+
+
+`WRAPPED_TEXT`
+
+`WRAPPED_TEXT` =
+
+- `WRAPPED_TEXT` =
+
+- `WRAPPED_TEXT`
+
+
+    //  -------------class---------------                          
+    // public class `className^ {                                  
+    //     public `className^(` `ctorParam` ^)`$FUNC_BRACKET_STL^{ 
+    //         `cursor^                                            
+    //     }                                                       
+    // }                                                           
+
+
+
+public class className {
+    public className( ctorParam ) {
+        
+    }
+}
+
+public class className_TYPED {
+    public className_TYPED( ctorParam_TYPED ) {
+        
+    }
+} =
+
+- public class className {
+    public className( ctorParam ) {
+        
+    }
+} =
+
+- public class className {
+    public className( ctorParam ) {
+        
+    }
+}
+
+
+    //  -------------comment--------------- 
+    // `$CL^ `cursor^ `$CR^                 
+
+
+
+/*  */
+
+/*  */ =
+
+- /*  */ =
+
+- /*  */
+
+
+    //  -------------commentBlock--------------- 
+    // `$CL^                                     
+    //  `$CM^ `cursor^                           
+    //  `$CR^                                    
+
+
+
+/* 
+ * 
+ */
+
+/* 
+ * 
+ */ =
+
+- /* 
+ * 
+ */ =
+
+- /* 
+ * 
+ */
+
+
+    //  -------------commentDoc--------------- 
+    // `$CL^`$CM^                              
+    //  `$CM^ `cursor^                         
+    //  `$CR^                                  
+
+
+
+/** 
+ * 
+ */
+
+/** 
+ * 
+ */ =
+
+- /** 
+ * 
+ */ =
+
+- /** 
+ * 
+ */
+
+
+    //  -------------commentLine--------------- 
+    // `$CL^ `cursor^ `$CR^                     
+
+
+
+/*  */
+
+/*  */ =
+
+- /*  */ =
+
+- /*  */
+
+
+    //  -------------comment_--------------- 
+    // `$CL^ `wrapped^ `$CR^                 
+
+
+
+/* WRAPPED_TEXT */
+
+/* WRAPPED_TEXT */ =
+
+- /* WRAPPED_TEXT */ =
+
+- /* WRAPPED_TEXT */
+
+
+    //  -------------do---------------           
+    // do`$WHILE_BRACKET_STL^{                   
+    //     `cursor^                              
+    // }`$WHILE_BRACKET_STL^while (`condition^); 
+
+
+
+do {
+    
+} while (condition);
+
+do {
+    
+} while (condition_TYPED); =
+
+- do {
+    
+} while (condition); =
+
+- do {
+    
+} while (condition);
+
+
+    //  -------------else--------------- 
+    // else`$IF_BRACKET_STL^{            
+    //     `cursor^                      
+    // }                                 
+
+
+
+else {
+    
+}
+
+else {
+    
+} =
+
+- else {
+    
+} =
+
+- else {
+    
+}
+
+
+    //  -------------else_--------------- 
+    // else`$IF_BRACKET_STL^{             
+    //     `wrapped^                      
+    // }                                  
+
+
+
+else {
+    WRAPPED_TEXT
+}
+
+else {
+    WRAPPED_TEXT
+} =
+
+- else {
+    WRAPPED_TEXT
+} =
+
+- else {
+    WRAPPED_TEXT
+}
+
+
+    //  -------------enum--------------- 
+    // `public^ enum `enumName^          
+    // {                                 
+    //     `elem^` `...^,                
+    //     `subElem^` `...^              
+    // };                                
+    // `cursor^                          
+
+
+
+public enum enumName
+{
+    elem,
+    subElem,
+    subElem
+};
+
+
+public_TYPED enum enumName_TYPED
+{
+    elem_TYPED _TYPED
+};
+ =
+
+ - public enum enumName
+ {
+     elem,
+     subElem,
+     subElem
+ };
+  =
+
+  - public enum enumName
+  {
+      elem,
+      subElem,
+      subElem
+  };
+  
+
+
+    //  -------------for---------------                             
+    // for (`int^ `i^ = `0^; `i^ < `len^; ++`i^) `$IF_BRACKET_STL^{ 
+    //     `cursor^                                                 
+    // }                                                            
+
+
+
+for (int i = 0; i < len; ++i)  {
+    
+}
+
+for (int_TYPED i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED)  {
+    
+} =
+
+- for (int i = 0; i < len; ++i)  {
+    
+} =
+
+- for (int i = 0; i < len; ++i)  {
+    
+}
+
+
+    //  -------------foreach---------------               
+    // for ( `type^ `var^ : `inWhat^ )`$FOR_BRACKET_STL^{ 
+    //     `cursor^                                       
+    // }                                                  
+
+
+
+for ( type var : inWhat ) {
+    
+}
+
+for ( type_TYPED var_TYPED : inWhat_TYPED ) {
+    
+} =
+
+- for ( type var : inWhat ) {
+    
+} =
+
+- for ( type var : inWhat ) {
+    
+}
+
+
+    //  -------------forever--------------- 
+    // for (;;) `body^                      
+
+
+
+for (;;) /* void */;
+
+for (;;) body_TYPED =
+
+- for (;;) /* void */; =
+
+- for (;;) /* void */;
+
+
+    //  -------------forr---------------                               
+    // for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^) `$IF_BRACKET_STL^{ 
+    //     `cursor^                                                    
+    // }                                                               
+
+
+
+for (int i = n; i >= end; --i)  {
+    
+}
+
+for (int_TYPED i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED)  {
+    
+} =
+
+- for (int i = n; i >= end; --i)  {
+    
+} =
+
+- for (int i = n; i >= end; --i)  {
+    
+}
+
+
+    //  -------------if---------------     
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+if (condition) { 
+    /* void */;
+} else { 
+    
+}
+
+if (condition_TYPED) { 
+    job_TYPED
+} else_TYPED =
+
+- if (condition) { 
+    /* void */;
+} else { 
+    
+} =
+
+- if (condition) { 
+    /* void */;
+} else { 
+    
+}
+
+
+    //  -------------if0---------------    
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+if (0 == var) { 
+    /* void */;
+} else { 
+    
+}
+
+if (0 == var_TYPED) { 
+    job_TYPED
+} else_TYPED =
+
+- if (0 == var) { 
+    /* void */;
+} else { 
+    
+} =
+
+- if (0 == var) { 
+    /* void */;
+} else { 
+    
+}
+
+
+    //  -------------if_---------------   
+    // if (`condition^)`$IF_BRACKET_STL^{ 
+    //     `wrapped^                      
+    // }                                  
+
+
+
+if (condition) {
+    WRAPPED_TEXT
+}
+
+if (condition_TYPED) {
+    WRAPPED_TEXT
+} =
+
+- if (condition) {
+    WRAPPED_TEXT
+} =
+
+- if (condition) {
+    WRAPPED_TEXT
+}
+
+
+    //  -------------ifee---------------  
+    // if (`condition^)`$IF_BRACKET_STL^{ 
+    //     `job^                          
+    // }` `else_if...^                    
+
+
+
+if (condition) {
+    /* void */;
+} else if (condition) {
+    /* void */;
+} else if (condition) {
+    /* void */;
+}
+
+if (condition_TYPED) {
+    job_TYPED
+} else_if_TYPED =
+
+- if (condition) {
+    /* void */;
+} else if (condition ) {
+    /* void */;
+} else if (condition ) {
+    /* void */;
+} =
+
+- if (condition) {
+    /* void */;
+} else if (condition) {
+    /* void */;
+} else if (condition) {
+    /* void */;
+}
+
+
+    //  -------------ifn---------------    
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+if (null == var) { 
+    /* void */;
+} else { 
+    
+}
+
+if (null == var_TYPED) { 
+    job_TYPED
+} else_TYPED =
+
+- if (null == var) { 
+    /* void */;
+} else { 
+    
+} =
+
+- if (null == var) { 
+    /* void */;
+} else { 
+    
+}
+
+
+    //  -------------ifn0---------------   
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+if (0 != var) { 
+    /* void */;
+} else { 
+    
+}
+
+if (0 != var_TYPED) { 
+    job_TYPED
+} else_TYPED =
+
+- if (0 != var) { 
+    /* void */;
+} else { 
+    
+} =
+
+- if (0 != var) { 
+    /* void */;
+} else { 
+    
+}
+
+
+    //  -------------ifnn---------------   
+    // if (`condition^)`$IF_BRACKET_STL^{  
+    //     `job^                           
+    // }` `else...^                        
+
+
+
+if (null != var) { 
+    /* void */;
+} else { 
+    
+}
+
+if (null != var_TYPED) { 
+    job_TYPED
+} else_TYPED =
+
+- if (null != var) { 
+    /* void */;
+} else { 
+    
+} =
+
+- if (null != var) { 
+    /* void */;
+} else { 
+    
+}
+
+
+    //  -------------main---------------                            
+    // public static void main( String[] args )`$FUNC_BRACKET_STL^{ 
+    //     `cursor^                                                 
+    // }                                                            
+
+
+
+public static void main( String[] args ) {
+    
+}
+
+public static void main( String[] args ) {
+    
+} =
+
+- public static void main( String[] args ) {
+    
+} =
+
+- public static void main( String[] args ) {
+    
+}
+
+
+    //  -------------private--------------- 
+    // private `type^ `varName^;            
+
+
+
+private type varName;
+
+private type_TYPED varName_TYPED; =
+
+- private type varName; =
+
+- private type varName;
+
+
+    //  -------------prop--------------- 
+    // `type^ `varName^;                 
+    //                                   
+    // `get...^                          
+    // `set...^                          
+
+
+
+type varName;
+
+public type getVarName()
+    { return varName; }
+
+public type setVarName( type val )
+    { varName = val; return varName; }
+
+
+    type_TYPED varName_TYPED;
+    
+    get_TYPED
+    set_TYPED =
+
+    - type varName;
+    
+    public type getVarName()
+        { return varName; }
+    
+    public type setVarName( type val )
+        { varName = val; return varName; }
+     =
+
+     - type varName;
+     
+     public type getVarName()
+         { return varName; }
+     
+     public type setVarName( type val )
+         { varName = val; return varName; }
+     
+
+
+    //  -------------protected--------------- 
+    // protected `type^ `varName^;            
+
+
+
+         protected type varName;
+
+         protected type_TYPED varName_TYPED; =
+
+         - protected type varName; =
+
+         - protected type varName;
+
+
+    //  -------------public--------------- 
+    // public `type^ `varName^;            
+
+
+
+         public type varName;
+
+         public type_TYPED varName_TYPED; =
+
+         - public type varName; =
+
+         - public type varName;
+
+
+    //  -------------switch--------------- 
+    // switch (`var^)`$IF_BRACKET_STL^{    
+    //     case `constant^ :               
+    //         `job^                       
+    //         break;                      
+    // `                                   
+    //     `case...`                       
+    // ^`                                  
+    //     `default...^                    
+    // }                                   
+
+
+
+         switch (var) {
+             case constant :
+                 /* void */;
+                 break;
+         
+             case constant :
+                 /* void */;
+                 break;
+         
+             case constant :
+                 /* void */;
+                 break;
+         
+             default:
+                 
+         }
+
+switch (var_TYPED) {
+    case constant_TYPED :
+        job_TYPED
+        break;
+
+    case_TYPED
+
+    default_TYPED
+} =
+
+- switch (var) {
+    case constant :
+        /* void */;
+        break;
+
+    case constant :
+        /* void */;
+        break;
+
+    case constant :
+        /* void */;
+        break;
+
+    default:
+        
+} =
+
+- switch (var) {
+    case constant :
+        /* void */;
+        break;
+
+    case constant :
+        /* void */;
+        break;
+
+    case constant :
+        /* void */;
+        break;
+
+    default:
+        
+}
+
+
+    //  -------------try--------------- 
+    // try                              
+    // {                                
+    //     `what^                       
+    // }` `catch...^                    
+    // `finally...^                     
+
+
+
+try
+{
+    what
+}
+catch (Exception e)
+{
+    /* handling */
+}
+catch (Exception e)
+{
+    /* handling */
+}
+finally
+{
+    
+}
+
+try
+{
+    what_TYPED
+} catch_TYPED
+finally_TYPED =
+
+- try
+{
+    what
+}
+catch (Exception e)
+{
+    /* handling */
+}
+catch (Exception e)
+{
+    /* handling */
+}
+finally
+{
+    
+} =
+
+- try
+{
+    what
+}
+catch (Exception e)
+{
+    /* handling */
+}
+catch (Exception e)
+{
+    /* handling */
+}
+finally
+{
+    
+}
+
+
+    //  -------------try_--------------- 
+    // try                               
+    // {                                 
+    //     `wrapped^                     
+    // }` `catch...^                     
+    // `finally...^                      
+
+
+
+try
+{
+    WRAPPED_TEXT
+}
+catch (Exception e)
+{
+    /* handling */
+}
+catch (Exception e)
+{
+    /* handling */
+}
+finally
+{
+    
+}
+
+try
+{
+    WRAPPED_TEXT
+} catch_TYPED
+finally_TYPED =
+
+- try
+{
+    WRAPPED_TEXT
+}
+catch (Exception e)
+{
+    /* handling */
+}
+catch (Exception e)
+{
+    /* handling */
+}
+finally
+{
+    
+} =
+
+- try
+{
+    WRAPPED_TEXT
+}
+catch (Exception e)
+{
+    /* handling */
+}
+catch (Exception e)
+{
+    /* handling */
+}
+finally
+{
+    
+}
+
+
+    //  -------------while---------------       
+    // while (`condition^)`$WHILE_BRACKET_STL^{ 
+    //     `cursor^                             
+    // }                                        
+
+
+
+while (condition) {
+    
+}
+
+while (condition_TYPED) {
+    
+} =
+
+- while (condition) {
+    
+} =
+
+- while (condition) {
+    
+}
+
+
+    //  -------------while0---------------       
+    // do`$WHILE_BRACKET_STL^{                   
+    //     `cursor^                              
+    // }`$WHILE_BRACKET_STL^while (`condition^); 
+
+
+
+do {
+    
+} while (false);
+
+do {
+    
+} while (false); =
+
+- do {
+    
+} while (false); =
+
+- do {
+    
+} while (false);
+
+
+    //  -------------while1---------------      
+    // while (`condition^)`$WHILE_BRACKET_STL^{ 
+    //     `cursor^                             
+    // }                                        
+
+
+
+while (true) {
+    
+}
+
+while (true) {
+    
+} =
+
+- while (true) {
+    
+} =
+
+- while (true) {
+    
+}
+
+
+    //  -------------whilenn---------------     
+    // while (`condition^)`$WHILE_BRACKET_STL^{ 
+    //     `cursor^                             
+    // }                                        
+
+
+
+while (null != var) {
+    
+}
+
+while (null != var_TYPED) {
+    
+} =
+
+- while (null != var) {
+    
+} =
+
+- while (null != var) {
+    
+}
+
+
+    //  -------------{--------------- 
+    // {`wrapped^}                    
+
+
+
+{WRAPPED_TEXT}
+
+{WRAPPED_TEXT} =
+
+- {WRAPPED_TEXT} =
+
+- {WRAPPED_TEXT}
+
