@@ -22,8 +22,6 @@
 "
 " V selection, wrapping snippet use no indent wrapping. //python:try_
 "
-" command V<C-\> generates a empty line in html
-"
 " wrapping snippet building wrapped content as placeholder!
 "
 " wrapping snippet clearing left-space should not start at line start
