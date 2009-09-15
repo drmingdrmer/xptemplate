@@ -59,8 +59,8 @@ done
 
 
 cd $DistDir
-addsvn
-rmsvn
+# addsvn
+# rmsvn
 svn ci -m "dist"
 
 
@@ -69,7 +69,7 @@ rm -rf xpt
 svn export dist xpt
 tar -czf xpt-$v.tgz xpt
 
-ls $DistDir-*.tgz
+ls xpt-*.tgz
 
 
 # vim: set ts=32 :
