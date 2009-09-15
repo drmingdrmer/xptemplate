@@ -57,16 +57,19 @@ for file in `ls plugin/`;do
   mv .tmp plugin/$file
 done
 
-cd -
+
+cd $DistDir
+addsvn
+rmsvn
+svn ci -m "dist"
+
 
 cd $ParentDir
+rm -rf xpt
 svn export dist xpt
-
 tar -czf xpt-$v.tgz xpt
 
-# rm -rdf $DistDir
-
-# ls $DistDir-*.tgz
+ls $DistDir-*.tgz
 
 
 # vim: set ts=32 :

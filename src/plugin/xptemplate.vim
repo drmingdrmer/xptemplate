@@ -20,7 +20,7 @@
 "
 " BUG: "{{{
 "
-" text auto-wrap(>80 char) makes xp-marks failed to update correctly
+" V selection, wrapping snippet use no indent wrapping. //python:try_
 "
 " command V<C-\> generates a empty line in html
 "
@@ -28,7 +28,7 @@
 "
 " wrapping snippet clearing left-space should not start at line start
 "
-" V selection, wrapping snippet use no indent wrapping. //python:try_
+" text auto-wrap(>80 char) makes xp-marks failed to update correctly
 "
 " "}}}
 "
@@ -531,17 +531,27 @@ fun! XPTemplatePreWrap(wrap) "{{{
     let x = g:XPTobject()
     let x.wrap = a:wrap
 
-    if x.wrap[-1:-1] == "\n"
-        let x.wrap = x.wrap[0:-2]
-        " TODO use XPreplace
-        let @" = "\n"
-        normal! ""P
-    endif
+    " if x.wrap[-1:-1] == "\n"
+        " let x.wrap = x.wrap[0:-2]
+        " " TODO use XPreplace
+        " let @" = "\n"
+        " normal! ""P
+    " endif
+
+    " TODO is that ok?
+    let x.wrap = substitute( x.wrap, '\n$', '', '' )
 
     let x.wrapStartPos = col(".")
 
-    if g:xptemplate_strip_left
-        let x.wrap = substitute(x.wrap, '^\s*', '', '')
+    if g:xptemplate_strip_left || x.wrap =~ '\n'
+        let indent = matchstr( x.wrap, '^\s*' )
+        let x.wrap = x.wrap[ len( indent ) : ]
+
+
+        let x.wrap = s:BuildFilterIndent( x.wrap, len( indent ) )
+        let x.wrap = 'Next(' . string( x.wrap ) . ')'
+
+        call s:log.Log( 'wrapped=' . x.wrap )
     endif
 
     let ppr = s:Popup("", x.wrapStartPos)
@@ -1079,12 +1089,19 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
 
     " Note: simple implementation of wrapping, the better way is by default value
     " TODO use default value!
-    let wrapPos = match( tmpl, xp.lft . s:wrappedName . xp.rt )
-    if wrapPos != -1
-        let indent = matchstr( tmpl[ : wrapPos - 1 ], '\V\.\*\%(\^\|\n\)\zs\s\*' )
-        let wrapped = substitute( x.wrap, '\n', "\n" . indent, 'g' )
-        let tmpl = substitute(tmpl, '\V' . xp.lft . s:wrappedName . xp.rt, wrapped, 'g')
+
+
+    if ctx.tmpl.wrapped
+        let ctx.tmpl.setting.defaultValues.wrapped = x.wrap
     endif
+
+
+    " let wrapPos = match( tmpl, xp.lft . s:wrappedName . xp.rt )
+    " if wrapPos != -1
+        " let indent = matchstr( tmpl[ : wrapPos - 1 ], '\V\.\*\%(\^\|\n\)\zs\s\*' )
+        " let wrapped = substitute( x.wrap, '\n', "\n" . indent, 'g' )
+        " let tmpl = substitute(tmpl, '\V' . xp.lft . s:wrappedName . xp.rt, wrapped, 'g')
+    " endif
 
 
 
@@ -1216,32 +1233,37 @@ fun! s:GetValueInfo(end) "{{{
 endfunction "}}}
 
 fun! s:BuildFilterIndent( str, firstLineIndent ) "{{{
-    let min = a:firstLineIndent
+    let [ nIndent, str ] = s:RemoveCommonIndent( a:str, a:firstLineIndent )
+    return repeat( ' ', a:firstLineIndent - nIndent ) . "\n" . str
+endfunction "}}}
+
+fun! s:RemoveCommonIndent( str, largerThan ) "{{{
+    " return : [ length of indent removed, result string ] 
+    "
+    let min = a:largerThan
+
+    call s:log.Log( 'str='.a:str )
+    call s:log.Log( 'largerThan='.a:largerThan )
 
     " protect the first and last line break
     let list = split( a:str, "\n", 1 )
+    call filter( list, 'v:val !~ ''^\s*$''' )
+
+    call s:log.Log( 'list=' . string( list ) )
 
     " from the 2nd line, to the last 2nd line
     for line in list[ 1 : ]
-
         let indentWidth = len( matchstr( line, '^\s*' ) )
-
-        call s:log.Log("indent width:".indentWidth." line=".line)
         let min = min( [ min, indentWidth ] )
     endfor
 
-    call s:log.Debug( 'build indent for ' . a:str )
-
-    call s:log.Log("minimal indent:".min)
 
     " *) The minimal indent at start of line is removed
     " *) The indent of the line filter start is also recorded.
     "   Thus relative indent is recorded.
     let pattern = '\n\s\{' . min . '}'
 
-    call s:log.Debug( 'firstLineIndent=' . a:firstLineIndent )
-
-    return repeat( ' ', a:firstLineIndent - min ) . "\n" . substitute( a:str, pattern, "\n", 'g' )
+    return [min, substitute( a:str, pattern, "\n", 'g' )]
 endfunction "}}}
 
 " XSET name|def=
@@ -1324,22 +1346,6 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
     return placeHolder
 
 endfunction "}}}
-
-
-" fun! g:xptutil.UnescapeChar( str, chars )
-    " " unescape only chars started with several '\' 
-" 
-    " " remove all '\'.
-    " let chars = substitute( a:chars, '\\', '', 'g' )
-" 
-    " 
-    " let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]' ) . ']\)'
-    " call s:log.Log( 'to unescape pattern='.pattern )
-    " let unescaped = substitute( a:str, pattern, '\1\2', 'g' )
-    " call s:log.Log( 'unescaped ='.unescaped )
-    " return unescaped
-" endfunction
-
 
 
 " TODO move me to where I should be
@@ -1493,15 +1499,6 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
 
     let [ start, end ] = XPMposList( a:markRange.start, a:markRange.end )
-    " let content = s:TextBetween( start, end )
-    " let contentUnescpaed = g:xptutil.UnescapeChar( content, xp.l . xp.r )
-
-    " if content !=# contentUnescpaed
-" 
-        " call XPRstartSession()
-        " call XPreplaceByMarkInternal( a:markRange.start, a:markRange.end, contentUnescpaed )
-        " call XPRendSession()
-    " endif
 
 
     let renderContext.action = 'build'
@@ -2179,66 +2176,6 @@ fun! s:GotoNextItem() "{{{
 
 endfunction "}}}
 
-" fun! s:Format(range) "{{{
-" 
-    " " TODO 
-    " return
-" 
-" 
-" 
-    " let x = g:XPTobject()
-    " let ctx = x.renderContext
-" 
-    " if ctx.tmpl.indent.type !=# "auto"
-        " return
-    " endif
-" 
-    " call s:PushBackPos()
-" 
-    " let pt = s:TL()
-    " let pt[1] = pt[1] - len(getline(pt[0]))
-" 
-" 
-" 
-" 
-    " if ctx.processing && ctx.pos.curpos != {}
-        " let pi = ctx.pos.editpos.start.pos
-        " let pi[1] = pi[1] - len(getline(pi[0]))
-" 
-        " let pc = s:CTL(x)
-        " let pc[1] = pc[1] - len(getline(pc[0]))
-        " " let bf = matchstr(x.renderContext.lastBefore, s:stripPtn)
-    " endif
-" 
-    " if a:range == 1
-        " call s:log.Log("template before last format:", s:TextBetween(s:TL(), s:BR()))
-        " call s:log.Log("template range : ".string([s:TL(), s:BR()]))
-        " " call s:log.Log("current syntax:".string(SynNameStack(3, 1)))
-        " call s:TmplRange()
-        " normal! gv=
-    " elseif a:range == 2
-        " call s:TopTmplRange()
-        " normal! gv=
-    " else
-        " normal! ==
-    " endif
-    " call s:log.Log("template after last format:", s:TextBetween(s:TL(), s:BR()))
-" 
-" 
-    " if ctx.processing && ctx.pos.curpos != {}
-        " call ctx.pos.editpos.start.set( pi[0], max([pi[1] + len(getline(pi[0])), 1]))
-        " " let x.renderContext.pos.curpos.l = max([pc[1] + len(getline(pc[0])), 1])
-        " " let x.renderContext.lastBefore = matchstr(getline(pc[0]), '\V\^\s\*'.escape(bf, '\'))
-        " " call s:log.Log("bf is:" . bf)
-        " call s:log.Log("current line:".getline(pc[0]))
-        " " call s:log.Log("lastBefore after format:".x.renderContext.lastBefore)
-    " endif
-" 
-" 
-    " call s:PopBackPos()
-    " " call cursor(p[0], p[1] + len(getline(".")))
-" 
-" endfunction "}}}
 
 fun! s:TL(...)
     return XPMpos( g:XPTobject().renderContext.marks.tmpl.start )
@@ -2337,6 +2274,16 @@ fun! s:HandleDefaultValueAction( ctx, act ) "{{{
             " Note: update following?
             if has_key( a:act, 'text' )
                 let text = has_key( a:act, 'text' ) ? a:act.text : ''
+                if text != ''
+                    let [ filterIndent, filterText ] = s:GetFilterIndentAndText( text )
+                    let leader = ctx.leadingPlaceHolder
+                    let marks = leader.isKey ? leader.editMark : leader.mark
+
+                    let text = s:AdjustIndentAccordingToLine( filterText, filterIndent, XPMpos( marks.start )[0], leader )
+                endif
+
+
+
                 call s:FillinLeadingPlaceHolderAndSelect( ctx, text )
             endif
 
