@@ -37,7 +37,7 @@ endfunction
 
 
 let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'debug' )
 
 fun! XPRstartSession() "{{{
     if exists( 'b:_xpr_session' )
@@ -209,7 +209,7 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
         " to spaces
         call cursor( a:start[0], a:start[1] - 1 )
         let char = getline( "." )[ -1:-1 ]
-        let @" = char . a:replacement
+        let @" = char . a:replacement . ';'
         call s:log.Debug( 'at last , to append=' . @" )
         silent! normal! ""P
 
@@ -236,7 +236,8 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
 
     " remove ';'
     if ifPasteAtEnd
-        call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 )
+        " last char of line start replacing, and ';'
+        call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - 1 )
 
         " if appending is occur at end of line, delete all following.
         " 'x' command expands tab and delete only 1 char

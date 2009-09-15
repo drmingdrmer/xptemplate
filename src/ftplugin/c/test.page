@@ -784,7 +784,7 @@ a test.page
  *
  * <b>function</b>
  * @version : 1.0
- * @since : 2009 Sep 15
+ * @since : 2009 Sep 16
  * 
  * @description :
  *     
@@ -801,7 +801,7 @@ a test.page
  *
  * <b>function_TYPED</b>
  * @version : 10_TYPED
- * @since : 2009 Sep 15
+ * @since : 2009 Sep 16
  * 
  * @description :
  *     
@@ -818,7 +818,7 @@ a test.page
   *
   * <b>function</b>
   * @version : 1.0
-  * @since : 2009 Sep 15
+  * @since : 2009 Sep 16
   * 
   * @description :
   *     
@@ -835,7 +835,7 @@ a test.page
    *
    * <b>function</b>
    * @version : 1.0
-   * @since : 2009 Sep 15
+   * @since : 2009 Sep 16
    * 
    * @description :
    *     

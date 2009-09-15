@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.3.9.1
+" VERSION: 0.3.9.2
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
@@ -19,8 +19,6 @@
 " "}}}
 "
 " BUG: "{{{
-"
-" V selection, wrapping snippet use no indent wrapping. //python:try_
 "
 " wrapping snippet building wrapped content as placeholder!
 "
@@ -547,7 +545,7 @@ fun! XPTemplatePreWrap(wrap) "{{{
 
 
         let x.wrap = s:BuildFilterIndent( x.wrap, len( indent ) )
-        let x.wrap = 'Next(' . string( x.wrap ) . ')'
+        let x.wrap = 'Echo(' . string( x.wrap ) . ')'
 
         call s:log.Log( 'wrapped=' . x.wrap )
     endif
@@ -1090,7 +1088,8 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
 
 
     if ctx.tmpl.wrapped
-        let ctx.tmpl.setting.defaultValues.wrapped = x.wrap
+        let ctx.tmpl.setting.preValues.wrapped = x.wrap
+        let ctx.tmpl.setting.defaultValues.wrapped = "Next()"
     endif
 
 
@@ -1687,6 +1686,7 @@ fun! s:ApplyPreValues( placeHolder )
                 \ (has_key( setting.preValues, a:placeHolder.name ) ? setting.preValues[ a:placeHolder.name ] : '')
 
     if !s:IsFilterEmpty( preValue ) 
+        let preValue = s:Eval( preValue )
         let [ filterIndent, filterText ] = s:GetFilterIndentAndText( preValue )
         call s:SetPreValue( a:placeHolder, filterIndent, filterText )
 
@@ -1696,8 +1696,10 @@ fun! s:ApplyPreValues( placeHolder )
                     \: a:placeHolder.ontimeFilter
 
         if !s:IsFilterEmpty( preValue ) 
-            let [ filterIndent, filterText ] = s:GetFilterIndentAndText( preValue )
-            if filterText !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
+            if preValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
+                let text = s:Eval( preValue )
+
+                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( text )
                 call s:SetPreValue( a:placeHolder, filterIndent, filterText )
             endif
         endif
@@ -1707,10 +1709,10 @@ endfunction
 
 
 fun! s:SetPreValue( placeHolder, indent, text )
-    let text = s:Eval( a:text )
 
     let marks = a:placeHolder.isKey ? a:placeHolder.editMark : a:placeHolder.mark
-    let text = s:AdjustIndentAccordingToLine( text, a:indent, XPMpos( marks.start )[0], a:placeHolder )
+    let text = s:AdjustIndentAccordingToLine( a:text, a:indent, XPMpos( marks.start )[0], a:placeHolder )
+    call s:log.Log( 'preValue=' . text )
     call XPRstartSession()
     call XPreplaceByMarkInternal( marks.start, marks.end, text )
     call XPRendSession()
