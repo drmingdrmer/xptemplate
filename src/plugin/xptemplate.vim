@@ -3094,16 +3094,23 @@ endfunction "}}}
 
 
 fun! s:SynNameStack(l, c) "{{{
-    let ids = synstack(a:l, a:c)
-    if empty(ids)
-        return []
-    endif
+    if exists( '*synstack' )
+        let ids = synstack(a:l, a:c)
 
-    let names = []
-    for id in ids
-        let names = names + [synIDattr(id, "name")]
-    endfor
-    return names
+        if empty(ids)
+            return []
+        endif
+
+        let names = []
+        for id in ids
+            let names = names + [synIDattr(id, "name")]
+        endfor
+        return names
+
+    else
+        return synIDattr( synID( a:l, a:c ), "name" )
+
+    endif
 endfunction "}}}
 
 fun! s:CurSynNameStack() "{{{

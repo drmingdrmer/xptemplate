@@ -239,24 +239,6 @@ fun! s:f.UE(string) dict
 endfunction
 
 
-" Short name is not good. Some alias to those short name functions are
-" made, with a meaningful names.
-" 
-" They all start with prefix 'xpt'
-"
-
-let s:f.ItemName = s:f.N
-let s:f.ItemFullname = s:f.NN
-let s:f.ItemEdges = s:f.Edges
-let s:f.ItemValue = s:f.V
-let s:f.ItemStrippedValue = s:f.V0
-" s:f.E
-let s:f.Context = s:f.C
-" s:f.S 
-let s:f.SubstituteWithValue = s:f.SV
-let s:f.Reference = s:f.R
-let s:f.Void = s:f.VOID
-let s:f.UnescapeMarks = s:f.UE
 
 
 
@@ -359,6 +341,31 @@ fun! s:f.ExpandIfNotEmpty( sep, item, ... ) "{{{
 
   return t
 endfunction "}}}
+
+
+
+
+
+
+" Short name is not good. Some alias to those short name functions are
+" made, with a meaningful names.
+" 
+" They all start with prefix 'xpt'
+"
+
+let s:f.Edges = s:f.ItemEdges
+
+let s:f.ItemName = s:f.N
+let s:f.ItemFullname = s:f.NN
+let s:f.ItemValue = s:f.V
+let s:f.ItemStrippedValue = s:f.V0
+" s:f.E
+let s:f.Context = s:f.C
+" s:f.S 
+let s:f.SubstituteWithValue = s:f.SV
+let s:f.Reference = s:f.R
+let s:f.Void = s:f.VOID
+let s:f.UnescapeMarks = s:f.UE
 
 " ================================= Snippets ===================================
 call XPTemplateMark('`', '^')

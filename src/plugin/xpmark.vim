@@ -2,6 +2,7 @@ if exists("g:__XPMARK_VIM__")
     finish
 endif
 let g:__XPMARK_VIM__ = 1
+ 
 
 
 com! XPMgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
@@ -315,7 +316,8 @@ fun! s:snapshot() dict "{{{
         if has_key( self.markHistory, n-2 )
             let self.markHistory[ n-1 ] = self.markHistory[ n-2 ]
         else
-            throw 'no history nr:' . ( n-1 ) . ' lastNr:' . self.lastChangenr . ' history:' . string( self.markHistory )
+            self.markHistory[ n-1 ] = {'list':[], 'dict' :{}}
+            " throw 'no history nr:' . ( n-1 ) . ' lastNr:' . self.lastChangenr . ' history:' . string( self.markHistory )
         endif
     endif
 
