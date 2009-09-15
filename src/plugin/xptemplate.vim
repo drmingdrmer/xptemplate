@@ -3108,7 +3108,7 @@ fun! s:SynNameStack(l, c) "{{{
         return names
 
     else
-        return synIDattr( synID( a:l, a:c ), "name" )
+        return [synIDattr( synID( a:l, a:c ), "name" )]
 
     endif
 endfunction "}}}
