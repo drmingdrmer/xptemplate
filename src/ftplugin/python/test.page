@@ -1,8 +1,8 @@
 
 
 
-    #  -------------"--------------- 
-    # "`wrapped^"                    
+    #  -------------"_--------------- 
+    # "`wrapped^"                     
 
 
 
@@ -19,8 +19,8 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
-    #  -------------'--------------- 
-    # '`wrapped^'                    
+    #  -------------'_--------------- 
+    # '`wrapped^'                     
 
 
 
@@ -37,8 +37,8 @@ a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
-    #  -------------(--------------- 
-    # (`wrapped^)                    
+    #  -------------(_--------------- 
+    # (`wrapped^)                     
 
 
 
@@ -55,8 +55,8 @@ a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
-    #  -------------<--------------- 
-    # <`wrapped^>                    
+    #  -------------<_--------------- 
+    # <`wrapped^>                     
 
 
 
@@ -115,8 +115,8 @@ a test.page b
 a test.page
 
 
-    #  -------------[--------------- 
-    # [`wrapped^]                    
+    #  -------------[_--------------- 
+    # [`wrapped^]                     
 
 
 
@@ -133,8 +133,8 @@ a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
-    #  -------------`--------------- 
-    # \``wrapped^\`                  
+    #  -------------`_--------------- 
+    # \``wrapped^\`                   
 
 
 
@@ -184,7 +184,7 @@ a class className :
 def fun_name(  ):
     
 
-    def fun_name_TYPED( para_TYPED, para_TYPED ):
+    def fun_name_TYPED( para_TYPED, para_TYPED, para_TYPED ):
          b
 
 a def fun_name(  ):
@@ -227,6 +227,8 @@ elif cond2:
     # nothing
 elif cond2:
     # nothing
+elif cond2:
+    # nothing
 else:
     
 
@@ -241,10 +243,14 @@ elif cond2:
     # nothing
 elif cond2:
     # nothing
+elif cond2:
+    # nothing
 else:
      b
 
 a if cond:
+    # nothing
+elif cond2:
     # nothing
 elif cond2:
     # nothing
@@ -306,6 +312,8 @@ except except:
     handler
 except except:
     handler
+except except:
+    handler
 else:
     job
 finally:
@@ -327,6 +335,8 @@ except except:
     handler
 except except:
     handler
+except except:
+    handler
 else:
     job
 finally:
@@ -334,6 +344,8 @@ finally:
 
 a try:
     what
+except except:
+    handler
 except except:
     handler
 except except:
@@ -367,6 +379,8 @@ except exc:
     handle
 except exc:
     handle
+except exc:
+    handle
 else:
     
 finally:
@@ -389,6 +403,8 @@ except exc:
     handle
 except exc:
     handle
+except exc:
+    handle
 else:
     
 finally:
@@ -403,14 +419,16 @@ except exc:
     handle
 except exc:
     handle
+except exc:
+    handle
 else:
     
 finally:
    
 
 
-    #  -------------{--------------- 
-    # {`wrapped^}                    
+    #  -------------{_--------------- 
+    # {`wrapped^}                     
 
 
 
