@@ -185,7 +185,7 @@ fun! s:snapshot() dict
         if has_key( self.markHistory, n-2 )
             let self.markHistory[ n-1 ] = self.markHistory[ n-2 ]
         else
-            throw 'no history nr:' . ( n-1 ) . ' lastNr:' . self.lastChangenr . ' history:' . string( self.markHistory )
+            self.markHistory[ n-1 ] = {'list':[], 'dict' :{}}
         endif
     endif
     Assert has_key( self.markHistory, n-1 )

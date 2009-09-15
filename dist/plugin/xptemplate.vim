@@ -1631,15 +1631,19 @@ fun! s:PopBackPos()
     return p
 endfunction 
 fun! s:SynNameStack(l, c) 
-    let ids = synstack(a:l, a:c)
-    if empty(ids)
-        return []
+    if exists( '*synstack' )
+        let ids = synstack(a:l, a:c)
+        if empty(ids)
+            return []
+        endif
+        let names = []
+        for id in ids
+            let names = names + [synIDattr(id, "name")]
+        endfor
+        return names
+    else
+        return [synIDattr( synID( a:l, a:c, 0 ), "name" )]
     endif
-    let names = []
-    for id in ids
-        let names = names + [synIDattr(id, "name")]
-    endfor
-    return names
 endfunction 
 fun! s:CurSynNameStack() 
     return SynNameStack(line("."), col("."))
