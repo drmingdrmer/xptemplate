@@ -216,6 +216,6 @@ XSET n=1
 
 
 XPT a_ hint=<a\ href="">\ SEL\ </a>
-<a href="">`wrapped^</a>
+<a href="`^">`wrapped^</a>
 
 

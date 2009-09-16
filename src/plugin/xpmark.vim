@@ -92,6 +92,8 @@ fun! XPMflush() "{{{
     let d.marks = {}
     let d.orderedMarks = []
     let d.markHistory[ changenr() ] = { 'dict' : d.marks, 'list': d.orderedMarks }
+    let d.changeLikelyBetween  = { 'start' : '', 'end' : '' }
+
 endfunction "}}}
 
 fun! XPMgoto( name ) "{{{

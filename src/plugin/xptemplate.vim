@@ -20,10 +20,6 @@
 "
 " BUG: "{{{
 "
-" wrapping snippet building wrapped content as placeholder!
-"
-" wrapping snippet clearing left-space should not start at line start
-"
 " text auto-wrap(>80 char) makes xp-marks failed to update correctly
 "
 " "}}}
@@ -49,7 +45,6 @@
 " TODO buffer/snippet scope template setting.
 " TODO simple place holder : just a postion waiting for user input
 " TODO undo
-" TODO test more : char before snippet, char after, last cursor position,
 " TODO wrapping on different visual mode
 " TODO prefixed template trigger
 " TODO class-style
@@ -2132,8 +2127,8 @@ fun! s:GotoNextItem() "{{{
     let phPos = XPMpos( placeHolder.mark.start )
     if phPos == [0, 0]
         " error found no position of mark
-        call s:log.Error( 'failed to find position of mark:' . placeHolder.mark.start )
-        return s:Crash()
+        " call s:log.Error( 'failed to find position of mark:' . placeHolder.mark.start )
+        return s:Crash('failed to find position of mark:' . placeHolder.mark.start)
     endif
 
     call s:log.Log( "all marks:" . XPMallMark() )
