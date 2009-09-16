@@ -215,47 +215,47 @@ a for vars in range(0):
 
     #  -------------if--------------- 
     # if `cond^:                      
-    #     `job^                       
+    #     `pass^                      
     # ``elif...`                      
     # ^`else...^                      
 
 
 
 if cond:
-    # nothing
+    pass
 elif cond2:
-    # nothing
+    pass
 elif cond2:
-    # nothing
+    pass
 elif cond2:
-    # nothing
+    pass
 else:
     
 
     if cond_TYPED:
-        job_TYPED
+        pass_TYPED
     elif_TYPED
 else_TYPED b
 
 a if cond:
-    # nothing
+    pass
 elif cond2:
-    # nothing
+    pass
 elif cond2:
-    # nothing
+    pass
 elif cond2:
-    # nothing
+    pass
 else:
      b
 
 a if cond:
-    # nothing
+    pass
 elif cond2:
-    # nothing
+    pass
 elif cond2:
-    # nothing
+    pass
 elif cond2:
-    # nothing
+    pass
 else:
     
 
@@ -305,17 +305,17 @@ a (lambda args : expr)
 
 
 try:
-    what
+    # nothing
 except except:
     handler
 except except:
-    handler
+    pass
 except except:
-    handler
+    pass
 except except:
-    handler
+    pass
 else:
-    job
+    pass
 finally:
     
 
@@ -328,32 +328,32 @@ else_TYPED
     finally_TYPED b
 
 a try:
-    what
+    # nothing
 except except:
     handler
 except except:
-    handler
+    pass
 except except:
-    handler
+    pass
 except except:
-    handler
+    pass
 else:
-    job
+    pass
 finally:
      b
 
 a try:
-    what
+    # nothing
 except except:
     handler
 except except:
-    handler
+    pass
 except except:
-    handler
+    pass
 except except:
-    handler
+    pass
 else:
-    job
+    pass
 finally:
     
 
@@ -362,11 +362,10 @@ finally:
     # try:                              
     #     `wrapped^                     
     # except `except^:                  
-    #     `handler^`...^                
-    # except `exc^:                     
-    #     `handle^`...^                 
-    # `else...^                         
-    # `finally...^                      
+    #     `pass^                        
+    # ``more_except...`                 
+    # ^``else...`                       
+    # ^`finally...^                     
 
 
 
@@ -374,57 +373,58 @@ try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 except except:
-    handler
-except exc:
-    handle
-except exc:
-    handle
-except exc:
-    handle
+    pass
+except except:
+    pass
+except except:
+    pass
+except except:
+    pass
 else:
-    
+    pass
 finally:
-   
+    
 
     try:
         WRAPPED_TEXT
             WRAPPED_TEXT_line2
     except except_TYPED:
-        handler_TYPED_TYPED
-    else_TYPED
+        pass_TYPED
+    more_except_TYPED
+else_TYPED
     finally_TYPEDb
 
 a try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 except except:
-    handler
-except exc:
-    handle
-except exc:
-    handle
-except exc:
-    handle
+    pass
+except except:
+    pass
+except except:
+    pass
+except except:
+    pass
 else:
-    
+    pass
 finally:
-   b
+    b
 
 a try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 except except:
-    handler
-except exc:
-    handle
-except exc:
-    handle
-except exc:
-    handle
+    pass
+except except:
+    pass
+except except:
+    pass
+except except:
+    pass
 else:
-    
+    pass
 finally:
-   
+    
 
 
     #  -------------{_--------------- 
