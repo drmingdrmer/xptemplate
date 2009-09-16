@@ -24,12 +24,11 @@ XPTemplateDef
 
 
 XPT if hint=if\ ..:\ ..\ else...
-XSET job=$VOID_LINE
 if `cond^:
-    `job^
+    `pass^
 ``elif...`
 {{^elif `cond2^:
-    `job^
+    `pass^
 ``elif...`
 ^`}}^`else...{{^else:
     `cursor^`}}^
@@ -51,6 +50,7 @@ XPT lambda hint=(labmda\ ..\ :\ ..)
 
 
 XPT try hint=try:\ ..\ except:\ ...
+XSET what=$VOID_LINE
 try:
     `what^
 except `except^:
@@ -60,13 +60,13 @@ except `except^:
 ^`finally...^
 XSETm more_except...|post
 except `except^:
-    `handler^
+    `pass^
 ``more_except...`
 ^
 XSETm END
 XSETm else...|post
 else:
-    ``job`
+    ``pass`
 ^
 XSETm END
 XSETm finally...|post
@@ -89,15 +89,26 @@ if __name__ == "__main__" :
 " ================================= Wrapper ===================================
 
 
-XPT try_ hint=try:\ SEL\ except...
+XPT try_ hint=try:\ ..\ except:\ ...
 try:
     `wrapped^
 except `except^:
-    `handler^`...^
-except `exc^:
-    `handle^`...^
-`else...{{^else:
-    `^`}}^
-`finally...{{^finally:
-   `^`}}^
-
+    `pass^
+``more_except...`
+^``else...`
+^`finally...^
+XSETm more_except...|post
+except `except^:
+    `pass^
+``more_except...`
+^
+XSETm END
+XSETm else...|post
+else:
+    ``pass`
+^
+XSETm END
+XSETm finally...|post
+finally:
+    `cursor^
+XSETm END

@@ -14,6 +14,7 @@ fun! TestXPR()
     call XPMremove( 'b' )
 endfunction
 let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
 fun! XPRstartSession() 
     if exists( 'b:_xpr_session' )
         return
@@ -78,7 +79,7 @@ fun! XPreplaceInternal(start, end, replacement, option)
     if ifPasteAtEnd
         call cursor( a:start[0], a:start[1] - 1 )
         let char = getline( "." )[ -1:-1 ]
-        let @" = char . a:replacement
+        let @" = char . a:replacement . ';'
         silent! normal! ""P
     else
         silent! normal! ""P
@@ -90,7 +91,7 @@ fun! XPreplaceInternal(start, end, replacement, option)
     call cursor(positionAfterReplacement)
     silent! '',.foldopen!
     if ifPasteAtEnd
-        call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 )
+        call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - 1 )
         silent! normal! DzO
     else
         call cursor( positionAfterReplacement )
