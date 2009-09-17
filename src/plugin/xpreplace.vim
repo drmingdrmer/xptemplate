@@ -308,17 +308,19 @@ fun! XPRremovePostJob( functionName ) "{{{
 endfunction "}}}
 
 fun! s:doPreJob( start, end, replacement ) "{{{
-    for F in values( s:_xpreplace.pre )
-        call s:log.Debug( 'XPreplace pre job:' . string( F ) )
-        call F( a:start, a:end )
+    let d = { 'f' : '' }
+    for d.f in values( s:_xpreplace.pre )
+        call s:log.Debug( 'XPreplace pre job:' . string( d.f ) )
+        call d.f( a:start, a:end )
     endfor
     
 endfunction "}}}
 
 fun! s:doPostJob( start, end, replacement ) "{{{
-    for F in values( s:_xpreplace.post )
-        call s:log.Debug( 'XPreplace post job:' . string( F ) )
-        call F( a:start, a:end )
+    let d = { 'f' : '' }
+    for d.f in values( s:_xpreplace.post )
+        call s:log.Debug( 'XPreplace post job:' . string( d.f ) )
+        call d.f( a:start, a:end )
     endfor
     
 endfunction "}}}
