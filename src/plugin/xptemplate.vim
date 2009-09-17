@@ -748,8 +748,7 @@ fun! s:FinishRendering(...) "{{{
     let x = g:XPTobject()
     let renderContext = s:getRenderContext()
     let xp = renderContext.tmpl.ptn
-
-
+    
     match none
 
     " let l = line(".")
@@ -773,6 +772,10 @@ fun! s:FinishRendering(...) "{{{
         let renderContext.processing = 0
         let renderContext.phase = 'finished'
         call s:ClearMap()
+
+
+        call feedkeys( "\<C-o>:echoe ''\<cr>", 'nt' )
+
         return ''
         " return '' . g:xpt_post_action
     else
@@ -1890,7 +1893,9 @@ fun! s:FinishCurrentAndGotoNextItem(action) " {{{
     call s:removeCurrentMarks()
 
 
-    return s:GotoNextItem()
+    let postaction =  s:GotoNextItem()
+
+    return postaction
 
 endfunction " }}}
 
