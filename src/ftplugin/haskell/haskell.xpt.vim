@@ -21,6 +21,11 @@ XPTinclude
 XPTemplateDef
 
 
+XPT head hint=-----------------------------
+--------------------------------------------------
+----            `headName~
+--------------------------------------------------
+
 XPT class hint=class\ ..\ where..
 class `context...{{~(`ctxt~) => `}}~`className~ `types~a~ where
     `ar~ :: `type~ `...~
