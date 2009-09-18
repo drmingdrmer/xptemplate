@@ -148,9 +148,9 @@ fun! s:NewTestFile(ft) "{{{
 endfunction "}}}
 
 fun! XPTtestSort(a, b) "{{{
-    if a:a.name == a:b.name
+    if a:a.name ==? a:b.name
         return 0
-    elseif a:a.name < a:b.name
+    elseif a:a.name <? a:b.name
         return -1
     else
         return 1
