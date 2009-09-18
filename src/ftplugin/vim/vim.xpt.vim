@@ -8,7 +8,7 @@ XPTvar $FALSE         0
 XPTinclude 
       \ _common/common
 
-XPTvar $CS    #
+XPTvar $CS    "
 XPTinclude 
       \ _comment/singleSign
 
