@@ -143,6 +143,7 @@ fun! s:XPTemplateParseSnippet(lines)
             endif
         endif
     endfor
+    call s:ConvertIndent( lines )
     let start = 1
     let len = len( lines )
     while start < len
@@ -167,6 +168,24 @@ fun! s:XPTemplateParseSnippet(lines)
     else
         call XPTemplate(snippetName, setting, snippetLines)
     endif
+endfunction 
+fun! s:ConvertIndent( snipLines ) 
+    let sts = &l:softtabstop
+    let ts  = &l:tabstop
+    let usingTab = !&l:expandtab
+    let bufIndent = repeat( ' ', sts )
+    let tabspaces = repeat( ' ', ts )
+    let i = 0
+    for line in a:snipLines
+        let spaces = matchstr( line, '^\(    \)*' )
+        let left = line[ len( spaces ) : ]
+        let space = repeat( bufIndent, len(spaces) / 4 )
+        if usingTab 
+            let space = substitute( space, tabspaces, '	', 'g' )
+        endif
+        let a:snipLines[ i ] = space . left
+        let i += 1
+    endfor
 endfunction 
 fun! s:getXSETkeyAndValue(lines, start) 
     let start = a:start

@@ -988,7 +988,8 @@ fun! s:FinishCurrentAndGotoNextItem(action)
         let renderContext.namedStep[renderContext.item.name] = post
     endif
     call s:removeCurrentMarks()
-    return s:GotoNextItem()
+    let postaction =  s:GotoNextItem()
+    return postaction
 endfunction 
 fun! s:removeCurrentMarks()
     let renderContext = s:getRenderContext()

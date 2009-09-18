@@ -134,12 +134,14 @@ fun! XPRremovePostJob( functionName )
     endif
 endfunction 
 fun! s:doPreJob( start, end, replacement ) 
-    for F in values( s:_xpreplace.pre )
-        call F( a:start, a:end )
+    let d = { 'f' : '' }
+    for d.f in values( s:_xpreplace.pre )
+        call d.f( a:start, a:end )
     endfor
 endfunction 
 fun! s:doPostJob( start, end, replacement ) 
-    for F in values( s:_xpreplace.post )
-        call F( a:start, a:end )
+    let d = { 'f' : '' }
+    for d.f in values( s:_xpreplace.post )
+        call d.f( a:start, a:end )
     endfor
 endfunction 
