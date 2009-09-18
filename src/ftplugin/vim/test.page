@@ -73,48 +73,6 @@ a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
-    "  -------------Author--------------- 
-    " `$author^                           
-
-
-
-    drdr.xp
-
-    drdr.xp b
-
-    a drdr.xp b
-
-    a drdr.xp
-
-
-    "  -------------Email--------------- 
-    " `$email^                           
-
-
-
-    drdr.xp@gmail.com
-
-    drdr.xp@gmail.com b
-
-    a drdr.xp@gmail.com b
-
-    a drdr.xp@gmail.com
-
-
-    "  -------------File--------------- 
-    " `file()^                          
-
-
-
-    test.page
-
-    test.page b
-
-    a test.page b
-
-    a test.page
-
-
     "  -------------[_--------------- 
     " [`wrapped^]                     
 
@@ -151,18 +109,50 @@ a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
 
 
+    "  -------------Author--------------- 
+    " `$author^                           
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    a drdr.xp b
+
+    a drdr.xp
+
+
     "  -------------comment--------------- 
     " `$CS^ `cursor^                       
 
 
 
-    # 
+    " 
+    "
+    "  b
+    "
+    a "  b
 
-    #  b
+    a " 
 
-    a #  b
 
-    a # 
+    "  -------------comment_--------------- 
+    " `$CS^ `wrapped^                       
+
+
+
+" WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+" WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a " WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a " WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
 
     "  -------------commentBlock--------------- 
@@ -171,18 +161,18 @@ WRAPPED_TEXT_line2`
 
 
 
-    # 
-    #
-
-    # 
-    # b
-
-    a # 
-    # b
-
-    a # 
-    #
-
+    " 
+    "
+    "
+    " 
+    " b
+    "
+    a " 
+    " b
+    "
+    a " 
+    "
+    "
 
     "  -------------commentDoc--------------- 
     " `$CS^                                   
@@ -191,35 +181,35 @@ WRAPPED_TEXT_line2`
 
 
 
-    #
-    # 
-    #
-
-    #
-    # 
-    # b
-
-    a #
-    # 
-    # b
-
-    a #
-    # 
-    #
-
+    "
+    " 
+    "
+    "
+    "
+    " 
+    " b
+    "
+    a "
+    " 
+    " b
+    "
+    a "
+    " 
+    "
+    "
 
     "  -------------commentLine--------------- 
     " `$CS^ `cursor^                           
 
 
 
-    # 
+    " 
+    "
+    "  b
+    "
+    a "  b
 
-    #  b
-
-    a #  b
-
-    a # 
+    a " 
 
 
     "  -------------commentLine_--------------- 
@@ -227,35 +217,31 @@ WRAPPED_TEXT_line2`
 
 
 
-# WRAPPED_TEXT
+" WRAPPED_TEXT
 WRAPPED_TEXT_line2
 
-# WRAPPED_TEXT
+" WRAPPED_TEXT
 WRAPPED_TEXT_line2b
 
-a # WRAPPED_TEXT
+a " WRAPPED_TEXT
 WRAPPED_TEXT_line2b
 
-a # WRAPPED_TEXT
+a " WRAPPED_TEXT
 WRAPPED_TEXT_line2
 
 
-    "  -------------comment_--------------- 
-    " `$CS^ `wrapped^                       
+    "  -------------Email--------------- 
+    " `$email^                           
 
 
 
-# WRAPPED_TEXT
-WRAPPED_TEXT_line2
+    drdr.xp@gmail.com
 
-# WRAPPED_TEXT
-WRAPPED_TEXT_line2b
+    drdr.xp@gmail.com b
 
-a # WRAPPED_TEXT
-WRAPPED_TEXT_line2b
+    a drdr.xp@gmail.com b
 
-a # WRAPPED_TEXT
-WRAPPED_TEXT_line2
+    a drdr.xp@gmail.com
 
 
     "  -------------fdesc---------------                                              
@@ -311,6 +297,20 @@ WRAPPED_TEXT_line2
     " =============================================================================
     " }}}
     "
+
+    "  -------------File--------------- 
+    " `file()^                          
+
+
+
+    test.page
+
+    test.page b
+
+    a test.page b
+
+    a test.page
+
 
     "  -------------fordic---------------  
     " for [`key^, `value^] in items(`dic^) 
