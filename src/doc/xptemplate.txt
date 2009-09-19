@@ -7,11 +7,12 @@
 								    by drdr.xp
 							     drdr.xp@gmail.com
 
-	Generate customizable code snippets automatically.
+	XPTemplate is a Snippet rendering engine.
 
 	|xpt-install|
 	|xpt-usage|
 	|xpt-feature|
+	|xpt-snippet-syntax|
 	|xpt-option|
 	|xpt-key-bind|
 	|xpt-api|
@@ -20,20 +21,17 @@
 								 *xpt-install*
 	Copy files and directories into one of your |runtimepath|s.
 
-							       *xpt-uninstall*
-	Not implemented
-	:XPTuninstall
-
 								   *xpt-usage*
-	In insert mode, after typed key of a template, pressing <C-\> to
-	generate a snippet. Using <Tab> to navigate through snippet template.
-	For examle, vim xpt.c, : >
+	In insert mode, type key of a template, pressing <C-\> ( the default
+	trigger key ) to generate a snippet. Use <Tab> to navigate through
+	snippet template.
+	For example, vim xpt.c, : >
 		for<C-\>
 <	Generates : >
-		for (i = `0^; i < `len^; ++i){
-		  `cursor^
+		for (i = 0; i < len; ++i){
+		  /* cursor */
 		}
-<	"i" being selected is the current item you are editing. `0^ is next
+<	"i" being selected is the current item you are editing. 0 is next
 	item,  and you can navigate to it by typing <Tab> |xpt-navigate-key|.
 
 	NOTE in some European keyboard, <C-\> does NOT work. If it does not
@@ -41,12 +39,12 @@
 	|g:xptemplate_key|.
 
 	Now type "abcdefg", this snippet result in : >
-		for (abcdefg = `0^; abcdefg < `len^; ++abcdefg){
-		  `cursor^
+		for (abcdefg = 0; abcdefg < len; ++abcdefg){
+		  /* cursor */
 		}
 <	Now press <Tab>, cursor will jumps to next item "0": >
-		for (abc = 0; abc < `len^; ++abc){
-		  `cursor^
+		for (abc = 0; abc < len; ++abc){
+		  /* cursor */
 		}
 <
 	More usages are described blow:
@@ -54,20 +52,18 @@
 								 *xpt-feature*
 	On time typing update
 	Popup hint					|xpt-hint|
-	Context sensitive template generation		|xpt-context|
-	Template priority				|xpt-priority|
-	High light currently typed item
-	Embedded functions and variables		|xpt-function|
+	Template priority				|xpt-snippet-priority|
+	Embedded functions and variables		|xpt-snippet-function|
 	Repeatable template generation			|xpt-repeatable|
 	Nested template					|xpt-nested|
 	Wrapping template				|xpt-wrapped|
-	Auto indent					|xpt-auto-indent|
 	Cursor position helper				|xpt-cursor-protection|
-	Named item or anonymous item			|xpt-item|
-	Alternative item default value			|xpt-default-value|
+	Named item or anonymous item			|xpt-snippet-item|
+	Default value                 			|xpt-default-value|
+	Preset  value                 			|xpt-preset-value|
 	and more......
 
-								*xpt-priority*
+								*xpt-priority-value*
 	Template is defined with a certain priority. One buffer might load
 	templates with same name. Only the template with smallest priority can
 	work, others are ignored. 
@@ -86,12 +82,12 @@
 	|XPTemplatePriority()|.
 
 							 *xpt-priority-format*
-	Priority setting format : "templateName[!priority[+/-offset]]".
+	Priority setting format : "priority[+/-[offset]]".
 	Following format are all valid : >
-	call XPTemplate('name!3', '...')		3
-	call XPTemplate('name!lang', '...')		0
-	call XPTemplate('name!like+4', '...')		36 // like=32
-	call XPTemplate('name!all-', '...')		63 // all=64
+	3		3
+	lang		0
+	like+4		36 // like=32
+	all-		63 // all=64
 <
 
 						      *xpt-popup*   *xpt-hint*
@@ -178,8 +174,7 @@
 	used somewhere else. And itself is a sample of how to use variables and
 	function in template.
 
-						     *xpt-define-new-template*
-								    *xpt-item*
+							    *xpt-snippet-item*
 	In defining template, you have to specify in template which part can
 	be edit by user, that is done by quoting part of template by mark.
 	By default, the left mark is |`|, the right mark is |^|. for example : >
@@ -192,7 +187,7 @@
 		i, 0, len, cursor
 <	For more infomation about item, see |xpt-item-format|
 
-							*`*   *^*   *xpt-mark*
+					    *`*   *^*   *xpt-placeholder-mark*
 	Default template mark to specify the editable part of a template. They
 	can be changed locally(to current buffer) by calling |XPTemplateMark()|.
 
@@ -200,12 +195,12 @@
 	Item is composed as follow :
 	|`| |xpt-item-name| |^| [|xpt-default-value| |^| [|^|]]
 
-					  *xpt-predefined*     *xpt-item-name*
+					  *xpt-snippet-instant-value*     *xpt-item-name*
 	Item name is the text between |`| and |^|. It can be plain text,
-	|xpt-variable|, |xpt-function|. But can NOT be mixed and you will
+	|xpt-snippet-variable|, |xpt-snippet-function|. But can NOT be mixed and you will
 	never need mixed item :).
-	Before you can jump to the first item, all items of |xpt-variable|
-	and |xpt-function| will be evaluated.
+	Before you can jump to the first item, all items of |xpt-snippet-variable|
+	and |xpt-snippet-function| will be evaluated.
 
 						*```*   *xpt-```*   *xpt-edge*
 	|xpt-item-name| can be defined with "edge". Edge is some text around
@@ -228,8 +223,8 @@
 							  *xpt-format-default*
 	|`| |xpt-item-name| |^| |xpt-default-value| |^| is default value
 	format let you specify some other text as default value when navigated
-	to this item. |xpt-default-value| can be plain text, |xpt-variable|,
-	|xpt-function| or mixed.
+	to this item. |xpt-default-value| can be plain text, |xpt-snippet-variable|,
+	|xpt-snippet-function| or mixed.
 
 						      *xpt-format-post-filter*
 	Delayed default value format :
@@ -247,16 +242,16 @@
 	easy to be done: fill the text following the item and end it with
 	right mark |^| : >
 		`item_name^default_value^
-<	The default value can be plain text, |xpt-variable|, |xpt-function| or
+<	The default value can be plain text, |xpt-snippet-variable|, |xpt-snippet-function| or
 	mixed. For example : >
 		call XPTemplate("ind", 'include "`^fileRoot()^.h"')
 <	In upper case, the unnamed item with an alternative default value
-	defined by a function. see |xpt-function|.
+	defined by a function. see |xpt-snippet-function|.
 	Example : type "#ind<C-\>": >
 		#include "current_file_name.h"
 <
 							    *xpt-post-filter*
-	Post filter can be plain text, |xpt-varaible|, |xpt-function| or
+	Post filter can be plain text, |xpt-varaible|, |xpt-snippet-function| or
 	mixed.  See |xpt-format-post-filter|.
 	Some usually-used post filters are defined in
 	ftplugin/common/common.xpt.vim. for |xpt-substitute| with name of 'S'.
@@ -424,45 +419,12 @@ S({pattern},{replace},[{flag}])
 		name(a, b)
 <	Now edit the name.
 
-					       *xpt-function*   *xpt-variable*
-	You can use 2 global function |XPTfuncs()| |XPTvars()| to get function
-	or variable container for defining functions or variables used as
-	|xpt-predefined|, |xpt-default-value| or |xpt-post-filter|. as : >
-
-<	Normally variables are template-relevent and used format helper like
-	"$CL" and "$CR" defined as "/*" and "*/" for c language.
-
-	Personal information variables should be defined by using
-	|g:xptemplate_vars|. Variables defined with |g:xptemplate_vars|
-	override variables defined in *.xpt.vim.
-
-	Functions used in |xpt-default-value| or |xpt-post-filter| are invoked
-	with 1 parameter more, than parameters specified in template.
-	The additional parameter is |Dictionary| context, with information
-	of current template or item. : >
-		used in:	predefined	default-value	post-filter
-	key:
-	tmpl(Dic)		*		*		*
-	name(string)		-		*		*
-	value(string)		-		-		*
-<	
-	Supposed we have a function defined as follow : >
-		fun! s:f.SV(ptn, rep, ...)
-		  let flg = a:0 >= 1 ? a:1 : 'g'
-		  return substitute(self.V(), a:ptn, a:rep, flg)
-		endfunction
-
-<	It accepts upto 3 arguments. An example is as follow : >
-		call XPTemplate("ifndef", [
-		      \"ifndef `_^SV('.','\\u&')^^", 
-		      ......
-<	It converts typed text to upper case.
 
 
 				      *xpt-{}*  *xpt-mixed*   *xpt-expression*
 	xpt expression used as |xpt-default-value| or |xpt-post-filter| in
-	template can be mixed with plain text, |xpt-variable| and
-	|xpt-function|. 
+	template can be mixed with plain text, |xpt-snippet-variable| and
+	|xpt-snippet-function|. 
 
 	Function can be template function defined within |XPTfuncs()| or vim
 	native function.
@@ -506,7 +468,7 @@ S({pattern},{replace},[{flag}])
 		this is -d-r-d-r-.-x-p-
 <
 					       *self._ctx*  *xpt-function-ctx*
-	template context can be accessed from within |xpt-function|. For
+	template context can be accessed from within |xpt-snippet-function|. For
 	example the reference function: >
 		fun! s:f.R(name) "{{{
 		  let ctx = self._ctx
@@ -557,14 +519,14 @@ XPTemplate({name}, [, {context}], {template})
 							    *XPTemplateMark()*
 XPTemplateMark({leftmark}, {rightmark})
 	XPTemplateMark defines what chars are used as item quoter. It only
-	takes effect to current buffer. See |xpt-mark|.
+	takes effect to current buffer. See |xpt-placeholder-mark|.
 
 	NOTE this function affects only to current script and current buffer.
 
 							*XPTemplatePriority()*
 XPTemplatePriority({priority})
 	XPTemplatePriority set default priority for only current *.xpt.vim
-	script and current buffer. See |xpt-priority|
+	script and current buffer. See |xpt-priority-value|
 
 	NOTE this function affects only to current script and current buffer.
 
@@ -643,6 +605,9 @@ g:XPTfuncs()   g:XPTvars()
 								    *s_CTRL-l*
 	Jump to the end of current item in insert mode.
 
+
+
+
 ==============================================================================
 
 								  *xpt-option*
@@ -691,7 +656,7 @@ g:XPTfuncs()   g:XPTvars()
 	Whether to highlight currently editing item. See |xpt-highlight|.
 
 				      *xpt-personal-var*   *g:xptemplate_vars*
-	Set personal variables used in template, see |xpt-variable|. Variable
+	Set personal variables used in template, see |xpt-snippet-variable|. Variable
 	set with g:xptemplate_vars has the highest priority and override any
 	other variables set in *.xpt.vim.  Variables
 	format : >
@@ -720,6 +685,7 @@ g:XPTfuncs()   g:XPTvars()
 		\gui=none guifg=#dddddd guibg=white
 <	"XPTCurrentItem" is the color of current editing item.
 	"XPTIgnoredMark" is the color of mark |`| and |^|.
+
 
 
 
@@ -883,4 +849,4 @@ Fixed:2007-09-20	cursor position when no template recognized.
 Added:2007-09-20	high light for current item
 
 ==============================================================================
-vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:
+" vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:

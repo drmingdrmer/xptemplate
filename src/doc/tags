@@ -6,6 +6,8 @@ S()	xptemplate.txt	/*S()*
 S({expr},{pat},{sub},{flags})	xptemplate.txt	/*S({expr},{pat},{sub},{flags})*
 SV()	xptemplate.txt	/*SV()*
 V()	xptemplate.txt	/*V()*
+XPTCurrentItem	xptemplate.txt	/*XPTCurrentItem*
+XPTIgnoredMark	xptemplate.txt	/*XPTIgnoredMark*
 XPTemplate	xptemplate.txt	/*XPTemplate*
 XPTemplate()	xptemplate.txt	/*XPTemplate()*
 XPTemplateIndent()	xptemplate.txt	/*XPTemplateIndent()*
@@ -60,7 +62,9 @@ xpt-format-normal	xptemplate.txt	/*xpt-format-normal*
 xpt-format-post-filter	xptemplate.txt	/*xpt-format-post-filter*
 xpt-function	xptemplate.txt	/*xpt-function*
 xpt-function-ctx	xptemplate.txt	/*xpt-function-ctx*
+xpt-highlight	xptemplate.txt	/*xpt-highlight*
 xpt-hint	xptemplate.txt	/*xpt-hint*
+xpt-hl	xptemplate.txt	/*xpt-hl*
 xpt-include	xptemplate.txt	/*xpt-include*
 xpt-indent	xptemplate.txt	/*xpt-indent*
 xpt-install	xptemplate.txt	/*xpt-install*
@@ -80,8 +84,8 @@ xpt-predefined	xptemplate.txt	/*xpt-predefined*
 xpt-priority	xptemplate.txt	/*xpt-priority*
 xpt-priority-format	xptemplate.txt	/*xpt-priority-format*
 xpt-repeatable	xptemplate.txt	/*xpt-repeatable*
+xpt-snippet-syntax	xpt.snippet.syn.txt	/*xpt-snippet-syntax*
 xpt-substitute	xptemplate.txt	/*xpt-substitute*
-xpt-uninstall	xptemplate.txt	/*xpt-uninstall*
 xpt-unmaed-item	xptemplate.txt	/*xpt-unmaed-item*
 xpt-usage	xptemplate.txt	/*xpt-usage*
 xpt-variable	xptemplate.txt	/*xpt-variable*

@@ -1,0 +1,257 @@
+*xpt-snippet-syntax*
+
+			XPT Snippet Syntax
+								    by drdr.xp
+							     drdr.xp@gmail.com
+==============================================================================
+
+	Content table:
+	|xpt-snippet-header|
+		|xpt-snippet-priority|
+		|xpt-snippet-keyword|
+		|xpt-snippet-mark|
+	|xpt-snippet-variable|
+	|xpt-snippet-function|
+	|xpt-snippet-include|
+
+	|xpt-snippet|
+		|xpt-snippet-name|
+		|xpt-snippet-setting|
+		|xpt-snippet-hint|
+		|xpt-snippet-hidden|
+		|xpt-snippet-alias|
+
+	|xpt-snippet-body|
+	|xpt-snippet-XSET|
+	|xpt-snippet-XSETm|
+	|xpt-snippet-item|
+	|xpt-snippet-placeholder|
+
+	|xpt-snippet-expression|
+	|xpt-snippet-instant-value|
+	|xpt-snippet-preset-value|
+	|xpt-snippet-default-value|
+	|xpt-snippet-post-filter|
+	|xpt-snippet-ontime-filter|
+
+	|xpt-snippet-expandable|
+	|xpt-snippet-repetition|
+
+							  *xpt-snippet-header*
+	Each snippet file start with a XPTemplate declaration for
+	snippet-scope setting, duplication load check, etc.
+
+	Format : >
+	XPTemplate [priority=lang] [keyword=#] [mark=`^]
+<
+	There are 3 optional setting for 'XPTemplate' command: 
+
+							*xpt-snippet-priority*
+	Priority affect |xpt-snippet|, |xpt-snippet-variable|.
+	|xpt-snippet-function| is defined directly, so that it doesn't
+	controlled by |xpt-snippet-priority|. Something with higher
+	|xpt-snippet-priority| overrides lower.  Format : >
+		priority=<priority-value>
+<	See |xpt-priority-value|.
+
+							 *xpt-snippet-keyword*
+	|xpt-snippet-keyword| specifies what else characters can be used as
+	|xpt-snippet-name|.
+	Format : >
+		keyword=...
+<	For example, for C language, keyword is set as : >
+		keyword=#
+<	So that "#if" can be used as |xpt-snippet-name|.
+
+							    *xpt-snippet-mark*
+	To specify which 2 characters are used as |xpt-placeholder-mark|
+	instead of the default |`| and |^|. Format : >
+		mark=~^
+<
+								       *xpt-$*
+							*xpt-snippet-variable*
+	|xpt-snippet-variable| can be used in :
+		|xpt-snippet-instant-value|
+		|xpt-snippet-preset-value|
+		|xpt-snippet-default-value|
+		|xpt-snippet-post-filter|
+		|xpt-snippet-ontime-filter|
+	Format : >
+		XPTvar $VAR_NAME something
+<	Example from C language : >
+		XPTvar $TRUE           1
+<	and a snippet defined as : >
+		XPT while1
+		while (`$TRUE^) {
+		    `cursor^
+		}
+<	will generate : >
+		while (1) {
+		    `cursor^
+		}
+<
+	|xpt-snippet-variable| is used widely in XPTemplate, such as comment
+	definition, format customization, etc.
+
+	Personal information variables should be defined by using
+	|g:xptemplate_vars|. Variables defined with |g:xptemplate_vars|
+	override variables defined in any snippet files.
+
+	NOTE Conventionally, the name of |xpt-snippet-variable| must be upper
+	cased.
+
+	NOTE Override control of |xpt-snippet-variable| is affected by
+	|xpt-snippet-priority|.
+
+							*xpt-snippet-function*
+	|xpt-snippet-function| can be used in :
+		|xpt-snippet-instant-value|
+		|xpt-snippet-preset-value|
+		|xpt-snippet-default-value|
+		|xpt-snippet-post-filter|
+		|xpt-snippet-ontime-filter|
+	To define |xpt-snippet-function|, first the function container must be
+	fetched first, by using |XPTcontainer()|. For example : >
+		let s:f = XPTcontainer()
+		fun! s:f.c_printfElts( v )
+			...
+		endfunction
+<	Then function 'c_printfElts' can be used in snippet : >
+		XPT printf	hint=printf\(...)
+		XSET elts=c_printfElts( R( 'pattern' ) )
+		printf( "`pattern^"`elts^ )
+<
+
+							 *xpt-snippet-include*
+	Syntax : >
+		XPTinclude <folder_name_in_ftplugin>/<filename>
+<	The <filename> is only the file root, without ".xpt.vim". 
+	XPTinclude can include several snippets at one time.
+
+	NOTE do NOT use |runtime| to include other snippet file, XPTinclude
+	handles snippet priority, but |runtime| NOT.
+
+
+								 *xpt-snippet*
+	Each |xpt-snippet| defines one code snippet in the following syntax 
+	: >
+		XPT <snippetName> [name=value] [name=value] ..
+		<snippet body>..
+		..XPT
+<	'XPT' is the start of a snippet. '..XPT' is the end of a snippet.
+	'..XPT' is optional. If '..XPT' is not present, snippet body end at
+	the last non-empty line.
+
+							    *xpt-snippet-name*
+	<snippetName> is the name for user to type to trigger this snippet. It
+	could contain the characters defined in |iskeyword| and
+	|xpt-snippet-keyword|.
+
+							 *xpt-snippet-setting*
+	The 'name=value' defines snippet settings,  includes
+		|xpt-snippet-hint|
+		|xpt-snippet-hidden|
+		|xpt-snippet-alias|
+
+							    *xpt-snippet-hint*
+	Set the 'menu' entry on pop up menu, as a short description other than
+	|xpt-snippet-name|. As the following C language pop up menu : >
+		| #if           #if ...           |
+		| #ifdef        #if ...           |
+		| #ifndef       #ifndef ..        |
+<	Syntax : >
+		XPT for hint=for\ (..;..;++)
+<	
+							  *xpt-snippet-hidden*
+	Set to 1 to make the snippet can not be triggered by user, but CAN be
+	triggered from internal api. Syntax : >
+		XPT for hidden=1
+<
+	See |xpt-api|.
+
+							   *xpt-snippet-alias*
+	Make the snippet an alias to another snippet. Syntax : >
+		XPT forin hint=for\ ..\ in\ ..\ ..\ endfor
+		for `value^ in `list^
+		    `cursor^
+		endfor
+
+		XPT foreach alias=forin hint=for\ ..\ in\ ..\ ..\ endfor
+<	This make "forin" and "foreach" the same.
+
+	NOTE |xpt-snippet-alias| can be used for creating shortcuts.
+
+
+							    *xpt-snippet-body*
+	<snippet body> is all the OTHER text except the first line : >
+		XPT for hint=for\ (..;..;++)
+		for (`i^ = `0^; `i^ < `len^; ++`i^) { |
+		    `cursor^                          | snippet body
+		}                                     |
+
+<	|xpt-snippet-body| contains snippet text and :
+		|xpt-snippet-XSET|
+		|xpt-snippet-XSETm|
+	Snippet with XSET command : >
+		XPT printf	hint=printf\(...)
+		XSET elts=c_printfElts( R( 'pattern' ) )
+		printf( "`pattern^"`elts^ )
+<	NOTE XSET/XSETm command can be placed anywhere inside snippet.
+
+							    *xpt-snippet-XSET*
+	In |xpt-snippet-body|, XSET command can be used anywhere to set : 
+		|xpt-snippet-preset-value|
+		|xpt-snippet-default-value|
+		|xpt-snippet-post-filter|
+	XSET syntax to set |xpt-snippet-preset-value|: >
+		XSET itemname|pre=<expression>
+<	XSET syntax to set |xpt-snippet-default-value|: >
+		XSET itemname|def=<expression>
+<	or : >
+		XSET itemname=<expression>
+<	XSET syntax to set |xpt-snippet-post-filter|: >
+		XSET itemname|post=<expression>
+<	<expression> is |xpt-snippet-expression|. For example : >
+		XPT #include_user	hint=include\ ""
+		XSET me=fileRoot()
+		#include "`me^.h"
+<	Item "me" is set to be file name without extension.
+
+							   *xpt-snippet-XSETm*
+	"XSETm" is similar to |xpt-snippet-XSET|, except it using "\n" instead
+	of "=" in |xpt-snippet-XSET|, and ending with "XSETm END". For example
+	: >
+		XPT if		hint=if\ (..)\ {..}\ else...
+		if (`condition^) { 
+		    `job^
+		}` `else...^
+		XSETm else...|post
+		else { 
+		    `cursor^
+		}
+		XSETm END
+<
+
+
+
+	|xpt-snippet-item|
+	|xpt-snippet-placeholder|
+	|xpt-snippet-expression|
+	*xpt-snippet-instant-value*
+	*xpt-snippet-preset-value*
+	*xpt-snippet-default-value*
+	*xpt-snippet-post-filter*
+	*xpt-snippet-ontime-filter*
+	|xpt-snippet-expandable|
+	|xpt-snippet-repetition|
+
+
+
+
+
+
+
+
+
+
+" vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:
