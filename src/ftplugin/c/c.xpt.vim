@@ -102,9 +102,9 @@ endfunction
 XPTemplateDef
 
 
-" XPT tt hint=tips
-" XSET a2|post=fff()
-" `aa^`aa^fff()^
+XPT lowerUpper
+lower : `text^
+upper : `text^UpperCase(V())^
 
 XPT printf	hint=printf\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )

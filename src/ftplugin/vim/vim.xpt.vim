@@ -23,7 +23,7 @@ XPTemplateDef
 XPT once hint=if\ exists..\ finish\ ..\ let
 XSET i=headerSymbol()
 if exists("`g^:`i^")
-  finish
+    finish
 endif
 let `g^:`i^ = 1
 `cursor^
@@ -37,26 +37,26 @@ endif
 XPT fun hint=fun!\ ..(..)\ ..\ endfunction
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 fun! `name^(`arg*^) "{{{
-  `cursor^
+    `cursor^
 endfunction "}}}
 
 
 XPT while hint=while\ ..\ ..\ endwhile
 while `cond^
-  `cursor^
+    `cursor^
 endwhile
 
 
 XPT whilei hint=while\ i\ |\ let\ i\ +=\ 1
 let [ `i^, `len^ ] = [ `0^ - 1, `len_expr^ - 1 ]
 while `i^ < `len^ | let `i^ += 1
-  `cursor^
+    `cursor^
 endwhile
 
 
 XPT fordic hint=for\ [..,..]\ in\ ..\ ..\ endfor
 for [`key^, `value^] in items(`dic^)
-  `cursor^
+    `cursor^
 endfor
 
 
@@ -78,17 +78,17 @@ catch /`exception^/
 `
 `finally...{{^
 finally
-  `cursor^`}}^
+    `cursor^`}}^
 endtry
 
 
 
 XPT if hint=if\ ..\ else\ ..
 if `cond^
-  `job^Echo()^
+    `job^Echo()^
 ``else...`
 {{^else
-  `cursor^
+    `cursor^
 `}}^endif
 
 

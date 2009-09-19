@@ -59,7 +59,7 @@
 	Wrapping template				|xpt-wrapped|
 	Cursor position helper				|xpt-cursor-protection|
 	Named item or anonymous item			|xpt-snippet-item|
-	Default value                 			|xpt-default-value|
+	Default value                 			|xpt-snippet-default-value|
 	Preset  value                 			|xpt-preset-value|
 	and more......
 
@@ -161,7 +161,7 @@
 	|XPTemplate()|		define new template
 	|XPTemplateIndent()|	define indent option to current buffer
 	|XPTemplateMark()|	define new template mark in current buffer
-	|XPTfuncs()|		get function container
+	|XPTcontainer()|		get function container
 	|XPTvars()|		get variable container
 
 
@@ -169,112 +169,32 @@
 	You can include another template file in any *.template.vim file : >
 		runtime ftplugin/_common/common.template.vim
 <
-							 *xpt-common-template*
-	"common" template defines templates and function and variables  maybe
-	used somewhere else. And itself is a sample of how to use variables and
-	function in template.
-
-							    *xpt-snippet-item*
-	In defining template, you have to specify in template which part can
-	be edit by user, that is done by quoting part of template by mark.
-	By default, the left mark is |`|, the right mark is |^|. for example : >
-		call XPTemplate("for", ""
-		      \."for (`i^ = `0^; `i^ < `len^; ++`i^){\n"
-		      \."  `cursor^\n"
-		      \."}")
-<	This defines for loop template for c language. In it there are 4 item
-	can be edited : >
-		i, 0, len, cursor
-<	For more infomation about item, see |xpt-item-format|
-
-					    *`*   *^*   *xpt-placeholder-mark*
-	Default template mark to specify the editable part of a template. They
-	can be changed locally(to current buffer) by calling |XPTemplateMark()|.
-
 							     *xpt-item-format*
 	Item is composed as follow :
-	|`| |xpt-item-name| |^| [|xpt-default-value| |^| [|^|]]
+	|`| |xpt-item-name| |^| [|xpt-snippet-default-value| |^| [|^|]]
 
-					  *xpt-snippet-instant-value*     *xpt-item-name*
-	Item name is the text between |`| and |^|. It can be plain text,
-	|xpt-snippet-variable|, |xpt-snippet-function|. But can NOT be mixed and you will
-	never need mixed item :).
-	Before you can jump to the first item, all items of |xpt-snippet-variable|
-	and |xpt-snippet-function| will be evaluated.
 
-						*```*   *xpt-```*   *xpt-edge*
-	|xpt-item-name| can be defined with "edge". Edge is some text around
-	item name that is not selected when cursor <tab> to this item. But it
-	still can be edit. For example : >
-		`(`xpt`)^
-<	This item named of "xpt" and the edges are "(" and ")", When cursor
-	jumps onto it : >
-		(xpt)
-		 ***------ only xpt is selected
-<	Edge helps on formatting expandable items. 
-
-	NOTE only |\_W| characters are acceptable in edge.
-	
 
 							   *xpt-format-normal*
 	Normal format is |`| |xpt-item-name| |^|. As you navigate to such an
 	item, |xpt-item-name| is evaluated and selected as default value.
 
 							  *xpt-format-default*
-	|`| |xpt-item-name| |^| |xpt-default-value| |^| is default value
+	|`| |xpt-item-name| |^| |xpt-snippet-default-value| |^| is default value
 	format let you specify some other text as default value when navigated
-	to this item. |xpt-default-value| can be plain text, |xpt-snippet-variable|,
+	to this item. |xpt-snippet-default-value| can be plain text, |xpt-snippet-variable|,
 	|xpt-snippet-function| or mixed.
 
 						      *xpt-format-post-filter*
 	Delayed default value format :
-	|`| |xpt-item-name| |^| |xpt-post-filter| |^| |^|
+	|`| |xpt-item-name| |^| |xpt-snippet-post-filter| |^| |^|
 
 	It is similar with |xpt-format-default|. The only difference is when
 	you jump to such item, |xpt-item-name| is selected and you can edit as
 	well. Like |xpt-format-normal|. But when you jumps to next item , the
-	|xpt-post-filter| applied and evaluated text replaces the left text. 
+	|xpt-snippet-post-filter| applied and evaluated text replaces the left text. 
 
 
-							   *xpt-default-value*
-	By default, an Item being selected uses its name as the default value,
-	but you have a chance to choose other text as default value, and it is
-	easy to be done: fill the text following the item and end it with
-	right mark |^| : >
-		`item_name^default_value^
-<	The default value can be plain text, |xpt-snippet-variable|, |xpt-snippet-function| or
-	mixed. For example : >
-		call XPTemplate("ind", 'include "`^fileRoot()^.h"')
-<	In upper case, the unnamed item with an alternative default value
-	defined by a function. see |xpt-snippet-function|.
-	Example : type "#ind<C-\>": >
-		#include "current_file_name.h"
-<
-							    *xpt-post-filter*
-	Post filter can be plain text, |xpt-varaible|, |xpt-snippet-function| or
-	mixed.  See |xpt-format-post-filter|.
-	Some usually-used post filters are defined in
-	ftplugin/common/common.xpt.vim. for |xpt-substitute| with name of 'S'.
-	For example for c language, "ifndef" template defined as follow: : >
-		call XPTemplate("ifndef", [
-		      \"ifndef `_^S('.','\\u&')^^", 
-		      \"#    define `_^", 
-		      \"", 
-		      \"`cursor^", 
-		      \"#endif /* `_^ */"
-		      \])
-<	When you pressing <tab> from the first item "_", typed content are
-	made upper case.  : >
-		#ifndef __gnu__
-		#    define __gnu__
-		`cursor^
-		#endif /* __gnu__ */
-<	Pressing <tab> results in : >
-		#ifndef __GNU__
-		#    define __GNU__
-		`cursor^
-		#endif /* __GNU__ */
-<
 						      *S()*   *xpt-substitute*
 S({pattern},{replace},[{flag}])
 	Substitue typed content with pattern and replace. Just like
@@ -300,7 +220,7 @@ S({pattern},{replace},[{flag}])
 	same name : empty string.
 
 						  *\w\+...*   *xpt-expandable*
-	One of |xpt-post-filter| usages is to define expandable item. When
+	One of |xpt-snippet-post-filter| usages is to define expandable item. When
 	<tab> is pressed, post-filter applied and replace the item text with
 	what post filter evaluated to be. |xpt-repeatable| is implemented with
 	|xpt-expandable|.
@@ -421,74 +341,32 @@ S({pattern},{replace},[{flag}])
 
 
 
-				      *xpt-{}*  *xpt-mixed*   *xpt-expression*
-	xpt expression used as |xpt-default-value| or |xpt-post-filter| in
-	template can be mixed with plain text, |xpt-snippet-variable| and
-	|xpt-snippet-function|. 
 
-	Function can be template function defined within |XPTfuncs()| or vim
-	native function.
 
-	Function can recursively called.
 
-	Function is called within a |Dictionary|, through which you can access
-	other template function or template rendering context
-	|xpt-function-ctx|
 
-	Function or variable can be enclosed with "{}" to prevent function or
-	variable names confused with surrounded plain text.
-
-	Function can be prevented from being evaluated by escaping the "()". : >
-		S\(S("abc", '.', '\u&'))
-<	is evaluated to be : >
-		S(ABC)
-<
-	Variable can be prevented from being evaluated by escaping the '$'. : >
-		\$authoer
-<	is evaluated to be : >
-		$author
-<	
-	To escaping the "{}" : >
-		\{S("abc", '.', '\u&')}
-<	is evaluated to be : >
-		{ABC}
-<	As : >
-		{S("abc", '.', '\u&')}
-<	is evaluated to be : >
-		ABC
-<	
-	Example of file name of upper case, supposing you are editing a file
-	named of "your_file_name.ext" : >
-		__{S(E("%:t"),".","\\u&")}__
-<	is evaluated to be : >
-		__YOUR_FILE_NAME.EXT__
-<	And : >
-		this is S($author,".","-&")-
-<	is evaluated to be : >
-		this is -d-r-d-r-.-x-p-
-<
-					       *self._ctx*  *xpt-function-ctx*
+					       *self._ctx*  *xpt-snippet-function-ctx*
 	template context can be accessed from within |xpt-snippet-function|. For
 	example the reference function: >
-		fun! s:f.R(name) "{{{
+		fun! s:f.R(name)
 		  let ctx = self._ctx
 		  if has_key(ctx.namedStep, a:name)
 		    return ctx.namedStep[a:name]
 		  endif
 
 		  return a:ctx.name
-		endfunction "}}}
+		endfunction
 <
 
 
 									 *C()*
-	Get function context, see |xpt-function-ctx|
+	Get function context, see |xpt-snippet-function-ctx|
 								   *E({expr})*
 	Equals to |expand()|
 									 *N()*
-	Current edited item name. Valid only to |xpt-post-filter|.
+	Current edited item name. Valid only to |xpt-snippet-post-filter|.
 									 *V()*
-	Current typed text. Valid only to |xpt-post-filter|.
+	Current typed text. Valid only to |xpt-snippet-post-filter|.
 								   *R({name})*
 	Reference to history item. Get value by name.
 					       *S({expr},{pat},{sub},{flags})*
@@ -555,7 +433,7 @@ XPTemplateIndent({indentOption})
 
 
 
-						      *XPTfuncs()* *XPTvars()*
+						      *XPTcontainer()* *XPTvars()*
 g:XPTfuncs()   g:XPTvars()
 	g:XPTfuncs() returns a |Dictionary| container of functions can be used
 	in template in current buffer. The normal using of g:XPTfuncs() to
