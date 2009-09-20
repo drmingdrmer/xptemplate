@@ -11,99 +11,83 @@
 
 	|xpt-install|
 	|xpt-usage|
+
 	|xpt-feature|
-	|xpt-snippet-syntax|
 	|xpt-option|
-	|xpt-key-bind|
+	|xpt-key-bind|  |xpt-mapping|
+	|xpt-snippet-syntax|
 	|xpt-api|
-	|xpt-changes-log|
+		|XPTemplate()|		
+		|XPTemplateIndent()|	
+		|XPTemplateMark()|	
+		|XPTcontainer()|	
 
 								 *xpt-install*
 	Copy files and directories into one of your |runtimepath|s.
 
 								   *xpt-usage*
-	In insert mode, type key of a template, pressing <C-\> ( the default
-	trigger key ) to generate a snippet. Use <Tab> to navigate through
+	In insert mode, type key of a template, pressing <C-\>, the
+	|xpt-key-trigger| to generate a snippet. Use <Tab> to navigate through
 	snippet template.
 	For example, vim xpt.c, : >
 		for<C-\>
 <	Generates : >
 		for (i = 0; i < len; ++i){
-		  /* cursor */
+		    /* cursor */
 		}
-<	"i" being selected is the current item you are editing. 0 is next
-	item,  and you can navigate to it by typing <Tab> |xpt-navigate-key|.
+<	The first "i" being selected is the current item you are editing. 0 is
+	next item,  and you can navigate to it by typing <Tab>
+	|xpt-key-navigate|.
 
 	NOTE in some European keyboard, <C-\> does NOT work. If it does not
 	work, you need to specify another key for triggering snippets, see
 	|g:xptemplate_key|.
 
-	Now type "abcdefg", this snippet result in : >
-		for (abcdefg = 0; abcdefg < len; ++abcdefg){
-		  /* cursor */
-		}
-<	Now press <Tab>, cursor will jumps to next item "0": >
+	Now type "abc", this snippet result in : >
 		for (abc = 0; abc < len; ++abc){
-		  /* cursor */
+		    /* cursor */
 		}
-<
-	More usages are described blow:
+<	Now press <Tab>, the |xpt-key-navigate|. cursor jumps to next the item
+	"0" : >
+		for (abc = 0; abc < len; ++abc){
+		    /* cursor */
+		}
+<	Press <Tab> twice again, snippet stops, and cursor stop line 2, column
+	4: >
+		for (abc = 0; abc < len; ++abc){
+		    
+		}
+<	More usages are described blow:
 
 								 *xpt-feature*
 	On time typing update
-	Popup hint					|xpt-hint|
-	Template priority				|xpt-snippet-priority|
-	Embedded functions and variables		|xpt-snippet-function|
-	Repeatable template generation			|xpt-repeatable|
-	Nested template					|xpt-nested|
-	Wrapping template				|xpt-wrapped|
-	Cursor position helper				|xpt-cursor-protection|
-	Named item or anonymous item			|xpt-snippet-item|
-	Default value                 			|xpt-snippet-default-value|
-	Preset  value                 			|xpt-preset-value|
+	Popup hint				|xpt-popup|  |xpt-snippet-hint|
+	Template priority			|xpt-snippet-priority|
+	Embedded functions and variables	|xpt-snippet-function|
+	Repeatable snippet generation		|xpt-repetition|
+	Nested snippet				|xpt-nested|
+	Wrapping snippet			|xpt-wrapped|
+	Cursor position helper			
+	Named item or anonymous item		|xpt-snippet-item|
+	Default value                 		|xpt-snippet-default-value|
+	Preset  value                 		|xpt-preset-value|
 	and more......
 
-								*xpt-priority-value*
-	Template is defined with a certain priority. One buffer might load
-	templates with same name. Only the template with smallest priority can
-	work, others are ignored. 
-	Priority can be valued from 0 to +oo. 0 is the highest priority.
-	Some predefined symbols stand for number priority values : >
-		all		: 64
-		spec		: 48
-		like		: 32
-		lang		: 16
-		sub		: 8
-		personal	: 0
-<	Default priority is "lang" or 16. 
-	
-	You can set priority for each template by using |xpt-priority-format|.
-	Or set priority for all templates in current file with
-	|XPTemplatePriority()|.
 
-							 *xpt-priority-format*
-	Priority setting format : "priority[+/-[offset]]".
-	Following format are all valid : >
-	3		3
-	lang		0
-	like+4		36 // like=32
-	all-		63 // all=64
-<
-
-						      *xpt-popup*   *xpt-hint*
-	If you type nothing or incompleted template key and press <C-\>, a
-	popup menu shows up listing all possible template key. For example : >
+								   *xpt-popup*   
+	If you type nothing or incompleted snippet key and press <C-\>, a
+	popup menu shows up listing all possible snippet key. For example : >
 		fo<C-\>
 <	Shows : >
 		for
 		forr
 <
 	After select the item from popup menu, press <C-\> again to trigger
-	template
+	snippet
 
 							      *xpt-nested*
 	Template can expand inside another template. There is no difference
-	between using a nested template or top-level template.
+	between using a nested snippet or top-level template.
 	For example, when you edit xp.c . type siwtch<C-\>, generate a switch
 	block template: >
 		switch (fn) {
@@ -117,17 +101,17 @@
 <	Now the cursor stops between "case 0 :" and "break;", type : >
 		if<C-\>
 <	It becomes : >
-		switch (fn) {		# upper level template
-		  case 0 :		#
-		    if (){		. nested template
+		switch (fn) {		| upper level snippet
+		  case 0 :		|
+		    if (){		. nested snippet
 		      `cursor^		.
 		    }			.
-		    break;		# upper level template
-		    `...^               #
-		  default:              #
-			`^              #
-		}                       #
-<	Type <Tab>, <Tab>.. to navigate out of the nested template : >
+		    break;		| upper level snippet
+		    `...^               |
+		  default:              |
+			`^              |
+		}                       |
+<	Type <Tab>, <Tab>.. to navigate out of the nested snippet : >
 		switch ("xp.c" == fn) {
 		  case 0 :
 		    if (){
@@ -139,114 +123,20 @@
 			<--------------cursor stops here
 		}
 <	Now cursor stops after "default:", and we get out back to the "switch"
-	template
-							      *xpt-auto-indent*
-	Template is autdo indented when the first time it shows up on screen,
-	your typing in template and after template rendering.
+	snippet
 
 ==============================================================================
 
-								     *xpt-api*
-	Templates are defined in filetype plugins. You can find them all in
-	ftpplugin/**/*.template.vim
-	You can add new template just by creating another ftplugin file.
-	And you can include other template file in your template file. see
-	|xpt-include|.
-
-	Define new template is easy, for example : >
-		call XPTemplate("inc", 'include <`^.h>')
-<	Defines the "include" template. Item quoted by |`| and |^| are
-	replaced by user typing. Function maybe used in ftplugin
-	scripts:
-	|XPTemplate()|		define new template
-	|XPTemplateIndent()|	define indent option to current buffer
-	|XPTemplateMark()|	define new template mark in current buffer
-	|XPTcontainer()|		get function container
-	|XPTvars()|		get variable container
 
 
-								 *xpt-include*
-	You can include another template file in any *.template.vim file : >
-		runtime ftplugin/_common/common.template.vim
-<
-							     *xpt-item-format*
-	Item is composed as follow :
-	|`| |xpt-item-name| |^| [|xpt-snippet-default-value| |^| [|^|]]
-
-
-
-							   *xpt-format-normal*
-	Normal format is |`| |xpt-item-name| |^|. As you navigate to such an
-	item, |xpt-item-name| is evaluated and selected as default value.
-
-							  *xpt-format-default*
-	|`| |xpt-item-name| |^| |xpt-snippet-default-value| |^| is default value
-	format let you specify some other text as default value when navigated
-	to this item. |xpt-snippet-default-value| can be plain text, |xpt-snippet-variable|,
-	|xpt-snippet-function| or mixed.
-
-						      *xpt-format-post-filter*
-	Delayed default value format :
-	|`| |xpt-item-name| |^| |xpt-snippet-post-filter| |^| |^|
-
-	It is similar with |xpt-format-default|. The only difference is when
-	you jump to such item, |xpt-item-name| is selected and you can edit as
-	well. Like |xpt-format-normal|. But when you jumps to next item , the
-	|xpt-snippet-post-filter| applied and evaluated text replaces the left text. 
-
-
-						      *S()*   *xpt-substitute*
-S({pattern},{replace},[{flag}])
-	Substitue typed content with pattern and replace. Just like
-	|substitute()|.
-
-
-						     *`cursor^*   *xpt-curosr*
-	The item of name "cursor" is a special one. It always is selected at
-	last and replaced with empty string. When navigate to "cursor" item,
-	template is complete.
-
-						     *`^*    *xpt-unmaed-item*
-	You can specify unnamed item bu just leave the name empty, : >
-		call XPTemplate("fun", [
-		      \"  `int^",
-		      \"`name^(`^)",
-		      \"{",     \__________unnamed item
-		      \"  `cursor^",
-		      \"}"
-		      \])
-<	The function parameter is a unnamed item. Each unnamed item is a
-	unique one and different unnamed items will not be treated as with the
-	same name : empty string.
-
-						  *\w\+...*   *xpt-expandable*
-	One of |xpt-snippet-post-filter| usages is to define expandable item. When
-	<tab> is pressed, post-filter applied and replace the item text with
-	what post filter evaluated to be. |xpt-repeatable| is implemented with
-	|xpt-expandable|.
-
-	Expandable item must be with name of "\w\+\.\.\." to be able to
-	expand. For example : >
-		call XPTemplate('if', [
-		      \ 'if (`condi^) {', 
-		      \ '  `_^', 
-		      \ '}', 
-		      \ '`else...^else {',    | the expandalbe item
-		      \ '  \`cursor\^',  
-		      \ '}^^'
-		      \])
-<	Only when item is not modified post filter can be applied to item. Or
-	|xpt-expandable| is treated as a normal one without post filter.
-
-
-					 *`...n^*  *`...^*    *xpt-repeatable*
+				      *`...^*    *xpt-...*    *xpt-repetition*
 	Some segment can be defined as repeatable, for example the "case"s in
-	"switch". To specify the repeatable part is easy, just wrap the part
-	you want it to repeat with `...n^ . n is a number and can be omitted.
+	"switch". To specify the repetition part is easy, just wrap the part
+	you want it to repeat with `...^ . n is a number and can be omitted.
 	Take the case from "switch": >
 		call XPTemplate('switch', [
 		      \ 'switch (`^) {',
-		      \ '  `...^',            | repeatable part
+		      \ '  `...^',            | repetition part
 		      \ '  case `^0^ :',      |
 		      \ '    `^',             |
 		      \ '    break;',         |
@@ -257,7 +147,7 @@ S({pattern},{replace},[{flag}])
 		      \ '}'
 		      \])
 <
-	When you trigger a repeatable template, it works as below : >
+	When you trigger a repetition template, it works as below : >
 		switch () {    <-------cursor stays here,
 		  `...^
 
@@ -277,7 +167,7 @@ S({pattern},{replace},[{flag}])
 		  default:
 			`^
 		}
-<	Enter the repeatable part. You may have noticed there is another
+<	Enter the repetition part. You may have noticed there is another
 	|`...^|, that is the another repeat trigger.
 
 	Press <tab> 3 times : >
@@ -287,7 +177,7 @@ S({pattern},{replace},[{flag}])
 
 		    break;
 
-		  case `20^ :      | selected repeatable part
+		  case `20^ :      | selected repetition part
 		    `^             |
 			break;     |
 		    `...^          |
@@ -295,7 +185,7 @@ S({pattern},{replace},[{flag}])
 		  default:
 			`^
 		}
-<	More than abore, Using |`...n^| let you define multiple repetition parts in
+<	More than abore, Using |xpt-...| let you define multiple repetition parts in
 	one snippet. : >
 		call XPTemplate( "tryof", [
 		      \ "try `what^",
@@ -310,7 +200,7 @@ S({pattern},{replace},[{flag}])
 		      \ "" ] )
 <
 	Repetition part can NOW be recursively defined. See *.html "table2"
-	template : >
+	snippet : >
 		call XPTemplate('table2', [
 		      \ '<table>',
 		      \ '  <tr>',
@@ -323,215 +213,83 @@ S({pattern},{replace},[{flag}])
 		      \ '  </tr>`...0^', 
 		      \ '</table>'
 		      \])
-<
+<	See also |xpt-snippet-repetition|.
 
-						   *`wrapped^*   *xpt-wrapped*
-	Define the template : >
-		call XPTemplate('invoke_', [
-		      \ '`name^(`wrapped^)'
-		      \])             \_______wrapped item
-<	And in a file use |V| to select some text, press<C-\> |v_CTRL-\|. The
-	selected text is yanked and removed, A popup menu appears to let you
-	select template name. : >
+								 *xpt-wrapped*
+	Wrapper snippet can only be triggered in visual mode, the place holder
+	`wrapped^ is replaced with text selected in visual mode.
+	For instance the following snippet : >
+		XPT call_ hint=..(\ SEL\ )
+		`name^(`wrapped^`, `^)`cursor^
+<	And use |V| to select some text, press<C-\> |v_CTRL-\|. The
+	selected text is yanked and removed, A popup menu appears for
+	selecting snippet name. : >
 		a, b
-	press V to select this line,<C-\>, in popup, select "invoke_", it
-	shows:
+<	press V to select this line,<C-\>, in popup, select call_", it
+	shows : >
 		name(a, b)
-<	Now edit the name.
-
-
-
-
-
-
-
-					       *self._ctx*  *xpt-snippet-function-ctx*
-	template context can be accessed from within |xpt-snippet-function|. For
-	example the reference function: >
-		fun! s:f.R(name)
-		  let ctx = self._ctx
-		  if has_key(ctx.namedStep, a:name)
-		    return ctx.namedStep[a:name]
-		  endif
-
-		  return a:ctx.name
-		endfunction
-<
-
-
-									 *C()*
-	Get function context, see |xpt-snippet-function-ctx|
-								   *E({expr})*
-	Equals to |expand()|
-									 *N()*
-	Current edited item name. Valid only to |xpt-snippet-post-filter|.
-									 *V()*
-	Current typed text. Valid only to |xpt-snippet-post-filter|.
-								   *R({name})*
-	Reference to history item. Get value by name.
-					       *S({expr},{pat},{sub},{flags})*
-	Equals to |substitute()|.
-									*SV()*
-	Euqals to S(V(),{pat},{sub},{flag})
+<	
 
 								 *xpt-context*
-	You can define template that can only be triggered at certain
+	You can define snippet that can only be triggered at certain
 	circumstancesstances. For example in certain syntax.
-	Defining context denpended template is by adding another parameter to
+	Defining context denpended snippet is by adding another parameter to
 	XPTemplate call "{'syn' : 'the context name'}" : >
 		call XPTemplate("para", {'syn' : 'comment'}, "
 			\@param {`Object^} `name^ `desc^")
-<	Now only in syntax of name like "comment", template "para" can be
+<	Now only in syntax of name like "comment", snippet "para" can be
 	triggered.
 
-								*XPTemplate()*
-XPTemplate({name}, [, {context}], {template})
-	"XPTemplate" defines a template to current buffer. It takes 2 or 3
-	parameters:
-	{name} is string representing the key to trigger this template.
-	{context} can be omit or an |Dictionary| defines where this template
-	can be triggered. For now only "syn" is supported.
-	{template} can be string or |List|. |List| will be joined with "\n"
-	forming a template string. This saves you adding "\n" to each line.
-
-							    *XPTemplateMark()*
-XPTemplateMark({leftmark}, {rightmark})
-	XPTemplateMark defines what chars are used as item quoter. It only
-	takes effect to current buffer. See |xpt-placeholder-mark|.
-
-	NOTE this function affects only to current script and current buffer.
-
-							*XPTemplatePriority()*
-XPTemplatePriority({priority})
-	XPTemplatePriority set default priority for only current *.xpt.vim
-	script and current buffer. See |xpt-priority-value|
-
-	NOTE this function affects only to current script and current buffer.
-
-
-
-
-
-					   *XPTemplateIndent()*   *xpt-indent*
-							      {default:"auto"}
-XPTemplateIndent({indentOption})
-	XPTemplateIndent set indent option to current buffer. {indentOption}
-	can be :
-	"auto" : indent lines in snippet with default indent options. see
-	|indent.txt|.
-	"keep" : keep indent.
-	"/n[*n]" : multiple indent space. If "*n" not presented, 'shiftwidth'
-	is used.
-
-	Indent setting can also be applied to a certain template by using this
-	format : >
-		call XPTemplate("main=/2*16", [...
-		call XPTemplate("main=/2", [...       // using shiftwidth
-<
-
-
-
-
-
-						      *XPTcontainer()* *XPTvars()*
-g:XPTfuncs()   g:XPTvars()
-	g:XPTfuncs() returns a |Dictionary| container of functions can be used
-	in template in current buffer. The normal using of g:XPTfuncs() to
-	define a template function is : >
-		let s:f = g:XPTfuncs()
-
-		fun! s:f.date() dict
-		  return strftime("%Y %b %d")
-		endfunction
-<
-	g:XPTvars() returns a |Dictionary| container of variables can be used
-	in template in current buffer. For example : >
-		let s:v = g:XPTvars()
-
-		let s:v['$author'] = "drdr.xp"
-<
-	Now  can use function or variables in template : >
-	call XPTemplate("filehead", [
-	      \'/**--------------------/// `sum^ \\\----------------------',
-	      \' *',
-	      \' * @version : `1.0^',
-	      \' * @since : `date()^',
-	      \' * @author : `$author^ | `$email^',
-	      \' * @copyright `.com.cn^ ',
-	      \' * @TODO : ',
-	      \' * ',
-	      \' *---------------------\\\ `sum^ ///----------------------*/',
-	      \''])
-<
 ==============================================================================
 
-								*xpt-key-bind*
-	Default key binds to trigger template are |i_CTRL-\| and |v_CTRL-\|.
-	And with |g:xptemplate_key| option you can override them.
-
-								    *i_CTRL-\*
-	Trigger template in insert mode.
-								    *v_CTRL-\*
-	Trigger template with selected text in visual mode. Text you selected
-	will be wrapped within "wrapped" item. See |xpt-wrapped|
-
-					*xpt-navigate-key*   *i_TAB*   *s_TAB*
-	Navigate to next item.
-
-							  *xpt-clear*   *s_CR*
-	Clear current item and jump to next.
-								    *s_CTRL-l*
-	Jump to the end of current item in insert mode.
-
-
-
-
-==============================================================================
-
-								  *xpt-option*
+				    *xpt-mapping*  *xpt-key-bind* *xpt-option*
 	Options can be set in |.vimrc| to modify xptemplate behavior.
 
+							*i_CTRL-\*  *v_CTRL-\*
+							     *xpt-key-trigger*  
 							    *g:xptemplate_key*
 							       {default:<C-\>}
-	The key to trigger template. See |i_CTRL-\| |v_CTRL-\|.
+	The key to trigger snippet, in insert mode or visual mode.
+	|v_CTRL-\| for triggering snippet with selected text in visual mode.
+	Text you selected will be wrapped within "wrapped" item. See |xpt-wrapped|
+	And with |g:xptemplate_key| option you can override them.
 
+							  *i_<tab>*  *s_<tab>*
+							    *xpt-key-navigate*   
 						       *g:xptemplate_nav_next*
 							       {default:<tab>}
-	After template triggerred, to press which key to navigate to next.
+	After snippet triggerred, to press which key to navigate to next.
+	Navigate to next item.
+	Using |g:xptemplate_nav_next| to config this mapping.
 
+						     *s_<CR>*  *xpt-key-clear*
 						     *g:xptemplate_nav_cancel*
 								{default:<cr>}
-	After template triggerred, to press which key to clear current item
-	and jump to next.
+	Press to clear current place holder and jump to next.
+	Using |g:xptemplate_nav_cancel| to config this mapping.
 
+								    *s_CTRL-l*
+							  *xpt-key-goto-right*
 						       *g:xptemplate_to_right*
 							     {default:"<C-l>"}
-	Change the default key |s_CTRL-l| to jump to item end in |Select-mode|.
+	Jump to the end of current place holder and go to insert mode.
+	Using |g:xptemplate_to_right| to config this mapping.
+
+								     *n_<C-g>*
+							      *xpt-key-goback*
+							 *g:xptemplate_goback*
+							       {default:<C-g>}
+	Go back to current place holder, and to insert mode.
+	Using |g:xptemplate_goback| to config this mapping.
+
+
+
+==============================================================================
+
 
 						     *g:xptemplate_strip_left*
 								   {default:1}
-	When set, wrapping template |xpt-wrapped| removes space before line.
-
-			 *xpt-cursor-protection*   *g:xptemplate_limit_curosr*
-								   {default:1}
-	When set, cursor is hold where it should be, but this will slow down
-	a bit template rendering.
-
-						      *g:xptemplate_highlight*
-								   {default:1}
-	When set, items with the same name of current item is highlighted.
-
-
-						     *g:xptemplate_show_stack*
-								   {default:1}
-	When set, at the left of |statusline|, nested template |xpt-nested|
-	are showed : >
-		XPT:for[len] > if[]
-<	Indicate rendering template "if" inside template "for".
-
-							     *g:xptemplate_hl*
-								   {default:1}
-	Whether to highlight currently editing item. See |xpt-highlight|.
+	When set, wrapping snippet |xpt-wrapped| removes space before line.
 
 				      *xpt-personal-var*   *g:xptemplate_vars*
 	Set personal variables used in template, see |xpt-snippet-variable|. Variable
@@ -551,19 +309,6 @@ g:XPTfuncs()   g:XPTvars()
 			\ : '$other=bla'
 <	Entries are separated with '&'
 
-	       *XPTCurrentItem*   *XPTIgnoredMark*   *xpt-hl*  *xpt-highlight*
-	As you can disable or enable highlight for current editing item, you
-	can specify the highlight color.
-	In your .vimrc file, Two highlight color can be specified : >
-	hi XPTCurrentItem 
-		\ctermbg=darkgreen 
-		\gui=none guifg=#d59619 guibg=#efdfc1
-	hi XPTIgnoredMark 
-		\cterm=none term=none ctermbg=black ctermfg=darkgrey 
-		\gui=none guifg=#dddddd guibg=white
-<	"XPTCurrentItem" is the color of current editing item.
-	"XPTIgnoredMark" is the color of mark |`| and |^|.
-
 
 
 
@@ -579,13 +324,13 @@ Fixed:2009 May 23	avoiding popup fall back into line complete mode
 ==== 0.3.7.19 ====
 Added:2009 May 23	protect buffer local mapping from being broken by xpt
 ==== 0.3.7.18 ====
-Added:2009 May 23	smart case sensitive matching of template name
+Added:2009 May 23	smart case sensitive matching of snippet name
 Fixed:2009 May 23	map stack bug of failed to backup mapping
-Added:2009 May 22	for template name, other keywords can be specified
+Added:2009 May 22	for snippet name, other keywords can be specified
 ==== 0.3.7.17 ====
 Fixed:2009 May 20	redraw only for language indenting depending on syntax
-Fixed:2009 May 18	unescape \XPT in template body
-Added:2009 May 18	much more nice template popup hint : longest match, <tab> to trigger template
+Fixed:2009 May 18	unescape \XPT in snippet body
+Added:2009 May 18	much more nice snippet popup hint : longest match, <tab> to trigger snippet
 Fixed:2009 May 17	escaping moved to post-filter phase
 Fixed:2009 May 17	select none when popup shown
 Fixed:2009 May 17	bug of first line indent
@@ -599,7 +344,7 @@ Added:2009 May 16	multi line XSET : XSETm varname= {lines of codes} XSETm END. G
 Fixed:2009 May 16	bug of typing '\' becoming '\\'
 ==== 0.3.7.13 ====
 Added:2009 May 15	fullname and name both for tepmlate functions
-Added:2009 May 15	mechanism to expand template in item. 'Trigger("name")'
+Added:2009 May 15	mechanism to expand snippet in item. 'Trigger("name")'
 Fixed:2009 May 15	cursor at last causes it deletes 1 char before.
 Fixed:2009 May 14	bug of item edge with default value
 Added:2009 May 14	popup hint for item value, which is defined as default
@@ -609,7 +354,7 @@ Added:2009 May 11	highlight options
 Added:2009 May 10	item edge now can contain \W chars
 Fixed:2009 May 09	case bug of popup
 Fixed:2009 May 09	bug of laststatus=0 causing cursor limit not working
-Fixed:2009 May 09	bug of template range exceeding template end if
+Fixed:2009 May 09	bug of snippet range exceeding snippet end if
 			following content contains '^'
 Fixed:2009 May 09	On finishing template, unescape bug
 Added:2009 May 09	personal variable setting
@@ -626,7 +371,7 @@ Added:2009 May 03	item edge element
 Fixed:2009 May 03	items content does not change if <cr> pressed
 Fixed:2009 May 01	items in default value can be selected.
 Fixed:2009 May 01	Don't show popup if only 1 key matches
-Fixed:2009 May 01	simplify template definition : '..XPT' is no more
+Fixed:2009 May 01	simplify snippet definition : '..XPT' is no more
 			needed.
 Fixed:2009 Apr 30	bug of line removed sometimes if folding is enabled
 			Thanks to C. Coutinho
@@ -634,8 +379,8 @@ Fixed:2009 Apr 30	bug of weird 'cpo' option causes mapping not working
 Fixed:2009 Apr 29	bug of formatting line causes line removed. Thanks to 
 			C. Coutinho
 Fixed:2009 Apr 29	bug of default value at line end. Thanks to C. Coutinho
-Added:2009 Apr 29	new command format to define template
-Fixed:2009 Apr 27	bug of formatting making template a mess.
+Added:2009 Apr 29	new command format to define snippet
+Fixed:2009 Apr 27	bug of formatting making snippet a mess.
 Fixed:2009 Apr 27	bug of post-filter value ends with "\n"
 Added:2009 Apr 26	nested repetition
 Fixed:2009 Apr 26	bug of double escaped '/' when applying predefined.
@@ -646,9 +391,9 @@ Added:2009 Apr 22	multi repetition part.
 Fixed:2009 Apr 22	item at [1, 1] cause crazy behavior. thanks to
 			Vincent.B
 Fixed:2009 Apr 22	bug that folding causes some text incorrectly deleted
-Fixed:2009 Apr 22	bug of cursor stopping 1 char before template end
+Fixed:2009 Apr 22	bug of cursor stopping 1 char before snippet end
 Added:2009 Apr 22	ocaml snippets thanks to Vincent B.
-Fixed:2009 Apr 21	char before template name moved to after template if 
+Fixed:2009 Apr 21	char before snippet name moved to after snippet if 
 			'virtualedit' is not set with 'onemore'
 Fixed:2009 Apr 21	ruler and statusline check.Thanks christian.coutinho
 Added:2009 Apr 19	plugin support
@@ -659,52 +404,52 @@ Added:2009 Apr 18	function can take parameters
 Fixed:2009 Apr 18	cursor bug
 Fixed:2009 Apr 18	cursor protection bug if item with no content
 			some code refinement
-Fixed:2009-Apr-16	format overwhelming char next to template
+Fixed:2009-Apr-16	format overwhelming char next to snippet
 Fixed:2009-Apr-14	escape. at last unescape marks
 Fixed:2009-Apr-14	unescape when building positionn list
 Added:2009-Apr-14	format as typed
-Added:2009-Apr-14	reentering insert mode cancels wrap template
+Added:2009-Apr-14	reentering insert mode cancels wrap snippet
 Added:2009-Apr-13	out of item content protection
 Fixed:2009-Apr-13	default value for item without name
 Fixed:2009-Apr-12	item highlight more precisely
 Fixed:2009-Apr-12	to format default value
-Fixed:2009-Apr-12	repeatable template bug of escaped char
-Added:2009-Apr-12	user defined template generation
+Fixed:2009-Apr-12	repetition snippet bug of escaped char
+Added:2009-Apr-12	user defined snippet generation
 Added:2009-Apr-12	on-type high light
 Added:2009-Apr-12	hide cursor if only appears at last
-Added:2009-Apr-12	repeatable elements `...^
+Added:2009-Apr-12	repetition elements `...^
 Fixed:2009-Apr-12	bug of '\' in typed content
 Fixed:2009-Apr-12	self nested range bug
-Fixed:2009-Apr-12	inline template goes to upper line
+Fixed:2009-Apr-12	inline snippet goes to upper line
 Fixed:2009-Apr-12	update items as input
 Fixed:2009-Apr-11	syntax context sensitive bug
-Added:2009-Apr-11	remember alternative value before template rendering
+Added:2009-Apr-11	remember alternative value before snippet rendering
 Added:2009-Apr-11	alternative default value
 Added:2009-Apr-10	new function and variable interface
 Added:2009-Apr-10	zero-width item
 Fixed:2009-Apr-10	do not use mark 'O' anymore
 Fixed:2009-Apr-10	new function and variable definition format
-Added:2009-Apr-10	render template in another tempalte nested template
-Added:2009-Apr-09	strip left space for wrapping template
+Added:2009-Apr-10	render snippet in another tempalte nested snippet
+Added:2009-Apr-09	strip left space for wrapping snippet
 Fixed:2009-Apr-09	0 width content replacing problem
 Added:2009-Apr-09	cursor position protect
 Fixed:2009-Apr-09	more precise searching range
 Added:2009-Mar-27	templating with wrapping
 Fixed:2009-Mar-25	typed content with '~' is incorrectly dealed
-Fixed:2009-Mar-25	using buffer-scope data to store template data
-Added:2009-Mar-25	dealing with escaped template mark character correctly
-Added:2009-Mar-19	add common template
+Fixed:2009-Mar-25	using buffer-scope data to store snippet data
+Added:2009-Mar-25	dealing with escaped snippet mark character correctly
+Added:2009-Mar-19	add common snippet
 Fixed:2009-Mar-17	indent bug
 Fixed:2009-Mar-17	format after finishing all types
-Added:2009-Mar-16	buffer depended template item mark
-Added:2009-03-15	user defined variables and functions in template
-Added:2009-03-14	syntax context sensitive template rendering
+Added:2009-Mar-16	buffer depended snippet item mark
+Added:2009-03-15	user defined variables and functions in snippet
+Added:2009-03-14	syntax context sensitive snippet rendering
 Fixed:2009-03-03	precise range for typed content
 Fixed:2009-02-27	fix select mode mapping
 Fixed:2008-06-15	fix the bug of some text being selected at start
 Fixed:2008-06-15	bug of cursor at first column not being rendered correctly
 Fixed:2008-06-15	fix no item bug.
-Added:2008-06-15	add default cursor position at template end
+Added:2008-06-15	add default cursor position at snippet end
 Fixed:2008-06-11	bug of popup menu while no word char under cursor
 Fixed:2008-06-11	bug syn highlight not cleared
 Fixed:2008-06-11	bug unrecognized item at 1st column
@@ -717,13 +462,13 @@ Added:2008-06-08	high light cuurent variable
 Added:2008-06-08	replace search navigation with search()
 Added:2008-06-08	while searching & replace symbel, use very no-magic
 Added:2008-06-07	migrated to vim7, use dictionary
-Fixed:2008-02-13	bug with folding when template rendered
+Fixed:2008-02-13	bug with folding when snippet rendered
 Added:2008-02-07	predefined functions
 Added:2007-08-26	default value
 Added:2007-08-26	predefined variables
 Added:2007-08-25	cursor position
-Fixed:2007-09-19	single character template bug that expanding more than one word
-Fixed:2007-09-20	cursor position when no template recognized.
+Fixed:2007-09-19	single character snippet bug that expanding more than one word
+Fixed:2007-09-20	cursor position when no snippet recognized.
 Added:2007-09-20	high light for current item
 
 ==============================================================================

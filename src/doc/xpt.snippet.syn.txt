@@ -10,6 +10,8 @@
 
 	|xpt-snippet-header|
 		|xpt-snippet-priority|
+			|xpt-priority-value|
+			|xpt-priority-format|
 		|xpt-snippet-keyword|
 		|xpt-snippet-mark|
 	|xpt-snippet-variable|
@@ -38,6 +40,10 @@
 	|xpt-placeholder-right-mark|  |^|
 	|xpt-placeholder-edge|
 	|xpt-snippet-leading-placeholder|
+
+	|xpt-placeholder-special|
+	|xpt-placeholder-cursor|
+	|xpt-placeholder-wrapped|
 
 	|xpt-snippet-expression|
 	|xpt-snippet-instant-value|
@@ -94,8 +100,6 @@
 
 		XPT for hint=for\ (var..;..;++)	
 		...
-
-		...
 <
 
 							  *xpt-snippet-header*
@@ -112,22 +116,48 @@
 	|xpt-snippet-function| is defined directly, so that it doesn't
 	controlled by |xpt-snippet-priority|. Something with higher
 	|xpt-snippet-priority| overrides lower.  Format : >
-		priority=<priority-value>
+		XPTemplate priority=<priority-value>
 <	See |xpt-priority-value|.
+							  *xpt-priority-value*
+	Template is defined with a certain priority. One buffer might load
+	templates with same name. Only the snippet with smallest priority can
+	work, others are ignored. 
+	Priority can be valued from 0 to +oo. 0 is the highest priority.
+	Some predefined symbols stand for number priority values : >
+		all		: 64
+		spec		: 48
+		like		: 32
+		lang		: 16
+		sub		: 8
+		personal	: 0
+<	Default priority is "lang" or 16. 
+	
+	You can set priority for each snippet by using |xpt-priority-format|.
+	Or set priority for all templates in current file with
+	|XPTemplatePriority()|.
+
+							 *xpt-priority-format*
+	Priority setting format : "priority[+/-[offset]]".
+	Following format are all valid : >
+	3		3
+	lang		0
+	like+4		36 // like=32
+	all-		63 // all=64
+<
 
 							 *xpt-snippet-keyword*
 	|xpt-snippet-keyword| specifies what else characters can be used as
 	|xpt-snippet-name|.
 	Format : >
-		keyword=...
+		XPTemplate keyword=...
 <	For example, for C language, keyword is set as : >
-		keyword=#
+		XPTemplate keyword=#
 <	So that "#if" can be used as |xpt-snippet-name|.
 
 							    *xpt-snippet-mark*
 	To specify which 2 characters are used as |xpt-placeholder-mark|
 	instead of the default |`| and |^|. Format : >
-		mark=~^
+		XPTemplate mark=~^
 <
 								       *xpt-$*
 							*xpt-snippet-variable*
@@ -385,6 +415,22 @@
 		}
 <	The second "i" with double |`| before "<" is the leading one.
 
+						     *xpt-placeholder-special*
+	Special place holders includes : |xpt-placeholder-cursur| and
+	|xpt-placeholder-wrapped|.
+
+					 *`cursor^*   *xpt-placeholder-cursor*
+	Set where cursor stops after snippet rendering finished.
+	The item of name "cursor" is a special one. It always is selected at
+	last and replaced with empty string. When navigate to "cursor" item,
+	snippet is complete.
+
+						     *xpt-placeholder-wrapped*
+	If snippet contains an place holder : "`wrapped^", it is a wrapped
+	snippet. Wrapped snippet can only be triggered in visual mode, see
+	|xpt-wrapped|, the place holder `wrapped^ is replaced with text
+	selected in visual mode.
+
 				 *xpt-{}* *xpt-mixed* *xpt-snippet-expression*
 	Expression is a mixture of plain text, |xpt-snippet-variable| and
 	|xpt-snippet-function|. 
@@ -488,7 +534,7 @@
 <
 	Some usually-used post filter functions are defined in
 	ftplugin/common/common.xpt.vim. for |xpt-substitute| with name of 'S'.
-	For example for c language, "#ifndef" template defined as follow: : >
+	For example for c language, "#ifndef" snippet defined as follow: : >
 		XPT #ifndef	hint=#ifndef\ ..
 		XSET symbol=S(fileRoot(),'\.','_','g')
 		XSET symbol|post=UpperCase(V())
@@ -568,7 +614,7 @@
 		XSETm END
 <	These 2 methods are the same inside XPTemplate.
 
-	*xpt-snippet-repetition*
+						      *xpt-snippet-repetition*
 	Repetition is only a special case utilizing expandable, that another
 	same expandable trigger residing inside the expandable part. : >
 		XPT enum
