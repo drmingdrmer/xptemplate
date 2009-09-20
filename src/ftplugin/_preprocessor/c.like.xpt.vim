@@ -18,6 +18,8 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
+call XPTemplateMark('`', '^')
+
 XPTemplateDef
 
 
