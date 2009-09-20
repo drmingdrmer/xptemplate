@@ -11,8 +11,8 @@ fun! s:GetMark()
     let lnr = search( '^XPTemplate .*mark=..', 'c' )
 
     if lnr == 0
-	call cursor ( cur )
-	return ['`', '^', '`^']
+        call cursor ( cur )
+        return ['`', '^', '`^']
     endif
 
     let line = getline( lnr )
@@ -62,7 +62,7 @@ syntax keyword  XPTSnippetVar XPTvar nextgroup=XptVarBody skipwhite
 syntax match    XptSnippetIncludeItemDir /\%(\w\+\/\)\+/ containedin=XptSnippetIncludeItem
 syntax match    XptSnippetIncludeItemFile /[a-zA-Z0-9_.]\+\s*$/ containedin=XptSnippetIncludeItem
 syntax match    XptSnippetIncludeItem /\w\+\/.*/ containedin=XptSnippetIncludeBody
-syntax region   XptSnippetIncludeBody start=/^\s*\\/ end=/^\ze\s*[^\\ 	]/ keepend skipwhite
+syntax region   XptSnippetIncludeBody start=/^\s*\\/ end=/^\ze\s*[^\\	]/ keepend skipwhite
 syntax keyword  XptSnippetInclude     XPTinclude nextgroup=XptSnippetIncludeBody skipnl skipwhite
 
 
@@ -115,6 +115,8 @@ syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
 " syntax match XPTcomment /^"\%(\s\|"\)*[^"]*$/ containedin=XPTregion
 syntax match XPTcomment /^".*$/ containedin=XPTregion
 
+syntax match XPTbadIndent /^\(    \)* \{1,3}\ze\%(\S\|$\)/ contained containedin=XPTsnippetBody
+syntax match XPTbadIndent /^\s*\t/ contained containedin=XPTsnippetBody
 
 
 " TODO mark may be need escaping in regexp
@@ -174,6 +176,8 @@ hi link XPTitemPost           WildMenu
 hi link XPTvariable           Constant
 hi link XPTvariable_quote     Constant
 hi link XPTfunction           Function
+
+hi link XPTbadIndent          Error
 
 " not implemented
 hi link XPTmark               Title

@@ -55,10 +55,10 @@ XPT inc hint=XPTinclude\ ...
 XSET path=xpt_vim_path()
 XSET name=xpt_vim_name( R( 'path' ) )
 XPTinclude 
-      \ _common/common`
-      `...{{^`
-      \ `path^/`name^`
-      `...^`}}^
+    \ _common/common`
+    `...{{^`
+    \ `path^/`name^`
+    `...^`}}^
 
 
 XPT container hint=let\ [s:f,\ s:v]\ =...
@@ -120,7 +120,7 @@ XPT fun hint=fun!\ s:f.**
 XSET parameters|def=
 XSET parameters|post=Echo( V() =~ '^\s*$' ? '' : V() )
 fun! s:f.`name^(` `parameters` ^)
-  `cursor^
+    `cursor^
 endfunction
 
 
@@ -134,7 +134,7 @@ XSET indent...|post= indent=`indentValue^
 XSET indentValue=ChooseStr( 'auto', 'keep' )
 
 let s:f = XPTcontainer()[0]
- 
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
