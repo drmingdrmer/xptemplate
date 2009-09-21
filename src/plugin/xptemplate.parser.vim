@@ -314,6 +314,10 @@ fun! s:ConvertIndent( snipLines ) "{{{
     let ts  = &l:tabstop
     let usingTab = !&l:expandtab
 
+    if 0 == sts 
+        let sts = ts
+    endif
+
     let bufIndent = repeat( ' ', sts )
     let tabspaces = repeat( ' ', ts )
 
