@@ -774,7 +774,7 @@ fun! s:FinishRendering(...) "{{{
         call s:ClearMap()
 
 
-        " call feedkeys( "\<C-o>:echoe ''\<cr>", 'nt' )
+        call feedkeys( "\<C-o>:echoe ''\<cr>", 'nt' )
 
         return ''
         " return '' . g:xpt_post_action
