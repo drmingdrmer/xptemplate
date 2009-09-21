@@ -395,6 +395,7 @@ fun! s:FinishRendering(...)
         let renderContext.processing = 0
         let renderContext.phase = 'finished'
         call s:ClearMap()
+        call feedkeys( "\<C-o>:echoe ''\<cr>", 'nt' )
         return ''
     else
         call s:PopCtx()
