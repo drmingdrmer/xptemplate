@@ -149,8 +149,7 @@ endfunction "}}}
 XPTemplateDef
 
 XPT # hint=#{..} syn=string
-XSET _=
-#{`_^}
+#{`^}
 
 
 XPT : hint=:...\ =>\ ...
@@ -158,9 +157,8 @@ XPT : hint=:...\ =>\ ...
 
 
 XPT % hint=%**[..]
-XSET _=Q
-XSET content=
-%`_^[`content^]
+XSET _=Choose(['w', 'W', 'q', 'Q'])
+%`_^[`^]
 
 
 XPT BEG hint=BEGIN\ {\ ..\ }
@@ -196,26 +194,22 @@ extend Forwardable
 
 
 XPT Md hint=Marshall\ Dump
-XSET file=file
-File.open("`filename^", "wb") { |`file^| Marshal.dump(`obj^, `file^) }
+File.open(`filename^, "wb") { |`file^| Marshal.dump(`obj^, `file^) }
 
 
 XPT Ml hint=Marshall\ Load
-XSET file=file
-File.open("`filename^", "rb") { |`file^| Marshal.load(`file^) }
+File.open(`filename^, "rb") { |`file^| Marshal.load(`file^) }
 
 
 XPT Pn hint=PStore.new\(..)
-PStore.new("`filename^")
+PStore.new(`filename^)
 
 
 XPT Yd hint=YAML\ dump
-XSET file=file
 File.open("`filename^.yaml", "wb") { |`file^| YAML.dump(`obj^,`file^) }
 
 
 XPT Yl hint=YAML\ load
-XSET file=file
 File.open("`filename^.yaml") { |`file^| YAML.load(`file^) }
 
 
@@ -260,9 +254,7 @@ end
 
 
 XPT array hint=Array.new\(..)\ {\ ...\ }
-XSET arg=i
-XSET size=5
-Array.new(`size^) { |`arg^| `cursor^ }
+Array.new(`size^) { |`i^| `cursor^ }
 
 XPT ass hint=assert**\(..)\ ...
 XSET what=RubyAssertPopup()
@@ -276,10 +268,10 @@ XSET what=Choose(["accessor", "reader", "writer"])
 XSET what|post=SV("^_$",'','')
 XSET attr*|post=ExpandIfNotEmpty(', :', 'attr*')
 attr`_`what^ :`attr*^
-..XPT
 
 XPT begin hint=begin\ ..\ rescue\ ..\ else\ ..\ end
 XSET block=# block
+XSET Exception|post=RubyCamelCase()
 begin
     `expr^
 ``rescue...`
@@ -441,8 +433,7 @@ Dir[`_^]
 
 
 XPT dirg hint=Dir.glob\(..)\ {\ |..|\ ..\ }
-XSET d=file
-Dir.glob('`dir^') { |`f^| `cursor^ }
+Dir.glob(`dir^) { |`file^| `cursor^ }
 
 
 XPT do hint=do\ |..|\ ..\ end
@@ -466,8 +457,7 @@ each`_`what^ { |`vars^| `cursor^ }
 
 
 XPT fdir hint=File.dirname\(..)
-XSET _=
-File.dirname(`_^)
+File.dirname(`^)
 
 
 XPT fet hint=fetch\(..)\ {\ |..|\ ..\ }
@@ -475,7 +465,6 @@ fetch(`name^) { |`key^| `cursor^ }
 
 
 XPT file hint=File.foreach\(..)\ ...
-XSET line=line
 File.foreach('`filename^') { |`line^| `cursor^ }
 
 
@@ -492,28 +481,22 @@ File.join(`dir^, `path^)
 
 
 XPT fla hint=flatten_once
-XSET arr=arr
-XSET a=a
 inject(Array.new) { |`arr^, `a^| `arr^.push(*`a^) }
 
 
 XPT fread hint=File.read\(..)
-File.read('`filename^')
+File.read(`filename^)
 
 
 XPT grep hint=grep\(..)\ {\ |..|\ ..\ }
-XSET match=m
 grep(/`pattern^/) { |`match^| `cursor^ }
 
 
 XPT gsub hint=gsub\(..)\ {\ |..|\ ..\ }
-XSET match=m
 gsub(/`pattern^/) { |`match^| `cursor^ }
 
 
 XPT hash hint=Hash.new\ {\ ...\ }
-XSET hash=h
-XSET key=k
 Hash.new { |`hash^,`key^| `hash^[`key^] = `cursor^ }
 
 XPT if hint=if\ ..\ end
@@ -530,28 +513,20 @@ else
 end
 
 XPT ifei hint=if\ ..\ elsif\ ..\ else\ ..\ end
-XSETm else...|post
-
-else
-    `cursor^
-XSETm END
-XSETm elsif...|post
-
-elsif `boolean exp^
-`block^`
-`elsif...^
-XSETm END
 XSET block=# block
-if `boolean exp^
-    `block^`
-`elsif...^`
-`else...^
-end
+if `boolean exp^`
+    `block^
+``elsif...`
+{{^elsif `comparison^
+    `block^
+``elsif...`
+^`}}^``else...`
+{{^else
+    `cursor^
+`}}^end
 
 
 XPT inj hint=inject\(..)\ {\ |..|\ ..\ }
-XSET accumulator=acc
-XSET element=el
 inject`(`arg`)^ { |`accumulator^, `element^| `cursor^ }
 
 
@@ -608,9 +583,7 @@ XSET arg*|post=RepeatInsideEdges(', ')
 
 XPT open hint=open\(..)\ {\ |..|\ ..\ }
 XSET mode...|post=, '`wb^'
-XSET wb=wb
-XSET io=io
-open("`filename^"`, `mode...^) { |`io^| `cursor^ }
+open(`filename^`, `mode...^) { |`io^| `cursor^ }
 
 
 XPT par hint=partition\ {\ |..|\ ..\ }
@@ -644,13 +617,14 @@ XPT reqs hint=%w[..].map\ {\ |lib|\ require\ lib\ }
 XSET lib*|post=ExpandIfNotEmpty(' ', 'lib*')
 %w[`lib*^].map { |lib| require lib }
 
+..XPT
+
 
 XPT reve hint=reverse_each\ {\ ..\ }
 reverse_each { |`element^| `cursor^ }
 
 
 XPT scan hint=scan\(..)\ {\ |..|\ ..\ }
-XSET match=m
 scan(/`pattern^/) { |`match^| `cursor^ }
 
 
@@ -660,6 +634,7 @@ select { |`element^| `cursor^ }
 
 XPT shebang hint=#!/usr/bin/env\ ruby
 #!/usr/bin/env ruby
+# -*- encoding: `utf-8^ -*-
 
 
 XPT sinc hint=class\ <<\ self;\ self;\ end
@@ -675,14 +650,10 @@ sort_by {` |`arg`|^ `cursor^ }
 
 
 XPT ste hint=step\(..)\ {\ ..\ }
-XSET arg=i
-XSET count=10
-XSET step=2
-step(`count^`, `step^) { |`arg^| `cursor^ }
+step(`count^`, `step^) { |`i^| `cursor^ }
 
 
 XPT sub hint=sub\(..)\ {\ |..|\ ..\ }
-XSET match=m
 sub(/`pattern^/) { |`match^| `cursor^ }
 
 
@@ -710,10 +681,14 @@ XSET deft=Trigger('deft')
 require "test/unit"
 require "`module^"
 
-class Test`ClassName^ < Test::Unit:TestCase
-    `deft^`...^
+class Test`ClassName^ < Test::Unit::TestCase
+    `deft^`
 
-    `deft^`...^
+    `deft...`{{^
+
+    `deft^`
+
+    `deft...`^`}}^
 end
 
 
@@ -722,16 +697,14 @@ XPT tif hint=..\ ?\ ..\ :\ ..
 
 
 XPT tim hint=times\ {\ ..\ }
-times {` |`index`|^ `cursor^ }
+times {` |`i`|^ `cursor^ }
 
 
 XPT tra hint=transaction\(..)\ {\ ...\ }
-XSET _=true
-transaction(`_^) { `cursor^ }
+transaction(`true^) { `cursor^ }
 
 
 XPT unif hint=Unix\ Filter
-XSET line=line
 ARGF.each_line do |`line^|
     `cursor^
 end
@@ -750,24 +723,20 @@ end
 
 
 XPT upt hint=upto\(..)\ {\ ..\ }
-XSET arg=i
-XSET ubound=10
-upto(`ubound^) { |`arg^| `cursor^ }
+upto(`ubound^) { |`i^| `cursor^ }
 
 
 XPT usai hint=if\ ARGV..\ abort\("Usage...
-XSET _=
 XSET args=[options]
-if ARGV`_^
-  abort "Usage: #{$PROGRAM_NAME} `args^"
+if ARGV`^
+    abort "Usage: #{$PROGRAM_NAME} `args^"
 end
 
 
 XPT usau hint=unless\ ARGV..\ abort\("Usage...
-XSET _=
 XSET args=[options]
-unless ARGV`_^
-  abort "Usage: #{$PROGRAM_NAME} `args^"
+unless ARGV`^
+    abort "Usage: #{$PROGRAM_NAME} `args^"
 end
 
 
@@ -778,12 +747,11 @@ end
 
 
 XPT wid hint=with_index\ {\ ..\ }
-XSET index=i
 with_index { |`element^, `index^| `cursor^ }
 
 
 XPT xml hint=REXML::Document.new\(..)
-REXML::Document.new(File.read("`filename^"))
+REXML::Document.new(File.read(`filename^))
 
 
 XPT y syn=comment hint=:yields:
@@ -791,7 +759,6 @@ XPT y syn=comment hint=:yields:
 
 
 XPT zip hint=zip\(..)\ {\ |..|\ ..\ }
-XSET row=row
 zip(`enum^) { |`row^| `cursor^ }
 
 
@@ -807,8 +774,9 @@ XSET name.post=RubySnakeCase()
 
 
 XPT def_ hint=def\ ..()\ SEL\ end
-XSET _.post=RubySnakeCase()
-def `_^`(`args`)^
+XSET method_name|post=RubySnakeCase()
+XSET arg*|post=RepeatInsideEdges(', ')
+def `method_name^`(`arg*`)^
     `wrapped^
 end
 
@@ -828,6 +796,7 @@ end
 
 
 XPT begin_ hint=begin\ SEL\ rescue\ ..\ else\ ..\ end
+XSET Exception|post=RubyCamelCase()
 XSET block=# block
 begin
     `wrapped^
