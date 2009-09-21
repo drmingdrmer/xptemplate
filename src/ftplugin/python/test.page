@@ -73,48 +73,6 @@ a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
-    #  -------------Author--------------- 
-    # `$author^                           
-
-
-
-drdr.xp
-
-drdr.xp b
-
-a drdr.xp b
-
-a drdr.xp
-
-
-    #  -------------Email--------------- 
-    # `$email^                           
-
-
-
-drdr.xp@gmail.com
-
-drdr.xp@gmail.com b
-
-a drdr.xp@gmail.com b
-
-a drdr.xp@gmail.com
-
-
-    #  -------------File--------------- 
-    # `file()^                          
-
-
-
-test.page
-
-test.page b
-
-a test.page b
-
-a test.page
-
-
     #  -------------[_--------------- 
     # [`wrapped^]                     
 
@@ -149,6 +107,20 @@ WRAPPED_TEXT_line2`b
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
+
+
+    #  -------------Author--------------- 
+    # `$author^                           
+
+
+
+drdr.xp
+
+drdr.xp b
+
+a drdr.xp b
+
+a drdr.xp
 
 
     #  -------------class--------------- 
@@ -194,22 +166,107 @@ a def fun_name(  ):
     
 
 
+    #  -------------elif--------------- 
+    # elif `condition^:                 
+    #     `cursor^                      
+
+
+
+elif condition:
+    
+
+    elif condition_TYPED:
+         b
+
+a elif condition:
+     b
+
+a elif condition:
+    
+
+
+    #  -------------else--------------- 
+    # else:                             
+    #     `cursor^                      
+
+
+
+else:
+    
+
+    else:
+         b
+
+a else:
+     b
+
+a else:
+    
+
+
+    #  -------------Email--------------- 
+    # `$email^                           
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com
+
+
+    #  -------------File--------------- 
+    # `file()^                          
+
+
+
+test.page
+
+test.page b
+
+a test.page b
+
+a test.page
+
+
+    #  -------------for--------------- 
+    # for `var^ in range(`0^):         
+    #     `cursor^                     
+
+
+
+for var in range(0):
+    
+
+    for var_TYPED in range(0_TYPED):
+         b
+
+a for var in range(0):
+     b
+
+a for var in range(0):
+    
+
+
     #  -------------forin--------------- 
-    # for `vars^ in range(`0^):          
+    # for `vars^ in `array^:             
     #     `cursor^                       
 
 
 
-for vars in range(0):
+for vars in array:
     
 
-    for vars_TYPED in range(0_TYPED):
+    for vars_TYPED in array_TYPED:
          b
 
-a for vars in range(0):
+a for vars in array:
      b
 
-a for vars in range(0):
+a for vars in array:
     
 
 
@@ -296,8 +353,8 @@ a (lambda args : expr)
     #  -------------try--------------- 
     # try:                             
     #     `what^                       
-    # except `except^:                 
-    #     `handler^                    
+    # except `Exception^:              
+    #     `pass^                       
     # ``more_except...`                
     # ^``else...`                      
     # ^`finally...^                    
@@ -306,13 +363,13 @@ a (lambda args : expr)
 
 try:
     # nothing
-except except:
-    handler
-except except:
+except Exception:
     pass
-except except:
+except Exception:
     pass
-except except:
+except Exception:
+    pass
+except Exception:
     pass
 else:
     pass
@@ -321,21 +378,21 @@ finally:
 
     try:
         what_TYPED
-    except except_TYPED:
-        handler_TYPED
+    except Exception_TYPED:
+        pass_TYPED
     more_except_TYPED
 else_TYPED
     finally_TYPED b
 
 a try:
     # nothing
-except except:
-    handler
-except except:
+except Exception:
     pass
-except except:
+except Exception:
     pass
-except except:
+except Exception:
+    pass
+except Exception:
     pass
 else:
     pass
@@ -344,13 +401,13 @@ finally:
 
 a try:
     # nothing
-except except:
-    handler
-except except:
+except Exception:
     pass
-except except:
+except Exception:
     pass
-except except:
+except Exception:
+    pass
+except Exception:
     pass
 else:
     pass
@@ -361,7 +418,7 @@ finally:
     #  -------------try_--------------- 
     # try:                              
     #     `wrapped^                     
-    # except `except^:                  
+    # except `Exception^:               
     #     `pass^                        
     # ``more_except...`                 
     # ^``else...`                       
@@ -372,13 +429,13 @@ finally:
 try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-except except:
+except Exception:
     pass
-except except:
+except Exception:
     pass
-except except:
+except Exception:
     pass
-except except:
+except Exception:
     pass
 else:
     pass
@@ -388,7 +445,7 @@ finally:
     try:
         WRAPPED_TEXT
             WRAPPED_TEXT_line2
-    except except_TYPED:
+    except Exception_TYPED:
         pass_TYPED
     more_except_TYPED
 else_TYPED
@@ -397,13 +454,13 @@ else_TYPED
 a try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-except except:
+except Exception:
     pass
-except except:
+except Exception:
     pass
-except except:
+except Exception:
     pass
-except except:
+except Exception:
     pass
 else:
     pass
@@ -413,13 +470,13 @@ finally:
 a try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-except except:
+except Exception:
     pass
-except except:
+except Exception:
     pass
-except except:
+except Exception:
     pass
-except except:
+except Exception:
     pass
 else:
     pass

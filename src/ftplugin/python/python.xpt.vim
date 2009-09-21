@@ -33,9 +33,22 @@ if `cond^:
 ^`}}^`else...{{^else:
     `cursor^`}}^
 
+XPT elif hint=else:
+elif `condition^:
+    `cursor^
+
+
+XPT else hint=else:
+else:
+    `cursor^
+
+
+XPT for hint=for\ ..\ in\ range\(\ ..\ )
+for `var^ in range(`0^):
+    `cursor^
 
 XPT forin hint=for\ ..\ in\ ..:\ ...
-for `vars^ in range(`0^):
+for `vars^ in `array^:
     `cursor^
 
 
@@ -53,13 +66,13 @@ XPT try hint=try:\ ..\ except:\ ...
 XSET what=$VOID_LINE
 try:
     `what^
-except `except^:
-    `handler^
+except `Exception^:
+    `pass^
 ``more_except...`
 ^``else...`
 ^`finally...^
 XSETm more_except...|post
-except `except^:
+except `Exception^:
     `pass^
 ``more_except...`
 ^
@@ -92,13 +105,13 @@ if __name__ == "__main__" :
 XPT try_ hint=try:\ ..\ except:\ ...
 try:
     `wrapped^
-except `except^:
+except `Exception^:
     `pass^
 ``more_except...`
 ^``else...`
 ^`finally...^
 XSETm more_except...|post
-except `except^:
+except `Exception^:
     `pass^
 ``more_except...`
 ^
