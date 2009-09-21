@@ -1,0 +1,630 @@
+*xpt-snippet-syntax*
+
+			XPT Snippet Syntax
+								    by drdr.xp
+							     drdr.xp@gmail.com
+==============================================================================
+
+	Content table:
+	|xpt-snippet-sample|
+
+	|xpt-snippet-header|
+		|xpt-snippet-priority|
+			|xpt-priority-value|
+			|xpt-priority-format|
+		|xpt-snippet-keyword|
+		|xpt-snippet-mark|
+	|xpt-snippet-variable|
+	|xpt-snippet-function|
+	|xpt-snippet-include|
+
+	|xpt-snippet|
+		|xpt-snippet-name|
+		|xpt-snippet-setting|
+		|xpt-snippet-hint|
+		|xpt-snippet-hidden|
+		|xpt-snippet-alias|
+
+	|xpt-snippet-body|
+	|xpt-snippet-XSET|
+	|xpt-snippet-XSETm|
+	|xpt-snippet-ComeFist|
+	|xpt-snippet-ComeLast|
+	|xpt-snippet-postQuoter|
+
+
+	|xpt-snippet-item|
+	|xpt-snippet-placeholder|
+	|xpt-placeholder-mark|   
+	|xpt-placeholder-left-mark|  |`|  
+	|xpt-placeholder-right-mark|  |^|
+	|xpt-placeholder-edge|
+	|xpt-snippet-leading-placeholder|
+
+	|xpt-placeholder-special|
+	|xpt-placeholder-cursor|
+	|xpt-placeholder-wrapped|
+
+	|xpt-snippet-expression|
+	|xpt-snippet-instant-value|
+	|xpt-snippet-preset-value|
+	|xpt-snippet-default-value|
+	|xpt-snippet-post-filter|
+
+	|xpt-placeholder-default-value|
+	|xpt-placeholder-post-filter|
+	|xpt-placeholder-ontime-filter|
+
+	|xpt-snippet-expandable|
+	|xpt-snippet-repetition|
+
+							  *xpt-snippet-sample*
+	Snippet file looks like : >
+		XPTemplate priority=lang keyword=$	| |xpt-snippet-header|
+
+		let [s:f, s:v] = XPTcontainer()		| |xpt-snippet-function|
+		 
+		XPTvar $TRUE          true		| |xpt-snippet-variable|
+		XPTvar $FALSE         false             |
+		XPTvar $NULL          null              |
+		XPTvar $UNDEFINED     undefined         |
+                                                        |
+		XPTvar $CL  /*                          |
+		XPTvar $CM   *                          |
+		XPTvar $CR   */                         |
+                                                        |
+
+		XPTinclude				| |xpt-snippet-include|
+		      \ _common/common                  |
+		      \ _comment/doubleSign             |
+		      \ _condition/c.like               |
+
+		fun! s:f.js_filename()			| |xpt-snippet-function|
+			return expand( "%" )            |
+		endfunction                             |
+
+		XPTemplateDef				| |XPTemplateDef|
+
+
+		XPT cmt hint=/**\ @auth...\ */		| |xpt-snippet|
+		XSET author=$author                     | |xpt-snippet-XSET|
+		XSET email=$email                       | |xpt-snippet-XSET|
+		/**                                     |\ 
+		* @author : `author^ | `email^          | \
+		* @description                          |  +|xpt-snippet-body|
+		*     `cursor^                          | /
+		* @return {`Object^} `desc^             |/
+		*/
+
+
+
+		XPT for hint=for\ (var..;..;++)	
+		...
+<
+
+							  *xpt-snippet-header*
+	Each snippet file start with a XPTemplate declaration for
+	snippet-scope setting, duplication load check, etc.
+
+	Format : >
+	XPTemplate [priority=lang] [keyword=#] [mark=`^]
+<
+	There are 3 optional setting for 'XPTemplate' command: 
+
+							*xpt-snippet-priority*
+	Priority affect |xpt-snippet|, |xpt-snippet-variable|.
+	|xpt-snippet-function| is defined directly, so that it doesn't
+	controlled by |xpt-snippet-priority|. Something with higher
+	|xpt-snippet-priority| overrides lower.  Format : >
+		XPTemplate priority=<priority-value>
+<	See |xpt-priority-value|.
+							  *xpt-priority-value*
+	Template is defined with a certain priority. One buffer might load
+	templates with same name. Only the snippet with smallest priority can
+	work, others are ignored. 
+	Priority can be valued from 0 to +oo. 0 is the highest priority.
+	Some predefined symbols stand for number priority values : >
+		all		: 64
+		spec		: 48
+		like		: 32
+		lang		: 16
+		sub		: 8
+		personal	: 0
+<	Default priority is "lang" or 16. 
+	
+	You can set priority for each snippet by using |xpt-priority-format|.
+	Or set priority for all templates in current file with
+	|XPTemplatePriority()|.
+
+							 *xpt-priority-format*
+	Priority setting format : "priority[+/-[offset]]".
+	Following format are all valid : >
+	3		3
+	lang		0
+	like+4		36 // like=32
+	all-		63 // all=64
+<
+
+							 *xpt-snippet-keyword*
+	|xpt-snippet-keyword| specifies what else characters can be used as
+	|xpt-snippet-name|.
+	Format : >
+		XPTemplate keyword=...
+<	For example, for C language, keyword is set as : >
+		XPTemplate keyword=#
+<	So that "#if" can be used as |xpt-snippet-name|.
+
+							    *xpt-snippet-mark*
+	To specify which 2 characters are used as |xpt-placeholder-mark|
+	instead of the default |`| and |^|. Format : >
+		XPTemplate mark=~^
+<
+								       *xpt-$*
+							*xpt-snippet-variable*
+	|xpt-snippet-variable| can be used in :
+		|xpt-snippet-instant-value|
+		|xpt-snippet-preset-value|
+		|xpt-snippet-default-value|
+		|xpt-snippet-post-filter|
+		|xpt-placeholder-ontime-filter|
+	Format : >
+		XPTvar $VAR_NAME something
+<	Example from C language : >
+		XPTvar $TRUE           1
+<	and a snippet defined as : >
+		XPT while1
+		while (`$TRUE^) {
+		    `cursor^
+		}
+<	will generate : >
+		while (1) {
+		    `cursor^
+		}
+<
+	|xpt-snippet-variable| is used widely in XPTemplate, such as comment
+	definition, format customization, etc.
+
+	Personal information variables should be defined by using
+	|g:xptemplate_vars|. Variables defined with |g:xptemplate_vars|
+	override variables defined in any snippet files.
+
+	NOTE Conventionally, the name of |xpt-snippet-variable| must be upper
+	cased.
+
+	NOTE Override control of |xpt-snippet-variable| is affected by
+	|xpt-snippet-priority|.
+
+							*xpt-snippet-function*
+	|xpt-snippet-function| can be used in :
+		|xpt-snippet-instant-value|
+		|xpt-snippet-preset-value|
+		|xpt-snippet-default-value|
+		|xpt-snippet-post-filter|
+		|xpt-placeholder-ontime-filter|
+	To define |xpt-snippet-function|, first the function container must be
+	fetched first, by using |XPTcontainer()|. For example : >
+		let s:f = XPTcontainer()
+		fun! s:f.c_printfElts( v )
+			...
+		endfunction
+<	Then function 'c_printfElts' can be used in snippet : >
+		XPT printf	hint=printf\(...)
+		XSET elts=c_printfElts( R( 'pattern' ) )
+		printf( "`pattern^"`elts^ )
+<
+
+							 *xpt-snippet-include*
+	Syntax : >
+		XPTinclude <folder_name_in_ftplugin>/<filename>
+<	The <filename> is only the file root, without ".xpt.vim". 
+	XPTinclude can include several snippets at one time.
+
+	NOTE do NOT use |runtime| to include other snippet file, XPTinclude
+	handles snippet priority, but |runtime| NOT.
+
+
+						 *XPTemplateDef* *xpt-snippet*
+	Snippet part start with a command "XPTemplateDef". And content after
+	this command is no long vim script, but XPTemplate snippet.
+
+	Each |xpt-snippet| defines one code snippet in the following syntax 
+	: >
+		XPT <snippetName> [name=value] [name=value] ..
+		<snippet body>..
+		..XPT
+<	'XPT' is the start of a snippet. '..XPT' is the end of a snippet.
+	'..XPT' is optional. If '..XPT' is not present, snippet body end at
+	the last non-empty line.
+
+							    *xpt-snippet-name*
+	<snippetName> is the name for user to type to trigger this snippet. It
+	could contain the characters defined in |iskeyword| and
+	|xpt-snippet-keyword|.
+
+							 *xpt-snippet-setting*
+	The 'name=value' defines snippet settings,  includes
+		|xpt-snippet-hint|
+		|xpt-snippet-hidden|
+		|xpt-snippet-alias|
+
+							    *xpt-snippet-hint*
+	Set the 'menu' entry on pop up menu, as a short description other than
+	|xpt-snippet-name|. As the following C language pop up menu : >
+		| #if           #if ...           |
+		| #ifdef        #if ...           |
+		| #ifndef       #ifndef ..        |
+<	Syntax : >
+		XPT for hint=for\ (..;..;++)
+<	
+							  *xpt-snippet-hidden*
+	Set to 1 to make the snippet can not be triggered by user, but CAN be
+	triggered from internal api. Syntax : >
+		XPT for hidden=1
+<
+	See |xpt-api|.
+
+							   *xpt-snippet-alias*
+	Make the snippet an alias to another snippet. Syntax : >
+		XPT forin hint=for\ ..\ in\ ..\ ..\ endfor
+		for `value^ in `list^
+		    `cursor^
+		endfor
+
+		XPT foreach alias=forin hint=for\ ..\ in\ ..\ ..\ endfor
+<	This make "forin" and "foreach" the same.
+
+	NOTE |xpt-snippet-alias| can be used for creating shortcuts.
+
+
+							    *xpt-snippet-body*
+	<snippet body> is all the OTHER text except the first line : >
+		XPT for hint=for\ (..;..;++)
+		for (`i^ = `0^; `i^ < `len^; ++`i^) { |
+		    `cursor^                          | snippet body
+		}                                     |
+
+<	|xpt-snippet-body| contains snippet text and :
+		|xpt-snippet-XSET|
+		|xpt-snippet-XSETm|
+	Snippet with XSET command : >
+		XPT printf	hint=printf\(...)
+		XSET elts=c_printfElts( R( 'pattern' ) )
+		printf( "`pattern^"`elts^ )
+<	NOTE XSET/XSETm command can be placed anywhere inside snippet.
+
+							    *xpt-snippet-XSET*
+	In |xpt-snippet-body|, XSET command can be used anywhere to set : 
+		|xpt-snippet-preset-value|
+		|xpt-snippet-default-value|
+		|xpt-snippet-post-filter|
+	XSET syntax to set |xpt-snippet-preset-value|: >
+		XSET itemname|pre=<expression>
+<	XSET syntax to set |xpt-snippet-default-value|: >
+		XSET itemname|def=<expression>
+<	or : >
+		XSET itemname=<expression>
+<	XSET syntax to set |xpt-snippet-post-filter|: >
+		XSET itemname|post=<expression>
+<	<expression> is |xpt-snippet-expression|. For example : >
+		XPT #include_user	hint=include\ ""
+		XSET me=fileRoot()
+		#include "`me^.h"
+<	Item "me" is set to be file name without extension.
+
+							   *xpt-snippet-XSETm*
+	"XSETm" is similar to |xpt-snippet-XSET|, except it using "\n" instead
+	of "=" in |xpt-snippet-XSET|, and ending with "XSETm END". For example
+	: >
+		XPT if		hint=if\ (..)\ {..}\ else...
+		if (`condition^) { 
+		    `job^
+		}` `else...^
+		XSETm else...|post
+		else { 
+		    `cursor^
+		}
+		XSETm END
+<
+
+							*xpt-snippet-ComeFist*
+							*xpt-snippet-ComeLast*
+	Special XSET key, "ComeFirst" and "ComeLast", for specifying item
+	rendering order.  Its' value is a list of place holder name separated
+	by space " ". For example : >
+		XPT for hint=for\ (..;..;++)
+		XSET ComeFirst=0 len
+		for (`i^ = `0^; `i^ < `len^; ++`i^)`$FOR_BRACKET_STL^{
+		    `cursor^
+		}
+<	So that "0" is focused at first, then "len", and then "i".
+
+						      *xpt-snippet-postQuoter*
+	The key "postQuoter" is designed to specify quoter do define
+	|xpt-snippet-expandable|. Default is "{{,}}".
+
+							    *xpt-snippet-item*
+	In one snippet, Group of |xpt-snippet-placeholder|s with the same name
+	is an "item".  For example : >
+		XPT for hint=for\ (..;..;++)
+		for (`i^ = `0^; `i^ < `len^; ++`i^) {
+		    `cursor^
+		}
+<	In this snippet, there are 4 item : >
+		i, 0, len, cursor
+<	Item "i" has 3 |xpt-snippet-placeholder|, others have only 1.
+
+						     *xpt-snippet-placeholder*
+	Place holder is a segment of snippet can be changed by user, and track
+	by XPTemplate, to update user input to |xpt-snippet-placeholder| in
+	the same |xpt-snippet-item| or else.
+
+	Place holder is defined by |xpt-placeholder-mark|, by default the |`|
+	and |^|. For example : >
+		XPT for hint=for\ (..;..;++)
+		for (`i^ = `0^; `i^ < `len^; ++`i^) {
+		    `cursor^
+		}
+<	Sequentially, the place holders in this snippet are : "i", "0", "i",
+	"len", "i", "cursor".
+
+					      *xpt-placeholder-left-mark*  *`*  
+					     *xpt-placeholder-right-mark*  *^*
+							*xpt-placeholder-mark*
+	|xpt-placeholder-mark| is the sign to define
+	|xpt-snippet-placeholder| of a snippet, by default the |`| and |^|.
+	Or the |xpt-placeholder-left-mark| and |xpt-placeholder-right-mark|.
+	They can be changed locally(to current snippet file) by
+	|xpt-snippet-mark|.
+
+				      *```*   *xpt-```* *xpt-placeholder-edge*
+	Besides the |`| and |^|, additional |xpt-placeholder-left-mark| can be
+	set inside place holder to add additional information : the edge.
+
+	Edge is some text around
+	place holder that is not selected when cursor jumps to this place
+	holder. But it still can be edit. For example : >
+		`(`xpt`)^
+<	This place holder named of "xpt" and the edges are "(" and ")", When cursor
+	jumps onto it : >
+		(xpt)
+		 ***------ only xpt is selected
+<	Edge helps on formatting issues.
+
+	Place holder can have only left edge, for example : >
+		`(`xpt^
+<
+
+
+	NOTE only |\_W| characters are acceptable in edge.
+
+					     *xpt-snippet-leading-placeholder*
+	In an Item, one place holder is the leading place holder, which
+	accept user input. Others are update by XPTemplate automatically.
+
+	By default, the first place holder in item is the leading place
+	holder. Or the one with |xpt-placeholder-edge| is the leading one.
+	This supplies a way to specify which place holder is the edit area.
+	For example : >
+		for (`i^ = `0^; `i^ < `len^; ++`i^) {
+		    `cursor^
+		}
+<	In item "i", the first "i" before "=" is the leading one. But in this
+	snippet : >
+		for (`i^ = `0^; ``i^ < `len^; ++`i^) {
+		    `cursor^
+		}
+<	The second "i" with double |`| before "<" is the leading one.
+
+						     *xpt-placeholder-special*
+	Special place holders includes : |xpt-placeholder-cursur| and
+	|xpt-placeholder-wrapped|.
+
+					 *`cursor^*   *xpt-placeholder-cursor*
+	Set where cursor stops after snippet rendering finished.
+	The item of name "cursor" is a special one. It always is selected at
+	last and replaced with empty string. When navigate to "cursor" item,
+	snippet is complete.
+
+						     *xpt-placeholder-wrapped*
+	If snippet contains an place holder : "`wrapped^", it is a wrapped
+	snippet. Wrapped snippet can only be triggered in visual mode, see
+	|xpt-wrapped|, the place holder `wrapped^ is replaced with text
+	selected in visual mode.
+
+				 *xpt-{}* *xpt-mixed* *xpt-snippet-expression*
+	Expression is a mixture of plain text, |xpt-snippet-variable| and
+	|xpt-snippet-function|. 
+	Expression is used as the value of 
+		|xpt-snippet-instant-value|
+		|xpt-snippet-preset-value|
+		|xpt-snippet-default-value|
+		|xpt-snippet-post-filter|
+		|xpt-placeholder-ontime-filter|.
+
+	Function can be |xpt-snippet-function| defined as member of
+	|XPTcontainer()| or vim native function.
+
+	Function is called as member of rendering context :
+	|xpt-snippet-function-ctx|.
+
+	Function or variable can be enclosed by "{}" to prevent function or
+	variable names messing up with surrounded plain text.
+
+	Function is not evaluated if "()" is escaped : >
+		S\(S("abc", '.', '\u&'))
+<	is evaluated to be : >
+		S(ABC)
+<
+	Escaping the '$' stops variable evaluation. : >
+		\$authoer
+<	is evaluated to be : >
+		$author
+<	
+	To escaping the "{}" : >
+		\{S("abc", '.', '\u&')}
+<	is evaluated to be : >
+		{ABC}
+<	While : >
+		{S("abc", '.', '\u&')}
+<	is evaluated to be : >
+		ABC
+<	
+	Another example, supposing you are editing a file
+	named of "your_file_name.ext" : >
+		__{S(E("%:t"),".","\\u&")}__
+<	is evaluated to be : >
+		__YOUR_FILE_NAME.EXT__
+<	And : >
+		this is S($author,".","-&")-
+<	is evaluated to be : >
+		this is -d-r-d-r-.-x-p-
+<	See also: 
+		|xpt-snippet-function|
+		|xpt-snippet-variable|
+
+						   *xpt-snippet-instant-value*
+	There is a special case for |xpt-snippet-placeholder|, that place
+	holder's content is |xpt-snippet-expression|. In this case, place
+	holder is evaluated at once, and no more further editing can happen on
+	this place holder. For example : >
+		XPT filehead
+		...
+		 * @since : `strftime("%Y %b %d")^
+		...
+<
+
+						    *xpt-snippet-preset-value*
+	Preset Value is like |xpt-snippet-default-value|, but applies earlier.
+	|xpt-snippet-default-value| applies before place holder being focused;
+	preset value applied just after snippet goes onto screen.
+	To define preset values: >
+		XSET the_name|pre=<expression>
+<	
+
+ 						   *xpt-snippet-default-value*
+	By default, place holder being selected uses its name as the default
+	value, but you have a chance to use other text as default value. By
+	using : >
+		XSET the_name|def=<expression>
+<	
+	So that before cursor jumps to leading place holder of name
+	"the_name", the <expression> evaluated and applied to the place
+	holder.
+
+	Example : in C language, type "#ind<C-\>": >
+		#include "current_file_name.h"
+<	
+	NOTE : if default value expression contains only plain string and
+	|xpt-snippet-variable|, it is used as |xpt-snippet-preset-value|, too;
+	for better looking without any side-effect.
+
+							    *xpt-snippet-post-filter*
+	Post filter does something after user pressing <tab>, and change the
+	text user typed. To define post filter : >
+		XSET the_name|post=<expression>
+<	Or use the |xpt-snippet-postQuoter| : >
+		XPT enum hint=enum\ {\ ..\ }
+		enum `name^`$STRUCT_BRACKET_STL^{
+		    `elt^;`
+		    `...{{^
+		    `elt^;`
+		    `...^`}}^
+		}` `var^;
+
+<
+	Some usually-used post filter functions are defined in
+	ftplugin/common/common.xpt.vim. for |xpt-substitute| with name of 'S'.
+	For example for c language, "#ifndef" snippet defined as follow: : >
+		XPT #ifndef	hint=#ifndef\ ..
+		XSET symbol=S(fileRoot(),'\.','_','g')
+		XSET symbol|post=UpperCase(V())
+		#ifndef `symbol^
+		#     define `symbol^
+		
+		`cursor^ 
+		#endif `$CL^ `symbol^ `$CR^
+		..XPT
+
+<	When you pressing <tab> from the first item "symbol", typed content are
+	converted to upper case. Before <tab> pressed : >
+		#ifndef __gnu__
+		#    define __gnu__
+		`cursor^
+		#endif /* __gnu__ */
+<	After <tab> pressed : >
+		#ifndef __GNU__
+		#    define __GNU__
+		`cursor^
+		#endif /* __GNU__ */
+<
+						 *xpt-placeholder-post-filter*
+	To each place holder, a private post filter can also be set, by using
+	the |^||^| syntax : >
+		XPT lowerUpper
+		lower : `text^
+		upper : `text^UpperCase(V())^^	<---- double "^"
+<	Pressing <tab>, this snippet results in : >
+		lower : text
+		upper : TEXT
+<	
+	NOTE : If both |xpt-snippet-post-filter| and
+	|xpt-placeholder-post-filter| set, the place holder filter takes
+	effect.
+
+					       *xpt-placeholder-default-value*
+					       *xpt-placeholder-ontime-filter*
+	To each place holder, ontime filter can be set to filter the text each
+	time user types something. To assign ontime filter by using |^| syntax
+	: >
+		XPT lowerUpper
+		lower : `text^
+		upper : `text^UpperCase(V())^	<--- only one "^"
+<	At place holder "text", each time user types something, the second
+	place holder updated with the content converted to  upper case.
+
+	NOTE : ontime filter is used as |xpt-placeholder-default-value| for
+	leading place holder.
+
+
+						      *xpt-snippet-expandable*
+	Sometimes you wanna create additional piece of snippet other than the
+	original snippet. For example, add another "else" after "if" block.
+	Use expandable!. To define expandable : >
+		XPT if 
+		if `cond^
+		    `job^
+		`else...{{^else
+		    `cursor^
+		`}}^
+		endif
+<	At the place holder "else...", just pressing <tab> let XPTemplate to
+	generate another else block, the text quoted by {{ and }}.
+	Pressing <cr> to clear "else...".
+
+	Another way to define expandable is by using XSET command to define a
+	post filter: >
+		XPT if
+		if (`condition^)`$IF_BRACKET_STL^{ 
+		    `job^
+		}` `else...^
+		XSETm else...|post
+		else { 
+		    `cursor^
+		}
+		XSETm END
+<	These 2 methods are the same inside XPTemplate.
+
+						      *xpt-snippet-repetition*
+	Repetition is only a special case utilizing expandable, that another
+	same expandable trigger residing inside the expandable part. : >
+		XPT enum
+		enum `name^ {
+		    `elt^;`
+		    `...{{^
+		    `elt^;`
+		    `...^`}}^
+		}` `var^;
+<
+
+
+" vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:

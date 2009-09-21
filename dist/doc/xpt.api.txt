@@ -1,0 +1,79 @@
+*xpt-api*
+
+
+
+							      *XPTcontainer()*
+	g:XPTfuncs() returns a |Dictionary| container of functions can be used
+	in template in current buffer. The normal using of g:XPTfuncs() to
+	define a template function is : >
+		let s:f = g:XPTfuncs()
+
+		fun! s:f.date() dict
+		  return strftime("%Y %b %d")
+		endfunction
+<
+	g:XPTvars() returns a |Dictionary| container of variables can be used
+	in template in current buffer. For example : >
+		let s:v = g:XPTvars()
+
+		let s:v['$author'] = "drdr.xp"
+<
+	Now  can use function or variables in template : >
+	call XPTemplate("filehead", [
+	      \'/**--------------------/// `sum^ \\\----------------------',
+	      \' *',
+	      \' * @version : `1.0^',
+	      \' * @since : `date()^',
+	      \' * @author : `$author^ | `$email^',
+	      \' * @copyright `.com.cn^ ',
+	      \' * @TODO : ',
+	      \' * ',
+	      \' *---------------------\\\ `sum^ ///----------------------*/',
+	      \''])
+<
+
+
+
+								*XPTemplate()*
+XPTemplate({name}, [, {context}], {template})
+	"XPTemplate" defines a template to current buffer. It takes 2 or 3
+	parameters:
+	{name} is string representing the key to trigger this template.
+	{context} can be omit or an |Dictionary| defines where this template
+	can be triggered. For now only "syn" is supported.
+	{template} can be string or |List|. |List| will be joined with "\n"
+	forming a template string. This saves you adding "\n" to each line.
+
+							    *XPTemplateMark()*
+XPTemplateMark({leftmark}, {rightmark})
+	XPTemplateMark defines what chars are used as item quoter. It only
+	takes effect to current buffer. See |xpt-placeholder-mark|.
+
+	NOTE this function affects only to current script and current buffer.
+
+							*XPTemplatePriority()*
+XPTemplatePriority({priority})
+	XPTemplatePriority set default priority for only current *.xpt.vim
+	script and current buffer. See |xpt-priority-value|
+
+	NOTE this function affects only to current script and current buffer.
+
+
+				       *self._ctx*  *xpt-snippet-function-ctx*
+	template context can be accessed from within |xpt-snippet-function|. For
+	example the reference function: >
+		fun! s:f.R(name)
+		  let ctx = self._ctx
+		  if has_key(ctx.namedStep, a:name)
+		    return ctx.namedStep[a:name]
+		  endif
+
+		  return a:ctx.name
+		endfunction
+<
+
+
+
+
+
+" vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:
