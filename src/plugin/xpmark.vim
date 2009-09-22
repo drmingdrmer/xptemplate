@@ -1161,6 +1161,10 @@ elseif !&ruler
 
 endif
 
+if &statusline == ""
+    set statusline=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
+endif
+
 " Always enable ruler so that if statusline disabled, update can be done
 " through rulerformat
 set ruler
