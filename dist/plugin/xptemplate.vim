@@ -366,9 +366,6 @@ fun! s:newTemplateRenderContext( xptBufData, tmplName )
 endfunction 
 fun! s:DoStart(sess) 
     let x = g:XPTobject()
-    if s:getRenderContext().phase == 'popup'
-        call s:PopCtx()
-    endif
     if !has_key( x.normalTemplates, a:sess.matched )
         return ''
     endif
@@ -416,12 +413,10 @@ fun! s:removeMarksInRenderContext( renderContext )
 endfunction 
 fun! s:Popup(pref, coln) 
     let x = g:XPTobject()
-    while s:getRenderContext().phase == 'popup'
-        call s:PopCtx()
-    endwhile
-    call s:PushCtx()
     let ctx = s:getRenderContext()
-    let ctx.phase = 'popup'
+    if ctx.phase == 'finished'
+        let ctx.phase = 'popup'
+    endif
     let cmpl=[]
     let cmpl2 = []
     let dic = x.normalTemplates
