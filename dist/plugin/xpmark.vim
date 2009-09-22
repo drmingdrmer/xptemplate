@@ -601,6 +601,9 @@ if &ruler && &rulerformat == ""
 elseif !&ruler
     set rulerformat=
 endif
+if &statusline == ""
+    set statusline=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
+endif
 set ruler
 let &rulerformat .= '%{XPMautoUpdate("ruler")}'
 let &statusline  .= '%{XPMautoUpdate("statusline")}'
