@@ -21,6 +21,9 @@ let s:log = CreateLogger( 'debug' )
 let g:XPMpreferLeft = 'l'
 let g:XPMpreferRight = 'r'
 fun! XPMadd( name, pos, prefer ) 
+    if &l:statusline !~ 'XPMautoUpdate'
+        let &l:statusline  .= '%{XPMautoUpdate("statusline")}'
+    endif
     let d = s:bufData()
     let prefer = a:prefer == 'l' ? 0 : 1
     if has_key( d.marks, a:name )
@@ -601,12 +604,8 @@ if &ruler && &rulerformat == ""
 elseif !&ruler
     set rulerformat=
 endif
-if &statusline == ""
-    set statusline=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
-endif
 set ruler
 let &rulerformat .= '%{XPMautoUpdate("ruler")}'
-let &statusline  .= '%{XPMautoUpdate("statusline")}'
 fun! PrintDebug()
     let d = s:bufData()
     let debugString  = changenr()

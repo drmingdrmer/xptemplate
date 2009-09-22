@@ -366,6 +366,9 @@ fun! s:newTemplateRenderContext( xptBufData, tmplName )
 endfunction 
 fun! s:DoStart(sess) 
     let x = g:XPTobject()
+    if s:getRenderContext().phase == 'popup'
+        call s:PopCtx()
+    endif
     if !has_key( x.normalTemplates, a:sess.matched )
         return ''
     endif
@@ -401,7 +404,9 @@ fun! s:FinishRendering(...)
         let renderContext = s:getRenderContext()
         let behavior = renderContext.item.behavior
         if has_key( behavior, 'gotoNextAtOnce' ) && behavior.gotoNextAtOnce
-          return s:GotoNextItem()
+            return s:GotoNextItem()
+        else
+            return ''
         endif
     endif
 endfunction 
@@ -411,8 +416,12 @@ fun! s:removeMarksInRenderContext( renderContext )
 endfunction 
 fun! s:Popup(pref, coln) 
     let x = g:XPTobject()
+    while s:getRenderContext().phase == 'popup'
+        call s:PopCtx()
+    endwhile
+    call s:PushCtx()
     let ctx = s:getRenderContext()
-    let ctx.phase = 'uninit'
+    let ctx.phase = 'popup'
     let cmpl=[]
     let cmpl2 = []
     let dic = x.normalTemplates
@@ -495,7 +504,7 @@ fun! s:ParseRepetition(str, x)
     endwhile
     return tmpl
 endfunction 
-fun! s:GetIndentBeforeEdge( tmplObj, textBeforeLeftMark )
+fun! s:GetIndentBeforeEdge( tmplObj, textBeforeLeftMark ) 
     let xp = a:tmplObj.ptn
     if a:textBeforeLeftMark =~ '\V' . xp.lft . '\_[^' . xp.r . ']\*\%$'
         let tmpBef = substitute( a:textBeforeLeftMark, '\V' . xp.lft . '\_[^' . xp.r . ']\*\%$', '', '' )
@@ -504,7 +513,7 @@ fun! s:GetIndentBeforeEdge( tmplObj, textBeforeLeftMark )
         let indentOfFirstLine = matchstr( a:textBeforeLeftMark, '.*\n\zs\s*' )
     endif
     return len( indentOfFirstLine )
-endfunction
+endfunction 
 fun! s:parseQuotedPostFilter( tmplObj ) 
     let xp = a:tmplObj.ptn
     let postFilters = a:tmplObj.setting.postFilters
@@ -840,7 +849,7 @@ fun! s:BuildPlaceHolders( markRange )
     let renderContext.action = ''
     return 0
 endfunction 
-fun! s:ApplyPreValues( placeHolder )
+fun! s:ApplyPreValues( placeHolder ) 
     let renderContext = s:getRenderContext()
     let tmplObj = renderContext.tmpl
     let xp = tmplObj.ptn
@@ -863,14 +872,14 @@ fun! s:ApplyPreValues( placeHolder )
             endif
         endif
     endif
-endfunction
-fun! s:SetPreValue( placeHolder, indent, text )
+endfunction 
+fun! s:SetPreValue( placeHolder, indent, text ) 
     let marks = a:placeHolder.isKey ? a:placeHolder.editMark : a:placeHolder.mark
     let text = s:AdjustIndentAccordingToLine( a:text, a:indent, XPMpos( marks.start )[0], a:placeHolder )
     call XPRstartSession()
     call XPreplaceByMarkInternal( marks.start, marks.end, text )
     call XPRendSession()
-endfunction
+endfunction 
 fun! s:BuildItemForPlaceHolder( ctx, placeHolder ) 
     if has_key(a:ctx.itemDict, a:placeHolder.name)
         let item = a:ctx.itemDict[ a:placeHolder.name ]
@@ -991,7 +1000,7 @@ fun! s:FinishCurrentAndGotoNextItem(action)
     let postaction =  s:GotoNextItem()
     return postaction
 endfunction 
-fun! s:removeCurrentMarks()
+fun! s:removeCurrentMarks() 
     let renderContext = s:getRenderContext()
     let item = renderContext.item
     let leader = renderContext.leadingPlaceHolder
@@ -1005,15 +1014,15 @@ fun! s:removeCurrentMarks()
         call XPMremove( ph.mark.start )
         call XPMremove( ph.mark.end )
     endfor
-endfunction
-fun! s:RemovePlaceHolderMark( placeHolder )
+endfunction 
+fun! s:RemovePlaceHolderMark( placeHolder ) 
     call XPMremove( a:placeHolder.mark.start )
     call XPMremove( a:placeHolder.mark.end )
     if a:placeHolder.isKey
         call XPMremove( a:placeHolder.editMark.start )
         call XPMremove( a:placeHolder.editMark.end )
     endif
-endfunction
+endfunction 
 fun! s:ApplyPostFilter() 
     let renderContext = s:getRenderContext()
     let xp     = renderContext.tmpl.ptn
