@@ -128,6 +128,9 @@ XPT funtype hint=..\ ::\ ..\ =>\ ..\ ->\ .. ->
           -> `type~ -- ^ `is~`
           `...~`}}~
 
+XPT options hint={-#\ OPTIONS_GHC\ ..\ #-}
+{-# OPTIONS_GHC `options~ #-}
+
 XPT lang hint={-#\ LANGUAGE\ ..\ #-}
 {-# LANGUAGE `langName~ #-}
 
