@@ -700,7 +700,12 @@ endfunction "}}}
 fun! s:DoStart(sess) " {{{
     " @param sess       xpopup call back argument
 
+
     let x = g:XPTobject()
+
+    if s:getRenderContext().phase == 'popup'
+        call s:PopCtx()
+    endif
 
     if !has_key( x.normalTemplates, a:sess.matched )
         return ''
@@ -751,21 +756,6 @@ fun! s:FinishRendering(...) "{{{
     
     match none
 
-    " let l = line(".")
-    " let toEnd = col(".") - len(getline("."))
-
-    " " unescape
-    " exe "silent! %snomagic/\\V" .s:TmplRange() . s:unescapeHead . xp.l . '/\1' . xp.l . '/g'
-    " exe "silent! %snomagic/\\V" .s:TmplRange() . s:unescapeHead . xp.r . '/\1' . xp.r . '/g'
-
-    " " format template text
-    " if &ft =~ s:ftNeedToRedraw
-        " redraw
-    " endif
-    " call s:Format(1)
-
-    " call cursor(l, toEnd + len(getline(l)))
-
     call s:removeMarksInRenderContext(renderContext)
 
     if empty(x.stack)
@@ -783,8 +773,10 @@ fun! s:FinishRendering(...) "{{{
         let renderContext = s:getRenderContext()
         let behavior = renderContext.item.behavior
         if has_key( behavior, 'gotoNextAtOnce' ) && behavior.gotoNextAtOnce
-          return s:GotoNextItem()
-          " return s:GotoNextItem() . g:xpt_post_action
+            return s:GotoNextItem()
+            " return s:GotoNextItem() . g:xpt_post_action
+        else
+            return ''
         endif
     endif
 
@@ -801,9 +793,13 @@ fun! s:Popup(pref, coln) "{{{
 
     let x = g:XPTobject()
 
-    " TODO bad code!
+
+    while s:getRenderContext().phase == 'popup'
+        call s:PopCtx()
+    endwhile
+    call s:PushCtx()
     let ctx = s:getRenderContext()
-    let ctx.phase = 'uninit'
+    let ctx.phase = 'popup'
 
     let cmpl=[]
     let cmpl2 = []
@@ -950,7 +946,7 @@ fun! s:ParseRepetition(str, x) "{{{
 
 endfunction "}}}
 
-fun! s:GetIndentBeforeEdge( tmplObj, textBeforeLeftMark )
+fun! s:GetIndentBeforeEdge( tmplObj, textBeforeLeftMark ) "{{{
     let xp = a:tmplObj.ptn
 
     if a:textBeforeLeftMark =~ '\V' . xp.lft . '\_[^' . xp.r . ']\*\%$'
@@ -964,7 +960,7 @@ fun! s:GetIndentBeforeEdge( tmplObj, textBeforeLeftMark )
     endif
 
     return len( indentOfFirstLine )
-endfunction
+endfunction "}}}
 
 
 fun! s:parseQuotedPostFilter( tmplObj ) "{{{
@@ -1674,7 +1670,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 endfunction "}}}
 
 " TODO simplify : if PH has preValue, replace it at once, without replacing with the name
-fun! s:ApplyPreValues( placeHolder )
+fun! s:ApplyPreValues( placeHolder ) "{{{
     let renderContext = s:getRenderContext()
     let tmplObj = renderContext.tmpl
     let xp = tmplObj.ptn
@@ -1703,10 +1699,10 @@ fun! s:ApplyPreValues( placeHolder )
         endif
 
     endif
-endfunction
+endfunction "}}}
 
 
-fun! s:SetPreValue( placeHolder, indent, text )
+fun! s:SetPreValue( placeHolder, indent, text ) "{{{
 
     let marks = a:placeHolder.isKey ? a:placeHolder.editMark : a:placeHolder.mark
     let text = s:AdjustIndentAccordingToLine( a:text, a:indent, XPMpos( marks.start )[0], a:placeHolder )
@@ -1714,7 +1710,7 @@ fun! s:SetPreValue( placeHolder, indent, text )
     call XPRstartSession()
     call XPreplaceByMarkInternal( marks.start, marks.end, text )
     call XPRendSession()
-endfunction
+endfunction "}}}
 
 
 
@@ -1860,6 +1856,8 @@ fun! s:FinishCurrentAndGotoNextItem(action) " {{{
     let renderContext = s:getRenderContext()
     let marks = renderContext.leadingPlaceHolder.mark
 
+    call s:log.Debug( "before update=" . XPMallMark() )
+
     " if typing and <tab> pressed together, no update called
     " TODO do not call this if no need to update
     let rc = s:XPTupdate()
@@ -1868,6 +1866,7 @@ fun! s:FinishCurrentAndGotoNextItem(action) " {{{
         return ''
     endif
 
+    call s:log.Debug( "after update=" . XPMallMark() )
 
 
     " let p = [line("."), col(".")]
@@ -1882,7 +1881,11 @@ fun! s:FinishCurrentAndGotoNextItem(action) " {{{
         call XPreplace(XPMpos( marks.start ),XPMpos( marks.end ), '')
     endif
 
+    call s:log.Debug( "before post filter=" . XPMallMark() )
+
     let post = s:ApplyPostFilter()
+
+    call s:log.Debug( "after post filter=" . XPMallMark() )
 
     let renderContext.step += [{ 'name' : renderContext.item.name, 'value' : post }]
     if renderContext.item.name != ''
@@ -1895,11 +1898,15 @@ fun! s:FinishCurrentAndGotoNextItem(action) " {{{
 
     let postaction =  s:GotoNextItem()
 
+    call s:log.Debug( XPMallMark() )
+    call s:log.Debug( "postaction=" . string( postaction ) )
+    call s:log.Debug( string( s:getRenderContext() ) )
+
     return postaction
 
 endfunction " }}}
 
-fun! s:removeCurrentMarks()
+fun! s:removeCurrentMarks() "{{{
     let renderContext = s:getRenderContext()
     let item = renderContext.item
     let leader = renderContext.leadingPlaceHolder
@@ -1916,9 +1923,9 @@ fun! s:removeCurrentMarks()
         call XPMremove( ph.mark.start )
         call XPMremove( ph.mark.end )
     endfor
-endfunction
+endfunction "}}}
 
-fun! s:RemovePlaceHolderMark( placeHolder )
+fun! s:RemovePlaceHolderMark( placeHolder ) "{{{
     call XPMremove( a:placeHolder.mark.start )
     call XPMremove( a:placeHolder.mark.end )
 
@@ -1926,7 +1933,7 @@ fun! s:RemovePlaceHolderMark( placeHolder )
         call XPMremove( a:placeHolder.editMark.start )
         call XPMremove( a:placeHolder.editMark.end )
     endif
-endfunction
+endfunction "}}}
 
 fun! s:ApplyPostFilter() "{{{
 
@@ -2115,10 +2122,12 @@ fun! s:GotoNextItem() "{{{
     " @param    position from where to start search.
 
     let renderContext = s:getRenderContext()
-
     call s:log.Log( 'renderContext=' . string( renderContext ) )
 
     let placeHolder = s:ExtractOneItem()
+    call s:log.Log( "next placeHolder=" . string( placeHolder ) )
+
+    call s:log.Debug( XPMallMark() )
 
 
     if placeHolder == s:NullDict

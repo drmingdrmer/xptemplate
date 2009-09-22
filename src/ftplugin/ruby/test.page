@@ -1,8 +1,8 @@
 
 
 
-    #   -------------"--------------- 
-    #  "`wrapped^"                    
+    #   -------------"_--------------- 
+    #  "`wrapped^"                     
 
 
 
@@ -20,21 +20,21 @@ WRAPPED_TEXT_line2"
 
 
     #   -------------%--------------- 
-    #  %`_^[`content^]                
+    #  %`_^[`^]                       
 
 
 
-    %Q[]
+    %w[]
 
-    %__TYPED[content_TYPED] b
+    %w[_TYPED] b
 
-    a %Q[] b
+    a %w[] b
 
-    a %Q[]
+    a %w[]
 
 
-    #   -------------'--------------- 
-    #  '`wrapped^'                    
+    #   -------------'_--------------- 
+    #  '`wrapped^'                     
 
 
 
@@ -51,8 +51,8 @@ a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
-    #   -------------(--------------- 
-    #  (`wrapped^)                    
+    #   -------------(_--------------- 
+    #  (`wrapped^)                     
 
 
 
@@ -83,8 +83,8 @@ WRAPPED_TEXT_line2)
     a :key => value
 
 
-    #   -------------<--------------- 
-    #  <`wrapped^>                    
+    #   -------------<_--------------- 
+    #  <`wrapped^>                     
 
 
 
@@ -101,250 +101,8 @@ a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
-    #   -------------Author--------------- 
-    #  `$author^                           
-
-
-
-    drdr.xp
-
-    drdr.xp b
-
-    a drdr.xp b
-
-    a drdr.xp
-
-
-    #   -------------BEG--------------- 
-    #  BEGIN {                          
-    #      `cursor^                     
-    #  }                                
-
-
-
-    BEGIN {
-        
-    }
-
-    BEGIN {
-        
-    } b
-
-    a BEGIN {
-        
-    } b
-
-    a BEGIN {
-        
-    }
-
-
-    #   -------------Comp--------------- 
-    #  include Comparable                
-    #                                    
-    #  def <=>(other)                    
-    #      `cursor^                      
-    #  end                               
-
-
-
-    include Comparable
-    
-    def <=>(other)
-        
-    end
-
-    include Comparable
-    
-    def <=>(other)
-        
-    end b
-
-    a include Comparable
-    
-    def <=>(other)
-        
-    end b
-
-    a include Comparable
-    
-    def <=>(other)
-        
-    end
-
-
-    #   -------------END--------------- 
-    #  END {                            
-    #      `cursor^                     
-    #  }                                
-
-
-
-    END {
-        
-    }
-
-    END {
-        
-    } b
-
-    a END {
-        
-    } b
-
-    a END {
-        
-    }
-
-
-    #   -------------Email--------------- 
-    #  `$email^                           
-
-
-
-    drdr.xp@gmail.com
-
-    drdr.xp@gmail.com b
-
-    a drdr.xp@gmail.com b
-
-    a drdr.xp@gmail.com
-
-
-    #   -------------Enum--------------- 
-    #  include Enumerable                
-    #                                    
-    #  def each(&block)                  
-    #      `cursor^                      
-    #  end                               
-
-
-
-    include Enumerable
-    
-    def each(&block)
-        
-    end
-
-    include Enumerable
-    
-    def each(&block)
-        
-    end b
-
-    a include Enumerable
-    
-    def each(&block)
-        
-    end b
-
-    a include Enumerable
-    
-    def each(&block)
-        
-    end
-
-
-    #   -------------File--------------- 
-    #  `file()^                          
-
-
-
-    test.page
-
-    test.page b
-
-    a test.page b
-
-    a test.page
-
-
-    #   -------------Forw--------------- 
-    #  extend Forwardable                
-
-
-
-    extend Forwardable
-
-    extend Forwardable b
-
-    a extend Forwardable b
-
-    a extend Forwardable
-
-
-    #   -------------Md---------------                                        
-    #  File.open("`filename^", "wb") { |`file^| Marshal.dump(`obj^, `file^) } 
-
-
-
-    File.open("filename", "wb") { |file| Marshal.dump(obj, file) }
-
-    File.open("filename_TYPED", "wb") { |file_TYPED| Marshal.dump(obj_TYPED, file_TYPED) } b
-
-    a File.open("filename", "wb") { |file| Marshal.dump(obj, file) } b
-
-    a File.open("filename", "wb") { |file| Marshal.dump(obj, file) }
-
-
-    #   -------------Ml---------------                                 
-    #  File.open("`filename^", "rb") { |`file^| Marshal.load(`file^) } 
-
-
-
-    File.open("filename", "rb") { |file| Marshal.load(file) }
-
-    File.open("filename_TYPED", "rb") { |file_TYPED| Marshal.load(file_TYPED) } b
-
-    a File.open("filename", "rb") { |file| Marshal.load(file) } b
-
-    a File.open("filename", "rb") { |file| Marshal.load(file) }
-
-
-    #   -------------Pn--------------- 
-    #  PStore.new("`filename^")        
-
-
-
-    PStore.new("filename")
-
-    PStore.new("filename_TYPED") b
-
-    a PStore.new("filename") b
-
-    a PStore.new("filename")
-
-
-    #   -------------Yd---------------                                         
-    #  File.open("`filename^.yaml", "wb") { |`file^| YAML.dump(`obj^,`file^) } 
-
-
-
-    File.open("filename.yaml", "wb") { |file| YAML.dump(obj,file) }
-
-    File.open("filename_TYPED.yaml", "wb") { |file_TYPED| YAML.dump(obj_TYPED,file_TYPED) } b
-
-    a File.open("filename.yaml", "wb") { |file| YAML.dump(obj,file) } b
-
-    a File.open("filename.yaml", "wb") { |file| YAML.dump(obj,file) }
-
-
-    #   -------------Yl---------------                             
-    #  File.open("`filename^.yaml") { |`file^| YAML.load(`file^) } 
-
-
-
-    File.open("filename.yaml") { |file| YAML.load(file) }
-
-    File.open("filename_TYPED.yaml") { |file_TYPED| YAML.load(file_TYPED) } b
-
-    a File.open("filename.yaml") { |file| YAML.load(file) } b
-
-    a File.open("filename.yaml") { |file| YAML.load(file) }
-
-
-    #   -------------[--------------- 
-    #  [`wrapped^]                    
+    #   -------------[_--------------- 
+    #  [`wrapped^]                     
 
 
 
@@ -403,8 +161,8 @@ WRAPPED_TEXT_line2]
     a __FILE__
 
 
-    #   -------------`--------------- 
-    #  \``wrapped^\`                  
+    #   -------------`_--------------- 
+    #  \``wrapped^\`                   
 
 
 
@@ -501,18 +259,18 @@ WRAPPED_TEXT_line2`
     end
 
 
-    #   -------------array---------------     
-    #  Array.new(`size^) { |`arg^| `cursor^ } 
+    #   -------------array---------------   
+    #  Array.new(`size^) { |`i^| `cursor^ } 
 
 
 
-    Array.new(5) { |i|  }
+    Array.new(size) { |i|  }
 
-    Array.new(size_TYPED) { |arg_TYPED|  } b
+    Array.new(size_TYPED) { |i_TYPED|  } b
 
-    a Array.new(5) { |i|  } b
+    a Array.new(size) { |i|  } b
 
-    a Array.new(5) { |i|  }
+    a Array.new(size) { |i|  }
 
 
     #   -------------ass--------------- 
@@ -536,11 +294,49 @@ WRAPPED_TEXT_line2`
 
     attr_accessor :
 
-        attr_accessor :attr_TYPED, :attr_TYPED b
+        attr_accessor :attr_TYPED, :attr_TYPED, :attr_TYPED b
 
     a attr_accessor : b
 
     a attr_accessor :
+
+
+    #   -------------Author--------------- 
+    #  `$author^                           
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    a drdr.xp b
+
+    a drdr.xp
+
+
+    #   -------------BEG--------------- 
+    #  BEGIN {                          
+    #      `cursor^                     
+    #  }                                
+
+
+
+    BEGIN {
+        
+    }
+
+    BEGIN {
+        
+    } b
+
+    a BEGIN {
+        
+    } b
+
+    a BEGIN {
+        
+    }
 
 
     #   -------------begin--------------- 
@@ -555,6 +351,8 @@ WRAPPED_TEXT_line2`
 
     begin
         expr
+    rescue Exception => e
+        # block
     rescue Exception => e
         # block
     rescue Exception => e
@@ -578,6 +376,8 @@ WRAPPED_TEXT_line2`
             # block
         rescue Exception => e
             # block
+        rescue Exception => e
+            # block
         else
             # block
         ensure
@@ -586,6 +386,8 @@ WRAPPED_TEXT_line2`
 
         a begin
             expr
+        rescue Exception => e
+            # block
         rescue Exception => e
             # block
         rescue Exception => e
@@ -614,6 +416,8 @@ rescue Exception => e
     # block
 rescue Exception => e
     # block
+rescue Exception => e
+    # block
 else
     # block
 ensure
@@ -635,6 +439,8 @@ rescue Exception => e
     # block
 rescue Exception => e
     # block
+rescue Exception => e
+    # block
 else
     # block
 ensure
@@ -644,6 +450,8 @@ endb
 a begin
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
+rescue Exception => e
+    # block
 rescue Exception => e
     # block
 rescue Exception => e
@@ -706,6 +514,8 @@ end
         # block
     when comparison
         # block
+    when comparison
+        # block
     else
         
     end
@@ -724,11 +534,15 @@ end
             # block
         when comparison
             # block
+        when comparison
+            # block
         else
             
         end b
 
         a case target
+        when comparison
+            # block
         when comparison
             # block
         when comparison
@@ -865,7 +679,7 @@ end
         def initialize
             
         end
-    
+            
         def method
             
         end
@@ -875,14 +689,14 @@ end
         def initialize(arg_TYPED, narg_TYPED, narg_TYPED)
             cursor_TYPED
         end
-            def_TYPED
+                def_TYPED
     end b
 
     a class ClassName
         def initialize
             
         end
-    
+            
         def method
             
         end
@@ -892,7 +706,7 @@ end
         def initialize
             
         end
-    
+            
         def method
             
         end
@@ -957,6 +771,40 @@ end
     a collect { |obj|  }
 
 
+    #   -------------Comp--------------- 
+    #  include Comparable                
+    #                                    
+    #  def <=>(other)                    
+    #      `cursor^                      
+    #  end                               
+
+
+
+    include Comparable
+    
+    def <=>(other)
+        
+    end
+
+    include Comparable
+    
+    def <=>(other)
+        
+    end b
+
+    a include Comparable
+    
+    def <=>(other)
+        
+    end b
+
+    a include Comparable
+    
+    def <=>(other)
+        
+    end
+
+
     #   -------------deec--------------- 
     #  Marshal.load(Marshal.dump(`obj^)) 
 
@@ -996,28 +844,28 @@ end
 
 
     #   -------------def_--------------- 
-    #  def `_^`(`args`)^                 
+    #  def `method_name^`(`arg*`)^       
     #      `wrapped^                     
     #  end                               
 
 
 
-def _(args)
+def method_name
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 end
 
-def __TYPED(args_TYPED)
+def method_name_TYPED(arg_TYPED, narg_TYPED, narg_TYPED)
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 endb
 
-a def _(args)
+a def method_name
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 endb
 
-a def _(args)
+a def method_name
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 end
@@ -1189,18 +1037,18 @@ end
     a Dir['/**/*']
 
 
-    #   -------------dirg---------------    
-    #  Dir.glob('`dir^') { |`f^| `cursor^ } 
+    #   -------------dirg---------------     
+    #  Dir.glob(`dir^) { |`file^| `cursor^ } 
 
 
 
-    Dir.glob('dir') { |f|  }
+    Dir.glob(dir) { |file|  }
 
-    Dir.glob('dir_TYPED') { |f_TYPED|  } b
+    Dir.glob(dir_TYPED) { |file_TYPED|  } b
 
-    a Dir.glob('dir') { |f|  } b
+    a Dir.glob(dir) { |file|  } b
 
-    a Dir.glob('dir') { |f|  }
+    a Dir.glob(dir) { |file|  }
 
 
     #   -------------do--------------- 
@@ -1255,14 +1103,86 @@ end
     a each_byte { |byte|  }
 
 
+    #   -------------Email--------------- 
+    #  `$email^                           
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com
+
+
+    #   -------------END--------------- 
+    #  END {                            
+    #      `cursor^                     
+    #  }                                
+
+
+
+    END {
+        
+    }
+
+    END {
+        
+    } b
+
+    a END {
+        
+    } b
+
+    a END {
+        
+    }
+
+
+    #   -------------Enum--------------- 
+    #  include Enumerable                
+    #                                    
+    #  def each(&block)                  
+    #      `cursor^                      
+    #  end                               
+
+
+
+    include Enumerable
+    
+    def each(&block)
+        
+    end
+
+    include Enumerable
+    
+    def each(&block)
+        
+    end b
+
+    a include Enumerable
+    
+    def each(&block)
+        
+    end b
+
+    a include Enumerable
+    
+    def each(&block)
+        
+    end
+
+
     #   -------------fdir--------------- 
-    #  File.dirname(`_^)                 
+    #  File.dirname(`^)                  
 
 
 
     File.dirname()
 
-    File.dirname(__TYPED) b
+    File.dirname(_TYPED) b
 
     a File.dirname() b
 
@@ -1295,6 +1215,20 @@ end
     a File.foreach('filename') { |line|  } b
 
     a File.foreach('filename') { |line|  }
+
+
+    #   -------------File--------------- 
+    #  `file()^                          
+
+
+
+    test.page
+
+    test.page b
+
+    a test.page b
+
+    a test.page
 
 
     #   -------------fin--------------- 
@@ -1353,18 +1287,32 @@ end
     a inject(Array.new) { |arr, a| arr.push(*a) }
 
 
+    #   -------------Forw--------------- 
+    #  extend Forwardable                
+
+
+
+    extend Forwardable
+
+    extend Forwardable b
+
+    a extend Forwardable b
+
+    a extend Forwardable
+
+
     #   -------------fread--------------- 
-    #  File.read('`filename^')            
+    #  File.read(`filename^)              
 
 
 
-    File.read('filename')
+    File.read(filename)
 
-    File.read('filename_TYPED') b
+    File.read(filename_TYPED) b
 
-    a File.read('filename') b
+    a File.read(filename) b
 
-    a File.read('filename')
+    a File.read(filename)
 
 
     #   -------------grep---------------        
@@ -1372,13 +1320,13 @@ end
 
 
 
-    grep(/pattern/) { |m|  }
+    grep(/pattern/) { |match|  }
 
     grep(/pattern_TYPED/) { |match_TYPED|  } b
 
-    a grep(/pattern/) { |m|  } b
+    a grep(/pattern/) { |match|  } b
 
-    a grep(/pattern/) { |m|  }
+    a grep(/pattern/) { |match|  }
 
 
     #   -------------gsub---------------        
@@ -1386,13 +1334,13 @@ end
 
 
 
-    gsub(/pattern/) { |m|  }
+    gsub(/pattern/) { |match|  }
 
     gsub(/pattern_TYPED/) { |match_TYPED|  } b
 
-    a gsub(/pattern/) { |m|  } b
+    a gsub(/pattern/) { |match|  } b
 
-    a gsub(/pattern/) { |m|  }
+    a gsub(/pattern/) { |match|  }
 
 
     #   -------------hash---------------                    
@@ -1400,13 +1348,13 @@ end
 
 
 
-    Hash.new { |h,k| h[k] =  }
+    Hash.new { |hash,key| hash[key] =  }
 
     Hash.new { |hash_TYPED,key_TYPED| hash_TYPED[key_TYPED] =  } b
 
-    a Hash.new { |h,k| h[k] =  } b
+    a Hash.new { |hash,key| hash[key] =  } b
 
-    a Hash.new { |h,k| h[k] =  }
+    a Hash.new { |hash,key| hash[key] =  }
 
 
     #   -------------if--------------- 
@@ -1468,49 +1416,55 @@ end
 
 
     #   -------------ifei--------------- 
-    #  if `boolean exp^                  
-    #      `block^`                      
-    #  `elsif...^`                       
-    #  `else...^                         
-    #  end                               
+    #  if `boolean exp^`                 
+    #      `block^                       
+    #  ``elsif...`                       
+    #  ^``else...`                       
+    #  ^end                              
 
 
 
     if boolean exp
         # block
-        elsif boolean exp
+    elsif comparison
         # block
-        elsif boolean exp
+    elsif comparison
         # block
-        else
-            
+    elsif comparison
+        # block
+    else
+        
     end
 
     if booleanexp_TYPED
         block_TYPED
-            elsif_TYPED
-                else_TYPED
-    end b
+    elsif_TYPED
+    else_TYPED
+        end b
 
-    a if boolean exp
-        # block
-        elsif boolean exp
-        # block
-        elsif boolean exp
-        # block
+        a if boolean exp
+            # block
+        elsif comparison
+            # block
+        elsif comparison
+            # block
+        elsif comparison
+            # block
         else
             
-    end b
+        end b
 
-    a if boolean exp
-        # block
-        elsif boolean exp
-        # block
-        elsif boolean exp
-        # block
+        a if boolean exp
+            # block
+        elsif comparison
+            # block
+        elsif comparison
+            # block
+        elsif comparison
+            # block
         else
             
-    end
+        end
 
 
     #   -------------inj---------------                        
@@ -1518,13 +1472,13 @@ end
 
 
 
-    inject(arg) { |acc, el|  }
+    inject(arg) { |accumulator, element|  }
 
     inject(arg_TYPED) { |accumulator_TYPED, element_TYPED|  } b
 
-    a inject(arg) { |acc, el|  } b
+    a inject(arg) { |accumulator, element|  } b
 
-    a inject(arg) { |acc, el|  }
+    a inject(arg) { |accumulator, element|  }
 
 
     #   -------------invoke_--------------- 
@@ -1611,6 +1565,20 @@ WRAPPED_TEXT_line2)
     a max { |element1, element2|  }
 
 
+    #   -------------Md---------------                                      
+    #  File.open(`filename^, "wb") { |`file^| Marshal.dump(`obj^, `file^) } 
+
+
+
+    File.open(filename, "wb") { |file| Marshal.dump(obj, file) }
+
+    File.open(filename_TYPED, "wb") { |file_TYPED| Marshal.dump(obj_TYPED, file_TYPED) } b
+
+    a File.open(filename, "wb") { |file| Marshal.dump(obj, file) } b
+
+    a File.open(filename, "wb") { |file| Marshal.dump(obj, file) }
+
+
     #   -------------min---------------          
     #  min { |`element1^, `element2^| `cursor^ } 
 
@@ -1623,6 +1591,20 @@ WRAPPED_TEXT_line2)
     a min { |element1, element2|  } b
 
     a min { |element1, element2|  }
+
+
+    #   -------------Ml---------------                               
+    #  File.open(`filename^, "rb") { |`file^| Marshal.load(`file^) } 
+
+
+
+    File.open(filename, "rb") { |file| Marshal.load(file) }
+
+    File.open(filename_TYPED, "rb") { |file_TYPED| Marshal.load(file_TYPED) } b
+
+    a File.open(filename, "rb") { |file| Marshal.load(file) } b
+
+    a File.open(filename, "rb") { |file| Marshal.load(file) }
 
 
     #   -------------mod--------------- 
@@ -1749,18 +1731,18 @@ end
     a var = Object.new
 
 
-    #   -------------open---------------                  
-    #  open("`filename^"`, `mode...^) { |`io^| `cursor^ } 
+    #   -------------open---------------                
+    #  open(`filename^`, `mode...^) { |`io^| `cursor^ } 
 
 
 
-    open("filename", 'wb') { |io|  }
+    open(filename, 'wb') { |io|  }
 
-    open("filename_TYPED", mode_TYPED) { |io_TYPED|  } b
+    open(filename_TYPED, mode_TYPED) { |io_TYPED|  } b
 
-    a open("filename", 'wb') { |io|  } b
+    a open(filename, 'wb') { |io|  } b
 
-    a open("filename", 'wb') { |io|  }
+    a open(filename, 'wb') { |io|  }
 
 
     #   -------------par---------------   
@@ -1789,6 +1771,20 @@ end
     a File.join(File.dirname(__FILE__), "../lib") b
 
     a File.join(File.dirname(__FILE__), "../lib")
+
+
+    #   -------------Pn--------------- 
+    #  PStore.new(`filename^)          
+
+
+
+    PStore.new(filename)
+
+    PStore.new(filename_TYPED) b
+
+    a PStore.new(filename) b
+
+    a PStore.new(filename)
 
 
     #   -------------rej--------------- 
@@ -1839,12 +1835,16 @@ end
 
 
     %w[].map { |lib| require lib }
+    
 
-    %w[lib_TYPED lib_TYPED].map { |lib| require lib } b
+    %w[lib_TYPED lib_TYPED lib_TYPED].map { |lib| require lib }
+     b
 
-    a %w[].map { |lib| require lib } b
+     a %w[].map { |lib| require lib }
+      b
 
-    a %w[].map { |lib| require lib }
+      a %w[].map { |lib| require lib }
+      
 
 
     #   -------------reve---------------     
@@ -1866,13 +1866,13 @@ end
 
 
 
-    scan(/pattern/) { |m|  }
+    scan(/pattern/) { |match|  }
 
     scan(/pattern_TYPED/) { |match_TYPED|  } b
 
-    a scan(/pattern/) { |m|  } b
+    a scan(/pattern/) { |match|  } b
 
-    a scan(/pattern/) { |m|  }
+    a scan(/pattern/) { |match|  }
 
 
     #   -------------sel--------------- 
@@ -1890,18 +1890,23 @@ end
 
 
     #   -------------shebang--------------- 
-    #  #!/usr/bin/env ruby -w               
+    #  #!/usr/bin/env ruby                  
+    #  _CMT_-*- encoding: `utf-8^ -*-       
 
 
 
-    #!/usr/bin/env ruby -w
+    #!/usr/bin/env ruby
+    # -*- encoding: utf-8 -*-
     #
-    #!/usr/bin/env ruby -w b
+    #!/usr/bin/env ruby
+    # -*- encoding: utf8_TYPED -*- b
     #
-    a #!/usr/bin/env ruby -w b
-
-    a #!/usr/bin/env ruby -w
-
+    a #!/usr/bin/env ruby
+    # -*- encoding: utf-8 -*- b
+    #
+    a #!/usr/bin/env ruby
+    # -*- encoding: utf-8 -*-
+    #
 
     #   -------------sinc--------------- 
     #  class << self; self; end          
@@ -1945,18 +1950,18 @@ end
     a sort_by { |arg|  }
 
 
-    #   -------------ste---------------            
-    #  step(`count^`, `step^) { |`arg^| `cursor^ } 
+    #   -------------ste---------------          
+    #  step(`count^`, `step^) { |`i^| `cursor^ } 
 
 
 
-    step(10, 2) { |i|  }
+    step(count, step) { |i|  }
 
-    step(count_TYPED, step_TYPED) { |arg_TYPED|  } b
+    step(count_TYPED, step_TYPED) { |i_TYPED|  } b
 
-    a step(10, 2) { |i|  } b
+    a step(count, step) { |i|  } b
 
-    a step(10, 2) { |i|  }
+    a step(count, step) { |i|  }
 
 
     #   -------------sub---------------        
@@ -1964,13 +1969,13 @@ end
 
 
 
-    sub(/pattern/) { |m|  }
+    sub(/pattern/) { |match|  }
 
     sub(/pattern_TYPED/) { |match_TYPED|  } b
 
-    a sub(/pattern/) { |m|  } b
+    a sub(/pattern/) { |match|  } b
 
-    a sub(/pattern/) { |m|  }
+    a sub(/pattern/) { |match|  }
 
 
     #   -------------subcl--------------- 
@@ -2026,26 +2031,26 @@ end
     end
 
 
-    #   -------------tc---------------             
-    #  require "test/unit"                         
-    #  require "`module^"                          
-    #                                              
-    #  class Test`ClassName^ < Test::Unit:TestCase 
-    #      `deft^`...^                             
-    #                                              
-    #      `deft^`...^                             
-    #  end                                         
+    #   -------------tc---------------              
+    #  require "test/unit"                          
+    #  require "`module^"                           
+    #                                               
+    #  class Test`ClassName^ < Test::Unit::TestCase 
+    #      `deft^`                                  
+    #                                               
+    #      `deft...`^                               
+    #  end                                          
 
 
 
     require "test/unit"
     require "module"
     
-    class TestModule < Test::Unit:TestCase
+    class TestModule < Test::Unit::TestCase
         def test_name
             
         end 
-    
+        
         def test_name
             
         end
@@ -2054,20 +2059,22 @@ end
     require "test/unit"
     require "module_TYPED"
     
-    class TestClassNameTYPED < Test::Unit:TestCase
+    class TestClassNameTYPED < Test::Unit::TestCase
         def test_name_TYPED(arg_TYPED, narg_TYPED, narg_TYPED)
             cursor_TYPED
-        end _TYPED
+        end 
+            
+                deft_TYPED
     end b
 
     a require "test/unit"
     require "module"
     
-    class TestModule < Test::Unit:TestCase
+    class TestModule < Test::Unit::TestCase
         def test_name
             
         end 
-    
+        
         def test_name
             
         end
@@ -2076,11 +2083,11 @@ end
     a require "test/unit"
     require "module"
     
-    class TestModule < Test::Unit:TestCase
+    class TestModule < Test::Unit::TestCase
         def test_name
             
         end 
-    
+        
         def test_name
             
         end
@@ -2102,27 +2109,27 @@ end
 
 
     #   -------------tim--------------- 
-    #  times {` |`index`|^ `cursor^ }   
+    #  times {` |`i`|^ `cursor^ }       
 
 
 
-    times { |index|  }
+    times { |i|  }
 
-    times { |index_TYPED|  } b
+    times { |i_TYPED|  } b
 
-    a times { |index|  } b
+    a times { |i|  } b
 
-    a times { |index|  }
+    a times { |i|  }
 
 
     #   -------------tra--------------- 
-    #  transaction(`_^) { `cursor^ }    
+    #  transaction(`true^) { `cursor^ } 
 
 
 
     transaction(true) {  }
 
-    transaction(__TYPED) {  } b
+    transaction(true_TYPED) {  } b
 
     a transaction(true) {  } b
 
@@ -2201,65 +2208,65 @@ end
     end
 
 
-    #   -------------upt---------------    
-    #  upto(`ubound^) { |`arg^| `cursor^ } 
+    #   -------------upt---------------  
+    #  upto(`ubound^) { |`i^| `cursor^ } 
 
 
 
-    upto(10) { |i|  }
+    upto(ubound) { |i|  }
 
-    upto(ubound_TYPED) { |arg_TYPED|  } b
+    upto(ubound_TYPED) { |i_TYPED|  } b
 
-    a upto(10) { |i|  } b
+    a upto(ubound) { |i|  } b
 
-    a upto(10) { |i|  }
+    a upto(ubound) { |i|  }
 
 
-    #   -------------usai---------------        
-    #  if ARGV`_^                               
-    #    abort "Usage: #{$PROGRAM_NAME} `args^" 
-    #  end                                      
+    #   -------------usai---------------          
+    #  if ARGV`^                                  
+    #      abort "Usage: #{$PROGRAM_NAME} `args^" 
+    #  end                                        
 
 
 
     if ARGV
-      abort "Usage: #{$PROGRAM_NAME} [options]"
+        abort "Usage: #{$PROGRAM_NAME} [options]"
     end
 
-    if ARGV__TYPED
-      abort "Usage: #{$PROGRAM_NAME} args_TYPED"
+    if ARGV_TYPED
+        abort "Usage: #{$PROGRAM_NAME} args_TYPED"
     end b
 
     a if ARGV
-      abort "Usage: #{$PROGRAM_NAME} [options]"
+        abort "Usage: #{$PROGRAM_NAME} [options]"
     end b
 
     a if ARGV
-      abort "Usage: #{$PROGRAM_NAME} [options]"
+        abort "Usage: #{$PROGRAM_NAME} [options]"
     end
 
 
-    #   -------------usau---------------        
-    #  unless ARGV`_^                           
-    #    abort "Usage: #{$PROGRAM_NAME} `args^" 
-    #  end                                      
+    #   -------------usau---------------          
+    #  unless ARGV`^                              
+    #      abort "Usage: #{$PROGRAM_NAME} `args^" 
+    #  end                                        
 
 
 
     unless ARGV
-      abort "Usage: #{$PROGRAM_NAME} [options]"
+        abort "Usage: #{$PROGRAM_NAME} [options]"
     end
 
-    unless ARGV__TYPED
-      abort "Usage: #{$PROGRAM_NAME} args_TYPED"
+    unless ARGV_TYPED
+        abort "Usage: #{$PROGRAM_NAME} args_TYPED"
     end b
 
     a unless ARGV
-      abort "Usage: #{$PROGRAM_NAME} [options]"
+        abort "Usage: #{$PROGRAM_NAME} [options]"
     end b
 
     a unless ARGV
-      abort "Usage: #{$PROGRAM_NAME} [options]"
+        abort "Usage: #{$PROGRAM_NAME} [options]"
     end
 
 
@@ -2292,27 +2299,55 @@ end
 
 
 
-    with_index { |element, i|  }
+    with_index { |element, index|  }
 
     with_index { |element_TYPED, index_TYPED|  } b
 
-    a with_index { |element, i|  } b
+    a with_index { |element, index|  } b
 
-    a with_index { |element, i|  }
-
-
-    #   -------------xml---------------             
-    #  REXML::Document.new(File.read("`filename^")) 
+    a with_index { |element, index|  }
 
 
+    #   -------------xml---------------           
+    #  REXML::Document.new(File.read(`filename^)) 
 
-    REXML::Document.new(File.read("filename"))
 
-    REXML::Document.new(File.read("filename_TYPED")) b
 
-    a REXML::Document.new(File.read("filename")) b
+    REXML::Document.new(File.read(filename))
 
-    a REXML::Document.new(File.read("filename"))
+    REXML::Document.new(File.read(filename_TYPED)) b
+
+    a REXML::Document.new(File.read(filename)) b
+
+    a REXML::Document.new(File.read(filename))
+
+
+    #   -------------Yd---------------                                         
+    #  File.open("`filename^.yaml", "wb") { |`file^| YAML.dump(`obj^,`file^) } 
+
+
+
+    File.open("filename.yaml", "wb") { |file| YAML.dump(obj,file) }
+
+    File.open("filename_TYPED.yaml", "wb") { |file_TYPED| YAML.dump(obj_TYPED,file_TYPED) } b
+
+    a File.open("filename.yaml", "wb") { |file| YAML.dump(obj,file) } b
+
+    a File.open("filename.yaml", "wb") { |file| YAML.dump(obj,file) }
+
+
+    #   -------------Yl---------------                             
+    #  File.open("`filename^.yaml") { |`file^| YAML.load(`file^) } 
+
+
+
+    File.open("filename.yaml") { |file| YAML.load(file) }
+
+    File.open("filename_TYPED.yaml") { |file_TYPED| YAML.load(file_TYPED) } b
+
+    a File.open("filename.yaml") { |file| YAML.load(file) } b
+
+    a File.open("filename.yaml") { |file| YAML.load(file) }
 
 
     #   -------------zip--------------- 
@@ -2329,8 +2364,8 @@ end
     a zip(enum) { |row|  }
 
 
-    #   -------------{--------------- 
-    #  {`wrapped^}                    
+    #   -------------{_--------------- 
+    #  {`wrapped^}                     
 
 
 

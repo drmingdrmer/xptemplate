@@ -46,6 +46,7 @@ let g:XPMpreferRight = 'r'
 
 
 fun! XPMadd( name, pos, prefer ) "{{{
+
     " @param name       mark name
     "
     " @param pos        list of [ line, column ]
@@ -55,6 +56,9 @@ fun! XPMadd( name, pos, prefer ) "{{{
     "                   after mark, before mark for right-prefered.
     "                   Default : 'l' left-prefered
 
+    if &l:statusline !~ 'XPMautoUpdate'
+        let &l:statusline  .= '%{XPMautoUpdate("statusline")}'
+    endif
     call s:log.Log( "add mark of name " . string( a:name ) . ' at ' . string( a:pos ) )
     let d = s:bufData()
     let prefer = a:prefer == 'l' ? 0 : 1
@@ -79,6 +83,7 @@ fun! XPMremove( name ) "{{{
 endfunction "}}}
 
 fun! XPMremoveMarkStartWith(prefix) "{{{
+    call s:log.Log( "XPMremoveMarkStartWith prefix=" . a:prefix )
     let d = s:bufData()
     for key in keys( d.marks )
         if key =~# '^\V' . a:prefix
@@ -88,6 +93,7 @@ fun! XPMremoveMarkStartWith(prefix) "{{{
 endfunction "}}}
 
 fun! XPMflush() "{{{
+    call s:log.Debug( "XPMflush" )
     let d = s:bufData()
     let d.marks = {}
     let d.orderedMarks = []
@@ -319,7 +325,7 @@ fun! s:snapshot() dict "{{{
             let self.markHistory[ n-1 ] = self.markHistory[ n-2 ]
         else
             let self.markHistory[ n-1 ] = {'list':[], 'dict' :{}}
-            " throw 'no history nr:' . ( n-1 ) . ' lastNr:' . self.lastChangenr . ' history:' . string( self.markHistory )
+            " throw ( 'no history nr:' . ( n-1 ) . ' lastNr:' . self.lastChangenr . ' history:' . string( self.markHistory ) )
         endif
     endif
 
@@ -1161,9 +1167,9 @@ elseif !&ruler
 
 endif
 
-if &statusline == ""
-    set statusline=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
-endif
+" if &statusline == ""
+    " set statusline=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
+" endif
 
 " Always enable ruler so that if statusline disabled, update can be done
 " through rulerformat
@@ -1171,7 +1177,7 @@ set ruler
 
 " let &statusline   = '%{PrintDebug()}' . &statusline
 let &rulerformat .= '%{XPMautoUpdate("ruler")}'
-let &statusline  .= '%{XPMautoUpdate("statusline")}'
+" let &statusline  .= '%{XPMautoUpdate("statusline")}'
 
 
 

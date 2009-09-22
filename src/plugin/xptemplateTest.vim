@@ -257,7 +257,7 @@ fun! TestProcess() "{{{
 
         let x = XPTbufData()
         let ctx = x.renderContext
-        if ctx.phase == 'uninit'
+        if ctx.phase == 'uninit' || ctx.phase == 'popup'
             return ""
         endif
 
