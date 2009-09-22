@@ -101,15 +101,17 @@ end
 
 
 XPT ifei hint=if\ ..\ then\ ..\ elseif\ ..\ else\ ..\ end
-XSET elseif...|post=\nelseif `condn^ then\n`^`\n`elseif...^
-XSET else...|post=\nelse\n  `cursor^
-if `cond^ then
-    `^
-elseif `condn^ then
-`^`
-`elseif...^`
-`else...^
-end
+XSET job=$CS job
+if `cond^ then`
+    `job^
+``elseif...`
+{{^elseif `comparison^ then
+    `job^
+``elseif...`
+^`}}^``else...`
+{{^else
+    `cursor^
+`}}^end
 
 
 XPT locf hint=local\ function\ ..\(..)\ ...\ end

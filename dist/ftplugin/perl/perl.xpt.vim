@@ -7,7 +7,7 @@ XPTvar $FALSE         0
 XPTvar $NULL          
 XPTvar $UNDEFINED     
 
-XPTvar $VOID_LINE # void;
+XPTvar $VOID_LINE     # void;
 XPTvar $CURSOR_PH     # cursor
 
 XPTvar $IF_BRACKET_STL     \ 
