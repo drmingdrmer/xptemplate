@@ -21,8 +21,11 @@ let s:log = CreateLogger( 'debug' )
 let g:XPMpreferLeft = 'l'
 let g:XPMpreferRight = 'r'
 fun! XPMadd( name, pos, prefer ) 
-    if &l:statusline !~ 'XPMautoUpdate'
-        let &l:statusline  .= '%{XPMautoUpdate("statusline")}'
+    if &l:statusline == ""
+        setlocal statusline=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
+        if &l:statusline !~ 'XPMautoUpdate'
+            let &l:statusline  .= '%{XPMautoUpdate("statusline")}'
+        endif
     endif
     let d = s:bufData()
     let prefer = a:prefer == 'l' ? 0 : 1

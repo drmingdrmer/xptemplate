@@ -64,6 +64,7 @@ fun! XPreplaceInternal(start, end, replacement, option)
         silent! normal! v
         call cursor( a:end )
         silent! normal! dzO
+        call cursor( a:start )
     endif
     if a:replacement == ''
         if option.doJobs
