@@ -56,8 +56,11 @@ fun! XPMadd( name, pos, prefer ) "{{{
     "                   after mark, before mark for right-prefered.
     "                   Default : 'l' left-prefered
 
-    if &l:statusline !~ 'XPMautoUpdate'
-        let &l:statusline  .= '%{XPMautoUpdate("statusline")}'
+    if &l:statusline == ""
+        setlocal statusline=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
+        if &l:statusline !~ 'XPMautoUpdate'
+            let &l:statusline  .= '%{XPMautoUpdate("statusline")}'
+        endif
     endif
     call s:log.Log( "add mark of name " . string( a:name ) . ' at ' . string( a:pos ) )
     let d = s:bufData()
