@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.3.9.3
+" VERSION: 0.3.9.4
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
@@ -57,6 +57,10 @@
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 "
 " "}}}
+" 
+" Log of This version:
+"   fix cursor indent bug in some version of vim.
+"   fix statusline overriding problem if statusline set to be ''
 "
 " 
 
