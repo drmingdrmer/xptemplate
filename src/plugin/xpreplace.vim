@@ -137,6 +137,8 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
         silent! normal! v
         call cursor( a:end )
         silent! normal! dzO
+        " NOTE: in some old version of vim, cursor goes back 1 char after delete. 
+        call cursor( a:start )
     endif
 
     call s:log.Log( 'after deleting content, line=' . string( getline( a:start[0] ) ) )
