@@ -61,6 +61,12 @@
 " 
 
 
+
+
+
+
+
+
 if exists("g:__XPTEMPLATE_VIM__")
     finish
 endif
@@ -3412,7 +3418,6 @@ fun! s:SetIfEmpty( dict, name, value ) "{{{
 endfunction "}}}
 
 call <SID>Link('TmplRange GetRangeBetween TextBetween GetStaticRange LeftPos')
-
 
 
 com! XPTreload call XPTreload()
