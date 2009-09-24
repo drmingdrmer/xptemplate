@@ -277,6 +277,18 @@ fun! XPTemplatePreWrap(wrap)
         let x.wrap = s:BuildFilterIndent( x.wrap, len( indent ) )
         let x.wrap = 'Echo(' . string( x.wrap ) . ')'
     endif
+    if getline( line( "." ) ) =~ '^\s*$'
+        while col( "." ) != 1
+            exe "normal! \<bs>"
+        endwhile
+        let leftSpaces = repeat( ' ', x.wrapStartPos - 1 )
+    else
+        let leftSpaces = ''
+    endif
+    return leftSpaces . "\<C-r>=XPTemplateDoWrap()\<cr>"
+endfunction 
+fun! XPTemplateDoWrap() 
+    let x = g:XPTobject()
     let ppr = s:Popup("", x.wrapStartPos)
     return ppr
 endfunction 

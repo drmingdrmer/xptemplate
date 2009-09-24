@@ -102,9 +102,6 @@ endfunction
 XPTemplateDef
 
 
-XPT lowerUpper
-lower : `text^
-upper : `text^UpperCase(V())^
 
 XPT printf	hint=printf\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )
