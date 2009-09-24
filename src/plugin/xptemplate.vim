@@ -60,6 +60,7 @@
 " 
 " Log of This version:
 "   fix cursor indent bug in some version of vim.
+"   fix bug that wrapping snippet messed up by smartindent or indentexpr etc.
 "   fix statusline overriding problem if statusline set to be ''
 "
 " 
