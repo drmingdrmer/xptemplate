@@ -45,6 +45,38 @@ let g:XPMpreferRight = 'r'
 
 
 
+augroup XPM
+    au!
+    au BufEnter * call XPMcheckStatusline()
+augroup END
+
+fun! XPMcheckStatusline() "{{{
+    if &statusline == ""
+        if &l:statusline == ''
+            " all empty 
+            setlocal statusline=%<%f\ %h%m%r%=\ %P
+        else
+            " locally set
+            " nothing to do
+
+        endif 
+    else
+        if &l:statusline == ''
+            " set only globally
+            " copy it
+            setlocal statusline<
+        else
+            " locally set
+
+        endif 
+    endif
+    if &l:statusline !~ 'XPMautoUpdate' 
+        let &l:statusline  .= '%{XPMautoUpdate("statusline")}' 
+    endif 
+ 
+endfunction "}}} 
+
+
 fun! XPMadd( name, pos, prefer ) "{{{
 
     " @param name       mark name
@@ -56,12 +88,8 @@ fun! XPMadd( name, pos, prefer ) "{{{
     "                   after mark, before mark for right-prefered.
     "                   Default : 'l' left-prefered
 
-    if &l:statusline == ""
-        setlocal statusline=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
-        if &l:statusline !~ 'XPMautoUpdate'
-            let &l:statusline  .= '%{XPMautoUpdate("statusline")}'
-        endif
-    endif
+    call XPMcheckStatusline()
+
     call s:log.Log( "add mark of name " . string( a:name ) . ' at ' . string( a:pos ) )
     let d = s:bufData()
     let prefer = a:prefer == 'l' ? 0 : 1
