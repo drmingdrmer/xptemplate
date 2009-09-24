@@ -528,15 +528,9 @@ endfunction "}}}
 
 
 fun! XPTemplatePreWrap(wrap) "{{{
+    " NOTE: start with "s" command, which produce pseudo indent space. 
     let x = g:XPTobject()
     let x.wrap = a:wrap
-
-    " if x.wrap[-1:-1] == "\n"
-        " let x.wrap = x.wrap[0:-2]
-        " " TODO use XPreplace
-        " let @" = "\n"
-        " normal! ""P
-    " endif
 
     " TODO is that ok?
     let x.wrap = substitute( x.wrap, '\n$', '', '' )
@@ -554,6 +548,22 @@ fun! XPTemplatePreWrap(wrap) "{{{
         call s:log.Log( 'wrapped=' . x.wrap )
     endif
 
+    if getline( line( "." ) ) =~ '^\s*$'
+        while col( "." ) != 1
+            exe "normal! \<bs>"
+        endwhile
+        let leftSpaces = repeat( ' ', x.wrapStartPos - 1 )
+    else
+        let leftSpaces = ''
+    endif
+
+
+    return leftSpaces . "\<C-r>=XPTemplateDoWrap()\<cr>"
+
+endfunction "}}}
+
+fun! XPTemplateDoWrap() "{{{
+    let x = g:XPTobject()
     let ppr = s:Popup("", x.wrapStartPos)
 
     call s:log.Log("popup result:".string(ppr))
