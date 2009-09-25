@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.3.9.4
+" VERSION: 0.3.9.5
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
@@ -27,18 +27,14 @@
 " TODOLIST: "{{{
 " TODO standardize html/xml snippets.
 " TODO how to load different language snippets like html in php in single buffer
-" TODO escaped mark in snippet '`' and '^' and in nested.
 " TODO snippets bundle and bundle selection
 " TODO snippet-file scope XSET
 " TODO block context check
-" TODO eval default value in-time
-" TODO without template rendering, xpmark update complains error.
 " TODO ontime repetition
 " TODO in windows & in select mode to trigger wrapped or normal?
 " TODO change on previous item
-" TODO implement wrapping in more natural way. nested maybe.
 " TODO as function call template
-" TODO highlight all pending item instead of using mark
+" TODO highlight all pending items
 " TODO item popup: repopup
 " TODO install guide
 " TODO do not let xpt throw error if calling undefined s:f.function..
@@ -54,14 +50,12 @@
 " TODO separately store wrapped templates and normal ones
 " TODO match snippet names from middle
 " TODO snippets bundle and bundle selection
+" TODO without template rendering, xpmark update complains error.
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 "
 " "}}}
 " 
 " Log of This version:
-"   fix cursor indent bug in some version of vim.
-"   fix bug that wrapping snippet messed up by smartindent or indentexpr etc.
-"   fix statusline overriding problem if statusline set to be ''
 "
 " 
 
