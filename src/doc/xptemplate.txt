@@ -243,7 +243,7 @@
 ==============================================================================
 
 				    *xpt-mapping*  *xpt-key-bind* *xpt-option*
-	Options can be set in |.vimrc| to modify xptemplate behavior.
+	Options can be set in |.vimrc| to modify xptemplate behaviors.
 
 							*i_CTRL-\*  *v_CTRL-\*
 							     *xpt-key-trigger*  
@@ -272,8 +272,11 @@
 							  *xpt-key-goto-right*
 						       *g:xptemplate_to_right*
 							     {default:"<C-l>"}
-	Jump to the end of current place holder and go to insert mode.
-	Using |g:xptemplate_to_right| to config this mapping.
+	When place holder is initially selected, jump to the end of current
+	place holder and go to insert mode.  Using |g:xptemplate_to_right| to
+	config this mapping. Example : >
+		let g:xptemplate_to_right = '<C-l>'
+<
 
 								     *n_<C-g>*
 							      *xpt-key-goback*
@@ -286,6 +289,13 @@
 
 ==============================================================================
 
+					    *g:xptemplate_ph_pum_accept_empty*
+								   {default:0}
+	When set to 1, pop up menu for place holder accepts an empty input.
+	That when nothing typed, <tab> close pop up menu and sends
+	cursor to next place holder.
+	When not set, <tab> expands text to longest, and keeps pop up menu
+	shown.
 
 						     *g:xptemplate_strip_left*
 								   {default:1}

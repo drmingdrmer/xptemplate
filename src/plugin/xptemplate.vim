@@ -859,7 +859,7 @@ fun! s:Popup(pref, coln) "{{{
     let cmpl = cmpl + cmpl2
 
 
-    return XPPopupNew(s:pumCB, {}, cmpl).popup(a:coln)
+    return XPPopupNew(s:pumCB, {}, cmpl).popup(a:coln, {})
 
 endfunction "}}}
 
@@ -2424,7 +2424,10 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
         " let renderContext.phase = 'fillin'
 
         " to pop up, but do not enlarge matching, thus empty string is selected at first
-        return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."), 1, 0)
+        " if only word listed,  do callback at once. 
+        let pumSess = XPPopupNew(s:ItemPumCB, {}, obj)
+        call pumSess.SetAcceptEmpty(g:xptemplate_ph_pum_accept_empty)
+        return pumSess.popup(col("."), { 'doCallback' : 1, 'enlarge' : 0 } )
 
     else 
         " string
@@ -2844,7 +2847,12 @@ fun! s:ApplyMap() " {{{
 
     snoremap <silent> <buffer> <Del> <Del>i
     snoremap <silent> <buffer> <bs> <esc>`>a<bs>
-    exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>a"
+
+    if &selection == 'inclusive'
+        exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>a"
+    else
+        exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>i"
+    endif
 
 endfunction " }}}
 

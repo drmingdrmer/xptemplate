@@ -30,27 +30,40 @@ let s:log = CreateLogger( 'warn' )
 " let s:log = CreateLogger( 'debug' )
 " let s:log = CreateLogger( 'log' )
 
+fun! s:SetIfNotExist(k, v) "{{{
+  if !exists(a:k)
+    exe "let ".a:k."=".string(a:v)
+  endif
+endfunction "}}}
+
+let s:opt = {
+            \'doCallback'   : 'doCallback', 
+            \'enlarge'      : 'enlarge', 
+            \'acceptEmpty'  : 'acceptEmpty', 
+            \}
+
+
 
 " Script scope variables {{{
 let s:sessionPrototype = {
             \ 'callback'    : {},
             \ 'list'        : [],
             \ 'prefixIndex' : {},
+            \ 'popupCount'  : 0,
             \
             \ 'line'        : 0,
             \ 'col'         : 0,
             \ 'prefix'      : '',
             \ 'ignoreCase'  : 0,
+            \ 'acceptEmpty' : 0,
+            \ 'last'        : '',
             \ 'longest'     : '',
             \ 'matched'     : '',
             \ 'matchedCallback' : '', 
             \ 'currentList' : [],
-            \ 'finalAction' : '', 
             \ }
             " \ 'postAction'  : '',
 " }}}
-
-" API
 
 " Additional argument can be a list
 fun! XPPopupNew(callback, data, ...) "{{{
@@ -65,20 +78,29 @@ fun! XPPopupNew(callback, data, ...) "{{{
     return sess
 endfunction "}}}
 
-fun! s:popup(start_col, ...) dict "{{{
+fun! s:SetAcceptEmpty( acc ) dict "{{{
+    let self.acceptEmpty = !!a:acc
+    return self
+endfunction "}}}
+
+" TODO on first time popup do not accept empty
+fun! s:popup(start_col, opt) dict "{{{
     " Show the popup
     " callback keys:
     "   onEmpty(sess)
     "   onOneMatch(sess)
 
-
     " if multi items matched, whether to invoke call back or just show popup
-    let doCallback = a:0 == 0 || a:1
-    let ifEnlarge = a:0 < 2 || a:2
+    let doCallback  = get( a:opt, s:opt.doCallback, 1 )
+    let ifEnlarge   = get( a:opt, s:opt.enlarge, 1 )
+
+
 
     call s:log.Debug("doCallback=".doCallback)
 
     let sess = self
+
+    let sess.popupCount += 1
 
     " index of cursor position in line string
     " start from 1, without current character
@@ -95,9 +117,13 @@ fun! s:popup(start_col, ...) dict "{{{
         let sess.longest     = sess.prefix
     endif
 
+
     call s:log.Debug("sess=".string(sess))
 
     let actionList = []
+
+
+
 
     " TODO simplify the procedure of clearing PUM. 
     " Note: clearPum only once may still cause vim fall back to line-wise completion
@@ -115,7 +141,14 @@ fun! s:popup(start_col, ...) dict "{{{
     endif
 
 
-    if len(sess.currentList) == 0
+    " TODO double <tab>
+    if sess.popupCount > 1 && ifEnlarge && sess.acceptEmpty && sess.prefix == ''
+        let sess.matched = ''
+        let sess.matchedCallback = 'onOneMatch'
+        let actionList = []
+        let actionList += [ 'clearPum', 'callback' ]
+
+    elseif len(sess.currentList) == 0
         call s:log.Debug("no matching")
 
         let sess.matched = ''
@@ -218,11 +251,6 @@ fun! XPPprocess(list) "{{{
     let sess = b:__xpp_current_session
 
     if len(a:list) == 0
-        " let fa = sess.finalAction
-        " call s:log.Debug( 'finalAction=' . string( fa ) )
-        " let sess.finalAction = ''
-        " return fa
-        " return g:xpt_post_action
         return ''
     endif
 
@@ -473,7 +501,7 @@ fun! XPPenlarge() "{{{
     return "\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
 endfunction "}}}
 
-fun! XPPcancel()
+fun! XPPcancel() "{{{
     if !s:PopupCheck()
         " use feedkeys, instead of <C-r>= for <C-r>= does not remap keys.
         call feedkeys("\<C-e>", 'mt')
@@ -482,9 +510,9 @@ fun! XPPcancel()
 
     return "\<C-r>=XPPprocess(" . string( [ 'clearPum', 'clearPrefix', 'typeLongest', 'end' ] ) . ")\<cr>"
 
-endfunction
+endfunction "}}}
 
-fun! XPPaccept()
+fun! XPPaccept() "{{{
     if !s:PopupCheck()
         " use feedkeys, instead of <C-r>= for <C-r>= does not remap keys.
         call feedkeys("\<C-y>", 'mt')
@@ -499,7 +527,7 @@ fun! XPPaccept()
 
     return "\<C-r>=XPPprocess(" . string( [ 'clearPum', 'clearPrefix', 'type', toType, 'end' ] ) . ")\<cr>"
 
-endfunction
+endfunction "}}}
 
 fun! XPPrepopup(doCallback, ifEnlarge) "{{{
     " If re-popup is called by XPPshorten, matched item should not trigger callback,
@@ -514,7 +542,7 @@ fun! XPPrepopup(doCallback, ifEnlarge) "{{{
         return ""
     endif
     let sess = b:__xpp_current_session
-    return sess.popup(sess.col, a:doCallback, a:ifEnlarge == 'enlarge')
+    return sess.popup(sess.col, { 'doCallback' : a:doCallback, 'enlarge' : a:ifEnlarge == 'enlarge' } )
 endfunction "}}}
 
 fun! XPPcorrectPos() "{{{
@@ -531,6 +559,7 @@ endfunction "}}}
 
 " Internal --------------------------------------------------------
 
+" TODO using g:xptemplate_nav_next for enlarge ?
 fun! s:ApplyMapAndSetting() "{{{
     if exists("b:__xpp_mapped")
         return
@@ -572,9 +601,9 @@ fun! s:ClearMapAndSetting() "{{{
 endfunction "}}}
 
 
-fun! XPPend()
+fun! XPPend() "{{{
     call s:End()
-endfunction
+endfunction "}}}
 
 fun! s:End() "{{{
     call s:ClearMapAndSetting()
@@ -700,6 +729,7 @@ fun! s:FindShorter(map, key) "{{{
 endfunction "}}}
 
 
+
 fun! s:ClassPrototype(...) "{{{
     let p = {}
     for name in a:000
@@ -712,6 +742,7 @@ endfunction "}}}
 
 let s:sessionPrototype2 =  s:ClassPrototype(
             \    'popup',
+            \   'SetAcceptEmpty', 
             \)
 
 call extend( s:sessionPrototype, s:sessionPrototype2, 'force' )
