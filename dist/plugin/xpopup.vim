@@ -9,20 +9,32 @@ com! XPPgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPPgetSID
 delc XPPgetSID
 let s:log = CreateLogger( 'warn' )
+fun! s:SetIfNotExist(k, v) 
+  if !exists(a:k)
+    exe "let ".a:k."=".string(a:v)
+  endif
+endfunction 
+let s:opt = {
+            \'doCallback'   : 'doCallback', 
+            \'enlarge'      : 'enlarge', 
+            \'acceptEmpty'  : 'acceptEmpty', 
+            \}
 let s:sessionPrototype = {
             \ 'callback'    : {},
             \ 'list'        : [],
             \ 'prefixIndex' : {},
+            \ 'popupCount'  : 0,
             \
             \ 'line'        : 0,
             \ 'col'         : 0,
             \ 'prefix'      : '',
             \ 'ignoreCase'  : 0,
+            \ 'acceptEmpty' : 0,
+            \ 'last'        : '',
             \ 'longest'     : '',
             \ 'matched'     : '',
             \ 'matchedCallback' : '', 
             \ 'currentList' : [],
-            \ 'finalAction' : '', 
             \ }
 fun! XPPopupNew(callback, data, ...) 
     let list = ( a:0 == 0 ) ? [] : a:1
@@ -33,10 +45,15 @@ fun! XPPopupNew(callback, data, ...)
     call sess.addList(list)
     return sess
 endfunction 
-fun! s:popup(start_col, ...) dict 
-    let doCallback = a:0 == 0 || a:1
-    let ifEnlarge = a:0 < 2 || a:2
+fun! s:SetAcceptEmpty( acc ) dict 
+    let self.acceptEmpty = !!a:acc
+    return self
+endfunction 
+fun! s:popup(start_col, opt) dict 
+    let doCallback  = get( a:opt, s:opt.doCallback, 1 )
+    let ifEnlarge   = get( a:opt, s:opt.enlarge, 1 )
     let sess = self
+    let sess.popupCount += 1
     let cursorIndex = col(".") - 1 - 1
     let sess.line        = line(".")
     let sess.col         = a:start_col
@@ -52,7 +69,12 @@ fun! s:popup(start_col, ...) dict
     if sess.longest !=# sess.prefix
         let actionList += ['clearPum',  'clearPrefix', 'clearPum', 'typeLongest' ]
     endif
-    if len(sess.currentList) == 0
+    if sess.popupCount > 1 && ifEnlarge && sess.acceptEmpty && sess.prefix == ''
+        let sess.matched = ''
+        let sess.matchedCallback = 'onOneMatch'
+        let actionList = []
+        let actionList += [ 'clearPum', 'callback' ]
+    elseif len(sess.currentList) == 0
         let sess.matched = ''
         let sess.matchedCallback = 'onEmpty'
         let actionList += ['callback']
@@ -223,14 +245,14 @@ fun! XPPenlarge()
     endif
     return "\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
 endfunction 
-fun! XPPcancel()
+fun! XPPcancel() 
     if !s:PopupCheck()
         call feedkeys("\<C-e>", 'mt')
         return ""
     endif
     return "\<C-r>=XPPprocess(" . string( [ 'clearPum', 'clearPrefix', 'typeLongest', 'end' ] ) . ")\<cr>"
-endfunction
-fun! XPPaccept()
+endfunction 
+fun! XPPaccept() 
     if !s:PopupCheck()
         call feedkeys("\<C-y>", 'mt')
         return ""
@@ -240,13 +262,13 @@ fun! XPPaccept()
     let beforeCursor = beforeCursor == -1 ? 0 : beforeCursor
     let toType = getline( sess.line )[ sess.col - 1 : beforeCursor ]
     return "\<C-r>=XPPprocess(" . string( [ 'clearPum', 'clearPrefix', 'type', toType, 'end' ] ) . ")\<cr>"
-endfunction
+endfunction 
 fun! XPPrepopup(doCallback, ifEnlarge) 
     if !exists("b:__xpp_current_session")
         return ""
     endif
     let sess = b:__xpp_current_session
-    return sess.popup(sess.col, a:doCallback, a:ifEnlarge == 'enlarge')
+    return sess.popup(sess.col, { 'doCallback' : a:doCallback, 'enlarge' : a:ifEnlarge == 'enlarge' } )
 endfunction 
 fun! XPPcorrectPos() 
     let p = getpos(".")[1:2]
@@ -286,9 +308,9 @@ fun! s:ClearMapAndSetting()
     call SettingPop() " indentkeys 
     unlet b:__xpp_mapped
 endfunction 
-fun! XPPend()
+fun! XPPend() 
     call s:End()
-endfunction
+endfunction 
 fun! s:End() 
     call s:ClearMapAndSetting()
     if exists("b:__xpp_current_session")
@@ -373,5 +395,6 @@ fun! s:ClassPrototype(...)
 endfunction 
 let s:sessionPrototype2 =  s:ClassPrototype(
             \    'popup',
+            \   'SetAcceptEmpty', 
             \)
 call extend( s:sessionPrototype, s:sessionPrototype2, 'force' )

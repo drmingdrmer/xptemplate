@@ -454,7 +454,7 @@ fun! s:Popup(pref, coln)
     call sort(cmpl)
     call sort(cmpl2)
     let cmpl = cmpl + cmpl2
-    return XPPopupNew(s:pumCB, {}, cmpl).popup(a:coln)
+    return XPPopupNew(s:pumCB, {}, cmpl).popup(a:coln, {})
 endfunction 
 fun! s:ApplyTmplIndent(renderContext, templateText) 
     let renderContext = a:renderContext
@@ -1261,7 +1261,9 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter )
         let [ start, end ] = XPMposList( marks.start, marks.end )
         call XPreplace( start, end, '')
         call cursor(start)
-        return XPPopupNew(s:ItemPumCB, {}, obj).popup(col("."), 1, 0)
+        let pumSess = XPPopupNew(s:ItemPumCB, {}, obj)
+        call pumSess.SetAcceptEmpty(g:xptemplate_ph_pum_accept_empty)
+        return pumSess.popup(col("."), { 'doCallback' : 1, 'enlarge' : 0 } )
     else 
         let filterIndent = matchstr( obj, '\s*\ze\n' )
         let filterText = matchstr( obj, '\n\zs\_.*' )
@@ -1510,7 +1512,11 @@ fun! s:ApplyMap()
     exe 'nnoremap <silent> <buffer> '.g:xptemplate_goback . ' i<C-r>=<SID>Goback()<cr>'
     snoremap <silent> <buffer> <Del> <Del>i
     snoremap <silent> <buffer> <bs> <esc>`>a<bs>
-    exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>a"
+    if &selection == 'inclusive'
+        exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>a"
+    else
+        exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>i"
+    endif
 endfunction 
 fun! s:ClearMap() 
     let x = g:XPTobject()
