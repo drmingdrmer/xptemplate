@@ -25,6 +25,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO in insert mode <HOME> <END>,  xpt complains error.
 " TODO option to set double <tab> to jump to next or single if pum is visible
 " and nothing typed.
 " TODO standardize html/xml snippets.
