@@ -61,6 +61,7 @@
 " Log of This version:
 "       option : g:xptemplate_ph_pum_accept_empty    
 "       fix : hidden command line bug
+"       fix : textwidth caused xpt crashed.
 "
 " 
 
@@ -2825,6 +2826,9 @@ fun! s:ApplyMap() " {{{
     let x = g:XPTobject()
     let savedMap = x.savedMap
 
+
+    call SettingPush( '&l:textwidth', '0' )
+
     " let savedMap.i_bs       = g:MapPush("<bs>", "i", 1)
     " let savedMap.i_c_w      = g:MapPush("<C-w>", "i", 1)
     " let savedMap.i_del      = g:MapPush("<Del>", "i", 1)
@@ -2866,6 +2870,8 @@ endfunction " }}}
 fun! s:ClearMap() " {{{
     let x = g:XPTobject()
     let savedMap = x.savedMap
+
+    call SettingPop( '&l:textwidth' )
 
     " clear all
     " iunmap <buffer> <bs>
