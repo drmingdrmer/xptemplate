@@ -401,13 +401,12 @@ fun! s:FinishRendering(...)
     let x = g:XPTobject()
     let renderContext = s:getRenderContext()
     let xp = renderContext.tmpl.ptn
-    match none
-    call s:removeMarksInRenderContext(renderContext)
+    call s:removeMarksInRenderContext(renderContext) 
     if empty(x.stack)
         let renderContext.processing = 0
         let renderContext.phase = 'finished'
         call s:ClearMap()
-        return ''
+        return '' 
     else
         call s:PopCtx()
         let renderContext = s:getRenderContext()

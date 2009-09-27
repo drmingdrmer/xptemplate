@@ -81,9 +81,9 @@ fun! g:MapPop(expected)
     return
   endif
   if info.cont == ''
-    let cmd = "silent ".info.mode.'unmap '. info.isbuf . info.key
+    let cmd = "silent! ".info.mode.'unmap '. info.isbuf . info.key 
   else
-    let cmd = "silent " . info.mode . info.nore .'map '. info.isbuf . info.key . ' ' . info.cont
+    let cmd = "silent! " . info.mode . info.nore .'map '. info.isbuf . info.key . ' ' . info.cont
   endif
   try
     exe cmd
