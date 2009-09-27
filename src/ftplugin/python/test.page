@@ -124,45 +124,45 @@ a drdr.xp
 
 
     #  -------------class--------------- 
-    # class `className^ `inherit^^:      
-    #     def __init__( self `args^^):   
+    # class `ClassName^(`inherit^):      
+    #     def __init__(self, `args*^):   
     #         `cursor^                   
 
 
 
-class className :
-    def __init__( self ):
+class ClassName(inherit):
+    def __init__(self, ):
         
 
-        class className_TYPED inherit_TYPED:
-            def __init__( self args_TYPED):
+        class ClassName_TYPED(inherit_TYPED):
+            def __init__(self, args_TYPED, args_TYPED, args_TYPED):
                  b
 
-a class className :
-    def __init__( self ):
+a class ClassName(inherit):
+    def __init__(self, ):
          b
 
-a class className :
-    def __init__( self ):
+a class ClassName(inherit):
+    def __init__(self, ):
         
 
 
     #  -------------def--------------- 
-    # def `fun_name^( `para*^ ):       
+    # def `func_name^(`args*^):        
     #     `cursor^                     
 
 
 
-def fun_name(  ):
+def func_name():
     
 
-    def fun_name_TYPED( para_TYPED, para_TYPED, para_TYPED ):
+    def func_name_TYPED(args_TYPED, args_TYPED, args_TYPED):
          b
 
-a def fun_name(  ):
+a def func_name():
      b
 
-a def fun_name(  ):
+a def func_name():
     
 
 
@@ -232,42 +232,98 @@ a test.page b
 a test.page
 
 
-    #  -------------for--------------- 
-    # for `var^ in range(`0^):         
-    #     `cursor^                     
+    #  -------------for---------------  
+    # for `var^ in range(``0`, ^`end^): 
+    #     `cursor^                      
 
 
 
-for var in range(0):
+for var in range(end):
     
 
-    for var_TYPED in range(0_TYPED):
+    for var_TYPED in range(0_TYPED, end_TYPED):
          b
 
-a for var in range(0):
+a for var in range(end):
      b
 
-a for var in range(0):
+a for var in range(end):
     
 
 
     #  -------------forin--------------- 
-    # for `vars^ in `array^:             
+    # for `vars^ in `seq^:               
     #     `cursor^                       
 
 
 
-for vars in array:
+for vars in seq:
     
 
-    for vars_TYPED in array_TYPED:
+    for vars_TYPED in seq_TYPED:
          b
 
-a for vars in array:
+a for vars in seq:
      b
 
-a for vars in array:
+a for vars in seq:
     
+
+
+    #  -------------from--------------- 
+    # from `module^ import `item^       
+
+
+
+from module import item
+
+from module_TYPED import item_TYPED b
+
+a from module import item b
+
+a from module import item
+
+
+    #  -------------fromas---------------   
+    # from `module^ import `item^ as `name^ 
+
+
+
+from module import item as name
+
+from module_TYPED import item_TYPED as name_TYPED b
+
+a from module import item as name b
+
+a from module import item as name
+
+
+    #  -------------fromfuture--------------- 
+    # from __future__ import `name^           
+
+
+
+from __future__ import name
+
+from __future__ import name_TYPED b
+
+a from __future__ import name b
+
+a from __future__ import name
+
+
+    #  -------------genExp--------------- 
+    # (`func^ for `elem^ in `seq^)        
+
+
+
+(func(elem) for elem in seq)
+
+(func_TYPED(elem_TYPED) for elem_TYPED in seq_TYPED) b
+
+a (func(elem) for elem in seq) b
+
+a (func(elem) for elem in seq)
 
 
     #  -------------if--------------- 
@@ -336,18 +392,46 @@ a if __name__ == "__main__" :
     
 
 
+    #  -------------importas--------------- 
+    # import `module^ as `name^             
+
+
+
+import module as name
+
+import module_TYPED as name_TYPED b
+
+a import module as name b
+
+a import module as name
+
+
     #  -------------lambda--------------- 
-    # (lambda `args^ : `expr^)            
+    # lambda `args*^: `expr^              
 
 
 
-(lambda args : expr)
+lambda : expr
 
-(lambda args_TYPED : expr_TYPED) b
+lambda args_TYPED, args_TYPED, args_TYPED: expr_TYPED b
 
-a (lambda args : expr) b
+a lambda : expr b
 
-a (lambda args : expr)
+a lambda : expr
+
+
+    #  -------------listComp--------------- 
+    # [`func^ for `elem^ in `seq^]          
+
+
+
+[func(elem) for elem in seq]
+
+[func_TYPED(elem_TYPED) for elem_TYPED in seq_TYPED] b
+
+a [func(elem) for elem in seq] b
+
+a [func(elem) for elem in seq]
 
 
     #  -------------try--------------- 
@@ -481,6 +565,25 @@ except Exception:
 else:
     pass
 finally:
+    
+
+
+    #  -------------with--------------- 
+    # with `opener^ as `name^:          
+    #     `cursor^                      
+
+
+
+with opener as name:
+    
+
+    with opener_TYPED as name_TYPED:
+         b
+
+a with opener as name:
+     b
+
+a with opener as name:
     
 
 
