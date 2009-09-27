@@ -20,11 +20,10 @@
 "
 " BUG: "{{{
 "
-" text auto-wrap(>80 char) makes xp-marks failed to update correctly
-"
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO need more format variables
 " TODO option to set double <tab> to jump to next or single if pum is visible
 " and nothing typed.
 " TODO standardize html/xml snippets.
