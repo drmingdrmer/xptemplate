@@ -79,7 +79,7 @@ endfunction "}}}
 fun! XPreplaceByMarkInternal( startMark, endMark, replacement ) "{{{
     let [ start, end ] = [ XPMpos( a:startMark ), XPMpos( a:endMark ) ]
     if start == [0, 0] || end == [0, 0]
-        throw a:startMark . ' or ' . a:endMark . 'is invalid'
+        throw 'XPM:' . ' ' . a:startMark . ' or ' . a:endMark . 'is invalid'
     endif
 
     call s:log.Debug( 'XPreplaceByMarkInternal parameters:' . string( [ a:startMark, a:endMark, a:replacement ] ) )
@@ -276,9 +276,13 @@ fun! XPreplace(start, end, replacement, ...) "{{{
 
     call XPRstartSession()
 
-    let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, option )
+    try
+        let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, option )
+    catch /.*/
+    finally
+        call XPRendSession()
+    endtry
 
-    call XPRendSession()
 
 
     return positionAfterReplacement

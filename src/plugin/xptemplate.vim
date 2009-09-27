@@ -25,7 +25,6 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO in insert mode <HOME> <END>,  xpt complains error.
 " TODO option to set double <tab> to jump to next or single if pum is visible
 " and nothing typed.
 " TODO standardize html/xml snippets.
@@ -60,8 +59,10 @@
 " 
 " Log of This version:
 "       option : g:xptemplate_ph_pum_accept_empty    
-"       fix : hidden command line bug
-"       fix : textwidth caused xpt crashed.
+"       fix : Hidden command line bug
+"       fix : 'textwidth' caused xpt crashed.
+"       improvement : Python snippet.
+"       fix : Insert mode cursor movement is more safe now. Error handling.
 "
 " 
 
@@ -1732,8 +1733,12 @@ fun! s:SetPreValue( placeHolder, indent, text ) "{{{
     let text = s:AdjustIndentAccordingToLine( a:text, a:indent, XPMpos( marks.start )[0], a:placeHolder )
     call s:log.Log( 'preValue=' . text )
     call XPRstartSession()
-    call XPreplaceByMarkInternal( marks.start, marks.end, text )
-    call XPRendSession()
+    try
+        call XPreplaceByMarkInternal( marks.start, marks.end, text )
+    catch /.*/
+    finally
+        call XPRendSession()
+    endtry
 endfunction "}}}
 
 
@@ -3132,39 +3137,42 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
     call XPRstartSession()
 
     let phList = renderContext.item.placeHolders
-    for ph in phList
-        let filter = ( renderContext.phase == 'post' ? ph.postFilter : ph.ontimeFilter )
-        let filter = s:IsFilterEmpty( filter ) ? ph.ontimeFilter : filter
+    try
+        for ph in phList
+            let filter = ( renderContext.phase == 'post' ? ph.postFilter : ph.ontimeFilter )
+            let filter = s:IsFilterEmpty( filter ) ? ph.ontimeFilter : filter
 
-        call s:log.Log( 'UpdateFollowingPlaceHoldersWith : filter=' . filter )
+            call s:log.Log( 'UpdateFollowingPlaceHoldersWith : filter=' . filter )
 
-        if !s:IsFilterEmpty( filter )
-            let [ filterIndent, filterText ] = s:GetFilterIndentAndText( filter )
-            let filtered = s:Eval( filterText, { 'typed' : a:contentTyped } )
+            if !s:IsFilterEmpty( filter )
+                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( filter )
+                let filtered = s:Eval( filterText, { 'typed' : a:contentTyped } )
 
-            let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
+                let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
 
-            " TODO ontime filter action support?
-        elseif useGroupPost
-            let filterIndent = groupIndent
-            let filtered = groupPost
+                " TODO ontime filter action support?
+            elseif useGroupPost
+                let filterIndent = groupIndent
+                let filtered = groupPost
 
-            let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
+                let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
 
-        else
-            let filtered = a:contentTyped
+            else
+                let filtered = a:contentTyped
 
-        endif
+            endif
 
 
 
-        " call XPreplace( XPMpos( ph.mark.start ), XPMpos( ph.mark.end ), filtered )
-        call XPreplaceByMarkInternal( ph.mark.start, ph.mark.end, filtered )
+            " call XPreplace( XPMpos( ph.mark.start ), XPMpos( ph.mark.end ), filtered )
+            call XPreplaceByMarkInternal( ph.mark.start, ph.mark.end, filtered )
 
-        call s:log.Debug( 'after update 1 place holder:', s:TextBetween( XPMpos( renderContext.marks.tmpl.start ), XPMpos( renderContext.marks.tmpl.end ) ) )
-    endfor
-
-    call XPRendSession()
+            call s:log.Debug( 'after update 1 place holder:', s:TextBetween( XPMpos( renderContext.marks.tmpl.start ), XPMpos( renderContext.marks.tmpl.end ) ) )
+        endfor
+    catch /.*/
+    finally
+        call XPRendSession()
+    endtry
 
 endfunction "}}}
 
@@ -3265,7 +3273,6 @@ fun! s:XPTupdate(...) "{{{
 
         " update XPM is necessary
         call XPMupdate()
-        " call XPMupdateStat()
         return 0
     endif
 
@@ -3331,7 +3338,11 @@ fun! s:XPTupdate(...) "{{{
         call s:log.Log( "marks before updating following:\n" . XPMallMark() )
 
         " TODO optimize?
-        call s:UpdateFollowingPlaceHoldersWith( contentTyped, {} )
+        try
+            call s:UpdateFollowingPlaceHoldersWith( contentTyped, {} )
+        catch /^XPM:.*/
+            return s:Crash( v:exception )
+        endtry
 
         call s:gotoRelativePosToMark( relPos, renderContext.leadingPlaceHolder.mark.start )
 

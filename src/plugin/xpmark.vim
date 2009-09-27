@@ -445,6 +445,19 @@ fun! s:insertModeUpdate() dict "{{{
         call self.snapshot()
     endif
 
+    if stat.totalLine == self.lastTotalLine 
+        if stat.currentPosition[0] == self.lastPositionAndLength[0]
+                    \&& stat.currentLineLength == self.lastPositionAndLength[2]
+            " move in current line 
+            return g:XPM_RET.no_updated_made
+        endif
+
+        if self.lastPositionAndLength[2] == len( getline( self.lastPositionAndLength[0] ) )
+            " virtical move
+            return g:XPM_RET.no_updated_made
+        endif
+    endif
+
     let lastPos = self.lastPositionAndLength[ : 1 ]
     let bLastPos = [ self.lastPositionAndLength[0] + stat.totalLine - self.lastTotalLine, 0 ]
     let bLastPos[1] = self.lastPositionAndLength[1] - self.lastPositionAndLength[2] + len( getline( bLastPos[0] ) )
