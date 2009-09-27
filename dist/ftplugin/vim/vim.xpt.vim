@@ -73,7 +73,7 @@ XPT foreach alias=forin hint=for\ ..\ in\ ..\ ..\ endfor
 XPT try hint=try\ ..\ catch\ ..\ finally...
 XSET exception=.*
 try
-
+    
 catch /`exception^/
 `
 `finally...{{^

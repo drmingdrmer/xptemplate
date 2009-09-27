@@ -883,8 +883,12 @@ fun! s:SetPreValue( placeHolder, indent, text )
     let marks = a:placeHolder.isKey ? a:placeHolder.editMark : a:placeHolder.mark
     let text = s:AdjustIndentAccordingToLine( a:text, a:indent, XPMpos( marks.start )[0], a:placeHolder )
     call XPRstartSession()
-    call XPreplaceByMarkInternal( marks.start, marks.end, text )
-    call XPRendSession()
+    try
+        call XPreplaceByMarkInternal( marks.start, marks.end, text )
+    catch /.*/
+    finally
+        call XPRendSession()
+    endtry
 endfunction 
 fun! s:BuildItemForPlaceHolder( ctx, placeHolder ) 
     if has_key(a:ctx.itemDict, a:placeHolder.name)
@@ -1691,23 +1695,27 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option )
     endif
     call XPRstartSession()
     let phList = renderContext.item.placeHolders
-    for ph in phList
-        let filter = ( renderContext.phase == 'post' ? ph.postFilter : ph.ontimeFilter )
-        let filter = s:IsFilterEmpty( filter ) ? ph.ontimeFilter : filter
-        if !s:IsFilterEmpty( filter )
-            let [ filterIndent, filterText ] = s:GetFilterIndentAndText( filter )
-            let filtered = s:Eval( filterText, { 'typed' : a:contentTyped } )
-            let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
-        elseif useGroupPost
-            let filterIndent = groupIndent
-            let filtered = groupPost
-            let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
-        else
-            let filtered = a:contentTyped
-        endif
-        call XPreplaceByMarkInternal( ph.mark.start, ph.mark.end, filtered )
-    endfor
-    call XPRendSession()
+    try
+        for ph in phList
+            let filter = ( renderContext.phase == 'post' ? ph.postFilter : ph.ontimeFilter )
+            let filter = s:IsFilterEmpty( filter ) ? ph.ontimeFilter : filter
+            if !s:IsFilterEmpty( filter )
+                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( filter )
+                let filtered = s:Eval( filterText, { 'typed' : a:contentTyped } )
+                let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
+            elseif useGroupPost
+                let filterIndent = groupIndent
+                let filtered = groupPost
+                let filtered = s:AdjustIndentAccordingToLine( filtered, filterIndent, XPMpos( ph.mark.start )[0] )
+            else
+                let filtered = a:contentTyped
+            endif
+            call XPreplaceByMarkInternal( ph.mark.start, ph.mark.end, filtered )
+        endfor
+    catch /.*/
+    finally
+        call XPRendSession()
+    endtry
 endfunction 
 fun! s:IsFilterEmpty( filter )
     return a:filter !~ '\n.'
@@ -1777,7 +1785,11 @@ fun! s:XPTupdate(...)
     call s:CallPlugin("beforeUpdate")
     if rc == g:XPM_RET.likely_matched
         let relPos = s:recordRelativePosToMark( [ line( '.' ), col( '.' ) ], renderContext.leadingPlaceHolder.mark.start )
-        call s:UpdateFollowingPlaceHoldersWith( contentTyped, {} )
+        try
+            call s:UpdateFollowingPlaceHoldersWith( contentTyped, {} )
+        catch /^XPM:.*/
+            return s:Crash( v:exception )
+        endtry
         call s:gotoRelativePosToMark( relPos, renderContext.leadingPlaceHolder.mark.start )
     else
     endif

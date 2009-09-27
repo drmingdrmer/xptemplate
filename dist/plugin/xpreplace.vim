@@ -42,7 +42,7 @@ endfunction
 fun! XPreplaceByMarkInternal( startMark, endMark, replacement ) 
     let [ start, end ] = [ XPMpos( a:startMark ), XPMpos( a:endMark ) ]
     if start == [0, 0] || end == [0, 0]
-        throw a:startMark . ' or ' . a:endMark . 'is invalid'
+        throw 'XPM:' . ' ' . a:startMark . ' or ' . a:endMark . 'is invalid'
     endif
     let pos = XPreplaceInternal( start, end, a:replacement, { 'doJobs' : 0 } )
     call XPMupdateWithMarkRangeChanging( a:startMark, a:endMark, start, pos )
@@ -111,8 +111,12 @@ fun! XPreplace(start, end, replacement, ...)
         call extend(option, a:1, 'force')
     endif
     call XPRstartSession()
-    let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, option )
-    call XPRendSession()
+    try
+        let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, option )
+    catch /.*/
+    finally
+        call XPRendSession()
+    endtry
     return positionAfterReplacement
 endfunction 
 let s:_xpreplace = { 'post' : {}, 'pre' : {} }
