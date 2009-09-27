@@ -160,9 +160,9 @@ fun! g:MapPop(expected) "{{{
 
 
   if info.cont == ''
-    let cmd = "silent ".info.mode.'unmap '. info.isbuf . info.key
+    let cmd = "silent! ".info.mode.'unmap '. info.isbuf . info.key 
   else
-    let cmd = "silent " . info.mode . info.nore .'map '. info.isbuf . info.key . ' ' . info.cont
+    let cmd = "silent! " . info.mode . info.nore .'map '. info.isbuf . info.key . ' ' . info.cont
   endif
 
 
@@ -172,6 +172,7 @@ fun! g:MapPop(expected) "{{{
   catch /.*/
   endtry
 
+  
 
 endfunction "}}}
 

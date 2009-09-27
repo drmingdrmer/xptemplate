@@ -775,7 +775,6 @@ fun! s:FinishRendering(...) "{{{
     " match none 
 
     call s:removeMarksInRenderContext(renderContext) 
-    return ''
 
     if empty(x.stack)
         let renderContext.processing = 0
@@ -2879,6 +2878,7 @@ fun! s:ClearMap() " {{{
     sunmap <buffer> <Del>
     sunmap <buffer> <bs>
     exe "sunmap <buffer> ".g:xptemplate_to_right
+
 
 
     " restore map, reversed order
