@@ -59,6 +59,8 @@
 " "}}}
 " 
 " Log of This version:
+"       option : g:xptemplate_ph_pum_accept_empty    
+"       fix : hidden command line bug
 "
 " 
 
