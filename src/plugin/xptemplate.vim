@@ -767,13 +767,15 @@ endfunction " }}}
 
 " TODO deal with it in any condition
 fun! s:FinishRendering(...) "{{{
+
     let x = g:XPTobject()
     let renderContext = s:getRenderContext()
     let xp = renderContext.tmpl.ptn
     
-    match none
+    " match none 
 
-    call s:removeMarksInRenderContext(renderContext)
+    call s:removeMarksInRenderContext(renderContext) 
+    return ''
 
     if empty(x.stack)
         let renderContext.processing = 0
@@ -781,10 +783,10 @@ fun! s:FinishRendering(...) "{{{
         call s:ClearMap()
 
 
-        " call feedkeys( "\<C-o>:echoe ''\<cr>", 'nt' )
+        " call feedkeys( "\<C-o>:echoe ''\<cr>\<c-c>", 'nt' )  
 
         " call feedkeys( '' )
-        return s:SelectAction()
+        return '' 
         " return '' . g:xpt_post_action
     else
         call s:PopCtx()
