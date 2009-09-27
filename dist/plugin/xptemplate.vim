@@ -1498,6 +1498,7 @@ endfunction
 fun! s:ApplyMap() 
     let x = g:XPTobject()
     let savedMap = x.savedMap
+    call SettingPush( '&l:textwidth', '0' )
     let savedMap.i_nav      = g:MapPush(g:xptemplate_nav_next  , "i", 1)
     let savedMap.s_nav      = g:MapPush(g:xptemplate_nav_next  , "s", 1)
     let savedMap.s_cancel   = g:MapPush(g:xptemplate_nav_cancel, "s", 1)
@@ -1520,6 +1521,7 @@ endfunction
 fun! s:ClearMap() 
     let x = g:XPTobject()
     let savedMap = x.savedMap
+    call SettingPop( '&l:textwidth' )
     exe 'iunmap <buffer> '.g:xptemplate_nav_next
     exe 'sunmap <buffer> '.g:xptemplate_nav_next
     exe 'sunmap <buffer> '.g:xptemplate_nav_cancel

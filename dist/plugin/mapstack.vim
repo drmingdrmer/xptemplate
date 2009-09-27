@@ -97,11 +97,14 @@ fun! SettingPush(key, value)
     let b:__setting_stack__ += [{'key' : a:key, 'val' : eval(a:key)}]
     exe 'let ' . a:key . '=' . string(a:value)
 endfunction 
-fun! SettingPop() 
+fun! SettingPop( ... ) 
   if !exists( 'b:__setting_stack__' )
     call s:InitStacks()
   endif
     let d = b:__setting_stack__[-1]
+    if a:0 != 0 && d.key != a:1
+        throw "unexpected setting popped up, expected:" . a:1 . ' but popped up is ' . d.key
+    endif
     exe 'let '.d.key.'='.string(d.val)
     call remove(b:__setting_stack__, -1)
 endfunction 
