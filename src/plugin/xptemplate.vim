@@ -783,7 +783,8 @@ fun! s:FinishRendering(...) "{{{
 
         " call feedkeys( "\<C-o>:echoe ''\<cr>", 'nt' )
 
-        return ''
+        " call feedkeys( '' )
+        return s:SelectAction()
         " return '' . g:xpt_post_action
     else
         call s:PopCtx()
