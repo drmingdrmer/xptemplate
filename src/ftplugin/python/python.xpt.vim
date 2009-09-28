@@ -30,6 +30,16 @@ endfunction
 XPTemplateDef
 
 
+XPT python hint=#!/usr/bin/env\ python\ #\ coding:\ ..
+XSET encoding|pre=Echo(&fenc ? &fenc : &enc)
+#!/usr/bin/env python
+# coding: `encoding^
+
+..XPT
+
+XPT sb alias=python
+
+
 XPT if hint=if\ ..:\ ..\ else...
 if `cond^:
     `pass^
@@ -39,6 +49,7 @@ if `cond^:
 ``elif...`
 ^`}}^`else...{{^else:
     `cursor^`}}^
+
 
 XPT elif hint=else:
 elif `condition^:
@@ -134,6 +145,8 @@ XPT listComp hint=\[func\(x)\ for\ x\ in\ seq]
 XSET ComeFirst=elem seq func
 XSET func|post=python_wrap_args_if_func(V(), Reference('elem'))
 [`func^ for `elem^ in `seq^]
+..XPT
+
 
 " ================================= Wrapper ===================================
 

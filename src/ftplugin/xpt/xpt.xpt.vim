@@ -94,6 +94,7 @@ XPTvar $FUNC_BRACKET_STL   \
 
 XPT varSpaces hint=variable\ to\ define\ spacing
 XPTvar $SP_ARG      
+XPTvar $SP_IF       
 XPTvar $SP_EQ       \ 
 XPTvar $SP_OP       \ 
 XPTvar $SP_COMMA    \ 
@@ -113,6 +114,7 @@ XPTvar $CURSOR_PH      `cursor^
 
 XPT varComment1 hint=variables\ to\ define\ single\ sign\ comments
 XPTvar $CS    `cursor^
+
 
 XPT varComment2 hint=variables\ to\ define\ double\ sign\ comments
 XPTvar $CL    `left sign^
