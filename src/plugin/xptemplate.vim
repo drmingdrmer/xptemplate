@@ -23,6 +23,9 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO improve context detection
+" TODO snippet only inside others
+" TODO XPT synonym 
 " TODO need more format variables
 " TODO option to set double <tab> to jump to next or single if pum is visible
 " and nothing typed.
