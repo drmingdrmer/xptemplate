@@ -83,6 +83,7 @@ XPTvar $`name^ `cursor^
 XPT varLang hint=variables\ to\ define\ language\ properties
 XPTvar $VAR_PRE            
 
+
 XPT varFormat hint=variables\ to\ define\ format
 XPTvar $IF_BRACKET_STL     \ 
 XPTvar $ELSE_BRACKET_STL   \n
@@ -90,6 +91,13 @@ XPTvar $FOR_BRACKET_STL    \
 XPTvar $WHILE_BRACKET_STL  \ 
 XPTvar $STRUCT_BRACKET_STL \ 
 XPTvar $FUNC_BRACKET_STL   \ 
+
+XPT varSpaces hint=variable\ to\ define\ spacing
+XPTvar $SP_ARG      
+XPTvar $SP_IF       
+XPTvar $SP_EQ       \ 
+XPTvar $SP_OP       \ 
+XPTvar $SP_COMMA    \ 
 
 
 XPT varConst hint=variables\ to\ define\ constants
@@ -100,12 +108,13 @@ XPTvar $UNDEFINED     NULL
 
 
 XPT varHelper hint=variables\ to\ define\ helper\ place\ holders
-XPTvar $VOID_LINE  
+XPTvar $VOID_LINE      
 XPTvar $CURSOR_PH      `cursor^
 
 
 XPT varComment1 hint=variables\ to\ define\ single\ sign\ comments
 XPTvar $CS    `cursor^
+
 
 XPT varComment2 hint=variables\ to\ define\ double\ sign\ comments
 XPTvar $CL    `left sign^
