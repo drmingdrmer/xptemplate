@@ -23,7 +23,7 @@ runtime plugin/xptemplate.util.vim
 runtime plugin/xptemplate.vim
 
 let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'debug' )
 
 
 com! -nargs=* XPTemplate
@@ -35,24 +35,51 @@ com!          XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | fini
 com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
 com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
 com! -nargs=+ XPTinclude    call XPTinclude(<f-args>)
+com! -nargs=+ XPTshare    call XPTshare(<f-args>)
 " com! -nargs=* XSET          call XPTbufferScopeSet( <q-args> )
 
 
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
-fun! XPTsnippetFileInit( filename, ... ) "{{{
-    if !exists( 'b:__xpt_loaded' )
-        let b:__xpt_loaded = {}
+fun! s:AssignSnipFT( filename ) "{{{
+    let x = g:XPTobject()
+    let ft = matchstr( a:filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
+    if ft =~ '^_'
+        let ft = x.snipFileScopeStack[ -1 ].filetype
+    else
+        if !empty( x.snipFileScopeStack ) && x.snipFileScopeStack[ -1 ].inheritFT
+            let ft = x.snipFileScopeStack[ -1 ].filetype
+        endif
     endif
 
-    if has_key( b:__xpt_loaded, a:filename )
+    call s:log.Log( "filename=" . a:filename . " ft=" . ft )
+
+    return ft
+endfunction "}}}
+
+let s:xptFTPrototype = {
+            \   'filetype' : '', 
+            \   'normalTemplates' : {}, 
+            \   'funcs'           : { '$CURSOR_PH' : 'CURSOR' }, 
+            \   'loadedSnipFiles' : {}, 
+            \}
+
+fun! XPTsnippetFileInit( filename, ... ) "{{{
+    let x = XPTbufData()
+    let filetypes = x.filetypes
+
+    let snipScope = XPTnewSnipScope()
+    let snipScope.filetype = s:AssignSnipFT( a:filename )
+
+    let filetypes[ snipScope.filetype ] = get( filetypes, snipScope.filetype, deepcopy( s:xptFTPrototype ) )
+    let xptft = filetypes[ snipScope.filetype ]
+
+
+    if has_key( xptft.loadedSnipFiles, a:filename )
         return 'finish'
     endif
+    let xptft.loadedSnipFiles[a:filename] = 1
 
-    let b:__xpt_loaded[a:filename] = 1
-
-    let x = XPTbufData()
-    let x.snipFileScope = XPTnewSnipScope()
 
 
     for pair in a:000
@@ -127,6 +154,8 @@ fun! XPTsetVar( nameSpaceValue ) "{{{
 endfunction "}}}
 
 fun! XPTinclude(...) "{{{
+    let scope = XPTsnipScope()
+    let scope.inheritFT = 1
     for v in a:000
         if type(v) == type([])
             for s in v
@@ -138,8 +167,22 @@ fun! XPTinclude(...) "{{{
             call XPTsnipScopePop()
         endif
     endfor
+endfunction "}}}
 
-
+fun! XPTshare(...) "{{{
+    let scope = XPTsnipScope()
+    let scope.inheritFT = 0
+    for v in a:000
+        if type(v) == type([])
+            for s in v
+                call XPTinclude(s)
+            endfor
+        elseif type(v) == type('')
+            call XPTsnipScopePush()
+            exe 'runtime ftplugin/' . v . '.xpt.vim'
+            call XPTsnipScopePop()
+        endif
+    endfor
 endfunction "}}}
 
 " TODO refine me

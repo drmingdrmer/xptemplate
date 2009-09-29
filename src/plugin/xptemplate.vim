@@ -307,7 +307,7 @@ endfunction "}}}
 fun! XPTemplateAlias( name, toWhich, setting ) "{{{
     " TODO wrapping templates
     let xptObj = g:XPTobject()
-    let xt = xptObj.normalTemplates
+    let xt = xptObj.filetypes[ s:SnipFT() ].normalTemplates
 
     if has_key( xt, a:toWhich )
         let xt[ a:name ] = deepcopy( xt[ a:toWhich ] )
@@ -318,6 +318,10 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
 
 endfunction "}}}
 
+fun! s:SnipFT() "{{{
+    let x = g:XPTobject()
+    return x.snipFileScope.filetype
+endfunction "}}}
 
 " ********* XXX ********* 
 fun! XPTemplate(name, str_or_ctx, ...) " {{{
@@ -327,8 +331,8 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     " @param String|List|FunCRef str	template string
 
     let x         = g:XPTobject()
-    let templates = g:XPTobject().normalTemplates
-    let xp        = g:XPTobject().snipFileScope.ptn
+    let templates = x.filetypes[ s:SnipFT() ].normalTemplates
+    let xp        = x.snipFileScope.ptn
 
     " using dictionary member instead of direct variable for type limit
     let foo       = { 'snip' : '' }
@@ -519,7 +523,7 @@ endfunction "}}}
 " TODO it does NOT work well
 fun! XPTreload() "{{{
   try
-    unlet b:__xpt_loaded
+    " unlet b:__xpt_loaded
     unlet b:xptemplateData
   catch /.*/
   endtry
@@ -527,7 +531,7 @@ fun! XPTreload() "{{{
 endfunction "}}}
 
 fun! XPTgetAllTemplates() "{{{
-    return copy( g:XPTobject().normalTemplates )
+    return copy( s:GetCurrentFTObj().normalTemplates )
 endfunction "}}}
 
 
@@ -715,7 +719,7 @@ fun! s:newTemplateRenderContext( xptBufData, tmplName ) "{{{
     let renderContext = s:createRenderContext(a:xptBufData)
 
     let renderContext.phase = 'inited'
-    let renderContext.tmpl  = a:xptBufData.normalTemplates[a:tmplName]
+    let renderContext.tmpl  = s:GetCurrentFTObj().normalTemplates[a:tmplName]
 
     return renderContext
 endfunction "}}}
@@ -730,7 +734,7 @@ fun! s:DoStart(sess) " {{{
         " call s:PopCtx()
     " endif
 
-    if !has_key( x.normalTemplates, a:sess.matched )
+    if !has_key( s:GetCurrentFTObj().normalTemplates, a:sess.matched )
         return ''
         " return g:xpt_post_action
     endif
@@ -830,7 +834,7 @@ fun! s:Popup(pref, coln) "{{{
 
     let cmpl=[]
     let cmpl2 = []
-    let dic = x.normalTemplates
+    let dic = s:GetCurrentFTObj().normalTemplates
 
     let ctxs = s:SynNameStack(line("."), a:coln)
 
@@ -2939,7 +2943,9 @@ endfunction "}}}
 let s:snipScopePrototype = {
       \'ptn' : {'l':'`', 'r':'^'},
       \'indent' : {'type' : 'auto', 'rate' : []},
-      \'priority' : s:priorities.lang
+      \'priority' : s:priorities.lang, 
+      \'filetype' : '', 
+      \'inheritFT' : 0, 
       \}
 
 fun! XPTnewSnipScope()
@@ -2958,8 +2964,10 @@ endfunction
 fun! XPTsnipScopePush()
   let x = g:XPTobject()
   let x.snipFileScopeStack += [x.snipFileScope]
-  let x.snipFileScope = XPTnewSnipScope()
+
+  unlet x.snipFileScope
 endfunction
+
 
 fun! XPTsnipScopePop()
   let x = g:XPTobject()
@@ -2994,12 +3002,10 @@ endfunction "}}}
 fun! g:XPTobject() "{{{
     if !exists("b:xptemplateData")
         let b:xptemplateData = {
-                    \    'tmplarr' : [], 
-                    \    'normalTemplates' : {}, 
-                    \    'funcs' : { '$CURSOR_PH' : 'CURSOR' }, 
-                    \    'wrapStartPos' : 0, 
-                    \    'wrap' : '', 
-                    \    'functionContainer' : {}
+                    \   'filetypes'         : {}, 
+                    \   'funcs'             : { '$CURSOR_PH' : 'CURSOR' }, 
+                    \   'wrapStartPos'      : 0, 
+                    \   'wrap'              : '', 
                     \}
         let b:xptemplateData.vars = b:xptemplateData.funcs
         let b:xptemplateData.varPriority = {}
@@ -3407,6 +3413,15 @@ fun! s:XPTtrackFollowingSpace() "{{{
 
     let renderContext.lastFollowingSpace = currentFollowingSpace
 
+endfunction "}}}
+
+fun! s:GetCurrentFT() "{{{
+    return &filetype
+endfunction "}}}
+
+fun! s:GetCurrentFTObj() "{{{
+    let x = XPTbufData()
+    return x.filetypes[ s:GetCurrentFT() ]
 endfunction "}}}
 
 augroup XPT "{{{

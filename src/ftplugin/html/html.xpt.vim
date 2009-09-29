@@ -11,13 +11,18 @@ XPTvar $IF_BRACKET_STL \n
 
 XPTinclude 
       \ _common/common
-      \ xml/xml
 
 XPTvar $CL    <!--
 XPTvar $CM    
 XPTvar $CR    -->
 XPTinclude 
       \ _comment/doubleSign
+
+XPTinclude 
+      \ xml/xml
+
+XPTshare
+      \ javascript/javascript
 
 " ========================= Function and Variables =============================
 

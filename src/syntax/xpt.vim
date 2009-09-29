@@ -64,6 +64,7 @@ syntax match    XptSnippetIncludeItemFile /[a-zA-Z0-9_.]\+\s*$/ containedin=XptS
 syntax match    XptSnippetIncludeItem /\w\+\/.*/ containedin=XptSnippetIncludeBody
 syntax region   XptSnippetIncludeBody start=/^\s*\\/ end=/^\ze\s*[^\\	]/ keepend skipwhite
 syntax keyword  XptSnippetInclude     XPTinclude nextgroup=XptSnippetIncludeBody skipnl skipwhite
+syntax keyword  XptSnippetInclude     XPTshare   nextgroup=XptSnippetIncludeBody skipnl skipwhite
 
 
 
