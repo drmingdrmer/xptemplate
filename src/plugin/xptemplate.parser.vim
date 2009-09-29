@@ -127,28 +127,18 @@ fun! XPTsetVar( nameSpaceValue ) "{{{
 endfunction "}}}
 
 fun! XPTinclude(...) "{{{
-    if a:0 < 1
-        return
-    endif
-
-    let x = XPTbufData()
-    call XPTsnipScopePush()
-
-
-    let list = a:000
-
-    for v in list
+    for v in a:000
         if type(v) == type([])
             for s in v
                 call XPTinclude(s)
             endfor
         elseif type(v) == type('')
-            let cmd =  'runtime ftplugin/'.v.'.xpt.vim'
-            exe cmd
+            call XPTsnipScopePush()
+            exe 'runtime ftplugin/' . v . '.xpt.vim'
+            call XPTsnipScopePop()
         endif
     endfor
 
-    call XPTsnipScopePop()
 
 endfunction "}}}
 

@@ -12,7 +12,7 @@
 "     for<C-\>
 "     generating a for-loop template:
 "     for ( i = 0; i < n; ++i ) { 
-"
+"       /* cursor */
 "     }
 "     using <TAB> navigate through
 "     template
