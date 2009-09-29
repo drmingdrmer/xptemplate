@@ -624,17 +624,18 @@ XPT reve hint=reverse_each\ {\ ..\ }
 reverse_each { |`element^| `cursor^ }
 
 
+XPT ruby hint=#!/usr/bin/env\ ruby
+XSET enc=Echo(&fenc ? &fenc : &enc)
+#!/usr/bin/env ruby
+# -*- encoding: `enc^ -*-
+
+
 XPT scan hint=scan\(..)\ {\ |..|\ ..\ }
 scan(/`pattern^/) { |`match^| `cursor^ }
 
 
 XPT sel hint=select\ {\ |..|\ ..\ }
 select { |`element^| `cursor^ }
-
-
-XPT shebang hint=#!/usr/bin/env\ ruby
-#!/usr/bin/env ruby
-# -*- encoding: `utf-8^ -*-
 
 
 XPT sinc hint=class\ <<\ self;\ self;\ end
