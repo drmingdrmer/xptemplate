@@ -629,6 +629,11 @@ XSET enc=Echo(&fenc ? &fenc : &enc)
 #!/usr/bin/env ruby
 # -*- encoding: `enc^ -*-
 
+XPT shebang alias=ruby
+
+XPT sb alias=ruby
+
+
 
 XPT scan hint=scan\(..)\ {\ |..|\ ..\ }
 scan(/`pattern^/) { |`match^| `cursor^ }

@@ -37,6 +37,8 @@ XSET encoding|pre=Echo(&fenc ? &fenc : &enc)
 
 ..XPT
 
+XPT shebang alias=python
+
 XPT sb alias=python
 
 
