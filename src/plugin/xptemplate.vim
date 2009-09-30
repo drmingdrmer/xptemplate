@@ -23,6 +23,8 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO navigate back
+" TODO more key mapping : [si]_<C-h> to go to head, n_<C-g> to go to back to end 
 " TODO improve context detection
 " TODO snippet only inside others
 " TODO XPT synonym 
@@ -60,11 +62,6 @@
 " "}}}
 " 
 " Log of This version:
-"       option : g:xptemplate_ph_pum_accept_empty    
-"       fix : Hidden command line bug
-"       fix : 'textwidth' caused xpt crashed.
-"       improvement : Python snippet.
-"       fix : Insert mode cursor movement is more safe now. Error handling.
 "
 " 
 

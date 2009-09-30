@@ -1,0 +1,47 @@
+Introduction
+
+    Hello everybody, Here we introduce you the XPTemplate, a general purpose
+    snippet engine.
+
+    XPTemplate supports most popular languages, c, cpp, c-sharp, java, and
+    script languages like javascript, ruby, php, python, perl, shell-script,
+    vim-script and so on.
+
+    XPTemplate also support some other markup languages like xml, html.
+
+    And of cause XPTemplate supports its own filetype, xpt.vim. it makes it
+    more easy to create new snippets.
+
+
+Sample usage
+    Well, let's take a very short example and see what xptemplate can do.
+
+    vim hello-xpt.c
+
+    Like all of us writing the first program, let's hello to XPTemplate.
+
+    The default key stroke to trigger a snippet is Ctrl-backslash. Without anything typed, C-\ shows all snippet in pop up menu. Like this.
+
+    We can navigate through them to choose one. And pressing C-\ to trigger it, or using <tab> to trigger it.
+
+    We choose the "main" snippet, press <tab> and good, we got a main function and cursor stays where it should be.
+
+
+
+Change the place holder order
+
+Expandable and repetition
+
+
+Options
+
+
+Format control
+
+Auto Indent control
+
+
+Write Snippet
+
+
+
