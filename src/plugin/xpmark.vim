@@ -54,7 +54,7 @@ fun! XPMcheckStatusline() "{{{
     if &statusline == ""
         if &l:statusline == ''
             " all empty 
-            setlocal statusline=%<%f\ %h%m%r%=\ %P
+            setlocal statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
         else
             " locally set
             " nothing to do
@@ -1203,7 +1203,8 @@ endfunction "}}}
 
 if &ruler && &rulerformat == ""
     " ruler set but rulerformat is set to be default 
-    set rulerformat=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
+    " set rulerformat=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
+    set rulerformat=%-14.(%l,%c%V%)%=%P
 
 elseif !&ruler
     " if no ruler set, display none 

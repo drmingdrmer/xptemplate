@@ -41,9 +41,14 @@ com! -nargs=+ XPTshare    call XPTshare(<f-args>)
 
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
+" TODO error handling, if no upper level ft?
 fun! s:AssignSnipFT( filename ) "{{{
     let x = g:XPTobject()
-    let ft = matchstr( a:filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
+
+    let filename = substitute( a:filename, '\\', '/', 'g' )
+
+
+    let ft = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
     if ft =~ '^_'
         let ft = x.snipFileScopeStack[ -1 ].filetype
     else
@@ -52,7 +57,7 @@ fun! s:AssignSnipFT( filename ) "{{{
         endif
     endif
 
-    call s:log.Log( "filename=" . a:filename . " ft=" . ft )
+    call s:log.Log( "filename=" . filename . " ft=" . ft )
 
     return ft
 endfunction "}}}
