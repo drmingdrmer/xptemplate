@@ -104,9 +104,11 @@ finally
 
 
 " ================================= Wrapper ===================================
-
-
-
+XPT region_ hint=#region\ #endregion
+#region `regionText^
+`wrapped^
+`cursor^
+#endregion /* `regionText^ */
 
 XPT try_ hint=try\ ..\ catch\ ..\ finally
 XSET handler=$CL handler $CR
