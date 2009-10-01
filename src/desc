@@ -13,30 +13,113 @@ Introduction
     more easy to create new snippets.
 
 
-Sample usage
-    Well, let's take a very short example and see what xptemplate can do.
+Sample usage Well, let's take a very short example and see what xptemplate can
+do.
 
     vim hello-xpt.c
 
     Like all of us writing the first program, let's hello to XPTemplate.
 
-    The default key stroke to trigger a snippet is Ctrl-backslash. Without anything typed, C-\ shows all snippet in pop up menu. Like this.
+    The default key stroke to trigger a snippet is Ctrl-backslash. Without
+    anything typed, C-\ shows all snippet in pop up menu. Like this.
 
-    We can navigate through them to choose one. And pressing C-\ to trigger it, or using <tab> to trigger it.
+    We can navigate through them to choose one. And pressing C-\ to trigger it,
+    or using <tab> to trigger it is the same.
 
-    We choose the "main" snippet, press <tab> and good, we got a main function and cursor stays where it should be.
+    We choose the "main" snippet, press <tab> and,  we got a main function and
+    cursor stays where it should be.
+
+    Now 'printf', press <c-\>, type 'hello %.*s', press <tab>, it automatically
+    generates 2 variable place holder according to print-pattern.
+
+    Well, We forgot including standard libraries, but it doesn't matter, We can
+    add it now, without crash the rendering template.
+
+    <esc>, go to the top, type #, that's what preprocessor snippet start with.
+
+    press <c-\>, pum shows, select "#inc", press <tab>
+
+    Type stdio, press <tab>
+
+    Now we need to go back and continue fill in template. The key map for going
+    back is <C-g> press it, we got back. Everything is OK.
+
+    We need to add another statement declaring a string to print.
+
+    <esc>, go to previous line, type char *xpt = "xptemplate";
+
+    Press <c-g> to go back again, type sizeof( "xptemplate" ) - 1, press <tab>,
+    type xpt, press <tab> finish it.
+
 
 
 
 Change the place holder order
 
+    Take another example, type "fo", press <c-\> xptemplate lists all for loop
+    snippets, select the first, press <tab>.
+
+    A for loop template shows, we can edit the variable name, if it is a very
+    long variable, and we need to break the line, that's OK, go back to normal
+    mode, break line, press <C-g> to go back. Everything is OK.
+
+    press <tab>, <tab> to finish template.
+
+    You can also change the order to fill place holder and which place holder
+    is the editable place holder. Other place holders are updated lively when
+    you typing.
+
+    To change the order, ... edit the snippet file
+
+    add a command to specify fill in order: XSET ComeFirst=0 len i
+
+    then close vim, vim xpt.c
+
+    type for, press <c-\> 
+
+    cursor first jumps to 0, and then len, then i
+
+
+    If you want the second i to be the editable place holder: reopon the
+    snippet file, add  '`' around the second i. that makes it the leader.
+
+
+
 Expandable and repetition
 
+    The third example is if block, type if <c-\>, we got a if block, type "1 ==
+    a", press <tab>, press <tab> again
 
-Options
+    Now we selected the "else" dot, dot, dot. This means it's a expandable
+    place hodler, press <tab>, it expanded to an else block.
+
+    if <c-\> , <tab> <tab>, if here we press <cr>, the key mapping to clear an
+    place holder, the else dot dot dot will be removed.
+
+
+    One special case of using expandable is repetition, if we type switch
+    <c-\>, we got a switch-case template, the only special thing is in the
+    expanded part there still be one expandable trigger. That you can expand it
+    as many as you can.
+
+Wrapper
+
+    Sometimes you have already created some lines of code, and you think it
+    should be run only when some condition satisfied. For this need, a wrapper
+    can help.
+
+    Select the codes we just created, press <c-\>, choose 'if_', and an
+    if-block generated, with the selected lines inside the block.
+
 
 
 Format control
+
+    Snippets defined in a format convention that may not fit you. Snippet
+    format can be changed by using some snippet-variables. 
+
+    For example, 
+
 
 Auto Indent control
 
