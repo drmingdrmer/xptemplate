@@ -1,5 +1,5 @@
 if exists("g:__XPREPLACE_VIM__")
-  " finish
+  finish
 endif
 let g:__XPREPLACE_VIM__ = 1
 
