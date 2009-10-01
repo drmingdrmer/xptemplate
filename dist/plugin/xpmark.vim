@@ -627,7 +627,7 @@ fun! s:defaultCompare(d, markA, markB)
     return (nMarkA - nMarkB) != 0 ? (nMarkA - nMarkB) : (a:d.marks[ a:markA ][3] - a:d.marks[ a:markB ][3])
 endfunction 
 if &ruler && &rulerformat == ""
-    set rulerformat=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
+    set rulerformat=%-14.(%l,%c%V%)%=%P
 elseif !&ruler
     set rulerformat=
 endif
