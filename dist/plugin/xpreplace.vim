@@ -1,4 +1,5 @@
 if exists("g:__XPREPLACE_VIM__")
+    finish
 endif
 let g:__XPREPLACE_VIM__ = 1
 runtime plugin/debug.vim
