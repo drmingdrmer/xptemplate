@@ -879,12 +879,11 @@ endfunction "}}}
 
 " TODO use tabstop if expandtab is not set
 " TODO bad name, bad arguments
-fun! s:ApplyTmplIndent(renderContext, templateText) "{{{
-    let renderContext = a:renderContext
-    let indent = renderContext.tmpl.setting.indent
-    let tmpl = a:templateText
+fun! s:ApplyTmplIndent( templateObject, startPos ) "{{{
+    let indent = a:templateObject.setting.indent
+    let tmpl = a:templateObject.tmpl
 
-    let baseIndent = repeat(" ", indent("."))
+    let baseIndent = repeat(" ", indent(a:startPos[0]))
     " at first, only use default indent
     if indent.type =~# 'keep\|rate\|auto'
 
@@ -912,10 +911,9 @@ endfunction "}}}
 
 let s:oldRepPattern = '\w\*...\w\*'
 
-fun! s:ParseRepetition(str, x) "{{{
-    let x = a:x
-    let xp = x.renderContext.tmpl.ptn
-    let tmplObj = x.renderContext.tmpl
+fun! s:ParseRepetition(str, tmplObject) "{{{
+    let tmplObj = a:tmplObject
+    let xp = a:tmplObject.ptn
 
     let tmpl = a:str
 
@@ -1094,16 +1092,16 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
 
     let tmpl = ctx.tmpl.tmpl
 
-    if type(tmpl) == type(function("tr"))
-        let tmpl = tmpl()
-    else
-        let tmpl = tmpl
-    endif
+    " if type(tmpl) == type(function("tr"))
+        " let tmpl = tmpl()
+    " else
+        " let tmpl = tmpl
+    " endif
 
     if tmpl =~ '\n'
-        let tmpl = s:ApplyTmplIndent(ctx, tmpl)
+        let tmpl = s:ApplyTmplIndent( ctx.tmpl, a:nameStartPosition )
     endif
-    let tmpl = s:ParseRepetition(tmpl, x)
+    let tmpl = s:ParseRepetition(tmpl, ctx.tmpl)
 
     " Note: simple implementation of wrapping, the better way is by default value
     " TODO use default value!
@@ -1583,6 +1581,8 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
         endwhile
 
+
+
         if markPos == [0, 0] || markPos[0] * 10000 + markPos[1] >= nEnd
             break
         endif
@@ -1631,30 +1631,9 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
         if has_key( placeHolder, 'value' )
             " render it instantly
-            call s:log.Debug( 'instant placeHolder' )
-
-            " TODO save this 'value' variable?
-            let value = s:Eval( placeHolder.value )
-            if value == "\n"
-                " simple format, without indent setting 
-
-                let indentSpace = repeat( ' ', indent( nameInfo[0][0] ) )
-                let value = substitute( value, '\n', '&' . indentSpace, 'g' )
-            elseif value !~ '\n'
-                " simple format, without indent setting 
-                
-            else
-                " with indent setting 
-                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( value )
-                let value = s:AdjustIndentAccordingToLine( filterText, filterIndent, nameInfo[0][0] )
-                call s:log.Log( "instant value with indent setting:" . string( value ) )
-            endif
-
-            let valueInfo[-1][1] += 1
-            call XPreplace( nameInfo[0], valueInfo[-1], value )
-
             " Cursor left just after replacement, and it is where next search
             " start
+            call s:ApplyInstantValue( placeHolder, nameInfo, valueInfo )
 
         else
             " build item and marks, as a fill in place holder
@@ -1695,6 +1674,37 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
     let renderContext.action = ''
     return 0
+endfunction "}}}
+
+fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
+
+    let placeHolder = a:placeHolder
+    let nameInfo    = a:nameInfo
+    let valueInfo   = a:valueInfo
+
+    call s:log.Debug( 'instant placeHolder' )
+
+    " TODO save this 'value' variable?
+    let value = s:Eval( placeHolder.value )
+    if value == "\n"
+        " simple format, without indent setting 
+
+        let indentSpace = repeat( ' ', indent( nameInfo[0][0] ) )
+        let value = substitute( value, '\n', '&' . indentSpace, 'g' )
+    elseif value !~ '\n'
+        " simple format, without indent setting 
+
+    else
+        " with indent setting 
+        let [ filterIndent, filterText ] = s:GetFilterIndentAndText( value )
+        let value = s:AdjustIndentAccordingToLine( filterText, filterIndent, nameInfo[0][0] )
+        call s:log.Log( "instant value with indent setting:" . string( value ) )
+    endif
+
+    let valueInfo[-1][1] += 1
+    call XPreplace( nameInfo[0], valueInfo[-1], value )
+
+
 endfunction "}}}
 
 " TODO simplify : if PH has preValue, replace it at once, without replacing with the name
