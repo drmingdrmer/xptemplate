@@ -21,7 +21,7 @@ XPTinclude
 XPTinclude 
       \ xml/xml
 
-XPTshare
+XPTembed
       \ javascript/javascript
 
 " ========================= Function and Variables =============================

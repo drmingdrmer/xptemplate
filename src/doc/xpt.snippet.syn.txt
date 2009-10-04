@@ -17,6 +17,7 @@
 	|xpt-snippet-variable|
 	|xpt-snippet-function|
 	|xpt-snippet-include|
+	|xpt-snippet-embed|
 
 	|xpt-snippet|
 		|xpt-snippet-name|
@@ -213,6 +214,7 @@
 		printf( "`pattern^"`elts^ )
 <
 
+								  *XPTinclude*
 							 *xpt-snippet-include*
 	Syntax : >
 		XPTinclude <folder_name_in_ftplugin>/<filename>
@@ -221,6 +223,15 @@
 
 	NOTE do NOT use |runtime| to include other snippet file, XPTinclude
 	handles snippet priority, but |runtime| NOT.
+
+								    *XPTembed*
+							   *xpt-snippet-embed*
+	Syntax : >
+		XPTembed <folder_name_in_ftplugin>/<filename>
+<	|XPTembed| acts like |XPTinclude|, except it includes only snippet
+	file for nested language, like javascript in html, or html in php.
+
+	NOTE TODO differences between XPTinclude by example.
 
 
 						 *XPTemplateDef* *xpt-snippet*

@@ -35,7 +35,7 @@ com!          XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | fini
 com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
 com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
 com! -nargs=+ XPTinclude    call XPTinclude(<f-args>)
-com! -nargs=+ XPTshare    call XPTshare(<f-args>)
+com! -nargs=+ XPTembed      call XPTembed(<f-args>)
 " com! -nargs=* XSET          call XPTbufferScopeSet( <q-args> )
 
 
@@ -48,14 +48,14 @@ fun! s:AssignSnipFT( filename ) "{{{
     let filename = substitute( a:filename, '\\', '/', 'g' )
 
 
-    let ft = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
-    if ft =~ '^_'
+    let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
+    if !empty( x.snipFileScopeStack ) && x.snipFileScopeStack[ -1 ].inheritFT
+                \ || ftFolder =~ '^_'
         let ft = x.snipFileScopeStack[ -1 ].filetype
     else
-        if !empty( x.snipFileScopeStack ) && x.snipFileScopeStack[ -1 ].inheritFT
-            let ft = x.snipFileScopeStack[ -1 ].filetype
-        endif
+        let ft = &filetype
     endif
+
 
     call s:log.Log( "filename=" . filename . " ft=" . ft )
 
@@ -174,7 +174,7 @@ fun! XPTinclude(...) "{{{
     endfor
 endfunction "}}}
 
-fun! XPTshare(...) "{{{
+fun! XPTembed(...) "{{{
     let scope = XPTsnipScope()
     let scope.inheritFT = 0
     for v in a:000
