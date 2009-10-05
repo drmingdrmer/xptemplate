@@ -102,12 +102,6 @@ endfunction
 XPTemplateDef
 
 
-
-XPT tt hint=tips
-        ww          ff
-
-
-
 XPT printf	hint=printf\(...)
 XSET elts=c_printfElts( R( 'pattern' ) )
 printf( "`pattern^"`elts^ )
