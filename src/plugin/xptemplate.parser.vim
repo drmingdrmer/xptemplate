@@ -19,8 +19,14 @@ let g:__XPTEMPLATE_PARSER_VIM__ = 1
 "
 
 runtime plugin/debug.vim
+
+runtime plugin/xpclass.vim
+runtime plugin/FiletypeScope.class.vim
+
 runtime plugin/xptemplate.util.vim
 runtime plugin/xptemplate.vim
+
+
 
 let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )
@@ -62,28 +68,23 @@ fun! s:AssignSnipFT( filename ) "{{{
     return ft
 endfunction "}}}
 
-let s:xptFTPrototype = {
-            \   'filetype' : '', 
-            \   'normalTemplates' : {}, 
-            \   'funcs'           : { '$CURSOR_PH' : 'CURSOR' }, 
-            \   'loadedSnipFiles' : {}, 
-            \}
+
+
 
 fun! XPTsnippetFileInit( filename, ... ) "{{{
     let x = XPTbufData()
     let filetypes = x.filetypes
 
-    let snipScope = XPTnewSnipScope()
+    let snipScope = XPTnewSnipScope(a:filename)
     let snipScope.filetype = s:AssignSnipFT( a:filename )
 
-    let filetypes[ snipScope.filetype ] = get( filetypes, snipScope.filetype, deepcopy( s:xptFTPrototype ) )
-    let xptft = filetypes[ snipScope.filetype ]
+    let filetypes[ snipScope.filetype ] = get( filetypes, snipScope.filetype, g:FiletypeScope.New() )
+    let ftScope = filetypes[ snipScope.filetype ]
 
 
-    if has_key( xptft.loadedSnipFiles, a:filename )
+    if ftScope.CheckAndSetSnippetLoaded( a:filename )
         return 'finish'
     endif
-    let xptft.loadedSnipFiles[a:filename] = 1
 
 
 
@@ -166,10 +167,23 @@ fun! XPTinclude(...) "{{{
             for s in v
                 call XPTinclude(s)
             endfor
-        elseif type(v) == type('')
+        elseif type(v) == type('') 
+            " let fullname = globpath( &rtp, 'ftplugin/' . v . '.xpt.vim' )
+            " if fullname == ''
+                " call s:log.Info( 'no such file in runtime path:' . v . ', included from:' . scope.filename )
+                " continue
+            " endif
+" 
+            " let fullname = split( fullname, "\n" )[0]
+" 
+            " if XPTbufData().filetypes[ scope.filetype ].IsSnippetLoaded( fullname )
+                " continue
+            " endif
+
             call XPTsnipScopePush()
             exe 'runtime ftplugin/' . v . '.xpt.vim'
             call XPTsnipScopePop()
+
         endif
     endfor
 endfunction "}}}
@@ -197,15 +211,12 @@ fun! s:XPTstartSnippetPart(fn) "{{{
 
 
     " find the line where XPTemplateDef called
+    let i = match( lines, '^XPTemplateDef' )
+
+    let lines = lines[ i : ]
     let [i, len] = [0, len(lines)]
-    while i < len
-        if lines[i] =~# '^XPTemplateDef'
-            break
-        endif
 
-        let i += 1
-    endwhile
-
+    call s:ConvertIndent( lines )
 
     " parse lines
     " start end and blank start
@@ -261,10 +272,10 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     let snippetParameters = split(lines[0], '\V'.s:nonEscaped.'\s\+')
     let snippetName = snippetParameters[1]
 
-    call s:log.Log("parse lines:".string(lines))
-    call s:log.Log("snippetParameters=".string(snippetParameters))
-    call s:log.Log("line0=".lines[0])
-    call s:log.Log('snippetName='.snippetName)
+    " call s:log.Log("parse lines:".string(lines))
+    " call s:log.Log("snippetParameters=".string(snippetParameters))
+    " call s:log.Log("line0=".lines[0])
+    " call s:log.Log('snippetName='.snippetName)
 
     let setting = deepcopy( g:XPTemplateSettingPrototype )
 
@@ -289,7 +300,6 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     endfor
 
 
-    call s:ConvertIndent( lines )
 
     let start = 1
     let len = len( lines )
@@ -320,6 +330,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
         elseif lines[start] =~# '^\\XSET\%[m]' " escaped XSET or XSETm
             let snippetLines += [ lines[ start ][1:] ]
             " break
+
         else
             let snippetLines += [ lines[ start ] ]
             " break
@@ -356,22 +367,16 @@ fun! s:ConvertIndent( snipLines ) "{{{
         let sts = ts
     endif
 
-    let bufIndent = repeat( ' ', sts )
     let tabspaces = repeat( ' ', ts )
+    let indentRep = repeat( '\1', sts )
 
-    let i = 0
-    for line in a:snipLines
-        let spaces = matchstr( line, '^\(    \)*' )
-        let left = line[ len( spaces ) : ]
-        let space = repeat( bufIndent, len(spaces) / 4 )
-        if usingTab 
-            let space = substitute( space, tabspaces, '	', 'g' )
-        endif
+    let cmdExpand = 'substitute(v:val, ''^\( *\)\1\1\1'', ''' . indentRep . ''', "g" )'
 
-        let a:snipLines[ i ] = space . left
-
-        let i += 1
-    endfor
+    call map( a:snipLines, cmdExpand )
+    if usingTab 
+        let cmdReplaceTab = 'v:val !~ ''^ '' ? v:val : join(split( v:val, ' . string( '^\%(' . tabspaces . '\)' ) . ', 1), ''	'')' 
+        call map( a:snipLines, cmdReplaceTab )
+    endif
 
 endfunction "}}}
 

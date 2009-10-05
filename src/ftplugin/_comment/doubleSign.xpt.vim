@@ -5,7 +5,7 @@ XPTemplate priority=all-
 " TODO friendly cursor place holder
 
 XPTinclude 
-      \ _comment/common
+      \ _common/common
 
 
 " ========================= Function and Variables =============================

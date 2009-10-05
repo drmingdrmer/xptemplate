@@ -1,6 +1,6 @@
 XPTemplate priority=lang
 
-let [s:f, s:v] = XPTcontainer() 
+let [s:f, s:v] = XPTcontainer()
  
 XPTvar $TRUE          1
 XPTvar $FALSE         0
@@ -21,7 +21,7 @@ call XPTemplate('vimformat', [ '" vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:f
 XPTemplateDef
 
 XPT once hint=if\ exists..\ finish\ ..\ let
-XSET i=headerSymbol()
+XSET i|pre=headerSymbol()
 if exists("`g^:`i^")
     finish
 endif
@@ -39,6 +39,13 @@ XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 fun! `name^(`arg*^) "{{{
     `cursor^
 endfunction "}}}
+
+XPT member hint=tips
+XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
+fun! `name^(`arg*^) dict "{{{
+    `cursor^
+endfunction "}}}
+
 
 
 XPT while hint=while\ ..\ ..\ endwhile
@@ -104,8 +111,9 @@ XPT fdesc hint=description\ of\ file
 " }}}
 ..XPT
 
+" The first placeholder wrapping 'com' keyword that causes ctags halt
 XPT sid hint=//\ generate\ s:sid\ variable
-com! `name^GetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
+`Echo('com')^! `name^GetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 `name^GetSID
 delc `name^GetSID
 

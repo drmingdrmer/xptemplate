@@ -2948,6 +2948,7 @@ endfunction "}}}
 
 
 let s:snipScopePrototype = {
+            \'filename' : '', 
       \'ptn' : {'l':'`', 'r':'^'},
       \'indent' : {'type' : 'auto', 'rate' : []},
       \'priority' : s:priorities.lang, 
@@ -2955,9 +2956,10 @@ let s:snipScopePrototype = {
       \'inheritFT' : 0, 
       \}
 
-fun! XPTnewSnipScope()
+fun! XPTnewSnipScope( filename )
   let x = b:xptemplateData
   let x.snipFileScope = deepcopy( s:snipScopePrototype )
+  let x.snipFileScope.filename = a:filename
 
   call s:RedefinePattern()
 
@@ -3026,7 +3028,7 @@ fun! g:XPTobject() "{{{
         let b:xptemplateData.savedMap = {}
 
         let b:xptemplateData.snipFileScopeStack = []
-        let b:xptemplateData.snipFileScope = XPTnewSnipScope()
+        let b:xptemplateData.snipFileScope = {}
 
         call s:createRenderContext( b:xptemplateData )
 
