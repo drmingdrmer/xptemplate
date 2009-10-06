@@ -210,6 +210,14 @@ let s:f = {}
 let g:XPT = s:f
 
 
+let g:XPT_RC = {
+            \   'ok' : {}, 
+            \   'POST' : {
+            \       'unchanged'     : {}, 
+            \       'keepIndent'    : {}, 
+            \   }
+            \}
+
 
 
 let s:buildingSeqNr = 0
@@ -1988,7 +1996,6 @@ fun! s:ApplyPostFilter() "{{{
 
     let renderContext = s:getRenderContext()
 
-    let xp     = renderContext.tmpl.ptn
     let posts  = renderContext.tmpl.setting.postFilters
     let name   = renderContext.item.name
     let leader = renderContext.leadingPlaceHolder
@@ -2034,7 +2041,7 @@ fun! s:ApplyPostFilter() "{{{
     " check by 'groupPostFilter' is ok
     if filterText != ''
 
-        let [ text, ifToBuild, rc ] = s:EvalPostFilter( filterText, typed )
+        let [ text, ifToBuild, rc ] = s:EvalPostFilter( filterText, typed, leader )
 
 
         call s:log.Log("before replace, tmpl=\n".s:TextBetween(s:TL(), s:BR()))
@@ -2082,7 +2089,7 @@ fun! s:ApplyPostFilter() "{{{
 
 endfunction "}}}
 
-fun! s:EvalPostFilter( filter, typed ) "{{{
+fun! s:EvalPostFilter( filter, typed, leader ) "{{{
     let renderContext = s:getRenderContext()
 
     let post = s:Eval(a:filter, {'typed' : a:typed})
@@ -2092,7 +2099,13 @@ fun! s:EvalPostFilter( filter, typed ) "{{{
     if type( post ) == 4
         " dictionary, it is an action object
         if post.action == 'build'
-            let res = [ post.text, 1, 0 ]
+            let res = [ post.text, 1, g:XPT_RC.ok ]
+
+        elseif post.action == 'unchanged'
+            let res = [ post.text, 0, g:XPT_RC.POST.unchanged ]
+
+        elseif post.action == 'keepIndent'
+            let res = [ post.text, 0, g:XPT_RC.POST.keepIndent ]
 
             " TODO 
         " elseif post.action == 'expandTmpl'
@@ -2106,16 +2119,16 @@ fun! s:EvalPostFilter( filter, typed ) "{{{
             " let res = [ post. ]
         else
             " unknown action
-            let res = [ post.text, 0, 0 ]
+            let res = [ post.text, 0, g:XPT_RC.ok ]
         endif
 
     elseif type( post ) == 1
         " string
-        let res = [ post, 1, 0 ]
+        let res = [ post, 1, g:XPT_RC.POST.keepIndent ]
 
     else
         " unknown type 
-        let res = [ string( post ), 0, 0 ]
+        let res = [ string( post ), 0, g:XPT_RC.ok ]
 
     endif
 
