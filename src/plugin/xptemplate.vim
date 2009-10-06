@@ -2051,7 +2051,12 @@ fun! s:ApplyPostFilter() "{{{
 
         let [ start, end ] = XPMposList( marks.start, marks.end )
 
-        let snip = s:AdjustIndentAccordingToLine( text, filterIndent, start[0], leader )
+        if rc is g:XPT_RC.POST.keepIndent
+            let snip = text
+        else
+            let snip = s:AdjustIndentAccordingToLine( text, filterIndent, start[0], leader )
+        endif
+
         call s:log.Log( 'snip after AdjustIndentAccordingToLine=' . snip )
         call XPMsetLikelyBetween( marks.start, marks.end )
         call XPreplace(start, end, snip)
@@ -2101,8 +2106,8 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
         if post.action == 'build'
             let res = [ post.text, 1, g:XPT_RC.ok ]
 
-        elseif post.action == 'unchanged'
-            let res = [ post.text, 0, g:XPT_RC.POST.unchanged ]
+        " elseif post.action == 'unchanged'
+            " let res = [ post.text, 0, g:XPT_RC.POST.unchanged ]
 
         elseif post.action == 'keepIndent'
             let res = [ post.text, 0, g:XPT_RC.POST.keepIndent ]

@@ -179,7 +179,7 @@ fun! s:f.BuildIfNoChange( ... )
   if v ==# fn
     return { 'action' : 'build', 'text' : join( a:000, '' ) }
   else
-    return self.V()
+    return { 'action' : 'keepIndent', 'text' : self.V() }
   endif
 endfunction
 
