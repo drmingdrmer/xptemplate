@@ -379,7 +379,7 @@ struct structName {
 
 struct structName_TYPED {
     type_TYPED field_TYPED : bits_TYPED;
-        _TYPED
+    _TYPED
 } var_TYPED; b
 
 a struct structName {
@@ -690,7 +690,7 @@ enum name {
 
 enum name_TYPED {
     elt_TYPED;
-        _TYPED
+    _TYPED
 } var_TYPED; b
 
 a enum name {
@@ -784,7 +784,7 @@ a test.page
  *
  * <b>function</b>
  * @version : 1.0
- * @since : 2009 Sep 18
+ * @since : 2009 Oct 06
  * 
  * @description :
  *     
@@ -801,7 +801,7 @@ a test.page
  *
  * <b>function_TYPED</b>
  * @version : 10_TYPED
- * @since : 2009 Sep 18
+ * @since : 2009 Oct 06
  * 
  * @description :
  *     
@@ -818,7 +818,7 @@ a test.page
   *
   * <b>function</b>
   * @version : 1.0
-  * @since : 2009 Sep 18
+  * @since : 2009 Oct 06
   * 
   * @description :
   *     
@@ -835,7 +835,7 @@ a test.page
    *
    * <b>function</b>
    * @version : 1.0
-   * @since : 2009 Sep 18
+   * @since : 2009 Oct 06
    * 
    * @description :
    *     
@@ -1333,7 +1333,7 @@ struct structName {
 
 struct structName_TYPED {
     type_TYPED field_TYPED;
-        _TYPED
+    _TYPED
 } var_TYPED; b
 
 a struct structName {
