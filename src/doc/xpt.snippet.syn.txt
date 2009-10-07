@@ -27,6 +27,7 @@
 		|xpt-snippet-alias|
 
 	|xpt-snippet-body|
+	|xpt-snippet-include|
 	|xpt-snippet-XSET|
 	|xpt-snippet-XSETm|
 	|xpt-snippet-ComeFist|
@@ -302,6 +303,17 @@
 		XSET elts=c_printfElts( R( 'pattern' ) )
 		printf( "`pattern^"`elts^ )
 <	NOTE XSET/XSETm command can be placed anywhere inside snippet.
+
+				       *`::^* *Include:* *xpt-snippet-include*
+	Snippet can include other snippet, by using inclusion place holder : >
+		`Include:snippetNmae^
+<	Where "`" and "^" is the mark. When inclusion occurs,
+	|xpt-snippet-post-filter|, |xpt-snippet-default-value| and
+	|xpt-snippet-preset-value| is imported too, if it does not overrides.
+
+	Also you can use the short format : >
+		`:snippetName:^
+<	Only 2 ":" around snippet name are needed.
 
 							    *xpt-snippet-XSET*
 	In |xpt-snippet-body|, XSET command can be used anywhere to set : 

@@ -41,6 +41,7 @@ endfunction "}}}
 fun! g:XPclassNew( ... ) dict "{{{
     let inst = copy( self )
     call call( inst.__init__, a:000, inst )
+    let inst.__class__ = self
     return inst
 endfunction "}}}
 

@@ -163,6 +163,7 @@ fun! g:XPTapplyTemplateSettingDefaultValue( setting ) "{{{
 endfunction "}}}
 
 let s:renderContextPrototype      = {
+            \    'ftScope'           : {},
             \    'tmpl'              : {},
             \    'evalCtx'           : {},
             \    'phase'             : 'uninit',
@@ -331,7 +332,7 @@ endfunction "}}}
 " ********* XXX ********* 
 fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
-    " @param String name	 		tempalte name
+    " @param String name			tempalte name
     " @param String context			[optional] context syntax name
     " @param String|List|FunCRef str	template string
 
@@ -377,6 +378,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     call s:log.Log("tmpl :name=".a:name." priority=".prio)
     let templates[a:name] = {
                 \ 'name'        : a:name,
+                \ 'parsed'      : 0, 
                 \ 'tmpl'        : foo.snip,
                 \ 'priority'    : prio,
                 \ 'setting'     : templateSetting,
@@ -417,7 +419,7 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
     call s:ParseTemplateSetting( a:xptObj, a:tmplObj.setting )
 
     if type( a:tmplObj.tmpl ) == type( '' )
-        let a:tmplObj.tmpl = s:parseQuotedPostFilter( a:tmplObj )
+        " let a:tmplObj.tmpl = s:parseQuotedPostFilter( a:tmplObj )
     endif
 
     call s:log.Debug( 'create template name=' . a:tmplObj.name . ' tmpl=' . a:tmplObj.tmpl )
@@ -440,6 +442,79 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
     call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . a:tmplObj.setting.defaultValues.cursor )
 
 endfunction "}}}
+
+fun! s:ParseInclusion( tmplDict, tmplObject ) "{{{
+    if type( a:tmplObject.tmpl ) == type( function( 'tr' ) )
+        return
+    endif
+
+    let xp = a:tmplObject.ptn
+
+    let phPattern = '\V' . xp.lft . 'Include:\(\.\{-}\)' . xp.rt
+    let linePattern = '\V' . '\%(\^\|\n\)\(\s\*\)\.\{-}' . phPattern
+
+    call s:DoInclude( a:tmplDict, a:tmplObject, { 'ph' : phPattern, 'line' : linePattern } )
+
+
+    let phPattern = '\V' . xp.lft . ':\(\.\{-}\):' . xp.rt
+    let linePattern = '\V' . '\%(\^\|\n\)\(\s\*\)\.\{-}' . phPattern
+
+    call s:DoInclude( a:tmplDict, a:tmplObject, { 'ph' : phPattern, 'line' : linePattern } )
+
+endfunction "}}}
+
+fun! s:DoInclude( tmplDict, tmplObject, pattern ) "{{{
+    let included = { a:tmplObject.name : 1 }
+
+    let snip = a:tmplObject.tmpl
+
+    let pos = 0
+    while 1
+        let pos = match( snip, a:pattern.line, pos )
+        if -1 == pos
+            break
+        endif
+
+        let [ matching, indent, incName ] = matchlist( snip, a:pattern.line, pos )[ : 2 ]
+        call s:log.Debug( 'inclusion line:' . matching )
+
+        if has_key( a:tmplDict, incName )
+            if has_key( included, incName )
+                let included[ incName ] += 1
+                if included[ incName ] > 100
+                    throw "XPT : include too many snippet:" . incName . ' in ' . a:tmplObject.name
+                endif
+            else
+                let included[ incName ] = 1
+            endif
+
+            let ph = matchstr( matching, a:pattern.ph )
+
+            let incTmplObject = a:tmplDict[ incName ]
+            call s:MergeSetting( a:tmplObject, incTmplObject )
+            
+            let incSnip = substitute( incTmplObject.tmpl, '\n', '&' . indent, 'g' )
+            let snip = snip[ : pos + len( matching ) - len( ph ) - 1 ] . incSnip . snip[ pos + len( matching ) : ]
+
+            call s:log.Log( 'include ' . incTmplObject.name . ' : ' . snip )
+
+
+        else
+            throw "XPT : include invalid snippet:" . incName . ' in ' . a:tmplObject.name
+        endif
+        
+    endwhile
+
+    let a:tmplObject.tmpl = snip
+    
+endfunction "}}}
+
+fun! s:MergeSetting( tmplObject, incTmplObject ) "{{{
+    call extend( a:tmplObject.setting.preValues, a:incTmplObject.setting.preValues, 'keep' )
+    call extend( a:tmplObject.setting.defaultValues, a:incTmplObject.setting.defaultValues, 'keep' )
+    call extend( a:tmplObject.setting.postFilters, a:incTmplObject.setting.postFilters, 'keep' )
+endfunction "}}}
+
 
 
 fun! s:ParseTemplateSetting( xptObj, setting ) "{{{
@@ -597,7 +672,11 @@ fun! XPTemplateStart(pos_nonused_any_more, ...) " {{{
 
         call cursor(a:1.startPos)
 
-        return  s:DoStart( { 'line' : a:1.startPos[0], 'col' : startColumn, 'matched' : templateName } )
+        return  s:DoStart( {
+                    \'line' : a:1.startPos[0], 
+                    \'col' : startColumn, 
+                    \'matched' : templateName, 
+                    \'data' : { 'ftScope' : s:GetCurrentFTObj() } } )
 
     else 
         " input mode
@@ -716,7 +795,7 @@ fun! s:ParsePriorityString(s) "{{{
 endfunction "}}}
 
 
-fun! s:newTemplateRenderContext( xptBufData, tmplName ) "{{{
+fun! s:newTemplateRenderContext( xptBufData, ftScope, tmplName ) "{{{
     if s:getRenderContext().processing
         call s:PushCtx()
     endif
@@ -725,6 +804,7 @@ fun! s:newTemplateRenderContext( xptBufData, tmplName ) "{{{
 
     let renderContext.phase = 'inited'
     let renderContext.tmpl  = s:GetCurrentFTObj().normalTemplates[a:tmplName]
+    let renderContext.ftScope = a:ftScope
 
     return renderContext
 endfunction "}}}
@@ -748,7 +828,7 @@ fun! s:DoStart(sess) " {{{
     let cursorColumn = col(".")
     let tmplname = a:sess.matched
 
-    let ctx = s:newTemplateRenderContext( x, tmplname )
+    let ctx = s:newTemplateRenderContext( x, a:sess.data.ftScope, tmplname )
 
 
     call s:RenderTemplate([ lineNr, column ], [ lineNr, cursorColumn ])
@@ -839,7 +919,8 @@ fun! s:Popup(pref, coln) "{{{
 
     let cmpl=[]
     let cmpl2 = []
-    let dic = s:GetCurrentFTObj().normalTemplates
+    let ftScope = s:GetCurrentFTObj()
+    let dic = ftScope.normalTemplates
 
     let ctxs = s:SynNameStack(line("."), a:coln)
 
@@ -878,8 +959,9 @@ fun! s:Popup(pref, coln) "{{{
     call sort(cmpl2)
     let cmpl = cmpl + cmpl2
 
+    call s:log.Log(  )
 
-    return XPPopupNew(s:pumCB, {}, cmpl).popup(a:coln, {})
+    return XPPopupNew(s:pumCB, { 'ftScope' : ftScope }, cmpl).popup(a:coln, {})
 
 endfunction "}}}
 
@@ -1098,18 +1180,27 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
 
     let ctx.phase = 'rendering'
 
-    let tmpl = ctx.tmpl.tmpl
+    if !ctx.tmpl.parsed
+        " extract to function
 
-    " if type(tmpl) == type(function("tr"))
-        " let tmpl = tmpl()
-    " else
-        " let tmpl = tmpl
-    " endif
+        if ctx.tmpl.wrapped
+            " TODO wrapper snippet dictionary
+            call s:ParseInclusion( ctx.ftScope.normalTemplates, ctx.tmpl )
+        else
+            call s:ParseInclusion( ctx.ftScope.normalTemplates, ctx.tmpl )
+        endif
+        let ctx.tmpl.tmpl = s:parseQuotedPostFilter( ctx.tmpl )
+        let ctx.tmpl.tmpl = s:ParseRepetition(ctx.tmpl.tmpl, ctx.tmpl)
+
+        let ctx.tmpl.parsed = 1
+
+    endif
+
+    let tmpl = ctx.tmpl.tmpl
 
     if tmpl =~ '\n'
         let tmpl = s:ApplyTmplIndent( ctx.tmpl, a:nameStartPosition )
     endif
-    let tmpl = s:ParseRepetition(tmpl, ctx.tmpl)
 
     " Note: simple implementation of wrapping, the better way is by default value
     " TODO use default value!
@@ -2175,6 +2266,15 @@ fun! s:AdjustIndentAccordingToLine( snip, indent, lineNr, ... ) "{{{
 
 endfunction "}}}
 
+fun! s:DDD(d) "{{{
+    if type( a:d ) != type( {} )
+        return
+    endif
+    call s:log.Debug( string( keys( a:d ) ) )
+    for key in keys( a:d )
+        call s:DDD( a:d[ key ] )
+    endfor
+endfunction "}}}
 
 " TODO rename me
 fun! s:GotoNextItem() "{{{
@@ -2182,6 +2282,7 @@ fun! s:GotoNextItem() "{{{
     " @param    position from where to start search.
 
     let renderContext = s:getRenderContext()
+    " call s:DDD( renderContext )
     call s:log.Log( 'renderContext=' . string( renderContext ) )
 
     let placeHolder = s:ExtractOneItem()

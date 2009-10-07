@@ -343,9 +343,16 @@ WRAPPED_TEXT_line2`
     #  begin                              
     #      `expr^                         
     #  ``rescue...`                       
-    #  ^``else...`                        
-    #  ^``ensure...`                      
-    #  ^end                               
+    #  {{^rescue `Exception^` => `e^      
+    #      `block^                        
+    #  ``rescue...`                       
+    #  ^`}}^``else...`                    
+    #  {{^else                            
+    #      `block^                        
+    #  `}}^``ensure...`                   
+    #  {{^ensure                          
+    #      `cursor^                       
+    #  `}}^end                            
 
 
 
@@ -403,9 +410,16 @@ WRAPPED_TEXT_line2`
     #  begin                               
     #      `wrapped^                       
     #  ``rescue...`                        
-    #  ^``else...`                         
-    #  ^``ensure...`                       
-    #  ^end                                
+    #  {{^rescue `Exception^` => `e^       
+    #      `block^                         
+    #  ``rescue...`                        
+    #  ^`}}^``else...`                     
+    #  {{^else                             
+    #      `block^                         
+    #  `}}^``ensure...`                    
+    #  {{^ensure                           
+    #      `cursor^                        
+    #  `}}^end                             
 
 
 
@@ -502,8 +516,13 @@ end
     #  when `comparison^                 
     #      `block^                       
     #  ``when...`                        
-    #  ^``else...`                       
-    #  ^end                              
+    #  {{^when `comparison^              
+    #      `block^                       
+    #  ``when...`                        
+    #  ^`}}^``else...`                   
+    #  {{^else                           
+    #      `cursor^                      
+    #  `}}^end                           
 
 
 
@@ -679,7 +698,7 @@ end
         def initialize
             
         end
-            
+        
         def method
             
         end
@@ -696,7 +715,7 @@ end
         def initialize
             
         end
-            
+        
         def method
             
         end
@@ -706,7 +725,7 @@ end
         def initialize
             
         end
-            
+        
         def method
             
         end
@@ -1419,8 +1438,13 @@ end
     #  if `boolean exp^`                 
     #      `block^                       
     #  ``elsif...`                       
-    #  ^``else...`                       
-    #  ^end                              
+    #  {{^elsif `comparison^             
+    #      `block^                       
+    #  ``elsif...`                       
+    #  ^`}}^``else...`                   
+    #  {{^else                           
+    #      `cursor^                      
+    #  `}}^end                           
 
 
 
@@ -2076,7 +2100,11 @@ end
     #  class Test`ClassName^ < Test::Unit::TestCase 
     #      `deft^`                                  
     #                                               
-    #      `deft...`^                               
+    #      `deft...`{{^                             
+    #                                               
+    #      `deft^`                                  
+    #                                               
+    #      `deft...`^`}}^                           
     #  end                                          
 
 
