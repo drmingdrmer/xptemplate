@@ -2435,11 +2435,15 @@ fun! s:HandleDefaultValueAction( ctx, act ) "{{{
             if has_key( a:act, 'text' )
                 let text = has_key( a:act, 'text' ) ? a:act.text : ''
                 if text != ''
-                    let [ filterIndent, filterText ] = s:GetFilterIndentAndText( text )
-                    let leader = ctx.leadingPlaceHolder
-                    let marks = leader.isKey ? leader.editMark : leader.mark
+                    if text =~ '\n'
+                        let [ filterIndent, filterText ] = s:GetFilterIndentAndText( text )
+                        let leader = ctx.leadingPlaceHolder
+                        let marks = leader.isKey ? leader.editMark : leader.mark
 
-                    let text = s:AdjustIndentAccordingToLine( filterText, filterIndent, XPMpos( marks.start )[0], leader )
+                        let text = s:AdjustIndentAccordingToLine( filterText, filterIndent, XPMpos( marks.start )[0], leader )
+                    else
+
+                    endif
                 endif
 
 

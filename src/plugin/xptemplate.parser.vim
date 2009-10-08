@@ -45,9 +45,13 @@ com! -nargs=+ XPTembed      call XPTembed(<f-args>)
 " com! -nargs=* XSET          call XPTbufferScopeSet( <q-args> )
 
 
+" let s:filetypeAcceptability = { 
+            " \   'cpp'       : [ 'c' ], 
+            " \   'cs'        : [ 'c' ], 
+            " \}
+
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
-" TODO error handling, if no upper level ft?
 fun! s:AssignSnipFT( filename ) "{{{
     let x = g:XPTobject()
 
@@ -57,8 +61,20 @@ fun! s:AssignSnipFT( filename ) "{{{
     let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
     if !empty( x.snipFileScopeStack ) && x.snipFileScopeStack[ -1 ].inheritFT
                 \ || ftFolder =~ '^_'
+        if !has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
+            " no parent snippet file 
+            " maybe parent snippet file has no XPTemplate command called
+            throw 'parent may has no XPTemplate command called :' . a:filename
+        endif
         let ft = x.snipFileScopeStack[ -1 ].filetype
     else
+        " Snippet file is loaded at top level
+        "
+        " All cross filetype inclusion must be done through XPTinclude or
+        " XPTembed, runtime command is disabled for inclusion or embed
+        if &filetype !~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim' 
+            return 'not allowed'
+        endif
         let ft = &filetype
     endif
 
@@ -77,6 +93,10 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
 
     let snipScope = XPTnewSnipScope(a:filename)
     let snipScope.filetype = s:AssignSnipFT( a:filename )
+
+    if snipScope.filetype == 'not allowed'
+        return 'finish'
+    endif 
 
     let filetypes[ snipScope.filetype ] = get( filetypes, snipScope.filetype, g:FiletypeScope.New() )
     let ftScope = filetypes[ snipScope.filetype ]

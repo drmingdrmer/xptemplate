@@ -157,6 +157,10 @@ fun! XPTtestSort(a, b) "{{{
     endif
 endfunction "}}}
 
+fun! XPTtestPseudoDate(...) "{{{
+    return "2009 Oct 08"
+endfunction "}}}
+
 fun! s:XPTtest(ft) "{{{
     let g:xpt_post_action = "\<C-r>=TestProcess()\<cr>"
     augroup XPTtestGroup
@@ -175,6 +179,17 @@ fun! s:XPTtest(ft) "{{{
 
 
     let tmpls = XPTgetAllTemplates()
+
+    let x = XPTbufData()
+    let fts = x.filetypes
+    for ft in values( fts )
+        let ft.funcs.strftime = function( 'XPTtestPseudoDate' )
+        let ft.funcs.date = function( 'XPTtestPseudoDate' )
+    endfor
+
+    let x.funcs.strftime = function( 'XPTtestPseudoDate' )
+    let x.funcs.date = function( 'XPTtestPseudoDate' )
+
 
 
     " remove 'Path' and 'Date' template0
