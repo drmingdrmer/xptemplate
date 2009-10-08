@@ -22,10 +22,10 @@ let s:unescapeHead          = '\v(\\*)\1\\?\V'
 
 
 
-fun! g:ClassPrototype(...) "{{{
+fun! g:XPclassPrototype( sid, ...) "{{{
     let p = {}
     for name in a:000
-        let p[ name ] = function( '<SNR>' . s:sid . name )
+        let p[ name ] = function( '<SNR>' . a:sid . name )
     endfor
 
     return p
@@ -72,10 +72,12 @@ fun! s:DeepExtend( to, from ) "{{{
     endfor
 endfunction "}}}
 
-let g:xptutil =  g:ClassPrototype(
+let g:xptutil =  g:XPclassPrototype( s:sid, 
             \    'UnescapeChar', 
             \    'DeepExtend', 
             \ )
+
+
 
 
 " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}
