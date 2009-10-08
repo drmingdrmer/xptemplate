@@ -118,7 +118,7 @@ fun! s:popup(start_col, opt) dict "{{{
     endif
 
 
-    call s:log.Debug("sess=".string(sess))
+    " call s:log.Debug("sess=".string(sess))
 
     let actionList = []
 
