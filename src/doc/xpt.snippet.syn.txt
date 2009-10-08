@@ -142,7 +142,7 @@
 	Priority setting format : "priority[+/-[offset]]".
 	Following format are all valid : >
 	3		3
-	lang		0
+	lang		16
 	like+4		36 // like=32
 	all-		63 // all=64
 <
@@ -336,8 +336,8 @@
 
 							   *xpt-snippet-XSETm*
 	"XSETm" is similar to |xpt-snippet-XSET|, except it using "\n" instead
-	of "=" in |xpt-snippet-XSET|, and ending with "XSETm END". For example
-	: >
+	of "=" like in |xpt-snippet-XSET|, and ending with "XSETm END". For
+	example : >
 		XPT if		hint=if\ (..)\ {..}\ else...
 		if (`condition^) { 
 		    `job^
@@ -534,7 +534,11 @@
 	"the_name", the <expression> evaluated and applied to the place
 	holder.
 
-	Example : in C language, type "#ind<C-\>": >
+	Example : the "#ind" snippet defined as : >
+		XPT #ind
+		XSET me|def|=fileRoot()
+		#include "`me^.h"
+<	In C language, type "#ind<C-\>" you get : >
 		#include "current_file_name.h"
 <	
 	NOTE : if default value expression contains only plain string and
@@ -647,7 +651,7 @@
 		    `elt^;`
 		    `...^`}}^
 		}` `var^;
-<
+<	See |xpt-repetition| for using repetition.
 
 
 " vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:
