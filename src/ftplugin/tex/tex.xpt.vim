@@ -73,6 +73,11 @@ XPT frame hint=\begin{frame}{..}\ ..\ \end{frame}
     `cursor~
 \end{frame}
 
+XPT block hint=\begin{block}{..}\ ..\ \end{block}
+\begin{block}{`title~}
+    `cursor~
+\end{block}
+
 XPT frac hint=frac{..}{..}
 \frac{`a~}{`b~}
 ..XPT
