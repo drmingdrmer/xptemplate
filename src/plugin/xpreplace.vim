@@ -256,6 +256,7 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
 
 
+    call s:log.Log( 'to do post?=' . option.doJobs )
     if option.doJobs
         call s:doPostJob( a:start, positionAfterReplacement, a:replacement )
     endif
@@ -328,6 +329,8 @@ fun! s:doPostJob( start, end, replacement ) "{{{
         call s:log.Debug( 'XPreplace post job:' . string( d.f ) )
         call d.f( a:start, a:end )
     endfor
+
+    call s:log.Debug( "done post job:" . string( s:_xpreplace.post ) )
     
 endfunction "}}}
 
