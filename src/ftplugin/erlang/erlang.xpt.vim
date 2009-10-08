@@ -1,19 +1,31 @@
-if exists("b:__ERLANG_XPT_VIM__")
-  finish
-endif
-let b:__ERLANG_XPT_VIM__ = 1
+XPTemplate priority=lang
 
-" containers
-let [s:f, s:v] = XPTcontainer()
+let s:f = XPTcontainer()[0]
 
-" inclusion
-XPTinclude
-      \ _common/common
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
 
-" ========================= Function and Varaibles =============================
+XPTvar $VOID_LINE  /* void */;
+XPTvar $CURSOR_PH      cursor
+
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $ELSE_BRACKET_STL   \n
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \ 
+
+XPTinclude 
+    \ _common/common
+
+
+" ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
 XPTemplateDef
+
 
 XPT inc hint=-include\ ..
 -include( "`cursor^.hrl").
@@ -25,55 +37,55 @@ XPT def hint=-define\ ..
 
 XPT ifdef hint=-ifdef\ ..\-endif..
 -ifdef( `what^ ).
-  `thenmacro^
+    `thenmacro^
 ``else...`
 {{^-else.
-  `cursor^
+    `cursor^
 `}}^-endif().
 
 
 XPT ifndef hint=-ifndef\ ..\-endif
 -ifndef( `what^ ).
-  `thenmacro^
+    `thenmacro^
 ``else...`
 {{^-else.
-  `cursor^
+    `cursor^
 `}}^-endif().
 
 
 XPT record hint=-record\ ..,{..}
 -record( `recordName^
-       ,{ `field1^`...^
-       ,  `fieldn^`...^
+        ,{ `field1^`...^
+        ,  `fieldn^`...^
         }).
 
 
 XPT if hint=if\ ..\ ->\ ..\ end
 if
-   `cond^ ->
-       `body^` `...^;
-   `cond2^ ->
-       `bodyn^` `...^
+    `cond^ ->
+        `body^` `...^;
+    `cond2^ ->
+        `bodyn^` `...^
 end `cursor^
 
 
 XPT case hint=case\ ..\ of\ ..\ ->\ ..\ end
 case `matched^ of
-   `pattern^ ->
-       `body^`...^;
-   `patternn^ ->
-       `bodyn^`...^
+    `pattern^ ->
+        `body^`...^;
+    `patternn^ ->
+        `bodyn^`...^
 end `cursor^
 
 
 XPT receive hint=receive\ ..\ ->\ ..\ end
 receive
-   `pattern^ ->
-       `body^` `...^;
-   `patternn^ ->
-       `body^` `...^`
+    `pattern^ ->
+        `body^` `...^;
+    `patternn^ ->
+        `body^` `...^`
    `after...{{^
-   after
+    after
     `afterBody^`}}^
 end
 
@@ -104,10 +116,10 @@ end `cursor^
 
 XPT tryof hint=try\ ..\ of\ ..
 try `what^ of
-   `pattern^ ->
-       `body^` `more...^;
-   `patternn^ ->
-       `body^` `more...^
+    `pattern^ ->
+        `body^` `more...^;
+    `patternn^ ->
+        `body^` `more...^
 catch
     `excep^ -> `toRet^` `...^;
     `except^ -> `toRet^` `...^`
@@ -123,5 +135,18 @@ XPT function hint=f\ \(\ ..\ \)\ ->\ ..
 `name^R('funName')^ ( `argsn^ ) `_^ ->
     `bodyn^`...^
 .
+
+
+" ================================= Wrapper ===================================
+
+XPT try_ hint=try\ SEL\ catch...
+try
+    `wrapped^
+catch
+    `excep^ -> `toRet^` `...0^;
+    `except^ -> `toRet^` `...0^
+`after...{{^after
+    `afterBody^`}}^
+end
 
 

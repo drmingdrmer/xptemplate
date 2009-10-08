@@ -157,7 +157,7 @@ XPT bench_ hint=Benchmark
 XSET log=console.log
 var t0 = new Date().getTime();
 for (var i = 0; i < `times^; ++i){
-  `wrapped^
+    `wrapped^
 }
 var t1 = new Date().getTime();
 `log^(t1-t0);
@@ -165,8 +165,8 @@ var t1 = new Date().getTime();
 
 XPT fun_ hint=function\ ..(\ ..\ )\ {..}
 function` `name^ (`param^) {
-  `wrapped^
-  return;
+    `wrapped^
+    return;
 }
 
 

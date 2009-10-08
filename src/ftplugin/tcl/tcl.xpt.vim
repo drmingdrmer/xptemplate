@@ -23,13 +23,15 @@ XPTinclude
 XPTemplateDef
 
 
-XPT tcl hint=#!/bin/sh\ ..\ exec\ tclsh..
+XPT shebang hint=#!/bin/sh\ ..\ exec\ tclsh..
 #!/bin/sh
 #\
 exec tclsh "$0" "$@""
 
 ..XPT
-                        
+
+XPT sb alias=shebang
+
 
 XPT for hint=for\ {...}
 for {set ~i^ ~x^} {$~i^ <= ~len^} {incr ~i^} {

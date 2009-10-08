@@ -27,6 +27,8 @@ XPTinclude
       \ _loops/java.for.like
       \ _structures/c.like
 
+XPTinclude
+            \ c/c
 
 " ========================= Function and Variables =============================
 

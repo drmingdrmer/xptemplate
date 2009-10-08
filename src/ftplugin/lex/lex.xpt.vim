@@ -1,14 +1,33 @@
-if exists("b:__LEX_XPT_VIM__") 
-    finish 
-endif
-let b:__LEX_XPT_VIM__ = 1 
+XPTemplate priority=lang
 
-" inclusion
-XPTinclude
+let s:f = XPTcontainer()[0]
+
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+
+XPTvar $VOID_LINE  /* void */;
+XPTvar $CURSOR_PH      cursor
+
+XPTvar $IF_BRACKET_STL     \ 
+XPTvar $ELSE_BRACKET_STL   \n
+XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $WHILE_BRACKET_STL  \ 
+XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $FUNC_BRACKET_STL   \ 
+
+XPTinclude 
     \ _common/common
     \ c/c
 
+
+" ========================= Function and Variables =============================
+
+" ================================= Snippets ===================================
 XPTemplateDef
+
+
 XPT lex hint=Basic\ lex\ file
 %{
 /* includes */

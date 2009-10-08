@@ -35,6 +35,8 @@ XPTinclude
       \ _loops/java.for.like
       \ _preprocessor/c.like
       \ _structures/c.like
+XPTinclude
+            \ c/c
 
 " ========================= Function and Varaibles =============================
 let [s:f, s:v] = XPTcontainer()
@@ -147,6 +149,7 @@ try
 `...^catch ( `except^ )
 {
     `handler^
-}`...^
+}
+`...^
 
 ..XPT

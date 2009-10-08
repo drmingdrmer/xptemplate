@@ -7,6 +7,7 @@ XPTvar $FALSE         0
 
 XPTinclude 
       \ _common/common
+      \ vim/vim
 
 
 " ========================= Function and Variables =============================
