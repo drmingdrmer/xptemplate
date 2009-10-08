@@ -54,7 +54,7 @@ fun! XPMcheckStatusline() "{{{
     if &statusline == ""
         if &l:statusline == ''
             " all empty 
-            setlocal statusline=%<%f\ %h%m%r%=\ %P
+            setlocal statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
         else
             " locally set
             " nothing to do
