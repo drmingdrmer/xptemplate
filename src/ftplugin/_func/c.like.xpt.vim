@@ -27,7 +27,7 @@ XPTinclude
 
 fun! s:f.c_fun_type_indent()
   if self[ '$FUNC_BRACKET_STL' ] == "\n"
-    return repeat( ' ', &l:softtabstop )
+    return repeat( ' ', &softtabstop == 0 ? &tabstop : &softtabstop )
   else
     return ""
   endif
@@ -35,7 +35,7 @@ endfunction
 
 fun! s:f.c_fun_body_indent()
   if self[ '$FUNC_BRACKET_STL' ] == "\n"
-    return repeat( ' ', &l:softtabstop ). "\n\n"
+    return repeat( ' ', &softtabstop == 0 ? &tabstop : &softtabstop ). "\n\n"
     " return "    \n\n"
   else
     return " "
