@@ -16,7 +16,7 @@
 		|xpt-snippet-mark|
 	|xpt-snippet-variable|
 	|xpt-snippet-function|
-	|xpt-snippet-include|
+	|xpt-snippet-XPTinclude|
 	|xpt-snippet-embed|
 
 	|xpt-snippet|
@@ -76,7 +76,7 @@
 		XPTvar $CR   */                         |
                                                         |
 
-		XPTinclude				| |xpt-snippet-include|
+		XPTinclude				| |xpt-snippet-XPTinclude|
 		      \ _common/common                  |
 		      \ _comment/doubleSign             |
 		      \ _condition/c.like               |
@@ -216,7 +216,7 @@
 <
 
 								  *XPTinclude*
-							 *xpt-snippet-include*
+							 *xpt-snippet-XPTinclude*
 	Syntax : >
 		XPTinclude <folder_name_in_ftplugin>/<filename>
 <	The <filename> is only the file root, without ".xpt.vim". 
