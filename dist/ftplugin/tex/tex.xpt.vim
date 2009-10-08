@@ -68,6 +68,11 @@ XPT section hint=section{..}
 \section{`sectionTitle~}
 ..XPT
 
+XPT frame hint=\begin{frame}{..}\ ..\ \end{frame}
+\begin{frame}{`title~}
+    `cursor~
+\end{frame}
+
 XPT frac hint=frac{..}{..}
 \frac{`a~}{`b~}
 ..XPT
@@ -130,6 +135,11 @@ XPT beg hint=begin{..}\ ..\ end{..}
 `cursor~
 \end{`something~}
 ..XPT
+
+XPT enclose_ hint=\begin{..}\ SEL\ \end{..}
+\begin{`something~}
+    `wrapped~
+\end{`something~}
 
 XPT as_ hint=SEL{..}
 \\`wrapped~{`cursor~}

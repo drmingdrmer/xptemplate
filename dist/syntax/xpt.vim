@@ -61,9 +61,10 @@ syntax keyword  XPTSnippetVar XPTvar nextgroup=XptVarBody skipwhite
 " ==================
 syntax match    XptSnippetIncludeItemDir /\%(\w\+\/\)\+/ containedin=XptSnippetIncludeItem
 syntax match    XptSnippetIncludeItemFile /[a-zA-Z0-9_.]\+\s*$/ containedin=XptSnippetIncludeItem
-syntax match    XptSnippetIncludeItem /\w\+\/.*/ containedin=XptSnippetIncludeBody
-syntax region   XptSnippetIncludeBody start=/^\s*\\/ end=/^\ze\s*[^\\	]/ keepend skipwhite
+syntax match    XptSnippetIncludeItem /[a-zA-Z0-9_.]\+\/.*/ containedin=XptSnippetIncludeBody
+syntax region   XptSnippetIncludeBody start=/^\s*\\/ end=/^\ze\s*[^\\	 ]/ keepend skipwhite
 syntax keyword  XptSnippetInclude     XPTinclude nextgroup=XptSnippetIncludeBody skipnl skipwhite
+syntax keyword  XptSnippetInclude     XPTembed   nextgroup=XptSnippetIncludeBody skipnl skipwhite
 
 
 
@@ -124,6 +125,9 @@ let s:m = s:GetMark()
 
 exe 'syntax match XPTitemPost /\V\%(\[^' . s:m[2] . ']\|\(\\\*\)\1\\\[' . s:m[2] . ']\)\*\[^\\' . s:m[2] . ']' . s:m[1] . '\{1,2}/ contains=XPTmark containedin=XPTsnippetBody'
 exe 'syntax match XPTitem /\V' . s:m[0] . '\%(\_[^' . s:m[1] . ']\)\{-}' . s:m[1] . '/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost'
+exe 'syntax match XPTinclusion /\VInclude:\zs\.\{-}\ze' . s:m[1] . '/ contained containedin=XPTitem'
+exe 'syntax match XPTinclusion /\V:\zs\.\{-}\ze:' . s:m[1] . '/ contained containedin=XPTitem'
+exe 'syntax match XPTmark /\V' . s:m[0] . '\|' . s:m[1] . '/ contains=XPTmark containedin=XPTitem'
 
       " \%(\%([^`^]\|\(\\*\)\1\\\^\)*\^\)\?
 " syntax match XPTmark /`\|\^/ contained
@@ -172,6 +176,7 @@ hi link XPTxset_eq            Operator
 hi link XPTxset_value         Normal
 hi link XPTregion             SpecialKey
 hi link XPTitem               CursorLine
+hi link XPTinclusion          XPTsnippetName
 hi link XPTitemPost           WildMenu
 hi link XPTvariable           Constant
 hi link XPTvariable_quote     Constant
@@ -180,7 +185,7 @@ hi link XPTfunction           Function
 hi link XPTbadIndent          Error
 
 " not implemented
-hi link XPTmark               Title
+hi link XPTmark               NonText
 hi link TemplateKey           Title
 
 

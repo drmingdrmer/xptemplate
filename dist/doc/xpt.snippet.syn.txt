@@ -16,7 +16,8 @@
 		|xpt-snippet-mark|
 	|xpt-snippet-variable|
 	|xpt-snippet-function|
-	|xpt-snippet-include|
+	|xpt-snippet-XPTinclude|
+	|xpt-snippet-embed|
 
 	|xpt-snippet|
 		|xpt-snippet-name|
@@ -26,6 +27,7 @@
 		|xpt-snippet-alias|
 
 	|xpt-snippet-body|
+	|xpt-snippet-include|
 	|xpt-snippet-XSET|
 	|xpt-snippet-XSETm|
 	|xpt-snippet-ComeFist|
@@ -74,7 +76,7 @@
 		XPTvar $CR   */                         |
                                                         |
 
-		XPTinclude				| |xpt-snippet-include|
+		XPTinclude				| |xpt-snippet-XPTinclude|
 		      \ _common/common                  |
 		      \ _comment/doubleSign             |
 		      \ _condition/c.like               |
@@ -213,7 +215,8 @@
 		printf( "`pattern^"`elts^ )
 <
 
-							 *xpt-snippet-include*
+								  *XPTinclude*
+							 *xpt-snippet-XPTinclude*
 	Syntax : >
 		XPTinclude <folder_name_in_ftplugin>/<filename>
 <	The <filename> is only the file root, without ".xpt.vim". 
@@ -221,6 +224,15 @@
 
 	NOTE do NOT use |runtime| to include other snippet file, XPTinclude
 	handles snippet priority, but |runtime| NOT.
+
+								    *XPTembed*
+							   *xpt-snippet-embed*
+	Syntax : >
+		XPTembed <folder_name_in_ftplugin>/<filename>
+<	|XPTembed| acts like |XPTinclude|, except it includes only snippet
+	file for nested language, like javascript in html, or html in php.
+
+	NOTE TODO differences between XPTinclude by example.
 
 
 						 *XPTemplateDef* *xpt-snippet*
@@ -291,6 +303,17 @@
 		XSET elts=c_printfElts( R( 'pattern' ) )
 		printf( "`pattern^"`elts^ )
 <	NOTE XSET/XSETm command can be placed anywhere inside snippet.
+
+				       *`::^* *Include:* *xpt-snippet-include*
+	Snippet can include other snippet, by using inclusion place holder : >
+		`Include:snippetNmae^
+<	Where "`" and "^" is the mark. When inclusion occurs,
+	|xpt-snippet-post-filter|, |xpt-snippet-default-value| and
+	|xpt-snippet-preset-value| is imported too, if it does not overrides.
+
+	Also you can use the short format : >
+		`:snippetName:^
+<	Only 2 ":" around snippet name are needed.
 
 							    *xpt-snippet-XSET*
 	In |xpt-snippet-body|, XSET command can be used anywhere to set : 

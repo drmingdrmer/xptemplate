@@ -8,10 +8,10 @@ com! XPTutilGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPTutilGetSID
 delc XPTutilGetSID
 let s:unescapeHead          = '\v(\\*)\1\\?\V'
-fun! g:ClassPrototype(...) 
+fun! g:XPclassPrototype( sid, ...) 
     let p = {}
     for name in a:000
-        let p[ name ] = function( '<SNR>' . s:sid . name )
+        let p[ name ] = function( '<SNR>' . a:sid . name )
     endfor
     return p
 endfunction 
@@ -40,7 +40,7 @@ fun! s:DeepExtend( to, from )
         endif
     endfor
 endfunction 
-let g:xptutil =  g:ClassPrototype(
+let g:xptutil =  g:XPclassPrototype( s:sid, 
             \    'UnescapeChar', 
             \    'DeepExtend', 
             \ )

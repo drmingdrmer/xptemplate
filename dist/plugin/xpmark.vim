@@ -27,7 +27,7 @@ augroup END
 fun! XPMcheckStatusline() 
     if &statusline == ""
         if &l:statusline == ''
-            setlocal statusline=%<%f\ %h%m%r%=\ %P
+            setlocal statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
         else
         endif 
     else

@@ -43,6 +43,8 @@ XPTinclude
 " ================================= Snippets ===================================
 XPTemplateDef
 
+XPT php hint=<?php\ ...\ ?>
+<?php `cursor^?>
 
 XPT foreach hint=foreach\ (..\ as\ ..)\ {..}
 foreach ($`var^ as `container^)`$FOR_BRACKET_STL^{
