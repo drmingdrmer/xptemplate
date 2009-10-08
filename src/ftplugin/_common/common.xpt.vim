@@ -145,25 +145,6 @@ fun! s:f.EchoIfNoChange( ... )
   endif
 endfunction
 
-
-" Same with Echo* except echoed text is to be build to generate dynamic place
-" holders
-fun! s:f.Build( ... )
-  return { 'action' : 'build', 'text' : join( a:000, '' ) }
-endfunction
-
-fun! s:f.BuildIfNoChange( ... )
-  let v = substitute( self.V(), "\\V\n\\|\\s", '', 'g')
-  let fn = substitute( self.ItemFullname(), "\\V\n\\|\\s", '', 'g')
-
-  if v ==# fn
-    return { 'action' : 'build', 'text' : join( a:000, '' ) }
-  else
-    return self.V()
-  endif
-endfunction
-
-
 fun! s:f.Commentize( text )
   if has_key( self, '$CL' )
     return self[ '$CL' ] . ' ' . a:text . ' ' . self[ '$CR' ]
@@ -180,22 +161,28 @@ fun! s:f.VoidLine()
   return self.Commentize( 'void' )
 endfunction
 
+" Same with Echo* except echoed text is to be build to generate dynamic place
+" holders
+fun! s:f.Build( ... )
+  return { 'action' : 'build', 'text' : join( a:000, '' ) }
+endfunction
 
+fun! s:f.BuildIfNoChange( ... )
+  let v = substitute( self.V(), "\\V\n\\|\\s", '', 'g')
+  let fn = substitute( self.ItemFullname(), "\\V\n\\|\\s", '', 'g')
+
+  if v ==# fn
+    return { 'action' : 'build', 'text' : join( a:000, '' ) }
+  else
+    return { 'action' : 'keepIndent', 'text' : self.V() }
+  endif
+endfunction
 
 " trigger nested template
 fun! s:f.Trigger(name) "{{{
   return {'action' : 'expandTmpl', 'tmplName' : a:name}
 endfunction "}}}
 
-" This function is intented to be used for popup selection :
-" XSET bidule=Choose([' ','dabadi','dabada'])
-fun! s:f.Choose( lst ) "{{{
-    return a:lst
-endfunction "}}}
-
-fun! s:f.ChooseStr(...) "{{{
-  return copy( a:000 )
-endfunction "}}}
 
 fun! s:f.Finish(...)
     return { 'action' : 'finishTemplate', 'postTyping' : join( a:000 ) }
@@ -212,6 +199,16 @@ fun! s:f.Next( ... )
     return { 'action' : 'next', 'text' : join( a:000, '' ) }
   endif
 endfunction
+
+" This function is intented to be used for popup selection :
+" XSET bidule=Choose([' ','dabadi','dabada'])
+fun! s:f.Choose( lst ) "{{{
+    return a:lst
+endfunction "}}}
+
+fun! s:f.ChooseStr(...) "{{{
+  return copy( a:000 )
+endfunction "}}}
 
 " XXX
 " Fill in postType, and finish template rendering at once. 
