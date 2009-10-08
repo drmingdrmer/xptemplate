@@ -343,9 +343,16 @@ WRAPPED_TEXT_line2`
     #  begin                              
     #      `expr^                         
     #  ``rescue...`                       
-    #  ^``else...`                        
-    #  ^``ensure...`                      
-    #  ^end                               
+    #  {{^rescue `Exception^` => `e^      
+    #      `block^                        
+    #  ``rescue...`                       
+    #  ^`}}^``else...`                    
+    #  {{^else                            
+    #      `block^                        
+    #  `}}^``ensure...`                   
+    #  {{^ensure                          
+    #      `cursor^                       
+    #  `}}^end                            
 
 
 
@@ -368,44 +375,51 @@ WRAPPED_TEXT_line2`
     rescue_TYPED
     else_TYPED
     ensure_TYPED
-        end b
+    end b
 
-        a begin
-            expr
-        rescue Exception => e
-            # block
-        rescue Exception => e
-            # block
-        rescue Exception => e
-            # block
-        else
-            # block
-        ensure
-            
-        end b
+    a begin
+        expr
+    rescue Exception => e
+        # block
+    rescue Exception => e
+        # block
+    rescue Exception => e
+        # block
+    else
+        # block
+    ensure
+        
+    end b
 
-        a begin
-            expr
-        rescue Exception => e
-            # block
-        rescue Exception => e
-            # block
-        rescue Exception => e
-            # block
-        else
-            # block
-        ensure
-            
-        end
+    a begin
+        expr
+    rescue Exception => e
+        # block
+    rescue Exception => e
+        # block
+    rescue Exception => e
+        # block
+    else
+        # block
+    ensure
+        
+    end
 
 
     #   -------------begin_--------------- 
     #  begin                               
     #      `wrapped^                       
     #  ``rescue...`                        
-    #  ^``else...`                         
-    #  ^``ensure...`                       
-    #  ^end                                
+    #  {{^rescue `Exception^` => `e^       
+    #      `block^                         
+    #  ``rescue...`                        
+    #  ^`}}^``else...`                     
+    #  {{^else                             
+    #      `block^                         
+    #  `}}^``ensure...`                    
+    #  {{^ensure                           
+    #      `cursor^                        
+    #  `}}^end                             
 
 
 
@@ -502,8 +516,13 @@ end
     #  when `comparison^                 
     #      `block^                       
     #  ``when...`                        
-    #  ^``else...`                       
-    #  ^end                              
+    #  {{^when `comparison^              
+    #      `block^                       
+    #  ``when...`                        
+    #  ^`}}^``else...`                   
+    #  {{^else                           
+    #      `cursor^                      
+    #  `}}^end                           
 
 
 
@@ -525,33 +544,33 @@ end
         block_TYPED
     when_TYPED
     else_TYPED
-        end b
+    end b
 
-        a case target
-        when comparison
-            # block
-        when comparison
-            # block
-        when comparison
-            # block
-        when comparison
-            # block
-        else
-            
-        end b
+    a case target
+    when comparison
+        # block
+    when comparison
+        # block
+    when comparison
+        # block
+    when comparison
+        # block
+    else
+        
+    end b
 
-        a case target
-        when comparison
-            # block
-        when comparison
-            # block
-        when comparison
-            # block
-        when comparison
-            # block
-        else
-            
-        end
+    a case target
+    when comparison
+        # block
+    when comparison
+        # block
+    when comparison
+        # block
+    when comparison
+        # block
+    else
+        
+    end
 
 
     #   -------------cfy---------------  
@@ -679,7 +698,7 @@ end
         def initialize
             
         end
-            
+        
         def method
             
         end
@@ -689,14 +708,14 @@ end
         def initialize(arg_TYPED, narg_TYPED, narg_TYPED)
             cursor_TYPED
         end
-                def_TYPED
+        def_TYPED
     end b
 
     a class ClassName
         def initialize
             
         end
-            
+        
         def method
             
         end
@@ -706,7 +725,7 @@ end
         def initialize
             
         end
-            
+        
         def method
             
         end
@@ -1419,8 +1438,13 @@ end
     #  if `boolean exp^`                 
     #      `block^                       
     #  ``elsif...`                       
-    #  ^``else...`                       
-    #  ^end                              
+    #  {{^elsif `comparison^             
+    #      `block^                       
+    #  ``elsif...`                       
+    #  ^`}}^``else...`                   
+    #  {{^else                           
+    #      `cursor^                      
+    #  `}}^end                           
 
 
 
@@ -1440,31 +1464,31 @@ end
         block_TYPED
     elsif_TYPED
     else_TYPED
-        end b
+    end b
 
-        a if boolean exp
-            # block
-        elsif comparison
-            # block
-        elsif comparison
-            # block
-        elsif comparison
-            # block
-        else
-            
-        end b
+    a if boolean exp
+        # block
+    elsif comparison
+        # block
+    elsif comparison
+        # block
+    elsif comparison
+        # block
+    else
+        
+    end b
 
-        a if boolean exp
-            # block
-        elsif comparison
-            # block
-        elsif comparison
-            # block
-        elsif comparison
-            # block
-        else
-            
-        end
+    a if boolean exp
+        # block
+    elsif comparison
+        # block
+    elsif comparison
+        # block
+    elsif comparison
+        # block
+    else
+        
+    end
 
 
     #   -------------inj---------------                        
@@ -1861,6 +1885,44 @@ end
     a reverse_each { |element|  }
 
 
+    #   -------------ruby--------------- 
+    #  #!/usr/bin/env ruby               
+    #  _CMT_-*- encoding: `enc^ -*-      
+
+
+
+    #!/usr/bin/env ruby
+    # -*- encoding: utf-8 -*-
+    #
+    #!/usr/bin/env ruby
+    # -*- encoding: enc_TYPED -*- b
+    #
+    a #!/usr/bin/env ruby
+    # -*- encoding: utf-8 -*- b
+    #
+    a #!/usr/bin/env ruby
+    # -*- encoding: utf-8 -*-
+    #
+
+    #   -------------sb--------------- 
+    #  #!/usr/bin/env ruby             
+    #  _CMT_-*- encoding: `enc^ -*-    
+
+
+
+    #!/usr/bin/env ruby
+    # -*- encoding: utf-8 -*-
+    #
+    #!/usr/bin/env ruby
+    # -*- encoding: enc_TYPED -*- b
+    #
+    a #!/usr/bin/env ruby
+    # -*- encoding: utf-8 -*- b
+    #
+    a #!/usr/bin/env ruby
+    # -*- encoding: utf-8 -*-
+    #
+
     #   -------------scan---------------        
     #  scan(/`pattern^/) { |`match^| `cursor^ } 
 
@@ -1891,7 +1953,7 @@ end
 
     #   -------------shebang--------------- 
     #  #!/usr/bin/env ruby                  
-    #  _CMT_-*- encoding: `utf-8^ -*-       
+    #  _CMT_-*- encoding: `enc^ -*-         
 
 
 
@@ -1899,7 +1961,7 @@ end
     # -*- encoding: utf-8 -*-
     #
     #!/usr/bin/env ruby
-    # -*- encoding: utf8_TYPED -*- b
+    # -*- encoding: enc_TYPED -*- b
     #
     a #!/usr/bin/env ruby
     # -*- encoding: utf-8 -*- b
@@ -2038,7 +2100,11 @@ end
     #  class Test`ClassName^ < Test::Unit::TestCase 
     #      `deft^`                                  
     #                                               
-    #      `deft...`^                               
+    #      `deft...`{{^                             
+    #                                               
+    #      `deft^`                                  
+    #                                               
+    #      `deft...`^`}}^                           
     #  end                                          
 
 
@@ -2049,7 +2115,7 @@ end
     class TestModule < Test::Unit::TestCase
         def test_name
             
-        end 
+        end
         
         def test_name
             
@@ -2063,8 +2129,8 @@ end
         def test_name_TYPED(arg_TYPED, narg_TYPED, narg_TYPED)
             cursor_TYPED
         end 
-            
-                deft_TYPED
+    
+        deft_TYPED
     end b
 
     a require "test/unit"
@@ -2073,7 +2139,7 @@ end
     class TestModule < Test::Unit::TestCase
         def test_name
             
-        end 
+        end
         
         def test_name
             
@@ -2086,7 +2152,7 @@ end
     class TestModule < Test::Unit::TestCase
         def test_name
             
-        end 
+        end
         
         def test_name
             

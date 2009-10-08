@@ -379,7 +379,7 @@ struct structName {
 
 struct structName_TYPED {
     type_TYPED field_TYPED : bits_TYPED;
-        _TYPED
+    _TYPED
 } var_TYPED; b
 
 a struct structName {
@@ -607,6 +607,30 @@ a do {
 } while (condition);
 
 
+    /*  -------------elif---------------       */
+    /* else if (`condition^)`$IF_BRACKET_STL^{ */
+    /*     `job^                               */
+    /* }                                       */
+
+
+
+else if (condition) {
+    /* void */;
+}
+
+else if (condition_TYPED) {
+    job_TYPED
+} b
+
+a else if (condition) {
+    /* void */;
+} b
+
+a else if (condition) {
+    /* void */;
+}
+
+
     /*  -------------else--------------- */
     /* else`$IF_BRACKET_STL^{            */
     /*     `cursor^                      */
@@ -676,7 +700,9 @@ a drdr.xp@gmail.com
     /*  -------------enum--------------- */
     /* enum `name^`$STRUCT_BRACKET_STL^{ */
     /*     `elt^;`                       */
-    /*     `...^                         */
+    /*     `...{^                        */
+    /*     `elt^;`                       */
+    /*     `...^`}^                      */
     /* }` `var^;                         */
 
 
@@ -690,7 +716,7 @@ enum name {
 
 enum name_TYPED {
     elt_TYPED;
-        _TYPED
+    _TYPED
 } var_TYPED; b
 
 a enum name {
@@ -784,7 +810,7 @@ a test.page
  *
  * <b>function</b>
  * @version : 1.0
- * @since : 2009 Sep 18
+ * @since : 2009 Oct 08
  * 
  * @description :
  *     
@@ -801,7 +827,7 @@ a test.page
  *
  * <b>function_TYPED</b>
  * @version : 10_TYPED
- * @since : 2009 Sep 18
+ * @since : 2009 Oct 08
  * 
  * @description :
  *     
@@ -818,7 +844,7 @@ a test.page
   *
   * <b>function</b>
   * @version : 1.0
-  * @since : 2009 Sep 18
+  * @since : 2009 Oct 08
   * 
   * @description :
   *     
@@ -835,7 +861,7 @@ a test.page
    *
    * <b>function</b>
    * @version : 1.0
-   * @since : 2009 Sep 18
+   * @since : 2009 Oct 08
    * 
    * @description :
    *     
@@ -981,16 +1007,17 @@ name()
 }
 
 
-    /*  -------------if---------------     */
-    /* if (`condition^)`$IF_BRACKET_STL^{  */
-    /*     `job^                           */
-    /* }` `else...^                        */
+    /*  -------------if---------------                     */
+    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /*     `job^                                           */
+    /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (condition) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -1000,27 +1027,30 @@ if (condition_TYPED) {
 
 a if (condition) { 
     /* void */;
-} else { 
+}
+else {
     
 } b
 
 a if (condition) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 
-    /*  -------------if0---------------    */
-    /* if (`condition^)`$IF_BRACKET_STL^{  */
-    /*     `job^                           */
-    /* }` `else...^                        */
+    /*  -------------if0---------------                    */
+    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /*     `job^                                           */
+    /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (0 == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -1030,13 +1060,15 @@ if (0 == var_TYPED) {
 
 a if (0 == var) { 
     /* void */;
-} else { 
+}
+else {
     
 } b
 
 a if (0 == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -1111,16 +1143,17 @@ a if (condition) {
 }
 
 
-    /*  -------------ifn---------------    */
-    /* if (`condition^)`$IF_BRACKET_STL^{  */
-    /*     `job^                           */
-    /* }` `else...^                        */
+    /*  -------------ifn---------------                    */
+    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /*     `job^                                           */
+    /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (NULL == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -1130,27 +1163,30 @@ if (NULL == var_TYPED) {
 
 a if (NULL == var) { 
     /* void */;
-} else { 
+}
+else {
     
 } b
 
 a if (NULL == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 
-    /*  -------------ifn0---------------   */
-    /* if (`condition^)`$IF_BRACKET_STL^{  */
-    /*     `job^                           */
-    /* }` `else...^                        */
+    /*  -------------ifn0---------------                   */
+    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /*     `job^                                           */
+    /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (0 != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -1160,27 +1196,30 @@ if (0 != var_TYPED) {
 
 a if (0 != var) { 
     /* void */;
-} else { 
+}
+else {
     
 } b
 
 a if (0 != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 
-    /*  -------------ifnn---------------   */
-    /* if (`condition^)`$IF_BRACKET_STL^{  */
-    /*     `job^                           */
-    /* }` `else...^                        */
+    /*  -------------ifnn---------------                   */
+    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /*     `job^                                           */
+    /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (NULL != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -1190,13 +1229,15 @@ if (NULL != var_TYPED) {
 
 a if (NULL != var) { 
     /* void */;
-} else { 
+}
+else {
     
 } b
 
 a if (NULL != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -1333,7 +1374,7 @@ struct structName {
 
 struct structName_TYPED {
     type_TYPED field_TYPED;
-        _TYPED
+    _TYPED
 } var_TYPED; b
 
 a struct structName {
