@@ -25,6 +25,7 @@ svn export --force $CurrentDir $DistDir
 cd $DistDir
 # plugin/debug.vim	\
 rm -rf	\
+  plugin/xpop.test.vim	\
   xpt.ex	\
   genfile.vim	\
   doc/tags	\

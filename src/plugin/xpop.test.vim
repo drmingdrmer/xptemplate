@@ -1,3 +1,4 @@
+finish
 if exists("g:__XPOP_TEST_VIM__")
   finish
 endif
@@ -24,5 +25,5 @@ fun! s:XPP() "{{{
 
 endfunction "}}}
 
-imap <M-i> <C-r>=<SID>XPP()<cr>
+" imap <M-i> <C-r>=<SID>XPP()<cr>
 
