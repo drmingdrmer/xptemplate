@@ -330,7 +330,11 @@ a (func(elem) for elem in seq)
     # if `cond^:                      
     #     `pass^                      
     # ``elif...`                      
-    # ^`else...^                      
+    # {{^elif `cond2^:                
+    #     `pass^                      
+    # ``elif...`                      
+    # ^`}}^`else...{{^else:           
+    #     `cursor^`}}^                
 
 
 
@@ -432,6 +436,75 @@ a lambda : expr
 a [func(elem) for elem in seq] b
 
 a [func(elem) for elem in seq]
+
+
+    #  -------------python--------------- 
+    # _CMT_!/usr/bin/env python           
+    # _CMT_ coding: `encoding^            
+
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
+
+#!/usr/bin/env python
+# coding: encoding_TYPED
+ b
+
+a #!/usr/bin/env python
+# coding: utf-8
+ b
+
+a #!/usr/bin/env python
+# coding: utf-8
+
+
+
+    #  -------------sb--------------- 
+    # _CMT_!/usr/bin/env python       
+    # _CMT_ coding: `encoding^        
+
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
+
+#!/usr/bin/env python
+# coding: encoding_TYPED
+ b
+
+a #!/usr/bin/env python
+# coding: utf-8
+ b
+
+a #!/usr/bin/env python
+# coding: utf-8
+
+
+
+    #  -------------shebang--------------- 
+    # _CMT_!/usr/bin/env python            
+    # _CMT_ coding: `encoding^             
+
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
+
+#!/usr/bin/env python
+# coding: encoding_TYPED
+ b
+
+a #!/usr/bin/env python
+# coding: utf-8
+ b
+
+a #!/usr/bin/env python
+# coding: utf-8
+
 
 
     #  -------------try--------------- 

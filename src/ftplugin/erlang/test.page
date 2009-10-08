@@ -1,60 +1,112 @@
 
 
 
-    /*  -------------"--------------- */
-    /* "`wrapped^"                    */
+    /*  -------------"_--------------- */
+    /* "`wrapped^"                     */
 
 
 
-"WRAPPED_TEXT"
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
-"WRAPPED_TEXT" =
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-- "WRAPPED_TEXT" =
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-- "WRAPPED_TEXT"
-
-
-    /*  -------------'--------------- */
-    /* '`wrapped^'                    */
-
-
-
-'WRAPPED_TEXT'
-
-'WRAPPED_TEXT' =
-
-- 'WRAPPED_TEXT' =
-
-- 'WRAPPED_TEXT'
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
 
-    /*  -------------(--------------- */
-    /* (`wrapped^)                    */
+    /*  -------------'_--------------- */
+    /* '`wrapped^'                     */
 
 
 
-(WRAPPED_TEXT)
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
-(WRAPPED_TEXT) =
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-- (WRAPPED_TEXT) =
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-- (WRAPPED_TEXT)
-
-
-    /*  -------------<--------------- */
-    /* <`wrapped^>                    */
-
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
 
-<WRAPPED_TEXT>
+    /*  -------------(_--------------- */
+    /* (`wrapped^)                     */
 
-<WRAPPED_TEXT> =
 
-- <WRAPPED_TEXT> =
 
-- <WRAPPED_TEXT>
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`wrapped^>                     */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`wrapped^]                     */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``wrapped^\`                   */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
 
     /*  -------------Author--------------- */
@@ -64,109 +116,59 @@
 
     drdr.xp
 
-drdr.xp =
+drdr.xp b
 
-- drdr.xp =
+a drdr.xp b
 
-- drdr.xp
-
-
-    /*  -------------Email--------------- */
-    /* `$email^                           */
-
-
-
-    drdr.xp@gmail.com
-
-drdr.xp@gmail.com =
-
-- drdr.xp@gmail.com =
-
-- drdr.xp@gmail.com
-
-
-    /*  -------------File--------------- */
-    /* `file()^                          */
-
-
-
-    test.page
-
-test.page =
-
-- test.page =
-
-- test.page
-
-
-    /*  -------------[--------------- */
-    /* [`wrapped^]                    */
-
-
-
-[WRAPPED_TEXT]
-
-[WRAPPED_TEXT] =
-
-- [WRAPPED_TEXT] =
-
-- [WRAPPED_TEXT]
-
-
-    /*  -------------`--------------- */
-    /* \``wrapped^\`                  */
-
-
-
-`WRAPPED_TEXT`
-
-`WRAPPED_TEXT` =
-
-- `WRAPPED_TEXT` =
-
-- `WRAPPED_TEXT`
+a drdr.xp
 
 
     /*  -------------case--------------- */
     /* case `matched^ of                 */
-    /*    `pattern^ ->                   */
-    /*        `body^`...^;               */
-    /*    `patternn^ ->                  */
-    /*        `bodyn^`...^               */
+    /*     `pattern^ ->                  */
+    /*         `body^`...^;              */
+    /*     `patternn^ ->                 */
+    /*         `bodyn^`...^              */
     /* end `cursor^                      */
 
 
 
 case matched of
-   pattern ->
-       body;
-   patternn ->
-       bodyn;
-   patternn ->
-       bodyn
+    pattern ->
+        body;
+    patternn ->
+        bodyn;
+    patternn ->
+        bodyn;
+    patternn ->
+        bodyn
 end 
 
 case matched_TYPED of
-   pattern_TYPED ->
-       body_TYPED_TYPED
-end  =
+    pattern_TYPED ->
+        body_TYPED_TYPED
+end  b
 
-- case matched of
-   pattern ->
-       body;
-   patternn ->
-       bodyn;
-   patternn ->
-       bodyn
-end  =
+a case matched of
+    pattern ->
+        body;
+    patternn ->
+        bodyn;
+    patternn ->
+        bodyn;
+    patternn ->
+        bodyn
+end  b
 
-- case matched of
-   pattern ->
-       body;
-   patternn ->
-       bodyn;
-   patternn ->
-       bodyn
+a case matched of
+    pattern ->
+        body;
+    patternn ->
+        bodyn;
+    patternn ->
+        bodyn;
+    patternn ->
+        bodyn
 end 
 
 
@@ -177,16 +179,48 @@ end
 
 -define( what, def ).
 
--define( what_TYPED, def_TYPED ). =
+-define( what_TYPED, def_TYPED ). b
 
-- -define( what, def ). =
+a -define( what, def ). b
 
-- -define( what, def ).
+a -define( what, def ).
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+    drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+    test.page
+
+test.page b
+
+a test.page b
+
+a test.page
 
 
     /*  -------------fun--------------- */
     /* fun (`params^) `_^ -> `body^`    */
-    /*     `more...^                    */
+    /*     `more...{{^;                 */
+    /*     (`params^) `_^ -> `body^`    */
+    /*     `...{{^;                     */
+    /*     (`params^) `_^ -> `body^`    */
+    /*     `...^`}}^`}}^                */
     /* end `cursor^                     */
 
 
@@ -199,15 +233,15 @@ end
 
 fun (params_TYPED) __TYPED -> body_TYPED
     more_TYPED
-end  =
+end  b
 
-- fun (params) _ -> body;
+a fun (params) _ -> body;
     (params) _ -> body;
     (params) _ -> body;
     (params) _ -> body
-end  =
+end  b
 
-- fun (params) _ -> body;
+a fun (params) _ -> body;
     (params) _ -> body;
     (params) _ -> body;
     (params) _ -> body
@@ -228,23 +262,29 @@ funName ( args0 ) _ ->
 funName ( argsn ) _ ->
     bodyn;
 funName ( argsn ) _ ->
+    bodyn;
+funName ( argsn ) _ ->
     bodyn
 .
 
 funName_TYPED ( args0_TYPED ) __TYPED ->
     body0_TYPED _TYPED
-. =
+. b
 
-- funName ( args0 ) _ ->
+a funName ( args0 ) _ ->
     body0 ;
 funName ( argsn ) _ ->
     bodyn;
 funName ( argsn ) _ ->
+    bodyn;
+funName ( argsn ) _ ->
     bodyn
-. =
+. b
 
-- funName ( args0 ) _ ->
+a funName ( args0 ) _ ->
     body0 ;
+funName ( argsn ) _ ->
+    bodyn;
 funName ( argsn ) _ ->
     bodyn;
 funName ( argsn ) _ ->
@@ -254,108 +294,118 @@ funName ( argsn ) _ ->
 
     /*  -------------if--------------- */
     /* if                              */
-    /*    `cond^ ->                    */
-    /*        `body^` `...^;           */
-    /*    `cond2^ ->                   */
-    /*        `bodyn^` `...^           */
+    /*     `cond^ ->                   */
+    /*         `body^` `...^;          */
+    /*     `cond2^ ->                  */
+    /*         `bodyn^` `...^          */
     /* end `cursor^                    */
 
 
 
 if
-   cond ->
-       body;
-   cond2 ->
-       bodyn;
-   cond2 ->
-       bodyn
+    cond ->
+        body;
+    cond2 ->
+        bodyn;
+    cond2 ->
+        bodyn;
+    cond2 ->
+        bodyn
 end 
 
 if
-   cond_TYPED ->
-       body_TYPED _TYPED
-end  =
+    cond_TYPED ->
+        body_TYPED _TYPED
+end  b
 
-- if
-   cond ->
-       body;
-   cond2 ->
-       bodyn;
-   cond2 ->
-       bodyn
-end  =
+a if
+    cond ->
+        body;
+    cond2 ->
+        bodyn;
+    cond2 ->
+        bodyn;
+    cond2 ->
+        bodyn
+end  b
 
-- if
-   cond ->
-       body;
-   cond2 ->
-       bodyn;
-   cond2 ->
-       bodyn
+a if
+    cond ->
+        body;
+    cond2 ->
+        bodyn;
+    cond2 ->
+        bodyn;
+    cond2 ->
+        bodyn
 end 
 
 
     /*  -------------ifdef--------------- */
     /* -ifdef( `what^ ).                  */
-    /*   `thenmacro^                      */
+    /*     `thenmacro^                    */
     /* ``else...`                         */
-    /* ^-endif().                         */
+    /* {{^-else.                          */
+    /*     `cursor^                       */
+    /* `}}^-endif().                      */
 
 
 
 -ifdef( what ).
-  thenmacro
+    thenmacro
 -else.
-  
+    
 -endif().
 
 -ifdef( what_TYPED ).
-  thenmacro_TYPED
-  else_TYPED
-  -endif(). =
+    thenmacro_TYPED
+    else_TYPED
+-endif(). b
 
-- -ifdef( what ).
-  thenmacro
+a -ifdef( what ).
+    thenmacro
 -else.
-  
--endif(). =
+    
+-endif(). b
 
-- -ifdef( what ).
-  thenmacro
+a -ifdef( what ).
+    thenmacro
 -else.
-  
+    
 -endif().
 
 
     /*  -------------ifndef--------------- */
     /* -ifndef( `what^ ).                  */
-    /*   `thenmacro^                       */
+    /*     `thenmacro^                     */
     /* ``else...`                          */
-    /* ^-endif().                          */
+    /* {{^-else.                           */
+    /*     `cursor^                        */
+    /* `}}^-endif().                       */
 
 
 
 -ifndef( what ).
-  thenmacro
+    thenmacro
 -else.
-  
+    
 -endif().
 
 -ifndef( what_TYPED ).
-  thenmacro_TYPED
-  else_TYPED
-  -endif(). =
+    thenmacro_TYPED
+    else_TYPED
+-endif(). b
 
-- -ifndef( what ).
-  thenmacro
+a -ifndef( what ).
+    thenmacro
 -else.
-  
--endif(). =
+    
+-endif(). b
 
-- -ifndef( what ).
-  thenmacro
+a -ifndef( what ).
+    thenmacro
 -else.
-  
+    
 -endif().
 
 
@@ -366,92 +416,103 @@ end
 
 -include( ".hrl").
 
--include( ".hrl"). =
+-include( ".hrl"). b
 
-- -include( ".hrl"). =
+a -include( ".hrl"). b
 
-- -include( ".hrl").
+a -include( ".hrl").
 
 
     /*  -------------receive--------------- */
     /* receive                              */
-    /*    `pattern^ ->                      */
-    /*        `body^` `...^;                */
-    /*    `patternn^ ->                     */
-    /*        `body^` `...^`                */
-    /*    `after...^                        */
+    /*     `pattern^ ->                     */
+    /*         `body^` `...^;               */
+    /*     `patternn^ ->                    */
+    /*         `body^` `...^`               */
+    /*    `after...{{^                      */
+    /*     after                            */
+    /*     `afterBody^`}}^                  */
     /* end                                  */
 
 
 
 receive
-   pattern ->
-       body;
-   patternn ->
-       body;
-   patternn ->
-       body
-   after
+    pattern ->
+        body;
+    patternn ->
+        body;
+    patternn ->
+        body;
+    patternn ->
+        body
+    after
     afterBody
 end
 
 receive
-   pattern_TYPED ->
-       body_TYPED _TYPED
-   after_TYPED
-end =
+    pattern_TYPED ->
+        body_TYPED _TYPED
+after_TYPED
+end b
 
-- receive
-   pattern ->
-       body;
-   patternn ->
-       body;
-   patternn ->
-       body
-   after
+a receive
+    pattern ->
+        body;
+    patternn ->
+        body;
+    patternn ->
+        body;
+    patternn ->
+        body
+    after
     afterBody
-end =
+end b
 
-- receive
-   pattern ->
-       body;
-   patternn ->
-       body;
-   patternn ->
-       body
-   after
+a receive
+    pattern ->
+        body;
+    patternn ->
+        body;
+    patternn ->
+        body;
+    patternn ->
+        body
+    after
     afterBody
 end
 
 
     /*  -------------record--------------- */
     /* -record( `recordName^               */
-    /*        ,{ `field1^`...^             */
-    /*        ,  `fieldn^`...^             */
+    /*         ,{ `field1^`...^            */
+    /*         ,  `fieldn^`...^            */
     /*         }).                         */
 
 
 
 -record( recordName
-       ,{ field1
-       ,  fieldn
-       ,  fieldn
+        ,{ field1
+        ,  fieldn
+        ,  fieldn
+        ,  fieldn
         }).
 
 -record( recordName_TYPED
-       ,{ field1_TYPED_TYPED
-        }). =
+        ,{ field1_TYPED_TYPED
+        }). b
 
-- -record( recordName
-       ,{ field1
-       ,  fieldn
-       ,  fieldn
-        }). =
+a -record( recordName
+        ,{ field1
+        ,  fieldn
+        ,  fieldn
+        ,  fieldn
+        }). b
 
-- -record( recordName
-       ,{ field1
-       ,  fieldn
-       ,  fieldn
+a -record( recordName
+        ,{ field1
+        ,  fieldn
+        ,  fieldn
+        ,  fieldn
         }).
 
 
@@ -462,13 +523,16 @@ end
     /*     `...^;                       */
     /*     `except^ -> `toRet^`         */
     /*     `...^`                       */
-    /* `after...^                       */
+    /* `after...{{^                     */
+    /* after                            */
+    /*     `afterBody^`}}^              */
     /* end `cursor^                     */
 
 
 
 try what
 catch
+    except -> toRet;
     except -> toRet;
     except -> toRet;
     except -> toRet
@@ -479,21 +543,23 @@ end
 try what_TYPED
 catch
     except_TYPED -> toRet_TYPED
-        _TYPED
-    after_TYPED
-end  =
+    _TYPED
+after_TYPED
+end  b
 
-- try what
+a try what
 catch
+    except -> toRet;
     except -> toRet;
     except -> toRet;
     except -> toRet
 after
     afterBody
-end  =
+end  b
 
-- try what
+a try what
 catch
+    except -> toRet;
     except -> toRet;
     except -> toRet;
     except -> toRet
@@ -508,15 +574,18 @@ end
     /* catch                             */
     /*     `excep^ -> `toRet^` `...0^;   */
     /*     `except^ -> `toRet^` `...0^   */
-    /* `after...^                        */
+    /* `after...{{^after                 */
+    /*     `afterBody^`}}^               */
     /* end                               */
 
 
 
 try
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 catch
     excep -> toRet;
+    except -> toRet;
     except -> toRet;
     except -> toRet
 after
@@ -525,25 +594,30 @@ end
 
 try
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 catch
     excep_TYPED -> toRet_TYPED 0_TYPED
 after_TYPED
-end =
+endb
 
-- try
+a try
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 catch
     excep -> toRet;
+    except -> toRet;
     except -> toRet;
     except -> toRet
 after
     afterBody
-end =
+endb
 
-- try
+a try
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 catch
     excep -> toRet;
+    except -> toRet;
     except -> toRet;
     except -> toRet
 after
@@ -553,25 +627,29 @@ end
 
     /*  -------------tryof--------------- */
     /* try `what^ of                      */
-    /*    `pattern^ ->                    */
-    /*        `body^` `more...^;          */
-    /*    `patternn^ ->                   */
-    /*        `body^` `more...^           */
+    /*     `pattern^ ->                   */
+    /*         `body^` `more...^;         */
+    /*     `patternn^ ->                  */
+    /*         `body^` `more...^          */
     /* catch                              */
     /*     `excep^ -> `toRet^` `...^;     */
     /*     `except^ -> `toRet^` `...^`    */
-    /* `after...^                         */
+    /* `after...{{^                       */
+    /* after                              */
+    /*     `afterBody^`}}^                */
     /* end `cursor^                       */
 
 
 
 try what of
-   pattern ->
-       body;
-   patternn ->
-       body;
-   patternn ->
-       body
+    pattern ->
+        body;
+    patternn ->
+        body;
+    patternn ->
+        body;
+    patternn ->
+        body
 catch
     excep -> toRet;
     except -> toRet;
@@ -581,35 +659,39 @@ after
 end 
 
 try what_TYPED of
-   pattern_TYPED ->
-       body_TYPED more_TYPED
+    pattern_TYPED ->
+        body_TYPED more_TYPED
 catch
     excep_TYPED -> toRet_TYPED _TYPED
 after_TYPED
-end  =
+end  b
 
-- try what of
-   pattern ->
-       body;
-   patternn ->
-       body;
-   patternn ->
-       body
+a try what of
+    pattern ->
+        body;
+    patternn ->
+        body;
+    patternn ->
+        body;
+    patternn ->
+        body
 catch
     excep -> toRet;
     except -> toRet;
     except -> toRet
 after
     afterBody
-end  =
+end  b
 
-- try what of
-   pattern ->
-       body;
-   patternn ->
-       body;
-   patternn ->
-       body
+a try what of
+    pattern ->
+        body;
+    patternn ->
+        body;
+    patternn ->
+        body;
+    patternn ->
+        body
 catch
     excep -> toRet;
     except -> toRet;
@@ -619,16 +701,20 @@ after
 end 
 
 
-    /*  -------------{--------------- */
-    /* {`wrapped^}                    */
+    /*  -------------{_--------------- */
+    /* {`wrapped^}                     */
 
 
 
-{WRAPPED_TEXT}
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 
-{WRAPPED_TEXT} =
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
 
-- {WRAPPED_TEXT} =
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
 
-- {WRAPPED_TEXT}
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 

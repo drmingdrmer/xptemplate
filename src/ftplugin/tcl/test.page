@@ -1,8 +1,8 @@
 
 
 
-    /*  -------------"_--------------- */
-    /* "`wrapped^"                     */
+    #  -------------"_--------------- 
+    # "`wrapped^"                     
 
 
 
@@ -19,8 +19,8 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
-    /*  -------------'_--------------- */
-    /* '`wrapped^'                     */
+    #  -------------'_--------------- 
+    # '`wrapped^'                     
 
 
 
@@ -37,8 +37,8 @@ a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
-    /*  -------------(_--------------- */
-    /* (`wrapped^)                     */
+    #  -------------(_--------------- 
+    # (`wrapped^)                     
 
 
 
@@ -55,8 +55,8 @@ a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
-    /*  -------------<_--------------- */
-    /* <`wrapped^>                     */
+    #  -------------<_--------------- 
+    # <`wrapped^>                     
 
 
 
@@ -73,50 +73,8 @@ a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
-    /*  -------------Author--------------- */
-    /* `$author^                           */
-
-
-
-    drdr.xp
-
-    drdr.xp b
-
-    a drdr.xp b
-
-    a drdr.xp
-
-
-    /*  -------------Email--------------- */
-    /* `$email^                           */
-
-
-
-    drdr.xp@gmail.com
-
-    drdr.xp@gmail.com b
-
-    a drdr.xp@gmail.com b
-
-    a drdr.xp@gmail.com
-
-
-    /*  -------------File--------------- */
-    /* `file()^                          */
-
-
-
-    test.page
-
-    test.page b
-
-    a test.page b
-
-    a test.page
-
-
-    /*  -------------[_--------------- */
-    /* [`wrapped^]                     */
+    #  -------------[_--------------- 
+    # [`wrapped^]                     
 
 
 
@@ -133,8 +91,8 @@ a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
-    /*  -------------`_--------------- */
-    /* \``wrapped^\`                   */
+    #  -------------`_--------------- 
+    # \``wrapped^\`                   
 
 
 
@@ -151,185 +109,283 @@ a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
 
 
-    /*  -------------else--------------- */
-    /* else {                            */
-    /*      ~cursor^                     */
-    /* }                                 */
+    #  -------------Author--------------- 
+    # `$author^                           
 
 
 
-    else {
-         
-    }
+drdr.xp
 
-    else {
-         
-    } b
+drdr.xp b
 
-    a else {
-         
-    } b
+a drdr.xp b
 
-    a else {
-         
-    }
+a drdr.xp
 
 
-    /*  -------------elseif--------------- */
-    /* elseif {~a^} {                      */
-    /*      ~cursor^                       */
-    /* }                                   */
+    #  -------------else--------------- 
+    # else {                            
+    #      ~cursor^                     
+    # }                                 
 
 
 
-    elseif {a} {
-         
-    }
+else {
+     
+}
 
-    elseif {a_TYPED} {
-         
-    } b
+else {
+     
+} b
 
-    a elseif {a} {
-         
-    } b
+a else {
+     
+} b
 
-    a elseif {a} {
-         
-    }
+a else {
+     
+}
 
 
-    /*  -------------for---------------                */
-    /* for {set ~i^ ~x^} {$~i^ <= ~len^} {incr ~i^} {  */
-    /*     ~cursor^                                    */
-    /* }                                               */
+    #  -------------elseif--------------- 
+    # elseif {~a^} {                      
+    #      ~cursor^                       
+    # }                                   
 
 
 
-    for {set i x} {$i <= len} {incr i} {
-        
-    }                                              
+elseif {a} {
+     
+}
 
-    for {set i_TYPED x_TYPED} {$i_TYPED <= len_TYPED} {incr i_TYPED} {
-        
-    }                                               b
+elseif {a_TYPED} {
+     
+} b
 
-    a for {set i x} {$i <= len} {incr i} {
-        
-    }                                               b
+a elseif {a} {
+     
+} b
 
-    a for {set i x} {$i <= len} {incr i} {
-        
-    }                                              
+a elseif {a} {
+     
+}
 
 
-    /*  -------------foreach--------------- */
-    /* foreach ~i^ ~var^ {                  */
-    /*     ~cursor^                         */
-    /* }                                    */
+    #  -------------Email--------------- 
+    # `$email^                           
 
 
 
-    foreach i var {
-        
-    }
+drdr.xp@gmail.com
 
-    foreach i_TYPED var_TYPED {
-        
-    } b
+drdr.xp@gmail.com b
 
-    a foreach i var {
-        
-    } b
+a drdr.xp@gmail.com b
 
-    a foreach i var {
-        
-    }
+a drdr.xp@gmail.com
 
 
-    /*  -------------if--------------- */
-    /* if {~a^} {                      */
-    /*      ~cursor^                   */
-    /* }                               */
+    #  -------------File--------------- 
+    # `file()^                          
 
 
 
-    if {a} {
-         
-    }
+test.page
 
-    if {a_TYPED} {
-         
-    } b
+test.page b
 
-    a if {a} {
-         
-    } b
+a test.page b
 
-    a if {a} {
-         
-    }
+a test.page
 
 
-    /*  -------------proc--------------- */
-    /* proc ~name^ {~args^} {            */
-    /*      ~cursor^                     */
-    /* }                                 */
+    #  -------------for---------------                
+    # for {set ~i^ ~x^} {$~i^ <= ~len^} {incr ~i^} {  
+    #     ~cursor^                                    
+    # }                                               
 
 
 
-    proc name {args} {
-         
-    }
+for {set i x} {$i <= len} {incr i} {
+    
+}                                              
 
-    proc name_TYPED {args_TYPED} {
-         
-    } b
+for {set i_TYPED x_TYPED} {$i_TYPED <= len_TYPED} {incr i_TYPED} {
+    
+}                                               b
 
-    a proc name {args} {
-         
-    } b
+a for {set i x} {$i <= len} {incr i} {
+    
+}                                               b
 
-    a proc name {args} {
-         
-    }
+a for {set i x} {$i <= len} {incr i} {
+    
+}                                              
 
 
-    /*  -------------regexp--------------- */
-    /* regexp ~r^ ~str^ match ~vars^       */
+    #  -------------foreach--------------- 
+    # foreach ~i^ ~var^ {                  
+    #     ~cursor^                         
+    # }                                    
 
 
 
-    regexp r str match vars
+foreach i var {
+    
+}
 
-    regexp r_TYPED str_TYPED match vars_TYPED b
+foreach i_TYPED var_TYPED {
+    
+} b
 
-    a regexp r str match vars b
+a foreach i var {
+    
+} b
 
-    a regexp r str match vars
+a foreach i var {
+    
+}
 
 
-    /*  -------------regsub--------------- */
-    /* regsub ~in^ ~str^ ~out^             */
+    #  -------------if--------------- 
+    # if {~a^} {                      
+    #      ~cursor^                   
+    # }                               
 
 
 
-    regsub in str out
+if {a} {
+     
+}
 
-    regsub in_TYPED str_TYPED out_TYPED b
+if {a_TYPED} {
+     
+} b
 
-    a regsub in str out b
+a if {a} {
+     
+} b
 
-    a regsub in str out
+a if {a} {
+     
+}
 
 
-    /*  -------------switch--------------- */
-    /* switch ~var^ {                      */
-    /*     ~1^     { ~body1^ }             */
-    /*     ~2^     { ~body2^ }             */
-    /*     ~3^     { ~body3^ }             */
-    /*     default { ~body4^ }             */
-    /* }                                   */
+    #  -------------proc--------------- 
+    # proc ~name^ {~args^} {            
+    #      ~cursor^                     
+    # }                                 
+
+
+
+proc name {args} {
+     
+}
+
+proc name_TYPED {args_TYPED} {
+     
+} b
+
+a proc name {args} {
+     
+} b
+
+a proc name {args} {
+     
+}
+
+
+    #  -------------regexp--------------- 
+    # regexp ~r^ ~str^ match ~vars^       
+
+
+
+regexp r str match vars
+
+regexp r_TYPED str_TYPED match vars_TYPED b
+
+a regexp r str match vars b
+
+a regexp r str match vars
+
+
+    #  -------------regsub--------------- 
+    # regsub ~in^ ~str^ ~out^             
+
+
+
+regsub in str out
+
+regsub in_TYPED str_TYPED out_TYPED b
+
+a regsub in str out b
+
+a regsub in str out
+
+
+    #  -------------sb--------------- 
+    # _CMT_!/bin/sh                   
+    # _CMT_\                          
+    # exec tclsh "$0" "$@""           
+
+
+
+#!/bin/sh
+#\
+exec tclsh "$0" "$@""
+
+
+#!/bin/sh
+#\
+exec tclsh "$0" "$@""
+ b
+
+ a #!/bin/sh
+ #\
+ exec tclsh "$0" "$@""
+  b
+
+  a #!/bin/sh
+  #\
+  exec tclsh "$0" "$@""
+  
+
+
+    #  -------------shebang--------------- 
+    # _CMT_!/bin/sh                        
+    # _CMT_\                               
+    # exec tclsh "$0" "$@""                
+
+
+
+  #!/bin/sh
+  #\
+  exec tclsh "$0" "$@""
+  
+
+  #!/bin/sh
+  #\
+  exec tclsh "$0" "$@""
+   b
+
+   a #!/bin/sh
+   #\
+   exec tclsh "$0" "$@""
+    b
+
+    a #!/bin/sh
+    #\
+    exec tclsh "$0" "$@""
+    
+
+
+    #  -------------switch--------------- 
+    # switch ~var^ {                      
+    #     ~1^     { ~body1^ }             
+    #     ~2^     { ~body2^ }             
+    #     ~3^     { ~body3^ }             
+    #     default { ~body4^ }             
+    # }                                   
 
 
 
@@ -362,38 +418,10 @@ WRAPPED_TEXT_line2`
     }
 
 
-    /*  -------------tcl--------------- */
-    /* #!/bin/sh                        */
-    /* #\                               */
-    /* exec tclsh "$0" "$@""            */
-
-
-
-    #!/bin/sh
-    #\
-    exec tclsh "$0" "$@""
-    
-
-    #!/bin/sh
-    #\
-    exec tclsh "$0" "$@""
-     b
-
-     a #!/bin/sh
-     #\
-     exec tclsh "$0" "$@""
-      b
-
-      a #!/bin/sh
-      #\
-      exec tclsh "$0" "$@""
-      
-
-
-    /*  -------------while--------------- */
-    /* while {~i^ <= ~len^} {             */
-    /*     ~cursor^                       */
-    /* }                                  */
+    #  -------------while--------------- 
+    # while {~i^ <= ~len^} {             
+    #     ~cursor^                       
+    # }                                  
 
 
 
@@ -414,8 +442,8 @@ WRAPPED_TEXT_line2`
     }
 
 
-    /*  -------------{_--------------- */
-    /* {`wrapped^}                     */
+    #  -------------{_--------------- 
+    # {`wrapped^}                     
 
 
 

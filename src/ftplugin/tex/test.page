@@ -73,48 +73,6 @@ a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
-    %  -------------Author--------------- 
-    % `$author^                           
-
-
-
-    drdr.xp
-
-    drdr.xp b
-
-    a drdr.xp b
-
-    a drdr.xp
-
-
-    %  -------------Email--------------- 
-    % `$email^                           
-
-
-
-    drdr.xp@gmail.com
-
-    drdr.xp@gmail.com b
-
-    a drdr.xp@gmail.com b
-
-    a drdr.xp@gmail.com
-
-
-    %  -------------File--------------- 
-    % `file()^                          
-
-
-
-    test.page
-
-    test.page b
-
-    a test.page b
-
-    a test.page
-
-
     %  -------------[_--------------- 
     % [`wrapped^]                     
 
@@ -211,17 +169,31 @@ WRAPPED_TEXT_line2`
 
 
 
-\\WRAPPED_TEXT
+\WRAPPED_TEXT
 WRAPPED_TEXT_line2{}
 
-\\WRAPPED_TEXT
+\WRAPPED_TEXT
 WRAPPED_TEXT_line2{}b
 
-a \\WRAPPED_TEXT
+a \WRAPPED_TEXT
 WRAPPED_TEXT_line2{}b
 
-a \\WRAPPED_TEXT
+a \WRAPPED_TEXT
 WRAPPED_TEXT_line2{}
+
+
+    %  -------------Author--------------- 
+    % `$author^                           
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    a drdr.xp b
+
+    a drdr.xp
 
 
     %  -------------beg--------------- 
@@ -286,6 +258,48 @@ WRAPPED_TEXT_line2{}
     a \documentclass[11pt]{article}
 
 
+    %  -------------Email--------------- 
+    % `$email^                           
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com
+
+
+    %  -------------enclose_--------------- 
+    % \begin{`something~}                   
+    %     `wrapped~                         
+    % \end{`something~}                     
+
+
+
+\begin{something}
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+\end{something}
+
+\begin{something_TYPED}
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+\end{something_TYPED}b
+
+a \begin{something}
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+\end{something}b
+
+a \begin{something}
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+\end{something}
+
+
     %  -------------enumerate--------------- 
     % \begin{enumerate}                      
     % \item `what~~`...~                     
@@ -344,6 +358,20 @@ WRAPPED_TEXT_line2{}
     \end{equation}
 
 
+    %  -------------File--------------- 
+    % `file()^                          
+
+
+
+    test.page
+
+    test.page b
+
+    a test.page b
+
+    a test.page
+
+
     %  -------------frac--------------- 
     % \frac{`a~}{`b~}                   
 
@@ -358,6 +386,30 @@ WRAPPED_TEXT_line2{}
     a \frac{a}{b}
 
 
+    %  -------------frame--------------- 
+    % \begin{frame}{`title~}             
+    %     `cursor~                       
+    % \end{frame}                        
+
+
+
+    \begin{frame}{title}
+        
+    \end{frame}
+
+    \begin{frame}{title_TYPED}
+        
+    \end{frame} b
+
+    a \begin{frame}{title}
+        
+    \end{frame} b
+
+    a \begin{frame}{title}
+        
+    \end{frame}
+
+
     %  -------------info--------------- 
     % \title{`title~}                   
     % \author{`$author~}                
@@ -367,19 +419,19 @@ WRAPPED_TEXT_line2{}
 
     \title{title}
     \author{drdr.xp}
-    \date{2009 Sep 14}
+    \date{2009 Oct 08}
 
     \title{title_TYPED}
     \author{drdr.xp}
-    \date{2009 Sep 14} b
+    \date{2009 Oct 08} b
 
     a \title{title}
     \author{drdr.xp}
-    \date{2009 Sep 14} b
+    \date{2009 Oct 08} b
 
     a \title{title}
     \author{drdr.xp}
-    \date{2009 Sep 14}
+    \date{2009 Oct 08}
 
 
     %  -------------integral--------------- 
@@ -510,8 +562,8 @@ WRAPPED_TEXT_line2{}
     \end{slide}
 
 
-    %  -------------sqrt--------------- 
-    % \sqrt`n...~{`cursor~}             
+    %  -------------sqrt---------------  
+    % \sqrt`n...{{~[`nth~]`}}~{`cursor~} 
 
 
 
@@ -620,11 +672,11 @@ WRAPPED_TEXT_line2}
     WRAPPED_TEXT_line2}
 
     {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}b
+        WRAPPED_TEXT_line2}b
 
-    a {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}b
+        a {WRAPPED_TEXT
+                WRAPPED_TEXT_line2}b
 
-    a {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}
+                a {WRAPPED_TEXT
+                                WRAPPED_TEXT_line2}
 

@@ -1,18 +1,22 @@
 
 
 
-    /*  -------------"--------------- */
-    /* "`wrapped^"                    */
+    /*  -------------"_--------------- */
+    /* "`wrapped^"                     */
 
 
 
-"WRAPPED_TEXT"
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
-"WRAPPED_TEXT" =
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-- "WRAPPED_TEXT" =
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-- "WRAPPED_TEXT"
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
 
     /*  -------------#if--------------- */
@@ -28,13 +32,13 @@
 
 #if 0_TYPED
 
-#endif =
+#endif b
 
-- #if 0
+a #if 0
 
-#endif =
+#endif b
 
-- #if 0
+a #if 0
 
 #endif
 
@@ -49,21 +53,25 @@
 
 #if 0
 WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
 #endif
 
 #if 0_TYPED
 WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
-#endif =
+#endifb
 
-- #if 0
+a #if 0
 WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
-#endif =
+#endifb
 
-- #if 0
+a #if 0
 WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
 #endif
 
@@ -81,13 +89,13 @@ WRAPPED_TEXT
 
 #ifdef identifier_TYPED
 
-#endif =
+#endif b
 
-- #ifdef identifier
+a #ifdef identifier
 
-#endif =
+#endif b
 
-- #ifdef identifier
+a #ifdef identifier
 
 #endif
 
@@ -102,21 +110,25 @@ WRAPPED_TEXT
 
 #ifdef identifier
 WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
 #endif
 
 #ifdef identifier_TYPED
 WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
-#endif =
+#endifb
 
-- #ifdef identifier
+a #ifdef identifier
 WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
-#endif =
+#endifb
 
-- #ifdef identifier
+a #ifdef identifier
 WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
 #endif
 
@@ -140,15 +152,15 @@ WRAPPED_TEXT
 #     define SYMBOL_TYPED
 
  
-#endif /* SYMBOL_TYPED */ =
+#endif /* SYMBOL_TYPED */ b
 
-- #ifndef TEST
+a #ifndef TEST
 #     define TEST
 
  
-#endif /* TEST */ =
+#endif /* TEST */ b
 
-- #ifndef TEST
+a #ifndef TEST
 #     define TEST
 
  
@@ -165,21 +177,25 @@ WRAPPED_TEXT
 
 #ifndef identifier
 WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
 #endif
 
 #ifndef identifier_TYPED
 WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
-#endif =
+#endifb
 
-- #ifndef identifier
+a #ifndef identifier
 WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
-#endif =
+#endifb
 
-- #ifndef identifier
+a #ifndef identifier
 WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
 #endif
 
@@ -191,11 +207,11 @@ WRAPPED_TEXT
 
 #include <.h>
 
-#include <_TYPED.h> =
+#include <_TYPED.h> b
 
-- #include <.h> =
+a #include <.h> b
 
-- #include <.h>
+a #include <.h>
 
 
     /*  -------------#include_user--------------- */
@@ -205,11 +221,11 @@ WRAPPED_TEXT
 
 #include "test.h"
 
-#include "me_TYPED.h" =
+#include "me_TYPED.h" b
 
-- #include "test.h" =
+a #include "test.h" b
 
-- #include "test.h"
+a #include "test.h"
 
 
     /*  -------------#ind--------------- */
@@ -219,123 +235,101 @@ WRAPPED_TEXT
 
 #include "test.h"
 
-#include "me_TYPED.h" =
+#include "me_TYPED.h" b
 
-- #include "test.h" =
+a #include "test.h" b
 
-- #include "test.h"
+a #include "test.h"
 
 
-    /*  -------------'--------------- */
-    /* '`wrapped^'                    */
+    /*  -------------'_--------------- */
+    /* '`wrapped^'                     */
 
 
 
-'WRAPPED_TEXT'
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
-'WRAPPED_TEXT' =
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-- 'WRAPPED_TEXT' =
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-- 'WRAPPED_TEXT'
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
 
-    /*  -------------(--------------- */
-    /* (`wrapped^)                    */
+    /*  -------------(_--------------- */
+    /* (`wrapped^)                     */
 
 
 
-(WRAPPED_TEXT)
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
-    (WRAPPED_TEXT) =
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
 
-    - (WRAPPED_TEXT) =
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
 
-    - (WRAPPED_TEXT)
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
 
-    /*  -------------<--------------- */
-    /* <`wrapped^>                    */
+    /*  -------------<_--------------- */
+    /* <`wrapped^>                     */
 
 
 
-<WRAPPED_TEXT>
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
 
-<WRAPPED_TEXT> =
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
 
-- <WRAPPED_TEXT> =
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
 
-- <WRAPPED_TEXT>
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
 
 
-    /*  -------------Author--------------- */
-    /* `$author^                           */
+    /*  -------------[_--------------- */
+    /* [`wrapped^]                     */
 
 
 
-drdr.xp
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
 
-drdr.xp =
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
 
-- drdr.xp =
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
 
-- drdr.xp
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
 
 
-    /*  -------------Email--------------- */
-    /* `$email^                           */
+    /*  -------------`_--------------- */
+    /* \``wrapped^\`                   */
 
 
 
-drdr.xp@gmail.com
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
-drdr.xp@gmail.com =
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
 
-- drdr.xp@gmail.com =
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
 
-- drdr.xp@gmail.com
-
-
-    /*  -------------File--------------- */
-    /* `file()^                          */
-
-
-
-test.page
-
-test.page =
-
-- test.page =
-
-- test.page
-
-
-    /*  -------------[--------------- */
-    /* [`wrapped^]                    */
-
-
-
-[WRAPPED_TEXT]
-
-[WRAPPED_TEXT] =
-
-- [WRAPPED_TEXT] =
-
-- [WRAPPED_TEXT]
-
-
-    /*  -------------`--------------- */
-    /* \``wrapped^\`                  */
-
-
-
-`WRAPPED_TEXT`
-
-`WRAPPED_TEXT` =
-
-- `WRAPPED_TEXT` =
-
-- `WRAPPED_TEXT`
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
 
     /*  -------------assert--------------- */
@@ -345,46 +339,58 @@ test.page =
 
 assert(isTrue, "text")
 
-assert(isTrue_TYPED, "text_TYPED") =
+assert(isTrue_TYPED, "text_TYPED") b
 
-- assert(isTrue, "text") =
+a assert(isTrue, "text") b
 
-- assert(isTrue, "text")
+a assert(isTrue, "text")
 
 
-    /*  -------------bitfield--------------- */
-    /* struct `structName^                   */
-    /* {                                     */
-    /*     `type^ `field^ : `bits^;`         */
-    /*     `...^                             */
-    /*     `type^ `field^ : `bits^;`         */
-    /*     `...^                             */
-    /* }` `var^^;                            */
+    /*  -------------Author--------------- */
+    /* `$author^                           */
 
 
 
-struct structName
-{
+drdr.xp
+
+drdr.xp b
+
+a drdr.xp b
+
+a drdr.xp
+
+
+    /*  -------------bitfield---------------     */
+    /* struct `structName^`$STRUCT_BRACKET_STL^{ */
+    /*     `type^ `field^ : `bits^;`             */
+    /*     `...^                                 */
+    /*     `type^ `field^ : `bits^;`             */
+    /*     `...^                                 */
+    /* }` `var^^;                                */
+
+
+
+struct structName {
+    type field : bits;
     type field : bits;
     type field : bits;
     type field : bits;
 } ;
 
-struct structName_TYPED
-{
+struct structName_TYPED {
     type_TYPED field_TYPED : bits_TYPED;
-        _TYPED
-} var_TYPED; =
+    _TYPED
+} var_TYPED; b
 
-- struct structName
-{
+a struct structName {
     type field : bits;
     type field : bits;
     type field : bits;
-} ; =
+    type field : bits;
+} ; b
 
-- struct structName
-{
+a struct structName {
+    type field : bits;
     type field : bits;
     type field : bits;
     type field : bits;
@@ -392,31 +398,53 @@ struct structName_TYPED
 
 
     /*  -------------call_--------------- */
-    /* `name^(`wrapped^`, `p?^)`cursor^   */
+    /* `name^(`wrapped^`, `p*^)`cursor^   */
 
 
 
-name(WRAPPED_TEXT)
+name(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
-    name_TYPED(WRAPPED_TEXT, p_TYPED, p_TYPED) =
+name_TYPED(WRAPPED_TEXT
+WRAPPED_TEXT_line2, p_TYPED, p_TYPED, p_TYPED)b
 
-    - name(WRAPPED_TEXT) =
+a name(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
 
-    - name(WRAPPED_TEXT)
+a name(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
 
     /*  -------------comment--------------- */
-    /* `$CL^ `cursor^ `$CR^                 */
+    /* `$CL^ `what^ `$CR^                   */
 
 
 
-    /*  */
+/* what */
 
-    /*  */ =
+/* what_TYPED */ b
 
-    - /*  */ =
+a /* what */ b
 
-    - /*  */
+a /* what */
+
+
+    /*  -------------comment_--------------- */
+    /* `$CL^ `wrapped^ `$CR^                 */
+
+
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
 
 
     /*  -------------commentBlock--------------- */
@@ -426,21 +454,49 @@ name(WRAPPED_TEXT)
 
 
 
-    /* 
-     * 
-     */
+/* 
+ * 
+ */
 
-    /* 
-     * 
-     */ =
+/* 
+ * 
+ */ b
 
-    - /* 
-     * 
-     */ =
+a /* 
+ * 
+ */ b
 
-    - /* 
-     * 
-     */
+a /* 
+ * 
+ */
+
+
+    /*  -------------commentBlock_--------------- */
+    /* `$CL^                                      */
+    /*  `$CM^ `wrapped^                           */
+    /*  `$CR^                                     */
+
+
+
+/* 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */
+
+/* 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */b
+
+a /* 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */b
+
+a /* 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */
 
 
     /*  -------------commentDoc--------------- */
@@ -450,49 +506,81 @@ name(WRAPPED_TEXT)
 
 
 
-    /** 
-     * 
-     */
+/** 
+ * 
+ */
 
-    /** 
-     * 
-     */ =
+/** 
+ * 
+ */ b
 
-    - /** 
-     * 
-     */ =
+a /** 
+ * 
+ */ b
 
-    - /** 
-     * 
-     */
+a /** 
+ * 
+ */
+
+
+    /*  -------------commentDoc_--------------- */
+    /* `$CL^`$CM^                               */
+    /*  `$CM^ `wrapped^                         */
+    /*  `$CR^                                   */
+
+
+
+/** 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */
+
+/** 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */b
+
+a /** 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */b
+
+a /** 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */
 
 
     /*  -------------commentLine--------------- */
-    /* `$CL^ `cursor^ `$CR^                     */
+    /* `$CL^ `what^ `$CR^                       */
 
 
 
-    /*  */
+/* what */
 
-    /*  */ =
+/* what_TYPED */ b
 
-    - /*  */ =
+a /* what */ b
 
-    - /*  */
-
-
-    /*  -------------comment_--------------- */
-    /* `$CL^ `wrapped^ `$CR^                 */
+a /* what */
 
 
+    /*  -------------commentLine_--------------- */
+    /* `$CL^ `wrapped^ `$CR^                     */
 
-/* WRAPPED_TEXT */
 
-    /* WRAPPED_TEXT */ =
 
-    - /* WRAPPED_TEXT */ =
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
 
-    - /* WRAPPED_TEXT */
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
 
 
     /*  -------------do---------------           */
@@ -502,21 +590,45 @@ name(WRAPPED_TEXT)
 
 
 
-    do {
-        
-    } while (condition);
+do {
+    
+} while (condition);
 
 do {
     
-} while (condition_TYPED); =
+} while (condition_TYPED); b
 
-- do {
+a do {
     
-} while (condition); =
+} while (condition); b
 
-- do {
+a do {
     
 } while (condition);
+
+
+    /*  -------------elif---------------       */
+    /* else if (`condition^)`$IF_BRACKET_STL^{ */
+    /*     `job^                               */
+    /* }                                       */
+
+
+
+else if (condition) {
+    /* void */;
+}
+
+else if (condition_TYPED) {
+    job_TYPED
+} b
+
+a else if (condition) {
+    /* void */;
+} b
+
+a else if (condition) {
+    /* void */;
+}
 
 
     /*  -------------else--------------- */
@@ -532,13 +644,13 @@ else {
 
 else {
     
-} =
+} b
 
-- else {
+a else {
     
-} =
+} b
 
-- else {
+a else {
     
 }
 
@@ -552,52 +664,70 @@ else {
 
 else {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
 
 else {
     WRAPPED_TEXT
-} =
+    WRAPPED_TEXT_line2
+}b
 
-- else {
+a else {
     WRAPPED_TEXT
-} =
+    WRAPPED_TEXT_line2
+}b
 
-- else {
+a else {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
 
 
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com
+
+
     /*  -------------enum--------------- */
-    /* enum `name^                       */
-    /* {                                 */
+    /* enum `name^`$STRUCT_BRACKET_STL^{ */
     /*     `elt^;`                       */
-    /*     `...^                         */
+    /*     `...{^                        */
+    /*     `elt^;`                       */
+    /*     `...^`}^                      */
     /* }` `var^;                         */
 
 
 
-enum name
-{
+enum name {
+    elt;
     elt;
     elt;
     elt;
 } var;
 
-enum name_TYPED
-{
+enum name_TYPED {
     elt_TYPED;
-        _TYPED
-} var_TYPED; =
+    _TYPED
+} var_TYPED; b
 
-- enum name
-{
+a enum name {
     elt;
     elt;
     elt;
-} var; =
+    elt;
+} var; b
 
-- enum name
-{
+a enum name {
+    elt;
     elt;
     elt;
     elt;
@@ -605,7 +735,7 @@ enum name_TYPED
 
 
     /*  -------------fcomment--------------- */
-    /* /**                                   */
+    /* _CMT_*                                */
     /*  * @author : `$author^ | `$email^     */
     /*  * @description                       */
     /*  *     `cursor^                       */
@@ -626,16 +756,16 @@ enum name_TYPED
  * @description
  *     
  * @return {int_TYPED} desc_TYPED
- */ =
+ */ b
 
-- /**
+a /**
  * @author : drdr.xp | drdr.xp@gmail.com
  * @description
  *     
  * @return {int} desc
- */ =
+ */ b
 
-- /**
+a /**
  * @author : drdr.xp | drdr.xp@gmail.com
  * @description
  *     
@@ -643,8 +773,22 @@ enum name_TYPED
  */
 
 
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+test.page
+
+test.page b
+
+a test.page b
+
+a test.page
+
+
     /*  -------------filehead---------------                                  */
-    /* /**-------------------------/// `sum^ \\\---------------------------   */
+    /* _CMT_*-------------------------/// `sum^ \\\--------------------------- */
     /*  *                                                                     */
     /*  * <b>`function^</b>                                                   */
     /*  * @version : `1.0^                                                    */
@@ -666,7 +810,7 @@ enum name_TYPED
  *
  * <b>function</b>
  * @version : 1.0
- * @since : 2009 Sep 09
+ * @since : 2009 Oct 08
  * 
  * @description :
  *     
@@ -683,7 +827,7 @@ enum name_TYPED
  *
  * <b>function_TYPED</b>
  * @version : 10_TYPED
- * @since : 2009 Sep 09
+ * @since : 2009 Oct 08
  * 
  * @description :
  *     
@@ -694,13 +838,13 @@ enum name_TYPED
  * @TODO : 
  * 
  *--------------------------\\\ sum_TYPED ///---------------------------*/
- =
+ b
 
- - /**-------------------------/// sum \\\---------------------------
+ a /**-------------------------/// sum \\\---------------------------
   *
   * <b>function</b>
   * @version : 1.0
-  * @since : 2009 Sep 09
+  * @since : 2009 Oct 08
   * 
   * @description :
   *     
@@ -711,13 +855,13 @@ enum name_TYPED
   * @TODO : 
   * 
   *--------------------------\\\ sum ///---------------------------*/
-  =
+  b
 
-  - /**-------------------------/// sum \\\---------------------------
+  a /**-------------------------/// sum \\\---------------------------
    *
    * <b>function</b>
    * @version : 1.0
-   * @since : 2009 Sep 09
+   * @since : 2009 Oct 08
    * 
    * @description :
    *     
@@ -731,26 +875,26 @@ enum name_TYPED
   
 
 
-    /*  -------------for---------------                       */
-    /* for (`i^ = `0^; `i^ < `len^; ++`i^)`$FOR_BRACKET_STL^{ */
-    /*     `cursor^                                           */
-    /* }                                                      */
+    /*  -------------for---------------                                                                   */
+    /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$FOR_BRACKET_STL^{ */
+    /*     `cursor^                                                                                       */
+    /* }                                                                                                  */
 
 
 
-  for (i = 0; i < len; ++i) {
+  for ( i = 0; i < len; ++i ) {
       
   }
 
-for (i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED) {
+for ( i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED ) {
     
-} =
+} b
 
-- for (i = 0; i < len; ++i) {
+a for ( i = 0; i < len; ++i ) {
     
-} =
+} b
 
-- for (i = 0; i < len; ++i) {
+a for ( i = 0; i < len; ++i ) {
     
 }
 
@@ -760,35 +904,59 @@ for (i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED) {
 
 
 
-for (;;) /* void */;
+for (;;) /* void */
 
-for (;;) body_TYPED =
+for (;;) body_TYPED b
 
-- for (;;) /* void */; =
+a for (;;) /* void */ b
 
-- for (;;) /* void */;
-
-
-    /*  -------------forr---------------                         */
-    /* for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$FOR_BRACKET_STL^{ */
-    /*     `cursor^                                              */
-    /* }                                                         */
+a for (;;) /* void */
 
 
+    /*  -------------fornn---------------                                                                             */
+    /* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$FOR_BRACKET_STL^{ */
+    /*     `cursor^                                                                                                   */
+    /* }                                                                                                              */
 
-for (i = n; i >= end; --i) {
+
+
+for ( ptr = init; NULL != ptr; ptr ) {
     
 }
 
-for (i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED) {
+for ( ptr_TYPED = init_TYPED; NULL != ptr_TYPED; ptrOp_TYPED ) {
     
-} =
+} b
 
-- for (i = n; i >= end; --i) {
+a for ( ptr = init; NULL != ptr; ptr ) {
     
-} =
+} b
 
-- for (i = n; i >= end; --i) {
+a for ( ptr = init; NULL != ptr; ptr ) {
+    
+}
+
+
+    /*  -------------forr---------------                                                                     */
+    /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$FOR_BRACKET_STL^{ */
+    /*     `cursor^                                                                                          */
+    /* }                                                                                                     */
+
+
+
+for ( i = 0; i >= end; --i ) {
+    
+}
+
+for ( i_TYPED = 0_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED ) {
+    
+} b
+
+a for ( i = 0; i >= end; --i ) {
+    
+} b
+
+a for ( i = 0; i >= end; --i ) {
     
 }
 
@@ -800,11 +968,11 @@ for (i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED) {
 
 fprintf( stream, "pattern" )
 
-fprintf( stream_TYPED, "pattern_TYPED" ) =
+fprintf( stream_TYPED, "pattern_TYPED" ) b
 
-- fprintf( stream, "pattern" ) =
+a fprintf( stream, "pattern" ) b
 
-- fprintf( stream, "pattern" )
+a fprintf( stream, "pattern" )
 
 
     /*  -------------fun---------------                                                   */
@@ -814,87 +982,85 @@ fprintf( stream_TYPED, "pattern_TYPED" ) =
 
 
 
-    int
-name()
-{
+int name() {
     
 }
 
-    int_TYPED
-name_TYPED(param_TYPED)
-{
+int_TYPED name_TYPED(param_TYPED) {
     
-} =
+} b
 
--     int
-name()
-{
+a int name() {
     
-} =
+} b
 
--     int
-name()
-{
+a int name() {
     
 }
 
 
-    /*  -------------if---------------     */
-    /* if (`condition^)`$IF_BRACKET_STL^{  */
-    /*     `job^                           */
-    /* }` `else...^                        */
+    /*  -------------if---------------                     */
+    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /*     `job^                                           */
+    /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (condition) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 if (condition_TYPED) { 
     job_TYPED
-} else_TYPED =
+} else_TYPED b
 
-- if (condition) { 
+a if (condition) { 
     /* void */;
-} else { 
+}
+else {
     
-} =
+} b
 
-- if (condition) { 
+a if (condition) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 
-    /*  -------------if0---------------    */
-    /* if (`condition^)`$IF_BRACKET_STL^{  */
-    /*     `job^                           */
-    /* }` `else...^                        */
+    /*  -------------if0---------------                    */
+    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /*     `job^                                           */
+    /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (0 == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 if (0 == var_TYPED) { 
     job_TYPED
-} else_TYPED =
+} else_TYPED b
 
-- if (0 == var) { 
+a if (0 == var) { 
     /* void */;
-} else { 
+}
+else {
     
-} =
+} b
 
-- if (0 == var) { 
+a if (0 == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -908,18 +1074,22 @@ if (0 == var_TYPED) {
 
 if (condition) {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
 
 if (condition_TYPED) {
     WRAPPED_TEXT
-} =
+    WRAPPED_TEXT_line2
+}b
 
-- if (condition) {
+a if (condition) {
     WRAPPED_TEXT
-} =
+    WRAPPED_TEXT_line2
+}b
 
-- if (condition) {
+a if (condition) {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
 
 
@@ -936,21 +1106,27 @@ if (condition) {
     /* void */;
 } else if (condition) {
     /* void */;
+} else if (condition) {
+    /* void */;
 }
 
 if (condition_TYPED) {
     job_TYPED
-} else_if_TYPED =
+} else_if_TYPED b
 
-- if (condition) {
+a if (condition) {
     /* void */;
 } else if (condition ) {
     /* void */;
 } else if (condition ) {
     /* void */;
-} =
+} else if (condition ) {
+    /* void */;
+} b
 
-- if (condition) {
+a if (condition) {
+    /* void */;
+} else if (condition) {
     /* void */;
 } else if (condition) {
     /* void */;
@@ -959,105 +1135,114 @@ if (condition_TYPED) {
 }
 
 
-    /*  -------------ifn---------------    */
-    /* if (`condition^)`$IF_BRACKET_STL^{  */
-    /*     `job^                           */
-    /* }` `else...^                        */
+    /*  -------------ifn---------------                    */
+    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /*     `job^                                           */
+    /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (NULL == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 if (NULL == var_TYPED) { 
     job_TYPED
-} else_TYPED =
+} else_TYPED b
 
-- if (NULL == var) { 
+a if (NULL == var) { 
     /* void */;
-} else { 
+}
+else {
     
-} =
+} b
 
-- if (NULL == var) { 
+a if (NULL == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 
-    /*  -------------ifn0---------------   */
-    /* if (`condition^)`$IF_BRACKET_STL^{  */
-    /*     `job^                           */
-    /* }` `else...^                        */
+    /*  -------------ifn0---------------                   */
+    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /*     `job^                                           */
+    /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (0 != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 if (0 != var_TYPED) { 
     job_TYPED
-} else_TYPED =
+} else_TYPED b
 
-- if (0 != var) { 
+a if (0 != var) { 
     /* void */;
-} else { 
+}
+else {
     
-} =
+} b
 
-- if (0 != var) { 
+a if (0 != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 
-    /*  -------------ifnn---------------   */
-    /* if (`condition^)`$IF_BRACKET_STL^{  */
-    /*     `job^                           */
-    /* }` `else...^                        */
+    /*  -------------ifnn---------------                   */
+    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /*     `job^                                           */
+    /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (NULL != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 if (NULL != var_TYPED) { 
     job_TYPED
-} else_TYPED =
+} else_TYPED b
 
-- if (NULL != var) { 
+a if (NULL != var) { 
     /* void */;
-} else { 
+}
+else {
     
-} =
+} b
 
-- if (NULL != var) { 
+a if (NULL != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 
     /*  -------------lex--------------- */
     /* %{                               */
-    /* /* includes _cmt_                */
+    /* _CMT_ includes _cmt_             */
     /* %}                               */
-    /* /* options _cmt_                 */
+    /* _CMT_ options _cmt_              */
     /* %%                               */
-    /* /* rules _cmt_                   */
+    /* _CMT_ rules _cmt_                */
     /* %%                               */
-    /* /* C code _cmt_                  */
+    /* _CMT_ C code _cmt_               */
 
 
 
@@ -1077,18 +1262,18 @@ if (NULL != var_TYPED) {
 %%
 /* rules */
 %%
-/* C code */ =
+/* C code */ b
 
-- %{
+a %{
 /* includes */
 %}
 /* options */
 %%
 /* rules */
 %%
-/* C code */ =
+/* C code */ b
 
-- %{
+a %{
 /* includes */
 %}
 /* options */
@@ -1098,39 +1283,30 @@ if (NULL != var_TYPED) {
 /* C code */
 
 
-    /*  -------------main---------------                                        */
-    /* `c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv) */
-    /* {                                                                        */
-    /*     `cursor^                                                             */
-    /*     return 0;                                                            */
-    /* }                                                                        */
+    /*  -------------main---------------                                                            */
+    /* `c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv)`$FUNC_BRACKET_STL^{ */
+    /*     `cursor^                                                                                 */
+    /*     return 0;                                                                                */
+    /* }                                                                                            */
 
 
 
-    int
-main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     
     return 0;
 }
 
-    int
-main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     
     return 0;
-} =
+} b
 
--     int
-main(int argc, char **argv)
-{
+a int main(int argc, char **argv) {
     
     return 0;
-} =
+} b
 
--     int
-main(int argc, char **argv)
-{
+a int main(int argc, char **argv) {
     
     return 0;
 }
@@ -1155,15 +1331,15 @@ main(int argc, char **argv)
 #     define symbol_TYPED
 
 
-#endif /* symbol_TYPED */ =
+#endif /* symbol_TYPED */ b
 
-- #ifndef __TEST_PAGE__
+a #ifndef __TEST_PAGE__
 #     define __TEST_PAGE__
 
 
-#endif /* __TEST_PAGE__ */ =
+#endif /* __TEST_PAGE__ */ b
 
-- #ifndef __TEST_PAGE__
+a #ifndef __TEST_PAGE__
 #     define __TEST_PAGE__
 
 
@@ -1177,11 +1353,29 @@ main(int argc, char **argv)
 
 printf( "pattern" )
 
-printf( "pattern_TYPED" ) =
+printf( "pattern_TYPED" ) b
 
-- printf( "pattern" ) =
+a printf( "pattern" ) b
 
-- printf( "pattern" )
+a printf( "pattern" )
+
+
+    /*  -------------rule_--------------- */
+    /* `wrapped^       { `cursor^ }       */
+
+
+
+WRAPPED_TEXT
+WRAPPED_TEXT_line2       {  }
+
+WRAPPED_TEXT
+WRAPPED_TEXT_line2       {  }b
+
+a WRAPPED_TEXT
+WRAPPED_TEXT_line2       {  }b
+
+a WRAPPED_TEXT
+WRAPPED_TEXT_line2       {  }
 
 
     /*  -------------ruleList--------------- */
@@ -1193,30 +1387,19 @@ printf( "pattern_TYPED" ) =
 reg           { return }
 reg           { return }
 reg           { return }
-
-reg_TYPED           { return_TYPED }_TYPED =
-
-- reg           { return }
-reg           { return }
-reg           { return } =
-
-- reg           { return }
-reg           { return }
 reg           { return }
 
+reg_TYPED           { return_TYPED }_TYPED b
 
-    /*  -------------rule_--------------- */
-    /* `wrapped^       { `cursor^ }       */
+a reg           { return }
+reg           { return }
+reg           { return }
+reg           { return } b
 
-
-
-WRAPPED_TEXT       {  }
-
-WRAPPED_TEXT       {  } =
-
-- WRAPPED_TEXT       {  } =
-
-- WRAPPED_TEXT       {  }
+a reg           { return }
+reg           { return }
+reg           { return }
+reg           { return }
 
 
     /*  -------------snprintf---------------        */
@@ -1226,11 +1409,11 @@ WRAPPED_TEXT       {  } =
 
 snprintf( str, size, "pattern" )
 
-snprintf( str_TYPED, size_TYPED, "pattern_TYPED" ) =
+snprintf( str_TYPED, size_TYPED, "pattern_TYPED" ) b
 
-- snprintf( str, size, "pattern" ) =
+a snprintf( str, size, "pattern" ) b
 
-- snprintf( str, size, "pattern" )
+a snprintf( str, size, "pattern" )
 
 
     /*  -------------sprintf--------------- */
@@ -1240,46 +1423,44 @@ snprintf( str_TYPED, size_TYPED, "pattern_TYPED" ) =
 
 sprintf( str, "pattern" )
 
-sprintf( str_TYPED, "pattern_TYPED" ) =
+sprintf( str_TYPED, "pattern_TYPED" ) b
 
-- sprintf( str, "pattern" ) =
+a sprintf( str, "pattern" ) b
 
-- sprintf( str, "pattern" )
-
-
-    /*  -------------struct--------------- */
-    /* struct `structName^                 */
-    /* {                                   */
-    /*     `type^ `field^;`                */
-    /*     `...^                           */
-    /*     `type^ `field^;`                */
-    /*     `...^                           */
-    /* }` `var^^;                          */
+a sprintf( str, "pattern" )
 
 
+    /*  -------------struct---------------       */
+    /* struct `structName^`$STRUCT_BRACKET_STL^{ */
+    /*     `type^ `field^;`                      */
+    /*     `...^                                 */
+    /*     `type^ `field^;`                      */
+    /*     `...^                                 */
+    /* }` `var^^;                                */
 
-struct structName
-{
+
+
+struct structName {
+    type field;
     type field;
     type field;
     type field;
 } ;
 
-struct structName_TYPED
-{
+struct structName_TYPED {
     type_TYPED field_TYPED;
-        _TYPED
-} var_TYPED; =
+    _TYPED
+} var_TYPED; b
 
-- struct structName
-{
+a struct structName {
     type field;
     type field;
     type field;
-} ; =
+    type field;
+} ; b
 
-- struct structName
-{
+a struct structName {
+    type field;
     type field;
     type field;
     type field;
@@ -1312,6 +1493,10 @@ switch (var) {
         /* void */;
         break;
 
+    case constant :
+        /* void */;
+        break;
+
     default:
         
 }
@@ -1324,9 +1509,13 @@ switch (var_TYPED) {
     case_TYPED
 
     default_TYPED
-} =
+} b
 
-- switch (var) {
+a switch (var) {
+    case constant :
+        /* void */;
+        break;
+
     case constant :
         /* void */;
         break;
@@ -1341,9 +1530,13 @@ switch (var_TYPED) {
 
     default:
         
-} =
+} b
 
-- switch (var) {
+a switch (var) {
+    case constant :
+        /* void */;
+        break;
+
     case constant :
         /* void */;
         break;
@@ -1374,13 +1567,13 @@ while (condition) {
 
 while (condition_TYPED) {
     
-} =
+} b
 
-- while (condition) {
+a while (condition) {
     
-} =
+} b
 
-- while (condition) {
+a while (condition) {
     
 }
 
@@ -1398,13 +1591,13 @@ do {
 
 do {
     
-} while (0); =
+} while (0); b
 
-- do {
+a do {
     
-} while (0); =
+} while (0); b
 
-- do {
+a do {
     
 } while (0);
 
@@ -1422,13 +1615,13 @@ while (1) {
 
 while (1) {
     
-} =
+} b
 
-- while (1) {
+a while (1) {
     
-} =
+} b
 
-- while (1) {
+a while (1) {
     
 }
 
@@ -1446,27 +1639,31 @@ while (NULL != var) {
 
 while (NULL != var_TYPED) {
     
-} =
+} b
 
-- while (NULL != var) {
+a while (NULL != var) {
     
-} =
+} b
 
-- while (NULL != var) {
+a while (NULL != var) {
     
 }
 
 
-    /*  -------------{--------------- */
-    /* {`wrapped^}                    */
+    /*  -------------{_--------------- */
+    /* {`wrapped^}                     */
 
 
 
-{WRAPPED_TEXT}
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 
-{WRAPPED_TEXT} =
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
 
-- {WRAPPED_TEXT} =
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
 
-- {WRAPPED_TEXT}
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 

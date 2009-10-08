@@ -1,0 +1,505 @@
+
+
+
+    /*  -------------"_--------------- */
+    /* "`wrapped^"                     */
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    /*  -------------'_--------------- */
+    /* '`wrapped^'                     */
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    /*  -------------(_--------------- */
+    /* (`wrapped^)                     */
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`wrapped^>                     */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`wrapped^]                     */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``wrapped^\`                   */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    /*  -------------Author--------------- */
+    /* `$author^                           */
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    a drdr.xp b
+
+    a drdr.xp
+
+
+    /*  -------------begin--------------- */
+    /* (begin                             */
+    /*    (`todo0^) `...^                 */
+    /*    (`todon^)`...^)                 */
+
+
+
+    (begin
+       (todo0) 
+       (todon)
+       (todon)
+       (todon))
+
+    (begin
+       (todo0_TYPED) _TYPED) b
+
+    a (begin
+       (todo0) 
+       (todon)
+       (todon)
+       (todon)) b
+
+    a (begin
+       (todo0) 
+       (todon)
+       (todon)
+       (todon))
+
+
+    /*  -------------case---------------     */
+    /* (case (`of^)                          */
+    /*       ({`match^} `expr1^) `...^       */
+    /*       ({`matchn^} `exprn^)`...^       */
+    /*       `else...^\(else \`cursor\^\)^^) */
+
+
+
+    (case (of)
+          ({match} expr1) 
+          ({matchn} exprn)
+          ({matchn} exprn)
+          ({matchn} exprn)
+          (else \))
+
+          (case (of_TYPED)
+                ({match_TYPED} expr1_TYPED) _TYPED
+                (else \)) b
+
+                a (case (of)
+                      ({match} expr1) 
+                      ({matchn} exprn)
+                      ({matchn} exprn)
+                      ({matchn} exprn)
+                      (else \)) b
+
+                      a (case (of)
+                            ({match} expr1) 
+                            ({matchn} exprn)
+                            ({matchn} exprn)
+                            ({matchn} exprn)
+                            (else \))
+
+
+    /*  -------------cond---------------     */
+    /* (cond ([`condition^] `expr1^) `...^   */
+    /*       ([`condition^] `exprn^)`...^    */
+    /*       `else...^\(else \`cursor\^\)^^) */
+
+
+
+    (cond ([condition] expr1) 
+          ([condition] exprn)
+                ([condition] exprn)
+                      ([condition] exprn)
+          (else \))
+
+          (cond ([condition_TYPED] expr1_TYPED) _TYPED
+           else_(else \)) b
+
+           a (cond ([condition] expr1) 
+                 ([condition] exprn)
+                       ([condition] exprn)
+                             ([condition] exprn)
+                 (else \)) b
+
+                 a (cond ([condition] expr1) 
+                       ([condition] exprn)
+                             ([condition] exprn)
+                                   ([condition] exprn)
+                       (else \))
+
+
+    /*  -------------def--------------- */
+    /* (define `varName^ `cursor^)      */
+
+
+
+    (define varName )
+
+    (define varName_TYPED ) b
+
+    a (define varName ) b
+
+    a (define varName )
+
+
+    /*  -------------defun--------------- */
+    /* (define `funName^                  */
+    /*     (lambda [`params^]             */
+    /*         (`cursor^))                */
+    /*  )                                 */
+
+
+
+    (define funName
+        (lambda [params]
+            ())
+     )
+
+    (define funName_TYPED
+        (lambda [params_TYPED]
+            ())
+     ) b
+
+    a (define funName
+        (lambda [params]
+            ())
+     ) b
+
+    a (define funName
+        (lambda [params]
+            ())
+     )
+
+
+    /*  -------------do---------------             */
+    /* (do {(`var1^ `init1^ `step1^) `...0^        */
+    /*      (`varn^ `initn^ `stepn^)`...0^}        */
+    /*    ([`test^] `exprs^ `...1^ `exprs^`...1^^) */
+    /*    (`command0^) `...2^^                     */
+    /*    (`command1^)`...2^)                      */
+
+
+
+    (do {(var1 init1 step1) 
+         (varn initn stepn)
+              (varn initn stepn)
+                   (varn initn stepn)}
+       ([test] exprs )
+       (command0) ^
+       (command1)^
+       (command1))
+
+    (do {(var1_TYPED init1_TYPED step1_TYPED) 0_TYPED}
+       ([test_TYPED] exprs_TYPED 1_TYPED)
+       (command0_TYPED) 2_TYPED) b
+
+    a (do {(var1 init1 step1) 
+         (varn initn stepn)
+              (varn initn stepn)
+                   (varn initn stepn)}
+       ([test] exprs )
+       (command0) ^
+       (command1)^
+       (command1)) b
+
+    a (do {(var1 init1 step1) 
+         (varn initn stepn)
+              (varn initn stepn)
+                   (varn initn stepn)}
+       ([test] exprs )
+       (command0) ^
+       (command1)^
+       (command1))
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+    test.page
+
+    test.page b
+
+    a test.page b
+
+    a test.page
+
+
+    /*  -------------if--------------- */
+    /* (if [`condition^]               */
+    /*     (`then^)                    */
+    /*     `else...{{^(`cursor^)`}}^)  */
+
+
+
+    (if [condition]
+        (then)
+        ())
+
+    (if [condition_TYPED]
+        (then_TYPED)
+        else_TYPED) b
+
+    a (if [condition]
+        (then)
+        ()) b
+
+    a (if [condition]
+        (then)
+        ())
+
+
+    /*  -------------lambda--------------- */
+    /* (lambda [`params^]                  */
+    /*         (`cursor^))                 */
+
+
+
+    (lambda [params]
+            ())
+
+    (lambda [params_TYPED]
+            ()) b
+
+    a (lambda [params]
+            ()) b
+
+    a (lambda [params]
+            ())
+
+
+    /*  -------------let--------------- */
+    /* (let [(`newVar^ `value^ `...^)   */
+    /*       (`newVarn^ `valuen^`...^)] */
+    /*      (`cursor^))                 */
+
+
+
+    (let [(newVar value )
+          (newVarn valuen)
+                (newVarn valuen)
+                      (newVarn valuen)]
+         ())
+
+    (let [(newVar_TYPED value_TYPED _TYPED)]
+         ()) b
+
+    a (let [(newVar value )
+          (newVarn valuen)
+                (newVarn valuen)
+                      (newVarn valuen)]
+         ()) b
+
+    a (let [(newVar value )
+          (newVarn valuen)
+                (newVarn valuen)
+                      (newVarn valuen)]
+         ())
+
+
+    /*  -------------letrec--------------- */
+    /* (letrec [(`newVar^ `value^ `...^)   */
+    /*          (`newVarn^ `valuen^`...^)] */
+    /*      (`cursor^))                    */
+
+
+
+    (letrec [(newVar value )
+             (newVarn valuen)
+                      (newVarn valuen)
+                               (newVarn valuen)]
+         ())
+
+    (letrec [(newVar_TYPED value_TYPED _TYPED)]
+         ()) b
+
+    a (letrec [(newVar value )
+             (newVarn valuen)
+                      (newVarn valuen)
+                               (newVarn valuen)]
+         ()) b
+
+    a (letrec [(newVar value )
+             (newVarn valuen)
+                      (newVarn valuen)
+                               (newVarn valuen)]
+         ())
+
+
+    /*  -------------unless--------------- */
+    /* (unless (`cond^)                    */
+    /*    (`todo0^)` `...^                 */
+    /*    (`todon^)` `...^)                */
+
+
+
+    (unless (cond)
+       (todo0)
+       (todon)
+       (todon)
+       (todon))
+
+    (unless (cond_TYPED)
+       (todo0_TYPED) _TYPED) b
+
+    a (unless (cond)
+       (todo0)
+       (todon)
+       (todon)
+       (todon)) b
+
+    a (unless (cond)
+       (todo0)
+       (todon)
+       (todon)
+       (todon))
+
+
+    /*  -------------when--------------- */
+    /* (when (`cond^)                    */
+    /*    (`todo0^)` `...^               */
+    /*    (`todon^)` `...^)              */
+
+
+
+    (when (cond)
+       (todo0)
+       (todon)
+       (todon)
+       (todon))
+
+    (when (cond_TYPED)
+       (todo0_TYPED) _TYPED) b
+
+    a (when (cond)
+       (todo0)
+       (todon)
+       (todon)
+       (todon)) b
+
+    a (when (cond)
+       (todo0)
+       (todon)
+       (todon)
+       (todon))
+
+
+    /*  -------------{_--------------- */
+    /* {`wrapped^}                     */
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+

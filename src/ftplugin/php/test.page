@@ -1,8 +1,8 @@
 
 
 
-    /*  -------------"--------------- */
-/* "`wrapped^"                    */
+    /*  -------------"_--------------- */
+/* "`wrapped^"                     */
 
 
 
@@ -19,8 +19,8 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
-    /*  -------------'--------------- */
-/* '`wrapped^'                    */
+    /*  -------------'_--------------- */
+/* '`wrapped^'                     */
 
 
 
@@ -37,8 +37,8 @@ a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
-    /*  -------------(--------------- */
-/* (`wrapped^)                    */
+    /*  -------------(_--------------- */
+/* (`wrapped^)                     */
 
 
 
@@ -53,48 +53,60 @@ WRAPPED_TEXT_line2) b
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
-
-
-    /*  -------------<--------------- */
-/* <`tag^` `...^>                 */
-/*     `cursor^                   */
-/* </`tag^>                       */
-
-
-
-<tag name="val" name="val">
-    
-</tag>
-
-<tag_TYPED _TYPED>
-    
-</tag_TYPED> b
-
-a <tag name="val" name="val">
-    
-</tag> b
-
-a <tag name="val" name="val">
-    
-</tag>
 
 
     /*  -------------<_--------------- */
-/* <`span^>`wrapped^</`span^>      */
+/* <`wrapped^>                     */
 
 
 
-<span>WRAPPED_TEXT
-WRAPPED_TEXT_line2</span>
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
 
-<span_TYPED>WRAPPED_TEXT
-WRAPPED_TEXT_line2</span_TYPED> b
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
 
-a <span>WRAPPED_TEXT
-WRAPPED_TEXT_line2</span> b
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
 
-a <span>WRAPPED_TEXT
-WRAPPED_TEXT_line2</span>
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+/* [`wrapped^]                     */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+/* \``wrapped^\`                   */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
 
     /*  -------------Author--------------- */
@@ -109,234 +121,6 @@ drdr.xp b
 a drdr.xp b
 
 a drdr.xp
-
-
-    /*  -------------CDATA_--------------- */
-/* <![CDATA[                           */
-/* `cursor^                            */
-/* ]]>                                 */
-
-
-
-<![CDATA[
-
-]]>
-
-<![CDATA[
-
-]]> b
-
-a <![CDATA[
-
-]]> b
-
-a <![CDATA[
-
-]]>
-
-
-    /*  -------------Email--------------- */
-/* `$email^                           */
-
-
-
-drdr.xp@gmail.com
-
-drdr.xp@gmail.com b
-
-a drdr.xp@gmail.com b
-
-a drdr.xp@gmail.com
-
-
-    /*  -------------File--------------- */
-/* `file()^                          */
-
-
-
-test.page
-
-test.page b
-
-a test.page b
-
-a test.page
-
-
-    /*  -------------[--------------- */
-/* [`wrapped^]                    */
-
-
-
-[WRAPPED_TEXT
-WRAPPED_TEXT_line2]
-
-[WRAPPED_TEXT
-WRAPPED_TEXT_line2] b
-
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2] b
-
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]
-
-
-    /*  -------------`--------------- */
-/* \``wrapped^\`                  */
-
-
-
-`WRAPPED_TEXT
-WRAPPED_TEXT_line2`
-
-`WRAPPED_TEXT
-WRAPPED_TEXT_line2` b
-
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2` b
-
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`
-
-
-    /*  -------------a--------------- */
-/* <a href="`href^">`cursor^</a>  */
-
-
-
-<a href="href"></a>
-
-<a href="href_TYPED"></a> b
-
-a <a href="href"></a> b
-
-a <a href="href"></a>
-
-
-    /*  -------------a_--------------- */
-/* <a href="">`wrapped^</a>        */
-
-
-
-<a href="">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a>
-
-<a href="">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a> b
-
-a <a href="">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a> b
-
-a <a href="">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a>
-
-
-    /*  -------------br--------------- */
-/* <br />                          */
-
-
-
-<br />
-
-<br /> b
-
-a <br /> b
-
-a <br />
-
-
-    /*  -------------cb--------------- */
-/* `$CL^                           */
-/*  `$CM^ `cursor^                 */
-/*  `$CR^                          */
-
-
-
-/*
- * 
- */
-
-/*
- * 
- */ b
-
-a /*
- * 
- */ b
-
-a /*
- * 
- */
-
-
-    /*  -------------cc--------------- */
-/* `$CL^ `cursor^ `$CR^            */
-
-
-
-/*  */
-
-/*  */ b
-
-a /*  */ b
-
-a /*  */
-
-
-    /*  -------------cc_--------------- */
-/* `$CL^ `wrapped^ `$CR^            */
-
-
-
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
-
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */ b
-
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */ b
-
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
-
-
-    /*  -------------cd--------------- */
-/* `$CL^`$CM^                      */
-/*  `$CM^ `cursor^                 */
-/*  `$CR^                          */
-
-
-
-/**
- * 
- */
-
-/**
- * 
- */ b
-
-a /**
- * 
- */ b
-
-a /**
- * 
- */
-
-
-    /*  -------------cl--------------- */
-/* `$CL^ `cursor^ `$CR^            */
-
-
-
-/*  */
-
-/*  */ b
-
-a /*  */ b
-
-a /*  */
 
 
     /*  -------------class---------------                     */
@@ -385,6 +169,24 @@ a class className {
 a /* what */ b
 
 a /* what */
+
+
+    /*  -------------comment_--------------- */
+/* `$CL^ `wrapped^ `$CR^                 */
+
+
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */ b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */ b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
 
 
     /*  -------------commentBlock--------------- */
@@ -523,56 +325,6 @@ a /* WRAPPED_TEXT
 WRAPPED_TEXT_line2 */
 
 
-    /*  -------------comment_--------------- */
-/* `$CL^ `wrapped^ `$CR^                 */
-
-
-
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
-
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */ b
-
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */ b
-
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
-
-
-    /*  -------------div--------------- */
-/* <div`^>`cursor^</div>            */
-
-
-
-<div></div>
-
-<div_TYPED></div> b
-
-a <div></div> b
-
-a <div></div>
-
-
-    /*  -------------div_--------------- */
-/* <div>`wrapped^</div>              */
-
-
-
-<div>WRAPPED_TEXT
-WRAPPED_TEXT_line2</div>
-
-<div>WRAPPED_TEXT
-WRAPPED_TEXT_line2</div> b
-
-a <div>WRAPPED_TEXT
-WRAPPED_TEXT_line2</div> b
-
-a <div>WRAPPED_TEXT
-WRAPPED_TEXT_line2</div>
-
-
     /*  -------------do---------------           */
 /* do`$WHILE_BRACKET_STL^{                   */
 /*     `cursor^                              */
@@ -597,18 +349,28 @@ a do {
 } while (condition);
 
 
-    /*  -------------doctype--------------- */
-/* <!DOCTYPE html PUBLIC `doctype^>     */
+    /*  -------------elif---------------       */
+/* else if (`condition^)`$IF_BRACKET_STL^{ */
+/*     `job^                               */
+/* }                                       */
 
 
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+else if (condition) {
+    /* void */;
+}
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> b
+else if (condition_TYPED) {
+    job_TYPED
+} b
 
-a <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> b
+a else if (condition) {
+    /* void */;
+} b
 
-a <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+a else if (condition) {
+    /* void */;
+}
 
 
     /*  -------------else--------------- */
@@ -661,6 +423,34 @@ a else {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
+
+
+    /*  -------------Email--------------- */
+/* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com
+
+
+    /*  -------------File--------------- */
+/* `file()^                          */
+
+
+
+test.page
+
+test.page b
+
+a test.page b
+
+a test.page
 
 
     /*  -------------for---------------                                                                   */
@@ -797,132 +587,17 @@ a function funName() {
 }
 
 
-    /*  -------------h--------------- */
-/* <h`n^>`cursor^</h`n^>          */
-
-
-
-<h1></h1>
-
-<hn_TYPED></hn_TYPED> b
-
-a <h1></h1> b
-
-a <h1></h1>
-
-
-    /*  -------------h_--------------- */
-/* <h`n^>`wrapped^</h`n^>          */
-
-
-
-<h1>WRAPPED_TEXT
-WRAPPED_TEXT_line2</h1>
-
-<hn_TYPED>WRAPPED_TEXT
-WRAPPED_TEXT_line2</hn_TYPED> b
-
-a <h1>WRAPPED_TEXT
-WRAPPED_TEXT_line2</h1> b
-
-a <h1>WRAPPED_TEXT
-WRAPPED_TEXT_line2</h1>
-
-
-    /*  -------------html---------------                                                                                         */
-/* <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> */
-/* <html>                                                                                                                    */
-/*   <head>                                                                                                                  */
-/*     <meta http-equiv="Content-Type" content="text/html; charset=`encoding^utf-8^"/>                                       */
-/*     <link rel="stylesheet" type="text/css" href="" />                                                                     */
-/*     <style></style>                                                                                                       */
-/*     <title>`title^E('%:r')^</title>                                                                                       */
-/*     <script language="javascript" type="text/javascript">                                                                 */
-/*       <!-- -->                                                                                                            */
-/*     </script>                                                                                                             */
-/*   </head>                                                                                                                 */
-/*   <body>                                                                                                                  */
-/*     `cursor^                                                                                                              */
-/*   </body>                                                                                                                 */
-/* </html>                                                                                                                   */
-
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" type="text/css" href="" />
-    <style></style>
-    <title>/home/xp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/php/.test/test</title>
-    <script language="javascript" type="text/javascript">
-      <!-- -->
-    </script>
-  </head>
-  <body>
-    
-  </body>
-</html>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=encoding_TYPED"/>
-    <link rel="stylesheet" type="text/css" href="" />
-    <style></style>
-    <title>title_TYPED</title>
-    <script language="javascript" type="text/javascript">
-      <!-- -->
-    </script>
-  </head>
-  <body>
-    
-  </body>
-</html> b
-
-a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" type="text/css" href="" />
-    <style></style>
-    <title>/home/xp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/php/.test/test</title>
-    <script language="javascript" type="text/javascript">
-      <!-- -->
-    </script>
-  </head>
-  <body>
-    
-  </body>
-</html> b
-
-a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" type="text/css" href="" />
-    <style></style>
-    <title>/home/xp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/php/.test/test</title>
-    <script language="javascript" type="text/javascript">
-      <!-- -->
-    </script>
-  </head>
-  <body>
-    
-  </body>
-</html>
-
-
-    /*  -------------if---------------     */
-/* if (`condition^)`$IF_BRACKET_STL^{  */
-/*     `job^                           */
-/* }` `else...^                        */
+    /*  -------------if---------------                     */
+/* if (`condition^)`$IF_BRACKET_STL^{                  */
+/*     `job^                                           */
+/* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (condition) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -932,27 +607,30 @@ if (condition_TYPED) {
 
 a if (condition) { 
     /* void */;
-} else { 
+}
+else {
     
 } b
 
 a if (condition) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 
-    /*  -------------if0---------------    */
-/* if (`condition^)`$IF_BRACKET_STL^{  */
-/*     `job^                           */
-/* }` `else...^                        */
+    /*  -------------if0---------------                    */
+/* if (`condition^)`$IF_BRACKET_STL^{                  */
+/*     `job^                                           */
+/* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (0 == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -962,13 +640,15 @@ if (0 == var_TYPED) {
 
 a if (0 == var) { 
     /* void */;
-} else { 
+}
+else {
     
 } b
 
 a if (0 == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -1014,6 +694,8 @@ if (condition) {
     /* void */;
 } else if (condition) {
     /* void */;
+} else if (condition) {
+    /* void */;
 }
 
 if (condition_TYPED) {
@@ -1026,6 +708,8 @@ a if (condition) {
     /* void */;
 } else if (condition ) {
     /* void */;
+} else if (condition ) {
+    /* void */;
 } b
 
 a if (condition) {
@@ -1034,19 +718,22 @@ a if (condition) {
     /* void */;
 } else if (condition) {
     /* void */;
+} else if (condition) {
+    /* void */;
 }
 
 
-    /*  -------------ifn---------------    */
-/* if (`condition^)`$IF_BRACKET_STL^{  */
-/*     `job^                           */
-/* }` `else...^                        */
+    /*  -------------ifn---------------                    */
+/* if (`condition^)`$IF_BRACKET_STL^{                  */
+/*     `job^                                           */
+/* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (null == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -1056,27 +743,30 @@ if (null == var_TYPED) {
 
 a if (null == var) { 
     /* void */;
-} else { 
+}
+else {
     
 } b
 
 a if (null == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 
-    /*  -------------ifn0---------------   */
-/* if (`condition^)`$IF_BRACKET_STL^{  */
-/*     `job^                           */
-/* }` `else...^                        */
+    /*  -------------ifn0---------------                   */
+/* if (`condition^)`$IF_BRACKET_STL^{                  */
+/*     `job^                                           */
+/* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (0 != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -1086,27 +776,30 @@ if (0 != var_TYPED) {
 
 a if (0 != var) { 
     /* void */;
-} else { 
+}
+else {
     
 } b
 
 a if (0 != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 
-    /*  -------------ifnn---------------   */
-/* if (`condition^)`$IF_BRACKET_STL^{  */
-/*     `job^                           */
-/* }` `else...^                        */
+    /*  -------------ifnn---------------                   */
+/* if (`condition^)`$IF_BRACKET_STL^{                  */
+/*     `job^                                           */
+/* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
 
 
 if (null != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -1116,13 +809,15 @@ if (null != var_TYPED) {
 
 a if (null != var) { 
     /* void */;
-} else { 
+}
+else {
     
 } b
 
 a if (null != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -1151,119 +846,18 @@ a interface interfaceName {
 }
 
 
-    /*  -------------ol--------------- */
-/* <ol>                            */
-/*     <li>`val^</li>`...^         */
-/*     <li>`val^</li>`...^         */
-/* </ol>                           */
+    /*  -------------php--------------- */
+/* <?php `cursor^?>                 */
 
 
 
-<ol>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-</ol>
+<?php ?>
 
-<ol>
-    <li>val_TYPED</li>_TYPED
-</ol> b
+    <?php ?> b
 
-a <ol>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-</ol> b
+    a <?php ?> b
 
-a <ol>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-</ol>
-
-
-    /*  -------------p--------------- */
-/* <p` `attr?^>`cursor^</p>       */
-
-
-
-<p></p>
-
-<p attr_TYPED></p> b
-
-a <p></p> b
-
-a <p></p>
-
-
-    /*  -------------p_--------------- */
-/* <p>`wrapped^</p>                */
-
-
-
-<p>WRAPPED_TEXT
-WRAPPED_TEXT_line2</p>
-
-<p>WRAPPED_TEXT
-WRAPPED_TEXT_line2</p> b
-
-a <p>WRAPPED_TEXT
-WRAPPED_TEXT_line2</p> b
-
-a <p>WRAPPED_TEXT
-WRAPPED_TEXT_line2</p>
-
-
-    /*  -------------script---------------                   */
-/* <script language="javascript" type="text/javascript"> */
-/* `cursor^                                              */
-/* </script>                                             */
-
-
-
-<script language="javascript" type="text/javascript">
-
-</script>
-
-<script language="javascript" type="text/javascript">
-
-</script> b
-
-a <script language="javascript" type="text/javascript">
-
-</script> b
-
-a <script language="javascript" type="text/javascript">
-
-</script>
-
-
-    /*  -------------scrlink---------------                                          */
-/* <script language="javascript" type="text/javascript" src="`cursor^"></script> */
-
-
-
-<script language="javascript" type="text/javascript" src=""></script>
-
-<script language="javascript" type="text/javascript" src=""></script> b
-
-a <script language="javascript" type="text/javascript" src=""></script> b
-
-a <script language="javascript" type="text/javascript" src=""></script>
-
-
-    /*  -------------style---------------                      */
-/* <?xml-stylesheet type="`style^text/css^" href="`from^"> */
-
-
-
-<?xml-stylesheet type="text/css" href="from">
-
-<?xml-stylesheet type="style_TYPED" href="from_TYPED"> b
-
-a <?xml-stylesheet type="text/css" href="from"> b
-
-a <?xml-stylesheet type="text/css" href="from">
+    a <?php ?>
 
 
     /*  -------------switch--------------- */
@@ -1279,22 +873,26 @@ a <?xml-stylesheet type="text/css" href="from">
 
 
 
-switch (var) {
-    case constant :
-        /* void */;
-        break;
-
-    case constant :
-        /* void */;
-        break;
-
-    case constant :
-        /* void */;
-        break;
-
-    default:
-        
-}
+    switch (var) {
+        case constant :
+            /* void */;
+            break;
+    
+        case constant :
+            /* void */;
+            break;
+    
+        case constant :
+            /* void */;
+            break;
+    
+        case constant :
+            /* void */;
+            break;
+    
+        default:
+            
+    }
 
 switch (var_TYPED) {
     case constant_TYPED :
@@ -1307,6 +905,10 @@ switch (var_TYPED) {
 } b
 
 a switch (var) {
+    case constant :
+        /* void */;
+        break;
+
     case constant :
         /* void */;
         break;
@@ -1336,123 +938,13 @@ a switch (var) {
             /* void */;
             break;
     
+        case constant :
+            /* void */;
+            break;
+    
         default:
             
     }
-
-
-    /*  -------------table--------------- */
-/* <table>                            */
-/*   <tr>                             */
-/*     <td>`text^^</td>`...2^         */
-/*     <td>`text^^</td>`...2^         */
-/*   </tr>`...0^                      */
-/*   <tr>                             */
-/*     <td>`text^^</td>`...1^         */
-/*     <td>`text^^</td>`...1^         */
-/*   </tr>`...0^                      */
-/* </table>                           */
-
-
-
-<table>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td></td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <td>text_TYPED</td>2_TYPED
-  </tr>0_TYPED
-</table> b
-
-a <table>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td></td>
-  </tr>
-</table> b
-
-a <table>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td></td>
-  </tr>
-</table>
-
-
-    /*  -------------ul--------------- */
-/* <ul>                            */
-/*     <li>`val^</li>`...^         */
-/*     <li>`val^</li>`...^         */
-/* </ul>                           */
-
-
-
-<ul>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-</ul>
-
-<ul>
-    <li>val_TYPED</li>_TYPED
-</ul> b
-
-a <ul>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-</ul> b
-
-a <ul>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-</ul>
-
-
-    /*  -------------ver---------------                    */
-/* <?xml version="`ver^1.0^" encoding="`enc^utf-8^" ?> */
-
-
-
-<?xml version="1.0" encoding="utf-8" ?>
-
-<?xml version="ver_TYPED" encoding="enc_TYPED" ?> b
-
-a <?xml version="1.0" encoding="utf-8" ?> b
-
-a <?xml version="1.0" encoding="utf-8" ?>
 
 
     /*  -------------while---------------       */
@@ -1470,13 +962,13 @@ while (condition_TYPED) {
     
 } b
 
-a while (condition) {
-    
-} b
+    a while (condition) {
+        
+    } b
 
-a while (condition) {
-    
-}
+        a while (condition) {
+            
+        }
 
 
     /*  -------------while0---------------       */
@@ -1494,13 +986,13 @@ do {
     
 } while (false); b
 
-a do {
-    
-} while (false); b
+    a do {
+        
+    } while (false); b
 
-a do {
-    
-} while (false);
+        a do {
+            
+        } while (false);
 
 
     /*  -------------while1---------------      */
@@ -1518,13 +1010,13 @@ while (true) {
     
 } b
 
-a while (true) {
-    
-} b
+    a while (true) {
+        
+    } b
 
-a while (true) {
-    
-}
+        a while (true) {
+            
+        }
 
 
     /*  -------------whilenn---------------     */
@@ -1542,17 +1034,17 @@ while (null != var_TYPED) {
     
 } b
 
-a while (null != var) {
-    
-} b
+    a while (null != var) {
+        
+    } b
 
-a while (null != var) {
-    
-}
+        a while (null != var) {
+            
+        }
 
 
-    /*  -------------{--------------- */
-/* {`wrapped^}                    */
+    /*  -------------{_--------------- */
+/* {`wrapped^}                     */
 
 
 
@@ -1560,10 +1052,10 @@ a while (null != var) {
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2} b
+WRAPPED_TEXT_line2}b
 
 a {WRAPPED_TEXT
-WRAPPED_TEXT_line2} b
+WRAPPED_TEXT_line2}b
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

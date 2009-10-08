@@ -1,60 +1,112 @@
 
 
 
-    (*  -------------"--------------- *)
-    (* "`wrapped^"                    *)
+    (*  -------------"_--------------- *)
+    (* "`wrapped^"                     *)
 
 
 
-"WRAPPED_TEXT"
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
-"WRAPPED_TEXT" b
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-a "WRAPPED_TEXT" b
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-a "WRAPPED_TEXT"
-
-
-    (*  -------------'--------------- *)
-    (* '`wrapped^'                    *)
-
-
-
-'WRAPPED_TEXT'
-
-'WRAPPED_TEXT' b
-
-a 'WRAPPED_TEXT' b
-
-a 'WRAPPED_TEXT'
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
 
-    (*  -------------(--------------- *)
-    (* (`wrapped^)                    *)
+    (*  -------------'_--------------- *)
+    (* '`wrapped^'                     *)
 
 
 
-(WRAPPED_TEXT)
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
-(WRAPPED_TEXT) b
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-a (WRAPPED_TEXT) b
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-a (WRAPPED_TEXT)
-
-
-    (*  -------------<--------------- *)
-    (* <`wrapped^>                    *)
-
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
 
-<WRAPPED_TEXT>
+    (*  -------------(_--------------- *)
+    (* (`wrapped^)                     *)
 
-<WRAPPED_TEXT> b
 
-a <WRAPPED_TEXT> b
 
-a <WRAPPED_TEXT>
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    (*  -------------<_--------------- *)
+    (* <`wrapped^>                     *)
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    (*  -------------[_--------------- *)
+    (* [`wrapped^]                     *)
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    (*  -------------`_--------------- *)
+    (* \``wrapped^\`                   *)
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
 
     (*  -------------Author--------------- *)
@@ -69,62 +121,6 @@ drdr.xp b
 a drdr.xp b
 
 a drdr.xp
-
-
-    (*  -------------Email--------------- *)
-    (* `$email^                           *)
-
-
-
-drdr.xp@gmail.com
-
-drdr.xp@gmail.com b
-
-a drdr.xp@gmail.com b
-
-a drdr.xp@gmail.com
-
-
-    (*  -------------File--------------- *)
-    (* `file()^                          *)
-
-
-
-test.page
-
-test.page b
-
-a test.page b
-
-a test.page
-
-
-    (*  -------------[--------------- *)
-    (* [`wrapped^]                    *)
-
-
-
-[WRAPPED_TEXT]
-
-[WRAPPED_TEXT] b
-
-a [WRAPPED_TEXT] b
-
-a [WRAPPED_TEXT]
-
-
-    (*  -------------`--------------- *)
-    (* \``wrapped^\`                  *)
-
-
-
-`WRAPPED_TEXT`
-
-`WRAPPED_TEXT` b
-
-a `WRAPPED_TEXT` b
-
-a `WRAPPED_TEXT`
 
 
     (*  -------------begin--------------- *)
@@ -194,6 +190,7 @@ object
    method field : type
    method field : type
    method field : type
+   method field : type
 end;
 
 class type name_TYPED =
@@ -206,10 +203,12 @@ object
    method field : type
    method field : type
    method field : type
+   method field : type
 end; b
 
 a class type name =
 object
+   method field : type
    method field : type
    method field : type
    method field : type
@@ -237,6 +236,8 @@ object
    method field : type
    (**  *)
    method field : type
+   (**  *)
+   method field : type
 end;
 
 (** class_descr_TYPED *)
@@ -255,11 +256,15 @@ object
    method field : type
    (**  *)
    method field : type
+   (**  *)
+   method field : type
 end; b
 
 a (**  *)
 class type name =
 object
+   (**  *)
+   method field : type
    (**  *)
    method field : type
    (**  *)
@@ -283,6 +288,24 @@ a (* what *) b
 a (* what *)
 
 
+    (*  -------------comment_--------------- *)
+    (* `$CL^ `wrapped^ `$CR^                 *)
+
+
+
+(* WRAPPED_TEXT
+WRAPPED_TEXT_line2 *)
+
+(* WRAPPED_TEXT
+WRAPPED_TEXT_line2 *)b
+
+a (* WRAPPED_TEXT
+WRAPPED_TEXT_line2 *)b
+
+a (* WRAPPED_TEXT
+WRAPPED_TEXT_line2 *)
+
+
     (*  -------------commentBlock--------------- *)
     (* `$CL^                                     *)
     (*  `$CM^ `cursor^                           *)
@@ -290,21 +313,21 @@ a (* what *)
 
 
 
-(* 
- * 
- *)
+    (* 
+     * 
+     *)
 
-(* 
- * 
- *) b
+    (* 
+     * 
+     *) b
 
- a (* 
-  * 
-  *) b
+     a (* 
+      * 
+      *) b
 
-  a (* 
-   * 
-   *)
+      a (* 
+       * 
+       *)
 
 
     (*  -------------commentBlock_--------------- *)
@@ -316,18 +339,22 @@ a (* what *)
 
 (* 
  * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
  *)
 
 (* 
  * WRAPPED_TEXT
- *) b
+ WRAPPED_TEXT_line2
+ *)b
 
  a (* 
   * WRAPPED_TEXT
-  *) b
+   WRAPPED_TEXT_line2
+  *)b
 
   a (* 
    * WRAPPED_TEXT
+     WRAPPED_TEXT_line2
    *)
 
 
@@ -364,18 +391,22 @@ a (* what *)
 
 (** 
  * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
  *)
 
 (** 
  * WRAPPED_TEXT
- *) b
+ WRAPPED_TEXT_line2
+ *)b
 
  a (** 
   * WRAPPED_TEXT
-  *) b
+   WRAPPED_TEXT_line2
+  *)b
 
   a (** 
    * WRAPPED_TEXT
+     WRAPPED_TEXT_line2
    *)
 
 
@@ -398,27 +429,17 @@ a (* what *)
 
 
 
-(* WRAPPED_TEXT *)
+(* WRAPPED_TEXT
+WRAPPED_TEXT_line2 *)
 
-    (* WRAPPED_TEXT *) b
+(* WRAPPED_TEXT
+WRAPPED_TEXT_line2 *)b
 
-    a (* WRAPPED_TEXT *) b
+a (* WRAPPED_TEXT
+WRAPPED_TEXT_line2 *)b
 
-    a (* WRAPPED_TEXT *)
-
-
-    (*  -------------comment_--------------- *)
-    (* `$CL^ `wrapped^ `$CR^                 *)
-
-
-
-(* WRAPPED_TEXT *)
-
-    (* WRAPPED_TEXT *) b
-
-    a (* WRAPPED_TEXT *) b
-
-    a (* WRAPPED_TEXT *)
+a (* WRAPPED_TEXT
+WRAPPED_TEXT_line2 *)
 
 
     (*  -------------do--------------- *)
@@ -443,6 +464,34 @@ a (* what *)
     a do {
         
     }
+
+
+    (*  -------------Email--------------- *)
+    (* `$email^                           *)
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com
+
+
+    (*  -------------File--------------- *)
+    (* `file()^                          *)
+
+
+
+    test.page
+
+    test.page b
+
+    a test.page b
+
+    a test.page
 
 
     (*  -------------for---------------   *)
@@ -541,6 +590,8 @@ fun args ->
                             subwhat
                         and subname  =
                             subwhat
+                        and subname  =
+                            subwhat
                         in
 
                         let name_TYPED __TYPED =
@@ -553,10 +604,14 @@ fun args ->
                             subwhat
                         and subname  =
                             subwhat
+                        and subname  =
+                            subwhat
                         in b
 
                         a let name  =
                             what 
+                        and subname  =
+                            subwhat
                         and subname  =
                             subwhat
                         and subname  =
@@ -579,6 +634,8 @@ fun args ->
                             subwhat
                         and subname  =
                             subwhat
+                        and subname  =
+                            subwhat
                         in
 
                         let rec name_TYPED __TYPED =
@@ -591,10 +648,14 @@ fun args ->
                             subwhat
                         and subname  =
                             subwhat
+                        and subname  =
+                            subwhat
                         in b
 
                         a let rec name  =
                             what 
+                        and subname  =
+                            subwhat
                         and subname  =
                             subwhat
                         and subname  =
@@ -614,6 +675,7 @@ fun args ->
                           [ what0 -> with0
                           | what -> with
                           | what -> with
+                          | what -> with
                           ]
 
                           match expr_TYPED with
@@ -624,10 +686,12 @@ fun args ->
                               [ what0 -> with0
                               | what -> with
                               | what -> with
+                              | what -> with
                               ] b
 
                               a match expr with
                                 [ what0 -> with0
+                                | what -> with
                                 | what -> with
                                 | what -> with
                                 ]
@@ -685,7 +749,9 @@ fun args ->
     (* try `expr^                       *)
     (* with [ `exc^ -> `rez^            *)
     (* `     `...`                      *)
-    (* ^     ]                          *)
+    (* {{^     | `exc2^ -> `rez2^       *)
+    (* `     `...`                      *)
+    (* ^`}}^     ]                      *)
 
 
 
@@ -693,24 +759,27 @@ fun args ->
                                 with [ exc -> rez
                                      | exc2 -> rez2
                                      | exc2 -> rez2
+                                     | exc2 -> rez2
                                      ]
 
                                 try expr_TYPED
                                 with [ exc_TYPED -> rez_TYPED
                                      _TYPED
-                                                                     ] b
+                                     ] b
 
-                                                                     a try expr
-                                                                     with [ exc -> rez
-                                                                          | exc2 -> rez2
-                                                                          | exc2 -> rez2
-                                                                          ] b
+                                     a try expr
+                                     with [ exc -> rez
+                                          | exc2 -> rez2
+                                          | exc2 -> rez2
+                                          | exc2 -> rez2
+                                          ] b
 
-                                                                          a try expr
-                                                                          with [ exc -> rez
-                                                                               | exc2 -> rez2
-                                                                               | exc2 -> rez2
-                                                                               ]
+                                          a try expr
+                                          with [ exc -> rez
+                                               | exc2 -> rez2
+                                               | exc2 -> rez2
+                                               | exc2 -> rez2
+                                               ]
 
 
     (*  -------------try_--------------- *)
@@ -718,33 +787,42 @@ fun args ->
     (*     `wrapped^                     *)
     (* with [ `exc^ -> `rez^             *)
     (* `     `...`                       *)
-    (* ^     ]                           *)
+    (* {{^     | `exc2^ -> `rez2^        *)
+    (* `     `...`                       *)
+    (* ^`}}^     ]                       *)
 
 
 
 try 
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 with [ exc -> rez
+     | exc2 -> rez2
      | exc2 -> rez2
      | exc2 -> rez2
      ]
 
 try 
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 with [ exc_TYPED -> rez_TYPED
      _TYPED
-     ] b
+     ]b
 
      a try 
          WRAPPED_TEXT
+              WRAPPED_TEXT_line2
      with [ exc -> rez
           | exc2 -> rez2
           | exc2 -> rez2
-          ] b
+          | exc2 -> rez2
+          ]b
 
           a try 
               WRAPPED_TEXT
+                        WRAPPED_TEXT_line2
           with [ exc -> rez
+               | exc2 -> rez2
                | exc2 -> rez2
                | exc2 -> rez2
                ]
@@ -755,13 +833,13 @@ with [ exc_TYPED -> rez_TYPED
 
 
 
-          t -> t2 -> t2
+          t -> t2 -> t2 -> t2
 
           t_TYPED_TYPED b
 
-          a t -> t2 -> t2 b
+          a t -> t2 -> t2 -> t2 b
 
-          a t -> t2 -> t2
+          a t -> t2 -> t2 -> t2
 
 
     (*  -------------typerecord--------------- *)
@@ -809,12 +887,12 @@ with [ exc_TYPED -> rez_TYPED
                                 { recordField : fType (** desc *)
                                 ; otherfield : othertype (** desc *)
                                 ; otherfield : othertype (** desc *)
+                                ; otherfield : othertype (** desc *)
                                 };
 
                                 (** type_descr_TYPED *)
                                 type typename_TYPED __TYPED=
-                                    { recordField_TYPED : fType_TYPED (**
-                                    desc_TYPED *)_TYPED
+                                    { recordField_TYPED : fType_TYPED (** desc_TYPED *)_TYPED
                                     }; b
 
                                     a (** type_descr *)
@@ -822,11 +900,13 @@ with [ exc_TYPED -> rez_TYPED
                                         { recordField : fType (** desc *)
                                         ; otherfield : othertype (** desc *)
                                         ; otherfield : othertype (** desc *)
+                                        ; otherfield : othertype (** desc *)
                                         }; b
 
                                         a (** type_descr *)
                                         type typename =
                                             { recordField : fType (** desc *)
+                                            ; otherfield : othertype (** desc *)
                                             ; otherfield : othertype (** desc *)
                                             ; otherfield : othertype (** desc *)
                                             };
@@ -881,8 +961,7 @@ with [ exc_TYPED -> rez_TYPED
 
                                             (** typeDescr_TYPED *)
                                             type typename_TYPED typeParams_TYPED =
-                                              [ constructor_TYPED (**
-                                              ctordescr_TYPED *)_TYPED
+                                              [ constructor_TYPED (** ctordescr_TYPED *)_TYPED
                                               ]; b
 
                                               a (** typeDescr *)
@@ -938,16 +1017,20 @@ with [ exc_TYPED -> rez_TYPED
                                                           done
 
 
-    (*  -------------{--------------- *)
-    (* {`wrapped^}                    *)
+    (*  -------------{_--------------- *)
+    (* {`wrapped^}                     *)
 
 
 
-{WRAPPED_TEXT}
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 
-{WRAPPED_TEXT} b
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
 
-a {WRAPPED_TEXT} b
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
 
-a {WRAPPED_TEXT}
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 

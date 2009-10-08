@@ -314,25 +314,25 @@ WRAPPED_TEXT_line2
 
     "  -------------fordic---------------  
     " for [`key^, `value^] in items(`dic^) 
-    "   `cursor^                           
+    "     `cursor^                         
     " endfor                               
 
 
 
     for [key, value] in items(dic)
-      
+        
     endfor
 
     for [key_TYPED, value_TYPED] in items(dic_TYPED)
-      
+        
     endfor b
 
     a for [key, value] in items(dic)
-      
+        
     endfor b
 
     a for [key, value] in items(dic)
-      
+        
     endfor
 
 
@@ -386,63 +386,89 @@ WRAPPED_TEXT_line2
 
     "  -------------fun--------------- 
     " fun! `name^(`arg*^) _CMT_{{{     
-    "   `cursor^                       
+    "     `cursor^                     
     " endfunction _CMT_}}}             
 
 
 
     fun! name() "{{{
-      
+        
     endfunction "}}}
 
     fun! name_TYPED(arg_TYPED, arg_TYPED, arg_TYPED) "{{{
-      
+        
     endfunction "}}} b
 
     a fun! name() "{{{
-      
+        
     endfunction "}}} b
 
     a fun! name() "{{{
-      
+        
     endfunction "}}}
 
 
     "  -------------if--------------- 
     " if `cond^                       
-    "   `job^Echo()^                  
+    "     `job^Echo()^                
     " ``else...`                      
-    " ^endif                          
+    " {{^else                         
+    "     `cursor^                    
+    " `}}^endif                       
 
 
 
     if cond
-      
+        
     else
-      
+        
     endif
 
     if cond_TYPED
-      job_TYPED
-  else_TYPED
-      endif b
+        job_TYPED
+    else_TYPED
+    endif b
 
-      a if cond
+    a if cond
         
-      else
+    else
         
-      endif b
+    endif b
 
-      a if cond
+    a if cond
         
-      else
+    else
         
-      endif
+    endif
+
+
+    "  -------------member--------------- 
+    " fun! `name^(`arg*^) dict _CMT_{{{   
+    "     `cursor^                        
+    " endfunction _CMT_}}}                
+
+
+
+    fun! name() dict "{{{
+        
+    endfunction "}}}
+
+    fun! name_TYPED(arg_TYPED, arg_TYPED, arg_TYPED) dict "{{{
+        
+    endfunction "}}} b
+
+    a fun! name() dict "{{{
+        
+    endfunction "}}} b
+
+    a fun! name() dict "{{{
+        
+    endfunction "}}}
 
 
     "  -------------once--------------- 
     " if exists(_CMT_`g^:`i^_CMT_)      
-    "   finish                          
+    "     finish                        
     " endif                             
     " let `g^:`i^ = 1                   
     " `cursor^                          
@@ -450,34 +476,34 @@ WRAPPED_TEXT_line2
 
 
     if exists("g:__TEST_PAGE__")
-      finish
+        finish
     endif
     let g:__TEST_PAGE__ = 1
     
 
     if exists("g_TYPED:i_TYPED")
-      finish
+        finish
     endif
     let g_TYPED:i_TYPED = 1
      b
 
      a if exists("g:__TEST_PAGE__")
-       finish
+         finish
      endif
      let g:__TEST_PAGE__ = 1
       b
 
       a if exists("g:__TEST_PAGE__")
-        finish
+          finish
       endif
       let g:__TEST_PAGE__ = 1
       
 
 
-    "  -------------sid---------------                                
-    " com! `name^GetSID let s:sid =  matchstr(_CMT_<SID>_CMT_, '\zs\d\+_\ze') 
-    " `name^GetSID                                                    
-    " delc `name^GetSID                                               
+    "  -------------sid---------------                                          
+    " `Echo('com')^! `name^GetSID let s:sid =  matchstr(_CMT_<SID>_CMT_, '\zs\d\+_\ze') 
+    " `name^GetSID                                                              
+    " delc `name^GetSID                                                         
 
 
 
@@ -521,40 +547,42 @@ WRAPPED_TEXT_line2)
     "                                  
     " catch /`exception^/              
     " `                                
-    " `finally...^                     
+    " `finally...{{^                   
+    " finally                          
+    "     `cursor^`}}^                 
     " endtry                           
 
 
 
     try
-    
+        
     catch /.*/
     
     finally
-      
+        
     endtry
 
     try
-    
+        
     catch /exception_TYPED/
     
-        finally_TYPED
+    finally_TYPED
     endtry b
 
     a try
-    
+        
     catch /.*/
     
     finally
-      
+        
     endtry b
 
     a try
-    
+        
     catch /.*/
     
     finally
-      
+        
     endtry
 
 
@@ -598,54 +626,54 @@ WRAPPED_TEXT_line2)
 
     "  -------------while--------------- 
     " while `cond^                       
-    "   `cursor^                         
+    "     `cursor^                       
     " endwhile                           
 
 
 
     while cond
-      
+        
     endwhile
 
     while cond_TYPED
-      
+        
     endwhile b
 
     a while cond
-      
+        
     endwhile b
 
     a while cond
-      
+        
     endwhile
 
 
     "  -------------whilei---------------              
     " let [ `i^, `len^ ] = [ `0^ - 1, `len_expr^ - 1 ] 
     " while `i^ < `len^ | let `i^ += 1                 
-    "   `cursor^                                       
+    "     `cursor^                                     
     " endwhile                                         
 
 
 
     let [ i, len ] = [ 0 - 1, len_expr - 1 ]
     while i < len | let i += 1
-      
+        
     endwhile
 
     let [ i_TYPED, len_TYPED ] = [ 0_TYPED - 1, len_expr_TYPED - 1 ]
     while i_TYPED < len_TYPED | let i_TYPED += 1
-      
+        
     endwhile b
 
     a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
     while i < len | let i += 1
-      
+        
     endwhile b
 
     a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
     while i < len | let i += 1
-      
+        
     endwhile
 
 

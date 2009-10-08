@@ -87,48 +87,6 @@ a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
-    #  -------------Author--------------- 
-    # `$author^                           
-
-
-
-    drdr.xp
-
-    drdr.xp b
-
-    a drdr.xp b
-
-    a drdr.xp
-
-
-    #  -------------Email--------------- 
-    # `$email^                           
-
-
-
-    drdr.xp@gmail.com
-
-    drdr.xp@gmail.com b
-
-    a drdr.xp@gmail.com b
-
-    a drdr.xp@gmail.com
-
-
-    #  -------------File--------------- 
-    # `file()^                          
-
-
-
-    test.page
-
-    test.page b
-
-    a test.page b
-
-    a test.page
-
-
     #  -------------[--------------- 
     # [[ ~test^ ]]                   
 
@@ -177,6 +135,20 @@ WRAPPED_TEXT_line2`b
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
+
+
+    #  -------------Author--------------- 
+    # `$author^                           
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    a drdr.xp b
+
+    a drdr.xp
 
 
     #  -------------bash--------------- 
@@ -260,6 +232,24 @@ WRAPPED_TEXT_line2`
     a # 
 
 
+    #  -------------comment_--------------- 
+    # `$CS^ `wrapped^                       
+
+
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+
     #  -------------commentBlock--------------- 
     # `$CS^ `cursor^                            
     # `$CS^                                     
@@ -335,24 +325,6 @@ a # WRAPPED_TEXT
 WRAPPED_TEXT_line2
 
 
-    #  -------------comment_--------------- 
-    # `$CS^ `wrapped^                       
-
-
-
-# WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
-# WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a # WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a # WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
-
     #  -------------echodate--------------- 
     # echo `date +~fmt^`                    
 
@@ -384,6 +356,34 @@ elif condition; then
 
               a elif condition; then
                   
+
+
+    #  -------------Email--------------- 
+    # `$email^                           
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com
+
+
+    #  -------------File--------------- 
+    # `file()^                          
+
+
+
+    test.page
+
+    test.page b
+
+    a test.page b
+
+    a test.page
 
 
     #  -------------for---------------                           
@@ -613,19 +613,19 @@ elif condition; then
 
 
 
-    while [ 1 ]; do
+    while ; do
         
     done
 
-    while [ 1 ]; do
+    while ; do
         
     done b
 
-    a while [ 1 ]; do
+    a while ; do
         
     done b
 
-    a while [ 1 ]; do
+    a while ; do
         
     done
 

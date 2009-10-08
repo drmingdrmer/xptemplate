@@ -1,60 +1,112 @@
 
 
 
-    /*  -------------"--------------- */
-    /* "`wrapped^"                    */
+    /*  -------------"_--------------- */
+    /* "`wrapped^"                     */
 
 
 
-"WRAPPED_TEXT"
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
-"WRAPPED_TEXT" =
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-- "WRAPPED_TEXT" =
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-- "WRAPPED_TEXT"
-
-
-    /*  -------------'--------------- */
-    /* '`wrapped^'                    */
-
-
-
-'WRAPPED_TEXT'
-
-'WRAPPED_TEXT' =
-
-- 'WRAPPED_TEXT' =
-
-- 'WRAPPED_TEXT'
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
 
-    /*  -------------(--------------- */
-    /* (`wrapped^)                    */
+    /*  -------------'_--------------- */
+    /* '`wrapped^'                     */
 
 
 
-(WRAPPED_TEXT)
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
-(WRAPPED_TEXT) =
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-- (WRAPPED_TEXT) =
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-- (WRAPPED_TEXT)
-
-
-    /*  -------------<--------------- */
-    /* <`wrapped^>                    */
-
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
 
-<WRAPPED_TEXT>
+    /*  -------------(_--------------- */
+    /* (`wrapped^)                     */
 
-<WRAPPED_TEXT> =
 
-- <WRAPPED_TEXT> =
 
-- <WRAPPED_TEXT>
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`wrapped^>                     */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`wrapped^]                     */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``wrapped^\`                   */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
 
     /*  -------------Author--------------- */
@@ -64,67 +116,11 @@
 
 drdr.xp
 
-drdr.xp =
+drdr.xp b
 
-- drdr.xp =
+a drdr.xp b
 
-- drdr.xp
-
-
-    /*  -------------Email--------------- */
-    /* `$email^                           */
-
-
-
-drdr.xp@gmail.com
-
-drdr.xp@gmail.com =
-
-- drdr.xp@gmail.com =
-
-- drdr.xp@gmail.com
-
-
-    /*  -------------File--------------- */
-    /* `file()^                          */
-
-
-
-test.page
-
-test.page =
-
-- test.page =
-
-- test.page
-
-
-    /*  -------------[--------------- */
-    /* [`wrapped^]                    */
-
-
-
-[WRAPPED_TEXT]
-
-[WRAPPED_TEXT] =
-
-- [WRAPPED_TEXT] =
-
-- [WRAPPED_TEXT]
-
-
-    /*  -------------`--------------- */
-    /* \``wrapped^\`                  */
-
-
-
-`WRAPPED_TEXT`
-
-`WRAPPED_TEXT` =
-
-- `WRAPPED_TEXT` =
-
-- `WRAPPED_TEXT`
+a drdr.xp
 
 
     /*  -------------azimuth--------------- */
@@ -134,11 +130,11 @@ test.page =
 
 azimuth: left-side;
 
-azimuth: left-side; =
+azimuth: left-side; b
 
-- azimuth: left-side; =
+a azimuth: left-side; b
 
-- azimuth: left-side;
+a azimuth: left-side;
 
 
     /*  -------------background--------------- */
@@ -148,11 +144,11 @@ azimuth: left-side; =
 
 background: url();
 
-background: url(_TYPED); =
+background: url(_TYPED); b
 
-- background: url(); =
+a background: url(); b
 
-- background: url();
+a background: url();
 
 
     /*  -------------backgroundattachment--------------- */
@@ -162,11 +158,11 @@ background: url(_TYPED); =
 
 background-attachment: scroll;
 
-background-attachment: scroll; =
+background-attachment: scroll; b
 
-- background-attachment: scroll; =
+a background-attachment: scroll; b
 
-- background-attachment: scroll;
+a background-attachment: scroll;
 
 
     /*  -------------backgroundcolor--------------- */
@@ -176,11 +172,11 @@ background-attachment: scroll; =
 
 background-color: transparent;
 
-background-color: transparent; =
+background-color: transparent; b
 
-- background-color: transparent; =
+a background-color: transparent; b
 
-- background-color: transparent;
+a background-color: transparent;
 
 
     /*  -------------backgroundimage--------------- */
@@ -190,11 +186,11 @@ background-color: transparent; =
 
 background-image: url();
 
-background-image: url(_TYPED); =
+background-image: url(_TYPED); b
 
-- background-image: url(); =
+a background-image: url(); b
 
-- background-image: url();
+a background-image: url();
 
 
     /*  -------------backgroundrepeat--------------- */
@@ -204,11 +200,11 @@ background-image: url(_TYPED); =
 
 background-repeat: repeat;
 
-background-repeat: repeat; =
+background-repeat: repeat; b
 
-- background-repeat: repeat; =
+a background-repeat: repeat; b
 
-- background-repeat: repeat;
+a background-repeat: repeat;
 
 
     /*  -------------backpos---------------     */
@@ -218,11 +214,11 @@ background-repeat: repeat; =
 
 background-position: top left;
 
-background-position: top left; =
+background-position: top left; b
 
-- background-position: top left; =
+a background-position: top left; b
 
-- background-position: top left;
+a background-position: top left;
 
 
     /*  -------------backrep--------------- */
@@ -232,11 +228,11 @@ background-position: top left; =
 
 background-repeat repeat;
 
-background-repeat repeat; =
+background-repeat repeat; b
 
-- background-repeat repeat; =
+a background-repeat repeat; b
 
-- background-repeat repeat;
+a background-repeat repeat;
 
 
     /*  -------------border---------------     */
@@ -246,11 +242,11 @@ background-repeat repeat; =
 
 border-top: thin none rgb();
 
-border-top: thin none rgb(_TYPED); =
+border-top: thin none rgb(_TYPED); b
 
-- border-top: thin none rgb(); =
+a border-top: thin none rgb(); b
 
-- border-top: thin none rgb();
+a border-top: thin none rgb();
 
 
     /*  -------------borderbottomcolor--------------- */
@@ -260,11 +256,11 @@ border-top: thin none rgb(_TYPED); =
 
 border-bottom-color: rgb();
 
-border-bottom-color: rgb(_TYPED); =
+border-bottom-color: rgb(_TYPED); b
 
-- border-bottom-color: rgb(); =
+a border-bottom-color: rgb(); b
 
-- border-bottom-color: rgb();
+a border-bottom-color: rgb();
 
 
     /*  -------------borderbottomstyle--------------- */
@@ -274,11 +270,11 @@ border-bottom-color: rgb(_TYPED); =
 
 border-bottom-style: none;
 
-border-bottom-style: none; =
+border-bottom-style: none; b
 
-- border-bottom-style: none; =
+a border-bottom-style: none; b
 
-- border-bottom-style: none;
+a border-bottom-style: none;
 
 
     /*  -------------borderbottomwidth--------------- */
@@ -288,11 +284,11 @@ border-bottom-style: none; =
 
 border-bottom-width: thin;
 
-border-bottom-width: thin; =
+border-bottom-width: thin; b
 
-- border-bottom-width: thin; =
+a border-bottom-width: thin; b
 
-- border-bottom-width: thin;
+a border-bottom-width: thin;
 
 
     /*  -------------bordercollapse--------------- */
@@ -302,11 +298,11 @@ border-bottom-width: thin; =
 
 border-collapse: collapse;
 
-border-collapse: collapse; =
+border-collapse: collapse; b
 
-- border-collapse: collapse; =
+a border-collapse: collapse; b
 
-- border-collapse: collapse;
+a border-collapse: collapse;
 
 
     /*  -------------bordercolor--------------- */
@@ -316,11 +312,11 @@ border-collapse: collapse; =
 
 border-color: rgb();
 
-border-color: rgb(_TYPED); =
+border-color: rgb(_TYPED); b
 
-- border-color: rgb(); =
+a border-color: rgb(); b
 
-- border-color: rgb();
+a border-color: rgb();
 
 
     /*  -------------borderleftcolor--------------- */
@@ -330,11 +326,11 @@ border-color: rgb(_TYPED); =
 
 border-left-color: rgb();
 
-border-left-color: rgb(_TYPED); =
+border-left-color: rgb(_TYPED); b
 
-- border-left-color: rgb(); =
+a border-left-color: rgb(); b
 
-- border-left-color: rgb();
+a border-left-color: rgb();
 
 
     /*  -------------borderleftstyle--------------- */
@@ -344,11 +340,11 @@ border-left-color: rgb(_TYPED); =
 
 border-left-style: none;
 
-border-left-style: none; =
+border-left-style: none; b
 
-- border-left-style: none; =
+a border-left-style: none; b
 
-- border-left-style: none;
+a border-left-style: none;
 
 
     /*  -------------borderleftwidth--------------- */
@@ -358,11 +354,11 @@ border-left-style: none; =
 
 border-left-width: thin;
 
-border-left-width: thin; =
+border-left-width: thin; b
 
-- border-left-width: thin; =
+a border-left-width: thin; b
 
-- border-left-width: thin;
+a border-left-width: thin;
 
 
     /*  -------------borderrightcolor--------------- */
@@ -372,11 +368,11 @@ border-left-width: thin; =
 
 border-right-color: rgb();
 
-border-right-color: rgb(_TYPED); =
+border-right-color: rgb(_TYPED); b
 
-- border-right-color: rgb(); =
+a border-right-color: rgb(); b
 
-- border-right-color: rgb();
+a border-right-color: rgb();
 
 
     /*  -------------borderrightstyle--------------- */
@@ -386,11 +382,11 @@ border-right-color: rgb(_TYPED); =
 
 border-right-style: none;
 
-border-right-style: none; =
+border-right-style: none; b
 
-- border-right-style: none; =
+a border-right-style: none; b
 
-- border-right-style: none;
+a border-right-style: none;
 
 
     /*  -------------borderrightwidth--------------- */
@@ -400,11 +396,11 @@ border-right-style: none; =
 
 border-right-width: thin;
 
-border-right-width: thin; =
+border-right-width: thin; b
 
-- border-right-width: thin; =
+a border-right-width: thin; b
 
-- border-right-width: thin;
+a border-right-width: thin;
 
 
     /*  -------------borderspacing--------------- */
@@ -414,11 +410,11 @@ border-right-width: thin; =
 
 border-spacing: select;
 
-border-spacing: select_TYPED; =
+border-spacing: select_TYPED; b
 
-- border-spacing: select; =
+a border-spacing: select; b
 
-- border-spacing: select;
+a border-spacing: select;
 
 
     /*  -------------borderstyle--------------- */
@@ -428,11 +424,11 @@ border-spacing: select_TYPED; =
 
 border-style: none;
 
-border-style: none; =
+border-style: none; b
 
-- border-style: none; =
+a border-style: none; b
 
-- border-style: none;
+a border-style: none;
 
 
     /*  -------------bordertopcolor--------------- */
@@ -442,11 +438,11 @@ border-style: none; =
 
 border-top-color: rgb();
 
-border-top-color: rgb(_TYPED); =
+border-top-color: rgb(_TYPED); b
 
-- border-top-color: rgb(); =
+a border-top-color: rgb(); b
 
-- border-top-color: rgb();
+a border-top-color: rgb();
 
 
     /*  -------------bordertopstyle--------------- */
@@ -456,11 +452,11 @@ border-top-color: rgb(_TYPED); =
 
 border-top-style: none;
 
-border-top-style: none; =
+border-top-style: none; b
 
-- border-top-style: none; =
+a border-top-style: none; b
 
-- border-top-style: none;
+a border-top-style: none;
 
 
     /*  -------------bordertopwidth--------------- */
@@ -470,11 +466,11 @@ border-top-style: none; =
 
 border-top-width: rgb();
 
-border-top-width: rgb(_TYPED); =
+border-top-width: rgb(_TYPED); b
 
-- border-top-width: rgb(); =
+a border-top-width: rgb(); b
 
-- border-top-width: rgb();
+a border-top-width: rgb();
 
 
     /*  -------------borderwidth--------------- */
@@ -484,11 +480,11 @@ border-top-width: rgb(_TYPED); =
 
 border-width: thin;
 
-border-width: thin; =
+border-width: thin; b
 
-- border-width: thin; =
+a border-width: thin; b
 
-- border-width: thin;
+a border-width: thin;
 
 
     /*  -------------bottom--------------- */
@@ -498,11 +494,11 @@ border-width: thin; =
 
 bottom: ;
 
-bottom: ; =
+bottom: ; b
 
-- bottom: ; =
+a bottom: ; b
 
-- bottom: ;
+a bottom: ;
 
 
     /*  -------------captionside--------------- */
@@ -512,11 +508,11 @@ bottom: ; =
 
 caption-side: top;
 
-caption-side: top; =
+caption-side: top; b
 
-- caption-side: top; =
+a caption-side: top; b
 
-- caption-side: top;
+a caption-side: top;
 
 
     /*  -------------clear--------------- */
@@ -526,11 +522,11 @@ caption-side: top; =
 
 clear: none;
 
-clear: none; =
+clear: none; b
 
-- clear: none; =
+a clear: none; b
 
-- clear: none;
+a clear: none;
 
 
     /*  -------------clip--------------- */
@@ -540,11 +536,11 @@ clear: none; =
 
 clip: auto;
 
-clip: auto; =
+clip: auto; b
 
-- clip: auto; =
+a clip: auto; b
 
-- clip: auto;
+a clip: auto;
 
 
     /*  -------------color--------------- */
@@ -554,25 +550,43 @@ clip: auto; =
 
 color: rgb();
 
-color: rgb(_TYPED); =
+color: rgb(_TYPED); b
 
-- color: rgb(); =
+a color: rgb(); b
 
-- color: rgb();
+a color: rgb();
 
 
     /*  -------------comment--------------- */
-    /* `$CL^ `cursor^ `$CR^                 */
+    /* `$CL^ `what^ `$CR^                   */
 
 
 
-/*  */
+/* what */
 
-/*  */ =
+/* what_TYPED */ b
 
-- /*  */ =
+a /* what */ b
 
-- /*  */
+a /* what */
+
+
+    /*  -------------comment_--------------- */
+    /* `$CL^ `wrapped^ `$CR^                 */
+
+
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
 
 
     /*  -------------commentBlock--------------- */
@@ -588,14 +602,42 @@ color: rgb(_TYPED); =
 
 /* 
  * 
- */ =
+ */ b
 
-- /* 
+a /* 
  * 
- */ =
+ */ b
 
-- /* 
+a /* 
  * 
+ */
+
+
+    /*  -------------commentBlock_--------------- */
+    /* `$CL^                                      */
+    /*  `$CM^ `wrapped^                           */
+    /*  `$CR^                                     */
+
+
+
+/* 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */
+
+/* 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */b
+
+a /* 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */b
+
+a /* 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
  */
 
 
@@ -612,43 +654,75 @@ color: rgb(_TYPED); =
 
 /** 
  * 
- */ =
+ */ b
 
-- /** 
+a /** 
  * 
- */ =
+ */ b
 
-- /** 
+a /** 
  * 
  */
 
 
+    /*  -------------commentDoc_--------------- */
+    /* `$CL^`$CM^                               */
+    /*  `$CM^ `wrapped^                         */
+    /*  `$CR^                                   */
+
+
+
+/** 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */
+
+/** 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */b
+
+a /** 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */b
+
+a /** 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */
+
+
     /*  -------------commentLine--------------- */
-    /* `$CL^ `cursor^ `$CR^                     */
+    /* `$CL^ `what^ `$CR^                       */
 
 
 
-/*  */
+/* what */
 
-/*  */ =
+/* what_TYPED */ b
 
-- /*  */ =
+a /* what */ b
 
-- /*  */
-
-
-    /*  -------------comment_--------------- */
-    /* `$CL^ `wrapped^ `$CR^                 */
+a /* what */
 
 
+    /*  -------------commentLine_--------------- */
+    /* `$CL^ `wrapped^ `$CR^                     */
 
-/* WRAPPED_TEXT */
 
-/* WRAPPED_TEXT */ =
 
-- /* WRAPPED_TEXT */ =
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
 
-- /* WRAPPED_TEXT */
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
 
 
     /*  -------------content--------------- */
@@ -658,11 +732,11 @@ color: rgb(_TYPED); =
 
 content: normal;
 
-content: normal; =
+content: normal; b
 
-- content: normal; =
+a content: normal; b
 
-- content: normal;
+a content: normal;
 
 
     /*  -------------cursor--------------- */
@@ -672,11 +746,11 @@ content: normal; =
 
 cursor: url();
 
-cursor: url(_TYPED); =
+cursor: url(_TYPED); b
 
-- cursor: url(); =
+a cursor: url(); b
 
-- cursor: url();
+a cursor: url();
 
 
     /*  -------------direction--------------- */
@@ -686,11 +760,11 @@ cursor: url(_TYPED); =
 
 direction: ltr;
 
-direction: ltr; =
+direction: ltr; b
 
-- direction: ltr; =
+a direction: ltr; b
 
-- direction: ltr;
+a direction: ltr;
 
 
     /*  -------------display--------------- */
@@ -700,11 +774,11 @@ direction: ltr; =
 
 display: inline;
 
-display: inline; =
+display: inline; b
 
-- display: inline; =
+a display: inline; b
 
-- display: inline;
+a display: inline;
 
 
     /*  -------------elevation--------------- */
@@ -714,11 +788,25 @@ display: inline; =
 
 elevation: below;
 
-elevation: below; =
+elevation: below; b
 
-- elevation: below; =
+a elevation: below; b
 
-- elevation: below;
+a elevation: below;
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com
 
 
     /*  -------------emptycells--------------- */
@@ -728,11 +816,25 @@ elevation: below; =
 
 empty-cells: show;
 
-empty-cells: show; =
+empty-cells: show; b
 
-- empty-cells: show; =
+a empty-cells: show; b
 
-- empty-cells: show;
+a empty-cells: show;
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+test.page
+
+test.page b
+
+a test.page b
+
+a test.page
 
 
     /*  -------------float--------------- */
@@ -742,11 +844,11 @@ empty-cells: show; =
 
 float: left;
 
-float: left; =
+float: left; b
 
-- float: left; =
+a float: left; b
 
-- float: left;
+a float: left;
 
 
     /*  -------------font--------------- */
@@ -756,11 +858,11 @@ float: left; =
 
 font: normal xx-small sans-serif;
 
-font: normal xx-small sans-serif; =
+font: normal xx-small sans-serif; b
 
-- font: normal xx-small sans-serif; =
+a font: normal xx-small sans-serif; b
 
-- font: normal xx-small sans-serif;
+a font: normal xx-small sans-serif;
 
 
     /*  -------------fontfamily--------------- */
@@ -770,11 +872,11 @@ font: normal xx-small sans-serif; =
 
 font-family: sans-serif;
 
-font-family: sans-serif; =
+font-family: sans-serif; b
 
-- font-family: sans-serif; =
+a font-family: sans-serif; b
 
-- font-family: sans-serif;
+a font-family: sans-serif;
 
 
     /*  -------------fontsize--------------- */
@@ -784,11 +886,11 @@ font-family: sans-serif; =
 
 font-size: xx-small;
 
-font-size: xx-small; =
+font-size: xx-small; b
 
-- font-size: xx-small; =
+a font-size: xx-small; b
 
-- font-size: xx-small;
+a font-size: xx-small;
 
 
     /*  -------------fontstyle--------------- */
@@ -798,11 +900,11 @@ font-size: xx-small; =
 
 font-style: normal;
 
-font-style: normal; =
+font-style: normal; b
 
-- font-style: normal; =
+a font-style: normal; b
 
-- font-style: normal;
+a font-style: normal;
 
 
     /*  -------------fontvariant--------------- */
@@ -812,11 +914,11 @@ font-style: normal; =
 
 font-variant: normal;
 
-font-variant: normal; =
+font-variant: normal; b
 
-- font-variant: normal; =
+a font-variant: normal; b
 
-- font-variant: normal;
+a font-variant: normal;
 
 
     /*  -------------fontweight--------------- */
@@ -826,11 +928,11 @@ font-variant: normal; =
 
 font-weight: normal;
 
-font-weight: normal; =
+font-weight: normal; b
 
-- font-weight: normal; =
+a font-weight: normal; b
 
-- font-weight: normal;
+a font-weight: normal;
 
 
     /*  -------------letterspacing--------------- */
@@ -840,11 +942,11 @@ font-weight: normal; =
 
 letter-spacing: ;
 
-letter-spacing: ; =
+letter-spacing: ; b
 
-- letter-spacing: ; =
+a letter-spacing: ; b
 
-- letter-spacing: ;
+a letter-spacing: ;
 
 
     /*  -------------lineheight--------------- */
@@ -854,11 +956,11 @@ letter-spacing: ; =
 
 line-height: ;
 
-line-height: ; =
+line-height: ; b
 
-- line-height: ; =
+a line-height: ; b
 
-- line-height: ;
+a line-height: ;
 
 
     /*  -------------liststyleimage--------------- */
@@ -868,11 +970,11 @@ line-height: ; =
 
 list-style-image: url();
 
-list-style-image: url(_TYPED); =
+list-style-image: url(_TYPED); b
 
-- list-style-image: url(); =
+a list-style-image: url(); b
 
-- list-style-image: url();
+a list-style-image: url();
 
 
     /*  -------------liststyleposition--------------- */
@@ -882,11 +984,11 @@ list-style-image: url(_TYPED); =
 
 list-style-position: inside;
 
-list-style-position: inside; =
+list-style-position: inside; b
 
-- list-style-position: inside; =
+a list-style-position: inside; b
 
-- list-style-position: inside;
+a list-style-position: inside;
 
 
     /*  -------------liststyletype--------------- */
@@ -896,11 +998,11 @@ list-style-position: inside; =
 
 list-style-type: disc;
 
-list-style-type: disc; =
+list-style-type: disc; b
 
-- list-style-type: disc; =
+a list-style-type: disc; b
 
-- list-style-type: disc;
+a list-style-type: disc;
 
 
     /*  -------------margin--------------- */
@@ -910,11 +1012,11 @@ list-style-type: disc; =
 
 margin: ;
 
-margin: ; =
+margin: ; b
 
-- margin: ; =
+a margin: ; b
 
-- margin: ;
+a margin: ;
 
 
     /*  -------------maxheight--------------- */
@@ -924,11 +1026,11 @@ margin: ; =
 
 max-height: ;
 
-max-height: ; =
+max-height: ; b
 
-- max-height: ; =
+a max-height: ; b
 
-- max-height: ;
+a max-height: ;
 
 
     /*  -------------maxwidth--------------- */
@@ -938,11 +1040,11 @@ max-height: ; =
 
 max-width: ;
 
-max-width: ; =
+max-width: ; b
 
-- max-width: ; =
+a max-width: ; b
 
-- max-width: ;
+a max-width: ;
 
 
     /*  -------------minheight--------------- */
@@ -952,11 +1054,11 @@ max-width: ; =
 
 min-height: ;
 
-min-height: ; =
+min-height: ; b
 
-- min-height: ; =
+a min-height: ; b
 
-- min-height: ;
+a min-height: ;
 
 
     /*  -------------minwidth--------------- */
@@ -966,11 +1068,11 @@ min-height: ; =
 
 min-width: ;
 
-min-width: ; =
+min-width: ; b
 
-- min-width: ; =
+a min-width: ; b
 
-- min-width: ;
+a min-width: ;
 
 
     /*  -------------outline---------------    */
@@ -980,11 +1082,11 @@ min-width: ; =
 
 outline: thin none rgb();
 
-outline: thin none rgb(_TYPED); =
+outline: thin none rgb(_TYPED); b
 
-- outline: thin none rgb(); =
+a outline: thin none rgb(); b
 
-- outline: thin none rgb();
+a outline: thin none rgb();
 
 
     /*  -------------outlinecolor--------------- */
@@ -994,11 +1096,11 @@ outline: thin none rgb(_TYPED); =
 
 outline-color: rgb();
 
-outline-color: rgb(_TYPED); =
+outline-color: rgb(_TYPED); b
 
-- outline-color: rgb(); =
+a outline-color: rgb(); b
 
-- outline-color: rgb();
+a outline-color: rgb();
 
 
     /*  -------------outlinestyle--------------- */
@@ -1008,11 +1110,11 @@ outline-color: rgb(_TYPED); =
 
 outline-style: none;
 
-outline-style: none; =
+outline-style: none; b
 
-- outline-style: none; =
+a outline-style: none; b
 
-- outline-style: none;
+a outline-style: none;
 
 
     /*  -------------outlinewidth--------------- */
@@ -1022,11 +1124,11 @@ outline-style: none; =
 
 outline-width: thin;
 
-outline-width: thin; =
+outline-width: thin; b
 
-- outline-width: thin; =
+a outline-width: thin; b
 
-- outline-width: thin;
+a outline-width: thin;
 
 
     /*  -------------overflow--------------- */
@@ -1036,11 +1138,11 @@ outline-width: thin; =
 
 overflow: visible;
 
-overflow: visible; =
+overflow: visible; b
 
-- overflow: visible; =
+a overflow: visible; b
 
-- overflow: visible;
+a overflow: visible;
 
 
     /*  -------------pagebreakafter--------------- */
@@ -1050,11 +1152,11 @@ overflow: visible; =
 
 page-break-after: auto;
 
-page-break-after: auto; =
+page-break-after: auto; b
 
-- page-break-after: auto; =
+a page-break-after: auto; b
 
-- page-break-after: auto;
+a page-break-after: auto;
 
 
     /*  -------------pagebreakbefore--------------- */
@@ -1064,11 +1166,11 @@ page-break-after: auto; =
 
 page-break-before: auto;
 
-page-break-before: auto; =
+page-break-before: auto; b
 
-- page-break-before: auto; =
+a page-break-before: auto; b
 
-- page-break-before: auto;
+a page-break-before: auto;
 
 
     /*  -------------pagebreakinside--------------- */
@@ -1078,11 +1180,11 @@ page-break-before: auto; =
 
 page-break-inside: auto;
 
-page-break-inside: auto; =
+page-break-inside: auto; b
 
-- page-break-inside: auto; =
+a page-break-inside: auto; b
 
-- page-break-inside: auto;
+a page-break-inside: auto;
 
 
     /*  -------------pitch--------------- */
@@ -1092,11 +1194,11 @@ page-break-inside: auto; =
 
 pitch: x-low;
 
-pitch: x-low; =
+pitch: x-low; b
 
-- pitch: x-low; =
+a pitch: x-low; b
 
-- pitch: x-low;
+a pitch: x-low;
 
 
     /*  -------------playduring--------------- */
@@ -1106,11 +1208,11 @@ pitch: x-low; =
 
 play-during: url();
 
-play-during: url(_TYPED); =
+play-during: url(_TYPED); b
 
-- play-during: url(); =
+a play-during: url(); b
 
-- play-during: url();
+a play-during: url();
 
 
     /*  -------------position--------------- */
@@ -1120,11 +1222,11 @@ play-during: url(_TYPED); =
 
 position: static;
 
-position: static; =
+position: static; b
 
-- position: static; =
+a position: static; b
 
-- position: static;
+a position: static;
 
 
     /*  -------------quotes--------------- */
@@ -1134,11 +1236,11 @@ position: static; =
 
 quotes: ;
 
-quotes: ; =
+quotes: ; b
 
-- quotes: ; =
+a quotes: ; b
 
-- quotes: ;
+a quotes: ;
 
 
     /*  -------------speak--------------- */
@@ -1148,11 +1250,11 @@ quotes: ; =
 
 speak: normal;
 
-speak: normal; =
+speak: normal; b
 
-- speak: normal; =
+a speak: normal; b
 
-- speak: normal;
+a speak: normal;
 
 
     /*  -------------speakheader--------------- */
@@ -1162,11 +1264,11 @@ speak: normal; =
 
 speak-header: once;
 
-speak-header: once; =
+speak-header: once; b
 
-- speak-header: once; =
+a speak-header: once; b
 
-- speak-header: once;
+a speak-header: once;
 
 
     /*  -------------speaknumeral--------------- */
@@ -1176,11 +1278,11 @@ speak-header: once; =
 
 speak-numeral: digits;
 
-speak-numeral: digits; =
+speak-numeral: digits; b
 
-- speak-numeral: digits; =
+a speak-numeral: digits; b
 
-- speak-numeral: digits;
+a speak-numeral: digits;
 
 
     /*  -------------speakpunctuation--------------- */
@@ -1190,11 +1292,11 @@ speak-numeral: digits; =
 
 speak-punctuation: code;
 
-speak-punctuation: code; =
+speak-punctuation: code; b
 
-- speak-punctuation: code; =
+a speak-punctuation: code; b
 
-- speak-punctuation: code;
+a speak-punctuation: code;
 
 
     /*  -------------speechrate--------------- */
@@ -1204,11 +1306,11 @@ speak-punctuation: code; =
 
 speech-rate: x-slow;
 
-speech-rate: x-slow; =
+speech-rate: x-slow; b
 
-- speech-rate: x-slow; =
+a speech-rate: x-slow; b
 
-- speech-rate: x-slow;
+a speech-rate: x-slow;
 
 
     /*  -------------tablelayout--------------- */
@@ -1218,11 +1320,11 @@ speech-rate: x-slow; =
 
 table-layout: auto;
 
-table-layout: auto; =
+table-layout: auto; b
 
-- table-layout: auto; =
+a table-layout: auto; b
 
-- table-layout: auto;
+a table-layout: auto;
 
 
     /*  -------------textalign--------------- */
@@ -1232,11 +1334,11 @@ table-layout: auto; =
 
 text-align: left;
 
-text-align: left; =
+text-align: left; b
 
-- text-align: left; =
+a text-align: left; b
 
-- text-align: left;
+a text-align: left;
 
 
     /*  -------------textdecoration--------------- */
@@ -1246,11 +1348,11 @@ text-align: left; =
 
 text-decoration: none;
 
-text-decoration: none; =
+text-decoration: none; b
 
-- text-decoration: none; =
+a text-decoration: none; b
 
-- text-decoration: none;
+a text-decoration: none;
 
 
     /*  -------------texttransform--------------- */
@@ -1260,11 +1362,11 @@ text-decoration: none; =
 
 text-transform: capitalize;
 
-text-transform: capitalize; =
+text-transform: capitalize; b
 
-- text-transform: capitalize; =
+a text-transform: capitalize; b
 
-- text-transform: capitalize;
+a text-transform: capitalize;
 
 
     /*  -------------top--------------- */
@@ -1274,11 +1376,11 @@ text-transform: capitalize; =
 
 top: ;
 
-top: ; =
+top: ; b
 
-- top: ; =
+a top: ; b
 
-- top: ;
+a top: ;
 
 
     /*  -------------unicodebidi--------------- */
@@ -1288,11 +1390,11 @@ top: ; =
 
 unicode-bidi: normal;
 
-unicode-bidi: normal; =
+unicode-bidi: normal; b
 
-- unicode-bidi: normal; =
+a unicode-bidi: normal; b
 
-- unicode-bidi: normal;
+a unicode-bidi: normal;
 
 
     /*  -------------verticalalign--------------- */
@@ -1302,11 +1404,11 @@ unicode-bidi: normal; =
 
 vertical-align: baseline;
 
-vertical-align: baseline; =
+vertical-align: baseline; b
 
-- vertical-align: baseline; =
+a vertical-align: baseline; b
 
-- vertical-align: baseline;
+a vertical-align: baseline;
 
 
     /*  -------------visibility--------------- */
@@ -1316,11 +1418,11 @@ vertical-align: baseline; =
 
 visibility: visible;
 
-visibility: visible; =
+visibility: visible; b
 
-- visibility: visible; =
+a visibility: visible; b
 
-- visibility: visible;
+a visibility: visible;
 
 
     /*  -------------volume--------------- */
@@ -1330,11 +1432,11 @@ visibility: visible; =
 
 volume: silent;
 
-volume: silent; =
+volume: silent; b
 
-- volume: silent; =
+a volume: silent; b
 
-- volume: silent;
+a volume: silent;
 
 
     /*  -------------whitespace--------------- */
@@ -1344,11 +1446,11 @@ volume: silent; =
 
 white-space: normal;
 
-white-space: normal; =
+white-space: normal; b
 
-- white-space: normal; =
+a white-space: normal; b
 
-- white-space: normal;
+a white-space: normal;
 
 
     /*  -------------wordspacing--------------- */
@@ -1358,11 +1460,11 @@ white-space: normal; =
 
 word-spacing: ;
 
-word-spacing: ; =
+word-spacing: ; b
 
-- word-spacing: ; =
+a word-spacing: ; b
 
-- word-spacing: ;
+a word-spacing: ;
 
 
     /*  -------------zindex--------------- */
@@ -1372,23 +1474,27 @@ word-spacing: ; =
 
 z-index: ;
 
-z-index: ; =
+z-index: ; b
 
-- z-index: ; =
+a z-index: ; b
 
-- z-index: ;
-
-
-    /*  -------------{--------------- */
-    /* {`wrapped^}                    */
+a z-index: ;
 
 
+    /*  -------------{_--------------- */
+    /* {`wrapped^}                     */
 
-{WRAPPED_TEXT}
 
-{WRAPPED_TEXT} =
 
-- {WRAPPED_TEXT} =
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 
-- {WRAPPED_TEXT}
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 

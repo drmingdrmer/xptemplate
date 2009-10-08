@@ -1,130 +1,112 @@
 
 
 
-    #   -------------"--------------- 
-    #  "`wrapped^"                    
+    #   -------------"_--------------- 
+    #  "`wrapped^"                     
 
 
 
-"WRAPPED_TEXT"
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
-"WRAPPED_TEXT" =
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-- "WRAPPED_TEXT" =
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-- "WRAPPED_TEXT"
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
 
-    #   -------------'--------------- 
-    #  '`wrapped^'                    
+    #   -------------'_--------------- 
+    #  '`wrapped^'                     
 
 
 
-'WRAPPED_TEXT'
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
-'WRAPPED_TEXT' =
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-- 'WRAPPED_TEXT' =
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-- 'WRAPPED_TEXT'
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
 
-    #   -------------(--------------- 
-    #  (`wrapped^)                    
+    #   -------------(_--------------- 
+    #  (`wrapped^)                     
 
 
 
-(WRAPPED_TEXT)
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
-(WRAPPED_TEXT) =
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
 
-- (WRAPPED_TEXT) =
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
 
-- (WRAPPED_TEXT)
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
 
-    #   -------------<--------------- 
-    #  <`wrapped^>                    
+    #   -------------<_--------------- 
+    #  <`wrapped^>                     
 
 
 
-<WRAPPED_TEXT>
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
 
-<WRAPPED_TEXT> =
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
 
-- <WRAPPED_TEXT> =
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
 
-- <WRAPPED_TEXT>
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
 
 
-    #   -------------Author--------------- 
-    #  `$author^                           
+    #   -------------[_--------------- 
+    #  [`wrapped^]                     
 
 
 
-drdr.xp
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
 
-drdr.xp =
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
 
-- drdr.xp =
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
 
-- drdr.xp
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
 
 
-    #   -------------Email--------------- 
-    #  `$email^                           
+    #   -------------`_--------------- 
+    #  \``wrapped^\`                   
 
 
 
-drdr.xp@gmail.com
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
-drdr.xp@gmail.com =
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
 
-- drdr.xp@gmail.com =
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
 
-- drdr.xp@gmail.com
-
-
-    #   -------------File--------------- 
-    #  `file()^                          
-
-
-
-test.page
-
-test.page =
-
-- test.page =
-
-- test.page
-
-
-    #   -------------[--------------- 
-    #  [`wrapped^]                    
-
-
-
-[WRAPPED_TEXT]
-
-[WRAPPED_TEXT] =
-
-- [WRAPPED_TEXT] =
-
-- [WRAPPED_TEXT]
-
-
-    #   -------------`--------------- 
-    #  \``wrapped^\`                  
-
-
-
-`WRAPPED_TEXT`
-
-`WRAPPED_TEXT` =
-
-- `WRAPPED_TEXT` =
-
-- `WRAPPED_TEXT`
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
 
     #   -------------addprefix--------------- 
@@ -134,11 +116,11 @@ test.page =
 
 $(addprefix prefix, elemList)
 
-$(addprefix prefix_TYPED, elemList_TYPED) =
+$(addprefix prefix_TYPED, elemList_TYPED) b
 
-- $(addprefix prefix, elemList) =
+a $(addprefix prefix, elemList) b
 
-- $(addprefix prefix, elemList)
+a $(addprefix prefix, elemList)
 
 
     #   -------------addsuffix--------------- 
@@ -148,11 +130,25 @@ $(addprefix prefix_TYPED, elemList_TYPED) =
 
 $(addsuffix suffix, elemList)
 
-$(addsuffix suffix_TYPED, elemList_TYPED) =
+$(addsuffix suffix_TYPED, elemList_TYPED) b
 
-- $(addsuffix suffix, elemList) =
+a $(addsuffix suffix, elemList) b
 
-- $(addsuffix suffix, elemList)
+a $(addsuffix suffix, elemList)
+
+
+    #   -------------Author--------------- 
+    #  `$author^                           
+
+
+
+drdr.xp
+
+drdr.xp b
+
+a drdr.xp b
+
+a drdr.xp
 
 
     #   -------------basevar---------------      
@@ -165,12 +161,12 @@ CC := gcc
 CFLAGS := -Wall -Wextra
 
 lang_TYPEDC := compiler_TYPED
-CFLAGS := switches_TYPED =
+CFLAGS := switches_TYPED b
 
-- CC := gcc
-CFLAGS := -Wall -Wextra =
+a CC := gcc
+CFLAGS := -Wall -Wextra b
 
-- CC := gcc
+a CC := gcc
 CFLAGS := -Wall -Wextra
 
 
@@ -181,11 +177,29 @@ CFLAGS := -Wall -Wextra
 
 # 
 #
-#  =
+#  b
 #
-- #  =
+a #  b
 
-- # 
+a # 
+
+
+    #   -------------comment_--------------- 
+    #  `$CS^ `wrapped^                       
+
+
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
 
     #   -------------commentBlock--------------- 
@@ -198,12 +212,12 @@ CFLAGS := -Wall -Wextra
 #
 #
 # 
-# =
+# b
 #
-- # 
-# =
+a # 
+# b
 #
-- # 
+a # 
 #
 #
 
@@ -220,13 +234,13 @@ CFLAGS := -Wall -Wextra
 #
 #
 # 
-# =
+# b
 #
-- #
+a #
 # 
-# =
+# b
 #
-- #
+a #
 # 
 #
 #
@@ -238,11 +252,11 @@ CFLAGS := -Wall -Wextra
 
 # 
 #
-#  =
+#  b
 #
-- #  =
+a #  b
 
-- # 
+a # 
 
 
     #   -------------commentLine_--------------- 
@@ -251,26 +265,44 @@ CFLAGS := -Wall -Wextra
 
 
 # WRAPPED_TEXT
-#
-# WRAPPED_TEXT =
-#
-- # WRAPPED_TEXT =
-
-- # WRAPPED_TEXT
-
-
-    #   -------------comment_--------------- 
-    #  `$CS^ `wrapped^                       
-
-
+WRAPPED_TEXT_line2
 
 # WRAPPED_TEXT
-#
-# WRAPPED_TEXT =
-#
-- # WRAPPED_TEXT =
+WRAPPED_TEXT_line2b
 
-- # WRAPPED_TEXT
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+
+    #   -------------Email--------------- 
+    #  `$email^                           
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com
+
+
+    #   -------------File--------------- 
+    #  `file()^                          
+
+
+
+test.page
+
+test.page b
+
+a test.page b
+
+a test.page
 
 
     #   -------------filterout--------------- 
@@ -280,18 +312,20 @@ CFLAGS := -Wall -Wextra
 
 $(filter-out toRemove, elemList)
 
-$(filter-out toRemove_TYPED, elemList_TYPED) =
+$(filter-out toRemove_TYPED, elemList_TYPED) b
 
-- $(filter-out toRemove, elemList) =
+a $(filter-out toRemove, elemList) b
 
-- $(filter-out toRemove, elemList)
+a $(filter-out toRemove, elemList)
 
 
     #   -------------ifeq--------------- 
     #  ifeq (`what^, `with^)             
     #      `job^                         
     #  ``else...`                        
-    #  ^endif                            
+    #  {{^else                           
+    #      `cursor^                      
+    #  `}}^endif                         
 
 
 
@@ -304,15 +338,15 @@ endif
 ifeq (what_TYPED, with_TYPED)
     job_TYPED
 else_TYPED
-endif =
+endif b
 
-- ifeq (what, with)
+a ifeq (what, with)
     # job
 else
     
-endif =
+endif b
 
-- ifeq (what, with)
+a ifeq (what, with)
     # job
 else
     
@@ -323,7 +357,9 @@ endif
     #  ifneq (`what^, `with^)             
     #      `job^                          
     #  ``else...`                         
-    #  ^endif                             
+    #  {{^else                            
+    #      `cursor^                       
+    #  `}}^endif                          
 
 
 
@@ -336,15 +372,15 @@ endif
 ifneq (what_TYPED, with_TYPED)
     job_TYPED
 else_TYPED
-endif =
+endif b
 
-- ifneq (what, with)
+a ifneq (what, with)
     job
 else
     
-endif =
+endif b
 
-- ifneq (what, with)
+a ifneq (what, with)
     job
 else
     
@@ -358,11 +394,11 @@ endif
 
 $(patsubst %.c,  %.o, list)
 
-$(patsubst sourcePattern_TYPED,  destPattern_TYPED, list_TYPED) =
+$(patsubst sourcePattern_TYPED,  destPattern_TYPED, list_TYPED) b
 
-- $(patsubst %.c,  %.o, list) =
+a $(patsubst %.c,  %.o, list) b
 
-- $(patsubst %.c,  %.o, list)
+a $(patsubst %.c,  %.o, list)
 
 
     #   -------------shell--------------- 
@@ -372,11 +408,11 @@ $(patsubst sourcePattern_TYPED,  destPattern_TYPED, list_TYPED) =
 
 $(shell command)
 
-$(shell command_TYPED) =
+$(shell command_TYPED) b
 
-- $(shell command) =
+a $(shell command) b
 
-- $(shell command)
+a $(shell command)
 
 
     #   -------------subst---------------              
@@ -386,11 +422,11 @@ $(shell command_TYPED) =
 
 $(subst sourceString, destString, string)
 
-$(subst sourceString_TYPED, destString_TYPED, string_TYPED) =
+$(subst sourceString_TYPED, destString_TYPED, string_TYPED) b
 
-- $(subst sourceString, destString, string) =
+a $(subst sourceString, destString, string) b
 
-- $(subst sourceString, destString, string)
+a $(subst sourceString, destString, string)
 
 
     #   -------------var_--------------- 
@@ -398,13 +434,17 @@ $(subst sourceString_TYPED, destString_TYPED, string_TYPED) =
 
 
 
-$(WRAPPED_TEXT)
+$(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
-$(WRAPPED_TEXT) =
+$(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
 
-- $(WRAPPED_TEXT) =
+a $(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
 
-- $(WRAPPED_TEXT)
+a $(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
 
     #   -------------wildcard--------------- 
@@ -414,23 +454,27 @@ $(WRAPPED_TEXT) =
 
 $(wildcard globpattern)
 
-$(wildcard globpattern_TYPED) =
+$(wildcard globpattern_TYPED) b
 
-- $(wildcard globpattern) =
+a $(wildcard globpattern) b
 
-- $(wildcard globpattern)
-
-
-    #   -------------{--------------- 
-    #  {`wrapped^}                    
+a $(wildcard globpattern)
 
 
+    #   -------------{_--------------- 
+    #  {`wrapped^}                     
 
-{WRAPPED_TEXT}
 
-{WRAPPED_TEXT} =
 
-- {WRAPPED_TEXT} =
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 
-- {WRAPPED_TEXT}
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 

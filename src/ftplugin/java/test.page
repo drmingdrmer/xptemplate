@@ -1,60 +1,112 @@
 
 
 
-    //  -------------"--------------- 
-    // "`wrapped^"                    
+    //  -------------"_--------------- 
+    // "`wrapped^"                     
 
 
 
-"WRAPPED_TEXT"
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
-"WRAPPED_TEXT" =
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-- "WRAPPED_TEXT" =
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
 
-- "WRAPPED_TEXT"
-
-
-    //  -------------'--------------- 
-    // '`wrapped^'                    
-
-
-
-'WRAPPED_TEXT'
-
-'WRAPPED_TEXT' =
-
-- 'WRAPPED_TEXT' =
-
-- 'WRAPPED_TEXT'
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
 
-    //  -------------(--------------- 
-    // (`wrapped^)                    
+    //  -------------'_--------------- 
+    // '`wrapped^'                     
 
 
 
-(WRAPPED_TEXT)
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
-    (WRAPPED_TEXT) =
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-    - (WRAPPED_TEXT) =
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
 
-    - (WRAPPED_TEXT)
-
-
-    //  -------------<--------------- 
-    // <`wrapped^>                    
-
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
 
-<WRAPPED_TEXT>
+    //  -------------(_--------------- 
+    // (`wrapped^)                     
 
-<WRAPPED_TEXT> =
 
-- <WRAPPED_TEXT> =
 
-- <WRAPPED_TEXT>
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    //  -------------<_--------------- 
+    // <`wrapped^>                     
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    //  -------------[_--------------- 
+    // [`wrapped^]                     
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    //  -------------`_--------------- 
+    // \``wrapped^\`                   
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
 
     //  -------------Author--------------- 
@@ -64,67 +116,11 @@
 
 drdr.xp
 
-drdr.xp =
+drdr.xp b
 
-- drdr.xp =
+a drdr.xp b
 
-- drdr.xp
-
-
-    //  -------------Email--------------- 
-    // `$email^                           
-
-
-
-drdr.xp@gmail.com
-
-drdr.xp@gmail.com =
-
-- drdr.xp@gmail.com =
-
-- drdr.xp@gmail.com
-
-
-    //  -------------File--------------- 
-    // `file()^                          
-
-
-
-test.page
-
-test.page =
-
-- test.page =
-
-- test.page
-
-
-    //  -------------[--------------- 
-    // [`wrapped^]                    
-
-
-
-[WRAPPED_TEXT]
-
-[WRAPPED_TEXT] =
-
-- [WRAPPED_TEXT] =
-
-- [WRAPPED_TEXT]
-
-
-    //  -------------`--------------- 
-    // \``wrapped^\`                  
-
-
-
-`WRAPPED_TEXT`
-
-`WRAPPED_TEXT` =
-
-- `WRAPPED_TEXT` =
-
-- `WRAPPED_TEXT`
+a drdr.xp
 
 
     //  -------------class---------------                          
@@ -146,15 +142,15 @@ public class className_TYPED {
     public className_TYPED( ctorParam_TYPED ) {
         
     }
-} =
+} b
 
-- public class className {
+a public class className {
     public className( ctorParam ) {
         
     }
-} =
+} b
 
-- public class className {
+a public class className {
     public className( ctorParam ) {
         
     }
@@ -162,17 +158,35 @@ public class className_TYPED {
 
 
     //  -------------comment--------------- 
-    // `$CL^ `cursor^ `$CR^                 
+    // `$CL^ `what^ `$CR^                   
 
 
 
-/*  */
+/* what */
 
-/*  */ =
+/* what_TYPED */ b
 
-- /*  */ =
+a /* what */ b
 
-- /*  */
+a /* what */
+
+
+    //  -------------comment_--------------- 
+    // `$CL^ `wrapped^ `$CR^                 
+
+
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
 
 
     //  -------------commentBlock--------------- 
@@ -188,14 +202,42 @@ public class className_TYPED {
 
 /* 
  * 
- */ =
+ */ b
 
-- /* 
+a /* 
  * 
- */ =
+ */ b
 
-- /* 
+a /* 
  * 
+ */
+
+
+    //  -------------commentBlock_--------------- 
+    // `$CL^                                      
+    //  `$CM^ `wrapped^                           
+    //  `$CR^                                     
+
+
+
+/* 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */
+
+/* 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */b
+
+a /* 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */b
+
+a /* 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
  */
 
 
@@ -212,43 +254,75 @@ public class className_TYPED {
 
 /** 
  * 
- */ =
+ */ b
 
-- /** 
+a /** 
  * 
- */ =
+ */ b
 
-- /** 
+a /** 
  * 
  */
 
 
+    //  -------------commentDoc_--------------- 
+    // `$CL^`$CM^                               
+    //  `$CM^ `wrapped^                         
+    //  `$CR^                                   
+
+
+
+/** 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */
+
+/** 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */b
+
+a /** 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */b
+
+a /** 
+ * WRAPPED_TEXT
+ WRAPPED_TEXT_line2
+ */
+
+
     //  -------------commentLine--------------- 
-    // `$CL^ `cursor^ `$CR^                     
+    // `$CL^ `what^ `$CR^                       
 
 
 
-/*  */
+/* what */
 
-/*  */ =
+/* what_TYPED */ b
 
-- /*  */ =
+a /* what */ b
 
-- /*  */
-
-
-    //  -------------comment_--------------- 
-    // `$CL^ `wrapped^ `$CR^                 
+a /* what */
 
 
+    //  -------------commentLine_--------------- 
+    // `$CL^ `wrapped^ `$CR^                     
 
-/* WRAPPED_TEXT */
 
-/* WRAPPED_TEXT */ =
 
-- /* WRAPPED_TEXT */ =
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
 
-- /* WRAPPED_TEXT */
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */b
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
 
 
     //  -------------do---------------           
@@ -264,15 +338,39 @@ do {
 
 do {
     
-} while (condition_TYPED); =
+} while (condition_TYPED); b
 
-- do {
+a do {
     
-} while (condition); =
+} while (condition); b
 
-- do {
+a do {
     
 } while (condition);
+
+
+    //  -------------elif---------------       
+    // else if (`condition^)`$IF_BRACKET_STL^{ 
+    //     `job^                               
+    // }                                       
+
+
+
+else if (condition) {
+    /* void */;
+}
+
+else if (condition_TYPED) {
+    job_TYPED
+} b
+
+a else if (condition) {
+    /* void */;
+} b
+
+a else if (condition) {
+    /* void */;
+}
 
 
     //  -------------else--------------- 
@@ -288,13 +386,13 @@ else {
 
 else {
     
-} =
+} b
 
-- else {
+a else {
     
-} =
+} b
 
-- else {
+a else {
     
 }
 
@@ -308,19 +406,37 @@ else {
 
 else {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
 
 else {
     WRAPPED_TEXT
-} =
+    WRAPPED_TEXT_line2
+}b
 
-- else {
+a else {
     WRAPPED_TEXT
-} =
+    WRAPPED_TEXT_line2
+}b
 
-- else {
+a else {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
+
+
+    //  -------------Email--------------- 
+    // `$email^                           
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com
 
 
     //  -------------enum--------------- 
@@ -337,6 +453,7 @@ public enum enumName
 {
     elem,
     subElem,
+    subElem,
     subElem
 };
 
@@ -345,23 +462,39 @@ public_TYPED enum enumName_TYPED
 {
     elem_TYPED _TYPED
 };
- =
+ b
 
- - public enum enumName
+ a public enum enumName
  {
      elem,
      subElem,
+     subElem,
      subElem
  };
-  =
+  b
 
-  - public enum enumName
+  a public enum enumName
   {
       elem,
+      subElem,
       subElem,
       subElem
   };
   
+
+
+    //  -------------File--------------- 
+    // `file()^                          
+
+
+
+test.page
+
+test.page b
+
+a test.page b
+
+a test.page
 
 
     //  -------------for---------------                             
@@ -377,13 +510,13 @@ for (int i = 0; i < len; ++i)  {
 
 for (int_TYPED i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED)  {
     
-} =
+} b
 
-- for (int i = 0; i < len; ++i)  {
+a for (int i = 0; i < len; ++i)  {
     
-} =
+} b
 
-- for (int i = 0; i < len; ++i)  {
+a for (int i = 0; i < len; ++i)  {
     
 }
 
@@ -401,29 +534,15 @@ for ( type var : inWhat ) {
 
 for ( type_TYPED var_TYPED : inWhat_TYPED ) {
     
-} =
+} b
 
-- for ( type var : inWhat ) {
+a for ( type var : inWhat ) {
     
-} =
+} b
 
-- for ( type var : inWhat ) {
+a for ( type var : inWhat ) {
     
 }
-
-
-    //  -------------forever--------------- 
-    // for (;;) `body^                      
-
-
-
-for (;;) /* void */;
-
-for (;;) body_TYPED =
-
-- for (;;) /* void */; =
-
-- for (;;) /* void */;
 
 
     //  -------------forr---------------                               
@@ -439,73 +558,79 @@ for (int i = n; i >= end; --i)  {
 
 for (int_TYPED i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED)  {
     
-} =
+} b
 
-- for (int i = n; i >= end; --i)  {
+a for (int i = n; i >= end; --i)  {
     
-} =
+} b
 
-- for (int i = n; i >= end; --i)  {
+a for (int i = n; i >= end; --i)  {
     
 }
 
 
-    //  -------------if---------------     
-    // if (`condition^)`$IF_BRACKET_STL^{  
-    //     `job^                           
-    // }` `else...^                        
+    //  -------------if---------------                     
+    // if (`condition^)`$IF_BRACKET_STL^{                  
+    //     `job^                                           
+    // }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ 
 
 
 
 if (condition) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 if (condition_TYPED) { 
     job_TYPED
-} else_TYPED =
+} else_TYPED b
 
-- if (condition) { 
+a if (condition) { 
     /* void */;
-} else { 
+}
+else {
     
-} =
+} b
 
-- if (condition) { 
+a if (condition) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 
-    //  -------------if0---------------    
-    // if (`condition^)`$IF_BRACKET_STL^{  
-    //     `job^                           
-    // }` `else...^                        
+    //  -------------if0---------------                    
+    // if (`condition^)`$IF_BRACKET_STL^{                  
+    //     `job^                                           
+    // }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ 
 
 
 
 if (0 == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 if (0 == var_TYPED) { 
     job_TYPED
-} else_TYPED =
+} else_TYPED b
 
-- if (0 == var) { 
+a if (0 == var) { 
     /* void */;
-} else { 
+}
+else {
     
-} =
+} b
 
-- if (0 == var) { 
+a if (0 == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -519,18 +644,22 @@ if (0 == var_TYPED) {
 
 if (condition) {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
 
 if (condition_TYPED) {
     WRAPPED_TEXT
-} =
+    WRAPPED_TEXT_line2
+}b
 
-- if (condition) {
+a if (condition) {
     WRAPPED_TEXT
-} =
+    WRAPPED_TEXT_line2
+}b
 
-- if (condition) {
+a if (condition) {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
 
 
@@ -547,21 +676,27 @@ if (condition) {
     /* void */;
 } else if (condition) {
     /* void */;
+} else if (condition) {
+    /* void */;
 }
 
 if (condition_TYPED) {
     job_TYPED
-} else_if_TYPED =
+} else_if_TYPED b
 
-- if (condition) {
+a if (condition) {
     /* void */;
 } else if (condition ) {
     /* void */;
 } else if (condition ) {
     /* void */;
-} =
+} else if (condition ) {
+    /* void */;
+} b
 
-- if (condition) {
+a if (condition) {
+    /* void */;
+} else if (condition) {
     /* void */;
 } else if (condition) {
     /* void */;
@@ -570,92 +705,101 @@ if (condition_TYPED) {
 }
 
 
-    //  -------------ifn---------------    
-    // if (`condition^)`$IF_BRACKET_STL^{  
-    //     `job^                           
-    // }` `else...^                        
+    //  -------------ifn---------------                    
+    // if (`condition^)`$IF_BRACKET_STL^{                  
+    //     `job^                                           
+    // }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ 
 
 
 
 if (null == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 if (null == var_TYPED) { 
     job_TYPED
-} else_TYPED =
+} else_TYPED b
 
-- if (null == var) { 
+a if (null == var) { 
     /* void */;
-} else { 
+}
+else {
     
-} =
+} b
 
-- if (null == var) { 
+a if (null == var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 
-    //  -------------ifn0---------------   
-    // if (`condition^)`$IF_BRACKET_STL^{  
-    //     `job^                           
-    // }` `else...^                        
+    //  -------------ifn0---------------                   
+    // if (`condition^)`$IF_BRACKET_STL^{                  
+    //     `job^                                           
+    // }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ 
 
 
 
 if (0 != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 if (0 != var_TYPED) { 
     job_TYPED
-} else_TYPED =
+} else_TYPED b
 
-- if (0 != var) { 
+a if (0 != var) { 
     /* void */;
-} else { 
+}
+else {
     
-} =
+} b
 
-- if (0 != var) { 
+a if (0 != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 
-    //  -------------ifnn---------------   
-    // if (`condition^)`$IF_BRACKET_STL^{  
-    //     `job^                           
-    // }` `else...^                        
+    //  -------------ifnn---------------                   
+    // if (`condition^)`$IF_BRACKET_STL^{                  
+    //     `job^                                           
+    // }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ 
 
 
 
 if (null != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
 if (null != var_TYPED) { 
     job_TYPED
-} else_TYPED =
+} else_TYPED b
 
-- if (null != var) { 
+a if (null != var) { 
     /* void */;
-} else { 
+}
+else {
     
-} =
+} b
 
-- if (null != var) { 
+a if (null != var) { 
     /* void */;
-} else { 
+}
+else {
     
 }
 
@@ -673,13 +817,13 @@ public static void main( String[] args ) {
 
 public static void main( String[] args ) {
     
-} =
+} b
 
-- public static void main( String[] args ) {
+a public static void main( String[] args ) {
     
-} =
+} b
 
-- public static void main( String[] args ) {
+a public static void main( String[] args ) {
     
 }
 
@@ -691,11 +835,11 @@ public static void main( String[] args ) {
 
 private type varName;
 
-private type_TYPED varName_TYPED; =
+private type_TYPED varName_TYPED; b
 
-- private type varName; =
+a private type varName; b
 
-- private type varName;
+a private type varName;
 
 
     //  -------------prop--------------- 
@@ -718,18 +862,18 @@ public type setVarName( type val )
     type_TYPED varName_TYPED;
     
     get_TYPED
-    set_TYPED =
+    set_TYPED b
 
-    - type varName;
+    a type varName;
     
     public type getVarName()
         { return varName; }
     
     public type setVarName( type val )
         { varName = val; return varName; }
-     =
+     b
 
-     - type varName;
+     a type varName;
      
      public type getVarName()
          { return varName; }
@@ -746,11 +890,11 @@ public type setVarName( type val )
 
          protected type varName;
 
-         protected type_TYPED varName_TYPED; =
+         protected type_TYPED varName_TYPED; b
 
-         - protected type varName; =
+         a protected type varName; b
 
-         - protected type varName;
+         a protected type varName;
 
 
     //  -------------public--------------- 
@@ -760,11 +904,11 @@ public type setVarName( type val )
 
          public type varName;
 
-         public type_TYPED varName_TYPED; =
+         public type_TYPED varName_TYPED; b
 
-         - public type varName; =
+         a public type varName; b
 
-         - public type varName;
+         a public type varName;
 
 
     //  -------------switch--------------- 
@@ -793,6 +937,10 @@ public type setVarName( type val )
                  /* void */;
                  break;
          
+             case constant :
+                 /* void */;
+                 break;
+         
              default:
                  
          }
@@ -805,9 +953,13 @@ switch (var_TYPED) {
     case_TYPED
 
     default_TYPED
-} =
+} b
 
-- switch (var) {
+a switch (var) {
+    case constant :
+        /* void */;
+        break;
+
     case constant :
         /* void */;
         break;
@@ -822,9 +974,13 @@ switch (var_TYPED) {
 
     default:
         
-} =
+} b
 
-- switch (var) {
+a switch (var) {
+    case constant :
+        /* void */;
+        break;
+
     case constant :
         /* void */;
         break;
@@ -847,13 +1003,20 @@ switch (var_TYPED) {
     // {                                
     //     `what^                       
     // }` `catch...^                    
-    // `finally...^                     
+    // `finally...{{^finally            
+    // {                                
+    //     `cursor^                     
+    // }`}}^                            
 
 
 
 try
 {
     what
+}
+catch (Exception e)
+{
+    /* handling */
 }
 catch (Exception e)
 {
@@ -872,11 +1035,15 @@ try
 {
     what_TYPED
 } catch_TYPED
-finally_TYPED =
+finally_TYPED b
 
-- try
+a try
 {
     what
+}
+catch (Exception e)
+{
+    /* handling */
 }
 catch (Exception e)
 {
@@ -889,11 +1056,15 @@ catch (Exception e)
 finally
 {
     
-} =
+} b
 
-- try
+a try
 {
     what
+}
+catch (Exception e)
+{
+    /* handling */
 }
 catch (Exception e)
 {
@@ -914,13 +1085,21 @@ finally
     // {                                 
     //     `wrapped^                     
     // }` `catch...^                     
-    // `finally...^                      
+    // `finally...{{^finally             
+    // {                                 
+    //     `cursor^                      
+    // }`}}^                             
 
 
 
 try
 {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+catch (Exception e)
+{
+    /* handling */
 }
 catch (Exception e)
 {
@@ -938,12 +1117,18 @@ finally
 try
 {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 } catch_TYPED
-finally_TYPED =
+finally_TYPEDb
 
-- try
+a try
 {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+catch (Exception e)
+{
+    /* handling */
 }
 catch (Exception e)
 {
@@ -956,11 +1141,16 @@ catch (Exception e)
 finally
 {
     
-} =
+}b
 
-- try
+a try
 {
     WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+catch (Exception e)
+{
+    /* handling */
 }
 catch (Exception e)
 {
@@ -989,13 +1179,13 @@ while (condition) {
 
 while (condition_TYPED) {
     
-} =
+} b
 
-- while (condition) {
+a while (condition) {
     
-} =
+} b
 
-- while (condition) {
+a while (condition) {
     
 }
 
@@ -1013,13 +1203,13 @@ do {
 
 do {
     
-} while (false); =
+} while (false); b
 
-- do {
+a do {
     
-} while (false); =
+} while (false); b
 
-- do {
+a do {
     
 } while (false);
 
@@ -1037,13 +1227,13 @@ while (true) {
 
 while (true) {
     
-} =
+} b
 
-- while (true) {
+a while (true) {
     
-} =
+} b
 
-- while (true) {
+a while (true) {
     
 }
 
@@ -1061,27 +1251,31 @@ while (null != var) {
 
 while (null != var_TYPED) {
     
-} =
+} b
 
-- while (null != var) {
+a while (null != var) {
     
-} =
+} b
 
-- while (null != var) {
+a while (null != var) {
     
 }
 
 
-    //  -------------{--------------- 
-    // {`wrapped^}                    
+    //  -------------{_--------------- 
+    // {`wrapped^}                     
 
 
 
-{WRAPPED_TEXT}
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 
-{WRAPPED_TEXT} =
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
 
-- {WRAPPED_TEXT} =
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
 
-- {WRAPPED_TEXT}
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 

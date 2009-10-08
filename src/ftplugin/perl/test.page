@@ -1,8 +1,8 @@
 
 
 
-    #  -------------"--------------- 
-    # "`wrapped^"                    
+    #  -------------"_--------------- 
+    # "`wrapped^"                     
 
 
 
@@ -19,8 +19,8 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
-    #  -------------'--------------- 
-    # '`wrapped^'                    
+    #  -------------'_--------------- 
+    # '`wrapped^'                     
 
 
 
@@ -37,8 +37,8 @@ a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
-    #  -------------(--------------- 
-    # (`wrapped^)                    
+    #  -------------(_--------------- 
+    # (`wrapped^)                     
 
 
 
@@ -55,8 +55,8 @@ a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
-    #  -------------<--------------- 
-    # <`wrapped^>                    
+    #  -------------<_--------------- 
+    # <`wrapped^>                     
 
 
 
@@ -71,6 +71,42 @@ WRAPPED_TEXT_line2>b
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
+
+
+    #  -------------[_--------------- 
+    # [`wrapped^]                     
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    #  -------------`_--------------- 
+    # \``wrapped^\`                   
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
 
     #  -------------Author--------------- 
@@ -87,70 +123,6 @@ WRAPPED_TEXT_line2>
     a drdr.xp
 
 
-    #  -------------Email--------------- 
-    # `$email^                           
-
-
-
-    drdr.xp@gmail.com
-
-    drdr.xp@gmail.com b
-
-    a drdr.xp@gmail.com b
-
-    a drdr.xp@gmail.com
-
-
-    #  -------------File--------------- 
-    # `file()^                          
-
-
-
-    test.page
-
-    test.page b
-
-    a test.page b
-
-    a test.page
-
-
-    #  -------------[--------------- 
-    # [`wrapped^]                    
-
-
-
-[WRAPPED_TEXT
-WRAPPED_TEXT_line2]
-
-[WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
-
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
-
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]
-
-
-    #  -------------`--------------- 
-    # \``wrapped^\`                  
-
-
-
-`WRAPPED_TEXT
-WRAPPED_TEXT_line2`
-
-`WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
-
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
-
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`
-
-
     #  -------------comment--------------- 
     # `$CS^ `cursor^                       
 
@@ -163,6 +135,24 @@ WRAPPED_TEXT_line2`
     a #  b
 
     a # 
+
+
+    #  -------------comment_--------------- 
+    # `$CS^ `wrapped^                       
+
+
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2
 
 
     #  -------------commentBlock--------------- 
@@ -240,24 +230,6 @@ a # WRAPPED_TEXT
 WRAPPED_TEXT_line2
 
 
-    #  -------------comment_--------------- 
-    # `$CS^ `wrapped^                       
-
-
-
-# WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
-# WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a # WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a # WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
-
     #  -------------do---------------           
     # do`$WHILE_BRACKET_STL^{                   
     #     `cursor^                              
@@ -280,6 +252,20 @@ WRAPPED_TEXT_line2
     a do {
         
     } while (condition);
+
+
+    #  -------------Email--------------- 
+    # `$email^                           
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com
 
 
     #  -------------eval--------------- 
@@ -362,6 +348,20 @@ a eval {
 if ($@) {
     handle
 }
+
+
+    #  -------------File--------------- 
+    # `file()^                          
+
+
+
+    test.page
+
+    test.page b
+
+    a test.page b
+
+    a test.page
 
 
     #  -------------for---------------                                                                   
@@ -506,11 +506,16 @@ if ($@) {
     #     `job^                                                   
     # }`                                                          
     # `...^`                                                      
-    # `else...^                                                   
+    # `else...{{^`$ELSE_BRACKET_STL^else`$IF_BRACKET_STL^{        
+    #     `cursor^                                                
+    # }`}}^                                                       
 
 
 
     if ( cond ) {
+        # job
+    }
+    elsif ( cond2 ) {
         # job
     }
     elsif ( cond2 ) {
@@ -526,34 +531,40 @@ if ($@) {
     if ( cond_TYPED ) {
         job_TYPED
     }
-        _TYPED
-                else_TYPED b
+    _TYPED
+    else_TYPED b
 
-                a if ( cond ) {
-                    # job
-                }
-                elsif ( cond2 ) {
-                    # job
-                }
-                elsif ( cond2 ) {
-                    # job
-                }
-                else {
-                    
-                } b
+    a if ( cond ) {
+        # job
+    }
+    elsif ( cond2 ) {
+        # job
+    }
+    elsif ( cond2 ) {
+        # job
+    }
+    elsif ( cond2 ) {
+        # job
+    }
+    else {
+        
+    } b
 
-                a if ( cond ) {
-                    # job
-                }
-                elsif ( cond2 ) {
-                    # job
-                }
-                elsif ( cond2 ) {
-                    # job
-                }
-                else {
-                    
-                }
+    a if ( cond ) {
+        # job
+    }
+    elsif ( cond2 ) {
+        # job
+    }
+    elsif ( cond2 ) {
+        # job
+    }
+    elsif ( cond2 ) {
+        # job
+    }
+    else {
+        
+    }
 
 
     #  -------------if_---------------                            
@@ -564,13 +575,18 @@ if ($@) {
     #     `job^                                                   
     # }`                                                          
     # `...^`                                                      
-    # `else...^                                                   
+    # `else...{{^`$ELSE_BRACKET_STL^else`$IF_BRACKET_STL^{        
+    #     `cursor^                                                
+    # }`}}^                                                       
 
 
 
 if ( cond ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
+}
+elsif ( cond2 ) {
+    # job
 }
 elsif ( cond2 ) {
     # job
@@ -599,6 +615,9 @@ elsif ( cond2 ) {
 elsif ( cond2 ) {
     # job
 }
+elsif ( cond2 ) {
+    # job
+}
 else {
     
 }b
@@ -606,6 +625,9 @@ else {
 a if ( cond ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
+}
+elsif ( cond2 ) {
+    # job
 }
 elsif ( cond2 ) {
     # job
@@ -1015,8 +1037,8 @@ if ($@) {
     a expr while cond;
 
 
-    #  -------------{--------------- 
-    # {`wrapped^}                    
+    #  -------------{_--------------- 
+    # {`wrapped^}                     
 
 
 
