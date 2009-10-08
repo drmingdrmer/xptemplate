@@ -25,8 +25,14 @@ fun! s:AssignSnipFT( filename )
     let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
     if !empty( x.snipFileScopeStack ) && x.snipFileScopeStack[ -1 ].inheritFT
                 \ || ftFolder =~ '^_'
+        if !has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
+            throw 'parent may has no XPTemplate command called :' . a:filename
+        endif
         let ft = x.snipFileScopeStack[ -1 ].filetype
     else
+        if &filetype !~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim' 
+            return 'not allowed'
+        endif
         let ft = &filetype
     endif
     return ft
@@ -36,6 +42,9 @@ fun! XPTsnippetFileInit( filename, ... )
     let filetypes = x.filetypes
     let snipScope = XPTnewSnipScope(a:filename)
     let snipScope.filetype = s:AssignSnipFT( a:filename )
+    if snipScope.filetype == 'not allowed'
+        return 'finish'
+    endif 
     let filetypes[ snipScope.filetype ] = get( filetypes, snipScope.filetype, g:FiletypeScope.New() )
     let ftScope = filetypes[ snipScope.filetype ]
     if ftScope.CheckAndSetSnippetLoaded( a:filename )

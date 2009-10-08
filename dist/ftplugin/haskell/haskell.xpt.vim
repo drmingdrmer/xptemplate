@@ -45,9 +45,9 @@ XPT datasum hint=data\ ..\ =\ ..|..|..
 data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
     `Constructor~ `ctorParams~VOID()~`
   `...~
-  | `Ctor~ `params~VOID()~
+    | `Ctor~ `params~VOID()~
     `...~
-  `deriving...{{~deriving (`Eq,Show~)`}}~
+    `deriving...{{~deriving (`Eq,Show~)`}}~
 `cursor~
 
 
@@ -60,40 +60,40 @@ data `context...{{~(`ctxt~) => `}}~`typename~` `typeParams~ ~=
     -- | `Ctor descr~VOID()~
     | `Ctor~ `params~VOID()~`
     `...~
-  `deriving...{{~deriving (`Eq,Show~)`}}~
+    `deriving...{{~deriving (`Eq,Show~)`}}~
 `cursor~
 
 XPT parser hint=..\ =\ ..\ <|>\ ..\ <|>\ ..\ <?>
 `funName~ = `rule~`
-         `another_rule...{{~
-         <|> `rule~`
-         `more...{{~
-         <|> `rule~`
-         `more...~`}}~`}}~
-         `err...{{~<?> "`descr~"`}}~
+        `another_rule...{{~
+        <|> `rule~`
+        `more...{{~
+        <|> `rule~`
+        `more...~`}}~`}}~
+        `err...{{~<?> "`descr~"`}}~
 `cursor~
 
 XPT datarecord hint=data\ ..\ ={}
 data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
-     `Constructor~ {
-       `field~ :: `type~`
-       `...{{~,
-       `fieldn~ :: `typen~`
-       `...~`}}~
-     }
-     `deriving...{{~deriving (`Eq, Show~)`}}~
+    `Constructor~ {
+        `field~ :: `type~`
+        `...{{~,
+        `fieldn~ :: `typen~`
+        `...~`}}~
+    }
+    `deriving...{{~deriving (`Eq, Show~)`}}~
 `cursor~
 
 XPT datarecordcom hint=--\ |\ data\ ..\ ={}
 -- | `typeDescr~
 data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
-     `Constructor~ {
-       `field~ :: `type~ -- ^ `fieldDescr~`
-       `...{{~, 
-       `fieldn~ :: `typen~ -- ^ `fielddescr~`
-       `...~`}}~
-     }
-     `deriving...{{~deriving (`Eq,Show~)`}}~
+    `Constructor~ {
+        `field~ :: `type~ -- ^ `fieldDescr~`
+        `...{{~, 
+        `fieldn~ :: `typen~ -- ^ `fielddescr~`
+        `...~`}}~
+    }
+    `deriving...{{~deriving (`Eq,Show~)`}}~
 `cursor~
 
 XPT instance hint=instance\ ..\ ..\ where
@@ -123,10 +123,10 @@ XPT funcom hint=--\ |\ fun\ pat\ =\ ..
 
 XPT funtype hint=..\ ::\ ..\ =>\ ..\ ->\ .. ->
 `funName~ :: `context...{{~(`ctxt~)
-          =>`}}~ `type~ -- ^ `is~`
-          `...{{~
-          -> `type~ -- ^ `is~`
-          `...~`}}~
+        =>`}}~ `type~ -- ^ `is~`
+        `...{{~
+        -> `type~ -- ^ `is~`
+        `...~`}}~
 
 XPT options hint={-#\ OPTIONS_GHC\ ..\ #-}
 {-# OPTIONS_GHC `options~ #-}

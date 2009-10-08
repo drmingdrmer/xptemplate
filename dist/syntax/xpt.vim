@@ -116,8 +116,8 @@ syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
 " syntax match XPTcomment /^"\%(\s\|"\)*[^"]*$/ containedin=XPTregion
 syntax match XPTcomment /^".*$/ containedin=XPTregion
 
-syntax match XPTbadIndent /^\(    \)* \{1,3}\ze\%(\S\|$\)/ contained containedin=XPTsnippetBody
-syntax match XPTbadIndent /^\s*\t/ contained containedin=XPTsnippetBody
+syntax match XPTbadIndent /^\(    \)*\zs \{1,3}\ze\%(\S\|$\)/ contained containedin=XPTsnippetBody
+syntax match XPTbadIndent /^\s*\zs\t/ contained containedin=XPTsnippetBody
 
 
 " TODO mark may be need escaping in regexp

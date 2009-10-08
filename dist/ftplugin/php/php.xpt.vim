@@ -37,6 +37,8 @@ XPTinclude
 XPTinclude 
       \ _loops/c.while.like
 
+XPTembed 
+            \ html/html
 
 " ========================= Function and Variables =============================
 
