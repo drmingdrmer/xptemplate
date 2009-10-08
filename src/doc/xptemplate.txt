@@ -26,69 +26,71 @@
 	Copy files and directories into one of your |runtimepath|s.
 
 								   *xpt-usage*
-	In insert mode, type key of a template, pressing <C-\>, the
-	|xpt-key-trigger| to generate a snippet. Use <Tab> to navigate through
-	snippet template.
-	For example, vim xpt.c, : >
+	In insert mode type the snippet name and press <C-\> to insert a
+	snippet. Use <Tab> to navigate through the snippet template.
+	For example when editing a C file : >
 		for<C-\>
-<	Generates : >
-		for (i = 0; i < len; ++i){
+<	generates : >
+		for ( i = 0; i < len; ++i ) {
 		    /* cursor */
 		}
-<	The first "i" being selected is the current item you are editing. 0 is
-	next item,  and you can navigate to it by typing <Tab>
-	|xpt-key-navigate|.
+<	The first "i" being selected is the current item you are editing. "0"
+	is the next item and you can navigate to it by pressing <Tab>.
 
-	NOTE in some European keyboard, <C-\> does NOT work. If it does not
-	work, you need to specify another key for triggering snippets, see
-	|g:xptemplate_key|.
+	To change the snippet trigger (<C-\>) see |xpt-key-trigger|, to change
+	the navigate key (<Tab>) see |xpt-key-navigate|.
 
-	Now type "abc", this snippet result in : >
-		for (abc = 0; abc < len; ++abc){
+	NOTE with some European keyboards <C-\> does NOT work. In this case
+	you need to specify another key to trigger snippets.
+
+	Now type "abc", this result in : >
+		for ( abc = 0; abc < len; ++abc ) {
 		    /* cursor */
 		}
-<	Now press <Tab>, the |xpt-key-navigate|. cursor jumps to next the item
-	"0" : >
-		for (abc = 0; abc < len; ++abc){
+<	Now press <Tab>, the cursor jumps to "0", the next item : >
+		for ( abc = 0; abc < len; ++abc ) {
 		    /* cursor */
 		}
-<	Press <Tab> twice again, snippet stops, and cursor stop line 2, column
-	4: >
-		for (abc = 0; abc < len; ++abc){
+<	After pressing <Tab> two more times the snippet mode stops and
+	cursor ends at line 2, column 4: >
+		for ( abc = 0; abc < len; ++abc ) {
 		    
 		}
-<	More usages are described blow:
+
+<	The usage is described in more detail below.
 
 								 *xpt-feature*
 	On time typing update
-	Popup hint				|xpt-popup|  |xpt-snippet-hint|
+	Popup hint				|xpt-popup| |xpt-snippet-hint|
 	Template priority			|xpt-snippet-priority|
 	Embedded functions and variables	|xpt-snippet-function|
 	Repeatable snippet generation		|xpt-repetition|
 	Nested snippet				|xpt-nested|
 	Wrapping snippet			|xpt-wrapped|
+
 	Cursor position helper			
 	Named item or anonymous item		|xpt-snippet-item|
 	Default value                 		|xpt-snippet-default-value|
 	Preset  value                 		|xpt-preset-value|
-	and more......
+	and more...
 
-
-								   *xpt-popup*   
-	If you type nothing or incompleted snippet key and press <C-\>, a
-	popup menu shows up listing all possible snippet key. For example : >
+								   *xpt-popup*
+	If you type nothing or an incomplete snippet key and press <C-\>, a
+	popup menu shows up listing all possible snippet keys. For example : >
 		fo<C-\>
 <	Shows : >
 		for
+		forever
+		fornn
 		forr
 <
-	After select the item from popup menu, press <C-\> again to trigger
-	snippet
+	After selecting the item from the popup menu, press <C-\> again to
+	trigger the snippet.
 
 							      *xpt-nested*
-	Template can expand inside another template. There is no difference
-	between using a nested snippet or top-level template.
-	For example, when you edit xp.c . type siwtch<C-\>, generate a switch
+	Template can be expanded inside another template. There is no
+	difference between using a nested template or a top-level template.
+	For example, when you edit xp.c. Type switch<C-\> to generate a switch
 	block template: >
 		switch (fn) {
 		  case 0 :
@@ -128,11 +130,10 @@
 ==============================================================================
 
 
-
 				      *`...^*    *xpt-...*    *xpt-repetition*
 	Some segment can be defined as repeatable, for example the "case"s in
 	"switch". To specify the repetition part is easy, just wrap the part
-	you want it to repeat with `...^ . n is a number and can be omitted.
+	you want it to repeat with `...n^. n is a number and can be omitted.
 	Take the case from "switch": >
 		call XPTemplate('switch', [
 		      \ 'switch (`^) {',
@@ -147,16 +148,16 @@
 		      \ '}'
 		      \])
 <
-	When you trigger a repetition template, it works as below : >
-		switch () {    <-------cursor stays here,
+	When you trigger a repetition template it works as below : >
+		switch () {    <------- cursor stays here
 		  `...^
 
 		  default:
 		      `^
 		}
-<	Press <tab>, the |`...^| is selected. Press <tab> again to expand
-	repetition part. Or press <cr> |s_CR| to cancel repetition part. These
-	4 lines are expanded, : >
+<	Press <Tab>, the |`...^| is selected. Press <Tab> again to expand the
+	repetition part. Or press <Cr> |xpt-key-clear| to cancel the
+	repetition part. These 4 lines are expanded : >
 		switch () {
 
 		  case `17^ :       | expanded
@@ -170,7 +171,7 @@
 <	Enter the repetition part. You may have noticed there is another
 	|`...^|, that is the another repeat trigger.
 
-	Press <tab> 3 times : >
+	Press <Tab> 3 times : >
 		switch () {
 
 		  case 0 :
@@ -185,8 +186,9 @@
 		  default:
 			`^
 		}
-<	More than abore, Using |xpt-...| let you define multiple repetition parts in
-	one snippet. : >
+<
+	Using the n in |`...^| with different numbers allows you define
+	multiple repetition parts in one snippet : >
 		call XPTemplate( "tryof", [
 		      \ "try `what^",
 		      \ "   `pattern^ ->",
@@ -199,7 +201,7 @@
 		      \ "end `cursor^",
 		      \ "" ] )
 <
-	Repetition part can NOW be recursively defined. See *.html "table2"
+	Repetition parts can NOW be recursively defined. See *.html "table2"
 	snippet : >
 		call XPTemplate('table2', [
 		      \ '<table>',
@@ -213,99 +215,96 @@
 		      \ '  </tr>`...0^', 
 		      \ '</table>'
 		      \])
-<	See also |xpt-snippet-repetition|.
+<
+	See also |xpt-snippet-repetition|.
 
 								 *xpt-wrapped*
-	Wrapper snippet can only be triggered in visual mode, the place holder
-	`wrapped^ is replaced with text selected in visual mode.
+	Wrapper snippets can only be triggered in visual mode, the place
+	holder `wrapped^ is replaced with the text selected in visual mode.
 	For instance the following snippet : >
 		XPT call_ hint=..(\ SEL\ )
 		`name^(`wrapped^`, `^)`cursor^
-<	And use |V| to select some text, press<C-\> |v_CTRL-\|. The
-	selected text is yanked and removed, A popup menu appears for
-	selecting snippet name. : >
+<	Use |V| to select some text, press <C-\> |v_CTRL-\|. The selected text
+	is yanked and removed and a popup menu appears for selecting snippet
+	name.
+	With this example line: >
 		a, b
-<	press V to select this line,<C-\>, in popup, select call_", it
-	shows : >
+<	Press V to select the line, press <C-\>, select call_" in the popup
+	and the result is : >
 		name(a, b)
 <	
-
 								 *xpt-context*
-	You can define snippet that can only be triggered at certain
-	circumstancesstances. For example in certain syntax.
-	Defining context denpended snippet is by adding another parameter to
+	You can define snippets that can only be triggered in certain
+	circumstances, for example in certain syntax items. Defining context
+	depended snippets is done by adding another parameter to the
 	XPTemplate call "{'syn' : 'the context name'}" : >
 		call XPTemplate("para", {'syn' : 'comment'}, "
 			\@param {`Object^} `name^ `desc^")
-<	Now only in syntax of name like "comment", snippet "para" can be
-	triggered.
+<	Now the snippet "para" can be only triggered in syntax items named
+	"comment".
 
 ==============================================================================
 
 				    *xpt-mapping*  *xpt-key-bind* *xpt-option*
-	Options can be set in |.vimrc| to modify xptemplate behaviors.
+	Options can be set in |.vimrc| to modify XPTemplate's behaviors.
 
 							*i_CTRL-\*  *v_CTRL-\*
 							     *xpt-key-trigger*  
 							    *g:xptemplate_key*
 							       {default:<C-\>}
-	The key to trigger snippet, in insert mode or visual mode.
-	|v_CTRL-\| for triggering snippet with selected text in visual mode.
-	Text you selected will be wrapped within "wrapped" item. See |xpt-wrapped|
-	And with |g:xptemplate_key| option you can override them.
+	The key to trigger snippets, in insert or visual mode.
+	Use |g:xptemplate_key| to change this mapping.
 
 							  *i_<tab>*  *s_<tab>*
 							    *xpt-key-navigate*   
 						       *g:xptemplate_nav_next*
-							       {default:<tab>}
-	After snippet triggerred, to press which key to navigate to next.
-	Navigate to next item.
-	Using |g:xptemplate_nav_next| to config this mapping.
+							       {default:<Tab>}
+	After a snippet was triggered, this key navigates to the next item.
+	Use |g:xptemplate_nav_next| to change this mapping.
 
 						     *s_<CR>*  *xpt-key-clear*
 						     *g:xptemplate_nav_cancel*
-								{default:<cr>}
+								{default:<Cr>}
 	Press to clear current place holder and jump to next.
-	Using |g:xptemplate_nav_cancel| to config this mapping.
+	Use |g:xptemplate_nav_cancel| to change this mapping.
 
 								    *s_CTRL-l*
 							  *xpt-key-goto-right*
 						       *g:xptemplate_to_right*
 							     {default:"<C-l>"}
-	When place holder is initially selected, jump to the end of current
-	place holder and go to insert mode.  Using |g:xptemplate_to_right| to
-	config this mapping. Example : >
+	When a place holder is initially selected jump to the end of current
+	place holder and go to insert mode.
+	Use |g:xptemplate_to_right| to change this mapping. Example : >
 		let g:xptemplate_to_right = '<C-l>'
 <
-
 								     *n_<C-g>*
 							      *xpt-key-goback*
 							 *g:xptemplate_goback*
 							       {default:<C-g>}
-	Go back to current place holder, and to insert mode.
-	Using |g:xptemplate_goback| to config this mapping.
-
+	Go back to current place holder and to insert mode.
+	Use |g:xptemplate_goback| to change this mapping.
 
 
 ==============================================================================
 
 					    *g:xptemplate_ph_pum_accept_empty*
 								   {default:0}
-	When set to 1, pop up menu for place holder accepts an empty input.
-	That when nothing typed, <tab> close pop up menu and sends
+	When set to 1 popup menu for place holders accepts an empty input. So
+	when nothing typed pressing <Tab> closes the popup menu and sends the
 	cursor to next place holder.
-	When not set, <tab> expands text to longest, and keeps pop up menu
-	shown.
+	When not set <Tab> expands text to longest and keeps popup menu open.
 
 						     *g:xptemplate_strip_left*
 								   {default:1}
-	When set, wrapping snippet |xpt-wrapped| removes space before line.
+	When set to 1 wrapping snippets |xpt-wrapped| remove space before the
+	line.
 
 				      *xpt-personal-var*   *g:xptemplate_vars*
-	Set personal variables used in template, see |xpt-snippet-variable|. Variable
-	set with g:xptemplate_vars has the highest priority and override any
-	other variables set in *.xpt.vim.  Variables
-	format : >
+	Set personal variables used in snippets, see |xpt-snippet-variable|.
+	Variable set with g:xptemplate_vars have the highest priority and
+	override any other variables set in *.xpt.vim.
+
+	Variables format : >
 	let g:xptemplate_vars = '$author=xp\ \&\\\&123&$email=bal@bla'
 	let g:xptemplate_vars = 'author=xp\ \&\\\&123&email=bal@bla'
 
@@ -317,8 +316,8 @@
 		let g:xptemplate_vars = exists('g:xptemplate_vars') ? 
 			\ g:xptemplate_vars . '&' . '$other=bla'
 			\ : '$other=bla'
-<	Entries are separated with '&'
-
+<
+	Entries are separated with '&'.
 
 
 
