@@ -368,10 +368,16 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     call s:log.Log("tmpl setting:".string(setting))
     if has_key( setting, 'alias' )
         call XPTemplateAlias( snippetName, setting.alias, setting )
-
     else
         call XPTemplate(snippetName, setting, snippetLines)
+    endif
 
+
+    if has_key( setting, 'synonym' )
+        let synonyms = split( setting.synonym, '|' )
+        for synonym in synonyms
+            call XPTemplateAlias( synonym, snippetName, {} )
+        endfor
     endif
 
 

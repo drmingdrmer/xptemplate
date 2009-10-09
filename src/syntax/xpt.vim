@@ -112,6 +112,7 @@ syntax match    XPTsnippetName /\S\+/ containedin=XPTsnippetTitle nextgroup=XPTm
 " escaped white space or non-space
 syntax match XPTmeta /\(\\\s\|\S\)\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta skipwhite
 syntax match XPTmeta_name /\w\+\ze=/ containedin=XPTmeta nextgroup=XPTmeta_value
+syntax keyword XPTmeta_name_key hint alias synonym hidden contained containedin=XPTmeta_name
 syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
 " syntax match XPTcomment /^"\%(\s\|"\)*[^"]*$/ containedin=XPTregion
 syntax match XPTcomment /^".*$/ containedin=XPTregion
@@ -161,7 +162,8 @@ hi link XPTemplateDefStartKey Special
 hi link XPTsnippetTitle       Statement
 hi link XPTsnippetName        Label
 hi link XPTmeta               Normal
-hi link XPTmeta_name          Identifier
+hi link XPTmeta_name          Error
+hi link XPTmeta_name_key      Identifier
 hi link XPTmeta_value         String
 hi link XPTsnippetBody        Normal
 hi link XPTcomment            Comment
