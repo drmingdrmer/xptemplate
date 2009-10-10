@@ -1,18 +1,23 @@
-if exists("g:__HTML_FTDETECT_VIM__")
+if exists("g:__PHP_FTDETECT_VIM__")
     finish
 endif
-let g:__HTML_FTDETECT_VIM__ = 1
+let g:__PHP_FTDETECT_VIM__ = 1
 
 
-" TODO xhtml support
-
-if &filetype !~ 'html'
+if &filetype !~ 'php'
     finish
 endif
+
 
 
 let s:skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\|comment"'
 let s:pattern = {
+            \   'php'    : {
+            \       'start' : '\V\c<?php\>',
+            \       'mid'   : '',
+            \       'end'   : '\V\c?>',
+            \       'skip'  : s:skipPattern,
+            \   },
             \   'javascript'    : {
             \       'start' : '\V\c<script\_[^>]\*>',
             \       'mid'   : '',
@@ -27,13 +32,14 @@ let s:pattern = {
             \   },
             \}
 
+" php_noShortTags
+
 fun! b:XPTfiletypeDetect() "{{{
     let pos = [ line( "." ), col( "." ) ]
     let synName = g:xptutil.XPTgetCurrentOrPreviousSynName()
 
     if synName == ''
-        " no character at current position or before curernt position
-        return &filetype
+        return 'html'
 
     else
 
