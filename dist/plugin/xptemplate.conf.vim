@@ -21,7 +21,7 @@ call s:SetIfNotExist('g:xptemplate_to_right'            , "<C-l>")
 call s:SetIfNotExist('g:xptemplate_fix'                 , 1)
 call s:SetIfNotExist('g:xptemplate_vars'                , '')
 call s:SetIfNotExist('g:xptemplate_hl'                  , 1)
-call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 0)
+call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 1)
 call s:SetIfNotExist('g:xpt_post_action',         '')
 let g:XPTpvs = {}
 if !hlID('XPTCurrentItem') && g:xptemplate_hl
@@ -60,22 +60,24 @@ for s:v in s:pvs
   let g:XPTpvs[s:key] = substitute(s:val, s:unescapeHead.'&', '\1\&', 'g')
 endfor
 fun! s:FiletypeInit() 
-  let f = g:XPTfuncs()
-  for [k, v] in items(g:XPTpvs)
-    let f[k] = v
-  endfor
-  if &l:commentstring != ''
-    let cms = split( &l:commentstring, '\V%s', 1 )
-    if cms[1] == ''
-      if !has_key( f, '$CS' )
-        let f[ '$CS' ] = cms[0]
-      endif
-    else
-      if !has_key( f, '$CL' ) && !has_key( f, '$CR' )
-        let [ f[ '$CL' ], f[ '$CR' ] ] = cms
-      endif
-    endif
-  endif
+    let x = XPTbufData()
+    let fts = x.filetypes
+    for [ ft, ftScope ] in items( fts )
+        let f = ftScope.funcs
+        for [k, v] in items(g:XPTpvs)
+            let f[k] = v
+        endfor
+        if &l:commentstring != ''
+            let cms = split( &l:commentstring, '\V%s', 1 )
+            if cms[1] == ''
+                let f[ '$CS' ] = get( f, '$CS', cms[0] )
+            else
+                if !has_key( f, '$CL' ) && !has_key( f, '$CR' )
+                    let [ f[ '$CL' ], f[ '$CR' ] ] = cms
+                endif
+            endif
+        endif
+    endfor
 endfunction 
 augroup XPTpvs
   au!

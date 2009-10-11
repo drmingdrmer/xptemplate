@@ -1,7 +1,7 @@
 XPTemplate priority=all
 
 " containers
-let [s:f, s:v] = XPTcontainer()
+let s:f = g:XPTfuncs() 
 
 XPTvar $author        $author is not set, you need to set g:xptemplate_vars="$author=your_name"
 XPTvar $email         $email is not set, you need to set g:xptemplate_vars="$author=your_email@com"

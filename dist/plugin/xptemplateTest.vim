@@ -124,8 +124,9 @@ fun! s:XPTtest(ft)
         let ft.funcs.strftime = function( 'XPTtestPseudoDate' )
         let ft.funcs.date = function( 'XPTtestPseudoDate' )
     endfor
-    let x.funcs.strftime = function( 'XPTtestPseudoDate' )
-    let x.funcs.date = function( 'XPTtestPseudoDate' )
+    if exists( '*b:XPTfiletypeDetect' )
+        delfun b:XPTfiletypeDetect
+    endif
     unlet tmpls.Path
     unlet tmpls.Date
     call filter( tmpls, '!has_key(v:val.setting, "hidden") || !v:val.setting.hidden' )

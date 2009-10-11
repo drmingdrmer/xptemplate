@@ -138,17 +138,19 @@ fun! XPTmark()
     return [ xp.l, xp.r ]
 endfunction 
 fun! XPTcontainer() 
-    return [g:XPTobject().vars, g:XPTobject().vars]
+    echom "deprecated function:XPTcontainer, use g:XPTfuncs"
+    return [ g:XPTfuncs(), g:XPTfuncs() ]
 endfunction 
 fun! g:XPTvars() 
-    return g:XPTobject().vars
+    echom "deprecated function:XPTcontainer, use g:XPTfuncs"
+    return g:XPTfuncs()
 endfunction 
 fun! g:XPTfuncs() 
-    return g:XPTobject().funcs
+    return g:GetSnipFileFtScope().funcs
 endfunction 
 fun! XPTemplateAlias( name, toWhich, setting ) 
     let xptObj = g:XPTobject()
-    let xt = xptObj.filetypes[ s:SnipFT() ].normalTemplates
+    let xt = xptObj.filetypes[ g:GetSnipFileFT() ].normalTemplates
     if has_key( xt, a:toWhich )
         let xt[ a:name ] = deepcopy( xt[ a:toWhich ] )
         let xt[ a:name ].name = a:name
@@ -156,13 +158,18 @@ fun! XPTemplateAlias( name, toWhich, setting )
         call g:xptutil.DeepExtend( xt[ a:name ].setting, a:setting )
     endif
 endfunction 
-fun! s:SnipFT() 
+fun! g:GetSnipFileFT() 
     let x = g:XPTobject()
     return x.snipFileScope.filetype
 endfunction 
+fun! g:GetSnipFileFtScope() 
+    let x = g:XPTobject()
+    return x.filetypes[ x.snipFileScope.filetype ]
+endfunction 
 fun! XPTemplate(name, str_or_ctx, ...) 
     let x         = g:XPTobject()
-    let templates = x.filetypes[ s:SnipFT() ].normalTemplates
+    let ftScope   = x.filetypes[ g:GetSnipFileFT() ]
+    let templates = ftScope.normalTemplates
     let xp        = x.snipFileScope.ptn
     let foo       = { 'snip' : '' }
     let templateSetting = deepcopy(g:XPTemplateSettingPrototype)
@@ -184,6 +191,7 @@ fun! XPTemplate(name, str_or_ctx, ...)
     let templates[a:name] = {
                 \ 'name'        : a:name,
                 \ 'parsed'      : 0, 
+                \ 'ftScope'     : ftScope, 
                 \ 'tmpl'        : foo.snip,
                 \ 'priority'    : prio,
                 \ 'setting'     : templateSetting,
@@ -322,7 +330,7 @@ fun! XPTreload()
   e
 endfunction 
 fun! XPTgetAllTemplates() 
-    return copy( s:GetCurrentFTObj().normalTemplates )
+    return copy( XPTbufData().filetypes[ &filetype ].normalTemplates )
 endfunction 
 fun! XPTemplatePreWrap(wrap) 
     let x = g:XPTobject()
@@ -360,7 +368,7 @@ fun! XPTemplateStart(pos_nonused_any_more, ...)
                     \'line' : a:1.startPos[0], 
                     \'col' : startColumn, 
                     \'matched' : templateName, 
-                    \'data' : { 'ftScope' : s:GetCurrentFTObj() } } )
+                    \'data' : { 'ftScope' : s:GetContextFTObj() } } )
     else 
         let cursorColumn = col(".")
         if x.wrapStartPos
@@ -435,13 +443,13 @@ fun! s:newTemplateRenderContext( xptBufData, ftScope, tmplName )
     endif
     let renderContext = s:createRenderContext(a:xptBufData)
     let renderContext.phase = 'inited'
-    let renderContext.tmpl  = s:GetCurrentFTObj().normalTemplates[a:tmplName]
+    let renderContext.tmpl  = s:GetContextFTObj().normalTemplates[a:tmplName]
     let renderContext.ftScope = a:ftScope
     return renderContext
 endfunction 
 fun! s:DoStart(sess) 
     let x = g:XPTobject()
-    if !has_key( s:GetCurrentFTObj().normalTemplates, a:sess.matched )
+    if !has_key( s:GetContextFTObj().normalTemplates, a:sess.matched )
         return ''
     endif
     let [lineNr, column] = [ a:sess.line, a:sess.col ]
@@ -493,7 +501,7 @@ fun! s:Popup(pref, coln)
     endif
     let cmpl=[]
     let cmpl2 = []
-    let ftScope = s:GetCurrentFTObj()
+    let ftScope = s:GetContextFTObj()
     let dic = ftScope.normalTemplates
     let ctxs = s:SynNameStack(line("."), a:coln)
     let ignoreCase = a:pref !~# '\u'
@@ -1428,13 +1436,17 @@ fun! s:CreateStringMask( str )
     let b:_xpeval.cache[ a:str ] = mask
     return mask
 endfunction 
-fun! S2l(a, b)
+fun! XPTS2l(a, b)
     return a:a - a:b
 endfunction
 fun! s:Eval(s, ...) 
     let x = g:XPTobject()
     let ctx = s:getRenderContext()
-    let xfunc = x.funcs
+    if ctx.phase == 'uninit'
+        let xfunc = g:GetSnipFileFtScope().funcs
+    else
+        let xfunc = ctx.ftScope.funcs
+    endif
     let tmpEvalCtx = { 'typed' : '', 'usingCache' : 1 }
     if a:0 >= 1
         call extend( tmpEvalCtx, a:1, 'force' )
@@ -1493,7 +1505,7 @@ fun! s:Eval(s, ...)
     endwhile
     let sp = ""
     let last = 0
-    let offsetsOfEltsToEval = sort(keys(rangesToEval), "S2l")
+    let offsetsOfEltsToEval = sort(keys(rangesToEval), "XPTS2l")
     for k in offsetsOfEltsToEval
         let kn = 0 + k
         let vn = 0 + k + rangesToEval[k]
@@ -1684,12 +1696,9 @@ fun! g:XPTobject()
     if !exists("b:xptemplateData")
         let b:xptemplateData = {
                     \   'filetypes'         : {}, 
-                    \   'funcs'             : { '$CURSOR_PH' : 'CURSOR' }, 
                     \   'wrapStartPos'      : 0, 
                     \   'wrap'              : '', 
                     \}
-        let b:xptemplateData.vars = b:xptemplateData.funcs
-        let b:xptemplateData.varPriority = {}
         let b:xptemplateData.posStack = []
         let b:xptemplateData.stack = []
         let b:xptemplateData.keyword = '\w'
@@ -1910,12 +1919,16 @@ fun! s:XPTtrackFollowingSpace()
     let currentFollowingSpace = matchstr( currentFollowingSpace, '^\s*' )
     let renderContext.lastFollowingSpace = currentFollowingSpace
 endfunction 
-fun! s:GetCurrentFT() 
+fun! s:GetContextFT() 
+    if exists( '*b:XPTfiletypeDetect' )
+        echom b:XPTfiletypeDetect()
+        return b:XPTfiletypeDetect()
+    endif
     return &filetype
 endfunction 
-fun! s:GetCurrentFTObj() 
+fun! s:GetContextFTObj() 
     let x = XPTbufData()
-    return x.filetypes[ s:GetCurrentFT() ]
+    return x.filetypes[ s:GetContextFT() ]
 endfunction 
 augroup XPT 
     au!

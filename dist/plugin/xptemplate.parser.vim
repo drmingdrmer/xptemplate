@@ -23,17 +23,22 @@ fun! s:AssignSnipFT( filename )
     let x = g:XPTobject()
     let filename = substitute( a:filename, '\\', '/', 'g' )
     let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
-    if !empty( x.snipFileScopeStack ) && x.snipFileScopeStack[ -1 ].inheritFT
-                \ || ftFolder =~ '^_'
-        if !has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
-            throw 'parent may has no XPTemplate command called :' . a:filename
-        endif
-        let ft = x.snipFileScopeStack[ -1 ].filetype
-    else
+    if empty( x.snipFileScopeStack ) 
         if &filetype !~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim' 
             return 'not allowed'
+        else
+            let ft =  &filetype
         endif
-        let ft = &filetype
+    else
+        if x.snipFileScopeStack[ -1 ].inheritFT
+                \ || ftFolder =~ '^_'
+            if !has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
+                throw 'parent may has no XPTemplate command called :' . a:filename
+            endif
+            let ft = x.snipFileScopeStack[ -1 ].filetype
+        else
+            let ft = ftFolder
+        endif
     endif
     return ft
 endfunction 
@@ -43,6 +48,7 @@ fun! XPTsnippetFileInit( filename, ... )
     let snipScope = XPTnewSnipScope(a:filename)
     let snipScope.filetype = s:AssignSnipFT( a:filename )
     if snipScope.filetype == 'not allowed'
+        echom "not allowed:" 
         return 'finish'
     endif 
     let filetypes[ snipScope.filetype ] = get( filetypes, snipScope.filetype, g:FiletypeScope.New() )
@@ -79,16 +85,21 @@ fun! XPTsnipSet( dictNameValue )
 endfunction 
 fun! XPTsetVar( nameSpaceValue ) 
     let x = XPTbufData()
+    let ftScope = g:GetSnipFileFtScope()
     let name = matchstr(a:nameSpaceValue, '^\S\+\ze\s')
     if name == ''
         return
     endif
     let val  = matchstr(a:nameSpaceValue, '\s\+\zs.*')
-    let val = substitute( val, '\\n', "\n", 'g' )
-    let val = substitute( val, '\\ ', " ", 'g' )
+    if val =~ '^''.*''$'
+        let val = val[1:-2]
+    else
+        let val = substitute( val, '\\n', "\n", 'g' )
+        let val = substitute( val, '\\ ', " ", 'g' )
+    endif
     let priority = x.snipFileScope.priority
-    if !has_key( x.varPriority, name ) || priority < x.varPriority[ name ]
-        let [ x.vars[ name ], x.varPriority[ name ] ] = [ val, priority ]
+    if !has_key( ftScope.varPriority, name ) || priority < ftScope.varPriority[ name ]
+        let [ ftScope.funcs[ name ], ftScope.varPriority[ name ] ] = [ val, priority ]
     endif
 endfunction 
 fun! XPTinclude(...) 
@@ -199,6 +210,12 @@ fun! s:XPTemplateParseSnippet(lines)
         call XPTemplateAlias( snippetName, setting.alias, setting )
     else
         call XPTemplate(snippetName, setting, snippetLines)
+    endif
+    if has_key( setting, 'synonym' )
+        let synonyms = split( setting.synonym, '|' )
+        for synonym in synonyms
+            call XPTemplateAlias( synonym, snippetName, {} )
+        endfor
     endif
 endfunction 
 fun! s:ConvertIndent( snipLines ) 

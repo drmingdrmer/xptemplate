@@ -4,13 +4,11 @@
 
 XPTemplate priority=all-
 
-let s:f = XPTcontainer()[0]
+let s:f = g:XPTfuncs() 
  
-XPTvar $NULL          NULL
-
-XPTvar $CURSOR_PH      CURSOR
-
-XPTvar $FOR_BRACKET_STL    \ 
+XPTvar $NULL            NULL
+XPTvar $CURSOR_PH       CURSOR
+XPTvar $FOR_BRACKET_STL ' '
 
 XPTvar $VAR_PRE 
 XPTvar $FOR_SCOPE 

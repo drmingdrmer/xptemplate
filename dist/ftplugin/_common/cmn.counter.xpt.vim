@@ -1,6 +1,6 @@
 XPTemplate priority=all-
 
-let [s:f, s:v] = XPTcontainer() 
+let s:f = g:XPTfuncs() 
  
 
 " ========================= Function and Variables =============================

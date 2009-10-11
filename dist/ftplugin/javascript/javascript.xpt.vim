@@ -1,18 +1,18 @@
 XPTemplate priority=lang keyword=$
 
-let [s:f, s:v] = XPTcontainer() 
+let s:f = g:XPTfuncs() 
  
 XPTvar $TRUE          true
 XPTvar $FALSE         false
 XPTvar $NULL          null
 XPTvar $UNDEFINED     undefined
 
-XPTvar $IF_BRACKET_STL     \ 
+XPTvar $IF_BRACKET_STL     ' '
 XPTvar $ELSE_BRACKET_STL   \n
-XPTvar $FOR_BRACKET_STL    \ 
-XPTvar $WHILE_BRACKET_STL  \ 
-XPTvar $STRUCT_BRACKET_STL \ 
-XPTvar $FUNC_BRACKET_STL   \ 
+XPTvar $FOR_BRACKET_STL    ' '
+XPTvar $WHILE_BRACKET_STL  ' '
+XPTvar $STRUCT_BRACKET_STL ' '
+XPTvar $FUNC_BRACKET_STL   ' '
 
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
@@ -27,6 +27,10 @@ XPTinclude
       \ _comment/doubleSign
       \ _condition/c.like
 
+XPTvar $VAR_PRE 
+XPTvar $FOR_SCOPE 'var '
+XPTinclude
+      \ _loops/for
 
 " ========================= Function and Variables =============================
 
@@ -77,8 +81,6 @@ XPT cpr hint=@param
 " file comment
 " 4 back slash represent 1 after rendering.
 XPT fcmt hint=full\ doxygen\ comment
-XSET author=$author
-XSET email=$email
 /**-------------------------/// `sum^ \\\---------------------------
  *
  * <b>`function^</b>
@@ -89,7 +91,7 @@ XSET email=$email
  *   `cursor^
  * @usage : 
  * 
- * @author : `author^ | `email^
+ * @author : `$author^ | `$email^
  * @copyright : 
  * @TODO : 
  * 
@@ -99,13 +101,6 @@ XSET email=$email
 XPT fun hint=function\ ..(\ ..\ )\ {..}
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 function` `name^ (`arg*^) {
-    `cursor^
-}
-
-
-XPT for hint=for\ (var..;..;++)
-for (var `i^ = 0; `i^ < `ar^.length; ++`i^)`$FOR_BRACKET_STL^{
-    var `e^ = `ar^[`i^];
     `cursor^
 }
 

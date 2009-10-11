@@ -1,6 +1,6 @@
 XPTemplate priority=lang
 
-let [s:f, s:v] = XPTcontainer() 
+let s:f = g:XPTfuncs() 
  
 XPTvar $TRUE          True
 XPTvar $FALSE         False
