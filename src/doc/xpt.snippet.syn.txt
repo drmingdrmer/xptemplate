@@ -163,6 +163,7 @@
 		XPTemplate mark=~^
 <
 								       *xpt-$*
+								      *XPTvar*
 							*xpt-snippet-variable*
 	|xpt-snippet-variable| can be used in :
 		|xpt-snippet-instant-value|
@@ -172,7 +173,13 @@
 		|xpt-placeholder-ontime-filter|
 	Format : >
 		XPTvar $VAR_NAME something
-<	Example from C language : >
+<	Or with single quoter : >
+		XPTvar $VAR_NAME 'something'
+<	The only difference is in single quoter string nothing is unescaped.
+	So that : >
+		XPTvar $VAR	'\n'
+<	Will be evaluated to \n, but not a line break.  Example from C
+	language : >
 		XPTvar $TRUE 1
 <	and a snippet defined as : >
 		XPT while1

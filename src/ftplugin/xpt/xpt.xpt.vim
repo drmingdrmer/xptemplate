@@ -1,6 +1,6 @@
 XPTemplate priority=sub indent=auto
 
-let [s:f, s:v] = XPTcontainer() 
+let s:f = g:XPTfuncs() 
  
 XPTvar $TRUE          1
 XPTvar $FALSE         0
@@ -63,7 +63,7 @@ XPTinclude
 
 
 XPT container hint=let\ [s:f,\ s:v]\ =...
-let [s:f, s:v] = XPTcontainer()
+let s:f = g:XPTfuncs() 
 
 
 XPT tmpl hint=XPT\ name\ ...
@@ -143,7 +143,7 @@ XSET mark...|post= mark=`char^
 XSET indent...|post= indent=`indentValue^
 XSET indentValue=ChooseStr( 'auto', 'keep' )
 
-let s:f = XPTcontainer()[0]
+let s:f = g:XPTfuncs() 
 
 XPTvar $TRUE          1
 XPTvar $FALSE         0

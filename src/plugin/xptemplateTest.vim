@@ -187,9 +187,10 @@ fun! s:XPTtest(ft) "{{{
         let ft.funcs.date = function( 'XPTtestPseudoDate' )
     endfor
 
-    let x.funcs.strftime = function( 'XPTtestPseudoDate' )
-    let x.funcs.date = function( 'XPTtestPseudoDate' )
-
+    " disable embedded language
+    if exists( '*b:XPTfiletypeDetect' )
+        delfun b:XPTfiletypeDetect
+    endif
 
 
     " remove 'Path' and 'Date' template0

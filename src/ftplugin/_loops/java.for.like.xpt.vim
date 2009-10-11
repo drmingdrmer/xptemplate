@@ -1,7 +1,7 @@
 XPTemplate priority=like-
 
 " containers
-let [s:f, s:v] = XPTcontainer()
+let s:f = g:XPTfuncs() 
 
 XPTvar $TRUE          true
 XPTvar $FALSE         false

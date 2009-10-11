@@ -83,7 +83,7 @@ fun! s:AssignSnipFT( filename ) "{{{
         endif
     endif
 
-    call s:log.Log( "filename=" . filename . " ft=" . ft )
+    call s:log.Log( "filename=" . filename . 'filetype=' . &filetype . " ft=" . ft )
 
     return ft
 endfunction "}}}
@@ -162,6 +162,7 @@ endfunction "}}}
 
 fun! XPTsetVar( nameSpaceValue ) "{{{
     let x = XPTbufData()
+    let ftScope = g:GetSnipFileFtScope()
 
     call s:log.Debug( 'xpt var raw data=' . string( a:nameSpaceValue ) )
     let name = matchstr(a:nameSpaceValue, '^\S\+\ze\s')
@@ -169,18 +170,22 @@ fun! XPTsetVar( nameSpaceValue ) "{{{
         return
     endif
 
-    " TODO use s:nonEscaped to detect escape
     let val  = matchstr(a:nameSpaceValue, '\s\+\zs.*')
-    let val = substitute( val, '\\n', "\n", 'g' )
-    let val = substitute( val, '\\ ', " ", 'g' )
+    if val =~ '^''.*''$'
+        let val = val[1:-2]
+    else
+        " TODO use s:nonEscaped to detect escape
+        let val = substitute( val, '\\n', "\n", 'g' )
+        let val = substitute( val, '\\ ', " ", 'g' )
+    endif
 
 
     let priority = x.snipFileScope.priority
     call s:log.Log("name=".name.' value='.val.' priority='.priority)
 
 
-    if !has_key( x.varPriority, name ) || priority < x.varPriority[ name ]
-        let [ x.vars[ name ], x.varPriority[ name ] ] = [ val, priority ]
+    if !has_key( ftScope.varPriority, name ) || priority < ftScope.varPriority[ name ]
+        let [ ftScope.funcs[ name ], ftScope.varPriority[ name ] ] = [ val, priority ]
     endif
 
 endfunction "}}}

@@ -1,7 +1,7 @@
 *xpt-api*
 
 
-							      *XPTcontainer()*
+								  *XPTfuncs()*
 	g:XPTfuncs() returns a |Dictionary| container of functions which can
 	be used in templates in the current buffer. The normal usage of
 	g:XPTfuncs() to define a template function is : >
@@ -10,12 +10,6 @@
 		fun! s:f.date() dict
 		  return strftime("%Y %b %d")
 		endfunction
-<
-	g:XPTvars() returns a |Dictionary| container of variables which can be
-	used in templates in the current buffer. For example : >
-		let s:v = g:XPTvars()
-
-		let s:v['$author'] = "drdr.xp"
 <
 	Now you can use functions and variables in the template : >
 	call XPTemplate("filehead", [

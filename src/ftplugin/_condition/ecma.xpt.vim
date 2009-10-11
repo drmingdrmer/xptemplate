@@ -1,6 +1,6 @@
 XPTemplate priority=spec
 
-let [s:f, s:v] = XPTcontainer() 
+let s:f = g:XPTfuncs() 
  
 XPTvar $TRUE          true
 XPTvar $FALSE         false
