@@ -3537,6 +3537,10 @@ fun! s:XPTtrackFollowingSpace() "{{{
 endfunction "}}}
 
 fun! s:GetCurrentFT() "{{{
+    if exists( '*b:XPTfiletypeDetect' )
+        echom b:XPTfiletypeDetect()
+        return b:XPTfiletypeDetect()
+    endif
     return &filetype
 endfunction "}}}
 

@@ -13,7 +13,7 @@ endif
 let s:skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\|comment"'
 let s:pattern = {
             \   'php'    : {
-            \       'start' : '\V\c<?php\>',
+            \       'start' : '\V\c<?\%(php\>\)\?',
             \       'mid'   : '',
             \       'end'   : '\V\c?>',
             \       'skip'  : s:skipPattern,
@@ -32,14 +32,25 @@ let s:pattern = {
             \   },
             \}
 
-" php_noShortTags
+if exists( 'php_noShortTags' )
+    let s:pattern.php.start = '\V\c<?php\>'
+endif
+
+let s:topFT = 'html'
 
 fun! b:XPTfiletypeDetect() "{{{
     let pos = [ line( "." ), col( "." ) ]
+
+    if pos == [1, 1]
+        " for sheang(#!/usr/bin/php), it should be php. 
+        return 'php'
+    endif
+
     let synName = g:xptutil.XPTgetCurrentOrPreviousSynName()
 
     if synName == ''
-        return 'html'
+        " top level ft is html 
+        return s:topFT
 
     else
 
@@ -56,7 +67,7 @@ fun! b:XPTfiletypeDetect() "{{{
             return 'css'
         endif
 
-        return &filetype
+        return s:topFT
 
     endif
 

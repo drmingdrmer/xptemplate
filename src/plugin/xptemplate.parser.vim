@@ -45,11 +45,6 @@ com! -nargs=+ XPTembed      call XPTembed(<f-args>)
 " com! -nargs=* XSET          call XPTbufferScopeSet( <q-args> )
 
 
-" let s:filetypeAcceptability = { 
-            " \   'cpp'       : [ 'c' ], 
-            " \   'cs'        : [ 'c' ], 
-            " \}
-
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
 fun! s:AssignSnipFT( filename ) "{{{
@@ -59,25 +54,34 @@ fun! s:AssignSnipFT( filename ) "{{{
 
 
     let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
-    if !empty( x.snipFileScopeStack ) && x.snipFileScopeStack[ -1 ].inheritFT
-                \ || ftFolder =~ '^_'
-        if !has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
-            " no parent snippet file 
-            " maybe parent snippet file has no XPTemplate command called
-            throw 'parent may has no XPTemplate command called :' . a:filename
-        endif
-        let ft = x.snipFileScopeStack[ -1 ].filetype
-    else
+    if empty( x.snipFileScopeStack ) 
         " Snippet file is loaded at top level
         "
         " All cross filetype inclusion must be done through XPTinclude or
         " XPTembed, runtime command is disabled for inclusion or embed
+
         if &filetype !~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim' 
             return 'not allowed'
+        else
+            let ft =  &filetype
         endif
-        let ft = &filetype
-    endif
 
+    else
+        " XPTinclude or XPTembed
+        if x.snipFileScopeStack[ -1 ].inheritFT
+                \ || ftFolder =~ '^_'
+
+            if !has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
+                " no parent snippet file 
+                " maybe parent snippet file has no XPTemplate command called
+                throw 'parent may has no XPTemplate command called :' . a:filename
+            endif
+
+            let ft = x.snipFileScopeStack[ -1 ].filetype
+        else
+            let ft = ftFolder
+        endif
+    endif
 
     call s:log.Log( "filename=" . filename . " ft=" . ft )
 
@@ -95,6 +99,8 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
     let snipScope.filetype = s:AssignSnipFT( a:filename )
 
     if snipScope.filetype == 'not allowed'
+        " TODO 
+        echom "not allowed:" 
         return 'finish'
     endif 
 
