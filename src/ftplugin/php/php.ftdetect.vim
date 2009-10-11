@@ -41,10 +41,10 @@ let s:topFT = 'html'
 fun! b:XPTfiletypeDetect() "{{{
     let pos = [ line( "." ), col( "." ) ]
 
-    if pos == [1, 1]
-        " for sheang(#!/usr/bin/php), it should be php. 
-        return 'php'
-    endif
+    " if pos == [1, 1]
+        " " for sheang(#!/usr/bin/php), it should be php. 
+        " return 'php'
+    " endif
 
     let synName = g:xptutil.XPTgetCurrentOrPreviousSynName()
 

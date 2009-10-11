@@ -23,6 +23,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO php shebang, need to be defined in html filetype
 " TODO navigate back
 " TODO more key mapping : [si]_<C-h> to go to head, n_<C-g> to go to back to end 
 " TODO improve context detection
@@ -56,12 +57,14 @@
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 "
 " "}}}
+"
 " 
 " Log of This version:
 "   `Include:snip-name^ place holder brings inclusion support
 "   XPT synonym 
 "   embed support for php and html
 "   XPTvar support single quoter string
+"
 "
 " 
 
