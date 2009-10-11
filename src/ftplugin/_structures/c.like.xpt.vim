@@ -10,7 +10,7 @@ XPTvar $VOID_LINE /* void */;
 XPTvar $STRUCT_BRACKET_STL \ 
 
 " containers
-let [s:f, s:v] = XPTcontainer() 
+let s:f = g:XPTfuncs() 
 
 
 

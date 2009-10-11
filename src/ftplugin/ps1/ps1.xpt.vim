@@ -5,7 +5,7 @@ let b:__PS1_XPT_VIM__ = 1
 
 
 " containers
-let [s:f, s:v] = XPTcontainer()
+let s:f = g:XPTfuncs() 
 
 " inclusion
 XPTinclude

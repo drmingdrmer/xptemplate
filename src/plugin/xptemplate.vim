@@ -7,7 +7,7 @@
 "   <, >  visual marks
 "
 " USAGE: "{{{
-"   1) vim test.js
+"   1) vim test.c
 "   2) to type:
 "     for<C-\>
 "     generating a for-loop template:
@@ -18,21 +18,18 @@
 "     template
 " "}}}
 "
-" BUG: "{{{
+" KNOWING BUG: "{{{
 "
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO php shebang, need to be defined in html filetype
 " TODO navigate back
 " TODO more key mapping : [si]_<C-h> to go to head, n_<C-g> to go to back to end 
 " TODO improve context detection
 " TODO snippet only inside others
-" TODO XPT synonym 
 " TODO need more format variables
-" TODO option to set double <tab> to jump to next or single if pum is visible
-" and nothing typed.
 " TODO standardize html/xml snippets.
-" TODO how to load different language snippets like html in php in single buffer
 " TODO snippets bundle and bundle selection
 " TODO snippet-file scope XSET
 " TODO block context check
@@ -60,8 +57,14 @@
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 "
 " "}}}
+"
 " 
 " Log of This version:
+"   `Include:snip-name^ place holder brings inclusion support
+"   XPT synonym 
+"   embed support for php and html
+"   XPTvar support single quoter string
+"
 "
 " 
 
@@ -295,25 +298,27 @@ fun! XPTmark() "{{{
     return [ xp.l, xp.r ]
 endfunction "}}}
 
+" deprecated
 fun! XPTcontainer() "{{{
-    return [g:XPTobject().vars, g:XPTobject().vars]
+    echom "deprecated function:XPTcontainer, use g:XPTfuncs"
+    return [ g:XPTfuncs(), g:XPTfuncs() ]
 endfunction "}}}
 
 " deprecated
 fun! g:XPTvars() "{{{
-    return g:XPTobject().vars
+    echom "deprecated function:XPTcontainer, use g:XPTfuncs"
+    return g:XPTfuncs()
 endfunction "}}}
 
-" deprecated
 fun! g:XPTfuncs() "{{{
-    return g:XPTobject().funcs
+    return g:GetSnipFileFtScope().funcs
 endfunction "}}}
 
 
 fun! XPTemplateAlias( name, toWhich, setting ) "{{{
     " TODO wrapping templates
     let xptObj = g:XPTobject()
-    let xt = xptObj.filetypes[ s:SnipFT() ].normalTemplates
+    let xt = xptObj.filetypes[ g:GetSnipFileFT() ].normalTemplates
 
     if has_key( xt, a:toWhich )
         let xt[ a:name ] = deepcopy( xt[ a:toWhich ] )
@@ -324,9 +329,14 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
 
 endfunction "}}}
 
-fun! s:SnipFT() "{{{
+fun! g:GetSnipFileFT() "{{{
     let x = g:XPTobject()
     return x.snipFileScope.filetype
+endfunction "}}}
+
+fun! g:GetSnipFileFtScope() "{{{
+    let x = g:XPTobject()
+    return x.filetypes[ x.snipFileScope.filetype ]
 endfunction "}}}
 
 " ********* XXX ********* 
@@ -337,7 +347,8 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     " @param String|List|FunCRef str	template string
 
     let x         = g:XPTobject()
-    let templates = x.filetypes[ s:SnipFT() ].normalTemplates
+    let ftScope   = x.filetypes[ g:GetSnipFileFT() ]
+    let templates = ftScope.normalTemplates
     let xp        = x.snipFileScope.ptn
 
     " using dictionary member instead of direct variable for type limit
@@ -379,6 +390,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     let templates[a:name] = {
                 \ 'name'        : a:name,
                 \ 'parsed'      : 0, 
+                \ 'ftScope'     : ftScope, 
                 \ 'tmpl'        : foo.snip,
                 \ 'priority'    : prio,
                 \ 'setting'     : templateSetting,
@@ -611,7 +623,7 @@ fun! XPTreload() "{{{
 endfunction "}}}
 
 fun! XPTgetAllTemplates() "{{{
-    return copy( s:GetCurrentFTObj().normalTemplates )
+    return copy( XPTbufData().filetypes[ &filetype ].normalTemplates )
 endfunction "}}}
 
 
@@ -676,7 +688,7 @@ fun! XPTemplateStart(pos_nonused_any_more, ...) " {{{
                     \'line' : a:1.startPos[0], 
                     \'col' : startColumn, 
                     \'matched' : templateName, 
-                    \'data' : { 'ftScope' : s:GetCurrentFTObj() } } )
+                    \'data' : { 'ftScope' : s:GetContextFTObj() } } )
 
     else 
         " input mode
@@ -803,7 +815,7 @@ fun! s:newTemplateRenderContext( xptBufData, ftScope, tmplName ) "{{{
     let renderContext = s:createRenderContext(a:xptBufData)
 
     let renderContext.phase = 'inited'
-    let renderContext.tmpl  = s:GetCurrentFTObj().normalTemplates[a:tmplName]
+    let renderContext.tmpl  = s:GetContextFTObj().normalTemplates[a:tmplName]
     let renderContext.ftScope = a:ftScope
 
     return renderContext
@@ -819,7 +831,7 @@ fun! s:DoStart(sess) " {{{
         " call s:PopCtx()
     " endif
 
-    if !has_key( s:GetCurrentFTObj().normalTemplates, a:sess.matched )
+    if !has_key( s:GetContextFTObj().normalTemplates, a:sess.matched )
         return ''
         " return g:xpt_post_action
     endif
@@ -919,7 +931,7 @@ fun! s:Popup(pref, coln) "{{{
 
     let cmpl=[]
     let cmpl2 = []
-    let ftScope = s:GetCurrentFTObj()
+    let ftScope = s:GetContextFTObj()
     let dic = ftScope.normalTemplates
 
     let ctxs = s:SynNameStack(line("."), a:coln)
@@ -2040,7 +2052,7 @@ fun! s:FinishCurrentAndGotoNextItem(action) " {{{
 
     call s:log.Debug( XPMallMark() )
     call s:log.Debug( "postaction=" . string( postaction ) )
-    call s:log.Debug( string( s:getRenderContext() ) )
+    " call s:log.Debug( string( s:getRenderContext() ) )
 
     return postaction
 
@@ -2273,7 +2285,7 @@ fun! s:GotoNextItem() "{{{
     " @param    position from where to start search.
 
     let renderContext = s:getRenderContext()
-    call s:log.Log( 'renderContext=' . string( renderContext ) )
+    " call s:log.Log( 'renderContext=' . string( renderContext ) )
 
     let placeHolder = s:ExtractOneItem()
     call s:log.Log( "next placeHolder=" . string( placeHolder ) )
@@ -2704,14 +2716,18 @@ fun! s:CreateStringMask( str ) "{{{
 
 endfunction "}}}
 
-fun! S2l(a, b)
+fun! XPTS2l(a, b)
     return a:a - a:b
 endfunction
 
 fun! s:Eval(s, ...) "{{{
     let x = g:XPTobject()
     let ctx = s:getRenderContext()
-    let xfunc = x.funcs
+    if ctx.phase == 'uninit'
+        let xfunc = g:GetSnipFileFtScope().funcs
+    else
+        let xfunc = ctx.ftScope.funcs
+    endif
 
     let tmpEvalCtx = { 'typed' : '', 'usingCache' : 1 }
 
@@ -2821,7 +2837,7 @@ fun! s:Eval(s, ...) "{{{
     let last = 0
 
 
-    let offsetsOfEltsToEval = sort(keys(rangesToEval), "S2l")
+    let offsetsOfEltsToEval = sort(keys(rangesToEval), "XPTS2l")
 
 
 
@@ -3124,12 +3140,9 @@ fun! g:XPTobject() "{{{
     if !exists("b:xptemplateData")
         let b:xptemplateData = {
                     \   'filetypes'         : {}, 
-                    \   'funcs'             : { '$CURSOR_PH' : 'CURSOR' }, 
                     \   'wrapStartPos'      : 0, 
                     \   'wrap'              : '', 
                     \}
-        let b:xptemplateData.vars = b:xptemplateData.funcs
-        let b:xptemplateData.varPriority = {}
         let b:xptemplateData.posStack = []
         let b:xptemplateData.stack = []
 
@@ -3536,13 +3549,17 @@ fun! s:XPTtrackFollowingSpace() "{{{
 
 endfunction "}}}
 
-fun! s:GetCurrentFT() "{{{
+fun! s:GetContextFT() "{{{
+    if exists( '*b:XPTfiletypeDetect' )
+        echom b:XPTfiletypeDetect()
+        return b:XPTfiletypeDetect()
+    endif
     return &filetype
 endfunction "}}}
 
-fun! s:GetCurrentFTObj() "{{{
+fun! s:GetContextFTObj() "{{{
     let x = XPTbufData()
-    return x.filetypes[ s:GetCurrentFT() ]
+    return x.filetypes[ s:GetContextFT() ]
 endfunction "}}}
 
 augroup XPT "{{{

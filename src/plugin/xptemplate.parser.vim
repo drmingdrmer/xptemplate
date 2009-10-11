@@ -45,11 +45,6 @@ com! -nargs=+ XPTembed      call XPTembed(<f-args>)
 " com! -nargs=* XSET          call XPTbufferScopeSet( <q-args> )
 
 
-" let s:filetypeAcceptability = { 
-            " \   'cpp'       : [ 'c' ], 
-            " \   'cs'        : [ 'c' ], 
-            " \}
-
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
 fun! s:AssignSnipFT( filename ) "{{{
@@ -59,27 +54,36 @@ fun! s:AssignSnipFT( filename ) "{{{
 
 
     let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
-    if !empty( x.snipFileScopeStack ) && x.snipFileScopeStack[ -1 ].inheritFT
-                \ || ftFolder =~ '^_'
-        if !has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
-            " no parent snippet file 
-            " maybe parent snippet file has no XPTemplate command called
-            throw 'parent may has no XPTemplate command called :' . a:filename
-        endif
-        let ft = x.snipFileScopeStack[ -1 ].filetype
-    else
+    if empty( x.snipFileScopeStack ) 
         " Snippet file is loaded at top level
         "
         " All cross filetype inclusion must be done through XPTinclude or
         " XPTembed, runtime command is disabled for inclusion or embed
+
         if &filetype !~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim' 
             return 'not allowed'
+        else
+            let ft =  &filetype
         endif
-        let ft = &filetype
+
+    else
+        " XPTinclude or XPTembed
+        if x.snipFileScopeStack[ -1 ].inheritFT
+                \ || ftFolder =~ '^_'
+
+            if !has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
+                " no parent snippet file 
+                " maybe parent snippet file has no XPTemplate command called
+                throw 'parent may has no XPTemplate command called :' . a:filename
+            endif
+
+            let ft = x.snipFileScopeStack[ -1 ].filetype
+        else
+            let ft = ftFolder
+        endif
     endif
 
-
-    call s:log.Log( "filename=" . filename . " ft=" . ft )
+    call s:log.Log( "filename=" . filename . 'filetype=' . &filetype . " ft=" . ft )
 
     return ft
 endfunction "}}}
@@ -95,6 +99,8 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
     let snipScope.filetype = s:AssignSnipFT( a:filename )
 
     if snipScope.filetype == 'not allowed'
+        " TODO 
+        echom "not allowed:" 
         return 'finish'
     endif 
 
@@ -156,6 +162,7 @@ endfunction "}}}
 
 fun! XPTsetVar( nameSpaceValue ) "{{{
     let x = XPTbufData()
+    let ftScope = g:GetSnipFileFtScope()
 
     call s:log.Debug( 'xpt var raw data=' . string( a:nameSpaceValue ) )
     let name = matchstr(a:nameSpaceValue, '^\S\+\ze\s')
@@ -163,18 +170,22 @@ fun! XPTsetVar( nameSpaceValue ) "{{{
         return
     endif
 
-    " TODO use s:nonEscaped to detect escape
     let val  = matchstr(a:nameSpaceValue, '\s\+\zs.*')
-    let val = substitute( val, '\\n', "\n", 'g' )
-    let val = substitute( val, '\\ ', " ", 'g' )
+    if val =~ '^''.*''$'
+        let val = val[1:-2]
+    else
+        " TODO use s:nonEscaped to detect escape
+        let val = substitute( val, '\\n', "\n", 'g' )
+        let val = substitute( val, '\\ ', " ", 'g' )
+    endif
 
 
     let priority = x.snipFileScope.priority
     call s:log.Log("name=".name.' value='.val.' priority='.priority)
 
 
-    if !has_key( x.varPriority, name ) || priority < x.varPriority[ name ]
-        let [ x.vars[ name ], x.varPriority[ name ] ] = [ val, priority ]
+    if !has_key( ftScope.varPriority, name ) || priority < ftScope.varPriority[ name ]
+        let [ ftScope.funcs[ name ], ftScope.varPriority[ name ] ] = [ val, priority ]
     endif
 
 endfunction "}}}
@@ -368,10 +379,16 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     call s:log.Log("tmpl setting:".string(setting))
     if has_key( setting, 'alias' )
         call XPTemplateAlias( snippetName, setting.alias, setting )
-
     else
         call XPTemplate(snippetName, setting, snippetLines)
+    endif
 
+
+    if has_key( setting, 'synonym' )
+        let synonyms = split( setting.synonym, '|' )
+        for synonym in synonyms
+            call XPTemplateAlias( synonym, snippetName, {} )
+        endfor
     endif
 
 

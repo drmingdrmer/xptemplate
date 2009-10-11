@@ -575,7 +575,7 @@ a else {
     //  *   `cursor^                                                          
     //  * @usage :                                                            
     //  *                                                                     
-    //  * @author : `author^ | `email^                                        
+    //  * @author : `$author^ | `$email^                                      
     //  * @copyright :                                                        
     //  * @TODO :                                                             
     //  *                                                                     
@@ -609,7 +609,7 @@ a else {
      *   
      * @usage : 
      * 
-     * @author : author_TYPED | email_TYPED
+     * @author : drdr.xp | drdr.xp@gmail.com
      * @copyright : 
      * @TODO : 
      * 
@@ -662,33 +662,42 @@ a else {
     a test.page
 
 
-    //  -------------for---------------                               
-    // for (var `i^ = 0; `i^ < `ar^.length; ++`i^)`$FOR_BRACKET_STL^{ 
-    //     var `e^ = `ar^[`i^];                                       
-    //     `cursor^                                                   
-    // }                                                              
+    //  -------------for---------------                                                                   
+    // for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$FOR_BRACKET_STL^{ 
+    //     `cursor^                                                                                       
+    // }                                                                                                  
 
 
 
-    for (var i = 0; i < ar.length; ++i) {
-        var e = ar[i];
+    for ( var i = 0; i < len; ++i ) {
         
     }
 
-    for (var i_TYPED = 0; i_TYPED < ar_TYPED.length; ++i_TYPED) {
-        var e_TYPED = ar_TYPED[i_TYPED];
+    for ( var i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED ) {
         
     } b
 
-    a for (var i = 0; i < ar.length; ++i) {
-        var e = ar[i];
+    a for ( var i = 0; i < len; ++i ) {
         
     } b
 
-    a for (var i = 0; i < ar.length; ++i) {
-        var e = ar[i];
+    a for ( var i = 0; i < len; ++i ) {
         
     }
+
+
+    //  -------------forever--------------- 
+    // for (;;) `body^                      
+
+
+
+    for (;;) /* void */
+
+        for (;;) body_TYPED b
+
+    a for (;;) /* void */ b
+
+    a for (;;) /* void */
 
 
     //  -------------forin---------------            
@@ -716,6 +725,54 @@ a else {
 
     a for ( var i in array ) {
         var e = array[i];
+        
+    }
+
+
+    //  -------------fornn---------------                                                                             
+    // for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$FOR_BRACKET_STL^{ 
+    //     `cursor^                                                                                                   
+    // }                                                                                                              
+
+
+
+    for ( var ptr = init; null != ptr; ptr ) {
+        
+    }
+
+    for ( var ptr_TYPED = init_TYPED; null != ptr_TYPED; ptrOp_TYPED ) {
+        
+    } b
+
+    a for ( var ptr = init; null != ptr; ptr ) {
+        
+    } b
+
+    a for ( var ptr = init; null != ptr; ptr ) {
+        
+    }
+
+
+    //  -------------forr---------------                                                                     
+    // for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$FOR_BRACKET_STL^{ 
+    //     `cursor^                                                                                          
+    // }                                                                                                     
+
+
+
+    for ( var i = 0; i >= end; --i ) {
+        
+    }
+
+    for ( var i_TYPED = 0_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED ) {
+        
+    } b
+
+    a for ( var i = 0; i >= end; --i ) {
+        
+    } b
+
+    a for ( var i = 0; i >= end; --i ) {
         
     }
 

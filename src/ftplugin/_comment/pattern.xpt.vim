@@ -2,7 +2,7 @@
 XPTemplate priority=spec+
 
 
-let [s:f, s:v] = XPTcontainer()
+let s:f = g:XPTfuncs() 
 
 
 " XPTvar $CL  Warn_$CL_IS_NOT_SET

@@ -18,6 +18,7 @@ fun! s:New() dict "{{{
     let self.filetype        = ''
     let self.normalTemplates = {}
     let self.funcs           = { '$CURSOR_PH' : 'CURSOR' }
+    let self.varPriority     = {}
     let self.loadedSnipFiles = {}
 endfunction "}}}
 

@@ -25,6 +25,7 @@
 		|xpt-snippet-hint|
 		|xpt-snippet-hidden|
 		|xpt-snippet-alias|
+		|xpt-snippet-synonym|
 
 	|xpt-snippet-body|
 	|xpt-snippet-include|
@@ -162,6 +163,7 @@
 		XPTemplate mark=~^
 <
 								       *xpt-$*
+								      *XPTvar*
 							*xpt-snippet-variable*
 	|xpt-snippet-variable| can be used in :
 		|xpt-snippet-instant-value|
@@ -171,7 +173,13 @@
 		|xpt-placeholder-ontime-filter|
 	Format : >
 		XPTvar $VAR_NAME something
-<	Example from C language : >
+<	Or with single quoter : >
+		XPTvar $VAR_NAME 'something'
+<	The only difference is in single quoter string nothing is unescaped.
+	So that : >
+		XPTvar $VAR	'\n'
+<	Will be evaluated to \n, but not a line break.  Example from C
+	language : >
 		XPTvar $TRUE 1
 <	and a snippet defined as : >
 		XPT while1
@@ -287,6 +295,19 @@
 
 	NOTE |xpt-snippet-alias| can be used to create shortcuts.
 
+							   *xpt-snippet-synonym*
+	Like |xpt-snippet-alias|, Synonym gives snippet another name. Syntax 
+	: >
+		XPT snippetName synonym=a|b|c...
+<	Where a, b and c are all the names of this snippet. For example : >
+		XPT forin synonym=fin|fi hint=for\ ..\ in\ ..\ ..\ endfor
+		for `value^ in `list^
+		    `cursor^
+		endfor
+<	This makes "forin", "fin" and "fi" the same.
+
+	NOTE |xpt-snippet-synonym| can be used to create shortcuts.
+
 
 							    *xpt-snippet-body*
 	<snippet body> is all the OTHER text except the first line : >
@@ -305,7 +326,7 @@
 <	NOTE XSET/XSETm commands can be placed anywhere inside snippet.
 
 				       *`::^* *Include:* *xpt-snippet-include*
-	Snippet can include other snippet, by using inclusion place holder : >
+	Snippet can include another snippet, by using inclusion place holder : >
 		`Include:snippetNmae^
 <	Where "`" and "^" is the mark. When inclusion occurs,
 	|xpt-snippet-post-filter|, |xpt-snippet-default-value| and
@@ -314,6 +335,9 @@
 	Also you can use the short format : >
 		`:snippetName:^
 <	Only 2 ":" around snippet name are needed.
+	
+	NOTE "Include" is literal, so that snippets with different
+	|xpt-snippet-mark| can not include each other.
 
 							    *xpt-snippet-XSET*
 	In |xpt-snippet-body|, XSET commands can be used anywhere to set : 

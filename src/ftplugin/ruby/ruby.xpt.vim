@@ -1,7 +1,7 @@
 XPTemplate priority=lang keyword=:%#
 
 " containers
-let s:f = XPTcontainer()[0]
+let s:f = g:XPTfuncs() 
 
 " inclusion
 XPTinclude

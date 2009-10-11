@@ -1,6 +1,6 @@
 XPTemplate priority=like keyword=#
 
-let [s:f, s:v] = XPTcontainer() 
+let s:f = g:XPTfuncs() 
  
 XPTvar $TRUE          1
 XPTvar $FALSE         0
