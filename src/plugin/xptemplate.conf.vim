@@ -3,7 +3,6 @@ if exists("g:__XPTEMPLATE_CONF_VIM__")
 endif
 let g:__XPTEMPLATE_CONF_VIM__ = 1
 
-  " finish
 
 runtime plugin/debug.vim
 
@@ -22,7 +21,6 @@ endfunction "}}}
 
 
 call s:SetIfNotExist('g:xptemplate_strip_left',   1)
-" TODO 
 " call s:SetIfNotExist('g:xptemplate_protect'           , 1)
 " call s:SetIfNotExist('g:xptemplate_limit_curosr'      , 0)
 " call s:SetIfNotExist('g:xptemplate_show_stack'        , 1)
@@ -113,12 +111,14 @@ fun! s:FiletypeInit() "{{{
     let fts = x.filetypes
     for [ ft, ftScope ] in items( fts )
 
+        " add user set variables
         let f = ftScope.funcs
         for [k, v] in items(g:XPTpvs)
             let f[k] = v
         endfor
 
 
+        " add default comment strings
         if &l:commentstring != ''
             let cms = split( &l:commentstring, '\V%s', 1 )
             if cms[1] == ''
@@ -131,8 +131,6 @@ fun! s:FiletypeInit() "{{{
         endif
 
     endfor
-
-
 endfunction "}}}
 
 

@@ -100,7 +100,7 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
 
     if snipScope.filetype == 'not allowed'
         " TODO 
-        echom "not allowed:" 
+        call s:log.Info(  "not allowed:" . a:filename )
         return 'finish'
     endif 
 

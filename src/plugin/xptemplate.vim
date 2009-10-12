@@ -23,6 +23,11 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO import utils
+" TODO <Plug>mapping
+" TODO key map to trigger in template
+" TODO remove keyword attribute on XPTemplate line, if some non-keyword characters used, add it.
+" TODO unmap %, ^ [ ( { etc when template rendering
 " TODO php shebang, need to be defined in html filetype
 " TODO navigate back
 " TODO more key mapping : [si]_<C-h> to go to head, n_<C-g> to go to back to end 
@@ -60,10 +65,6 @@
 "
 " 
 " Log of This version:
-"   `Include:snip-name^ place holder brings inclusion support
-"   XPT synonym 
-"   embed support for php and html
-"   XPTvar support single quoter string
 "
 "
 " 

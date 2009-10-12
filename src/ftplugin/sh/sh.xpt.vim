@@ -28,6 +28,31 @@ XPTinclude
 
 " ========================= Function and Variables =============================
 
+let s:braceMap = {
+            \   '{'  : '}', 
+            \   '['  : ']', 
+            \   '('  : ')', 
+            \  '{{'  : '}}', 
+            \  '[['  : ']]', 
+            \  '(('  : '))', 
+            \  '{ '  : ' }', 
+            \  '[ '  : ' ]', 
+            \  '( '  : ' )', 
+            \ '{{ '  : ' }}', 
+            \ '[[ '  : ' ]]', 
+            \ '(( '  : ' ))', 
+            \}
+fun! s:f.sh_complete_brace()
+    let v = self.V()
+    let br = matchstr( v, '\V\^\[[({]\{1,2} \?' )
+    if br == ''
+        return ''
+    elseif match( v, '\V' . s:braceMap[ br ]. '\$' ) == -1
+        return s:braceMap[ br ]
+    else
+        return  ''
+    endif
+endfunction
 
 " ================================= Snippets ===================================
 
@@ -35,16 +60,18 @@ XPTinclude
 XPTemplateDef
 
 
-XPT sh hint=#!/bin/sh
+XPT shShebang hint=#!/bin/sh
 #!/bin/sh
 
 ..XPT
 
 
-XPT bash hint=#!/bin/bash
+XPT bashShebang hint=#!/bin/bash
 #!/bin/bash
 
 ..XPT
+
+XPT shebang alias=bashShebang
 
 
 XPT echodate hint=echo\ `date\ +%...`
@@ -94,13 +121,13 @@ esac
 
 
 XPT if
-if ~condition^;~$IF_BRACKET_STL^then
+if ~condition^~condition^sh_complete_brace()^;~$IF_BRACKET_STL^then
     ~cursor^
 fi
 
 
 XPT ife
-if ~condition^;~$IF_BRACKET_STL^then
+if ~condition^~condition^sh_complete_brace()^;~$IF_BRACKET_STL^then
     ~job^
 else
     ~cursor^
@@ -108,7 +135,7 @@ fi
 
 
 XPT elif
-elif ~condition^;~$IF_BRACKET_STL^then
+elif ~condition^~condition^sh_complete_brace()^;~$IF_BRACKET_STL^then
     ~cursor^
 
 
@@ -121,10 +148,13 @@ XPT {
 
 
 XPT [
+[ ~test^ ]
+
+XPT [[
 [[ ~test^ ]]
 
 
 XPT fun
-function ~name^ (~args^)~$FUNC_BRACKET_STL^{
+~name^ ()~$FUNC_BRACKET_STL^{
     ~cursor^
 }
