@@ -65,6 +65,7 @@
 "
 " 
 " Log of This version:
+"   fix bug xpmark does not update line length if following place holder updated
 "
 "
 " 
@@ -96,6 +97,7 @@ runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
 runtime plugin/xpopup.vim
 runtime plugin/xptemplate.conf.vim
+runtime plugin/MapSaver.class.vim
 
 
 let s:log = CreateLogger( 'warn' )
@@ -2970,33 +2972,55 @@ fun! s:Goback() "{{{
     return ''
 endfunction "}}}
 
+fun! s:XPTinit() "{{{
+    let disabledKeys = [
+                \ 's_%', 
+                \ 's_''', 
+                \ 's_[', 
+                \ 's_]', 
+                \ 's_[%', 
+                \ 's_]%', 
+                \
+                \ 'i_[', 
+                \ 'i_(', 
+                \ 'i_{', 
+                \ 'i_<BS>', 
+                \]
+    let s:mapSaver = g:MapSaver.New(1)
+    call s:mapSaver.AddList(
+                \ 'i_' . g:xptemplate_nav_next, 
+                \ 's_' . g:xptemplate_nav_next, 
+                \ 's_' . g:xptemplate_nav_cancel, 
+                \ 's_' . g:xptemplate_to_right, 
+                \ 'n_' . g:xptemplate_goback, 
+                \
+                \ 's_<DEL>', 
+                \ 's_<BS>', 
+                \)
+    call s:mapSaver.AddList( disabledKeys )
+
+    let s:mapMask = g:MapSaver.New( 0 )
+    call s:mapMask.AddList( disabledKeys )
+
+endfunction "}}}
+
+
+
 fun! s:ApplyMap() " {{{
     let x = g:XPTobject()
-    let savedMap = x.savedMap
 
 
     call SettingPush( '&l:textwidth', '0' )
 
-    " let savedMap.i_bs       = g:MapPush("<bs>", "i", 1)
-    " let savedMap.i_c_w      = g:MapPush("<C-w>", "i", 1)
-    " let savedMap.i_del      = g:MapPush("<Del>", "i", 1)
 
-    let savedMap.i_nav      = g:MapPush(g:xptemplate_nav_next  , "i", 1)
-    let savedMap.s_nav      = g:MapPush(g:xptemplate_nav_next  , "s", 1)
-    let savedMap.s_cancel   = g:MapPush(g:xptemplate_nav_cancel, "s", 1)
+    call s:mapSaver.Save()
+    call s:mapSaver.UnmapAll()
 
-    let savedMap.s_del      = g:MapPush("<Del>", "s", 1)
-    let savedMap.s_bs       = g:MapPush("<bs>", "s", 1)
-    let savedMap.s_right    = g:MapPush(g:xptemplate_to_right, "s", 1)
-
-    let savedMap.n_back     = g:MapPush(g:xptemplate_goback, "n", 1)
+    call s:mapMask.Save()
+    call s:mapMask.UnmapAll()
 
 
 
-
-    " inoremap <silent> <buffer> <bs> <C-r>=<SID>CheckAndBS("bs")<cr>
-    " inoremap <silent> <buffer> <C-w> <C-r>=<SID>CheckAndBS("C-w")<cr>
-    " inoremap <silent> <buffer> <Del> <C-r>=<SID>CheckAndDel("Del")<cr>
 
     exe 'inoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <C-r>=<SID>FinishCurrentAndGotoNextItem("")<cr>'
     exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <Esc>`>a<C-r>=<SID>FinishCurrentAndGotoNextItem("")<cr>'
@@ -3017,43 +3041,11 @@ endfunction " }}}
 
 fun! s:ClearMap() " {{{
     let x = g:XPTobject()
-    let savedMap = x.savedMap
 
     call SettingPop( '&l:textwidth' )
 
-    " clear all
-    " iunmap <buffer> <bs>
-    " iunmap <buffer> <C-w>
-    " iunmap <buffer> <Del>
-    exe 'iunmap <buffer> '.g:xptemplate_nav_next
-    exe 'sunmap <buffer> '.g:xptemplate_nav_next
-    exe 'sunmap <buffer> '.g:xptemplate_nav_cancel
-
-    exe 'nunmap <buffer> '.g:xptemplate_goback
-
-    sunmap <buffer> <Del>
-    sunmap <buffer> <bs>
-    exe "sunmap <buffer> ".g:xptemplate_to_right
-
-
-
-    " restore map, reversed order
-
-    call g:MapPop(savedMap.n_back  )
-
-    call g:MapPop(savedMap.s_right )
-    call g:MapPop(savedMap.s_bs    )
-    call g:MapPop(savedMap.s_del   )
-
-    call g:MapPop(savedMap.s_cancel)
-    call g:MapPop(savedMap.s_nav   )
-    call g:MapPop(savedMap.i_nav   )
-
-    " call g:MapPop(savedMap.i_del   )
-    " call g:MapPop(savedMap.i_c_w   )
-    " call g:MapPop(savedMap.i_bs    )
-
-    let x.savedMap = {}
+    call s:mapMask.Restore()
+    call s:mapSaver.Restore()
 
 endfunction " }}}
 
@@ -3150,8 +3142,6 @@ fun! g:XPTobject() "{{{
         " which letter can be used in template name
         let b:xptemplateData.keyword = '\w'
         let b:xptemplateData.keywordList = []
-
-        let b:xptemplateData.savedMap = {}
 
         let b:xptemplateData.snipFileScopeStack = []
         let b:xptemplateData.snipFileScope = {}
@@ -3619,6 +3609,8 @@ call <SID>Link('TmplRange GetRangeBetween TextBetween GetStaticRange LeftPos')
 
 com! XPTreload call XPTreload()
 com! XPTcrash call <SID>Crash()
+
+call s:XPTinit()
 
 
 fun! String( d, ... )

@@ -170,14 +170,14 @@ fun! XPTsetVar( nameSpaceValue ) "{{{
         return
     endif
 
+    " TODO use s:nonEscaped to detect escape
     let val  = matchstr(a:nameSpaceValue, '\s\+\zs.*')
     if val =~ '^''.*''$'
         let val = val[1:-2]
     else
-        " TODO use s:nonEscaped to detect escape
-        let val = substitute( val, '\\n', "\n", 'g' )
         let val = substitute( val, '\\ ', " ", 'g' )
     endif
+    let val = substitute( val, '\\n', "\n", 'g' )
 
 
     let priority = x.snipFileScope.priority

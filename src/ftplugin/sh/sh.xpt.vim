@@ -29,28 +29,40 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 let s:braceMap = {
-            \   '{'  : '}', 
-            \   '['  : ']', 
-            \   '('  : ')', 
-            \  '{{'  : '}}', 
-            \  '[['  : ']]', 
-            \  '(('  : '))', 
-            \  '{ '  : ' }', 
-            \  '[ '  : ' ]', 
-            \  '( '  : ' )', 
-            \ '{{ '  : ' }}', 
-            \ '[[ '  : ' ]]', 
-            \ '(( '  : ' ))', 
+            \   '`' : '`', 
+            \   '{' : '}', 
+            \   '[' : ']', 
+            \   '(' : ')', 
+            \  '{{' : '}}', 
+            \  '[[' : ']]', 
+            \  '((' : '))', 
+            \  '{ ' : ' }', 
+            \  '[ ' : ' ]', 
+            \  '( ' : ' )', 
+            \ '{{ ' : ' }}', 
+            \ '[[ ' : ' ]]', 
+            \ '(( ' : ' ))', 
             \}
+
 fun! s:f.sh_complete_brace()
     let v = self.V()
-    let br = matchstr( v, '\V\^\[[({]\{1,2} \?' )
+    let br = matchstr( v, '\V\^\[\[({`]\{1,2} \?' )
     if br == ''
         return ''
-    elseif match( v, '\V' . s:braceMap[ br ]. '\$' ) == -1
+    elseif br == '`'
         return s:braceMap[ br ]
     else
-        return  ''
+        try
+            let cmpl = s:braceMap[ br ]
+            let cmplEsc = substitute( cmpl, ']', '\\[]]', 'g' )
+            let tail = matchstr( v, '\V\%[' . cmplEsc . ']\$' )
+            if tail == ' ' && br =~ ' '
+                let tail = ''
+            endif
+            return cmpl[ len( tail ) : ]
+        catch /.*/
+            echom v:exception
+        endtry
     endif
 endfunction
 
@@ -124,6 +136,11 @@ XPT if
 if ~condition^~condition^sh_complete_brace()^;~$IF_BRACKET_STL^then
     ~cursor^
 fi
+
+XPT el hint=else\ ...
+else
+    ~cursor^
+
 
 
 XPT ife

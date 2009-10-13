@@ -1,0 +1,1121 @@
+
+
+
+    /*  -------------"_--------------- */
+    /* "`wrapped^"                     */
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"b
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    /*  -------------'_--------------- */
+    /* '`wrapped^'                     */
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'b
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    /*  -------------(_--------------- */
+    /* (`wrapped^)                     */
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`wrapped^>                     */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>b
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`wrapped^]                     */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``wrapped^\`                   */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    /*  -------------Author--------------- */
+    /* `$author^                           */
+
+
+
+drdr.xp
+
+drdr.xp b
+
+a drdr.xp b
+
+a drdr.xp
+
+
+    /*  -------------comment--------------- */
+    /* `$CS^ `cursor^                       */
+
+
+
+" 
+
+"  b
+
+a "  b
+
+a " 
+
+
+    /*  -------------comment_--------------- */
+    /* `$CS^ `wrapped^                       */
+
+
+
+" WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+" WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a " WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a " WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+
+    /*  -------------commentBlock--------------- */
+    /* `$CS^ `cursor^                            */
+    /* `$CS^                                     */
+
+
+
+" 
+"
+
+" 
+" b
+
+a " 
+" b
+
+a " 
+"
+
+
+    /*  -------------commentDoc--------------- */
+    /* `$CS^                                   */
+    /* `$CS^ `cursor^                          */
+    /* `$CS^                                   */
+
+
+
+"
+" 
+"
+
+"
+" 
+" b
+
+a "
+" 
+" b
+
+a "
+" 
+"
+
+
+    /*  -------------commentLine--------------- */
+    /* `$CS^ `cursor^                           */
+
+
+
+" 
+
+"  b
+
+a "  b
+
+a " 
+
+
+    /*  -------------commentLine_--------------- */
+    /* `$CS^ `wrapped^                           */
+
+
+
+" WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+" WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a " WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a " WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+
+    /*  -------------container--------------- */
+    /* let s:f = g:XPTfuncs()                 */
+
+
+
+let s:f = g:XPTfuncs() 
+
+    let s:f = g:XPTfuncs()  b
+
+    a let s:f = g:XPTfuncs()  b
+
+    a let s:f = g:XPTfuncs() 
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com b
+
+    a drdr.xp@gmail.com
+
+
+    /*  -------------fdesc---------------                                              */
+    /* " File Description {{{                                                          */
+    /* " ============================================================================= */
+    /* " `cursor^                                                                      */
+    /* "                                                  by `$author^                 */
+    /* "                                                     `$email^                  */
+    /* " Usage :                                                                       */
+    /* "                                                                               */
+    /* " ============================================================================= */
+    /* " }}}                                                                           */
+
+
+
+    " File Description {{{
+    " =============================================================================
+    " 
+    "                                                  by drdr.xp
+    "                                                     drdr.xp@gmail.com
+    " Usage :
+    "
+    " =============================================================================
+    " }}}
+
+    " File Description {{{
+    " =============================================================================
+    " 
+    "                                                  by drdr.xp
+    "                                                     drdr.xp@gmail.com
+    " Usage :
+    "
+    " =============================================================================
+    " }}} b
+
+    a " File Description {{{
+    " =============================================================================
+    " 
+    "                                                  by drdr.xp
+    "                                                     drdr.xp@gmail.com
+    " Usage :
+    "
+    " =============================================================================
+    " }}} b
+
+    a " File Description {{{
+    " =============================================================================
+    " 
+    "                                                  by drdr.xp
+    "                                                     drdr.xp@gmail.com
+    " Usage :
+    "
+    " =============================================================================
+    " }}}
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+    test.page
+
+    test.page b
+
+    a test.page b
+
+    a test.page
+
+
+    /*  -------------fordic---------------  */
+    /* for [`key^, `value^] in items(`dic^) */
+    /*     `cursor^                         */
+    /* endfor                               */
+
+
+
+    for [key, value] in items(dic)
+        
+    endfor
+
+    for [key_TYPED, value_TYPED] in items(dic_TYPED)
+        
+    endfor b
+
+    a for [key, value] in items(dic)
+        
+    endfor b
+
+    a for [key, value] in items(dic)
+        
+    endfor
+
+
+    /*  -------------foreach--------------- */
+    /* for `value^ in `list^                */
+    /*     `cursor^                         */
+    /* endfor                               */
+
+
+
+    for value in list
+        
+    endfor
+
+    for value_TYPED in list_TYPED
+        
+    endfor b
+
+    a for value in list
+        
+    endfor b
+
+    a for value in list
+        
+    endfor
+
+
+    /*  -------------forin--------------- */
+    /* for `value^ in `list^              */
+    /*     `cursor^                       */
+    /* endfor                             */
+
+
+
+    for value in list
+        
+    endfor
+
+    for value_TYPED in list_TYPED
+        
+    endfor b
+
+    a for value in list
+        
+    endfor b
+
+    a for value in list
+        
+    endfor
+
+
+    /*  -------------fun---------------  */
+    /* fun! s:f.`name^(` `parameters` ^) */
+    /*     `cursor^                      */
+    /* endfunction                       */
+
+
+
+    fun! s:f.name()
+        
+    endfunction
+
+    fun! s:f.name_TYPED( parameters_TYPED )
+        
+    endfunction b
+
+    a fun! s:f.name()
+        
+    endfunction b
+
+    a fun! s:f.name()
+        
+    endfunction
+
+
+    /*  -------------if--------------- */
+    /* if `cond^                       */
+    /*     `job^Echo()^                */
+    /* ``else...`                      */
+    /* {{^else                         */
+    /*     `cursor^                    */
+    /* `}}^endif                       */
+
+
+
+    if cond
+        
+    else
+        
+    endif
+
+    if cond_TYPED
+        job_TYPED
+        else_TYPED
+    endif b
+
+    a if cond
+        
+    else
+        
+    endif b
+
+    a if cond
+        
+    else
+        
+    endif
+
+
+    /*  -------------inc--------------- */
+    /* XPTinclude                       */
+    /*     \ _common/common`            */
+    /*     `...{{^`                     */
+    /*     \ `path^/`name^`             */
+    /*     `...^`}}^                    */
+
+
+
+    XPTinclude 
+        \ _common/common
+        \ ps1/
+        \ ps1/
+        \ ps1/
+
+        XPTinclude 
+            \ _common/common
+            _TYPED b
+
+            a XPTinclude 
+                \ _common/common
+                \ ps1 /
+                \ ps1 /
+                \ ps1 / b
+
+                a XPTinclude 
+                    \ _common/common
+                    \ ps1/
+                    \ ps1/
+                    \ ps1/
+
+
+    /*  -------------member--------------- */
+    /* fun! `name^(`arg*^) dict "{{{       */
+    /*     `cursor^                        */
+    /* endfunction "}}}                    */
+
+
+
+                    fun! name() dict "{{{
+                        
+                    endfunction "}}}
+
+                    fun! name_TYPED(arg_TYPED, arg_TYPED, arg_TYPED) dict "{{{
+                        
+                    endfunction "}}} b
+
+                    a fun! name() dict "{{{
+                        
+                    endfunction "}}} b
+
+                    a fun! name() dict "{{{
+                        
+                    endfunction "}}}
+
+
+    /*  -------------once--------------- */
+    /* if exists("`g^:`i^")              */
+    /*     finish                        */
+    /* endif                             */
+    /* let `g^:`i^ = 1                   */
+    /* `cursor^                          */
+
+
+
+                    if exists("g:__TEST_PAGE__")
+                        finish
+                    endif
+                    let g:__TEST_PAGE__ = 1
+                    
+
+                    if exists("g_TYPED:i_TYPED")
+                        finish
+                    endif
+                    let g_TYPED:i_TYPED = 1
+                     b
+
+                     a if exists("g:__TEST_PAGE__")
+                         finish
+                     endif
+                     let g:__TEST_PAGE__ = 1
+                      b
+
+                      a if exists("g:__TEST_PAGE__")
+                          finish
+                      endif
+                      let g:__TEST_PAGE__ = 1
+                      
+
+
+    /*  -------------sid---------------                                          */
+    /* `Echo('com')^! `name^GetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze') */
+    /* `name^GetSID                                                              */
+    /* delc `name^GetSID                                                         */
+
+
+
+                      com! nameGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
+                      nameGetSID
+                      delc nameGetSID
+
+                      com! name_TYPEDGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
+                      name_TYPEDGetSID
+                      delc name_TYPEDGetSID b
+
+                      a com! nameGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
+                      nameGetSID
+                      delc nameGetSID b
+
+                      a com! nameGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
+                      nameGetSID
+                      delc nameGetSID
+
+
+    /*  -------------snip--------------- */
+    /* XPT `name^ hint=`tips^            */
+    /* `cursor^                          */
+
+
+
+                      XPT name hint=tips
+                      
+
+                      XPT name_TYPED hint=tips_TYPED
+                       b
+
+                       a XPT name hint=tips
+                        b
+
+                        a XPT name hint=tips
+                        
+
+
+    /*  -------------str_--------------- */
+    /* string(`wrapped^)                 */
+
+
+
+string(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+string(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a string(WRAPPED_TEXT
+WRAPPED_TEXT_line2)b
+
+a string(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------tmpl--------------- */
+    /* XPT `name^ hint=`tips^            */
+    /* `cursor^                          */
+
+
+
+XPT name hint=tips
+
+
+XPT name_TYPED hint=tips_TYPED
+ b
+
+ a XPT name hint=tips
+  b
+
+  a XPT name hint=tips
+  
+
+
+    /*  -------------try--------------- */
+    /* try                              */
+    /*                                  */
+    /* catch /`exception^/              */
+    /* `                                */
+    /* `finally...{{^                   */
+    /* finally                          */
+    /*     `cursor^`}}^                 */
+    /* endtry                           */
+
+
+
+  try
+      
+  catch /.*/
+  
+  finally
+      
+  endtry
+
+  try
+      
+  catch /exception_TYPED/
+  
+  finally_TYPED
+  endtry b
+
+  a try
+      
+  catch /.*/
+  
+  finally
+      
+  endtry b
+
+  a try
+      
+  catch /.*/
+  
+  finally
+      
+  endtry
+
+
+    /*  -------------var--------------- */
+    /* XPTvar $`name^ `cursor^          */
+
+
+
+  XPTvar $NAME 
+
+  XPTvar $NAME_TYPED  b
+
+  a XPTvar $NAME  b
+
+  a XPTvar $NAME 
+
+
+    /*  -------------varComment1--------------- */
+    /* XPTvar $CS    `cursor^                   */
+
+
+
+  XPTvar $CS    
+
+  XPTvar $CS     b
+
+  a XPTvar $CS     b
+
+  a XPTvar $CS    
+
+
+    /*  -------------varComment2--------------- */
+    /* XPTvar $CL    `left sign^                */
+    /* XPTvar $CM    `cursor^                   */
+    /* XPTvar $CR    `right sign^               */
+
+
+
+  XPTvar $CL    left sign
+  XPTvar $CM    
+  XPTvar $CR    right sign
+
+  XPTvar $CL    leftsign_TYPED
+  XPTvar $CM    
+  XPTvar $CR    rightsign_TYPED b
+
+  a XPTvar $CL    left sign
+  XPTvar $CM    
+  XPTvar $CR    right sign b
+
+  a XPTvar $CL    left sign
+  XPTvar $CM    
+  XPTvar $CR    right sign
+
+
+    /*  -------------varconf--------------- */
+    /* if !exists("`access^g^:`varname^")   */
+    /*     let `access^:`varname^ = `val^   */
+    /* endif                                */
+
+
+
+  if !exists("g:varname")
+      let g:varname = val
+  endif
+
+  if !exists("access_TYPED:varname_TYPED")
+      let access_TYPED:varname_TYPED = val_TYPED
+  endif b
+
+  a if !exists("g:varname")
+      let g:varname = val
+  endif b
+
+  a if !exists("g:varname")
+      let g:varname = val
+  endif
+
+
+    /*  -------------varConst--------------- */
+    /* XPTvar $TRUE          1               */
+    /* XPTvar $FALSE         0               */
+    /* XPTvar $NULL          NULL            */
+    /* XPTvar $UNDEFINED     NULL            */
+
+
+
+  XPTvar $TRUE          1
+  XPTvar $FALSE         0
+  XPTvar $NULL          NULL
+  XPTvar $UNDEFINED     NULL
+
+  XPTvar $TRUE          1
+  XPTvar $FALSE         0
+  XPTvar $NULL          NULL
+  XPTvar $UNDEFINED     NULL b
+
+  a XPTvar $TRUE          1
+  XPTvar $FALSE         0
+  XPTvar $NULL          NULL
+  XPTvar $UNDEFINED     NULL b
+
+  a XPTvar $TRUE          1
+  XPTvar $FALSE         0
+  XPTvar $NULL          NULL
+  XPTvar $UNDEFINED     NULL
+
+
+    /*  -------------varFormat--------------- */
+    /* XPTvar $IF_BRACKET_STL     ' '         */
+    /* XPTvar $ELSE_BRACKET_STL   \n          */
+    /* XPTvar $FOR_BRACKET_STL    ' '         */
+    /* XPTvar $WHILE_BRACKET_STL  ' '         */
+    /* XPTvar $STRUCT_BRACKET_STL ' '         */
+    /* XPTvar $FUNC_BRACKET_STL   ' '         */
+
+
+
+  XPTvar $IF_BRACKET_STL     ' '
+  XPTvar $ELSE_BRACKET_STL   \n
+  XPTvar $FOR_BRACKET_STL    ' '
+  XPTvar $WHILE_BRACKET_STL  ' '
+  XPTvar $STRUCT_BRACKET_STL ' '
+  XPTvar $FUNC_BRACKET_STL   ' '
+
+  XPTvar $IF_BRACKET_STL     ' '
+  XPTvar $ELSE_BRACKET_STL   \n
+  XPTvar $FOR_BRACKET_STL    ' '
+  XPTvar $WHILE_BRACKET_STL  ' '
+  XPTvar $STRUCT_BRACKET_STL ' '
+  XPTvar $FUNC_BRACKET_STL   ' ' b
+
+  a XPTvar $IF_BRACKET_STL     ' '
+  XPTvar $ELSE_BRACKET_STL   \n
+  XPTvar $FOR_BRACKET_STL    ' '
+  XPTvar $WHILE_BRACKET_STL  ' '
+  XPTvar $STRUCT_BRACKET_STL ' '
+  XPTvar $FUNC_BRACKET_STL   ' ' b
+
+  a XPTvar $IF_BRACKET_STL     ' '
+  XPTvar $ELSE_BRACKET_STL   \n
+  XPTvar $FOR_BRACKET_STL    ' '
+  XPTvar $WHILE_BRACKET_STL  ' '
+  XPTvar $STRUCT_BRACKET_STL ' '
+  XPTvar $FUNC_BRACKET_STL   ' '
+
+
+    /*  -------------varHelper--------------- */
+    /* XPTvar $VOID_LINE                      */
+    /* XPTvar $CURSOR_PH                      */
+
+
+
+  XPTvar $VOID_LINE      
+  XPTvar $CURSOR_PH      
+
+  XPTvar $VOID_LINE      
+  XPTvar $CURSOR_PH       b
+
+  a XPTvar $VOID_LINE      
+  XPTvar $CURSOR_PH       b
+
+  a XPTvar $VOID_LINE      
+  XPTvar $CURSOR_PH      
+
+
+    /*  -------------varLang--------------- */
+    /* XPTvar $VAR_PRE                      */
+
+
+
+  XPTvar $VAR_PRE            
+
+  XPTvar $VAR_PRE             b
+
+  a XPTvar $VAR_PRE             b
+
+  a XPTvar $VAR_PRE            
+
+
+    /*  -------------varSpaces--------------- */
+    /* XPTvar $SP_ARG      ''                 */
+    /* XPTvar $SP_IF       ''                 */
+    /* XPTvar $SP_EQ       ' '                */
+    /* XPTvar $SP_OP       ' '                */
+    /* XPTvar $SP_COMMA    ' '                */
+
+
+
+  XPTvar $SP_ARG      ''
+  XPTvar $SP_IF       ''
+  XPTvar $SP_EQ       ' '
+  XPTvar $SP_OP       ' '
+  XPTvar $SP_COMMA    ' '
+
+  XPTvar $SP_ARG      ''
+  XPTvar $SP_IF       ''
+  XPTvar $SP_EQ       ' '
+  XPTvar $SP_OP       ' '
+  XPTvar $SP_COMMA    ' ' b
+
+  a XPTvar $SP_ARG      ''
+  XPTvar $SP_IF       ''
+  XPTvar $SP_EQ       ' '
+  XPTvar $SP_OP       ' '
+  XPTvar $SP_COMMA    ' ' b
+
+  a XPTvar $SP_ARG      ''
+  XPTvar $SP_IF       ''
+  XPTvar $SP_EQ       ' '
+  XPTvar $SP_OP       ' '
+  XPTvar $SP_COMMA    ' '
+
+
+    /*  -------------vimformat---------------                     */
+    /* " vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:fmr={{{,}}} */
+
+
+
+  " vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:fmr={{{,}}}
+
+  " vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:fmr={{{,}}} b
+
+  a " vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:fmr={{{,}}} b
+
+  a " vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:fmr={{{,}}}
+
+
+    /*  -------------while--------------- */
+    /* while `cond^                       */
+    /*     `cursor^                       */
+    /* endwhile                           */
+
+
+
+  while cond
+      
+  endwhile
+
+  while cond_TYPED
+      
+  endwhile b
+
+  a while cond
+      
+  endwhile b
+
+  a while cond
+      
+  endwhile
+
+
+    /*  -------------whilei---------------              */
+    /* let [ `i^, `len^ ] = [ `0^ - 1, `len_expr^ - 1 ] */
+    /* while `i^ < `len^ | let `i^ += 1                 */
+    /*     `cursor^                                     */
+    /* endwhile                                         */
+
+
+
+  let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+  while i < len | let i += 1
+      
+  endwhile
+
+  let [ i_TYPED, len_TYPED ] = [ 0_TYPED - 1, len_expr_TYPED - 1 ]
+  while i_TYPED < len_TYPED | let i_TYPED += 1
+      
+  endwhile b
+
+  a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+  while i < len | let i += 1
+      
+  endwhile b
+
+  a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+  while i < len | let i += 1
+      
+  endwhile
+
+
+    /*  -------------xpt---------------                                                 */
+    /* XPTemplate priority=`prio^` `keyword...^` `mark...^` `indent...^                 */
+    /*                                                                                  */
+    /* let s:f = g:XPTfuncs()                                                           */
+    /*                                                                                  */
+    /* `Include:varConst^                                                               */
+    /*                                                                                  */
+    /* `Include:varFormat^                                                              */
+    /*                                                                                  */
+    /* `XPTinclude...{{^`Include:inc^`}}^                                               */
+    /*                                                                                  */
+    /*                                                                                  */
+    /* " ========================= Function and Variables ============================= */
+    /*                                                                                  */
+    /* " ================================= Snippets =================================== */
+    /* XPTemplateDef                                                                    */
+    /*                                                                                  */
+    /*                                                                                  */
+    /* `cursor^                                                                         */
+    /*                                                                                  */
+    /* " ================================= Wrapper ===================================  */
+
+
+
+  XPTemplate priority=all keyword=char mark=char indent=auto
+  
+  let s:f = g:XPTfuncs() 
+  
+  XPTvar $TRUE          1
+  XPTvar $FALSE         0
+  XPTvar $NULL          NULL
+  XPTvar $UNDEFINED     NULL
+  
+  XPTvar $IF_BRACKET_STL     ' '
+  XPTvar $ELSE_BRACKET_STL   \n
+  XPTvar $FOR_BRACKET_STL    ' '
+  XPTvar $WHILE_BRACKET_STL  ' '
+  XPTvar $STRUCT_BRACKET_STL ' '
+  XPTvar $FUNC_BRACKET_STL   ' '
+  
+  XPTinclude 
+      \ _common/common
+      \ ps1/
+      \ ps1/
+  
+  
+  " ========================= Function and Variables =============================
+  
+  " ================================= Snippets ===================================
+  XPTemplateDef
+  
+  
+  
+  
+  " ================================= Wrapper ===================================
+  
+
+  XPTemplate priority=all keyword_TYPED mark_TYPED indent_TYPED
+  
+  let s:f = g:XPTfuncs() 
+  
+  XPTvar $TRUE          1
+  XPTvar $FALSE         0
+  XPTvar $NULL          NULL
+  XPTvar $UNDEFINED     NULL
+  
+  XPTvar $IF_BRACKET_STL     ' '
+  XPTvar $ELSE_BRACKET_STL   \n
+  XPTvar $FOR_BRACKET_STL    ' '
+  XPTvar $WHILE_BRACKET_STL  ' '
+  XPTvar $STRUCT_BRACKET_STL ' '
+  XPTvar $FUNC_BRACKET_STL   ' '
+  
+  XPTinclude_TYPED
+  
+  
+  " ========================= Function and Variables =============================
+  
+  " ================================= Snippets ===================================
+  XPTemplateDef
+  
+  
+  
+  
+  " ================================= Wrapper ===================================
+   b
+
+   a XPTemplate priority=all keyword=char mark=char indent=auto
+   
+   let s:f = g:XPTfuncs() 
+   
+   XPTvar $TRUE          1
+   XPTvar $FALSE         0
+   XPTvar $NULL          NULL
+   XPTvar $UNDEFINED     NULL
+   
+   XPTvar $IF_BRACKET_STL     ' '
+   XPTvar $ELSE_BRACKET_STL   \n
+   XPTvar $FOR_BRACKET_STL    ' '
+   XPTvar $WHILE_BRACKET_STL  ' '
+   XPTvar $STRUCT_BRACKET_STL ' '
+   XPTvar $FUNC_BRACKET_STL   ' '
+   
+   XPTinclude 
+       \ _common/common
+       \ ps1/
+       \ ps1/
+   
+   
+   " ========================= Function and Variables =============================
+   
+   " ================================= Snippets ===================================
+   XPTemplateDef
+   
+   
+   
+   
+   " ================================= Wrapper ===================================
+    b
+
+    a XPTemplate priority=all keyword=char mark=char indent=auto
+    
+    let s:f = g:XPTfuncs() 
+    
+    XPTvar $TRUE          1
+    XPTvar $FALSE         0
+    XPTvar $NULL          NULL
+    XPTvar $UNDEFINED     NULL
+    
+    XPTvar $IF_BRACKET_STL     ' '
+    XPTvar $ELSE_BRACKET_STL   \n
+    XPTvar $FOR_BRACKET_STL    ' '
+    XPTvar $WHILE_BRACKET_STL  ' '
+    XPTvar $STRUCT_BRACKET_STL ' '
+    XPTvar $FUNC_BRACKET_STL   ' '
+    
+    XPTinclude 
+        \ _common/common
+        \ ps1/
+        \ ps1/
+    
+    
+    " ========================= Function and Variables =============================
+    
+    " ================================= Snippets ===================================
+    XPTemplateDef
+    
+    
+    
+    
+    " ================================= Wrapper ===================================
+    
+
+
+    /*  -------------{_--------------- */
+    /* {`wrapped^}                     */
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}b
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+

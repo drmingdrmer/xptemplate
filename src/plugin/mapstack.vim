@@ -152,19 +152,26 @@ fun! g:MapPop(expected) "{{{
   endif
 
   call s:log.Debug("map info:".string(info))
+  echom "map info:".string(info)
 
   if empty(info)
     return
   endif
 
 
+  let exprMap = ''
+  if info.mode == 'i' && info.cont =~ '\V\w(\.\*)' && info.cont !~? '\V<c-r>'
+              \ || info.mode != 'i' && info.cont =~ '\V\w(\.\*)'
+      let exprMap = '<expr> '
+  endif
 
   if info.cont == ''
     let cmd = "silent! ".info.mode.'unmap '. info.isbuf . info.key 
   else
-    let cmd = "silent! " . info.mode . info.nore .'map '. info.isbuf . info.key . ' ' . info.cont
+    let cmd = "silent! " . info.mode . info.nore .'map '. exprMap . info.isbuf . info.key . ' ' . info.cont
   endif
 
+  echom cmd
 
   " mapping may already be cleared
   try
