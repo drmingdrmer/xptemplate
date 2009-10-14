@@ -3367,7 +3367,6 @@ fun! s:Crash(...) "{{{
 
     echohl WarningMsg
     echom msg
-    " echom stack
     echohl
 
     " no post typing action
@@ -3555,7 +3554,6 @@ endfunction "}}}
 
 fun! s:GetContextFT() "{{{
     if exists( '*b:XPTfiletypeDetect' )
-        echom b:XPTfiletypeDetect()
         return b:XPTfiletypeDetect()
     endif
     return &filetype
