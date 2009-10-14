@@ -61,14 +61,15 @@
 <	The usage is described in more detail below.
 
 								 *xpt-feature*
-	On time typing update
+	Live typing update
+	Navigate forward and backward		|xpt-key-navigate|
 	Popup hint				|xpt-popup| |xpt-snippet-hint|
-	Template priority			|xpt-snippet-priority|
+	Ordered place holders			|xpt-snippet-ComeFist|
 	Embedded functions and variables	|xpt-snippet-function|
 	Repeatable snippet generation		|xpt-repetition|
 	Nested snippet				|xpt-nested|
 	Wrapping snippet			|xpt-wrapped|
-	Navigate forward and backward		|xpt-key-navigate|
+	Template priority			|xpt-snippet-priority|
 
 	Named item or anonymous item		|xpt-snippet-item|
 	Default value                 		|xpt-snippet-default-value|
