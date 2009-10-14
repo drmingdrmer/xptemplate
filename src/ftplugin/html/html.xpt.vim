@@ -2,13 +2,6 @@ XPTemplate priority=lang keyword=<
 
 let s:f = g:XPTfuncs() 
  
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $UNDEFINED     NULL
-XPTvar $VOID_LINE /* void */;
-XPTvar $IF_BRACKET_STL \n
-
 XPTinclude 
       \ _common/common
 
@@ -106,29 +99,23 @@ XPTemplateDef
 
 XPT table
 <table>
-    <tr>
-        <td>`text^^</td>`...2^
-        <td>`text^^</td>`...2^
-    </tr>`...0^
-    <tr>
-        <td>`text^^</td>`...1^
-        <td>`text^^</td>`...1^
-    </tr>`...0^
+    `Include:tr^` `tr...{{^
+    `Include:tr^` `tr...^`}}^
 </table>
-..XPT
 
-XPT tablecounter hidden=1
-<table id="`id^">`CntStart("i", "0")^
-    <tr>`CntStart("j", "0")^
-        <td id="`^R("id")_{Cnt("i")}_{CntIncr("j")}^">`text^^</td>`...2^
-        <td id="`^R("id")_{Cnt("i")}_{CntIncr("j")}^">`text^^</td>`...2^
-    </tr>`tr...^
-    <tr>
-        <td id="\`\^CntStart("j","0")R("id")_{CntIncr("i")}_{CntIncr("j")}\^">\`text\^\^</td>\`td...\^
-        <td id="\\\`\\\^R("id")_{Cnt("i")}_{CntIncr("j")}\\\^">\\\`text\\\^\\\^</td>\\\`td...\\\^\^\^
-    </tr>\`tr...\^^^
-</table>
-..XPT
+XPT tr hint=<tr>\ ...
+<tr>
+    `Include:td^` `td...{{^
+    `Include:td^` `td...^`}}^
+</tr>
+
+XPT td hint=<td>\ ...
+<td>`^</td>
+
+XPT th hint=<th>\ ...
+<th>`^</th>
+
+
 
 XPT table0 hidden=1
 `createTable()^
@@ -138,7 +125,7 @@ XPT html hint=<html><head>..<head><body>...
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=`encoding^utf-8^"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=`encoding^Echo(&fileencoding)^"/>
         <link rel="stylesheet" type="text/css" href="" />
         <style></style>
         <title>`title^E('%:r')^</title>
@@ -197,7 +184,7 @@ XSET n=1
 
 XPT script hint=<script\ language="javascript"...
 <script language="javascript" type="text/javascript">
-`cursor^
+    `cursor^
 </script>
 ..XPT
 

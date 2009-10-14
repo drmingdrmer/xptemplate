@@ -19,10 +19,12 @@
 " "}}}
 "
 " KNOWING BUG: "{{{
+"   indent bug of html::table with inclusion
 "
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO ( ) shortcut of Echo
 " TODO import utils
 " TODO key map to trigger in template
 " TODO php shebang, need to be defined in html filetype
@@ -65,6 +67,7 @@
 "   unmap special char like % ^ [ ( { when template rendering
 "   ship back
 "   removed keyword attribute on XPTemplate line, if some non-keyword characters used, add it.
+"   eruby support
 "
 "
 " 
