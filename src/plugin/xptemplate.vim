@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.3.9.7
+" VERSION: 0.3.9.8
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
@@ -24,12 +24,8 @@
 "
 " TODOLIST: "{{{
 " TODO import utils
-" TODO <Plug>mapping
 " TODO key map to trigger in template
-" TODO remove keyword attribute on XPTemplate line, if some non-keyword characters used, add it.
-" TODO unmap %, ^ [ ( { etc when template rendering
 " TODO php shebang, need to be defined in html filetype
-" TODO navigate back
 " TODO more key mapping : [si]_<C-h> to go to head, n_<C-g> to go to back to end 
 " TODO improve context detection
 " TODO snippet only inside others
@@ -43,12 +39,12 @@
 " TODO change on previous item
 " TODO as function call template
 " TODO highlight all pending items
+" TODO <Plug>mapping
 " TODO item popup: repopup
 " TODO install guide
 " TODO do not let xpt throw error if calling undefined s:f.function..
 " TODO buffer/snippet scope template setting.
 " TODO simple place holder : just a postion waiting for user input
-" TODO undo
 " TODO wrapping on different visual mode
 " TODO prefixed template trigger
 " TODO class-style
@@ -66,6 +62,9 @@
 " 
 " Log of This version:
 "   fix bug xpmark does not update line length if following place holder updated
+"   unmap special char like % ^ [ ( { when template rendering
+"   ship back
+"   removed keyword attribute on XPTemplate line, if some non-keyword characters used, add it.
 "
 "
 " 
@@ -169,24 +168,25 @@ fun! g:XPTapplyTemplateSettingDefaultValue( setting ) "{{{
 endfunction "}}}
 
 let s:renderContextPrototype      = {
-            \    'ftScope'           : {},
-            \    'tmpl'              : {},
-            \    'evalCtx'           : {},
-            \    'phase'             : 'uninit',
-            \    'action'            : '',
-            \    'markNamePre'       : '', 
-            \    'item'              : {}, 
-            \    'leadingPlaceHolder' : {}, 
-            \    'step'              : [],
-            \    'namedStep'         : {},
-            \    'processing'        : 0,
-            \    'marks'             : {
-            \       'tmpl'           : {'start' : '', 'end' : ''} },
-            \    'itemDict'          : {},
-            \    'itemList'          : [],
-            \    'lastContent'       : '',
-            \    'lastTotalLine'     : 0, 
-            \    'lastFollowingSpace': '', 
+            \   'ftScope'           : {},
+            \   'tmpl'              : {},
+            \   'evalCtx'           : {},
+            \   'phase'             : 'uninit',
+            \   'action'            : '',
+            \   'markNamePre'       : '', 
+            \   'item'              : {}, 
+            \   'leadingPlaceHolder' : {}, 
+            \   'history'           : [], 
+            \   'step'              : [],
+            \   'namedStep'         : {},
+            \   'processing'        : 0,
+            \   'marks'             : {
+            \      'tmpl'           : {'start' : '', 'end' : ''} },
+            \   'itemDict'          : {},
+            \   'itemList'          : [],
+            \   'lastContent'       : '',
+            \   'lastTotalLine'     : 0, 
+            \   'lastFollowingSpace': '', 
             \}
 let s:vrangeClosed = "\\%>'<\\%<'>"
 let s:vrange       = '\V' . '\%(' . '\%(' . s:vrangeClosed .'\)' .  '\|' . "\\%'<\\|\\%'>" . '\)'
@@ -455,6 +455,11 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
     endif
 
     call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . a:tmplObj.setting.defaultValues.cursor )
+
+    let nonWordChar = substitute( a:tmplObj.name, '\w', '', 'g' ) 
+    if nonWordChar != '' && !a:tmplObj.wrapped
+        call XPTemplateKeyword( nonWordChar )
+    endif
 
 endfunction "}}}
 
@@ -1878,6 +1883,7 @@ fun! s:BuildItemForPlaceHolder( ctx, placeHolder ) "{{{
     else
         let item = { 'name'         : a:placeHolder.name, 
                     \'fullname'     : a:placeHolder.name, 
+                    \'processed'    : 0, 
                     \'placeHolders' : [], 
                     \'keyPH'        : s:NullDict, 
                     \'behavior'     : {}, 
@@ -2007,6 +2013,47 @@ fun! s:GetRangeBetween(p1, p2, ...) "{{{
 
 endfunction "}}}
 
+fun! s:ShipBack() "{{{
+    let renderContext = s:getRenderContext()
+
+    if empty( renderContext.history )
+        return ''
+    endif
+
+    let his = remove( renderContext.history, -1 )
+
+    call s:PushBackItem()
+
+    let renderContext.item = his.item
+    let renderContext.leadingPlaceHolder = his.leadingPlaceHolder
+
+    let leader = renderContext.leadingPlaceHolder
+    
+    call XPMsetLikelyBetween( leader.mark.start, leader.mark.end )
+    
+    let action = s:selectCurrent(renderContext)
+
+    call XPMupdateStat()
+
+    return action
+
+endfunction "}}}
+
+fun! s:PushBackItem() "{{{
+    let renderContext = s:getRenderContext()
+
+    let item = renderContext.item
+    if !renderContext.leadingPlaceHolder.isKey 
+        call insert( item.placeHolders, renderContext.leadingPlaceHolder, 0 )
+    endif
+
+    call insert( renderContext.itemList, item, 0 )
+    if item.name != ''
+        let renderContext.itemDict[ item.name ] = item
+    endif
+
+endfunction "}}}
+
 fun! s:FinishCurrentAndGotoNextItem(action) " {{{
     let renderContext = s:getRenderContext()
     let marks = renderContext.leadingPlaceHolder.mark
@@ -2024,10 +2071,8 @@ fun! s:FinishCurrentAndGotoNextItem(action) " {{{
     call s:log.Debug( "after update=" . XPMallMark() )
 
 
-    " let p = [line("."), col(".")]
     let name = renderContext.item.name
 
-    " call s:HighLightItem(name, 0)
 
     call s:log.Log("FinishCurrentAndGotoNextItem action:" . a:action)
 
@@ -2038,7 +2083,7 @@ fun! s:FinishCurrentAndGotoNextItem(action) " {{{
 
     call s:log.Debug( "before post filter=" . XPMallMark() )
 
-    let post = s:ApplyPostFilter()
+    let [ post, built ] = s:ApplyPostFilter()
 
     call s:log.Debug( "after post filter=" . XPMallMark() )
 
@@ -2047,8 +2092,13 @@ fun! s:FinishCurrentAndGotoNextItem(action) " {{{
         let renderContext.namedStep[renderContext.item.name] = post
     endif
 
-    
-    call s:removeCurrentMarks()
+    if built
+        call s:removeCurrentMarks()
+    else
+        let renderContext.history += [ {
+                    \'item' : renderContext.item, 
+                    \'leadingPlaceHolder' : renderContext.leadingPlaceHolder } ]
+    endif
 
 
     let postaction =  s:GotoNextItem()
@@ -2142,6 +2192,7 @@ fun! s:ApplyPostFilter() "{{{
     call s:log.Log('post filterText :' . filterText)
 
 
+    let ifToBuild = 0
     " TODO per-place-holder filter
     " check by 'groupPostFilter' is ok
     if filterText != ''
@@ -2172,7 +2223,7 @@ fun! s:ApplyPostFilter() "{{{
             call cursor( start )
             let renderContext.firstList = []
             if 0 != s:BuildPlaceHolders( marks )
-                return s:Crash()
+                return [ s:Crash(), ifToBuild ]
             endif
 
             " change back the phase
@@ -2186,10 +2237,10 @@ fun! s:ApplyPostFilter() "{{{
     " after indent segment, there is something
     if s:IsFilterEmpty( groupPostFilter )
         call s:UpdateFollowingPlaceHoldersWith( typed, {} )
-        return typed
+        return [ typed, ifToBuild ]
     else
         call s:UpdateFollowingPlaceHoldersWith( typed, { 'indent' : filterIndent, 'post' : text } )
-        return text
+        return [ text, ifToBuild ]
     endif
 
 
@@ -2318,6 +2369,14 @@ fun! s:GotoNextItem() "{{{
     let leaderMark = leader.isKey ? leader.editMark : leader.mark
     call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
 
+    if renderContext.item.processed
+        let action = s:selectCurrent(renderContext)
+
+        call XPMupdateStat()
+
+        return action
+    endif
+
     let postaction = s:InitItem()
 
 
@@ -2365,6 +2424,7 @@ fun! s:ExtractOneItem() "{{{
     let renderContext = s:getRenderContext()
     let itemList = renderContext.itemList
 
+
     let [ renderContext.item, renderContext.leadingPlaceHolder ] = [ {}, {} ]
 
     if empty( itemList )
@@ -2374,7 +2434,9 @@ fun! s:ExtractOneItem() "{{{
     let item = itemList[ 0 ]
 
     let renderContext.itemList = renderContext.itemList[ 1 : ]
-    if item.name != ''
+
+    " TODO expanded part contains multiple items with the same name, and maybe removed twice
+    if item.name != '' && has_key( renderContext.itemDict, item.name )
         unlet renderContext.itemDict[ item.name ]
     endif
 
@@ -2995,6 +3057,10 @@ fun! s:XPTinit() "{{{
     call s:mapSaver.AddList(
                 \ 'i_' . g:xptemplate_nav_next, 
                 \ 's_' . g:xptemplate_nav_next, 
+                \
+                \ 'i_' . g:xptemplate_nav_prev, 
+                \ 's_' . g:xptemplate_nav_prev, 
+                \
                 \ 's_' . g:xptemplate_nav_cancel, 
                 \ 's_' . g:xptemplate_to_right, 
                 \ 'n_' . g:xptemplate_goback, 
@@ -3032,6 +3098,9 @@ fun! s:ApplyMap() " {{{
 
 
 
+    exe 'inoremap <silent> <buffer> '.g:xptemplate_nav_prev  .' <C-r>=<SID>ShipBack()<cr>'
+    " TODO map should distinguish between 'selection'
+    exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_prev  .' <Esc>`>a<C-r>=<SID>ShipBack()<cr>'
 
     exe 'inoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <C-r>=<SID>FinishCurrentAndGotoNextItem("")<cr>'
     exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <Esc>`>a<C-r>=<SID>FinishCurrentAndGotoNextItem("")<cr>'

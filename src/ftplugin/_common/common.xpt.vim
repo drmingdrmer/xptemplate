@@ -8,11 +8,12 @@ XPTvar $email         $email is not set, you need to set g:xptemplate_vars="$aut
 
 XPTvar $VOID
 
-XPTvar $IF_BRACKET_STL     \ 
-XPTvar $FOR_BRACKET_STL    \ 
-XPTvar $WHILE_BRACKET_STL  \ 
-XPTvar $STRUCT_BRACKET_STL \ 
-XPTvar $FUNC_BRACKET_STL   \ 
+XPTvar $IF_BRACKET_STL     ' '
+XPTvar $ELSE_BRACKET_STL   \n
+XPTvar $FOR_BRACKET_STL    ' '
+XPTvar $WHILE_BRACKET_STL  ' '
+XPTvar $STRUCT_BRACKET_STL ' '
+XPTvar $FUNC_BRACKET_STL   ' '
 
 XPTvar $TRUE          1
 XPTvar $FALSE         0

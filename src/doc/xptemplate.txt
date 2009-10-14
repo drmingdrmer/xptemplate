@@ -68,8 +68,8 @@
 	Repeatable snippet generation		|xpt-repetition|
 	Nested snippet				|xpt-nested|
 	Wrapping snippet			|xpt-wrapped|
+	Navigate forward and backward		|xpt-key-navigate|
 
-	Cursor position helper			
 	Named item or anonymous item		|xpt-snippet-item|
 	Default value                 		|xpt-snippet-default-value|
 	Preset  value                 		|xpt-preset-value|
@@ -262,6 +262,13 @@
 							       {default:<Tab>}
 	After a snippet was triggered, this key navigates to the next item.
 	Use |g:xptemplate_nav_next| to change this mapping.
+
+						      *i_<S-tab>*  *s_<S-tab>*
+						       *g:xptemplate_nav_prev*
+							     {default:<S-Tab>}
+	After a snippet was triggered, press this key to navigate back to the
+	previous item.
+	Use |g:xptemplate_nav_prev| to change this mapping.
 
 						     *s_<CR>*  *xpt-key-clear*
 						     *g:xptemplate_nav_cancel*

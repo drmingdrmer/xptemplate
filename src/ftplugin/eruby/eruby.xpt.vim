@@ -8,7 +8,7 @@ XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
 
 XPTvar $VOID_LINE  /* void */;
-XPTvar $CURSOR_PH      cursor
+XPTvar $CURSOR_PH      CURSOR
 
 XPTvar $IF_BRACKET_STL     \ 
 XPTvar $ELSE_BRACKET_STL   \n

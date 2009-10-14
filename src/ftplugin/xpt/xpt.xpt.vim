@@ -1,4 +1,4 @@
-XPTemplate priority=sub indent=auto
+XPTemplate priority=sub
 
 let s:f = g:XPTfuncs() 
  
@@ -136,11 +136,11 @@ endfunction
 
 
 XPT xpt hint=start\ template\ to\ write\ template
-XPTemplate priority=`prio^` `keyword...^` `mark...^` `indent...^
+XPTemplate priority=`prio^` `mark...^
 XSET prio=ChooseStr( 'all', 'spec', 'like', 'lang', 'sub', 'personal' )
-XSET keyword...|post= keyword=`char^
+XSET keyword_disable...|post= keyword=`char^
 XSET mark...|post= mark=`char^
-XSET indent...|post= indent=`indentValue^
+XSET indent_disable...|post= indent=`indentValue^
 XSET indentValue=ChooseStr( 'auto', 'keep' )
 
 let s:f = g:XPTfuncs() 
