@@ -159,9 +159,10 @@ fun! g:MapPop(expected) "{{{
   endif
 
 
+  " TODO guess it, no way to figure out whether a key is mapped with <expr> or not
   let exprMap = ''
   if info.mode == 'i' && info.cont =~ '\V\w(\.\*)' && info.cont !~? '\V<c-r>'
-              \ || info.mode != 'i' && info.cont =~ '\V\w(\.\*)'
+              \ || info.mode != 'i' && info.cont =~ '\V\w(\.\*)' 
       let exprMap = '<expr> '
   endif
 

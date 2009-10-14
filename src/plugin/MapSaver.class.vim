@@ -58,6 +58,18 @@ fun! s:Save() dict "{{{
     endfor
 endfunction "}}}
 
+fun! s:Literalize() dict "{{{
+    if self.saved == []
+        throw "keys are not saved yet, can not literalize"
+    endif
+
+    let localStr = self.isLocal ? '<buffer> ' : ''
+    for [ mode, key ] in self.keys
+        exe 'silent! ' . mode . 'noremap ' . localStr . key . ' ' . key
+    endfor
+    
+endfunction "}}}
+
 fun! s:Restore() dict "{{{
     if self.saved == []
         throw "keys are not saved yet"

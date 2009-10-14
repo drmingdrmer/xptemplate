@@ -1016,26 +1016,21 @@ fun! s:saveCurrentCursorStat() dict "{{{
 
     let p = [ line( '.' ), col( '.' ) ]
 
-    let self.lastPositionAndLength = p + [ len( getline( "." ) ) ]
     if p != self.lastPositionAndLength[ : 1 ]
 
-        " NOTE: weird, 'normal! ***' causes exception in select mode. but 'k'
+        " NOTE: weird, 'normal! ***' produces exception in select mode. but 'k'
         " command is ok
 
-        " if mode() ==? 's' || mode() == "\<C-s>" 
-            exe 'k'.g:xpm_mark
-            if p[0] < line( '$' )
-                exe '+1k' . g:xpm_mark_nextline
-            else
-                exe 'delmarks ' . g:xpm_mark_nextline
-            endif
+        exe 'k'.g:xpm_mark
+        if p[0] < line( '$' )
+            exe '+1k' . g:xpm_mark_nextline
+        else
+            exe 'delmarks ' . g:xpm_mark_nextline
+        endif
 
-        " else 
-            " exe 'silent! normal! m' . g:xpm_mark
-        " endif 
-
-        " call s:log.Log( 'updated lastPositionAndLength:' . string(self.lastPositionAndLength) )
     endif
+
+    let self.lastPositionAndLength = p + [ len( getline( "." ) ) ]
 
     let self.lastMode = mode()
 

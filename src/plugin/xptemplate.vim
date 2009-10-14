@@ -2974,18 +2974,23 @@ endfunction "}}}
 
 fun! s:XPTinit() "{{{
     let disabledKeys = [
+                \ 's_[%', 
+                \ 's_]%', 
+                \]
+
+    let literalKeys = [
                 \ 's_%', 
                 \ 's_''', 
                 \ 's_[', 
                 \ 's_]', 
-                \ 's_[%', 
-                \ 's_]%', 
                 \
                 \ 'i_[', 
                 \ 'i_(', 
                 \ 'i_{', 
                 \ 'i_<BS>', 
+                \ 'i_<DEL>', 
                 \]
+
     let s:mapSaver = g:MapSaver.New(1)
     call s:mapSaver.AddList(
                 \ 'i_' . g:xptemplate_nav_next, 
@@ -2997,10 +3002,14 @@ fun! s:XPTinit() "{{{
                 \ 's_<DEL>', 
                 \ 's_<BS>', 
                 \)
-    call s:mapSaver.AddList( disabledKeys )
+
+    let s:mapLiteral = g:MapSaver.New( 1 )
+    call s:mapLiteral.AddList( literalKeys )
+
 
     let s:mapMask = g:MapSaver.New( 0 )
     call s:mapMask.AddList( disabledKeys )
+
 
 endfunction "}}}
 
@@ -3014,9 +3023,11 @@ fun! s:ApplyMap() " {{{
 
 
     call s:mapSaver.Save()
-    call s:mapSaver.UnmapAll()
-
+    call s:mapLiteral.Save()
     call s:mapMask.Save()
+
+    call s:mapSaver.UnmapAll()
+    call s:mapLiteral.Literalize()
     call s:mapMask.UnmapAll()
 
 
@@ -3045,6 +3056,7 @@ fun! s:ClearMap() " {{{
     call SettingPop( '&l:textwidth' )
 
     call s:mapMask.Restore()
+    call s:mapLiteral.Restore()
     call s:mapSaver.Restore()
 
 endfunction " }}}
@@ -3067,6 +3079,7 @@ endfunction "}}}
 fun! XPTbufData() "{{{
     return g:XPTobject()
 endfunction "}}}
+
 
 
 let s:snipScopePrototype = {
