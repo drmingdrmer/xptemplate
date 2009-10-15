@@ -128,12 +128,8 @@ endfunction "}}}
 
 fun! g:XPTloadBundle(ft, bundle) "{{{
     if !has_key( g:xptBundle, a:ft )
-        echom 'no such ft' . a:ft
         return 0
     elseif !has_key( g:xptBundle[ a:ft ], a:bundle ) && !has_key( g:xptBundle[ a:ft ], '*' )
-        echom 'no such bundle' . a:bundle
-        echom has_key( g:xptBundle[ a:ft ], a:bundle )
-        echom has_key( g:xptBundle[ a:ft ], '*' )
         return 0
     else
         return 1
