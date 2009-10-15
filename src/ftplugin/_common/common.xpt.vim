@@ -340,7 +340,34 @@ fun! s:f.ExpandIfNotEmpty( sep, item, ... ) "{{{
   return t
 endfunction "}}}
 
+let s:xptCompleteMap = [ 
+            \"''",
+            \'""',
+            \'()',
+            \'[]',
+            \'{}',
+            \'<>',
+            \'||',
+            \'**',
+            \'``', 
+            \]
+let s:xptCompleteLeft = join( map( deepcopy( s:xptCompleteMap ), 'v:val[0:0]' ), '' )
+let s:xptCompleteRight = join( map( deepcopy( s:xptCompleteMap ), 'v:val[1:1]' ), '' )
 
+fun! s:f.CompleteRightPart( left ) dict
+    let v = self.V()
+    " let left = substitute( a:left, '[', '[[]', 'g' )
+    let left = escape( a:left, '[\' )
+    let v = matchstr( v, '^\V\[' . left . ']\+' )
+    if v == '' 
+        return ''
+    endif
+
+    let v = join( reverse( split( v, '\s*' ) ), '')
+    let v = tr( v, s:xptCompleteLeft, s:xptCompleteRight )
+    return v
+
+endfunction
 
 
 

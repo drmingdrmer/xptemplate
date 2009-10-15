@@ -133,6 +133,12 @@ fun! XPMflush() "{{{
 
 endfunction "}}}
 
+fun! XPMflushWithHistory() "{{{
+    call XPMflush()
+    let d = s:bufData()
+    let d.markHistory = {}
+endfunction "}}}
+
 fun! XPMgoto( name ) "{{{
     let d = s:bufData()
     if has_key( d.marks, a:name )

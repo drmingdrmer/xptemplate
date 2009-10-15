@@ -94,8 +94,8 @@ XPTvar $STRUCT_BRACKET_STL ' '
 XPTvar $FUNC_BRACKET_STL   ' '
 
 XPT varSpaces hint=variable\ to\ define\ spacing
-XPTvar $SP_ARG      ''
-XPTvar $SP_IF       ''
+XPTvar $SP_ARG      ' '
+XPTvar $SP_IF       ' '
 XPTvar $SP_EQ       ' '
 XPTvar $SP_OP       ' '
 XPTvar $SP_COMMA    ' '

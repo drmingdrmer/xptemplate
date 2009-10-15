@@ -37,6 +37,7 @@ call s:SetIfNotExist('g:xptemplate_fix'                 , 1)
 call s:SetIfNotExist('g:xptemplate_vars'                , '')
 call s:SetIfNotExist('g:xptemplate_hl'                  , 1)
 call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 1)
+call s:SetIfNotExist('g:xptemplate_bundle'              , '')
 
 " for test script
 call s:SetIfNotExist('g:xpt_post_action',         '')
@@ -104,6 +105,40 @@ for s:v in s:pvs
 endfor
 
 
+" bundle support
+if type( g:xptemplate_bundle ) == type( '' )
+    let s:bundle = split( g:xptemplate_bundle, ',' )
+else
+    let s:bundle = g:xptemplate_bundle
+endif
+
+let g:xptBundle = {}
+for ftAndBundle in s:bundle
+    let [ ft, bundle ] = split( ftAndBundle, '_' )
+    if !has_key( g:xptBundle, ft )
+        let g:xptBundle[ ft ] = {}
+    endif
+
+    let g:xptBundle[ ft ][ bundle ] = 1
+endfor
+
+fun! g:XPTaddBundle(ft, bundle) "{{{
+    " TODO 
+endfunction "}}}
+
+fun! g:XPTloadBundle(ft, bundle) "{{{
+    if !has_key( g:xptBundle, a:ft )
+        echom 'no such ft' . a:ft
+        return 0
+    elseif !has_key( g:xptBundle[ a:ft ], a:bundle ) && !has_key( g:xptBundle[ a:ft ], '*' )
+        echom 'no such bundle' . a:bundle
+        echom has_key( g:xptBundle[ a:ft ], a:bundle )
+        echom has_key( g:xptBundle[ a:ft ], '*' )
+        return 0
+    else
+        return 1
+    endif
+endfunction "}}}
 
 
 

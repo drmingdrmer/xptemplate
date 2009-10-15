@@ -152,7 +152,6 @@ fun! g:MapPop(expected) "{{{
   endif
 
   call s:log.Debug("map info:".string(info))
-  echom "map info:".string(info)
 
   if empty(info)
     return
@@ -172,7 +171,6 @@ fun! g:MapPop(expected) "{{{
     let cmd = "silent! " . info.mode . info.nore .'map '. exprMap . info.isbuf . info.key . ' ' . info.cont
   endif
 
-  echom cmd
 
   " mapping may already be cleared
   try

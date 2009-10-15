@@ -24,6 +24,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO /../../ ontime filter shortcut
 " TODO ( ) shortcut of Echo
 " TODO import utils
 " TODO key map to trigger in template
@@ -68,6 +69,12 @@
 "   ship back
 "   removed keyword attribute on XPTemplate line, if some non-keyword characters used, add it.
 "   eruby support
+"   hide error produced by file without filetype
+"   edge can be evaluated
+"   remove marks history when template rendering finished
+"   fix inclusion indent problem
+"   save register @" before template rendering.
+"
 "
 "
 " 
@@ -100,6 +107,7 @@ runtime plugin/xpmark.vim
 runtime plugin/xpopup.vim
 runtime plugin/xptemplate.conf.vim
 runtime plugin/MapSaver.class.vim
+runtime plugin/FiletypeScope.class.vim
 
 
 let s:log = CreateLogger( 'warn' )
@@ -474,22 +482,25 @@ fun! s:ParseInclusion( tmplDict, tmplObject ) "{{{
     let xp = a:tmplObject.ptn
 
     let phPattern = '\V' . xp.lft . 'Include:\(\.\{-}\)' . xp.rt
-    let linePattern = '\V' . '\%(\^\|\n\)\(\s\*\)\.\{-}' . phPattern
+    let linePattern = '\V' . '\n\(\s\*\)\.\{-}' . phPattern
 
     call s:DoInclude( a:tmplDict, a:tmplObject, { 'ph' : phPattern, 'line' : linePattern } )
 
 
     let phPattern = '\V' . xp.lft . ':\(\.\{-}\):' . xp.rt
-    let linePattern = '\V' . '\%(\^\|\n\)\(\s\*\)\.\{-}' . phPattern
+    let linePattern = '\V' . '\n\(\s\*\)\.\{-}' . phPattern
 
     call s:DoInclude( a:tmplDict, a:tmplObject, { 'ph' : phPattern, 'line' : linePattern } )
+
+    call s:log.Debug( a:tmplObject.tmpl )
 
 endfunction "}}}
 
 fun! s:DoInclude( tmplDict, tmplObject, pattern ) "{{{
     let included = { a:tmplObject.name : 1 }
 
-    let snip = a:tmplObject.tmpl
+    " \n added to start
+    let snip = "\n" . a:tmplObject.tmpl
 
     let pos = 0
     while 1
@@ -499,7 +510,10 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern ) "{{{
         endif
 
         let [ matching, indent, incName ] = matchlist( snip, a:pattern.line, pos )[ : 2 ]
+        let indent = matchstr( split( matching, '\n' )[ -1 ], '^\s*' )
+        call s:log.Debug( 'match list result:' . string( matchlist( snip, a:pattern.line, pos ) ) )
         call s:log.Debug( 'inclusion line:' . matching )
+        call s:log.Debug( 'indent=' . string( indent ) )
 
         if has_key( a:tmplDict, incName )
             if has_key( included, incName )
@@ -528,7 +542,8 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern ) "{{{
         
     endwhile
 
-    let a:tmplObject.tmpl = snip
+    " remove "\n"
+    let a:tmplObject.tmpl = snip[1:]
     
 endfunction "}}}
 
@@ -847,6 +862,8 @@ fun! s:DoStart(sess) " {{{
         " return g:xpt_post_action
     endif
 
+    let x.savedReg = @"
+
     let [lineNr, column] = [ a:sess.line, a:sess.col ]
     let cursorColumn = col(".")
     let tmplname = a:sess.matched
@@ -897,14 +914,13 @@ fun! s:FinishRendering(...) "{{{
     if empty(x.stack)
         let renderContext.processing = 0
         let renderContext.phase = 'finished'
+
         call s:ClearMap()
+        call XPMflushWithHistory()
 
+        let @" = x.savedReg
 
-        " call feedkeys( "\<C-o>:echoe ''\<cr>\<c-c>", 'nt' )  
-
-        " call feedkeys( '' )
         return '' 
-        " return '' . g:xpt_post_action
     else
         call s:PopCtx()
         let renderContext = s:getRenderContext()
@@ -1438,7 +1454,9 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
 
     " TODO quoted pattern
-    if fullname =~ '\V' . xp.item_var . '\|' . xp.item_func
+    " if a place holder need to be evalueated, the evaluate part must be all
+    " in name but not edge.
+    if name =~ '\V' . xp.item_var . '\|' . xp.item_func
         " that is only a instant place holder
         return { 'value' : fullname }
     endif
@@ -1768,6 +1786,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
             call s:log.Debug( 'built ph='.string( placeHolder ) )
 
+            call s:EvaluateEdge( xp, placeHolder )
             call s:ApplyPreValues( placeHolder )
 
 
@@ -1795,6 +1814,27 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
     let renderContext.action = ''
     return 0
+endfunction "}}}
+
+fun! s:EvaluateEdge( xp, ph ) "{{{
+    if !a:ph.isKey
+        return
+    endif
+
+    if a:ph.leftEdge =~ '\V' . a:xp.item_var . '\|' . a:xp.item_func
+        let ledge = s:Eval( a:ph.leftEdge )
+        call XPRstartSession()
+        call XPreplaceByMarkInternal( a:ph.mark.start, a:ph.editMark.start, ledge )
+        call XPRendSession()
+    endif
+
+
+    if a:ph.rightEdge =~ '\V' . a:xp.item_var . '\|' . a:xp.item_func
+        let redge = s:Eval( a:ph.rightEdge )
+        call XPRstartSession()
+        call XPreplaceByMarkInternal( a:ph.editMark.end, a:ph.mark.end, redge )
+        call XPRendSession()
+    endif
 endfunction "}}}
 
 fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
@@ -3049,6 +3089,8 @@ fun! s:XPTinit() "{{{
                 \ 's_[', 
                 \ 's_]', 
                 \
+                \ 'i_''', 
+                \ 'i_"', 
                 \ 'i_[', 
                 \ 'i_(', 
                 \ 'i_{', 
@@ -3217,9 +3259,10 @@ endfunction "}}}
 fun! g:XPTobject() "{{{
     if !exists("b:xptemplateData")
         let b:xptemplateData = {
-                    \   'filetypes'         : {}, 
+                    \   'filetypes'         : { '**' : g:FiletypeScope.New() }, 
                     \   'wrapStartPos'      : 0, 
                     \   'wrap'              : '', 
+                    \   'savedReg'          : '', 
                     \}
         let b:xptemplateData.posStack = []
         let b:xptemplateData.stack = []
@@ -3433,7 +3476,7 @@ fun! s:Crash(...) "{{{
 
     let x.stack = []
     call s:createRenderContext(x)
-    call XPMflush()
+    call XPMflushWithHistory()
 
     " TODO clear highlight
 
@@ -3481,7 +3524,7 @@ fun! s:XPTupdate(...) "{{{
     let renderContext = s:getRenderContext()
 
     if renderContext.phase == 'uninit'
-        call XPMflush()
+        call XPMflushWithHistory()
         return 0
     endif
 
@@ -3627,8 +3670,11 @@ endfunction "}}}
 fun! s:GetContextFT() "{{{
     if exists( '*b:XPTfiletypeDetect' )
         return b:XPTfiletypeDetect()
+    elseif &filetype == ''
+        return '**'
+    else
+        return &filetype
     endif
-    return &filetype
 endfunction "}}}
 
 fun! s:GetContextFTObj() "{{{
