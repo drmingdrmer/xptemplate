@@ -112,8 +112,8 @@ XSETm END
 
 XPT class hint=class\ ..\ :\ def\ __init__\ ...
 XSET args*|post=ExpandIfNotEmpty( ', ', 'args*' )
-class `ClassName^(`inherit^):
-    def __init__(self, `args*^):
+class `ClassName^(`inherit^^):
+    def __init__(self`, `args*^):
         `cursor^
 
 
