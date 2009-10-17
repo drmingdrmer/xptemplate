@@ -64,17 +64,11 @@
 "
 " 
 " Log of This version:
-"   ship back by using <S-tab>
-"   eruby support
-"   unmap special char like % ^ [ ( { <BS> <Del> when template rendering
-"   hide error produced by file without filetype
-"   removed 'keyword' attribute on XPTemplate line, if some non-keyword characters used, add it.
-"   save register @" before template rendering.
-"   edge can be evaluated
-"   added default post filter for \w? item.
-"   fixed bug xpmark does not update line length if following place holder updated
-"   fixed inclusion indent problem
-"   removing marks history when template rendering finished
+"   fix : set typed value as named step element before post filter evaluated
+"
+"
+"
+"
 "
 "
 "
@@ -1137,6 +1131,8 @@ fun! s:parseQuotedPostFilter( tmplObj ) "{{{
     let postFilters = a:tmplObj.setting.postFilters
     let quoter = a:tmplObj.setting.postQuoter
 
+    let flagPattern = '\V\[!]\$'
+
     let startPattern = '\V\_.\{-}\zs' . xp.lft . '\_[^' . xp.r . ']\*' . quoter.start . xp.rt
     let endPattern = '\V' . xp.lft . quoter.end . xp.rt
 
@@ -1183,6 +1179,10 @@ fun! s:parseQuotedPostFilter( tmplObj ) "{{{
 
         " without left mark, right mark, start quoter
         let name = startText[ 1 : -1 - len( quoter.start ) - 1 ]
+        let flag = matchstr( name, flagPattern )
+        if flag != ''
+            let name = name[ : -1 - len( flag ) ]
+        endif
 
         " deal with edge
         if name =~ xp.lft
@@ -1204,15 +1204,21 @@ fun! s:parseQuotedPostFilter( tmplObj ) "{{{
         
         let firstLineIndent = s:GetIndentBeforeEdge( a:tmplObj, snip[ : startPos - 1 ] )
 
-        let plainPostFilter = 'BuildIfNoChange(' . string( plainPostFilter ) . ')'
+        if flag == '!'
+            let plainPostFilter = 'BuildIfChanged(' . string( plainPostFilter ) . ')'
+        else
+            " default 
+            let plainPostFilter = 'BuildIfNoChange(' . string( plainPostFilter ) . ')'
+        endif
         let plainPostFilter = s:BuildFilterIndent( plainPostFilter, firstLineIndent )
 
         let postFilters[ name ] = plainPostFilter
+        echom 'name=' . string( name )
 
         call s:log.Debug( 'name=' . name )
         call s:log.Debug( 'quoted post filter=' . string( postFilters[ name ] ) )
         " right mark, start quoter
-        let snip = snip[ : startPos + len( startText ) - 1 - 1 - len( quoter.start ) ] 
+        let snip = snip[ : startPos + len( startText ) - 1 - 1 - len( quoter.start ) - len( flag ) ] 
                     \. snip[ endPos + len( endText ) - 1 : ]
 
     endwhile
@@ -2221,6 +2227,10 @@ fun! s:ApplyPostFilter() "{{{
 
     let typed = s:TextBetween(XPMpos( marks.start ), XPMpos( marks.end ))
 
+    " Note: some post filter need the typed value
+    if renderContext.item.name != ''
+        let renderContext.namedStep[renderContext.item.name] = typed
+    endif
 
     call s:log.Log("before post filtering, tmpl:\n" . s:TextBetween(XPMpos(renderContext.marks.tmpl.start), XPMpos(renderContext.marks.tmpl.end)))
 
@@ -3175,11 +3185,12 @@ fun! s:ApplyMap() " {{{
     exe 'nnoremap <silent> <buffer> '.g:xptemplate_goback . ' i<C-r>=<SID>Goback()<cr>'
 
     snoremap <silent> <buffer> <Del> <Del>i
-    snoremap <silent> <buffer> <bs> <esc>`>a<bs>
 
     if &selection == 'inclusive'
+        snoremap <silent> <buffer> <BS> <esc>`>a<BS>
         exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>a"
     else
+        snoremap <silent> <buffer> <BS> <esc>`>i<BS>
         exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>i"
     endif
 
