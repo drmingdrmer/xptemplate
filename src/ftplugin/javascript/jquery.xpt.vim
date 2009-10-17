@@ -1,3 +1,4 @@
+finish " not finished 
 if !g:XPTloadBundle( 'javascript', 'jquery' )
     finish
 endif
