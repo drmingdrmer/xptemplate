@@ -313,24 +313,29 @@ XPT cl hint=clone\(..)
 cloen`:optionalExpr:^
 ..XPT
 
-" ===================
-" Ajax
-" ===================
+" =========================
+" Ajax //partially support
+" =========================
 XPT aj hint=$JQ.ajax\(..)
 `$JQ^.ajax(`$SP_ARG^`opt^`$SP_ARG^)
 
 XPT ld hint=load\(url,\ ...)
-load(`$SP_ARG^`url^`url^CmplQuoter()^`, `data?^`, `function...{{^, `:_ld_callback:^`}}^`$SP_ARG^)
+load(`$SP_ARG^`url^`url^CmplQuoter()^`, `data?!{{^`R('data?')^`, `function...{{^, `:_ld_callback:^`}}^`}}^`$SP_ARG^)
 
 XPT _ld_callback hidden=0
 function(`resText^`, `textStatus?!{{^`R('textStatus?')^`, `xhr?^`}}^) { `cursor^ }
 
-XPT ajg hint=$JQ.get\(url,\ ...)
+XPT ag hint=$JQ.get\(url,\ ...)
 `$JQ^.get(`$SP_ARG^`url^`, `data?^`, `callback?^`, `type?^`$SP_ARG^)
 
-XPT ttt hint=tips
-`a!{{^bb`}}^
+XPT agj hint=$JQ.getJSON\(url,\ ...)
+`$JQ^.getJSON(`$SP_ARG^`url^`, `data?^`, `callback?^`$SP_ARG^)
 
+XPT ags hint=$JQ.getScript\(url,\ ...)
+`$JQ^.getScript(`$SP_ARG^`url^`, `callback?^`$SP_ARG^)
+
+XPT apost hint=$JQ.post\(url,\ ...)
+`$JQ^.post(`$SP_ARG^`url^`, `data?^`, `callback?^`, `type?^`$SP_ARG^)
 
 ..XPT
 " ===================

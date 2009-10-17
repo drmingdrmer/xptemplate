@@ -128,7 +128,7 @@ exe 'syntax match XPTitemPost /\V\%(\[^' . s:m[2] . ']\|\(\\\*\)\1\\\[' . s:m[2]
 exe 'syntax match XPTitem /\V' . s:m[0] . '\%(\_[^' . s:m[1] . ']\)\{-}' . s:m[1] . '/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost'
 exe 'syntax match XPTinclusion /\VInclude:\zs\.\{-}\ze' . s:m[1] . '/ contained containedin=XPTitem'
 exe 'syntax match XPTinclusion /\V:\zs\.\{-}\ze:' . s:m[1] . '/ contained containedin=XPTitem'
-exe 'syntax match XPTmark /\V' . s:m[0] . '\|' . s:m[1] . '/ contains=XPTmark containedin=XPTitem'
+exe 'syntax match XPTmark /\V' . s:m[1] .  '/ contains=XPTmark containedin=XPTitem'
 
       " \%(\%([^`^]\|\(\\*\)\1\\\^\)*\^\)\?
 " syntax match XPTmark /`\|\^/ contained
