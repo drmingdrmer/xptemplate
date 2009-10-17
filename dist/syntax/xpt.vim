@@ -124,7 +124,7 @@ syntax match XPTbadIndent /^\s*\zs\t/ contained containedin=XPTsnippetBody
 " TODO mark may be need escaping in regexp
 let s:m = s:GetMark()
 
-exe 'syntax match XPTitemPost /\V\%(\[^' . s:m[2] . ']\|\(\\\*\)\1\\\[' . s:m[2] . ']\)\*\[^\\' . s:m[2] . ']' . s:m[1] . '\{1,2}/ contains=XPTmark containedin=XPTsnippetBody'
+exe 'syntax match XPTitemPost /\V\%(\[^' . s:m[2] . ']\|\(\\\*\)\1\\\[' . s:m[2] . ']\)\*\[^\\' . s:m[2] . ']' . s:m[1] . '\{1,2}/ contains=XPTmark contained containedin=XPTsnippetBody'
 exe 'syntax match XPTitem /\V' . s:m[0] . '\%(\_[^' . s:m[1] . ']\)\{-}' . s:m[1] . '/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost'
 exe 'syntax match XPTinclusion /\VInclude:\zs\.\{-}\ze' . s:m[1] . '/ contained containedin=XPTitem'
 exe 'syntax match XPTinclusion /\V:\zs\.\{-}\ze:' . s:m[1] . '/ contained containedin=XPTitem'

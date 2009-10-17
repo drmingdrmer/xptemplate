@@ -33,12 +33,11 @@ XPTinclude
 
 XPTinclude 
       \ _condition/c.like
-
-XPTinclude 
       \ _loops/c.while.like
 
 XPTembed 
-            \ html/html
+      \ html/html
+      \ html/php
 
 " ========================= Function and Variables =============================
 

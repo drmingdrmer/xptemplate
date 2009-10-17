@@ -72,6 +72,11 @@ fun! XPMflush()
     let d.markHistory[ changenr() ] = { 'dict' : d.marks, 'list': d.orderedMarks }
     let d.changeLikelyBetween  = { 'start' : '', 'end' : '' }
 endfunction 
+fun! XPMflushWithHistory() 
+    call XPMflush()
+    let d = s:bufData()
+    let d.markHistory = {}
+endfunction 
 fun! XPMgoto( name ) 
     let d = s:bufData()
     if has_key( d.marks, a:name )
@@ -503,14 +508,14 @@ endfunction
 fun! s:saveCurrentCursorStat() dict 
     let p = [ line( '.' ), col( '.' ) ]
     if p != self.lastPositionAndLength[ : 1 ]
-        let self.lastPositionAndLength = p + [ len( getline( "." ) ) ]
-            exe 'k'.g:xpm_mark
-            if p[0] < line( '$' )
-                exe '+1k' . g:xpm_mark_nextline
-            else
-                exe 'delmarks ' . g:xpm_mark_nextline
-            endif
+        exe 'k'.g:xpm_mark
+        if p[0] < line( '$' )
+            exe '+1k' . g:xpm_mark_nextline
+        else
+            exe 'delmarks ' . g:xpm_mark_nextline
+        endif
     endif
+    let self.lastPositionAndLength = p + [ len( getline( "." ) ) ]
     let self.lastMode = mode()
 endfunction 
 fun! s:saveCurrentStat() dict 

@@ -8,10 +8,6 @@ fun! s:InitStacks()
     let b:__setting_stack__ = []
     let b:__map_stack__ = []
 endfunction 
-augroup SettingStack
-  au!
-  au BufRead,BufNewFile,BufNew,BufAdd,BufCreate,FileType * call <SID>InitStacks()
-augroup END
 fun! s:GetCmdOutput(cmd) 
   let l:a = ""
   redir => l:a
@@ -80,10 +76,15 @@ fun! g:MapPop(expected)
   if empty(info)
     return
   endif
+  let exprMap = ''
+  if info.mode == 'i' && info.cont =~ '\V\w(\.\*)' && info.cont !~? '\V<c-r>'
+              \ || info.mode != 'i' && info.cont =~ '\V\w(\.\*)' 
+      let exprMap = '<expr> '
+  endif
   if info.cont == ''
     let cmd = "silent! ".info.mode.'unmap '. info.isbuf . info.key 
   else
-    let cmd = "silent! " . info.mode . info.nore .'map '. info.isbuf . info.key . ' ' . info.cont
+    let cmd = "silent! " . info.mode . info.nore .'map '. exprMap . info.isbuf . info.key . ' ' . info.cont
   endif
   try
     exe cmd

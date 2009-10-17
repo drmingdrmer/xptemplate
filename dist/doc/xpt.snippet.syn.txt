@@ -175,11 +175,11 @@
 		XPTvar $VAR_NAME something
 <	Or with single quoter : >
 		XPTvar $VAR_NAME 'something'
-<	The only difference is in single quoter string nothing is unescaped.
-	So that : >
-		XPTvar $VAR	'\n'
-<	Will be evaluated to \n, but not a line break.  Example from C
-	language : >
+<	The only difference is in single quoter string space can be freely
+	used.  So that : >
+		XPTvar $VAR	' '
+<	Instead of using escaped format "\ ".  
+	Another example from C language : >
 		XPTvar $TRUE 1
 <	and a snippet defined as : >
 		XPT while1

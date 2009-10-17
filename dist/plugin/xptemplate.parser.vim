@@ -48,7 +48,7 @@ fun! XPTsnippetFileInit( filename, ... )
     let snipScope = XPTnewSnipScope(a:filename)
     let snipScope.filetype = s:AssignSnipFT( a:filename )
     if snipScope.filetype == 'not allowed'
-        echom "not allowed:" 
+        call s:log.Info(  "not allowed:" . a:filename )
         return 'finish'
     endif 
     let filetypes[ snipScope.filetype ] = get( filetypes, snipScope.filetype, g:FiletypeScope.New() )
@@ -94,9 +94,9 @@ fun! XPTsetVar( nameSpaceValue )
     if val =~ '^''.*''$'
         let val = val[1:-2]
     else
-        let val = substitute( val, '\\n', "\n", 'g' )
         let val = substitute( val, '\\ ', " ", 'g' )
     endif
+    let val = substitute( val, '\\n', "\n", 'g' )
     let priority = x.snipFileScope.priority
     if !has_key( ftScope.varPriority, name ) || priority < ftScope.varPriority[ name ]
         let [ ftScope.funcs[ name ], ftScope.varPriority[ name ] ] = [ val, priority ]

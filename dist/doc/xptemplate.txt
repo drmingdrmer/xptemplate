@@ -11,6 +11,7 @@
 
 	|xpt-install|
 	|xpt-usage|
+		|xpt-personal-var|
 
 	|xpt-feature|
 	|xpt-option|
@@ -60,15 +61,16 @@
 <	The usage is described in more detail below.
 
 								 *xpt-feature*
-	On time typing update
+	Live typing update
+	Navigate forward and backward		|xpt-key-navigate|
 	Popup hint				|xpt-popup| |xpt-snippet-hint|
-	Template priority			|xpt-snippet-priority|
+	Ordered place holders			|xpt-snippet-ComeFist|
 	Embedded functions and variables	|xpt-snippet-function|
 	Repeatable snippet generation		|xpt-repetition|
 	Nested snippet				|xpt-nested|
 	Wrapping snippet			|xpt-wrapped|
+	Template priority			|xpt-snippet-priority|
 
-	Cursor position helper			
 	Named item or anonymous item		|xpt-snippet-item|
 	Default value                 		|xpt-snippet-default-value|
 	Preset  value                 		|xpt-preset-value|
@@ -262,6 +264,13 @@
 	After a snippet was triggered, this key navigates to the next item.
 	Use |g:xptemplate_nav_next| to change this mapping.
 
+						      *i_<S-tab>*  *s_<S-tab>*
+						       *g:xptemplate_nav_prev*
+							     {default:<S-Tab>}
+	After a snippet was triggered, press this key to navigate back to the
+	previous item.
+	Use |g:xptemplate_nav_prev| to change this mapping.
+
 						     *s_<CR>*  *xpt-key-clear*
 						     *g:xptemplate_nav_cancel*
 								{default:<Cr>}
@@ -300,11 +309,12 @@
 	line.
 
 				      *xpt-personal-var*   *g:xptemplate_vars*
-	Set personal variables used in snippets, see |xpt-snippet-variable|.
-	Variable set with g:xptemplate_vars have the highest priority and
-	override any other variables set in *.xpt.vim.
-
-	Variables format : >
+	g:xptemplate_vars sets personal information variables used in
+	snippets, like "author" and "email". see |xpt-snippet-variable|.
+	Variables set with g:xptemplate_vars have the highest priority and
+	override any other variables set in *.xpt.vim. Syntax : >
+	let g:xptemplate_vars = 'name=value&name=value...'
+<	Example : >
 	let g:xptemplate_vars = '$author=xp\ \&\\\&123&$email=bal@bla'
 	let g:xptemplate_vars = 'author=xp\ \&\\\&123&email=bal@bla'
 

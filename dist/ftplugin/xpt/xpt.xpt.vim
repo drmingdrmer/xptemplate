@@ -1,4 +1,4 @@
-XPTemplate priority=sub indent=auto
+XPTemplate priority=sub
 
 let s:f = g:XPTfuncs() 
  
@@ -86,19 +86,20 @@ XPTvar $VAR_PRE
 
 
 XPT varFormat hint=variables\ to\ define\ format
-XPTvar $IF_BRACKET_STL     \ 
+XPTvar $IF_BRACKET_STL     ' '
 XPTvar $ELSE_BRACKET_STL   \n
-XPTvar $FOR_BRACKET_STL    \ 
-XPTvar $WHILE_BRACKET_STL  \ 
-XPTvar $STRUCT_BRACKET_STL \ 
-XPTvar $FUNC_BRACKET_STL   \ 
+XPTvar $FOR_BRACKET_STL    ' '
+XPTvar $WHILE_BRACKET_STL  ' '
+XPTvar $STRUCT_BRACKET_STL ' '
+XPTvar $FUNC_BRACKET_STL   ' '
+
 
 XPT varSpaces hint=variable\ to\ define\ spacing
-XPTvar $SP_ARG      
-XPTvar $SP_IF       
-XPTvar $SP_EQ       \ 
-XPTvar $SP_OP       \ 
-XPTvar $SP_COMMA    \ 
+XPTvar $SP_ARG      ' '
+XPTvar $SP_IF       ' '
+XPTvar $SP_EQ       ' '
+XPTvar $SP_OP       ' '
+XPTvar $SP_COMMA    ' '
 
 
 XPT varConst hint=variables\ to\ define\ constants
@@ -110,7 +111,7 @@ XPTvar $UNDEFINED     NULL
 
 XPT varHelper hint=variables\ to\ define\ helper\ place\ holders
 XPTvar $VOID_LINE      
-XPTvar $CURSOR_PH      `cursor^
+XPTvar $CURSOR_PH      
 
 
 XPT varComment1 hint=variables\ to\ define\ single\ sign\ comments
@@ -122,8 +123,20 @@ XPTvar $CL    `left sign^
 XPTvar $CM    `cursor^
 XPTvar $CR    `right sign^
 
+XPT sparg hint=`\$SP_ARG^
+\`$SP_ARG\^
 
+XPT spif hint=`\$SP_ARG^
+\`$SP_IF\^
 
+XPT speq hint=`\$SP_EQ^
+\`$SP_EQ\^
+
+XPT spop hint=`\$SP_OP^
+\`$SP_OP\^
+
+XPT spcomma hint=`\$SP_COMMA^
+\`$SP_COMMA\^
 
 
 XPT fun hint=fun!\ s:f.**
@@ -136,33 +149,20 @@ endfunction
 
 
 XPT xpt hint=start\ template\ to\ write\ template
-XPTemplate priority=`prio^` `keyword...^` `mark...^` `indent...^
+XPTemplate priority=`prio^` `mark...^
 XSET prio=ChooseStr( 'all', 'spec', 'like', 'lang', 'sub', 'personal' )
-XSET keyword...|post= keyword=`char^
+XSET keyword_disable...|post= keyword=`char^
 XSET mark...|post= mark=`char^
-XSET indent...|post= indent=`indentValue^
+XSET indent_disable...|post= indent=`indentValue^
 XSET indentValue=ChooseStr( 'auto', 'keep' )
 
 let s:f = g:XPTfuncs() 
 
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $UNDEFINED     NULL
+`Include:varConst^
 
-XPTvar $VOID_LINE  /* void */;
-XPTvar $CURSOR_PH      cursor
+`Include:varFormat^
 
-XPTvar $IF_BRACKET_STL     \ 
-XPTvar $ELSE_BRACKET_STL   \n
-XPTvar $FOR_BRACKET_STL    \ 
-XPTvar $WHILE_BRACKET_STL  \ 
-XPTvar $STRUCT_BRACKET_STL \ 
-XPTvar $FUNC_BRACKET_STL   \ 
-
-`XPTinclude...^
-XSET XPTinclude...|post=`incTrigger^
-XSET incTrigger=Trigger('inc')
+`XPTinclude...{{^`Include:inc^`}}^
 
 
 " ========================= Function and Variables =============================
