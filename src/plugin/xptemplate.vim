@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.3.9.7
+" VERSION: 0.3.9.8
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
@@ -19,12 +19,16 @@
 " "}}}
 "
 " KNOWING BUG: "{{{
+"   indent bug of html::table with inclusion
 "
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO /../../ ontime filter shortcut
+" TODO ( ) shortcut of Echo
+" TODO import utils
+" TODO key map to trigger in template
 " TODO php shebang, need to be defined in html filetype
-" TODO navigate back
 " TODO more key mapping : [si]_<C-h> to go to head, n_<C-g> to go to back to end 
 " TODO improve context detection
 " TODO snippet only inside others
@@ -38,12 +42,12 @@
 " TODO change on previous item
 " TODO as function call template
 " TODO highlight all pending items
+" TODO <Plug>mapping
 " TODO item popup: repopup
 " TODO install guide
 " TODO do not let xpt throw error if calling undefined s:f.function..
 " TODO buffer/snippet scope template setting.
 " TODO simple place holder : just a postion waiting for user input
-" TODO undo
 " TODO wrapping on different visual mode
 " TODO prefixed template trigger
 " TODO class-style
@@ -60,10 +64,17 @@
 "
 " 
 " Log of This version:
-"   `Include:snip-name^ place holder brings inclusion support
-"   XPT synonym 
-"   embed support for php and html
-"   XPTvar support single quoter string
+"   fix bug xpmark does not update line length if following place holder updated
+"   unmap special char like % ^ [ ( { when template rendering
+"   ship back
+"   removed keyword attribute on XPTemplate line, if some non-keyword characters used, add it.
+"   eruby support
+"   hide error produced by file without filetype
+"   edge can be evaluated
+"   remove marks history when template rendering finished
+"   fix inclusion indent problem
+"   save register @" before template rendering.
+"
 "
 "
 " 
@@ -95,6 +106,8 @@ runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
 runtime plugin/xpopup.vim
 runtime plugin/xptemplate.conf.vim
+runtime plugin/MapSaver.class.vim
+runtime plugin/FiletypeScope.class.vim
 
 
 let s:log = CreateLogger( 'warn' )
@@ -165,25 +178,40 @@ fun! g:XPTapplyTemplateSettingDefaultValue( setting ) "{{{
     call s:SetIfEmpty( s.preValues, 'cursor', '$CURSOR_PH' )
 endfunction "}}}
 
+let s:defaultPostFilter = {
+            \   '\V\w\+?' : 'EchoIfNoChange( '''' )', 
+            \}
+fun! s:SetDefaultFilters( tmplObj, ph ) "{{{
+    " post filters
+    if !has_key( a:tmplObj.setting.postFilters, a:ph.name )
+        for [ptn, filter] in items(s:defaultPostFilter)
+            if a:ph.name =~ ptn
+                let a:tmplObj.setting.postFilters[ a:ph.name ] = "\n" . filter
+            endif
+        endfor
+    endif
+endfunction "}}}
+
 let s:renderContextPrototype      = {
-            \    'ftScope'           : {},
-            \    'tmpl'              : {},
-            \    'evalCtx'           : {},
-            \    'phase'             : 'uninit',
-            \    'action'            : '',
-            \    'markNamePre'       : '', 
-            \    'item'              : {}, 
-            \    'leadingPlaceHolder' : {}, 
-            \    'step'              : [],
-            \    'namedStep'         : {},
-            \    'processing'        : 0,
-            \    'marks'             : {
-            \       'tmpl'           : {'start' : '', 'end' : ''} },
-            \    'itemDict'          : {},
-            \    'itemList'          : [],
-            \    'lastContent'       : '',
-            \    'lastTotalLine'     : 0, 
-            \    'lastFollowingSpace': '', 
+            \   'ftScope'           : {},
+            \   'tmpl'              : {},
+            \   'evalCtx'           : {},
+            \   'phase'             : 'uninit',
+            \   'action'            : '',
+            \   'markNamePre'       : '', 
+            \   'item'              : {}, 
+            \   'leadingPlaceHolder' : {}, 
+            \   'history'           : [], 
+            \   'step'              : [],
+            \   'namedStep'         : {},
+            \   'processing'        : 0,
+            \   'marks'             : {
+            \      'tmpl'           : {'start' : '', 'end' : ''} },
+            \   'itemDict'          : {},
+            \   'itemList'          : [],
+            \   'lastContent'       : '',
+            \   'lastTotalLine'     : 0, 
+            \   'lastFollowingSpace': '', 
             \}
 let s:vrangeClosed = "\\%>'<\\%<'>"
 let s:vrange       = '\V' . '\%(' . '\%(' . s:vrangeClosed .'\)' .  '\|' . "\\%'<\\|\\%'>" . '\)'
@@ -453,6 +481,11 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
     call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . a:tmplObj.setting.defaultValues.cursor )
 
+    let nonWordChar = substitute( a:tmplObj.name, '\w', '', 'g' ) 
+    if nonWordChar != '' && !a:tmplObj.wrapped
+        call XPTemplateKeyword( nonWordChar )
+    endif
+
 endfunction "}}}
 
 fun! s:ParseInclusion( tmplDict, tmplObject ) "{{{
@@ -463,22 +496,25 @@ fun! s:ParseInclusion( tmplDict, tmplObject ) "{{{
     let xp = a:tmplObject.ptn
 
     let phPattern = '\V' . xp.lft . 'Include:\(\.\{-}\)' . xp.rt
-    let linePattern = '\V' . '\%(\^\|\n\)\(\s\*\)\.\{-}' . phPattern
+    let linePattern = '\V' . '\n\(\s\*\)\.\{-}' . phPattern
 
     call s:DoInclude( a:tmplDict, a:tmplObject, { 'ph' : phPattern, 'line' : linePattern } )
 
 
     let phPattern = '\V' . xp.lft . ':\(\.\{-}\):' . xp.rt
-    let linePattern = '\V' . '\%(\^\|\n\)\(\s\*\)\.\{-}' . phPattern
+    let linePattern = '\V' . '\n\(\s\*\)\.\{-}' . phPattern
 
     call s:DoInclude( a:tmplDict, a:tmplObject, { 'ph' : phPattern, 'line' : linePattern } )
+
+    call s:log.Debug( a:tmplObject.tmpl )
 
 endfunction "}}}
 
 fun! s:DoInclude( tmplDict, tmplObject, pattern ) "{{{
     let included = { a:tmplObject.name : 1 }
 
-    let snip = a:tmplObject.tmpl
+    " \n added to start
+    let snip = "\n" . a:tmplObject.tmpl
 
     let pos = 0
     while 1
@@ -488,7 +524,10 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern ) "{{{
         endif
 
         let [ matching, indent, incName ] = matchlist( snip, a:pattern.line, pos )[ : 2 ]
+        let indent = matchstr( split( matching, '\n' )[ -1 ], '^\s*' )
+        call s:log.Debug( 'match list result:' . string( matchlist( snip, a:pattern.line, pos ) ) )
         call s:log.Debug( 'inclusion line:' . matching )
+        call s:log.Debug( 'indent=' . string( indent ) )
 
         if has_key( a:tmplDict, incName )
             if has_key( included, incName )
@@ -517,7 +556,8 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern ) "{{{
         
     endwhile
 
-    let a:tmplObject.tmpl = snip
+    " remove "\n"
+    let a:tmplObject.tmpl = snip[1:]
     
 endfunction "}}}
 
@@ -836,6 +876,8 @@ fun! s:DoStart(sess) " {{{
         " return g:xpt_post_action
     endif
 
+    let x.savedReg = @"
+
     let [lineNr, column] = [ a:sess.line, a:sess.col ]
     let cursorColumn = col(".")
     let tmplname = a:sess.matched
@@ -886,14 +928,13 @@ fun! s:FinishRendering(...) "{{{
     if empty(x.stack)
         let renderContext.processing = 0
         let renderContext.phase = 'finished'
+
         call s:ClearMap()
+        call XPMflushWithHistory()
 
+        let @" = x.savedReg
 
-        " call feedkeys( "\<C-o>:echoe ''\<cr>\<c-c>", 'nt' )  
-
-        " call feedkeys( '' )
         return '' 
-        " return '' . g:xpt_post_action
     else
         call s:PopCtx()
         let renderContext = s:getRenderContext()
@@ -1427,7 +1468,9 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
 
     " TODO quoted pattern
-    if fullname =~ '\V' . xp.item_var . '\|' . xp.item_func
+    " if a place holder need to be evalueated, the evaluate part must be all
+    " in name but not edge.
+    if name =~ '\V' . xp.item_var . '\|' . xp.item_func
         " that is only a instant place holder
         return { 'value' : fullname }
     endif
@@ -1757,12 +1800,16 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
             call s:log.Debug( 'built ph='.string( placeHolder ) )
 
+            call s:EvaluateEdge( xp, placeHolder )
             call s:ApplyPreValues( placeHolder )
+
+            call s:SetDefaultFilters( tmplObj, placeHolder )
 
 
             call cursor( XPMpos( placeHolder.mark.end ) )
 
         endif
+
 
     endwhile
 
@@ -1784,6 +1831,27 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
     let renderContext.action = ''
     return 0
+endfunction "}}}
+
+fun! s:EvaluateEdge( xp, ph ) "{{{
+    if !a:ph.isKey
+        return
+    endif
+
+    if a:ph.leftEdge =~ '\V' . a:xp.item_var . '\|' . a:xp.item_func
+        let ledge = s:Eval( a:ph.leftEdge )
+        call XPRstartSession()
+        call XPreplaceByMarkInternal( a:ph.mark.start, a:ph.editMark.start, ledge )
+        call XPRendSession()
+    endif
+
+
+    if a:ph.rightEdge =~ '\V' . a:xp.item_var . '\|' . a:xp.item_func
+        let redge = s:Eval( a:ph.rightEdge )
+        call XPRstartSession()
+        call XPreplaceByMarkInternal( a:ph.editMark.end, a:ph.mark.end, redge )
+        call XPRendSession()
+    endif
 endfunction "}}}
 
 fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
@@ -1875,6 +1943,7 @@ fun! s:BuildItemForPlaceHolder( ctx, placeHolder ) "{{{
     else
         let item = { 'name'         : a:placeHolder.name, 
                     \'fullname'     : a:placeHolder.name, 
+                    \'processed'    : 0, 
                     \'placeHolders' : [], 
                     \'keyPH'        : s:NullDict, 
                     \'behavior'     : {}, 
@@ -2004,6 +2073,47 @@ fun! s:GetRangeBetween(p1, p2, ...) "{{{
 
 endfunction "}}}
 
+fun! s:ShipBack() "{{{
+    let renderContext = s:getRenderContext()
+
+    if empty( renderContext.history )
+        return ''
+    endif
+
+    let his = remove( renderContext.history, -1 )
+
+    call s:PushBackItem()
+
+    let renderContext.item = his.item
+    let renderContext.leadingPlaceHolder = his.leadingPlaceHolder
+
+    let leader = renderContext.leadingPlaceHolder
+    
+    call XPMsetLikelyBetween( leader.mark.start, leader.mark.end )
+    
+    let action = s:selectCurrent(renderContext)
+
+    call XPMupdateStat()
+
+    return action
+
+endfunction "}}}
+
+fun! s:PushBackItem() "{{{
+    let renderContext = s:getRenderContext()
+
+    let item = renderContext.item
+    if !renderContext.leadingPlaceHolder.isKey 
+        call insert( item.placeHolders, renderContext.leadingPlaceHolder, 0 )
+    endif
+
+    call insert( renderContext.itemList, item, 0 )
+    if item.name != ''
+        let renderContext.itemDict[ item.name ] = item
+    endif
+
+endfunction "}}}
+
 fun! s:FinishCurrentAndGotoNextItem(action) " {{{
     let renderContext = s:getRenderContext()
     let marks = renderContext.leadingPlaceHolder.mark
@@ -2021,10 +2131,8 @@ fun! s:FinishCurrentAndGotoNextItem(action) " {{{
     call s:log.Debug( "after update=" . XPMallMark() )
 
 
-    " let p = [line("."), col(".")]
     let name = renderContext.item.name
 
-    " call s:HighLightItem(name, 0)
 
     call s:log.Log("FinishCurrentAndGotoNextItem action:" . a:action)
 
@@ -2035,7 +2143,7 @@ fun! s:FinishCurrentAndGotoNextItem(action) " {{{
 
     call s:log.Debug( "before post filter=" . XPMallMark() )
 
-    let post = s:ApplyPostFilter()
+    let [ post, built ] = s:ApplyPostFilter()
 
     call s:log.Debug( "after post filter=" . XPMallMark() )
 
@@ -2044,8 +2152,13 @@ fun! s:FinishCurrentAndGotoNextItem(action) " {{{
         let renderContext.namedStep[renderContext.item.name] = post
     endif
 
-    
-    call s:removeCurrentMarks()
+    if built
+        call s:removeCurrentMarks()
+    else
+        let renderContext.history += [ {
+                    \'item' : renderContext.item, 
+                    \'leadingPlaceHolder' : renderContext.leadingPlaceHolder } ]
+    endif
 
 
     let postaction =  s:GotoNextItem()
@@ -2139,6 +2252,7 @@ fun! s:ApplyPostFilter() "{{{
     call s:log.Log('post filterText :' . filterText)
 
 
+    let ifToBuild = 0
     " TODO per-place-holder filter
     " check by 'groupPostFilter' is ok
     if filterText != ''
@@ -2169,7 +2283,7 @@ fun! s:ApplyPostFilter() "{{{
             call cursor( start )
             let renderContext.firstList = []
             if 0 != s:BuildPlaceHolders( marks )
-                return s:Crash()
+                return [ s:Crash(), ifToBuild ]
             endif
 
             " change back the phase
@@ -2183,10 +2297,10 @@ fun! s:ApplyPostFilter() "{{{
     " after indent segment, there is something
     if s:IsFilterEmpty( groupPostFilter )
         call s:UpdateFollowingPlaceHoldersWith( typed, {} )
-        return typed
+        return [ typed, ifToBuild ]
     else
         call s:UpdateFollowingPlaceHoldersWith( typed, { 'indent' : filterIndent, 'post' : text } )
-        return text
+        return [ text, ifToBuild ]
     endif
 
 
@@ -2315,6 +2429,14 @@ fun! s:GotoNextItem() "{{{
     let leaderMark = leader.isKey ? leader.editMark : leader.mark
     call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
 
+    if renderContext.item.processed
+        let action = s:selectCurrent(renderContext)
+
+        call XPMupdateStat()
+
+        return action
+    endif
+
     let postaction = s:InitItem()
 
 
@@ -2362,6 +2484,7 @@ fun! s:ExtractOneItem() "{{{
     let renderContext = s:getRenderContext()
     let itemList = renderContext.itemList
 
+
     let [ renderContext.item, renderContext.leadingPlaceHolder ] = [ {}, {} ]
 
     if empty( itemList )
@@ -2371,7 +2494,9 @@ fun! s:ExtractOneItem() "{{{
     let item = itemList[ 0 ]
 
     let renderContext.itemList = renderContext.itemList[ 1 : ]
-    if item.name != ''
+
+    " TODO expanded part contains multiple items with the same name, and maybe removed twice
+    if item.name != '' && has_key( renderContext.itemDict, item.name )
         unlet renderContext.itemDict[ item.name ]
     endif
 
@@ -2969,33 +3094,78 @@ fun! s:Goback() "{{{
     return ''
 endfunction "}}}
 
+fun! s:XPTinit() "{{{
+    let disabledKeys = [
+                \ 's_[%', 
+                \ 's_]%', 
+                \]
+
+    " Note: <bs> works the same with <C-h>, but only masking <bs> in buffer
+    " level does mask <c-h>. So that <bs> still works with old mapping
+    let literalKeys = [
+                \ 's_%', 
+                \ 's_''', 
+                \ 's_[', 
+                \ 's_]', 
+                \
+                \ 'i_''', 
+                \ 'i_"', 
+                \ 'i_[', 
+                \ 'i_(', 
+                \ 'i_{', 
+                \ 'i_<BS>', 
+                \ 'i_<C-h>', 
+                \ 'i_<DEL>', 
+                \]
+
+    let s:mapSaver = g:MapSaver.New(1)
+    call s:mapSaver.AddList(
+                \ 'i_' . g:xptemplate_nav_next, 
+                \ 's_' . g:xptemplate_nav_next, 
+                \
+                \ 'i_' . g:xptemplate_nav_prev, 
+                \ 's_' . g:xptemplate_nav_prev, 
+                \
+                \ 's_' . g:xptemplate_nav_cancel, 
+                \ 's_' . g:xptemplate_to_right, 
+                \ 'n_' . g:xptemplate_goback, 
+                \
+                \ 's_<DEL>', 
+                \ 's_<BS>', 
+                \)
+
+    let s:mapLiteral = g:MapSaver.New( 1 )
+    call s:mapLiteral.AddList( literalKeys )
+
+
+    let s:mapMask = g:MapSaver.New( 0 )
+    call s:mapMask.AddList( disabledKeys )
+
+
+endfunction "}}}
+
+
+
 fun! s:ApplyMap() " {{{
     let x = g:XPTobject()
-    let savedMap = x.savedMap
 
 
     call SettingPush( '&l:textwidth', '0' )
 
-    " let savedMap.i_bs       = g:MapPush("<bs>", "i", 1)
-    " let savedMap.i_c_w      = g:MapPush("<C-w>", "i", 1)
-    " let savedMap.i_del      = g:MapPush("<Del>", "i", 1)
 
-    let savedMap.i_nav      = g:MapPush(g:xptemplate_nav_next  , "i", 1)
-    let savedMap.s_nav      = g:MapPush(g:xptemplate_nav_next  , "s", 1)
-    let savedMap.s_cancel   = g:MapPush(g:xptemplate_nav_cancel, "s", 1)
+    call s:mapSaver.Save()
+    call s:mapLiteral.Save()
+    call s:mapMask.Save()
 
-    let savedMap.s_del      = g:MapPush("<Del>", "s", 1)
-    let savedMap.s_bs       = g:MapPush("<bs>", "s", 1)
-    let savedMap.s_right    = g:MapPush(g:xptemplate_to_right, "s", 1)
-
-    let savedMap.n_back     = g:MapPush(g:xptemplate_goback, "n", 1)
+    call s:mapSaver.UnmapAll()
+    call s:mapLiteral.Literalize()
+    call s:mapMask.UnmapAll()
 
 
 
-
-    " inoremap <silent> <buffer> <bs> <C-r>=<SID>CheckAndBS("bs")<cr>
-    " inoremap <silent> <buffer> <C-w> <C-r>=<SID>CheckAndBS("C-w")<cr>
-    " inoremap <silent> <buffer> <Del> <C-r>=<SID>CheckAndDel("Del")<cr>
+    exe 'inoremap <silent> <buffer> '.g:xptemplate_nav_prev  .' <C-r>=<SID>ShipBack()<cr>'
+    " TODO map should distinguish between 'selection'
+    exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_prev  .' <Esc>`>a<C-r>=<SID>ShipBack()<cr>'
 
     exe 'inoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <C-r>=<SID>FinishCurrentAndGotoNextItem("")<cr>'
     exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <Esc>`>a<C-r>=<SID>FinishCurrentAndGotoNextItem("")<cr>'
@@ -3016,43 +3186,12 @@ endfunction " }}}
 
 fun! s:ClearMap() " {{{
     let x = g:XPTobject()
-    let savedMap = x.savedMap
 
     call SettingPop( '&l:textwidth' )
 
-    " clear all
-    " iunmap <buffer> <bs>
-    " iunmap <buffer> <C-w>
-    " iunmap <buffer> <Del>
-    exe 'iunmap <buffer> '.g:xptemplate_nav_next
-    exe 'sunmap <buffer> '.g:xptemplate_nav_next
-    exe 'sunmap <buffer> '.g:xptemplate_nav_cancel
-
-    exe 'nunmap <buffer> '.g:xptemplate_goback
-
-    sunmap <buffer> <Del>
-    sunmap <buffer> <bs>
-    exe "sunmap <buffer> ".g:xptemplate_to_right
-
-
-
-    " restore map, reversed order
-
-    call g:MapPop(savedMap.n_back  )
-
-    call g:MapPop(savedMap.s_right )
-    call g:MapPop(savedMap.s_bs    )
-    call g:MapPop(savedMap.s_del   )
-
-    call g:MapPop(savedMap.s_cancel)
-    call g:MapPop(savedMap.s_nav   )
-    call g:MapPop(savedMap.i_nav   )
-
-    " call g:MapPop(savedMap.i_del   )
-    " call g:MapPop(savedMap.i_c_w   )
-    " call g:MapPop(savedMap.i_bs    )
-
-    let x.savedMap = {}
+    call s:mapMask.Restore()
+    call s:mapLiteral.Restore()
+    call s:mapSaver.Restore()
 
 endfunction " }}}
 
@@ -3074,6 +3213,7 @@ endfunction "}}}
 fun! XPTbufData() "{{{
     return g:XPTobject()
 endfunction "}}}
+
 
 
 let s:snipScopePrototype = {
@@ -3139,9 +3279,10 @@ endfunction "}}}
 fun! g:XPTobject() "{{{
     if !exists("b:xptemplateData")
         let b:xptemplateData = {
-                    \   'filetypes'         : {}, 
+                    \   'filetypes'         : { '**' : g:FiletypeScope.New() }, 
                     \   'wrapStartPos'      : 0, 
                     \   'wrap'              : '', 
+                    \   'savedReg'          : '', 
                     \}
         let b:xptemplateData.posStack = []
         let b:xptemplateData.stack = []
@@ -3149,8 +3290,6 @@ fun! g:XPTobject() "{{{
         " which letter can be used in template name
         let b:xptemplateData.keyword = '\w'
         let b:xptemplateData.keywordList = []
-
-        let b:xptemplateData.savedMap = {}
 
         let b:xptemplateData.snipFileScopeStack = []
         let b:xptemplateData.snipFileScope = {}
@@ -3357,13 +3496,12 @@ fun! s:Crash(...) "{{{
 
     let x.stack = []
     call s:createRenderContext(x)
-    call XPMflush()
+    call XPMflushWithHistory()
 
     " TODO clear highlight
 
     echohl WarningMsg
     echom msg
-    " echom stack
     echohl
 
     " no post typing action
@@ -3406,7 +3544,7 @@ fun! s:XPTupdate(...) "{{{
     let renderContext = s:getRenderContext()
 
     if renderContext.phase == 'uninit'
-        call XPMflush()
+        call XPMflushWithHistory()
         return 0
     endif
 
@@ -3551,10 +3689,12 @@ endfunction "}}}
 
 fun! s:GetContextFT() "{{{
     if exists( '*b:XPTfiletypeDetect' )
-        echom b:XPTfiletypeDetect()
         return b:XPTfiletypeDetect()
+    elseif &filetype == ''
+        return '**'
+    else
+        return &filetype
     endif
-    return &filetype
 endfunction "}}}
 
 fun! s:GetContextFTObj() "{{{
@@ -3618,6 +3758,8 @@ call <SID>Link('TmplRange GetRangeBetween TextBetween GetStaticRange LeftPos')
 
 com! XPTreload call XPTreload()
 com! XPTcrash call <SID>Crash()
+
+call s:XPTinit()
 
 
 fun! String( d, ... )

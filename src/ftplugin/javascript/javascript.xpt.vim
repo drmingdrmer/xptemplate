@@ -32,6 +32,9 @@ XPTvar $FOR_SCOPE 'var '
 XPTinclude
       \ _loops/for
 
+XPTinclude
+      \ javascript/jquery
+
 " ========================= Function and Variables =============================
 
 

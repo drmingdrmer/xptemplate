@@ -1,4 +1,4 @@
-XPTemplate priority=like keyword=#
+XPTemplate priority=like
 
 let s:f = g:XPTfuncs() 
  

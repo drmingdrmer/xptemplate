@@ -30,10 +30,11 @@ fun! s:InitStacks() "{{{
 endfunction "}}}
 
 " pre alloc setting stack to speed up
-augroup SettingStack
-  au!
-  au BufRead,BufNewFile,BufNew,BufAdd,BufCreate,FileType * call <SID>InitStacks()
-augroup END
+" Note: when buf new, old buffer variable is removed!!
+" augroup SettingStack
+"   au!
+"   au BufRead,BufNewFile,BufNew,BufAdd,BufCreate,FileType * call <SID>InitStacks()
+" augroup END
 
 
 
@@ -158,11 +159,17 @@ fun! g:MapPop(expected) "{{{
   endif
 
 
+  " TODO guess it, no way to figure out whether a key is mapped with <expr> or not
+  let exprMap = ''
+  if info.mode == 'i' && info.cont =~ '\V\w(\.\*)' && info.cont !~? '\V<c-r>'
+              \ || info.mode != 'i' && info.cont =~ '\V\w(\.\*)' 
+      let exprMap = '<expr> '
+  endif
 
   if info.cont == ''
     let cmd = "silent! ".info.mode.'unmap '. info.isbuf . info.key 
   else
-    let cmd = "silent! " . info.mode . info.nore .'map '. info.isbuf . info.key . ' ' . info.cont
+    let cmd = "silent! " . info.mode . info.nore .'map '. exprMap . info.isbuf . info.key . ' ' . info.cont
   endif
 
 

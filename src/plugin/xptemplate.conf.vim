@@ -3,7 +3,6 @@ if exists("g:__XPTEMPLATE_CONF_VIM__")
 endif
 let g:__XPTEMPLATE_CONF_VIM__ = 1
 
-  " finish
 
 runtime plugin/debug.vim
 
@@ -22,7 +21,6 @@ endfunction "}}}
 
 
 call s:SetIfNotExist('g:xptemplate_strip_left',   1)
-" TODO 
 " call s:SetIfNotExist('g:xptemplate_protect'           , 1)
 " call s:SetIfNotExist('g:xptemplate_limit_curosr'      , 0)
 " call s:SetIfNotExist('g:xptemplate_show_stack'        , 1)
@@ -32,12 +30,14 @@ call s:SetIfNotExist('g:xptemplate_key'                 , '<C-\>')
 call s:SetIfNotExist('g:xptemplate_goback'              , '<C-g>')
 " call s:SetIfNotExist('g:xptemplate_crash'             , '<C-g>')
 call s:SetIfNotExist('g:xptemplate_nav_next'            , '<tab>')
+call s:SetIfNotExist('g:xptemplate_nav_prev'            , '<S-tab>')
 call s:SetIfNotExist('g:xptemplate_nav_cancel'          , '<cr>')
 call s:SetIfNotExist('g:xptemplate_to_right'            , "<C-l>")
 call s:SetIfNotExist('g:xptemplate_fix'                 , 1)
 call s:SetIfNotExist('g:xptemplate_vars'                , '')
 call s:SetIfNotExist('g:xptemplate_hl'                  , 1)
 call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 1)
+call s:SetIfNotExist('g:xptemplate_bundle'              , '')
 
 " for test script
 call s:SetIfNotExist('g:xpt_post_action',         '')
@@ -105,6 +105,36 @@ for s:v in s:pvs
 endfor
 
 
+" bundle support
+if type( g:xptemplate_bundle ) == type( '' )
+    let s:bundle = split( g:xptemplate_bundle, ',' )
+else
+    let s:bundle = g:xptemplate_bundle
+endif
+
+let g:xptBundle = {}
+for ftAndBundle in s:bundle
+    let [ ft, bundle ] = split( ftAndBundle, '_' )
+    if !has_key( g:xptBundle, ft )
+        let g:xptBundle[ ft ] = {}
+    endif
+
+    let g:xptBundle[ ft ][ bundle ] = 1
+endfor
+
+fun! g:XPTaddBundle(ft, bundle) "{{{
+    " TODO 
+endfunction "}}}
+
+fun! g:XPTloadBundle(ft, bundle) "{{{
+    if !has_key( g:xptBundle, a:ft )
+        return 0
+    elseif !has_key( g:xptBundle[ a:ft ], a:bundle ) && !has_key( g:xptBundle[ a:ft ], '*' )
+        return 0
+    else
+        return 1
+    endif
+endfunction "}}}
 
 
 
@@ -113,12 +143,14 @@ fun! s:FiletypeInit() "{{{
     let fts = x.filetypes
     for [ ft, ftScope ] in items( fts )
 
+        " add user set variables
         let f = ftScope.funcs
         for [k, v] in items(g:XPTpvs)
             let f[k] = v
         endfor
 
 
+        " add default comment strings
         if &l:commentstring != ''
             let cms = split( &l:commentstring, '\V%s', 1 )
             if cms[1] == ''
@@ -131,8 +163,6 @@ fun! s:FiletypeInit() "{{{
         endif
 
     endfor
-
-
 endfunction "}}}
 
 

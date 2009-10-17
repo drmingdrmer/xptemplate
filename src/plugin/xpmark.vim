@@ -133,6 +133,12 @@ fun! XPMflush() "{{{
 
 endfunction "}}}
 
+fun! XPMflushWithHistory() "{{{
+    call XPMflush()
+    let d = s:bufData()
+    let d.markHistory = {}
+endfunction "}}}
+
 fun! XPMgoto( name ) "{{{
     let d = s:bufData()
     if has_key( d.marks, a:name )
@@ -448,12 +454,13 @@ fun! s:insertModeUpdate() dict "{{{
     if stat.totalLine == self.lastTotalLine 
         if stat.currentPosition[0] == self.lastPositionAndLength[0]
                     \&& stat.currentLineLength == self.lastPositionAndLength[2]
-            " move in current line 
+            call s:log.Debug( 'move in current line' )
             return g:XPM_RET.no_updated_made
         endif
 
         if self.lastPositionAndLength[2] == len( getline( self.lastPositionAndLength[0] ) )
             " virtical move
+            call s:log.Debug( 'virtical move' )
             return g:XPM_RET.no_updated_made
         endif
     endif
@@ -1016,25 +1023,20 @@ fun! s:saveCurrentCursorStat() dict "{{{
     let p = [ line( '.' ), col( '.' ) ]
 
     if p != self.lastPositionAndLength[ : 1 ]
-        let self.lastPositionAndLength = p + [ len( getline( "." ) ) ]
 
-        " NOTE: weird, 'normal! ***' causes exception in select mode. but 'k'
+        " NOTE: weird, 'normal! ***' produces exception in select mode. but 'k'
         " command is ok
 
-        " if mode() ==? 's' || mode() == "\<C-s>" 
-            exe 'k'.g:xpm_mark
-            if p[0] < line( '$' )
-                exe '+1k' . g:xpm_mark_nextline
-            else
-                exe 'delmarks ' . g:xpm_mark_nextline
-            endif
+        exe 'k'.g:xpm_mark
+        if p[0] < line( '$' )
+            exe '+1k' . g:xpm_mark_nextline
+        else
+            exe 'delmarks ' . g:xpm_mark_nextline
+        endif
 
-        " else 
-            " exe 'silent! normal! m' . g:xpm_mark
-        " endif 
-
-        " call s:log.Log( 'updated lastPositionAndLength:' . string(self.lastPositionAndLength) )
     endif
+
+    let self.lastPositionAndLength = p + [ len( getline( "." ) ) ]
 
     let self.lastMode = mode()
 
