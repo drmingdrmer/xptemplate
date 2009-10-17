@@ -64,16 +64,17 @@
 "
 " 
 " Log of This version:
-"   fix bug xpmark does not update line length if following place holder updated
-"   unmap special char like % ^ [ ( { when template rendering
-"   ship back
-"   removed keyword attribute on XPTemplate line, if some non-keyword characters used, add it.
+"   ship back by using <S-tab>
 "   eruby support
+"   unmap special char like % ^ [ ( { <BS> <Del> when template rendering
 "   hide error produced by file without filetype
-"   edge can be evaluated
-"   remove marks history when template rendering finished
-"   fix inclusion indent problem
+"   removed 'keyword' attribute on XPTemplate line, if some non-keyword characters used, add it.
 "   save register @" before template rendering.
+"   edge can be evaluated
+"   added default post filter for \w? item.
+"   fixed bug xpmark does not update line length if following place holder updated
+"   fixed inclusion indent problem
+"   removing marks history when template rendering finished
 "
 "
 "
