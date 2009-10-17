@@ -69,6 +69,8 @@
 	Repeatable snippet generation		|xpt-repetition|
 	Nested snippet				|xpt-nested|
 	Wrapping snippet			|xpt-wrapped|
+	Inclusion on snippet level or file level|xpt-snippet-include| 
+						|xpt-snippet-XPTinclude|
 	Template priority			|xpt-snippet-priority|
 
 	Named item or anonymous item		|xpt-snippet-item|

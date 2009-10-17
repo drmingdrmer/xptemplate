@@ -62,7 +62,7 @@ XPTemplateDef
 " ===============
 
 XPT optionalExpr hidden=1
-(`$SP_ARG^`expr?^`expr?^CmplQuoter('''"')^`$SP_ARG^)
+(`$SP_ARG^`expr?^`expr?^CmplQuoter()^`$SP_ARG^)
 
 XPT expr hidden=1
 (`$SP_ARG^`expr^`expr^CmplQuoter()^`$SP_ARG^)
@@ -73,10 +73,8 @@ XPT maybeFunction hidden=1
 XPT optionalVal hidden=1
 (`$SP_ARG^`val?^`$SP_ARG^)
 
-
 XPT _funExp hidden=1
 `function...{{^function(`i^`, `e?^) { `cursor^ }`}}^
-
 ..XPT
 
 " ============
@@ -84,10 +82,10 @@ XPT _funExp hidden=1
 " ============
 
 XPT $ hint=$\()
-$(`$SP_ARG^`e^`e^CmplQuoter('''"')^`, `context?^`$SP_ARG^)
+$(`$SP_ARG^`e^`e^CmplQuoter()^`, `context?^`$SP_ARG^)
 
 XPT jq hint=jQuery\()
-jQuery(`$SP_ARG^`e^`e^CmplQuoter('''"')^`, `context?^`$SP_ARG^)
+jQuery(`$SP_ARG^`e^`e^CmplQuoter()^`, `context?^`$SP_ARG^)
 
 XPT each hint=each\(...
 each`:maybeFunction:^
@@ -321,11 +319,17 @@ cloen`:optionalExpr:^
 XPT aj hint=$JQ.ajax\(..)
 `$JQ^.ajax(`$SP_ARG^`opt^`$SP_ARG^)
 
-XPT ld hint=load\(..)
-load(`$SP_ARG^`url^`url^CmplQuoter()^`, `data?^`, `function...{{^, function(`i^`, `e?^) { `cursor^ }`}}^`$SP_ARG^)
+XPT ld hint=load\(url,\ ...)
+load(`$SP_ARG^`url^`url^CmplQuoter()^`, `data?^`, `function...{{^, `:_ld_callback:^`}}^`$SP_ARG^)
+
+XPT _ld_callback hidden=0
+function(`resText^`, `textStatus?!{{^`R('textStatus?')^`, `xhr?^`}}^) { `cursor^ }
 
 XPT ajg hint=$JQ.get\(url,\ ...)
 `$JQ^.get(`$SP_ARG^`url^`, `data?^`, `callback?^`, `type?^`$SP_ARG^)
+
+XPT ttt hint=tips
+`a!{{^bb`}}^
 
 
 ..XPT

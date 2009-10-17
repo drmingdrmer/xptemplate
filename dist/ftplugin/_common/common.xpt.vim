@@ -15,6 +15,12 @@ XPTvar $WHILE_BRACKET_STL  ' '
 XPTvar $STRUCT_BRACKET_STL ' '
 XPTvar $FUNC_BRACKET_STL   ' '
 
+XPTvar $SP_ARG      ' '
+XPTvar $SP_IF       ' '
+XPTvar $SP_EQ       ' '
+XPTvar $SP_OP       ' '
+XPTvar $SP_COMMA    ' '
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          0
@@ -168,14 +174,26 @@ fun! s:f.Build( ... )
   return { 'action' : 'build', 'text' : join( a:000, '' ) }
 endfunction
 
+fun! s:f.BuildIfChanged( ... )
+  let v = substitute( self.V(), "\\V\n\\|\\s", '', 'g')
+  let fn = substitute( self.ItemFullname(), "\\V\n\\|\\s", '', 'g')
+
+  if v ==# fn
+      " return { 'action' : 'keepIndent', 'text' : self.V() }
+      return ''
+  else
+      return { 'action' : 'build', 'text' : join( a:000, '' ) }
+  endif
+endfunction
+
 fun! s:f.BuildIfNoChange( ... )
   let v = substitute( self.V(), "\\V\n\\|\\s", '', 'g')
   let fn = substitute( self.ItemFullname(), "\\V\n\\|\\s", '', 'g')
 
   if v ==# fn
-    return { 'action' : 'build', 'text' : join( a:000, '' ) }
+      return { 'action' : 'build', 'text' : join( a:000, '' ) }
   else
-    return { 'action' : 'keepIndent', 'text' : self.V() }
+      return { 'action' : 'keepIndent', 'text' : self.V() }
   endif
 endfunction
 

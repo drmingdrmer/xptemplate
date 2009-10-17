@@ -138,6 +138,9 @@ XPT spop hint=`\$SP_OP^
 XPT spcomma hint=`\$SP_COMMA^
 \`$SP_COMMA\^
 
+XPT buildifeq hint={{}}
+\``name^{{\^`cursor^`}}^
+
 
 XPT fun hint=fun!\ s:f.**
 XSET parameters|def=

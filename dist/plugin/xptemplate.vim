@@ -617,6 +617,7 @@ fun! s:parseQuotedPostFilter( tmplObj )
     let xp = a:tmplObj.ptn
     let postFilters = a:tmplObj.setting.postFilters
     let quoter = a:tmplObj.setting.postQuoter
+    let flagPattern = '\V\[!]\$'
     let startPattern = '\V\_.\{-}\zs' . xp.lft . '\_[^' . xp.r . ']\*' . quoter.start . xp.rt
     let endPattern = '\V' . xp.lft . quoter.end . xp.rt
     let snip = a:tmplObj.tmpl
@@ -641,6 +642,10 @@ fun! s:parseQuotedPostFilter( tmplObj )
         let startText = matchstr( snip, startPattern, startPos )
         let endText   = matchstr( snip, endPattern, endPos )
         let name = startText[ 1 : -1 - len( quoter.start ) - 1 ]
+        let flag = matchstr( name, flagPattern )
+        if flag != ''
+            let name = name[ : -1 - len( flag ) ]
+        endif
         if name =~ xp.lft
             let name = matchstr( name, '\V' . xp.lft . '\zs\_.\*' )
             if name =~ xp.lft
@@ -649,10 +654,15 @@ fun! s:parseQuotedPostFilter( tmplObj )
         endif
         let plainPostFilter = snip[ startPos + len( startText ) : endPos - 1 ]
         let firstLineIndent = s:GetIndentBeforeEdge( a:tmplObj, snip[ : startPos - 1 ] )
-        let plainPostFilter = 'BuildIfNoChange(' . string( plainPostFilter ) . ')'
+        if flag == '!'
+            let plainPostFilter = 'BuildIfChanged(' . string( plainPostFilter ) . ')'
+        else
+            let plainPostFilter = 'BuildIfNoChange(' . string( plainPostFilter ) . ')'
+        endif
         let plainPostFilter = s:BuildFilterIndent( plainPostFilter, firstLineIndent )
         let postFilters[ name ] = plainPostFilter
-        let snip = snip[ : startPos + len( startText ) - 1 - 1 - len( quoter.start ) ] 
+        echom 'name=' . string( name )
+        let snip = snip[ : startPos + len( startText ) - 1 - 1 - len( quoter.start ) - len( flag ) ] 
                     \. snip[ endPos + len( endText ) - 1 : ]
     endwhile
     return snip
@@ -1196,6 +1206,9 @@ fun! s:ApplyPostFilter()
     let marks  = renderContext.leadingPlaceHolder.mark
     let renderContext.phase = 'post'
     let typed = s:TextBetween(XPMpos( marks.start ), XPMpos( marks.end ))
+    if renderContext.item.name != ''
+        let renderContext.namedStep[renderContext.item.name] = typed
+    endif
     if has_key(posts, name)
         let groupPostFilter = posts[ name ]
     else
@@ -1728,10 +1741,11 @@ fun! s:ApplyMap()
     exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_cancel.' <Esc>i<C-r>=<SID>FinishCurrentAndGotoNextItem("clear")<cr>'
     exe 'nnoremap <silent> <buffer> '.g:xptemplate_goback . ' i<C-r>=<SID>Goback()<cr>'
     snoremap <silent> <buffer> <Del> <Del>i
-    snoremap <silent> <buffer> <bs> <esc>`>a<bs>
     if &selection == 'inclusive'
+        snoremap <silent> <buffer> <BS> <esc>`>a<BS>
         exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>a"
     else
+        snoremap <silent> <buffer> <BS> <esc>`>i<BS>
         exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>i"
     endif
 endfunction 
