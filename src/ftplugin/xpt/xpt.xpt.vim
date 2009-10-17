@@ -93,6 +93,7 @@ XPTvar $WHILE_BRACKET_STL  ' '
 XPTvar $STRUCT_BRACKET_STL ' '
 XPTvar $FUNC_BRACKET_STL   ' '
 
+
 XPT varSpaces hint=variable\ to\ define\ spacing
 XPTvar $SP_ARG      ' '
 XPTvar $SP_IF       ' '
@@ -122,8 +123,20 @@ XPTvar $CL    `left sign^
 XPTvar $CM    `cursor^
 XPTvar $CR    `right sign^
 
+XPT sparg hint=`\$SP_ARG^
+\`$SP_ARG\^
 
+XPT spif hint=`\$SP_ARG^
+\`$SP_IF\^
 
+XPT speq hint=`\$SP_EQ^
+\`$SP_EQ\^
+
+XPT spop hint=`\$SP_OP^
+\`$SP_OP\^
+
+XPT spcomma hint=`\$SP_COMMA^
+\`$SP_COMMA\^
 
 
 XPT fun hint=fun!\ s:f.**

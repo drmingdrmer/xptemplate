@@ -178,6 +178,20 @@ fun! g:XPTapplyTemplateSettingDefaultValue( setting ) "{{{
     call s:SetIfEmpty( s.preValues, 'cursor', '$CURSOR_PH' )
 endfunction "}}}
 
+let s:defaultPostFilter = {
+            \   '\V\w\+?' : 'EchoIfNoChange( '''' )', 
+            \}
+fun! s:SetDefaultFilters( tmplObj, ph ) "{{{
+    " post filters
+    if !has_key( a:tmplObj.setting.postFilters, a:ph.name )
+        for [ptn, filter] in items(s:defaultPostFilter)
+            if a:ph.name =~ ptn
+                let a:tmplObj.setting.postFilters[ a:ph.name ] = "\n" . filter
+            endif
+        endfor
+    endif
+endfunction "}}}
+
 let s:renderContextPrototype      = {
             \   'ftScope'           : {},
             \   'tmpl'              : {},
@@ -1789,10 +1803,13 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
             call s:EvaluateEdge( xp, placeHolder )
             call s:ApplyPreValues( placeHolder )
 
+            call s:SetDefaultFilters( tmplObj, placeHolder )
+
 
             call cursor( XPMpos( placeHolder.mark.end ) )
 
         endif
+
 
     endwhile
 
@@ -3083,6 +3100,8 @@ fun! s:XPTinit() "{{{
                 \ 's_]%', 
                 \]
 
+    " Note: <bs> works the same with <C-h>, but only masking <bs> in buffer
+    " level does mask <c-h>. So that <bs> still works with old mapping
     let literalKeys = [
                 \ 's_%', 
                 \ 's_''', 
@@ -3095,6 +3114,7 @@ fun! s:XPTinit() "{{{
                 \ 'i_(', 
                 \ 'i_{', 
                 \ 'i_<BS>', 
+                \ 'i_<C-h>', 
                 \ 'i_<DEL>', 
                 \]
 

@@ -30,10 +30,11 @@ fun! s:InitStacks() "{{{
 endfunction "}}}
 
 " pre alloc setting stack to speed up
-augroup SettingStack
-  au!
-  au BufRead,BufNewFile,BufNew,BufAdd,BufCreate,FileType * call <SID>InitStacks()
-augroup END
+" Note: when buf new, old buffer variable is removed!!
+" augroup SettingStack
+"   au!
+"   au BufRead,BufNewFile,BufNew,BufAdd,BufCreate,FileType * call <SID>InitStacks()
+" augroup END
 
 
 

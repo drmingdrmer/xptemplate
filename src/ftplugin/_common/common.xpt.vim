@@ -369,6 +369,22 @@ fun! s:f.CompleteRightPart( left ) dict
 
 endfunction
 
+fun! s:f.CmplQuoter() dict
+    let v = self.V()
+    let first = matchstr( v, '\V\^\[''"]' )
+    if first == ''
+        return ''
+    endif
+
+    let v = substitute( v, '\V\[^' . first . ']', '', 'g' )
+    if v == first
+        " only 1 quoter
+        return first
+    else
+        return ''
+    endif
+endfunction
+
 
 
 
