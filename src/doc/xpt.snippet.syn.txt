@@ -111,10 +111,10 @@
 	Format : >
 	XPTemplate [priority=lang] [keyword=#] [mark=`^]
 <
-	There are 3 optional setting for 'XPTemplate' :
+	There are 3 optional settings for 'XPTemplate' :
 
 							*xpt-snippet-priority*
-	Priority affects |xpt-snippet| and |xpt-snippet-variable|,
+	Priority affects |xpt-snippet| and |xpt-snippet-variable|;
 	|xpt-snippet-function| is defined directly, so it isn't controlled by
 	|xpt-snippet-priority|. Snippets with a lower |xpt-snippet-priority|
 	override higher ones. Format : >
@@ -230,7 +230,7 @@
 <	The <filename> is only the file root, without ".xpt.vim". 
 	XPTinclude can include several snippets at one time.
 
-	NOTE do NOT use |runtime| to include other snippet file. XPTinclude
+	NOTE do NOT use |runtime| to include other snippet files. XPTinclude
 	handles snippet priority, but |runtime| does NOT.
 
 								    *XPTembed*
@@ -244,31 +244,31 @@
 
 
 						 *XPTemplateDef* *xpt-snippet*
-	The Snippet part start with a command "XPTemplateDef". And content
-	after this command is no long vim script, but a XPTemplate snippet.
+	The snippet part starts with the command "XPTemplateDef". Any content
+	after this command is no longer Vim script, but a XPTemplate snippet.
 
-	Each |xpt-snippet| defines one code snippet with the following syntax 
-	: >
+	Each |xpt-snippet| defines one code snippet with the following
+	syntax : >
 		XPT <snippetName> [name=value] [name=value] ..
 		<snippet body>..
 		..XPT
-<	'XPT' is the start of a snippet. '..XPT' is the end of a snippet.
-	'..XPT' is optional. If '..XPT' is not present, snippet body ends at
-	the last non-empty line.
+<	'XPT' is the start of a snippet. '..XPT' is the end of a snippet, it
+	is optional. If '..XPT' is not present the snippet body ends at the
+	last non-empty line.
 
 							    *xpt-snippet-name*
-	<snippetName> is the name the user to type to trigger this snippet. It
-	can only contain the characters defined in |iskeyword| and
+	<snippetName> is the name the user has to type to trigger this
+	snippet. It can only contain characters defined in |iskeyword| and
 	|xpt-snippet-keyword|.
 
 							 *xpt-snippet-setting*
-	The 'name=value' defines snippet settings,  including
+	The 'name=value' defines snippet settings, including
 		|xpt-snippet-hint|
 		|xpt-snippet-hidden|
 		|xpt-snippet-alias|
 
 							    *xpt-snippet-hint*
-	Set the 'menu' entry for pop up menu, as a short description other
+	Set the 'menu' entry for the pop up menu, as a short description other
 	than |xpt-snippet-name|. Like the following C language popup menu : >
 		| #if           #if ...           |
 		| #ifdef        #if ...           |
@@ -323,7 +323,7 @@
 		XPT printf	hint=printf\(...)
 		XSET elts=c_printfElts( R( 'pattern' ) )
 		printf( "`pattern^"`elts^ )
-<	NOTE XSET/XSETm commands can be placed anywhere inside snippet.
+<	NOTE XSET/XSETm commands can be placed anywhere inside a snippet.
 
 				       *`::^* *Include:* *xpt-snippet-include*
 	Snippet can include another snippet, by using inclusion place holder : >
@@ -340,7 +340,7 @@
 	|xpt-snippet-mark| can not include each other.
 
 							    *xpt-snippet-XSET*
-	In |xpt-snippet-body|, XSET commands can be used anywhere to set : 
+	In |xpt-snippet-body| XSET commands can be used anywhere to set : 
 		|xpt-snippet-preset-value|
 		|xpt-snippet-default-value|
 		|xpt-snippet-post-filter|
@@ -356,11 +356,11 @@
 		XPT #include_user	hint=include\ ""
 		XSET me=fileRoot()
 		#include "`me^.h"
-<	Item "me" is set to file name without extension.
+<	Item "me" is set to the file name without extension.
 
 							   *xpt-snippet-XSETm*
 	"XSETm" is similar to |xpt-snippet-XSET| except it uses "\n" instead
-	of "=" in |xpt-snippet-XSET|, and ending with "XSETm END". For
+	of "=" in |xpt-snippet-XSET| and ends with "XSETm END". For
 	example : >
 		XPT if		hint=if\ (..)\ {..}\ else...
 		if (`condition^) { 
