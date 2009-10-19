@@ -19,11 +19,13 @@
 " "}}}
 "
 " KNOWING BUG: "{{{
-"   indent bug of html::table with inclusion
 "
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO check duplication in single snippet file
+" TODO simplify hint
+" TODO 2 <tab> to accept empty
 " TODO /../../ ontime filter shortcut
 " TODO ( ) shortcut of Echo
 " TODO import utils
@@ -65,6 +67,8 @@
 " 
 " Log of This version:
 "   fix : set typed value as named step element before post filter evaluated
+"   fix : html:html snippet set default encoding as utf-8 if no fileencoding set
+"   fix : s:f.ItemEdge bug
 "
 "
 "
@@ -1213,7 +1217,6 @@ fun! s:parseQuotedPostFilter( tmplObj ) "{{{
         let plainPostFilter = s:BuildFilterIndent( plainPostFilter, firstLineIndent )
 
         let postFilters[ name ] = plainPostFilter
-        echom 'name=' . string( name )
 
         call s:log.Debug( 'name=' . name )
         call s:log.Debug( 'quoted post filter=' . string( postFilters[ name ] ) )
@@ -1902,6 +1905,7 @@ fun! s:ApplyPreValues( placeHolder ) "{{{
     let preValue = a:placeHolder.name == '' ? '' : 
                 \ (has_key( setting.preValues, a:placeHolder.name ) ? setting.preValues[ a:placeHolder.name ] : '')
 
+
     if !s:IsFilterEmpty( preValue ) 
         let preValue = s:Eval( preValue )
         let [ filterIndent, filterText ] = s:GetFilterIndentAndText( preValue )
@@ -1912,8 +1916,12 @@ fun! s:ApplyPreValues( placeHolder ) "{{{
                     \setting.defaultValues[ a:placeHolder.name ] 
                     \: a:placeHolder.ontimeFilter
 
+
         if !s:IsFilterEmpty( preValue ) 
+
+            "Note: does not include function or function is preValue safe(with '_pre' suffix)
             if preValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
+                        \|| preValue =~ '\V_pre()'
                 let text = s:Eval( preValue )
 
                 let [ filterIndent, filterText ] = s:GetFilterIndentAndText( text )

@@ -580,6 +580,7 @@ fun! s:ApplyMapAndSetting() "{{{
     " snippet start with '#' causes a choas.
     call SettingPush( '&l:cinkeys', '' )
     call SettingPush( '&l:indentkeys', '' )
+    " call SettingPush( '&l:ignorecase', '1' )
 
 endfunction "}}}
 
@@ -594,8 +595,9 @@ fun! s:ClearMapAndSetting() "{{{
     call g:MapPop(b:__xpp_mapped.i_bs)
 
 
-    call SettingPop() " cinkeys 
+    " call SettingPop() " ignorecase 
     call SettingPop() " indentkeys 
+    call SettingPop() " cinkeys 
 
     unlet b:__xpp_mapped
 endfunction "}}}

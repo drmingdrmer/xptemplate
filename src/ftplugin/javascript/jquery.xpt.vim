@@ -1,4 +1,4 @@
-finish " not finished 
+" finish " not finished 
 if !g:XPTloadBundle( 'javascript', 'jquery' )
     finish
 endif
@@ -62,10 +62,10 @@ XPTemplateDef
 " ===============
 
 XPT optionalExpr hidden=1
-(`$SP_ARG^`expr?^`expr?^CmplQuoter()^`$SP_ARG^)
+(`$SP_ARG^`expr?^`expr?^CmplQuoter_pre()^`$SP_ARG^)
 
 XPT expr hidden=1
-(`$SP_ARG^`expr^`expr^CmplQuoter()^`$SP_ARG^)
+(`$SP_ARG^`expr^`expr^CmplQuoter_pre()^`$SP_ARG^)
 
 XPT maybeFunction hidden=1
 (`$SP_ARG^`function...{{^function(`i^`, `e?^) { `cursor^ }`}}^`$SP_ARG^)
@@ -82,10 +82,10 @@ XPT _funExp hidden=1
 " ============
 
 XPT $ hint=$\()
-$(`$SP_ARG^`e^`e^CmplQuoter()^`, `context?^`$SP_ARG^)
+$(`$SP_ARG^`e^`e^CmplQuoter_pre()^`, `context?^`$SP_ARG^)
 
 XPT jq hint=jQuery\()
-jQuery(`$SP_ARG^`e^`e^CmplQuoter()^`, `context?^`$SP_ARG^)
+jQuery(`$SP_ARG^`e^`e^CmplQuoter_pre()^`, `context?^`$SP_ARG^)
 
 XPT each hint=each\(...
 each`:maybeFunction:^
@@ -314,30 +314,81 @@ cloen`:optionalExpr:^
 ..XPT
 
 " =========================
-" Ajax //partially support
+" Ajax
 " =========================
+" TODO callback
+" TODO ajax option
+" TODO universial behavior for clearing optional argument
+
+XPT _ld_callback hidden=1
+function(`$SP_ARG^`resText^`, `textStatus^`, `xhr^`$SP_ARG^) { `cursor^ }
+
+XPT _aj_type hidden=1
+XSET type=ChooseStr( '"xml"', '"html"', '"script"', '"json"', '"jsonp"', '"text"' )
+`, `type^
+
+XPT _fun0 hidden=1
+function() { `cursor^ }
+
+
+
 XPT aj hint=$JQ.ajax\(..)
 `$JQ^.ajax(`$SP_ARG^`opt^`$SP_ARG^)
 
 XPT ld hint=load\(url,\ ...)
-load(`$SP_ARG^`url^`url^CmplQuoter()^`, `data?!{{^`R('data?')^`, `function...{{^, `:_ld_callback:^`}}^`}}^`$SP_ARG^)
-
-XPT _ld_callback hidden=0
-function(`resText^`, `textStatus?!{{^`R('textStatus?')^`, `xhr?^`}}^) { `cursor^ }
+load(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `function...{{^, `:_ld_callback:^`}}^`$SP_ARG^)
 
 XPT ag hint=$JQ.get\(url,\ ...)
-`$JQ^.get(`$SP_ARG^`url^`, `data?^`, `callback?^`, `type?^`$SP_ARG^)
+`$JQ^.get(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SP_ARG^)
 
 XPT agj hint=$JQ.getJSON\(url,\ ...)
-`$JQ^.getJSON(`$SP_ARG^`url^`, `data?^`, `callback?^`$SP_ARG^)
+`$JQ^.getJSON(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`, `callback^`$SP_ARG^)
 
 XPT ags hint=$JQ.getScript\(url,\ ...)
-`$JQ^.getScript(`$SP_ARG^`url^`, `callback?^`$SP_ARG^)
+`$JQ^.getScript(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `callback^`$SP_ARG^)
 
 XPT apost hint=$JQ.post\(url,\ ...)
-`$JQ^.post(`$SP_ARG^`url^`, `data?^`, `callback?^`, `type?^`$SP_ARG^)
+`$JQ^.post(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SP_ARG^)
 
+
+
+XPT ajaxComplete hint=ajaxComplete\(callback)
+ajaxComplete(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^)
+
+XPT ajaxError hint=ajaxError\(callback)
+ajaxError(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`, `err^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^)
+
+XPT ajaxSend hint=ajaxSend\(callback)
+ajaxSend(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^)
+
+XPT ajaxStart hint=ajaxStart\(callback)
+ajaxStart(`$SP_ARG^`fun...{{^`:_fun0:^`}}^`$SP_ARG^)
+
+XPT ajaxStop hint=ajaxStop\(callback)
+ajaxStop(`$SP_ARG^`fun...{{^`:_fun0:^`}}^`$SP_ARG^)
+
+XPT ajaxSuccess hint=ajaxSuccess\(callback)
+ajaxSuccess(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^)
+
+
+
+XPT asetup hint=$JQ.ajaxSetup\(opt)
+`$JQ^.ajaxSetup(`$SP_ARG^`opt^`$SP_ARG^)
+
+XPT ser hint=serialize\()
+serialize()
+
+XPT sera hint=serializeArray\()
+serializeArray()
 ..XPT
+
+
+" ===================
+" Events
+" ===================
+" ===================
+" Effects
+" ===================
 " ===================
 " TODO select helper
 " ===================
