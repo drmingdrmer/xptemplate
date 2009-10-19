@@ -69,6 +69,7 @@
 "   fix : set typed value as named step element before post filter evaluated
 "   fix : html:html snippet set default encoding as utf-8 if no fileencoding set
 "   fix : s:f.ItemEdge bug
+"   fix : unsupported filetype raising error
 "
 "
 "
@@ -972,6 +973,10 @@ fun! s:Popup(pref, coln) "{{{
     let cmpl=[]
     let cmpl2 = []
     let ftScope = s:GetContextFTObj()
+    if ftScope == {}
+        " unsupported ft
+        return ''
+    endif
     let dic = ftScope.normalTemplates
 
     let ctxs = s:SynNameStack(line("."), a:coln)
@@ -3719,7 +3724,7 @@ endfunction "}}}
 
 fun! s:GetContextFTObj() "{{{
     let x = XPTbufData()
-    return x.filetypes[ s:GetContextFT() ]
+    return get( x.filetypes, s:GetContextFT(), {} )
 endfunction "}}}
 
 augroup XPT "{{{

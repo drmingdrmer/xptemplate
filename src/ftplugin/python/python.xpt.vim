@@ -125,6 +125,9 @@ XPT with hint=with\ ..\ as\ ..\ :
 with `opener^ as `name^:
     `cursor^
 
+XPT import hint=import\ ..
+import `mod^
+
 XPT importas hint=import\ ..\ as
 import `module^ as `name^
 
