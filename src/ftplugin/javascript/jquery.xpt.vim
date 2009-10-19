@@ -105,7 +105,7 @@ index(`$SP_ARG^`^`$SP_ARG^)
 XPT da hint=data\(..,\ ..)
 data(`$SP_ARG^`name^`, `value?^`$SP_ARG^)
 
-XPT rd hint=removeData\(..)
+XPT rmd hint=removeData\(..)
 removeData(`$SP_ARG^`name^`$SP_ARG^)
 
 XPT qu hint=queue\(..,\ ..)
@@ -125,7 +125,7 @@ dequeue(`$SP_ARG^`name^`$SP_ARG^)
 XPT attr hint=attr\(..
 attr(`$SP_ARG^`name^`$SP_ARG^)
 
-XPT ra hint=removeAttr\(..
+XPT rma hint=removeAttr\(..
 removeAttr(`$SP_ARG^`name^`$SP_ARG^)
 
 XPT ac hint=addClass\(..
@@ -166,10 +166,10 @@ offsetParent()
 XPT pos hint=position\()
 position()
 
-XPT scrt hint=scroll..\()
+XPT scrt hint=scrollTop\()
 scrollTop`:optionalVal:^
 
-XPT scrl hint=scroll..\()
+XPT scrl hint=scrollLeft\()
 scrollLeft`:optionalVal:^
 
 XPT ht hint=height\(..)
@@ -335,7 +335,7 @@ function() { `cursor^ }
 XPT aj hint=$JQ.ajax\(..)
 `$JQ^.ajax(`$SP_ARG^`opt^`$SP_ARG^)
 
-XPT ld hint=load\(url,\ ...)
+XPT load hint=load\(url,\ ...)
 load(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `function...{{^, `:_ld_callback:^`}}^`$SP_ARG^)
 
 XPT ag hint=$JQ.get\(url,\ ...)
@@ -386,6 +386,128 @@ serializeArray()
 " ===================
 " Events
 " ===================
+XPT _ev_fun_a hidden=1
+XSET job=VoidLine()
+function (`$SP_ARG^`ev^`$SP_ARG^) { `job^ }
+
+XPT _ev_fun hidden=1
+function (`$SP_ARG^`ev^`$SP_ARG^) { `cursor^ }
+
+XPT _ev_arg hidden=1
+(`$SP_ARG^`type^`type^CmplQuoter_pre()^`, `data^`, `fun...{{^, `:_ev_fun:^`}}^`$SP_ARG^)
+
+XPT _ev_tr_arg hidden=1
+(`$SP_ARG^`ev^`ev^CmplQuoter_pre()^`, `data^`$SP_ARG^)
+
+XPT _ev_arg_fun hidden=1
+(`$SP_ARG^`fun...{{^`:_ev_fun:^`}}^`$SP_ARG^)
+
+
+
+XPT rd hint=ready\(fun)
+ready(`$SP_ARG^`fun...{{^`:_fun0:^`}}^`$SP_ARG^)
+
+XPT bd hint=bind\(type,\ data,\ fun)
+bind`:_ev_arg:^
+
+XPT one hint=one\(type,\ data,\ fun)
+one`:_ev_arg:^
+
+XPT tr hint=trigger\(ev,\ data)
+trigger`:_ev_tr_arg:^
+
+XPT trh hint=triggerHandler\(ev,\ data)
+triggerHandler`:_ev_tr_arg:^
+
+XPT ub hint=unbind\(type,\ fun)
+unbind(`$SP_ARG^`type^`type^CmplQuoter_pre()^`, `fun^`$SP_ARG^)
+
+XPT lv hint=live\(type,\ fun)
+live`:_ev_arg:^
+
+XPT die hint=die\(type,\ fun)
+die(`$SP_ARG^`type^`type^CmplQuoter_pre()^`, `fun^`$SP_ARG^)
+
+XPT ho hint=hover\(over,\ out)
+hover(`$SP_ARG^`over...{{^, `:_ev_fun_a:^`}}^`, `out..{{^, `:_ev_fun:^`}}^`$SP_ARG^)
+
+XPT tg hint=toggle\(fn1,\ fn2,\ ...)
+toggle(`$SP_ARG^`fn1...{{^, `:_ev_fun_a:^`}}^`, `fn2...{{^, `:_ev_fun:^`}}^`$SP_ARG^)
+
+
+
+XPT bl hint=blur\(fun)
+blur`:_ev_arg_fun:^
+
+XPT res hint=resize\(fun)
+resize`:_ev_arg_fun:^
+
+XPT scr hint=scroll\(fun)
+scroll`:_ev_arg_fun:^
+
+XPT sel hint=select\(fun)
+select`:_ev_arg_fun:^
+
+XPT sub hint=submit\(fun)
+submit`:_ev_arg_fun:^
+
+XPT unl hint=unload\(fun)
+unload`:_ev_arg_fun:^
+
+
+
+XPT kdown hint=keydown\(fun)
+keydown`:_ev_arg_fun:^
+
+XPT kup hint=keyup\(fun)
+keyup`:_ev_arg_fun:^
+
+XPT kpress hint=keypress\(fun)
+keypress`:_ev_arg_fun:^
+
+XPT clk hint=click\(fun)
+click`:_ev_arg_fun:^
+
+XPT dclk hint=dbclick\(fun)
+dbclick`:_ev_arg_fun:^
+
+
+
+XPT foc hint=focus\(fun)
+focus`:_ev_arg_fun:^
+
+XPT err hint=error\(fun)
+error`:_ev_arg_fun:^
+
+
+
+XPT mup hint=mouseup\(fun)
+mouseup`:_ev_arg_fun:^
+
+XPT mdown hint=mousedown\(fun)
+mousedown`:_ev_arg_fun:^
+
+XPT mmove hint=mousemove\(fun)
+mousemove`:_ev_arg_fun:^
+
+XPT menter hint=mouseenter\(fun)
+mouseenter`:_ev_arg_fun:^
+
+XPT mleave hint=mouseleave\(fun)
+mouseleave`:_ev_arg_fun:^
+
+XPT mout hint=mouseout\(fun)
+mouseout`:_ev_arg_fun:^
+
+
+
+
+XPT ld hint=load\(fun)
+load`:_ev_arg_fun:^
+
+XPT ch hint=change\(fun)
+change`:_ev_arg_fun:^
+..XPT
 " ===================
 " Effects
 " ===================

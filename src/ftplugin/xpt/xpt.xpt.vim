@@ -52,7 +52,7 @@ endfunction
 XPTemplateDef
 
 " TODO detect path to generate popup list 
-XPT inc hint=XPTinclude\ ...
+XPT incf hint=XPTinclude\ ...
 XSET path=xpt_vim_path()
 XSET name=xpt_vim_name( R( 'path' ) )
 XPTinclude 
@@ -139,7 +139,10 @@ XPT spcomma hint=`\$SP_COMMA^
 \`$SP_COMMA\^
 
 XPT buildifeq hint={{}}
-\``name^{{\^`cursor^`}}^
+\``name^{{\^`cursor^\`}}\^
+
+XPT inc hint=`::^
+\`:`name^:\^
 
 
 XPT fun hint=fun!\ s:f.**
@@ -165,7 +168,7 @@ let s:f = g:XPTfuncs()
 
 `Include:varFormat^
 
-`XPTinclude...{{^`Include:inc^`}}^
+`XPTinclude...{{^`Include:incf^`}}^
 
 
 " ========================= Function and Variables =============================
