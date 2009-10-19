@@ -72,19 +72,22 @@ endfunction
 XPTemplateDef
 
 
-XPT shShebang hint=#!/bin/sh
-#!/bin/sh
+XPT shebang hint=#!/bin/[ba|z]sh
+XSET sh=ChooseStr( 'sh', 'bash', 'zsh' )
+#!/bin/~sh^
 
 ..XPT
 
+XPT sb alias=shebang
 
-XPT bashShebang hint=#!/bin/bash
-#!/bin/bash
+XPT sh alias=shebang hint=#!/bin/sh
+XSET sh=Next( 'sh' )
 
-..XPT
+XPT bash alias=shebang hint=#!/bin/bash
+XSET sh=Next( 'bash' )
 
-XPT shebang alias=bashShebang
-
+XPT zsh alias=shebang hint=#!/bin/zsh
+XSET sh=Next( 'zsh' )
 
 XPT echodate hint=echo\ `date\ +%...`
 echo `date +~fmt^`
