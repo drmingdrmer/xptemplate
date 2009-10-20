@@ -508,9 +508,49 @@ load`:_ev_arg_fun:^
 XPT ch hint=change\(fun)
 change`:_ev_arg_fun:^
 ..XPT
+
+
+
 " ===================
 " Effects
 " ===================
+
+XPT _ef_arg hidden=1
+(`$SP_ARG^`speed^`speed^CmplQuoter_pre()^`, `fun...{{^`:_fun0:^`}}^`$SP_ARG^)
+
+XPT sh hint=show\(speed,\ callback)
+show`:_ef_arg:^
+
+XPT hd hint=hide\(speed,\ callback)
+hide`:_ef_arg:^
+
+XPT sld hint=slideDown\(speed,\ callback)
+slideDown`:_ef_arg:^
+
+XPT slu hint=slideUp\(speed,\ callback)
+slideUp`:_ef_arg:^
+
+XPT slt hint=slideToggle\(speed,\ callback)
+slideToggle`:_ef_arg:^
+
+
+
+XPT fi hint=fadeIn\(speed,\ callback)
+fadeIn`:_ef_arg:^
+
+XPT fo hint=fadeOut\(speed,\ callback)
+fadeOut`:_ef_arg:^
+
+XPT ft hint=fadeTo\(speed,\ callback)
+fadeTo(`$SP_ARG^`speed^`speed^CmplQuoter_pre()^`, `opacity^`opacity^CmplQuoter_pre()^`, `fun...{{^`:_fun0:^`}}^`$SP_ARG^)
+
+XPT ani hint=animate\(params,\ ...)
+animate(`$SP_ARG^`params^`, `param^`$SP_ARG^)
+
+XPT stop hint=stop\()
+stop()
+..XPT
+
 " ===================
 " TODO select helper
 " ===================
