@@ -26,6 +26,8 @@ cd $DistDir
 # plugin/debug.vim	\
 rm -rf	\
   plugin/xpop.test.vim	\
+  plugin/xptemplateTest.vim	\
+  plugin/xptemplate.importer.vim	\
   xpt.ex	\
   genfile.vim	\
   doc/tags	\
@@ -73,4 +75,4 @@ tar -czf xpt-$v.tgz xpt
 ls xpt-*.tgz
 
 
-# vim: set ts=32 :
+# vim: set ts=64 :

@@ -23,6 +23,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO hint of whether xpt is running. sign, statusline, highlight
 " TODO check duplication in single snippet file
 " TODO simplify hint
 " TODO 2 <tab> to accept empty
@@ -36,29 +37,26 @@
 " TODO snippet only inside others
 " TODO need more format variables
 " TODO standardize html/xml snippets.
-" TODO snippets bundle and bundle selection
 " TODO snippet-file scope XSET
 " TODO block context check
 " TODO ontime repetition
 " TODO in windows & in select mode to trigger wrapped or normal?
 " TODO change on previous item
-" TODO as function call template
 " TODO highlight all pending items
 " TODO <Plug>mapping
 " TODO item popup: repopup
 " TODO install guide
 " TODO do not let xpt throw error if calling undefined s:f.function..
-" TODO buffer/snippet scope template setting.
 " TODO simple place holder : just a postion waiting for user input
 " TODO wrapping on different visual mode
 " TODO prefixed template trigger
 " TODO class-style
 " TODO simplify if no need to popup, popup session
 " TODO on the first time template rendering, replace all vars with its value.
-" TODO pre-build expression to evaluate
+" TODO pre-build expression to evaluate. compile expression to vim expression
+" TODO simplify wrapper snippets
 " TODO separately store wrapped templates and normal ones
 " TODO match snippet names from middle
-" TODO snippets bundle and bundle selection
 " TODO without template rendering, xpmark update complains error.
 " TODO 'completefunc' to re-popup item menu. Or using <tab> to force popup showing
 "
@@ -70,6 +68,8 @@
 "   fix : html:html snippet set default encoding as utf-8 if no fileencoding set
 "   fix : s:f.ItemEdge bug
 "   fix : unsupported filetype raising error
+"   added : add php tag and html to php filetype
+"   improved : alias syntax support
 "
 "
 "

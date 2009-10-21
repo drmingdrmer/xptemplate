@@ -300,13 +300,11 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 
     let snippetLines = []
 
+    " TODO simple hint support
+
     let snippetParameters = split(lines[0], '\V'.s:nonEscaped.'\s\+')
     let snippetName = snippetParameters[1]
 
-    " call s:log.Log("parse lines:".string(lines))
-    " call s:log.Log("snippetParameters=".string(snippetParameters))
-    " call s:log.Log("line0=".lines[0])
-    " call s:log.Log('snippetName='.snippetName)
 
     let setting = deepcopy( g:XPTemplateSettingPrototype )
 

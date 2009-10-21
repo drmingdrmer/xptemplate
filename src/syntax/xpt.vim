@@ -105,12 +105,15 @@ syntax match XPTxset_name1 /\%(\w\|\.\)*\ze|/ containedin=XPTxset nextgroup=XPTx
 
 syntax match    XPTsnippetTitle /^XPT\s\+.*$/ containedin=XPTregion nextgroup=XPTsnippetBody skipnl skipempty
 syntax keyword  XPTkeyword_XPT XPT containedin=XPTsnippetTitle nextgroup=XPTsnippetName skipwhite
-syntax match    XPTsnippetName /\S\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta skipwhite
+syntax match    XPTsnippetName /\S\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta,XPTmetaAlias skipwhite
 
 " syntax match    XPTsnippetBeforeTitle /^$/ containedin=XPTregion nextgroup=XPTsnippetTitle skipnl skipempty
 
 " escaped white space or non-space
-syntax match XPTmeta /\(\\\s\|\S\)\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta skipwhite
+syntax match XPTmeta /\(\\\s\|\S\)\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta,XPTmetaAlias skipwhite
+syntax match XPTmetaAlias /alias=\S\+/ nextgroup=XPTmeta skipwhite
+syntax match XPTmetaAlias_name /\S\+\ze=/ contained containedin=XPTmetaAlias
+syntax match XPTmetaAlias_value /=\zs\S\+/ contained containedin=XPTmetaAlias
 syntax match XPTmeta_name /\w\+\ze=/ containedin=XPTmeta nextgroup=XPTmeta_value
 syntax keyword XPTmeta_name_key hint alias synonym hidden contained containedin=XPTmeta_name
 syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
@@ -165,6 +168,8 @@ hi link XPTmeta               Normal
 hi link XPTmeta_name          Error
 hi link XPTmeta_name_key      Identifier
 hi link XPTmeta_value         String
+hi link XPTmetaAlias_name     XPTmeta_name_key
+hi link XPTmetaAlias_value    XPTsnippetName
 hi link XPTsnippetBody        Normal
 hi link XPTcomment            Comment
 hi link XPT_END               Folded

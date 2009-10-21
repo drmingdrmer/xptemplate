@@ -1,3 +1,4 @@
+" These snippets work only in html context of a eruby file
 if &filetype != 'eruby'
     finish
 endif

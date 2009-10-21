@@ -19,6 +19,20 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
+    //  -------------$---------------                            
+    // $(`$SP_ARG^`e^`e^CmplQuoter_pre()^`, `context?^`$SP_ARG^) 
+
+
+
+    $( e )
+
+    $( e_TYPED, context_TYPED ) b
+
+    a $( e ) b
+
+    a $( e )
+
+
     //  -------------'_--------------- 
     // '`wrapped^'                     
 
@@ -109,6 +123,272 @@ a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
 
 
+    //  -------------ac---------------     
+    // addClass(`$SP_ARG^`class^`$SP_ARG^) 
+
+
+
+    addClass( class )
+
+    addClass( class_TYPED ) b
+
+    a addClass( class ) b
+
+    a addClass( class )
+
+
+    //  -------------add--------------- 
+    // add`:expr:^                      
+
+
+
+    add( expr )
+
+    add( expr_TYPED ) b
+
+    a add( expr ) b
+
+    a add( expr )
+
+
+    //  -------------af--------------- 
+    // after`:expr:^                   
+
+
+
+    after( expr )
+
+    after( expr_TYPED ) b
+
+    a after( expr ) b
+
+    a after( expr )
+
+
+    //  -------------ag---------------                                                                                   
+    // `$JQ^.get(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SP_ARG^) 
+
+
+
+    $.get( url, data, callback, "xml" )
+
+    $.get( url_TYPED, data_TYPED, callback_TYPED, "xml" ) b
+
+    a $.get( url, data, callback, "xml" ) b
+
+    a $.get( url, data, callback, "xml" )
+
+
+    //  -------------agj---------------                                                   
+    // `$JQ^.getJSON(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`, `callback^`$SP_ARG^) 
+
+
+
+    $.getJSON( url, data, callback )
+
+    $.getJSON( url_TYPED, data_TYPED, callback_TYPED ) b
+
+    a $.getJSON( url, data, callback ) b
+
+    a $.getJSON( url, data, callback )
+
+
+    //  -------------ags---------------                                            
+    // `$JQ^.getScript(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `callback^`$SP_ARG^) 
+
+
+
+    $.getScript( url, callback )
+
+    $.getScript( url_TYPED, callback_TYPED ) b
+
+    a $.getScript( url, callback ) b
+
+    a $.getScript( url, callback )
+
+
+    //  -------------aj---------------     
+    // `$JQ^.ajax(`$SP_ARG^`opt^`$SP_ARG^) 
+
+
+
+    $.ajax( opt )
+
+    $.ajax( opt_TYPED ) b
+
+    a $.ajax( opt ) b
+
+    a $.ajax( opt )
+
+
+    //  -------------ajaxComplete---------------                                                                             
+    // ajaxComplete(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^) 
+
+
+
+    ajaxComplete( function ( event, xhr, ajaxOption ){  } )
+
+    ajaxComplete( fun_TYPED ) b
+
+    a ajaxComplete( function ( event, xhr, ajaxOption ){  } ) b
+
+    a ajaxComplete( function ( event, xhr, ajaxOption ){  } )
+
+
+    //  -------------ajaxError---------------                                                                                     
+    // ajaxError(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`, `err^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^) 
+
+
+
+    ajaxError( function ( event, xhr, ajaxOption, err ){  } )
+
+    ajaxError( fun_TYPED ) b
+
+    a ajaxError( function ( event, xhr, ajaxOption, err ){  } ) b
+
+    a ajaxError( function ( event, xhr, ajaxOption, err ){  } )
+
+
+    //  -------------ajaxSend---------------                                                                             
+    // ajaxSend(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^) 
+
+
+
+    ajaxSend( function ( event, xhr, ajaxOption ){  } )
+
+    ajaxSend( fun_TYPED ) b
+
+    a ajaxSend( function ( event, xhr, ajaxOption ){  } ) b
+
+    a ajaxSend( function ( event, xhr, ajaxOption ){  } )
+
+
+    //  -------------ajaxStart---------------               
+    // ajaxStart(`$SP_ARG^`fun...{{^`:_fun0:^`}}^`$SP_ARG^) 
+
+
+
+    ajaxStart( function() {  } )
+
+    ajaxStart( fun_TYPED ) b
+
+    a ajaxStart( function() {  } ) b
+
+    a ajaxStart( function() {  } )
+
+
+    //  -------------ajaxStop---------------               
+    // ajaxStop(`$SP_ARG^`fun...{{^`:_fun0:^`}}^`$SP_ARG^) 
+
+
+
+    ajaxStop( function() {  } )
+
+    ajaxStop( fun_TYPED ) b
+
+    a ajaxStop( function() {  } ) b
+
+    a ajaxStop( function() {  } )
+
+
+    //  -------------ajaxSuccess---------------                                                                             
+    // ajaxSuccess(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^) 
+
+
+
+    ajaxSuccess( function ( event, xhr, ajaxOption ){  } )
+
+    ajaxSuccess( fun_TYPED ) b
+
+    a ajaxSuccess( function ( event, xhr, ajaxOption ){  } ) b
+
+    a ajaxSuccess( function ( event, xhr, ajaxOption ){  } )
+
+
+    //  -------------ani---------------              
+    // animate(`$SP_ARG^`params^`, `param^`$SP_ARG^) 
+
+
+
+    animate( params, param )
+
+    animate( params_TYPED, param_TYPED ) b
+
+    a animate( params, param ) b
+
+    a animate( params, param )
+
+
+    //  -------------ap--------------- 
+    // append`:expr:^                  
+
+
+
+    append( expr )
+
+    append( expr_TYPED ) b
+
+    a append( expr ) b
+
+    a append( expr )
+
+
+    //  -------------apost---------------                                                                                 
+    // `$JQ^.post(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SP_ARG^) 
+
+
+
+    $.post( url, data, callback, "xml" )
+
+    $.post( url_TYPED, data_TYPED, callback_TYPED, "xml" ) b
+
+    a $.post( url, data, callback, "xml" ) b
+
+    a $.post( url, data, callback, "xml" )
+
+
+    //  -------------apt--------------- 
+    // appendTo`:expr:^                 
+
+
+
+    appendTo( expr )
+
+    appendTo( expr_TYPED ) b
+
+    a appendTo( expr ) b
+
+    a appendTo( expr )
+
+
+    //  -------------as--------------- 
+    // andSelf()                       
+
+
+
+    andSelf()
+
+    andSelf() b
+
+    a andSelf() b
+
+    a andSelf()
+
+
+    //  -------------asetup---------------      
+    // `$JQ^.ajaxSetup(`$SP_ARG^`opt^`$SP_ARG^) 
+
+
+
+    $.ajaxSetup( opt )
+
+    $.ajaxSetup( opt_TYPED ) b
+
+    a $.ajaxSetup( opt ) b
+
+    a $.ajaxSetup( opt )
+
+
     //  -------------asoe--------------- 
     // assertObjectEquals(`mess^         
     //                   , `arr^         
@@ -133,6 +413,20 @@ WRAPPED_TEXT_line2`
                                                                 , expr)
 
 
+    //  -------------attr--------------- 
+    // attr(`$SP_ARG^`name^`$SP_ARG^)    
+
+
+
+    attr( name )
+
+    attr( name_TYPED ) b
+
+    a attr( name ) b
+
+    a attr( name )
+
+
     //  -------------Author--------------- 
     // `$author^                           
 
@@ -145,6 +439,20 @@ WRAPPED_TEXT_line2`
     a drdr.xp b
 
     a drdr.xp
+
+
+    //  -------------bd--------------- 
+    // bind`:_ev_arg:^                 
+
+
+
+    bind( type, data, function ( ev ) {  } )
+
+    bind( type_TYPED, data_TYPED, fun_TYPED ) b
+
+    a bind( type, data, function ( ev ) {  } ) b
+
+    a bind( type, data, function ( ev ) {  } )
 
 
     //  -------------bench--------------- 
@@ -251,6 +559,104 @@ for (var i = 0; i < times; ++i){
 }
 var t1 = new Date().getTime();
 console.log(t1-t0);
+
+
+    //  -------------bf--------------- 
+    // before`:expr:^                  
+
+
+
+    before( expr )
+
+    before( expr_TYPED ) b
+
+    a before( expr ) b
+
+    a before( expr )
+
+
+    //  -------------bl--------------- 
+    // blur`:_ev_arg_fun:^             
+
+
+
+    blur( function ( ev ) {  } )
+
+    blur( fun_TYPED ) b
+
+    a blur( function ( ev ) {  } ) b
+
+    a blur( function ( ev ) {  } )
+
+
+    //  -------------ch--------------- 
+    // change`:_ev_arg_fun:^           
+
+
+
+    change( function ( ev ) {  } )
+
+    change( fun_TYPED ) b
+
+    a change( function ( ev ) {  } ) b
+
+    a change( function ( ev ) {  } )
+
+
+    //  -------------chd--------------- 
+    // children`:optionalExpr:^         
+
+
+
+    children(  )
+
+    children( expr_TYPED ) b
+
+    a children(  ) b
+
+    a children(  )
+
+
+    //  -------------cl--------------- 
+    // cloen`:optionalExpr:^           
+
+
+
+    cloen(  )
+
+    cloen( expr_TYPED ) b
+
+    a cloen(  ) b
+
+    a cloen(  )
+
+
+    //  -------------clk--------------- 
+    // click`:_ev_arg_fun:^             
+
+
+
+    click( function ( ev ) {  } )
+
+    click( fun_TYPED ) b
+
+    a click( function ( ev ) {  } ) b
+
+    a click( function ( ev ) {  } )
+
+
+    //  -------------cls--------------- 
+    // closest`:expr:^                  
+
+
+
+    closest( expr )
+
+    closest( expr_TYPED ) b
+
+    a closest( expr ) b
+
+    a closest( expr )
 
 
     //  -------------cmt--------------- 
@@ -460,6 +866,20 @@ a /* WRAPPED_TEXT
 WRAPPED_TEXT_line2 */
 
 
+    //  -------------con--------------- 
+    // content()                        
+
+
+
+    content()
+
+    content() b
+
+    a content() b
+
+    a content()
+
+
     //  -------------cpr--------------- 
     // @param {`Object^} `name^ `desc^  
 
@@ -472,6 +892,90 @@ WRAPPED_TEXT_line2 */
     a @param {Object} name desc b
 
     a @param {Object} name desc
+
+
+    //  -------------css--------------- 
+    // css`:optionalVal:^               
+
+
+
+    css(  )
+
+    css( val_TYPED ) b
+
+    a css(  ) b
+
+    a css(  )
+
+
+    //  -------------da---------------           
+    // data(`$SP_ARG^`name^`, `value?^`$SP_ARG^) 
+
+
+
+    data( name )
+
+    data( name_TYPED, value_TYPED ) b
+
+    a data( name ) b
+
+    a data( name )
+
+
+    //  -------------dclk--------------- 
+    // dbclick`:_ev_arg_fun:^            
+
+
+
+    dbclick( function ( ev ) {  } )
+
+    dbclick( fun_TYPED ) b
+
+    a dbclick( function ( ev ) {  } ) b
+
+    a dbclick( function ( ev ) {  } )
+
+
+    //  -------------die---------------                             
+    // die(`$SP_ARG^`type^`type^CmplQuoter_pre()^`, `fun^`$SP_ARG^) 
+
+
+
+    die( type, fun )
+
+    die( type_TYPED, fun_TYPED ) b
+
+    a die( type, fun ) b
+
+    a die( type, fun )
+
+
+    //  -------------dq---------------   
+    // dequeue(`$SP_ARG^`name^`$SP_ARG^) 
+
+
+
+    dequeue( name )
+
+    dequeue( name_TYPED ) b
+
+    a dequeue( name ) b
+
+    a dequeue( name )
+
+
+    //  -------------each--------------- 
+    // each`:maybeFunction:^             
+
+
+
+    each( function(i) {  } )
+
+    each( function_TYPED ) b
+
+    a each( function(i) {  } ) b
+
+    a each( function(i) {  } )
 
 
     //  -------------elif---------------       
@@ -564,6 +1068,62 @@ a else {
     a drdr.xp@gmail.com
 
 
+    //  -------------emp--------------- 
+    // empty()                          
+
+
+
+    empty()
+
+    empty() b
+
+    a empty() b
+
+    a empty()
+
+
+    //  -------------end--------------- 
+    // end()                            
+
+
+
+    end()
+
+    end() b
+
+    a end() b
+
+    a end()
+
+
+    //  -------------eq--------------- 
+    // eq(`$SP_ARG^`^`$SP_ARG^)        
+
+
+
+    eq(  )
+
+    eq( _TYPED ) b
+
+    a eq(  ) b
+
+    a eq(  )
+
+
+    //  -------------err--------------- 
+    // error`:_ev_arg_fun:^             
+
+
+
+    error( function ( ev ) {  } )
+
+    error( fun_TYPED ) b
+
+    a error( function ( ev ) {  } ) b
+
+    a error( function ( ev ) {  } )
+
+
     //  -------------fcmt---------------                                      
     // /**-------------------------_CMT_/ `sum^ \\\--------------------------- 
     //  *                                                                     
@@ -648,6 +1208,34 @@ a else {
      *--------------------------\\\ sum ///---------------------------*/
 
 
+    //  -------------fd--------------- 
+    // find`:expr:^                    
+
+
+
+    find( expr )
+
+    find( expr_TYPED ) b
+
+    a find( expr ) b
+
+    a find( expr )
+
+
+    //  -------------fi--------------- 
+    // fadeIn`:_ef_arg:^               
+
+
+
+    fadeIn( speed, function() {  } )
+
+    fadeIn( speed_TYPED, fun_TYPED ) b
+
+    a fadeIn( speed, function() {  } ) b
+
+    a fadeIn( speed, function() {  } )
+
+
     //  -------------File--------------- 
     // `file()^                          
 
@@ -660,6 +1248,48 @@ a else {
     a test.page b
 
     a test.page
+
+
+    //  -------------flt--------------- 
+    // filter`:maybeFunction:^          
+
+
+
+    filter( function(i) {  } )
+
+    filter( function_TYPED ) b
+
+    a filter( function(i) {  } ) b
+
+    a filter( function(i) {  } )
+
+
+    //  -------------fo--------------- 
+    // fadeOut`:_ef_arg:^              
+
+
+
+    fadeOut( speed, function() {  } )
+
+    fadeOut( speed_TYPED, fun_TYPED ) b
+
+    a fadeOut( speed, function() {  } ) b
+
+    a fadeOut( speed, function() {  } )
+
+
+    //  -------------foc--------------- 
+    // focus`:_ev_arg_fun:^             
+
+
+
+    focus( function ( ev ) {  } )
+
+    focus( fun_TYPED ) b
+
+    a focus( function ( ev ) {  } ) b
+
+    a focus( function ( ev ) {  } )
 
 
     //  -------------for---------------                                                                   
@@ -736,19 +1366,19 @@ a else {
 
 
 
-    for ( var ptr = init; null != ptr; ptr ) {
+    for ( var ptr = init; NULL != ptr; ptr ) {
         
     }
 
-    for ( var ptr_TYPED = init_TYPED; null != ptr_TYPED; ptrOp_TYPED ) {
+    for ( var ptr_TYPED = init_TYPED; NULL != ptr_TYPED; ptrOp_TYPED ) {
         
     } b
 
-    a for ( var ptr = init; null != ptr; ptr ) {
+    a for ( var ptr = init; NULL != ptr; ptr ) {
         
     } b
 
-    a for ( var ptr = init; null != ptr; ptr ) {
+    a for ( var ptr = init; NULL != ptr; ptr ) {
         
     }
 
@@ -775,6 +1405,20 @@ a else {
     a for ( var i = 0; i >= end; --i ) {
         
     }
+
+
+    //  -------------ft---------------                                                                                             
+    // fadeTo(`$SP_ARG^`speed^`speed^CmplQuoter_pre()^`, `opacity^`opacity^CmplQuoter_pre()^`, `fun...{{^, `:_fun0:^`}}^`$SP_ARG^) 
+
+
+
+    fadeTo( speed, opacity, function() {  } )
+
+    fadeTo( speed_TYPED, opacity_TYPED, fun_TYPED ) b
+
+    a fadeTo( speed, opacity, function() {  } ) b
+
+    a fadeTo( speed, opacity, function() {  } )
 
 
     //  -------------fun--------------- 
@@ -832,6 +1476,90 @@ a function name (param) {
     WRAPPED_TEXT_line2
     return;
 }
+
+
+    //  -------------get--------------- 
+    // get(`$SP_ARG^`^`$SP_ARG^)        
+
+
+
+    get(  )
+
+    get( _TYPED ) b
+
+    a get(  ) b
+
+    a get(  )
+
+
+    //  -------------hc---------------     
+    // hasClass(`$SP_ARG^`class^`$SP_ARG^) 
+
+
+
+    hasClass( class )
+
+    hasClass( class_TYPED ) b
+
+    a hasClass( class ) b
+
+    a hasClass( class )
+
+
+    //  -------------hd--------------- 
+    // hide`:_ef_arg:^                 
+
+
+
+    hide( speed, function() {  } )
+
+    hide( speed_TYPED, fun_TYPED ) b
+
+    a hide( speed, function() {  } ) b
+
+    a hide( speed, function() {  } )
+
+
+    //  -------------ho---------------                                                      
+    // hover(`$SP_ARG^`over...{{^, `:_ev_fun_a:^`}}^`, `out..{{^, `:_ev_fun:^`}}^`$SP_ARG^) 
+
+
+
+    hover( , function ( ev ) { /* void */ }, function ( ev ) {  } )
+
+    hover( over_TYPED, out_TYPED ) b
+
+    a hover( , function ( ev ) { /* void */ }, function ( ev ) {  } ) b
+
+    a hover( , function ( ev ) { /* void */ }, function ( ev ) {  } )
+
+
+    //  -------------ht--------------- 
+    // height`:optionalVal:^           
+
+
+
+    height(  )
+
+    height( val_TYPED ) b
+
+    a height(  ) b
+
+    a height(  )
+
+
+    //  -------------html--------------- 
+    // html`:optionalVal:^               
+
+
+
+    html(  )
+
+    html( val_TYPED ) b
+
+    a html(  ) b
+
+    a html(  )
 
 
     //  -------------if---------------                     
@@ -977,25 +1705,25 @@ a if (condition) {
 
 
 
-    if (null == var) { 
+    if (NULL == var) { 
         /* void */;
     }
     else {
         
     }
 
-    if (null == var_TYPED) { 
+    if (NULL == var_TYPED) { 
         job_TYPED
     } else_TYPED b
 
-    a if (null == var) { 
+    a if (NULL == var) { 
         /* void */;
     }
     else {
         
     } b
 
-    a if (null == var) { 
+    a if (NULL == var) { 
         /* void */;
     }
     else {
@@ -1043,30 +1771,338 @@ a if (condition) {
 
 
 
-    if (null != var) { 
+    if (NULL != var) { 
         /* void */;
     }
     else {
         
     }
 
-    if (null != var_TYPED) { 
+    if (NULL != var_TYPED) { 
         job_TYPED
     } else_TYPED b
 
-    a if (null != var) { 
+    a if (NULL != var) { 
         /* void */;
     }
     else {
         
     } b
 
-    a if (null != var) { 
+    a if (NULL != var) { 
         /* void */;
     }
     else {
         
     }
+
+
+    //  -------------ih--------------- 
+    // innerHeight()                   
+
+
+
+    innerHeight()
+
+    innerHeight() b
+
+    a innerHeight() b
+
+    a innerHeight()
+
+
+    //  -------------ind--------------- 
+    // index(`$SP_ARG^`^`$SP_ARG^)      
+
+
+
+    index(  )
+
+    index( _TYPED ) b
+
+    a index(  ) b
+
+    a index(  )
+
+
+    //  -------------insa--------------- 
+    // insertAfter`:expr:^               
+
+
+
+    insertAfter( expr )
+
+    insertAfter( expr_TYPED ) b
+
+    a insertAfter( expr ) b
+
+    a insertAfter( expr )
+
+
+    //  -------------insb--------------- 
+    // insertBefore`:expr:^              
+
+
+
+    insertBefore( expr )
+
+    insertBefore( expr_TYPED ) b
+
+    a insertBefore( expr ) b
+
+    a insertBefore( expr )
+
+
+    //  -------------is--------------- 
+    // is`:expr:^                      
+
+
+
+    is( expr )
+
+    is( expr_TYPED ) b
+
+    a is( expr ) b
+
+    a is( expr )
+
+
+    //  -------------iw--------------- 
+    // innerWidth()                    
+
+
+
+    innerWidth()
+
+    innerWidth() b
+
+    a innerWidth() b
+
+    a innerWidth()
+
+
+    //  -------------jq---------------                                
+    // jQuery(`$SP_ARG^`e^`e^CmplQuoter_pre()^`, `context?^`$SP_ARG^) 
+
+
+
+    jQuery( e )
+
+    jQuery( e_TYPED, context_TYPED ) b
+
+    a jQuery( e ) b
+
+    a jQuery( e )
+
+
+    //  -------------kdown--------------- 
+    // keydown`:_ev_arg_fun:^             
+
+
+
+    keydown( function ( ev ) {  } )
+
+    keydown( fun_TYPED ) b
+
+    a keydown( function ( ev ) {  } ) b
+
+    a keydown( function ( ev ) {  } )
+
+
+    //  -------------kpress--------------- 
+    // keypress`:_ev_arg_fun:^             
+
+
+
+    keypress( function ( ev ) {  } )
+
+    keypress( fun_TYPED ) b
+
+    a keypress( function ( ev ) {  } ) b
+
+    a keypress( function ( ev ) {  } )
+
+
+    //  -------------kup--------------- 
+    // keyup`:_ev_arg_fun:^             
+
+
+
+    keyup( function ( ev ) {  } )
+
+    keyup( fun_TYPED ) b
+
+    a keyup( function ( ev ) {  } ) b
+
+    a keyup( function ( ev ) {  } )
+
+
+    //  -------------ld--------------- 
+    // load`:_ev_arg_fun:^             
+
+
+
+    load( function ( ev ) {  } )
+
+    load( fun_TYPED ) b
+
+    a load( function ( ev ) {  } ) b
+
+    a load( function ( ev ) {  } )
+
+
+    //  -------------load---------------                                                                                           
+    // load(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `function...{{^, `:_ld_callback:^`}}^`$SP_ARG^) 
+
+
+
+    load( url, data, function( resText, textStatus, xhr ) {  } )
+
+    load( url_TYPED, data_TYPED, function_TYPED ) b
+
+    a load( url, data, function( resText, textStatus, xhr ) {  } ) b
+
+    a load( url, data, function( resText, textStatus, xhr ) {  } )
+
+
+    //  -------------lv--------------- 
+    // live`:_ev_arg:^                 
+
+
+
+    live( type, data, function ( ev ) {  } )
+
+    live( type_TYPED, data_TYPED, fun_TYPED ) b
+
+    a live( type, data, function ( ev ) {  } ) b
+
+    a live( type, data, function ( ev ) {  } )
+
+
+    //  -------------map--------------- 
+    // map`:maybeFunction:^             
+
+
+
+    map( function(i) {  } )
+
+    map( function_TYPED ) b
+
+    a map( function(i) {  } ) b
+
+    a map( function(i) {  } )
+
+
+    //  -------------mdown--------------- 
+    // mousedown`:_ev_arg_fun:^           
+
+
+
+    mousedown( function ( ev ) {  } )
+
+    mousedown( fun_TYPED ) b
+
+    a mousedown( function ( ev ) {  } ) b
+
+    a mousedown( function ( ev ) {  } )
+
+
+    //  -------------menter--------------- 
+    // mouseenter`:_ev_arg_fun:^           
+
+
+
+    mouseenter( function ( ev ) {  } )
+
+    mouseenter( fun_TYPED ) b
+
+    a mouseenter( function ( ev ) {  } ) b
+
+    a mouseenter( function ( ev ) {  } )
+
+
+    //  -------------mleave--------------- 
+    // mouseleave`:_ev_arg_fun:^           
+
+
+
+    mouseleave( function ( ev ) {  } )
+
+    mouseleave( fun_TYPED ) b
+
+    a mouseleave( function ( ev ) {  } ) b
+
+    a mouseleave( function ( ev ) {  } )
+
+
+    //  -------------mmove--------------- 
+    // mousemove`:_ev_arg_fun:^           
+
+
+
+    mousemove( function ( ev ) {  } )
+
+    mousemove( fun_TYPED ) b
+
+    a mousemove( function ( ev ) {  } ) b
+
+    a mousemove( function ( ev ) {  } )
+
+
+    //  -------------mout--------------- 
+    // mouseout`:_ev_arg_fun:^           
+
+
+
+    mouseout( function ( ev ) {  } )
+
+    mouseout( fun_TYPED ) b
+
+    a mouseout( function ( ev ) {  } ) b
+
+    a mouseout( function ( ev ) {  } )
+
+
+    //  -------------mup--------------- 
+    // mouseup`:_ev_arg_fun:^           
+
+
+
+    mouseup( function ( ev ) {  } )
+
+    mouseup( fun_TYPED ) b
+
+    a mouseup( function ( ev ) {  } ) b
+
+    a mouseup( function ( ev ) {  } )
+
+
+    //  -------------na--------------- 
+    // nextAll`:optionalExpr:^         
+
+
+
+    nextAll(  )
+
+    nextAll( expr_TYPED ) b
+
+    a nextAll(  ) b
+
+    a nextAll(  )
+
+
+    //  -------------ne--------------- 
+    // next`:optionalExpr:^            
+
+
+
+    next(  )
+
+    next( expr_TYPED ) b
+
+    a next(  ) b
+
+    a next(  )
 
 
     //  -------------new---------------          
@@ -1081,6 +2117,160 @@ a if (condition) {
     a var instant = new Constructor() b
 
     a var instant = new Constructor()
+
+
+    //  -------------not--------------- 
+    // not`:expr:^                      
+
+
+
+    not( expr )
+
+    not( expr_TYPED ) b
+
+    a not( expr ) b
+
+    a not( expr )
+
+
+    //  -------------oh---------------         
+    // outerHeight(`$SP_ARG^`margin^`$SP_ARG^) 
+
+
+
+    outerHeight( margin )
+
+    outerHeight( margin_TYPED ) b
+
+    a outerHeight( margin ) b
+
+    a outerHeight( margin )
+
+
+    //  -------------one--------------- 
+    // one`:_ev_arg:^                   
+
+
+
+    one( type, data, function ( ev ) {  } )
+
+    one( type_TYPED, data_TYPED, fun_TYPED ) b
+
+    a one( type, data, function ( ev ) {  } ) b
+
+    a one( type, data, function ( ev ) {  } )
+
+
+    //  -------------os--------------- 
+    // offset()                        
+
+
+
+    offset()
+
+    offset() b
+
+    a offset() b
+
+    a offset()
+
+
+    //  -------------osp--------------- 
+    // offsetParent()                   
+
+
+
+    offsetParent()
+
+    offsetParent() b
+
+    a offsetParent() b
+
+    a offsetParent()
+
+
+    //  -------------ow---------------        
+    // outerWidth(`$SP_ARG^`margin^`$SP_ARG^) 
+
+
+
+    outerWidth( margin )
+
+    outerWidth( margin_TYPED ) b
+
+    a outerWidth( margin ) b
+
+    a outerWidth( margin )
+
+
+    //  -------------pos--------------- 
+    // position()                       
+
+
+
+    position()
+
+    position() b
+
+    a position() b
+
+    a position()
+
+
+    //  -------------pp--------------- 
+    // prepend`:expr:^                 
+
+
+
+    prepend( expr )
+
+    prepend( expr_TYPED ) b
+
+    a prepend( expr ) b
+
+    a prepend( expr )
+
+
+    //  -------------ppt--------------- 
+    // prependTo`:expr:^                
+
+
+
+    prependTo( expr )
+
+    prependTo( expr_TYPED ) b
+
+    a prependTo( expr ) b
+
+    a prependTo( expr )
+
+
+    //  -------------pr--------------- 
+    // parent`:optionalExpr:^          
+
+
+
+    parent(  )
+
+    parent( expr_TYPED ) b
+
+    a parent(  ) b
+
+    a parent(  )
+
+
+    //  -------------pra--------------- 
+    // prevAll`:optionalExpr:^          
+
+
+
+    prevAll(  )
+
+    prevAll( expr_TYPED ) b
+
+    a prevAll(  ) b
+
+    a prevAll(  )
 
 
     //  -------------proto---------------                                
@@ -1107,6 +2297,230 @@ a if (condition) {
     }
 
 
+    //  -------------prs--------------- 
+    // parents`:optionalExpr:^          
+
+
+
+    parents(  )
+
+    parents( expr_TYPED ) b
+
+    a parents(  ) b
+
+    a parents(  )
+
+
+    //  -------------prv--------------- 
+    // prev`:optionalExpr:^             
+
+
+
+    prev(  )
+
+    prev( expr_TYPED ) b
+
+    a prev(  ) b
+
+    a prev(  )
+
+
+    //  -------------qu---------------            
+    // queue(`$SP_ARG^`name^`, `toAdd?^`$SP_ARG^) 
+
+
+
+    queue( name )
+
+    queue( name_TYPED, toAdd_TYPED ) b
+
+    a queue( name ) b
+
+    a queue( name )
+
+
+    //  -------------rd---------------                  
+    // ready(`$SP_ARG^`fun...{{^`:_fun0:^`}}^`$SP_ARG^) 
+
+
+
+    ready( function() {  } )
+
+    ready( fun_TYPED ) b
+
+    a ready( function() {  } ) b
+
+    a ready( function() {  } )
+
+
+    //  -------------rep--------------- 
+    // replaceWith`:expr:^              
+
+
+
+    replaceWith( expr )
+
+    replaceWith( expr_TYPED ) b
+
+    a replaceWith( expr ) b
+
+    a replaceWith( expr )
+
+
+    //  -------------repa--------------- 
+    // replaceAll`:expr:^                
+
+
+
+    replaceAll( expr )
+
+    replaceAll( expr_TYPED ) b
+
+    a replaceAll( expr ) b
+
+    a replaceAll( expr )
+
+
+    //  -------------res--------------- 
+    // resize`:_ev_arg_fun:^            
+
+
+
+    resize( function ( ev ) {  } )
+
+    resize( fun_TYPED ) b
+
+    a resize( function ( ev ) {  } ) b
+
+    a resize( function ( ev ) {  } )
+
+
+    //  -------------rm--------------- 
+    // remove`:optionalExpr:^          
+
+
+
+    remove(  )
+
+    remove( expr_TYPED ) b
+
+    a remove(  ) b
+
+    a remove(  )
+
+
+    //  -------------rma---------------     
+    // removeAttr(`$SP_ARG^`name^`$SP_ARG^) 
+
+
+
+    removeAttr( name )
+
+    removeAttr( name_TYPED ) b
+
+    a removeAttr( name ) b
+
+    a removeAttr( name )
+
+
+    //  -------------rmd---------------     
+    // removeData(`$SP_ARG^`name^`$SP_ARG^) 
+
+
+
+    removeData( name )
+
+    removeData( name_TYPED ) b
+
+    a removeData( name ) b
+
+    a removeData( name )
+
+
+    //  -------------scr--------------- 
+    // scroll`:_ev_arg_fun:^            
+
+
+
+    scroll( function ( ev ) {  } )
+
+    scroll( fun_TYPED ) b
+
+    a scroll( function ( ev ) {  } ) b
+
+    a scroll( function ( ev ) {  } )
+
+
+    //  -------------scrl--------------- 
+    // scrollLeft`:optionalVal:^         
+
+
+
+    scrollLeft(  )
+
+    scrollLeft( val_TYPED ) b
+
+    a scrollLeft(  ) b
+
+    a scrollLeft(  )
+
+
+    //  -------------scrt--------------- 
+    // scrollTop`:optionalVal:^          
+
+
+
+    scrollTop(  )
+
+    scrollTop( val_TYPED ) b
+
+    a scrollTop(  ) b
+
+    a scrollTop(  )
+
+
+    //  -------------sel--------------- 
+    // select`:_ev_arg_fun:^            
+
+
+
+    select( function ( ev ) {  } )
+
+    select( fun_TYPED ) b
+
+    a select( function ( ev ) {  } ) b
+
+    a select( function ( ev ) {  } )
+
+
+    //  -------------ser--------------- 
+    // serialize()                      
+
+
+
+    serialize()
+
+    serialize() b
+
+    a serialize() b
+
+    a serialize()
+
+
+    //  -------------sera--------------- 
+    // serializeArray()                  
+
+
+
+    serializeArray()
+
+    serializeArray() b
+
+    a serializeArray() b
+
+    a serializeArray()
+
+
     //  -------------setTimeout---------------          
     // setTimeout(function() { `job^ }, `milliseconds^) 
 
@@ -1119,6 +2533,118 @@ a if (condition) {
     a setTimeout(function() { /* void */; }, milliseconds) b
 
     a setTimeout(function() { /* void */; }, milliseconds)
+
+
+    //  -------------sh--------------- 
+    // show`:_ef_arg:^                 
+
+
+
+    show( speed, function() {  } )
+
+    show( speed_TYPED, fun_TYPED ) b
+
+    a show( speed, function() {  } ) b
+
+    a show( speed, function() {  } )
+
+
+    //  -------------sib--------------- 
+    // sibling`:optionalExpr:^          
+
+
+
+    sibling(  )
+
+    sibling( expr_TYPED ) b
+
+    a sibling(  ) b
+
+    a sibling(  )
+
+
+    //  -------------slc---------------          
+    // slice(`$SP_ARG^`start^`, `end?^`$SP_ARG^) 
+
+
+
+    slice( start )
+
+    slice( start_TYPED, end_TYPED ) b
+
+    a slice( start ) b
+
+    a slice( start )
+
+
+    //  -------------sld--------------- 
+    // slideDown`:_ef_arg:^             
+
+
+
+    slideDown( speed, function() {  } )
+
+    slideDown( speed_TYPED, fun_TYPED ) b
+
+    a slideDown( speed, function() {  } ) b
+
+    a slideDown( speed, function() {  } )
+
+
+    //  -------------slt--------------- 
+    // slideToggle`:_ef_arg:^           
+
+
+
+    slideToggle( speed, function() {  } )
+
+    slideToggle( speed_TYPED, fun_TYPED ) b
+
+    a slideToggle( speed, function() {  } ) b
+
+    a slideToggle( speed, function() {  } )
+
+
+    //  -------------slu--------------- 
+    // slideUp`:_ef_arg:^               
+
+
+
+    slideUp( speed, function() {  } )
+
+    slideUp( speed_TYPED, fun_TYPED ) b
+
+    a slideUp( speed, function() {  } ) b
+
+    a slideUp( speed, function() {  } )
+
+
+    //  -------------stop--------------- 
+    // stop()                            
+
+
+
+    stop()
+
+    stop() b
+
+    a stop() b
+
+    a stop()
+
+
+    //  -------------sub--------------- 
+    // submit`:_ev_arg_fun:^            
+
+
+
+    submit( function ( ev ) {  } )
+
+    submit( fun_TYPED ) b
+
+    a submit( function ( ev ) {  } ) b
+
+    a submit( function ( ev ) {  } )
 
 
     //  -------------switch--------------- 
@@ -1206,6 +2732,90 @@ a if (condition) {
         default:
             
     }
+
+
+    //  -------------sz--------------- 
+    // size()                          
+
+
+
+    size()
+
+    size() b
+
+    a size() b
+
+    a size()
+
+
+    //  -------------tc---------------                    
+    // toggleClass(`$SP_ARG^`class^`, `switch?^`$SP_ARG^) 
+
+
+
+    toggleClass( class )
+
+    toggleClass( class_TYPED, switch_TYPED ) b
+
+    a toggleClass( class ) b
+
+    a toggleClass( class )
+
+
+    //  -------------text--------------- 
+    // text`:optionalVal:^               
+
+
+
+    text(  )
+
+    text( val_TYPED ) b
+
+    a text(  ) b
+
+    a text(  )
+
+
+    //  -------------tg---------------                                                       
+    // toggle(`$SP_ARG^`fn1...{{^, `:_ev_fun_a:^`}}^`, `fn2...{{^, `:_ev_fun:^`}}^`$SP_ARG^) 
+
+
+
+    toggle( , function ( ev ) { /* void */ }, function ( ev ) {  } )
+
+    toggle( fn1_TYPED, fn2_TYPED ) b
+
+    a toggle( , function ( ev ) { /* void */ }, function ( ev ) {  } ) b
+
+    a toggle( , function ( ev ) { /* void */ }, function ( ev ) {  } )
+
+
+    //  -------------tr--------------- 
+    // trigger`:_ev_tr_arg:^           
+
+
+
+    trigger( ev, data )
+
+    trigger( ev_TYPED, data_TYPED ) b
+
+    a trigger( ev, data ) b
+
+    a trigger( ev, data )
+
+
+    //  -------------trh--------------- 
+    // triggerHandler`:_ev_tr_arg:^     
+
+
+
+    triggerHandler( ev, data )
+
+    triggerHandler( ev_TYPED, data_TYPED ) b
+
+    a triggerHandler( ev, data ) b
+
+    a triggerHandler( ev, data )
 
 
     //  -------------try--------------- 
@@ -1376,6 +2986,104 @@ catch (err) {
 finally {
     
 }
+
+
+    //  -------------ub---------------                                 
+    // unbind(`$SP_ARG^`type^`type^CmplQuoter_pre()^`, `fun^`$SP_ARG^) 
+
+
+
+    unbind( type, fun )
+
+    unbind( type_TYPED, fun_TYPED ) b
+
+    a unbind( type, fun ) b
+
+    a unbind( type, fun )
+
+
+    //  -------------unl--------------- 
+    // unload`:_ev_arg_fun:^            
+
+
+
+    unload( function ( ev ) {  } )
+
+    unload( fun_TYPED ) b
+
+    a unload( function ( ev ) {  } ) b
+
+    a unload( function ( ev ) {  } )
+
+
+    //  -------------val--------------- 
+    // val`:optionalVal:^               
+
+
+
+    val(  )
+
+    val( val_TYPED ) b
+
+    a val(  ) b
+
+    a val(  )
+
+
+    //  -------------wr--------------- 
+    // wrap`:expr:^                    
+
+
+
+    wrap( expr )
+
+    wrap( expr_TYPED ) b
+
+    a wrap( expr ) b
+
+    a wrap( expr )
+
+
+    //  -------------wra--------------- 
+    // wrapAll`:expr:^                  
+
+
+
+    wrapAll( expr )
+
+    wrapAll( expr_TYPED ) b
+
+    a wrapAll( expr ) b
+
+    a wrapAll( expr )
+
+
+    //  -------------wri--------------- 
+    // wrapInner`:expr:^                
+
+
+
+    wrapInner( expr )
+
+    wrapInner( expr_TYPED ) b
+
+    a wrapInner( expr ) b
+
+    a wrapInner( expr )
+
+
+    //  -------------wth--------------- 
+    // width`:optionalVal:^             
+
+
+
+    width(  )
+
+    width( val_TYPED ) b
+
+    a width(  ) b
+
+    a width(  )
 
 
     //  -------------{_--------------- 

@@ -275,7 +275,12 @@
 		| #ifndef       #ifndef ..        |
 <	Syntax : >
 		XPT for hint=for\ (..;..;++)
-<	
+<	" " need to be escaped.
+	"(" need to be escaped if you do NOT want it to be evaluated as a
+	function call.
+	"$" need to be escaped if you do NOT wnat it to be evaluated as
+	variable.
+
 							  *xpt-snippet-hidden*
 	Set to 1 to prevent the snippet from being triggered by the user, but
 	it CAN be triggered from internal API. Syntax : >

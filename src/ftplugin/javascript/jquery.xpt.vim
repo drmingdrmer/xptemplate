@@ -516,7 +516,7 @@ change`:_ev_arg_fun:^
 " ===================
 
 XPT _ef_arg hidden=1
-(`$SP_ARG^`speed^`speed^CmplQuoter_pre()^`, `fun...{{^`:_fun0:^`}}^`$SP_ARG^)
+(`$SP_ARG^`speed^`speed^CmplQuoter_pre()^`, `fun...{{^, `:_fun0:^`}}^`$SP_ARG^)
 
 XPT sh hint=show\(speed,\ callback)
 show`:_ef_arg:^
@@ -542,7 +542,7 @@ XPT fo hint=fadeOut\(speed,\ callback)
 fadeOut`:_ef_arg:^
 
 XPT ft hint=fadeTo\(speed,\ callback)
-fadeTo(`$SP_ARG^`speed^`speed^CmplQuoter_pre()^`, `opacity^`opacity^CmplQuoter_pre()^`, `fun...{{^`:_fun0:^`}}^`$SP_ARG^)
+fadeTo(`$SP_ARG^`speed^`speed^CmplQuoter_pre()^`, `opacity^`opacity^CmplQuoter_pre()^`, `fun...{{^, `:_fun0:^`}}^`$SP_ARG^)
 
 XPT ani hint=animate\(params,\ ...)
 animate(`$SP_ARG^`params^`, `param^`$SP_ARG^)
