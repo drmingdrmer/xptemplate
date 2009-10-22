@@ -18,7 +18,6 @@ XPTvar $CURSOR_PH      /* cursor */
 XPTvar $CL  /*
 XPTvar $CM   *
 XPTvar $CR   */
-
 XPTinclude 
       \ _common/common
 
@@ -63,9 +62,9 @@ XSET param|post=Echo( V() == $CL . " no parameters " . $CR ? '' : V() )
 
 
 
-
 " ================================= Wrapper ===================================
-XPT fun 	hint=func..\ (\ SEL\ )\ {...
+
+XPT fun_ 	hint=func..\ (\ SEL\ )\ {...
 XSET param|def=$CL no parameters $CR
 XSET param|post=Echo( V() == $CL . " no parameters " . $CR ? '' : V() )
 `c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`param^)`$FUNC_BRACKET_STL^{

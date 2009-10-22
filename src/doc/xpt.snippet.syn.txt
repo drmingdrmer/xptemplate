@@ -275,7 +275,12 @@
 		| #ifndef       #ifndef ..        |
 <	Syntax : >
 		XPT for hint=for\ (..;..;++)
-<	" " need to be escaped.
+<	Or : >
+		XPT for " for (..;..;++)
+<	With the 'hint=' way:
+	" " need to be escaped.
+
+	With both these 2 ways :
 	"(" need to be escaped if you do NOT want it to be evaluated as a
 	function call.
 	"$" need to be escaped if you do NOT wnat it to be evaluated as

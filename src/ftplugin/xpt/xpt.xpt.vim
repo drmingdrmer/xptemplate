@@ -2,9 +2,6 @@ XPTemplate priority=sub
 
 let s:f = g:XPTfuncs() 
  
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-
 XPTinclude 
       \ _common/common
       \ vim/vim
@@ -13,7 +10,8 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 fun! s:f.hintEscape()
-  let v = substitute( self.V(), '\(\\*\)\([( ]\)', '\1\1\\\2', 'g' )
+  " let v = substitute( self.V(), '\(\\*\)\([( ]\)', '\1\1\\\2', 'g' )
+  let v = substitute( self.V(), '\(\\*\)\([(]\)', '\1\1\\\2', 'g' )
   return v
 endfunction
 
@@ -68,7 +66,7 @@ let s:f = g:XPTfuncs()
 
 XPT tmpl hint=XPT\ name\ ...
 XSET tips|post=hintEscape()
-\XPT `name^ hint=`tips^
+\XPT `name^ " `tips^
 `cursor^
 
 
@@ -82,23 +80,35 @@ XPTvar $`name^ `cursor^
 
 
 XPT varLang hint=variables\ to\ define\ language\ properties
+" variable prefix
 XPTvar $VAR_PRE            
 
 
 XPT varFormat hint=variables\ to\ define\ format
+" if () ** {
 XPTvar $IF_BRACKET_STL     ' '
+" } ** else {
 XPTvar $ELSE_BRACKET_STL   \n
+" for () ** {
 XPTvar $FOR_BRACKET_STL    ' '
+" while () ** {
 XPTvar $WHILE_BRACKET_STL  ' '
+" struct name ** {
 XPTvar $STRUCT_BRACKET_STL ' '
+" int fun() ** {
 XPTvar $FUNC_BRACKET_STL   ' '
 
 
 XPT varSpaces hint=variable\ to\ define\ spacing
+" int fun( ** arg ** )
 XPTvar $SP_ARG      ' '
+" if ( ** condition ** )
 XPTvar $SP_IF       ' '
+" a ** = ** b
 XPTvar $SP_EQ       ' '
+" a = a ** + ** 1
 XPTvar $SP_OP       ' '
+" (a, ** b, ** )
 XPTvar $SP_COMMA    ' '
 
 
@@ -123,7 +133,7 @@ XPTvar $CL    `left sign^
 XPTvar $CM    `cursor^
 XPTvar $CR    `right sign^
 
-XPT sparg hint=`\$SP_ARG^
+XPT sparg " `\$SP_ARG^
 \`$SP_ARG\^
 
 XPT spif hint=`\$SP_ARG^

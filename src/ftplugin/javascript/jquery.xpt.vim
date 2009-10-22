@@ -81,37 +81,37 @@ XPT _funExp hidden=1
 " jQuery Core
 " ============
 
-XPT $ hint=$\()
+XPT $ " $\()
 $(`$SP_ARG^`e^`e^CmplQuoter_pre()^`, `context?^`$SP_ARG^)
 
-XPT jq hint=jQuery\()
+XPT jq " jQuery\()
 jQuery(`$SP_ARG^`e^`e^CmplQuoter_pre()^`, `context?^`$SP_ARG^)
 
-XPT each hint=each\(...
+XPT each " each\(...
 each`:maybeFunction:^
 
-XPT sz hint=size\()
+XPT sz " size\()
 size()
 
-XPT eq hint=eq\(...)
+XPT eq " eq\(...)
 eq(`$SP_ARG^`^`$SP_ARG^)
 
-XPT get hint=get\(...)
+XPT get " get\(...)
 get(`$SP_ARG^`^`$SP_ARG^)
 
-XPT ind hint=index\(...)
+XPT ind " index\(...)
 index(`$SP_ARG^`^`$SP_ARG^)
 
-XPT da hint=data\(..,\ ..)
+XPT da " data\(..,\ ..)
 data(`$SP_ARG^`name^`, `value?^`$SP_ARG^)
 
-XPT rmd hint=removeData\(..)
+XPT rmd " removeData\(..)
 removeData(`$SP_ARG^`name^`$SP_ARG^)
 
-XPT qu hint=queue\(..,\ ..)
+XPT qu " queue\(..,\ ..)
 queue(`$SP_ARG^`name^`, `toAdd?^`$SP_ARG^)
 
-XPT dq hint=dequeue\(...)
+XPT dq " dequeue\(...)
 dequeue(`$SP_ARG^`name^`$SP_ARG^)
 ..XPT
 
@@ -122,28 +122,28 @@ dequeue(`$SP_ARG^`name^`$SP_ARG^)
 " jQuery Attributes
 " ==================
 
-XPT attr hint=attr\(..
+XPT attr " attr\(..
 attr(`$SP_ARG^`name^`$SP_ARG^)
 
-XPT rma hint=removeAttr\(..
+XPT rma " removeAttr\(..
 removeAttr(`$SP_ARG^`name^`$SP_ARG^)
 
-XPT ac hint=addClass\(..
+XPT ac " addClass\(..
 addClass(`$SP_ARG^`class^`$SP_ARG^)
 
-XPT hc hint=hasClass\(..
+XPT hc " hasClass\(..
 hasClass(`$SP_ARG^`class^`$SP_ARG^)
 
-XPT tc hint=toggleClass\(..
+XPT tc " toggleClass\(..
 toggleClass(`$SP_ARG^`class^`, `switch?^`$SP_ARG^)
 
-XPT html hint=html\(..
+XPT html " html\(..
 html`:optionalVal:^
 
-XPT text hint=text\(..
+XPT text " text\(..
 text`:optionalVal:^
 
-XPT val hint=val\(..
+XPT val " val\(..
 val`:optionalVal:^
 ..XPT
 
@@ -154,40 +154,40 @@ val`:optionalVal:^
 " CSS
 " ===================
 
-XPT css hint=css\(..
+XPT css " css\(..
 css`:optionalVal:^
 
-XPT os hint=offset\()
+XPT os " offset\()
 offset()
 
-XPT osp hint=offsetParent\()
+XPT osp " offsetParent\()
 offsetParent()
 
-XPT pos hint=position\()
+XPT pos " position\()
 position()
 
-XPT scrt hint=scrollTop\()
+XPT scrt " scrollTop\()
 scrollTop`:optionalVal:^
 
-XPT scrl hint=scrollLeft\()
+XPT scrl " scrollLeft\()
 scrollLeft`:optionalVal:^
 
-XPT ht hint=height\(..)
+XPT ht " height\(..)
 height`:optionalVal:^
 
-XPT wth hint=width\(..)
+XPT wth " width\(..)
 width`:optionalVal:^
 
-XPT ih hint=innerHeight\()
+XPT ih " innerHeight\()
 innerHeight()
 
-XPT iw hint=innerWidth\()
+XPT iw " innerWidth\()
 innerWidth()
 
-XPT oh hint=outerHeight\(..)
+XPT oh " outerHeight\(..)
 outerHeight(`$SP_ARG^`margin^`$SP_ARG^)
 
-XPT ow hint=outerWidth\(..)
+XPT ow " outerWidth\(..)
 outerWidth(`$SP_ARG^`margin^`$SP_ARG^)
 ..XPT
 
@@ -198,64 +198,62 @@ outerWidth(`$SP_ARG^`margin^`$SP_ARG^)
 " ===================
 " Traversing
 " ===================
-XPT eq hint=eq\(..
-eq(`$SP_ARG^`index^`$SP_ARG^)
 
-XPT flt hint=filter\(..
+XPT flt " filter\(..
 filter`:maybeFunction:^
 
-XPT is hint=is\(..
+XPT is " is\(..
 is`:expr:^
 
-XPT map hint=map\(..
+XPT map " map\(..
 map`:maybeFunction:^
 
-XPT not hint=not\(..)
+XPT not " not\(..)
 not`:expr:^
 
-XPT slc hint=slice\(start,\ end)
+XPT slc " slice\(start,\ end)
 slice(`$SP_ARG^`start^`, `end?^`$SP_ARG^)
 
-XPT add hint=add\(..)
+XPT add " add\(..)
 add`:expr:^
 
-XPT chd hint=children\(..)
+XPT chd " children\(..)
 children`:optionalExpr:^
 
-XPT cls hint=closest\(..)
+XPT cls " closest\(..)
 closest`:expr:^
 
-XPT con hint=content\()
+XPT con " content\()
 content()
 
-XPT fd hint=find\(..)
+XPT fd " find\(..)
 find`:expr:^
 
-XPT ne hint=next\(..)
+XPT ne " next\(..)
 next`:optionalExpr:^
 
-XPT na hint=nextAll\(..)
+XPT na " nextAll\(..)
 nextAll`:optionalExpr:^
 
-XPT pr hint=parent\(..)
+XPT pr " parent\(..)
 parent`:optionalExpr:^
 
-XPT prs hint=parents\(..)
+XPT prs " parents\(..)
 parents`:optionalExpr:^
 
-XPT prv hint=prev\(..)
+XPT prv " prev\(..)
 prev`:optionalExpr:^
 
-XPT pra hint=prevAll\(..)
+XPT pra " prevAll\(..)
 prevAll`:optionalExpr:^
 
-XPT sib hint=sibling\(..)
+XPT sib " sibling\(..)
 sibling`:optionalExpr:^
 
-XPT as hint=andSelf\()
+XPT as " andSelf\()
 andSelf()
 
-XPT end hint=end\()
+XPT end " end\()
 end()
 ..XPT
 
@@ -264,52 +262,52 @@ end()
 " ===================
 " Manipulation
 " ===================
-XPT ap hint=append\(..)
+XPT ap " append\(..)
 append`:expr:^
 
-XPT apt hint=appendTo\(..)
+XPT apt " appendTo\(..)
 appendTo`:expr:^
 
-XPT pp hint=prepend\(..)
+XPT pp " prepend\(..)
 prepend`:expr:^
 
-XPT ppt hint=prependTo\(..)
+XPT ppt " prependTo\(..)
 prependTo`:expr:^
 
-XPT af hint=after\(..)
+XPT af " after\(..)
 after`:expr:^
 
-XPT bf hint=before\(..)
+XPT bf " before\(..)
 before`:expr:^
 
-XPT insa hint=insertAfter\(..)
+XPT insa " insertAfter\(..)
 insertAfter`:expr:^
 
-XPT insb hint=insertBefore\(..)
+XPT insb " insertBefore\(..)
 insertBefore`:expr:^
 
-XPT wr hint=wrap\(..)
+XPT wr " wrap\(..)
 wrap`:expr:^
 
-XPT wra hint=wrapAll\(..)
+XPT wra " wrapAll\(..)
 wrapAll`:expr:^
 
-XPT wri hint=wrapInner\(..)
+XPT wri " wrapInner\(..)
 wrapInner`:expr:^
 
-XPT rep hint=replaceWith\(..)
+XPT rep " replaceWith\(..)
 replaceWith`:expr:^
 
-XPT repa hint=replaceAll\(..)
+XPT repa " replaceAll\(..)
 replaceAll`:expr:^
 
-XPT emp hint=empty\()
+XPT emp " empty\()
 empty()
 
-XPT rm hint=remove\(..)
+XPT rm " remove\(..)
 remove`:optionalExpr:^
 
-XPT cl hint=clone\(..)
+XPT cl " clone\(..)
 cloen`:optionalExpr:^
 ..XPT
 
@@ -332,53 +330,53 @@ function() { `cursor^ }
 
 
 
-XPT aj hint=$JQ.ajax\(..)
+XPT aj " $JQ.ajax\(..)
 `$JQ^.ajax(`$SP_ARG^`opt^`$SP_ARG^)
 
-XPT load hint=load\(url,\ ...)
+XPT load " load\(url,\ ...)
 load(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `function...{{^, `:_ld_callback:^`}}^`$SP_ARG^)
 
-XPT ag hint=$JQ.get\(url,\ ...)
+XPT ag " $JQ.get\(url,\ ...)
 `$JQ^.get(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SP_ARG^)
 
-XPT agj hint=$JQ.getJSON\(url,\ ...)
+XPT agj " $JQ.getJSON\(url,\ ...)
 `$JQ^.getJSON(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`, `callback^`$SP_ARG^)
 
-XPT ags hint=$JQ.getScript\(url,\ ...)
+XPT ags " $JQ.getScript\(url,\ ...)
 `$JQ^.getScript(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `callback^`$SP_ARG^)
 
-XPT apost hint=$JQ.post\(url,\ ...)
+XPT apost " $JQ.post\(url,\ ...)
 `$JQ^.post(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SP_ARG^)
 
 
 
-XPT ajaxComplete hint=ajaxComplete\(callback)
+XPT ajaxComplete " ajaxComplete\(callback)
 ajaxComplete(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^)
 
-XPT ajaxError hint=ajaxError\(callback)
+XPT ajaxError " ajaxError\(callback)
 ajaxError(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`, `err^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^)
 
-XPT ajaxSend hint=ajaxSend\(callback)
+XPT ajaxSend " ajaxSend\(callback)
 ajaxSend(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^)
 
-XPT ajaxStart hint=ajaxStart\(callback)
+XPT ajaxStart " ajaxStart\(callback)
 ajaxStart(`$SP_ARG^`fun...{{^`:_fun0:^`}}^`$SP_ARG^)
 
-XPT ajaxStop hint=ajaxStop\(callback)
+XPT ajaxStop " ajaxStop\(callback)
 ajaxStop(`$SP_ARG^`fun...{{^`:_fun0:^`}}^`$SP_ARG^)
 
-XPT ajaxSuccess hint=ajaxSuccess\(callback)
+XPT ajaxSuccess " ajaxSuccess\(callback)
 ajaxSuccess(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^)
 
 
 
-XPT asetup hint=$JQ.ajaxSetup\(opt)
+XPT asetup " $JQ.ajaxSetup\(opt)
 `$JQ^.ajaxSetup(`$SP_ARG^`opt^`$SP_ARG^)
 
-XPT ser hint=serialize\()
+XPT ser " serialize\()
 serialize()
 
-XPT sera hint=serializeArray\()
+XPT sera " serializeArray\()
 serializeArray()
 ..XPT
 
@@ -404,108 +402,108 @@ XPT _ev_arg_fun hidden=1
 
 
 
-XPT rd hint=ready\(fun)
+XPT rd " ready\(fun)
 ready(`$SP_ARG^`fun...{{^`:_fun0:^`}}^`$SP_ARG^)
 
-XPT bd hint=bind\(type,\ data,\ fun)
+XPT bd " bind\(type,\ data,\ fun)
 bind`:_ev_arg:^
 
-XPT one hint=one\(type,\ data,\ fun)
+XPT one " one\(type,\ data,\ fun)
 one`:_ev_arg:^
 
-XPT tr hint=trigger\(ev,\ data)
+XPT tr " trigger\(ev,\ data)
 trigger`:_ev_tr_arg:^
 
-XPT trh hint=triggerHandler\(ev,\ data)
+XPT trh " triggerHandler\(ev,\ data)
 triggerHandler`:_ev_tr_arg:^
 
-XPT ub hint=unbind\(type,\ fun)
+XPT ub " unbind\(type,\ fun)
 unbind(`$SP_ARG^`type^`type^CmplQuoter_pre()^`, `fun^`$SP_ARG^)
 
-XPT lv hint=live\(type,\ fun)
+XPT lv " live\(type,\ fun)
 live`:_ev_arg:^
 
-XPT die hint=die\(type,\ fun)
+XPT die " die\(type,\ fun)
 die(`$SP_ARG^`type^`type^CmplQuoter_pre()^`, `fun^`$SP_ARG^)
 
-XPT ho hint=hover\(over,\ out)
+XPT ho " hover\(over,\ out)
 hover(`$SP_ARG^`over...{{^, `:_ev_fun_a:^`}}^`, `out..{{^, `:_ev_fun:^`}}^`$SP_ARG^)
 
-XPT tg hint=toggle\(fn1,\ fn2,\ ...)
+XPT tg " toggle\(fn1,\ fn2,\ ...)
 toggle(`$SP_ARG^`fn1...{{^, `:_ev_fun_a:^`}}^`, `fn2...{{^, `:_ev_fun:^`}}^`$SP_ARG^)
 
 
 
-XPT bl hint=blur\(fun)
+XPT bl " blur\(fun)
 blur`:_ev_arg_fun:^
 
-XPT res hint=resize\(fun)
+XPT res " resize\(fun)
 resize`:_ev_arg_fun:^
 
-XPT scr hint=scroll\(fun)
+XPT scr " scroll\(fun)
 scroll`:_ev_arg_fun:^
 
-XPT sel hint=select\(fun)
+XPT sel " select\(fun)
 select`:_ev_arg_fun:^
 
-XPT sub hint=submit\(fun)
+XPT sub " submit\(fun)
 submit`:_ev_arg_fun:^
 
-XPT unl hint=unload\(fun)
+XPT unl " unload\(fun)
 unload`:_ev_arg_fun:^
 
 
 
-XPT kdown hint=keydown\(fun)
+XPT kdown " keydown\(fun)
 keydown`:_ev_arg_fun:^
 
-XPT kup hint=keyup\(fun)
+XPT kup " keyup\(fun)
 keyup`:_ev_arg_fun:^
 
-XPT kpress hint=keypress\(fun)
+XPT kpress " keypress\(fun)
 keypress`:_ev_arg_fun:^
 
-XPT clk hint=click\(fun)
+XPT clk " click\(fun)
 click`:_ev_arg_fun:^
 
-XPT dclk hint=dbclick\(fun)
+XPT dclk " dbclick\(fun)
 dbclick`:_ev_arg_fun:^
 
 
 
-XPT foc hint=focus\(fun)
+XPT foc " focus\(fun)
 focus`:_ev_arg_fun:^
 
-XPT err hint=error\(fun)
+XPT err " error\(fun)
 error`:_ev_arg_fun:^
 
 
 
-XPT mup hint=mouseup\(fun)
+XPT mup " mouseup\(fun)
 mouseup`:_ev_arg_fun:^
 
-XPT mdown hint=mousedown\(fun)
+XPT mdown " mousedown\(fun)
 mousedown`:_ev_arg_fun:^
 
-XPT mmove hint=mousemove\(fun)
+XPT mmove " mousemove\(fun)
 mousemove`:_ev_arg_fun:^
 
-XPT menter hint=mouseenter\(fun)
+XPT menter " mouseenter\(fun)
 mouseenter`:_ev_arg_fun:^
 
-XPT mleave hint=mouseleave\(fun)
+XPT mleave " mouseleave\(fun)
 mouseleave`:_ev_arg_fun:^
 
-XPT mout hint=mouseout\(fun)
+XPT mout " mouseout\(fun)
 mouseout`:_ev_arg_fun:^
 
 
 
 
-XPT ld hint=load\(fun)
+XPT ld " load\(fun)
 load`:_ev_arg_fun:^
 
-XPT ch hint=change\(fun)
+XPT ch " change\(fun)
 change`:_ev_arg_fun:^
 ..XPT
 
@@ -518,36 +516,36 @@ change`:_ev_arg_fun:^
 XPT _ef_arg hidden=1
 (`$SP_ARG^`speed^`speed^CmplQuoter_pre()^`, `fun...{{^, `:_fun0:^`}}^`$SP_ARG^)
 
-XPT sh hint=show\(speed,\ callback)
+XPT sh " show\(speed,\ callback)
 show`:_ef_arg:^
 
-XPT hd hint=hide\(speed,\ callback)
+XPT hd " hide\(speed,\ callback)
 hide`:_ef_arg:^
 
-XPT sld hint=slideDown\(speed,\ callback)
+XPT sld " slideDown\(speed,\ callback)
 slideDown`:_ef_arg:^
 
-XPT slu hint=slideUp\(speed,\ callback)
+XPT slu " slideUp\(speed,\ callback)
 slideUp`:_ef_arg:^
 
-XPT slt hint=slideToggle\(speed,\ callback)
+XPT slt " slideToggle\(speed,\ callback)
 slideToggle`:_ef_arg:^
 
 
 
-XPT fi hint=fadeIn\(speed,\ callback)
+XPT fi " fadeIn\(speed,\ callback)
 fadeIn`:_ef_arg:^
 
-XPT fo hint=fadeOut\(speed,\ callback)
+XPT fo " fadeOut\(speed,\ callback)
 fadeOut`:_ef_arg:^
 
-XPT ft hint=fadeTo\(speed,\ callback)
+XPT ft " fadeTo\(speed,\ callback)
 fadeTo(`$SP_ARG^`speed^`speed^CmplQuoter_pre()^`, `opacity^`opacity^CmplQuoter_pre()^`, `fun...{{^, `:_fun0:^`}}^`$SP_ARG^)
 
-XPT ani hint=animate\(params,\ ...)
+XPT ani " animate\(params,\ ...)
 animate(`$SP_ARG^`params^`, `param^`$SP_ARG^)
 
-XPT stop hint=stop\()
+XPT stop " stop\()
 stop()
 ..XPT
 

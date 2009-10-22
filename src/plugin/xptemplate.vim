@@ -25,7 +25,6 @@
 " TODOLIST: "{{{
 " TODO hint of whether xpt is running. sign, statusline, highlight
 " TODO check duplication in single snippet file
-" TODO simplify hint
 " TODO 2 <tab> to accept empty
 " TODO /../../ ontime filter shortcut
 " TODO ( ) shortcut of Echo
@@ -64,13 +63,15 @@
 "
 " 
 " Log of This version:
-"   fix : set typed value as named step element before post filter evaluated
+"   fix : set text typed before post filter evaluated
 "   fix : html:html snippet set default encoding as utf-8 if no fileencoding set
 "   fix : s:f.ItemEdge bug
 "   fix : unsupported filetype raising error
-"   added : add php tag and html to php filetype
-"   improved : alias syntax support
-"
+"   add : add php tag and html to php filetype
+"   improve : alias syntax support
+"   fix : bug of xpmark
+"   add : " hint 
+"   improve : snippet syntax : snippet folding ends correctly
 "
 "
 "

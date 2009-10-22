@@ -79,16 +79,24 @@ syntax region   XPTregion start=/^/ end=/\%$/ contained contains=XPTsnippetTitle
 
 
 " TODO escaping
-syntax match XPTvariable /\$\w\+/ containedin=XPTmeta_value,XPTxset_value
-syntax match XPTvariable_quote /{\$\w\+}/ containedin=XPTmeta_value,XPTxset_value
+syntax match XPTvariable /\$\w\+/ containedin=XPTmeta_value,XPTmeta_simpleHint,XPTxset_value
+syntax match XPTvariable_quote /{\$\w\+}/ containedin=XPTmeta_value,XPTmeta_simpleHint,XPTxset_value
 
 " TODO escaping, quoted
-syntax region XPTfunction start=/\w\+(/ end=/)/ containedin=XPTmeta_value,XPTxset_value
+syntax region XPTfunction start=/\w\+(/ end=/)/ containedin=XPTmeta_value,XPTmeta_simpleHint,XPTxset_value
 
+" TODO mark may be need escaping in regexp
+let s:m = s:GetMark()
+
+exe 'syntax match XPTitemPost /\V\%(\[^' . s:m[2] . ']\|\(\\\*\)\1\\\[' . s:m[2] . ']\)\*\[^\\' . s:m[2] . ']' . s:m[1] . '\{1,2}/ contains=XPTmark contained containedin=XPTsnippetBody'
+exe 'syntax match XPTitem /\V' . s:m[0] . '\%(\_[^' . s:m[1] . ']\)\{-}' . s:m[1] . '/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost'
+exe 'syntax match XPTinclusion /\VInclude:\zs\.\{-}\ze' . s:m[1] . '/ contained containedin=XPTitem'
+exe 'syntax match XPTinclusion /\V:\zs\.\{-}\ze:' . s:m[1] . '/ contained containedin=XPTitem'
+exe 'syntax match XPTmark /\V' . s:m[1] .  '/ contains=XPTmark containedin=XPTitem'
 
 " the end pattern is weird.
 " \%(^$)^XPT\s does not work.
-syntax region XPTsnippetBody  start=/^/ end=/\ze\%(^$\n\)*\%$\|\ze\%(^$\n\)*XPT\s\|^\ze\.\.XPT/ contained containedin=XPTsnippetTitle contains=XPTxset excludenl fold
+syntax region XPTsnippetBody  start=/^/ end=/\ze\%(^$\n\)*\%$\|\ze\%(^$\n\)*XPT\s\|^\ze\.\.XPT\|^\ze\(".*\n\|\s*\n\)*XPT\s/ contained containedin=XPTsnippetTitle contains=XPTxset excludenl fold
 " syntax region XPTsnippetBody  start=/^/ end=/\%$/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
 " syntax region XPTsnippetBody  start=/^/ end=/$\n^\zeXPT\s/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
 " syntax region XPTsnippetBody  start=/^/ end=/\ze\.\.XPT/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
@@ -105,12 +113,14 @@ syntax match XPTxset_name1 /\%(\w\|\.\)*\ze|/ containedin=XPTxset nextgroup=XPTx
 
 syntax match    XPTsnippetTitle /^XPT\s\+.*$/ containedin=XPTregion nextgroup=XPTsnippetBody skipnl skipempty
 syntax keyword  XPTkeyword_XPT XPT containedin=XPTsnippetTitle nextgroup=XPTsnippetName skipwhite
-syntax match    XPTsnippetName /\S\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta,XPTmetaAlias skipwhite
+syntax match    XPTsnippetName /\S\+/ contained containedin=XPTsnippetTitle nextgroup=XPTmeta,XPTmetaAlias skipwhite
 
 " syntax match    XPTsnippetBeforeTitle /^$/ containedin=XPTregion nextgroup=XPTsnippetTitle skipnl skipempty
 
 " escaped white space or non-space
-syntax match XPTmeta /\(\\\s\|\S\)\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta,XPTmetaAlias skipwhite
+syntax match XPTmeta /\w\(\\\s\|\S\)\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta,XPTmetaAlias,XPTmeta_simpleHint skipwhite
+syntax match XPTmeta_simpleHint /\V\(\\\*\)\1"\.\*/ contained containedin=XPTsnippetTitle
+"syntax match XPTmeta_simpleHint /\V"\.\*/ contained containedin=XPTsnippetTitle
 syntax match XPTmetaAlias /alias=\S\+/ nextgroup=XPTmeta skipwhite
 syntax match XPTmetaAlias_name /\S\+\ze=/ contained containedin=XPTmetaAlias
 syntax match XPTmetaAlias_value /=\zs\S\+/ contained containedin=XPTmetaAlias
@@ -118,23 +128,15 @@ syntax match XPTmeta_name /\w\+\ze=/ containedin=XPTmeta nextgroup=XPTmeta_value
 syntax keyword XPTmeta_name_key hint alias synonym hidden contained containedin=XPTmeta_name
 syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
 " syntax match XPTcomment /^"\%(\s\|"\)*[^"]*$/ containedin=XPTregion
-syntax match XPTcomment /^".*$/ containedin=XPTregion
+" syntax match XPTcomment /^".*$/ containedin=XPTregion
+" hack
+syntax match vimLineComment /^".*$/ containedin=XPTregion contains=@vimCommentGroup,vimCommentString,vimCommentTitle
 
 syntax match XPTbadIndent /^\(    \)*\zs \{1,3}\ze\%(\S\|$\)/ contained containedin=XPTsnippetBody
 syntax match XPTbadIndent /^\s*\zs\t/ contained containedin=XPTsnippetBody
 
 
-" TODO mark may be need escaping in regexp
-let s:m = s:GetMark()
 
-exe 'syntax match XPTitemPost /\V\%(\[^' . s:m[2] . ']\|\(\\\*\)\1\\\[' . s:m[2] . ']\)\*\[^\\' . s:m[2] . ']' . s:m[1] . '\{1,2}/ contains=XPTmark contained containedin=XPTsnippetBody'
-exe 'syntax match XPTitem /\V' . s:m[0] . '\%(\_[^' . s:m[1] . ']\)\{-}' . s:m[1] . '/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost'
-exe 'syntax match XPTinclusion /\VInclude:\zs\.\{-}\ze' . s:m[1] . '/ contained containedin=XPTitem'
-exe 'syntax match XPTinclusion /\V:\zs\.\{-}\ze:' . s:m[1] . '/ contained containedin=XPTitem'
-exe 'syntax match XPTmark /\V' . s:m[1] .  '/ contains=XPTmark containedin=XPTitem'
-
-      " \%(\%([^`^]\|\(\\*\)\1\\\^\)*\^\)\?
-" syntax match XPTmark /`\|\^/ contained
 
 
 syntax keyword TemplateKey XSETm indent hint syn priority containedin=XPTsnippetTitle
@@ -170,6 +172,7 @@ hi link XPTmeta_name_key      Identifier
 hi link XPTmeta_value         String
 hi link XPTmetaAlias_name     XPTmeta_name_key
 hi link XPTmetaAlias_value    XPTsnippetName
+hi link XPTmeta_simpleHint    String
 hi link XPTsnippetBody        Normal
 hi link XPTcomment            Comment
 hi link XPT_END               Folded
