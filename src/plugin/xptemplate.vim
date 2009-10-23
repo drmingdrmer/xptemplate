@@ -67,10 +67,11 @@
 "   fix : html:html snippet set default encoding as utf-8 if no fileencoding set
 "   fix : s:f.ItemEdge bug
 "   fix : unsupported filetype raising error
+"   fix : bug of xpmark
+"   fix : buffer-scope mapping backup and restore.
+"   add : " hint 
 "   add : add php tag and html to php filetype
 "   improve : alias syntax support
-"   fix : bug of xpmark
-"   add : " hint 
 "   improve : snippet syntax : snippet folding ends correctly
 "
 "
@@ -3143,8 +3144,8 @@ fun! s:XPTinit() "{{{
                 \ 'i_<DEL>', 
                 \]
 
-    let s:mapSaver = g:MapSaver.New(1)
-    call s:mapSaver.AddList(
+    let b:mapSaver = g:MapSaver.New(1)
+    call b:mapSaver.AddList(
                 \ 'i_' . g:xptemplate_nav_next, 
                 \ 's_' . g:xptemplate_nav_next, 
                 \
@@ -3159,12 +3160,12 @@ fun! s:XPTinit() "{{{
                 \ 's_<BS>', 
                 \)
 
-    let s:mapLiteral = g:MapSaver.New( 1 )
-    call s:mapLiteral.AddList( literalKeys )
+    let b:mapLiteral = g:MapSaver.New( 1 )
+    call b:mapLiteral.AddList( literalKeys )
 
 
-    let s:mapMask = g:MapSaver.New( 0 )
-    call s:mapMask.AddList( disabledKeys )
+    let b:mapMask = g:MapSaver.New( 0 )
+    call b:mapMask.AddList( disabledKeys )
 
 
 endfunction "}}}
@@ -3178,13 +3179,13 @@ fun! s:ApplyMap() " {{{
     call SettingPush( '&l:textwidth', '0' )
 
 
-    call s:mapSaver.Save()
-    call s:mapLiteral.Save()
-    call s:mapMask.Save()
+    call b:mapSaver.Save()
+    call b:mapLiteral.Save()
+    call b:mapMask.Save()
 
-    call s:mapSaver.UnmapAll()
-    call s:mapLiteral.Literalize()
-    call s:mapMask.UnmapAll()
+    call b:mapSaver.UnmapAll()
+    call b:mapLiteral.Literalize()
+    call b:mapMask.UnmapAll()
 
 
 
@@ -3211,13 +3212,12 @@ fun! s:ApplyMap() " {{{
 endfunction " }}}
 
 fun! s:ClearMap() " {{{
-    let x = g:XPTobject()
 
     call SettingPop( '&l:textwidth' )
 
-    call s:mapMask.Restore()
-    call s:mapLiteral.Restore()
-    call s:mapSaver.Restore()
+    call b:mapMask.Restore()
+    call b:mapLiteral.Restore()
+    call b:mapSaver.Restore()
 
 endfunction " }}}
 
@@ -3326,6 +3326,8 @@ fun! g:XPTobject() "{{{
 
         " TODO is this the right place to do that?
         call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
+
+        call s:XPTinit()
     endif
     return b:xptemplateData
 endfunction "}}}
@@ -3714,7 +3716,7 @@ fun! s:XPTtrackFollowingSpace() "{{{
 endfunction "}}}
 
 fun! s:GetContextFT() "{{{
-    if exists( '*b:XPTfiletypeDetect' )
+    if exists( 'b:XPTfiletypeDetect' )
         return b:XPTfiletypeDetect()
     elseif &filetype == ''
         return '**'
@@ -3785,7 +3787,6 @@ call <SID>Link('TmplRange GetRangeBetween TextBetween GetStaticRange LeftPos')
 com! XPTreload call XPTreload()
 com! XPTcrash call <SID>Crash()
 
-call s:XPTinit()
 
 
 fun! String( d, ... )

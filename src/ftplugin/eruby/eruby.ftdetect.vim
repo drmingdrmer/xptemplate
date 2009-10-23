@@ -34,7 +34,7 @@ let s:pattern = {
 
 let s:topFT = 'eruby'
 
-fun! b:XPTfiletypeDetect() "{{{
+fun! XPT_erubyFiletypeDetect() "{{{
     let pos = [ line( "." ), col( "." ) ]
 
     let synName = g:xptutil.XPTgetCurrentOrPreviousSynName()
@@ -64,5 +64,5 @@ fun! b:XPTfiletypeDetect() "{{{
 
 endfunction "}}}
 
-
+let b:XPTfiletypeDetect = function( 'XPT_erubyFiletypeDetect' )
 

@@ -38,13 +38,8 @@ endif
 
 let s:topFT = 'html'
 
-fun! b:XPTfiletypeDetect() "{{{
+fun! XPT_phpFiletypeDetect() "{{{
     let pos = [ line( "." ), col( "." ) ]
-
-    " if pos == [1, 1]
-        " " for sheang(#!/usr/bin/php), it should be php. 
-        " return 'php'
-    " endif
 
     let synName = g:xptutil.XPTgetCurrentOrPreviousSynName()
 
@@ -73,5 +68,5 @@ fun! b:XPTfiletypeDetect() "{{{
 
 endfunction "}}}
 
-
+let b:XPTfiletypeDetect = function( 'XPT_phpFiletypeDetect' )
 
