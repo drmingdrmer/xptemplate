@@ -63,16 +63,6 @@
 "
 " 
 " Log of This version:
-"   fix : set text typed before post filter evaluated
-"   fix : html:html snippet set default encoding as utf-8 if no fileencoding set
-"   fix : s:f.ItemEdge bug
-"   fix : unsupported filetype raising error
-"   fix : bug of xpmark
-"   fix : buffer-scope mapping backup and restore.
-"   add : " hint 
-"   add : add php tag and html to php filetype
-"   improve : alias syntax support
-"   improve : snippet syntax : snippet folding ends correctly
 "
 "
 "
