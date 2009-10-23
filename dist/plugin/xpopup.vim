@@ -304,8 +304,8 @@ fun! s:ClearMapAndSetting()
     call g:MapPop(b:__xpp_mapped.i_c_e)
     call g:MapPop(b:__xpp_mapped.i_tab)
     call g:MapPop(b:__xpp_mapped.i_bs)
-    call SettingPop() " cinkeys 
     call SettingPop() " indentkeys 
+    call SettingPop() " cinkeys 
     unlet b:__xpp_mapped
 endfunction 
 fun! XPPend() 

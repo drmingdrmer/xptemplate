@@ -507,14 +507,12 @@ fun! s:findLikelyRange(changeStart, bChangeEnd) dict
 endfunction 
 fun! s:saveCurrentCursorStat() dict 
     let p = [ line( '.' ), col( '.' ) ]
-    if p != self.lastPositionAndLength[ : 1 ]
         exe 'k'.g:xpm_mark
         if p[0] < line( '$' )
             exe '+1k' . g:xpm_mark_nextline
         else
             exe 'delmarks ' . g:xpm_mark_nextline
         endif
-    endif
     let self.lastPositionAndLength = p + [ len( getline( "." ) ) ]
     let self.lastMode = mode()
 endfunction 

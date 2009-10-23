@@ -122,7 +122,7 @@ delc `name^GetSID
 XPT str_ hint=transform\ SEL\ to\ string
 string(`wrapped^)
 
-XPT try hint=try\ ..\ catch\ ..\ finally...
+XPT try_ hint=try\ ..\ catch\ ..\ finally...
 XSET exception=.*
 try
     `wrapped^

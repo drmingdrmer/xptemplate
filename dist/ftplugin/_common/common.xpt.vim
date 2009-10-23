@@ -63,7 +63,7 @@ fun! s:f.Edges()
 endfunction
 
 " current value
-fun! s:f.V() "{{{
+fun! s:f.V() dict "{{{
   if has_key(self._ctx, 'value')
     return self._ctx.value
   else
@@ -72,12 +72,12 @@ fun! s:f.V() "{{{
 endfunction "}}}
 
 " edge stripped value
-fun! s:f.V0()
+fun! s:f.V0() dict
   let v = self.V()
 
   let [edgeLeft, edgeRight] = self.ItemEdges()
 
-  let v = substitute( v, '\V\^' . edgeLeft, '', '' )
+  let v = substitute( v, '\V\^' . edgeLeft,       '', '' )
   let v = substitute( v, '\V' . edgeRight . '\$', '', '' )
 
   return v
@@ -178,7 +178,7 @@ fun! s:f.BuildIfChanged( ... )
   let v = substitute( self.V(), "\\V\n\\|\\s", '', 'g')
   let fn = substitute( self.ItemFullname(), "\\V\n\\|\\s", '', 'g')
 
-  if v ==# fn
+  if v ==# fn || v == ''
       " return { 'action' : 'keepIndent', 'text' : self.V() }
       return ''
   else
@@ -302,8 +302,12 @@ endfunction
 
 " Return Item Edges
 fun! s:f.ItemEdges() "{{{
-  let leader =  self._ctx.leadingPlaceHolder
-  return [ leader.leftEdge, leader.rightEdge ]
+  let leader =  get( self._ctx, 'leadingPlaceHolder', {} )
+  if has_key( leader, 'leftEdge' )
+      return [ leader.leftEdge, leader.rightEdge ]
+  else
+      return [ '', '' ]
+  endif
 endfunction "}}}
 
 
@@ -387,8 +391,9 @@ fun! s:f.CompleteRightPart( left ) dict
 
 endfunction
 
-fun! s:f.CmplQuoter() dict
-    let v = self.V()
+fun! s:f.CmplQuoter_pre() dict
+    let v = substitute( self.ItemStrippedValue(), '\V\^\s\*', '', '' )
+
     let first = matchstr( v, '\V\^\[''"]' )
     if first == ''
         return ''

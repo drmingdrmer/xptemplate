@@ -525,6 +525,9 @@ fun! s:Popup(pref, coln)
     let cmpl=[]
     let cmpl2 = []
     let ftScope = s:GetContextFTObj()
+    if ftScope == {}
+        return ''
+    endif
     let dic = ftScope.normalTemplates
     let ctxs = s:SynNameStack(line("."), a:coln)
     let ignoreCase = a:pref !~# '\u'
@@ -661,7 +664,6 @@ fun! s:parseQuotedPostFilter( tmplObj )
         endif
         let plainPostFilter = s:BuildFilterIndent( plainPostFilter, firstLineIndent )
         let postFilters[ name ] = plainPostFilter
-        echom 'name=' . string( name )
         let snip = snip[ : startPos + len( startText ) - 1 - 1 - len( quoter.start ) - len( flag ) ] 
                     \. snip[ endPos + len( endText ) - 1 : ]
     endwhile
@@ -1004,6 +1006,7 @@ fun! s:ApplyPreValues( placeHolder )
                     \: a:placeHolder.ontimeFilter
         if !s:IsFilterEmpty( preValue ) 
             if preValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
+                        \|| preValue =~ '\V_pre()'
                 let text = s:Eval( preValue )
                 let [ filterIndent, filterText ] = s:GetFilterIndentAndText( text )
                 call s:SetPreValue( a:placeHolder, filterIndent, filterText )
@@ -1705,8 +1708,8 @@ fun! s:XPTinit()
                 \ 'i_<C-h>', 
                 \ 'i_<DEL>', 
                 \]
-    let s:mapSaver = g:MapSaver.New(1)
-    call s:mapSaver.AddList(
+    let b:mapSaver = g:MapSaver.New(1)
+    call b:mapSaver.AddList(
                 \ 'i_' . g:xptemplate_nav_next, 
                 \ 's_' . g:xptemplate_nav_next, 
                 \
@@ -1720,20 +1723,20 @@ fun! s:XPTinit()
                 \ 's_<DEL>', 
                 \ 's_<BS>', 
                 \)
-    let s:mapLiteral = g:MapSaver.New( 1 )
-    call s:mapLiteral.AddList( literalKeys )
-    let s:mapMask = g:MapSaver.New( 0 )
-    call s:mapMask.AddList( disabledKeys )
+    let b:mapLiteral = g:MapSaver.New( 1 )
+    call b:mapLiteral.AddList( literalKeys )
+    let b:mapMask = g:MapSaver.New( 0 )
+    call b:mapMask.AddList( disabledKeys )
 endfunction 
 fun! s:ApplyMap() 
     let x = g:XPTobject()
     call SettingPush( '&l:textwidth', '0' )
-    call s:mapSaver.Save()
-    call s:mapLiteral.Save()
-    call s:mapMask.Save()
-    call s:mapSaver.UnmapAll()
-    call s:mapLiteral.Literalize()
-    call s:mapMask.UnmapAll()
+    call b:mapSaver.Save()
+    call b:mapLiteral.Save()
+    call b:mapMask.Save()
+    call b:mapSaver.UnmapAll()
+    call b:mapLiteral.Literalize()
+    call b:mapMask.UnmapAll()
     exe 'inoremap <silent> <buffer> '.g:xptemplate_nav_prev  .' <C-r>=<SID>ShipBack()<cr>'
     exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_prev  .' <Esc>`>a<C-r>=<SID>ShipBack()<cr>'
     exe 'inoremap <silent> <buffer> '.g:xptemplate_nav_next  .' <C-r>=<SID>FinishCurrentAndGotoNextItem("")<cr>'
@@ -1750,11 +1753,10 @@ fun! s:ApplyMap()
     endif
 endfunction 
 fun! s:ClearMap() 
-    let x = g:XPTobject()
     call SettingPop( '&l:textwidth' )
-    call s:mapMask.Restore()
-    call s:mapLiteral.Restore()
-    call s:mapSaver.Restore()
+    call b:mapMask.Restore()
+    call b:mapLiteral.Restore()
+    call b:mapSaver.Restore()
 endfunction 
 fun! s:CTL(...) 
     let x = a:0 == 1 ? a:1 : g:XPTobject()
@@ -1830,6 +1832,7 @@ fun! g:XPTobject()
         let b:xptemplateData.snipFileScope = {}
         call s:createRenderContext( b:xptemplateData )
         call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
+        call s:XPTinit()
     endif
     return b:xptemplateData
 endfunction 
@@ -2042,7 +2045,7 @@ fun! s:XPTtrackFollowingSpace()
     let renderContext.lastFollowingSpace = currentFollowingSpace
 endfunction 
 fun! s:GetContextFT() 
-    if exists( '*b:XPTfiletypeDetect' )
+    if exists( 'b:XPTfiletypeDetect' )
         return b:XPTfiletypeDetect()
     elseif &filetype == ''
         return '**'
@@ -2052,7 +2055,7 @@ fun! s:GetContextFT()
 endfunction 
 fun! s:GetContextFTObj() 
     let x = XPTbufData()
-    return x.filetypes[ s:GetContextFT() ]
+    return get( x.filetypes, s:GetContextFT(), {} )
 endfunction 
 augroup XPT 
     au!
@@ -2091,7 +2094,6 @@ endfunction
 call <SID>Link('TmplRange GetRangeBetween TextBetween GetStaticRange LeftPos')
 com! XPTreload call XPTreload()
 com! XPTcrash call <SID>Crash()
-call s:XPTinit()
 fun! String( d, ... )
     let str = string( a:d )
     let str = substitute( str, "\\V'\\%(\\[^']\\|''\\)\\{-}'" . '\s\*:\s\*function\[^)]),\s\*', '', 'g' )

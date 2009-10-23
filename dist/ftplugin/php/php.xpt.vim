@@ -39,13 +39,22 @@ XPTembed
       \ html/html
       \ html/php
 
+
+
+if exists( 'php_noShortTags' )
+    XPTvar $PHP_TAG php
+else
+    XPTvar $PHP_TAG 
+endif
+
 " ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
 XPTemplateDef
 
-XPT php hint=<?php\ ...\ ?>
-<?php `cursor^?>
+XPT html hint=<?$PHP_TAG\ ...\ ?>
+?>`html^<?`$PHP_TAG^
+
 
 XPT foreach hint=foreach\ (..\ as\ ..)\ {..}
 foreach ($`var^ as `container^)`$FOR_BRACKET_STL^{

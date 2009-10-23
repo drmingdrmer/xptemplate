@@ -125,7 +125,7 @@ XPT html hint=<html><head>..<head><body>...
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=`encoding^Echo(&fileencoding)^"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=`encoding^Echo(&fenc == '' ? 'utf-8' : &fenc)^"/>
         <link rel="stylesheet" type="text/css" href="" />
         <style></style>
         <title>`title^E('%:r')^</title>

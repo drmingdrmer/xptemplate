@@ -27,7 +27,7 @@ let s:pattern = {
             \   },
             \}
 
-fun! b:XPTfiletypeDetect() "{{{
+fun! XPT_htmlFiletypeDetect() "{{{
     let pos = [ line( "." ), col( "." ) ]
     let synName = g:xptutil.XPTgetCurrentOrPreviousSynName()
 
@@ -56,5 +56,5 @@ fun! b:XPTfiletypeDetect() "{{{
 
 endfunction "}}}
 
-
+let b:XPTfiletypeDetect = function( 'XPT_htmlFiletypeDetect' )
 
