@@ -592,11 +592,12 @@ fun! s:normalModeUpdate() dict "{{{
 
         let linewiseDeletion =  stat.positionOfMarkP[0] == 0
 
+        call s:log.Log( "mark p :" . string( stat.positionOfMarkP ) )
         call s:log.Log( "is linewise deletion :" . linewiseDeletion )
 
         let lineNrOfChangeEndInLastStat = ce[0] - diffOfLine
 
-        call s:log.Log( 'iseq = ' . (stat.positionOfMarkP[0] == line( "'" . g:xpm_mark_nextline )) )
+        call s:log.Log( 'is join line? = ' . (stat.positionOfMarkP[0] == line( "'" . g:xpm_mark_nextline )) )
         call s:log.Log( 'lastMode=' . self.lastMode . ' match:' . (self.lastMode =~ '[vV]') )
 
         if linewiseDeletion
@@ -1022,7 +1023,8 @@ fun! s:saveCurrentCursorStat() dict "{{{
 
     let p = [ line( '.' ), col( '.' ) ]
 
-    if p != self.lastPositionAndLength[ : 1 ]
+    " NOTE:undo or redo does NOT change line/col but need to update
+    " if p != self.lastPositionAndLength[ : 1 ]
 
         " NOTE: weird, 'normal! ***' produces exception in select mode. but 'k'
         " command is ok
@@ -1033,8 +1035,9 @@ fun! s:saveCurrentCursorStat() dict "{{{
         else
             exe 'delmarks ' . g:xpm_mark_nextline
         endif
+        call s:log.Debug( "record mark p :" . string( getpos( "'p" )[1:2] ) )
 
-    endif
+    " endif
 
     let self.lastPositionAndLength = p + [ len( getline( "." ) ) ]
 

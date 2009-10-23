@@ -188,8 +188,8 @@ fun! s:XPTtest(ft) "{{{
     endfor
 
     " disable embedded language
-    if exists( '*b:XPTfiletypeDetect' )
-        delfun b:XPTfiletypeDetect
+    if exists( 'b:XPTfiletypeDetect' )
+        unlet b:XPTfiletypeDetect
     endif
 
 

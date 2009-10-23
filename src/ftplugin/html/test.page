@@ -523,7 +523,7 @@ WRAPPED_TEXT_line2</h1>
     <!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
     <!-- <html>                                                                                                                    -->
     <!--     <head>                                                                                                                -->
-    <!--         <meta http-equiv="Content-Type" content="text/html; charset=`encoding^utf-8^"/>                                   -->
+    <!--         <meta http-equiv="Content-Type" content="text/html; charset=`encoding^Echo(&fenc == '' ? 'utf-8' : &fenc)^"/>     -->
     <!--         <link rel="stylesheet" type="text/css" href="" />                                                                 -->
     <!--         <style></style>                                                                                                   -->
     <!--         <title>`title^E('%:r')^</title>                                                                                   -->
@@ -544,7 +544,7 @@ WRAPPED_TEXT_line2</h1>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <link rel="stylesheet" type="text/css" href="" />
         <style></style>
-        <title>/home/drdrxp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
+        <title>/media/ext2/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
         <script language="javascript" type="text/javascript">
             <!-- -->
         </script>
@@ -576,7 +576,7 @@ a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <link rel="stylesheet" type="text/css" href="" />
         <style></style>
-        <title>/home/drdrxp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
+        <title>/media/ext2/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
         <script language="javascript" type="text/javascript">
             <!-- -->
         </script>
@@ -592,7 +592,7 @@ a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <link rel="stylesheet" type="text/css" href="" />
         <style></style>
-        <title>/home/drdrxp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
+        <title>/media/ext2/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
         <script language="javascript" type="text/javascript">
             <!-- -->
         </script>
@@ -671,25 +671,25 @@ WRAPPED_TEXT_line2</p>
 
     <!--  -------------script---------------                   -->
     <!-- <script language="javascript" type="text/javascript"> -->
-    <!-- `cursor^                                              -->
+    <!--     `cursor^                                          -->
     <!-- </script>                                             -->
 
 
 
 <script language="javascript" type="text/javascript">
-
+    
 </script>
 
 <script language="javascript" type="text/javascript">
-
+    
 </script> b
 
 a <script language="javascript" type="text/javascript">
-
+    
 </script> b
 
 a <script language="javascript" type="text/javascript">
-
+    
 </script>
 
 
@@ -723,14 +723,8 @@ a <script language="javascript" type="text/javascript">
 
     <!--  -------------table--------------- -->
     <!-- <table>                            -->
-    <!--     <tr>                           -->
-    <!--         <td>`text^^</td>`...2^     -->
-    <!--         <td>`text^^</td>`...2^     -->
-    <!--     </tr>`...0^                    -->
-    <!--     <tr>                           -->
-    <!--         <td>`text^^</td>`...1^     -->
-    <!--         <td>`text^^</td>`...1^     -->
-    <!--     </tr>`...0^                    -->
+    <!--     `Include:tr^` `tr...{{^        -->
+    <!--     `Include:tr^` `tr...^`}}^      -->
     <!-- </table>                           -->
 
 
@@ -744,18 +738,13 @@ a <script language="javascript" type="text/javascript">
     </tr>
     <tr>
         <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
     </tr>
 </table>
 
 <table>
     <tr>
-        <td>text_TYPED</td>2_TYPED
-    </tr>0_TYPED
+        <td>_TYPED</td> td_TYPED
+    </tr> tr_TYPED
 </table> b
 
 a <table>
@@ -767,22 +756,12 @@ a <table>
     </tr>
     <tr>
         <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
     </tr>
 </table> b
 
 a <table>
     <tr>
         <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
         <td></td>
         <td></td>
         <td></td>
@@ -791,6 +770,68 @@ a <table>
         <td></td>
     </tr>
 </table>
+
+
+    <!--  -------------td--------------- -->
+    <!-- <td>`^</td>                     -->
+
+
+
+    <td></td>
+
+    <td>_TYPED</td> b
+
+    a <td></td> b
+
+    a <td></td>
+
+
+    <!--  -------------th--------------- -->
+    <!-- <th>`^</th>                     -->
+
+
+
+    <th></th>
+
+    <th>_TYPED</th> b
+
+    a <th></th> b
+
+    a <th></th>
+
+
+    <!--  -------------tr--------------- -->
+    <!-- <tr>                            -->
+    <!--     `Include:td^` `td...{{^     -->
+    <!--     `Include:td^` `td...^`}}^   -->
+    <!-- </tr>                           -->
+
+
+
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td>_TYPED</td> td_TYPED
+</tr> b
+
+a <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr> b
+
+a <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
 
 
     <!--  -------------ul--------------- -->
