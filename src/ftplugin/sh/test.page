@@ -88,7 +88,21 @@ WRAPPED_TEXT_line2>
 
 
     #  -------------[--------------- 
-    # [[ ~test^ ]]                   
+    # [ ~test^ ]                     
+
+
+
+    [ test ]
+
+    [ test_TYPED ] b
+
+    a [ test ] b
+
+    a [ test ]
+
+
+    #  -------------[[--------------- 
+    # [[ ~test^ ]]                    
 
 
 
@@ -152,7 +166,7 @@ WRAPPED_TEXT_line2`
 
 
     #  -------------bash--------------- 
-    # _CMT_!/bin/bash                   
+    # _CMT_!/bin/~sh^                   
 
 
 
@@ -339,9 +353,28 @@ WRAPPED_TEXT_line2
     a echo `date +fmt`
 
 
-    #  -------------elif---------------      
-    # elif ~condition^;~$IF_BRACKET_STL^then 
-    #     ~cursor^                           
+    #  -------------el--------------- 
+    # else                            
+    #     ~cursor^                    
+
+
+
+    else
+        
+
+        else
+             b
+
+             a else
+                  b
+
+                  a else
+                      
+
+
+    #  -------------elif---------------                                     
+    # elif ~condition^~condition^sh_complete_brace()^;~$IF_BRACKET_STL^then 
+    #     ~cursor^                                                          
 
 
 
@@ -482,34 +515,34 @@ elif condition; then
     done
 
 
-    #  -------------fun---------------             
-    # function ~name^ (~args^)~$FUNC_BRACKET_STL^{ 
-    #     ~cursor^                                 
-    # }                                            
+    #  -------------fun--------------- 
+    # ~name^ ()~$FUNC_BRACKET_STL^{    
+    #     ~cursor^                     
+    # }                                
 
 
 
-    function name (args) {
+    name () {
         
     }
 
-    function name_TYPED (args_TYPED) {
+    name_TYPED () {
         
     } b
 
-    a function name (args) {
+    a name () {
         
     } b
 
-    a function name (args) {
+    a name () {
         
     }
 
 
-    #  -------------if---------------      
-    # if ~condition^;~$IF_BRACKET_STL^then 
-    #     ~cursor^                         
-    # fi                                   
+    #  -------------if---------------                                     
+    # if ~condition^~condition^sh_complete_brace()^;~$IF_BRACKET_STL^then 
+    #     ~cursor^                                                        
+    # fi                                                                  
 
 
 
@@ -530,12 +563,12 @@ elif condition; then
     fi
 
 
-    #  -------------ife---------------     
-    # if ~condition^;~$IF_BRACKET_STL^then 
-    #     ~job^                            
-    # else                                 
-    #     ~cursor^                         
-    # fi                                   
+    #  -------------ife---------------                                    
+    # if ~condition^~condition^sh_complete_brace()^;~$IF_BRACKET_STL^then 
+    #     ~job^                                                           
+    # else                                                                
+    #     ~cursor^                                                        
+    # fi                                                                  
 
 
 
@@ -564,8 +597,44 @@ elif condition; then
     fi
 
 
+    #  -------------sb--------------- 
+    # _CMT_!/bin/~sh^                 
+
+
+
+    #!/bin/sh
+    
+
+    #!/bin/sh
+     b
+
+     a #!/bin/sh
+      b
+
+      a #!/bin/sh
+      
+
+
     #  -------------sh--------------- 
-    # _CMT_!/bin/sh                   
+    # _CMT_!/bin/~sh^                 
+
+
+
+    #!/bin/sh
+    
+
+    #!/bin/sh
+     b
+
+     a #!/bin/sh
+      b
+
+      a #!/bin/sh
+      
+
+
+    #  -------------shebang--------------- 
+    # _CMT_!/bin/~sh^                      
 
 
 
@@ -613,21 +682,39 @@ elif condition; then
 
 
 
-    while ; do
+    while [ 1 ]; do
         
     done
 
-    while ; do
+    while [ 1 ]; do
         
     done b
 
-    a while ; do
+    a while [ 1 ]; do
         
     done b
 
-    a while ; do
+    a while [ 1 ]; do
         
     done
+
+
+    #  -------------zsh--------------- 
+    # _CMT_!/bin/~sh^                  
+
+
+
+    #!/bin/zsh
+    
+
+    #!/bin/zsh
+     b
+
+     a #!/bin/zsh
+      b
+
+      a #!/bin/zsh
+      
 
 
     #  -------------{--------------- 

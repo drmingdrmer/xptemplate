@@ -587,6 +587,20 @@ a function funName() {
 }
 
 
+    /*  -------------html--------------- */
+/* ?>`html^<?`$PHP_TAG^              */
+
+
+
+?>html<?
+
+?>html_TYPED<? b
+
+    a ?>html<? b
+
+    a ?>html<?
+
+
     /*  -------------if---------------                     */
 /* if (`condition^)`$IF_BRACKET_STL^{                  */
 /*     `job^                                           */
@@ -594,12 +608,12 @@ a function funName() {
 
 
 
-if (condition) { 
-    /* void */;
-}
-else {
-    
-}
+    if (condition) { 
+        /* void */;
+    }
+    else {
+        
+    }
 
 if (condition_TYPED) { 
     job_TYPED
@@ -612,12 +626,12 @@ else {
     
 } b
 
-a if (condition) { 
-    /* void */;
-}
-else {
-    
-}
+    a if (condition) { 
+        /* void */;
+    }
+    else {
+        
+    }
 
 
     /*  -------------if0---------------                    */
@@ -645,12 +659,12 @@ else {
     
 } b
 
-a if (0 == var) { 
-    /* void */;
-}
-else {
-    
-}
+    a if (0 == var) { 
+        /* void */;
+    }
+    else {
+        
+    }
 
 
     /*  -------------if_---------------   */
@@ -668,12 +682,12 @@ if (condition) {
 if (condition_TYPED) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-} b
+}b
 
 a if (condition) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-} b
+}b
 
 a if (condition) {
     WRAPPED_TEXT
@@ -712,15 +726,15 @@ a if (condition) {
     /* void */;
 } b
 
-a if (condition) {
-    /* void */;
-} else if (condition) {
-    /* void */;
-} else if (condition) {
-    /* void */;
-} else if (condition) {
-    /* void */;
-}
+    a if (condition) {
+        /* void */;
+    } else if (condition) {
+        /* void */;
+    } else if (condition) {
+        /* void */;
+    } else if (condition) {
+        /* void */;
+    }
 
 
     /*  -------------ifn---------------                    */
@@ -748,12 +762,12 @@ else {
     
 } b
 
-a if (null == var) { 
-    /* void */;
-}
-else {
-    
-}
+    a if (null == var) { 
+        /* void */;
+    }
+    else {
+        
+    }
 
 
     /*  -------------ifn0---------------                   */
@@ -781,12 +795,12 @@ else {
     
 } b
 
-a if (0 != var) { 
-    /* void */;
-}
-else {
-    
-}
+    a if (0 != var) { 
+        /* void */;
+    }
+    else {
+        
+    }
 
 
     /*  -------------ifnn---------------                   */
@@ -814,12 +828,12 @@ else {
     
 } b
 
-a if (null != var) { 
-    /* void */;
-}
-else {
-    
-}
+    a if (null != var) { 
+        /* void */;
+    }
+    else {
+        
+    }
 
 
     /*  -------------interface---------------        */
@@ -837,27 +851,13 @@ interface interfaceName_TYPED {
     
 } b
 
-a interface interfaceName {
-    
-} b
+    a interface interfaceName {
+        
+    } b
 
-a interface interfaceName {
-    
-}
-
-
-    /*  -------------php--------------- */
-/* <?php `cursor^?>                 */
-
-
-
-<?php ?>
-
-    <?php ?> b
-
-    a <?php ?> b
-
-    a <?php ?>
+        a interface interfaceName {
+            
+        }
 
 
     /*  -------------switch--------------- */
@@ -873,26 +873,26 @@ a interface interfaceName {
 
 
 
-    switch (var) {
-        case constant :
-            /* void */;
-            break;
-    
-        case constant :
-            /* void */;
-            break;
-    
-        case constant :
-            /* void */;
-            break;
-    
-        case constant :
-            /* void */;
-            break;
-    
-        default:
-            
-    }
+switch (var) {
+    case constant :
+        /* void */;
+        break;
+
+    case constant :
+        /* void */;
+        break;
+
+    case constant :
+        /* void */;
+        break;
+
+    case constant :
+        /* void */;
+        break;
+
+    default:
+        
+}
 
 switch (var_TYPED) {
     case constant_TYPED :
