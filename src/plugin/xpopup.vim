@@ -17,6 +17,8 @@ endif
 let g:__XPOPUP_VIM__ = 1
 
 
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 " TODO popup fix:select it if strictly matched
 runtime plugin/debug.vim
 runtime plugin/xpreplace.vim
@@ -748,5 +750,7 @@ let s:sessionPrototype2 =  s:ClassPrototype(
             \)
 
 call extend( s:sessionPrototype, s:sessionPrototype2, 'force' )
+
+let &cpo = s:oldcpo
 
 " vim: set sw=4 sts=4 :

@@ -4,6 +4,9 @@ endif
 let g:__XPCLASS_VIM__ = 1
 
 
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
+
 
 " runtime plugin/debug.vim
 " let s:log = CreateLogger( 'warn' )
@@ -48,3 +51,5 @@ fun! s:GetCmdOutput(cmd) "{{{
   return l:a
 
 endfunction "}}}
+
+let &cpo = s:oldcpo

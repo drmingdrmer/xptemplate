@@ -4,6 +4,8 @@ endif
 let g:__XPMARK_VIM__ = 1
  
 
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 
 com! XPMgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPMgetSID
@@ -1268,5 +1270,7 @@ nnoremap ,g :call XPMgoto('c')<cr>
 " "}}}
 
 
+
+let &cpo = s:oldcpo
 
 " vim: set sw=4 sts=4 :

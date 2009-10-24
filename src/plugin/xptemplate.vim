@@ -82,6 +82,8 @@ if exists("g:__XPTEMPLATE_VIM__")
 endif
 let g:__XPTEMPLATE_VIM__ = 1
 
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 
 com! XPTgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPTgetSID
@@ -90,7 +92,7 @@ delc XPTgetSID
 
 
 
-" runtime plugin/position.vim
+runtime plugin/xptemplate.conf.vim
 runtime plugin/debug.vim
 runtime plugin/xptemplate.util.vim
 runtime plugin/mapstack.vim
@@ -3789,5 +3791,6 @@ fun! String( d, ... )
 
 endfunction
 
+let &cpo = s:oldcpo
 
 " vim: set sw=4 sts=4 :

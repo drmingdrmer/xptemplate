@@ -18,9 +18,11 @@ let g:__XPTEMPLATE_PARSER_VIM__ = 1
 "
 "
 
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
+
 runtime plugin/debug.vim
 
-runtime plugin/xpclass.vim
 runtime plugin/FiletypeScope.class.vim
 
 runtime plugin/xptemplate.util.vim
@@ -602,6 +604,7 @@ fun! s:splitWith( str, char ) "{{{
 endfunction "}}}
 
 
+let &cpo = s:oldcpo
 
 
 

@@ -3,6 +3,8 @@ if exists("g:__FILETYPESCOPE_CLASS_VIM__")
 endif
 let g:__FILETYPESCOPE_CLASS_VIM__ = 1
 
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 
 com! GetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 GetSID
@@ -43,3 +45,4 @@ endfunction "}}}
 
 let g:FiletypeScope = g:XPclass( s:sid, s:proto )
 
+let &cpo = s:oldcpo

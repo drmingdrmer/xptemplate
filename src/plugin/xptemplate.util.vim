@@ -3,6 +3,8 @@ if exists("g:__XPTEMPLATE_UTIL_VIM__")
 endif
 let g:__XPTEMPLATE_UTIL_VIM__ = 1
 
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 
 runtime plugin/debug.vim
 runtime plugin/xpclass.vim
@@ -94,6 +96,7 @@ endfunction "}}}
 
 let g:xptutil = g:XPclass( s:sid, {} )
 
+let &cpo = s:oldcpo
 
 
 " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}

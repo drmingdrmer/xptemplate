@@ -3,6 +3,8 @@ if exists("g:__XPTEMPLATE_CONF_VIM__")
 endif
 let g:__XPTEMPLATE_CONF_VIM__ = 1
 
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 
 runtime plugin/debug.vim
 
@@ -59,9 +61,9 @@ endif
 " TODO Be very careful with 'cpo' option!
 " TODO test popup with cpo set with '<', that makes "\<...>" failed to work
 "
-let s:oldcpo = &cpo
-" enable <key> encoding
-set cpo-=<
+" let s:oldcpo = &cpo
+" " enable <key> encoding
+" set cpo-=<
 
 " 'selTrigger' used in select mode trigger, but if 'selection' changed after this
 " script loaded, incSelTrigger or excSelTrigger should be used according to
@@ -83,7 +85,8 @@ exe "inoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.trigger
 exe "xnoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.wrapTrigger
 exe "snoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.selTrigger
 
-let &cpo = s:oldcpo
+
+" let &cpo = s:oldcpo
 
 
 
@@ -200,3 +203,5 @@ if &compatible == 1
     echom "'compatible' option must be set. set compatible or let g:xptemplate_fix=1 to fix it"
   endif
 endif
+
+let &cpo = s:oldcpo

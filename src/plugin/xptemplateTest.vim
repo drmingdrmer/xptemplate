@@ -7,6 +7,9 @@ if exists("g:__XPTEMPLATETEST_VIM__")
 endif
 let g:__XPTEMPLATETEST_VIM__ = 1
 
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
+
 runtime plugin/debug.vim
 let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )
@@ -459,5 +462,7 @@ endfunction "}}}
 
 com -nargs=1 XPTtest call <SID>XPTtest(<f-args>)
 com XPTtestEnd call <SID>TestFinish()
+
+let &cpo = s:oldcpo
 
 " vim: set sw=4 sts=4 :

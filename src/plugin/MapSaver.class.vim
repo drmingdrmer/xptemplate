@@ -3,6 +3,8 @@ if exists("g:__MAPSAVER_CLASS_VIM__")
 endif
 let g:__MAPSAVER_CLASS_VIM__ = 1
 
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 
 runtime plugin/xptemplate.util.vim
 runtime plugin/xpclass.vim
@@ -85,3 +87,5 @@ endfunction "}}}
 
 
 let g:MapSaver = g:XPclass( s:sid, {} )
+
+let &cpo = s:oldcpo
