@@ -63,6 +63,9 @@
 "
 " 
 " Log of This version:
+"   fix : wrapping snippet leaves some spaces at end of line.
+"   fix : CR fixer bug.
+"   fix : default value indent
 "
 "
 "
@@ -671,21 +674,22 @@ fun! XPTemplatePreWrap(wrap) "{{{
 
     let x.wrapStartPos = col(".")
 
+
     if g:xptemplate_strip_left || x.wrap =~ '\n'
         let indent = matchstr( x.wrap, '^\s*' )
         let x.wrap = x.wrap[ len( indent ) : ]
 
 
-        let x.wrap = s:BuildFilterIndent( x.wrap, len( indent ) )
         let x.wrap = 'Echo(' . string( x.wrap ) . ')'
+        let x.wrap = s:BuildFilterIndent( x.wrap, len( indent ) )
 
         call s:log.Log( 'wrapped=' . x.wrap )
     endif
 
+
     if getline( line( "." ) ) =~ '^\s*$'
-        while col( "." ) != 1
-            exe "normal! \<bs>"
-        endwhile
+        normal! d0
+
         let leftSpaces = repeat( ' ', x.wrapStartPos - 1 )
     else
         let leftSpaces = ''
@@ -2087,12 +2091,19 @@ fun! s:GetRangeBetween(p1, p2, ...) "{{{
 
 endfunction "}}}
 
+fun! s:CleanupCurrentItem() "{{{
+    let renderContext = s:getRenderContext()
+    let renderContext.lastFollowingSpace = ''
+endfunction "}}}
+
 fun! s:ShipBack() "{{{
     let renderContext = s:getRenderContext()
 
     if empty( renderContext.history )
         return ''
     endif
+
+    call s:CleanupCurrentItem()
 
     let his = remove( renderContext.history, -1 )
 
@@ -2131,6 +2142,8 @@ endfunction "}}}
 fun! s:FinishCurrentAndGotoNextItem(action) " {{{
     let renderContext = s:getRenderContext()
     let marks = renderContext.leadingPlaceHolder.mark
+
+    call s:CleanupCurrentItem()
 
     call s:log.Debug( "before update=" . XPMallMark() )
 
@@ -2400,13 +2413,14 @@ fun! s:AdjustIndentAccordingToLine( snip, indent, lineNr, ... ) "{{{
     let indentspaces = repeat(' ', indent)
 
     " remove original indent
-    if len( indentspaces ) > len( a:indent )
-      let indentspaces = substitute( indentspaces, a:indent, '', '' )
+    if len( indentspaces ) >= len( a:indent )
+        let indentspaces = substitute( indentspaces, a:indent, '', '' )
     else
-      let indentspaces = ''
+        let indentspaces = ''
     endif
 
     return substitute( a:snip, "\n", "\n" . indentspaces, 'g' )
+
 
 endfunction "}}}
 
@@ -3570,7 +3584,6 @@ fun! s:XPTupdate(...) "{{{
 
 
     if !renderContext.processing
-
         " update XPM is necessary
         call XPMupdate()
         return 0
@@ -3585,8 +3598,6 @@ fun! s:XPTupdate(...) "{{{
 
 
     " TODO hint to indicate whether cursor is at the right place 
-
-    " TODO check current cursor position for crashing or fixing
 
     let leaderMark = renderContext.leadingPlaceHolder.mark
     let [ start, end ] = [ XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) ]
@@ -3697,7 +3708,23 @@ fun! s:XPTcheck() "{{{
 endfunction "}}}
 
 fun! s:XPTtrackFollowingSpace() "{{{
+    
     let renderContext = s:getRenderContext()
+    if !renderContext.processing
+        return
+    endif
+
+    let leader =  renderContext.leadingPlaceHolder
+    let leaderMark = leader.mark
+    let [ start, end ] = XPMposList(leaderMark.start, leaderMark.end)
+    
+    let pos = line( '.' ) * 10000 + col( '.' )
+    let nStart = start[0] * 10000 + start[1]
+    let nEnd = end[0] * 10000 + end[1]
+
+    if pos < nStart || pos > nEnd
+        return
+    endif
 
     let currentPos = [ line( '.' ), col( '.' ) ]
     let currentFollowingSpace = getline( currentPos[0] )[ currentPos[1] - 1 : ]
