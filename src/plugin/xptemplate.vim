@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.3.9.9
+" VERSION: 0.3.9.91
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
@@ -23,9 +23,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO doc of xptemplate_brace_complete
 " TODO hint of whether xpt is running. sign, statusline, highlight
-" TODO check duplication in single snippet file
 " TODO 2 <tab> to accept empty
 " TODO /../../ ontime filter shortcut
 " TODO ( ) shortcut of Echo
@@ -67,16 +65,8 @@
 "   fix : wrapping snippet leaves some spaces at end of line.
 "   fix : CR fixer bug.
 "   fix : default value indent
+"   add : g:xptemplate_brace_complete option
 "
-"
-"
-"
-"
-"
-" 
-
-
-
 
 
 
@@ -3219,12 +3209,13 @@ fun! s:ApplyMap() " {{{
     exe 'nnoremap <silent> <buffer> '.g:xptemplate_goback . ' i<C-r>=<SID>Goback()<cr>'
 
     snoremap <silent> <buffer> <Del> <Del>i
+    snoremap <silent> <buffer> <BS> d<BS>
 
     if &selection == 'inclusive'
-        snoremap <silent> <buffer> <BS> <esc>`>a<BS>
+        " snoremap <silent> <buffer> <BS> <esc>`>a<BS>
         exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>a"
     else
-        snoremap <silent> <buffer> <BS> <esc>`>i<BS>
+        " snoremap <silent> <buffer> <BS> <esc>`>i<BS>
         exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>i"
     endif
 

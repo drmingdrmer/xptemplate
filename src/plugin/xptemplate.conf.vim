@@ -22,24 +22,26 @@ endfunction "}}}
 
 
 
-call s:SetIfNotExist('g:xptemplate_strip_left',   1)
-" call s:SetIfNotExist('g:xptemplate_protect'           , 1)
-" call s:SetIfNotExist('g:xptemplate_limit_curosr'      , 0)
-" call s:SetIfNotExist('g:xptemplate_show_stack'        , 1)
-call s:SetIfNotExist('g:xptemplate_highlight'           , 1)
-call s:SetIfNotExist('g:xptemplate_brace_complete'      , 0)
-call s:SetIfNotExist('g:xptemplate_key'                 , '<C-\>')
-" call s:SetIfNotExist('g:xptemplate_crash'             , '<C-g>')
-call s:SetIfNotExist('g:xptemplate_nav_next'            , '<tab>')
-call s:SetIfNotExist('g:xptemplate_nav_prev'            , '<S-tab>')
-call s:SetIfNotExist('g:xptemplate_nav_cancel'          , '<cr>')
-call s:SetIfNotExist('g:xptemplate_goback'              , '<C-g>')
-call s:SetIfNotExist('g:xptemplate_to_right'            , "<C-l>")
-call s:SetIfNotExist('g:xptemplate_fix'                 , 1)
-call s:SetIfNotExist('g:xptemplate_vars'                , '')
-call s:SetIfNotExist('g:xptemplate_hl'                  , 1)
-call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 1)
-call s:SetIfNotExist('g:xptemplate_bundle'              , '')
+" call s:SetIfNotExist('g:xptemplate_protect'           , 1		)
+" call s:SetIfNotExist('g:xptemplate_limit_curosr'      , 0		)
+" call s:SetIfNotExist('g:xptemplate_show_stack'        , 1		)
+call s:SetIfNotExist('g:xptemplate_key'                 , '<C-\>'	)
+" call s:SetIfNotExist('g:xptemplate_crash'             , '<C-g>'	)
+call s:SetIfNotExist('g:xptemplate_nav_next'            , '<tab>'	)
+call s:SetIfNotExist('g:xptemplate_nav_prev'            , '<S-tab>'	)
+call s:SetIfNotExist('g:xptemplate_nav_cancel'          , '<cr>'	)
+call s:SetIfNotExist('g:xptemplate_goback'              , '<C-g>'	)
+call s:SetIfNotExist('g:xptemplate_to_right'            , "<C-l>"	)
+
+call s:SetIfNotExist('g:xptemplate_highlight'           , 1		)
+call s:SetIfNotExist('g:xptemplate_brace_complete'      , 0		)
+call s:SetIfNotExist('g:xptemplate_strip_left'          , 1		)
+call s:SetIfNotExist('g:xptemplate_fix'                 , 1		)
+call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 1		)
+
+call s:SetIfNotExist('g:xptemplate_vars'                , ''		)
+call s:SetIfNotExist('g:xptemplate_bundle'              , ''		)
+call s:SetIfNotExist('g:xptemplate_hl'                  , 1		)
 
 " for test script
 call s:SetIfNotExist('g:xpt_post_action',         '')
@@ -205,3 +207,6 @@ if &compatible == 1
 endif
 
 let &cpo = s:oldcpo
+
+
+" vim:tw=78:ts=32:sw=4:sts=4
