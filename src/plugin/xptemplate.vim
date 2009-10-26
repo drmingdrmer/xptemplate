@@ -23,6 +23,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO doc of xptemplate_brace_complete
 " TODO hint of whether xpt is running. sign, statusline, highlight
 " TODO check duplication in single snippet file
 " TODO 2 <tab> to accept empty
@@ -3137,18 +3138,30 @@ fun! s:XPTinit() "{{{
     let literalKeys = [
                 \ 's_%', 
                 \ 's_''', 
+                \ 's_"', 
+                \ 's_(', 
+                \ 's_)', 
+                \ 's_{', 
+                \ 's_}', 
                 \ 's_[', 
                 \ 's_]', 
-                \
-                \ 'i_''', 
-                \ 'i_"', 
-                \ 'i_[', 
-                \ 'i_(', 
-                \ 'i_{', 
-                \ 'i_<BS>', 
-                \ 'i_<C-h>', 
-                \ 'i_<DEL>', 
                 \]
+
+    if g:xptemplate_brace_complete
+        let literalKeys += [
+                    \ 'i_''', 
+                    \ 'i_"', 
+                    \ 'i_[', 
+                    \ 'i_(', 
+                    \ 'i_{', 
+                    \ 'i_]', 
+                    \ 'i_)', 
+                    \ 'i_}', 
+                    \ 'i_<BS>', 
+                    \ 'i_<C-h>', 
+                    \ 'i_<DEL>', 
+                    \]
+    endif
 
     let b:mapSaver = g:MapSaver.New(1)
     call b:mapSaver.AddList(
