@@ -3,6 +3,9 @@ if exists("g:__DEBUG_VIM__")
 endif
 let g:__DEBUG_VIM__ = 1
 
+let s:oldcpo = &cpo
+set cpo-=<
+set cpo+=B
 
 let s:globalLogLevel = 'warn'
 " let s:globalLogLevel = 'debug'
@@ -127,3 +130,6 @@ fun! Log_core(level, ...) "{{{
     " echom string( a:000 )
   endif
 endfunction "}}}
+
+
+let &cpo = s:oldcpo

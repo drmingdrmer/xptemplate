@@ -2,6 +2,8 @@ if exists("g:__XPTEMPLATE_CONF_VIM__")
   finish
 endif
 let g:__XPTEMPLATE_CONF_VIM__ = 1
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 runtime plugin/debug.vim
 let s:escapeHead   = '\v(\\*)\V'
 let s:unescapeHead = '\v(\\*)\1\\?\V'
@@ -11,19 +13,20 @@ fun! s:SetIfNotExist(k, v)
     exe "let ".a:k."=".string(a:v)
   endif
 endfunction 
-call s:SetIfNotExist('g:xptemplate_strip_left',   1)
-call s:SetIfNotExist('g:xptemplate_highlight'           , 1)
-call s:SetIfNotExist('g:xptemplate_key'                 , '<C-\>')
-call s:SetIfNotExist('g:xptemplate_goback'              , '<C-g>')
-call s:SetIfNotExist('g:xptemplate_nav_next'            , '<tab>')
-call s:SetIfNotExist('g:xptemplate_nav_prev'            , '<S-tab>')
-call s:SetIfNotExist('g:xptemplate_nav_cancel'          , '<cr>')
-call s:SetIfNotExist('g:xptemplate_to_right'            , "<C-l>")
-call s:SetIfNotExist('g:xptemplate_fix'                 , 1)
-call s:SetIfNotExist('g:xptemplate_vars'                , '')
-call s:SetIfNotExist('g:xptemplate_hl'                  , 1)
-call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 1)
-call s:SetIfNotExist('g:xptemplate_bundle'              , '')
+call s:SetIfNotExist('g:xptemplate_key'                 , '<C-\>'	)
+call s:SetIfNotExist('g:xptemplate_nav_next'            , '<tab>'	)
+call s:SetIfNotExist('g:xptemplate_nav_prev'            , '<S-tab>'	)
+call s:SetIfNotExist('g:xptemplate_nav_cancel'          , '<cr>'	)
+call s:SetIfNotExist('g:xptemplate_goback'              , '<C-g>'	)
+call s:SetIfNotExist('g:xptemplate_to_right'            , "<C-l>"	)
+call s:SetIfNotExist('g:xptemplate_highlight'           , 1		)
+call s:SetIfNotExist('g:xptemplate_brace_complete'      , 0		)
+call s:SetIfNotExist('g:xptemplate_strip_left'          , 1		)
+call s:SetIfNotExist('g:xptemplate_fix'                 , 1		)
+call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 1		)
+call s:SetIfNotExist('g:xptemplate_vars'                , ''		)
+call s:SetIfNotExist('g:xptemplate_bundle'              , ''		)
+call s:SetIfNotExist('g:xptemplate_hl'                  , 1		)
 call s:SetIfNotExist('g:xpt_post_action',         '')
 let g:XPTpvs = {}
 if !hlID('XPTCurrentItem') && g:xptemplate_hl
@@ -32,8 +35,6 @@ endif
 if !hlID('XPTIgnoredMark') && g:xptemplate_hl
   hi XPTIgnoredMark cterm=none term=none ctermbg=black ctermfg=darkgrey gui=none guifg=#dddddd guibg=white
 endif
-let s:oldcpo = &cpo
-set cpo-=<
 let g:XPTmappings = {
       \ 'popup'         : "<C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
       \ 'trigger'       : "<C-r>=XPTemplateStart(0)<cr>", 
@@ -48,7 +49,6 @@ let g:XPTmappings = {
 exe "inoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.trigger
 exe "xnoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.wrapTrigger
 exe "snoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.selTrigger
-let &cpo = s:oldcpo
 let s:pvs = split(g:xptemplate_vars, '\V'.s:ep.'&')
 for s:v in s:pvs
   let s:key = matchstr(s:v, '\V\^\[^=]\*\ze=')
@@ -124,3 +124,4 @@ if &compatible == 1
     echom "'compatible' option must be set. set compatible or let g:xptemplate_fix=1 to fix it"
   endif
 endif
+let &cpo = s:oldcpo

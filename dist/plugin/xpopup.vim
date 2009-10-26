@@ -2,6 +2,8 @@ if exists("g:__XPOPUP_VIM__")
     finish
 endif
 let g:__XPOPUP_VIM__ = 1
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 runtime plugin/debug.vim
 runtime plugin/xpreplace.vim
 runtime plugin/mapstack.vim
@@ -398,3 +400,4 @@ let s:sessionPrototype2 =  s:ClassPrototype(
             \   'SetAcceptEmpty', 
             \)
 call extend( s:sessionPrototype, s:sessionPrototype2, 'force' )
+let &cpo = s:oldcpo

@@ -2,6 +2,8 @@ if exists("g:__XPMARK_VIM__")
     finish
 endif
 let g:__XPMARK_VIM__ = 1
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 com! XPMgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPMgetSID
 delc XPMgetSID
@@ -647,3 +649,4 @@ endfunction
 nnoremap ,m :call XPMhere('c', 'l')<cr>
 nnoremap ,M :call XPMhere('c', 'r')<cr>
 nnoremap ,g :call XPMgoto('c')<cr>
+let &cpo = s:oldcpo

@@ -33,12 +33,12 @@ fun! s:f.c_fun_type_indent()
 endfunction
 
 fun! s:f.c_fun_body_indent()
-  if self[ '$FUNC_BRACKET_STL' ] == "\n"
-    return repeat( ' ', &softtabstop == 0 ? &tabstop : &softtabstop ). "\n\n"
-    " return "    \n\n"
-  else
-    return " "
-  endif
+    if self[ '$FUNC_BRACKET_STL' ] == "\n"
+        return repeat( ' ', &softtabstop == 0 ? &tabstop : &softtabstop ). "\n\n"
+        return "\n"
+    else
+        return " "
+    endif
 endfunction
 
 " ================================= Snippets ===================================

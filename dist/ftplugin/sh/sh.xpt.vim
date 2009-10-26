@@ -45,6 +45,9 @@ let s:braceMap = {
             \}
 
 fun! s:f.sh_complete_brace()
+    if !g:xptemplate_brace_complete 
+        return ''
+    endif
     let v = self.V()
     let br = matchstr( v, '\V\^\[\[({`]\{1,2} \?' )
     if br == ''

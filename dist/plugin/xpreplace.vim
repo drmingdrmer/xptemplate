@@ -2,6 +2,8 @@ if exists("g:__XPREPLACE_VIM__")
   finish
 endif
 let g:__XPREPLACE_VIM__ = 1
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 runtime plugin/debug.vim
 runtime plugin/mapstack.vim
 runtime plugin/xpmark.vim
@@ -151,3 +153,4 @@ fun! s:doPostJob( start, end, replacement )
         call d.f( a:start, a:end )
     endfor
 endfunction 
+let &cpo = s:oldcpo

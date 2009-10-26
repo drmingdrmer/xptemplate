@@ -2,8 +2,9 @@ if exists("g:__XPTEMPLATE_PARSER_VIM__")
   finish
 endif
 let g:__XPTEMPLATE_PARSER_VIM__ = 1
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 runtime plugin/debug.vim
-runtime plugin/xpclass.vim
 runtime plugin/FiletypeScope.class.vim
 runtime plugin/xptemplate.util.vim
 runtime plugin/xptemplate.vim
@@ -329,3 +330,4 @@ fun! s:splitWith( str, char )
   let s = split( a:str, '\V' . s:nonEscaped . a:char, 1 )
   return s
 endfunction 
+let &cpo = s:oldcpo

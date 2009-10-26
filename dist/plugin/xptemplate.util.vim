@@ -2,6 +2,8 @@ if exists("g:__XPTEMPLATE_UTIL_VIM__")
   finish
 endif
 let g:__XPTEMPLATE_UTIL_VIM__ = 1
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 runtime plugin/debug.vim
 runtime plugin/xpclass.vim
 let s:log = CreateLogger( 'warn' )
@@ -56,3 +58,4 @@ fun! s:XPTgetCurrentOrPreviousSynName()
     return synName
 endfunction 
 let g:xptutil = g:XPclass( s:sid, {} )
+let &cpo = s:oldcpo

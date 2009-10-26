@@ -377,6 +377,10 @@ let s:xptCompleteLeft = join( map( deepcopy( s:xptCompleteMap ), 'v:val[0:0]' ),
 let s:xptCompleteRight = join( map( deepcopy( s:xptCompleteMap ), 'v:val[1:1]' ), '' )
 
 fun! s:f.CompleteRightPart( left ) dict
+    if !g:xptemplate_brace_complete 
+        return ''
+    endif
+
     let v = self.V()
     " let left = substitute( a:left, '[', '[[]', 'g' )
     let left = escape( a:left, '[\' )
@@ -392,6 +396,10 @@ fun! s:f.CompleteRightPart( left ) dict
 endfunction
 
 fun! s:f.CmplQuoter_pre() dict
+    if !g:xptemplate_brace_complete 
+        return ''
+    endif
+
     let v = substitute( self.ItemStrippedValue(), '\V\^\s\*', '', '' )
 
     let first = matchstr( v, '\V\^\[''"]' )

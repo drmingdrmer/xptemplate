@@ -2,6 +2,8 @@ if exists("g:__XPCLASS_VIM__")
     finish
 endif
 let g:__XPCLASS_VIM__ = 1
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 fun! g:XPclass( sid, proto ) 
     let clz = deepcopy( a:proto )
     let funcs = split( s:GetCmdOutput( 'silent function /' . a:sid ), "\n" )
@@ -28,3 +30,4 @@ fun! s:GetCmdOutput(cmd)
   redir END
   return l:a
 endfunction 
+let &cpo = s:oldcpo

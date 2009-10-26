@@ -2,6 +2,8 @@ if exists("g:__MAPSTACK_VIM__")
   finish
 endif
 let g:__MAPSTACK_VIM__ = 1
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 runtime plugin/debug.vim
 let s:log = CreateLogger( 'warn' )
 fun! s:InitStacks() 
@@ -109,3 +111,4 @@ fun! SettingPop( ... )
     endif
     exe 'let '.d.key.'='.string(d.val)
 endfunction 
+let &cpo = s:oldcpo

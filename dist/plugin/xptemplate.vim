@@ -2,9 +2,12 @@ if exists("g:__XPTEMPLATE_VIM__")
     finish
 endif
 let g:__XPTEMPLATE_VIM__ = 1
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
 com! XPTgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPTgetSID
 delc XPTgetSID
+runtime plugin/xptemplate.conf.vim
 runtime plugin/debug.vim
 runtime plugin/xptemplate.util.vim
 runtime plugin/mapstack.vim
@@ -360,13 +363,11 @@ fun! XPTemplatePreWrap(wrap)
     if g:xptemplate_strip_left || x.wrap =~ '\n'
         let indent = matchstr( x.wrap, '^\s*' )
         let x.wrap = x.wrap[ len( indent ) : ]
-        let x.wrap = s:BuildFilterIndent( x.wrap, len( indent ) )
         let x.wrap = 'Echo(' . string( x.wrap ) . ')'
+        let x.wrap = s:BuildFilterIndent( x.wrap, len( indent ) )
     endif
     if getline( line( "." ) ) =~ '^\s*$'
-        while col( "." ) != 1
-            exe "normal! \<bs>"
-        endwhile
+        normal! d0
         let leftSpaces = repeat( ' ', x.wrapStartPos - 1 )
     else
         let leftSpaces = ''
@@ -1126,11 +1127,16 @@ fun! s:GetRangeBetween(p1, p2, ...)
     endif
     return s:vrange
 endfunction 
+fun! s:CleanupCurrentItem() 
+    let renderContext = s:getRenderContext()
+    let renderContext.lastFollowingSpace = ''
+endfunction 
 fun! s:ShipBack() 
     let renderContext = s:getRenderContext()
     if empty( renderContext.history )
         return ''
     endif
+    call s:CleanupCurrentItem()
     let his = remove( renderContext.history, -1 )
     call s:PushBackItem()
     let renderContext.item = his.item
@@ -1155,6 +1161,7 @@ endfunction
 fun! s:FinishCurrentAndGotoNextItem(action) 
     let renderContext = s:getRenderContext()
     let marks = renderContext.leadingPlaceHolder.mark
+    call s:CleanupCurrentItem()
     let rc = s:XPTupdate()
     if rc == -1
         return ''
@@ -1282,10 +1289,10 @@ fun! s:AdjustIndentAccordingToLine( snip, indent, lineNr, ... )
         endif
     endif
     let indentspaces = repeat(' ', indent)
-    if len( indentspaces ) > len( a:indent )
-      let indentspaces = substitute( indentspaces, a:indent, '', '' )
+    if len( indentspaces ) >= len( a:indent )
+        let indentspaces = substitute( indentspaces, a:indent, '', '' )
     else
-      let indentspaces = ''
+        let indentspaces = ''
     endif
     return substitute( a:snip, "\n", "\n" . indentspaces, 'g' )
 endfunction 
@@ -1696,18 +1703,29 @@ fun! s:XPTinit()
     let literalKeys = [
                 \ 's_%', 
                 \ 's_''', 
+                \ 's_"', 
+                \ 's_(', 
+                \ 's_)', 
+                \ 's_{', 
+                \ 's_}', 
                 \ 's_[', 
                 \ 's_]', 
-                \
-                \ 'i_''', 
-                \ 'i_"', 
-                \ 'i_[', 
-                \ 'i_(', 
-                \ 'i_{', 
-                \ 'i_<BS>', 
-                \ 'i_<C-h>', 
-                \ 'i_<DEL>', 
                 \]
+    if g:xptemplate_brace_complete
+        let literalKeys += [
+                    \ 'i_''', 
+                    \ 'i_"', 
+                    \ 'i_[', 
+                    \ 'i_(', 
+                    \ 'i_{', 
+                    \ 'i_]', 
+                    \ 'i_)', 
+                    \ 'i_}', 
+                    \ 'i_<BS>', 
+                    \ 'i_<C-h>', 
+                    \ 'i_<DEL>', 
+                    \]
+    endif
     let b:mapSaver = g:MapSaver.New(1)
     call b:mapSaver.AddList(
                 \ 'i_' . g:xptemplate_nav_next, 
@@ -1744,11 +1762,10 @@ fun! s:ApplyMap()
     exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_cancel.' <Esc>i<C-r>=<SID>FinishCurrentAndGotoNextItem("clear")<cr>'
     exe 'nnoremap <silent> <buffer> '.g:xptemplate_goback . ' i<C-r>=<SID>Goback()<cr>'
     snoremap <silent> <buffer> <Del> <Del>i
+    snoremap <silent> <buffer> <BS> d<BS>
     if &selection == 'inclusive'
-        snoremap <silent> <buffer> <BS> <esc>`>a<BS>
         exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>a"
     else
-        snoremap <silent> <buffer> <BS> <esc>`>i<BS>
         exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>i"
     endif
 endfunction 
@@ -2039,6 +2056,18 @@ fun! s:XPTcheck()
 endfunction 
 fun! s:XPTtrackFollowingSpace() 
     let renderContext = s:getRenderContext()
+    if !renderContext.processing
+        return
+    endif
+    let leader =  renderContext.leadingPlaceHolder
+    let leaderMark = leader.mark
+    let [ start, end ] = XPMposList(leaderMark.start, leaderMark.end)
+    let pos = line( '.' ) * 10000 + col( '.' )
+    let nStart = start[0] * 10000 + start[1]
+    let nEnd = end[0] * 10000 + end[1]
+    if pos < nStart || pos > nEnd
+        return
+    endif
     let currentPos = [ line( '.' ), col( '.' ) ]
     let currentFollowingSpace = getline( currentPos[0] )[ currentPos[1] - 1 : ]
     let currentFollowingSpace = matchstr( currentFollowingSpace, '^\s*' )
@@ -2099,3 +2128,4 @@ fun! String( d, ... )
     let str = substitute( str, "\\V'\\%(\\[^']\\|''\\)\\{-}'" . '\s\*:\s\*function\[^)]),\s\*', '', 'g' )
     return str
 endfunction
+let &cpo = s:oldcpo
