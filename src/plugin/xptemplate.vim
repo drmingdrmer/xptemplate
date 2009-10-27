@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.3.9.91
+" VERSION: 0.3.9.92
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
@@ -19,10 +19,12 @@
 " "}}}
 "
 " KNOWING BUG: "{{{
+"   With pum, Up and Down does not update the text after cursor
 "
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO visual mode special chars : d<bs> char
 " TODO hint of whether xpt is running. sign, statusline, highlight
 " TODO 2 <tab> to accept empty
 " TODO /../../ ontime filter shortcut
@@ -65,7 +67,9 @@
 "   fix : wrapping snippet leaves some spaces at end of line.
 "   fix : CR fixer bug.
 "   fix : default value indent
+"   fix : embedded language loading bug
 "   add : g:xptemplate_brace_complete option
+"   fix : with pum correct <up>, <down> and <cr> behavior
 "
 
 

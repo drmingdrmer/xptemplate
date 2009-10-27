@@ -24,8 +24,18 @@ XPTinclude
 " ================================= Snippets ===================================
 XPTemplateDef
 
+XPT fun hint=function\ ..(\ ..\ )\ {..}
+XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
+function` `name^ (`arg*^) {
+    `cursor^
+}
 
 
 
 " ================================= Wrapper ===================================
 
+XPT fun_ hint=function\ ..(\ ..\ )\ {..}
+function` `name^ (`param^) {
+    `wrapped^
+    return;
+}
