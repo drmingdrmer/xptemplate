@@ -19,7 +19,8 @@
 " "}}}
 "
 " KNOWING BUG: "{{{
-"   With pum, Up and Down does not update the text after cursor
+"   bug:() can not be evaluated in Eval()
+"   
 "
 " "}}}
 "
@@ -1919,11 +1920,15 @@ fun! s:ApplyPreValues( placeHolder ) "{{{
 
             "Note: does not include function or function is preValue safe(with '_pre' suffix)
             if preValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
-                        \|| preValue =~ '\V_pre()'
+                        \|| preValue =~ '\V_pre(' 
+                        \|| preValue =~ '\V\u\w\+('
+
                 let text = s:Eval( preValue )
 
-                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( text )
-                call s:SetPreValue( a:placeHolder, filterIndent, filterText )
+                if type( text ) == type('')
+                    let [ filterIndent, filterText ] = s:GetFilterIndentAndText( text )
+                    call s:SetPreValue( a:placeHolder, filterIndent, filterText )
+                endif
             endif
         endif
 
@@ -2892,10 +2897,13 @@ fun! s:Eval(s, ...) "{{{
     let nonEscaped =   '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
 
+    " TODO bug:() can not be evaluated
     " TODO how to add '$' ?
     let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . nonEscaped . '{\w\+(\[^($]\{-})}'
     let vptn = '\V' . nonEscaped . '$\w\+' . '\|' . nonEscaped . '{$\w\+}'
+    " let sptn = '\V' . nonEscaped . '(\s\*)'
 
+    " let patternVarOrFunc = fptn . '\|' . vptn . '\|' . sptn
     let patternVarOrFunc = fptn . '\|' . vptn
 
     let stringMask = s:CreateStringMask( a:s )
@@ -2907,6 +2915,7 @@ fun! s:Eval(s, ...) "{{{
 
     " TODO simplify me
     let xfunc._ctx = ctx.evalCtx
+    let xfunc._ctx.phase = ctx.phase
     let xfunc._ctx.tmpl = ctx.tmpl
     let xfunc._ctx.step = {}
     let xfunc._ctx.namedStep = {}
@@ -2994,39 +3003,43 @@ fun! s:Eval(s, ...) "{{{
 
 
 
-    for k in offsetsOfEltsToEval
+    try
+        for k in offsetsOfEltsToEval
 
-        let kn = 0 + k
-        let vn = 0 + k + rangesToEval[k]
+            let kn = 0 + k
+            let vn = 0 + k + rangesToEval[k]
 
 
-        " unescape \{ and \(
-        " match the previous line )} - -..
-        let tmp = k == 0 ? "" : (str[last : kn-1])
+            " unescape \{ and \(
+            " match the previous line )} - -..
+            let tmp = k == 0 ? "" : (str[last : kn-1])
+            " let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
+            " TODO need to unescape '[' ?
+            let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
+            let sp .= tmp
+
+
+            let evaledResult = eval(str[kn : vn-1])
+
+            if type(evaledResult) != type('') && type(evaledResult) != type(0)
+                call s:log.Log( "Eval:evaluated type is not string but =" . type(evaledResult) . ' '.str[ kn : vn - 1 ] )
+                " discard anything else
+                return evaledResult
+            endif
+
+            let sp .= evaledResult
+
+
+            let last = vn
+        endfor
+
+        let tmp = str[last : ]
         " let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
-        " TODO need to unescape '[' ?
         let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
         let sp .= tmp
-
-
-        let evaledResult = eval(str[kn : vn-1])
-
-        if type(evaledResult) != type('')
-            call s:log.Log( "Eval:evaluated type is not string but =" . type(evaledResult) . ' '.str[ kn : vn - 1 ] )
-            " discard anything else
-            return evaledResult
-        endif
-
-        let sp .= evaledResult
-
-
-        let last = vn
-    endfor
-
-    let tmp = str[last : ]
-    " let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
-    let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
-    let sp .= tmp
+    catch /.*/
+        echom v:exception
+    endtry
 
     return sp
 

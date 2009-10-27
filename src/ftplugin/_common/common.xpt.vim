@@ -41,35 +41,35 @@ XPTinclude
 
 " current name
 fun! s:f.N() "{{{
-  if has_key(self._ctx, 'name')
-    return self._ctx.name
-  else
-    return ""
-  endif
+    return get( self._ctx, 'name', '' )
 endfunction "}}}
 
 " name with edge
 fun! s:f.NN() "{{{
-  if has_key(self._ctx, 'fullname')
-    return self._ctx.fullname
-  else
-    return ""
-  endif
+    return get( self._ctx, 'fullname', '' )
 endfunction "}}}
-
-" TODO left edge, right edge 
-fun! s:f.Edges()
-  return [ '', '' ]
-endfunction
 
 " current value
 fun! s:f.V() dict "{{{
-  if has_key(self._ctx, 'value')
-    return self._ctx.value
-  else
-    return ""
-  endif
+    return get( self._ctx, 'value', '' )
 endfunction "}}}
+
+" value match
+fun! s:f.Vmatch( ... ) 
+    let v = self.V()
+    for reg in a:000
+        if match(v, reg) != -1
+            return 1
+        endif
+    endfor
+
+    return 0
+endfunction 
+
+" value matchstr
+fun! s:f.VMS( reg ) 
+    return matchstr(self.V(), a:reg)
+endfunction 
 
 " edge stripped value
 fun! s:f.V0() dict
@@ -81,6 +81,10 @@ fun! s:f.V0() dict
   let v = substitute( v, '\V' . edgeRight . '\$', '', '' )
 
   return v
+endfunction
+
+fun! s:f.Phase() dict
+    return get( self._ctx, 'phase', '' )
 endfunction
 
 " TODO this is not needed at all except as a shortcut.
@@ -109,12 +113,8 @@ endfunction "}}}
 
 " reference to another finished item value
 fun! s:f.R(name) "{{{
-  let ctx = self._ctx
-  if has_key(ctx.namedStep, a:name)
-    return ctx.namedStep[a:name]
-  endif
-
-  return ""
+    let namedStep = get( self._ctx, 'namedStep', {} )
+    return get( namedStep, 'value', '' )
 endfunction "}}}
 
 " black hole
