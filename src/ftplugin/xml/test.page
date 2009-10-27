@@ -55,28 +55,18 @@ a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
-    <!--  -------------<---------------             -->
-    <!-- <`tag^` `...{{^ `name^="`val^"` `...^`}}^> -->
-    <!--     `cursor^                               -->
-    <!-- </`tag^>                                   -->
+    <!--  -------------<---------------                     -->
+    <!-- <`tag^` `att*^`att*^xml_attVal()^>`cursor^</`tag^> -->
 
 
 
-<tag name="val" name="val" name="val">
-    
-</tag>
+<tag></tag>
 
-<tag_TYPED _TYPED>
-    
-</tag_TYPED> b
+<tag_TYPED att_TYPED="val_TYPED" att_TYPED="val_TYPED" att_TYPED="val_TYPED"></tag_TYPED> b
 
-a <tag name="val" name="val" name="val">
-    
-</tag> b
+a <tag></tag> b
 
-a <tag name="val" name="val" name="val">
-    
-</tag>
+a <tag></tag>
 
 
     <!--  -------------<_---------------                             -->
@@ -148,55 +138,35 @@ WRAPPED_TEXT_line2`
 
 
     <!--  -------------CDATA--------------- -->
-    <!-- <![CDATA[                          -->
-    <!-- `cursor^                           -->
-    <!-- ]]>                                -->
+    <!-- <![CDATA[`cursor^]]>               -->
 
 
 
-    <![CDATA[
-    
-    ]]>
+    <![CDATA[]]>
 
-    <![CDATA[
-    
-    ]]> b
+    <![CDATA[]]> b
 
-    a <![CDATA[
-    
-    ]]> b
+    a <![CDATA[]]> b
 
-    a <![CDATA[
-    
-    ]]>
+    a <![CDATA[]]>
 
 
     <!--  -------------CDATA_--------------- -->
-    <!-- <![CDATA[                           -->
-    <!-- `wrapped^                           -->
-    <!-- ]]>                                 -->
+    <!-- <![CDATA[`wrapped^]]>               -->
 
 
 
-<![CDATA[
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-]]>
+<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>
 
-<![CDATA[
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-]]>b
+<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>b
 
-a <![CDATA[
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-]]>b
+a <![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>b
 
-a <![CDATA[
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-]]>
+a <![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>
 
 
     <!--  -------------comment--------------- -->
