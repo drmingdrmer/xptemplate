@@ -1,10 +1,8 @@
-XPTemplate priority=spec keyword=<
+XPTemplate priority=spec
 
 let s:f = g:XPTfuncs() 
  
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $VOID_LINE     <!-- void -->;
+XPTvar $CURSOR_PH     <!-- cursor -->
 
 XPTinclude 
       \ _common/common
@@ -18,15 +16,18 @@ XPTinclude
 
 " ========================= Function and Variables =============================
 
+fun! s:f.xml_attVal()
+    return self.Vmatch('\Vatt*', '\V\^\s\*\$') || self.Phase()=='post' ? '' : '="val"'
+endfunction
 
 " ================================= Snippets ===================================
 XPTemplateDef
 
 
 XPT < hint=<Tag>..</Tag>
-<`tag^` `...{{^ `name^="`val^"` `...^`}}^>
-    `cursor^
-</`tag^>
+XSET att*|post=BuildIfChanged(V().'="`val^"` `att*^`att*^xml_attVal()^')
+<`tag^` `att*^`att*^xml_attVal()^>`cursor^</`tag^>
+..XPT
 
 
 XPT ver hint=<?xml\ version=...
@@ -38,9 +39,7 @@ XPT style hint=<?xml-stylesheet...
 
 
 XPT CDATA hint=<![CDATA[...
-<![CDATA[
-`cursor^
-]]>
+<![CDATA[`cursor^]]>
 
 
 
@@ -51,8 +50,6 @@ XPT <_ hint=<Tag>\ SEL\ </Tag>
 
 
 XPT CDATA_ hint=<![CDATA[\ SEL\ ]]>
-<![CDATA[
-`wrapped^
-]]>
+<![CDATA[`wrapped^]]>
 
 

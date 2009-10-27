@@ -1007,10 +1007,13 @@ fun! s:ApplyPreValues( placeHolder )
                     \: a:placeHolder.ontimeFilter
         if !s:IsFilterEmpty( preValue ) 
             if preValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
-                        \|| preValue =~ '\V_pre()'
+                        \|| preValue =~ '\V_pre(' 
+                        \|| preValue =~ '\V\u\w\+('
                 let text = s:Eval( preValue )
-                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( text )
-                call s:SetPreValue( a:placeHolder, filterIndent, filterText )
+                if type( text ) == type('')
+                    let [ filterIndent, filterText ] = s:GetFilterIndentAndText( text )
+                    call s:SetPreValue( a:placeHolder, filterIndent, filterText )
+                endif
             endif
         endif
     endif
@@ -1561,6 +1564,7 @@ fun! s:Eval(s, ...)
     let patternVarOrFunc = fptn . '\|' . vptn
     let stringMask = s:CreateStringMask( a:s )
     let xfunc._ctx = ctx.evalCtx
+    let xfunc._ctx.phase = ctx.phase
     let xfunc._ctx.tmpl = ctx.tmpl
     let xfunc._ctx.step = {}
     let xfunc._ctx.namedStep = {}
@@ -1610,22 +1614,26 @@ fun! s:Eval(s, ...)
     let sp = ""
     let last = 0
     let offsetsOfEltsToEval = sort(keys(rangesToEval), "XPTS2l")
-    for k in offsetsOfEltsToEval
-        let kn = 0 + k
-        let vn = 0 + k + rangesToEval[k]
-        let tmp = k == 0 ? "" : (str[last : kn-1])
+    try
+        for k in offsetsOfEltsToEval
+            let kn = 0 + k
+            let vn = 0 + k + rangesToEval[k]
+            let tmp = k == 0 ? "" : (str[last : kn-1])
+            let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
+            let sp .= tmp
+            let evaledResult = eval(str[kn : vn-1])
+            if type(evaledResult) != type('') && type(evaledResult) != type(0)
+                return evaledResult
+            endif
+            let sp .= evaledResult
+            let last = vn
+        endfor
+        let tmp = str[last : ]
         let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
         let sp .= tmp
-        let evaledResult = eval(str[kn : vn-1])
-        if type(evaledResult) != type('')
-            return evaledResult
-        endif
-        let sp .= evaledResult
-        let last = vn
-    endfor
-    let tmp = str[last : ]
-    let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
-    let sp .= tmp
+    catch /.*/
+        echom v:exception
+    endtry
     return sp
 endfunction 
 fun! s:TextBetween(p1, p2) 
