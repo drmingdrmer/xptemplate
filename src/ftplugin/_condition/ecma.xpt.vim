@@ -24,21 +24,21 @@ XPTemplateDef
 XPT ifu		hint=if\ (undefined\ ===\ ..)\ {..} ..
 XSET job=$VOID_LINE
 if (`$UNDEFINED^ === `var^) {
-  `job^
+    `job^
 }`
 `else...{{^
 else {
-  `cursor^
+    `cursor^
 }`}}^
 
 
 XPT ifnu 	hint=if\ (undefined\ !==\ ..)\ {..} ..
 XSET job=$VOID_LINE
 if (`$UNDEFINED^ !== `var^) {
-  `job^
+    `job^
 }`
 `else...{{^
 else {
-  `cursor^
+    `cursor^
 }`}}^
 

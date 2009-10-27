@@ -1,7 +1,7 @@
-if exists("g:__ERUBY_FTDETECT_VIM__")
+if exists("b:__ERUBY_FTDETECT_VIM__")
     finish
 endif
-let g:__ERUBY_FTDETECT_VIM__ = 1
+let b:__ERUBY_FTDETECT_VIM__ = 1
 
 
 if &filetype !~ 'eruby'

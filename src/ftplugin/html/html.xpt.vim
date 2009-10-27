@@ -1,4 +1,4 @@
-XPTemplate priority=lang keyword=<
+XPTemplate priority=lang
 
 let s:f = g:XPTfuncs() 
  

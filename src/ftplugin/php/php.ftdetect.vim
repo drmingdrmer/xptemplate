@@ -1,7 +1,7 @@
-if exists("g:__PHP_FTDETECT_VIM__")
+if exists("b:__PHP_FTDETECT_VIM__")
     finish
 endif
-let g:__PHP_FTDETECT_VIM__ = 1
+let b:__PHP_FTDETECT_VIM__ = 1
 
 
 if &filetype !~ 'php'
