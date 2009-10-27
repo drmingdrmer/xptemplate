@@ -1,7 +1,7 @@
-if exists("g:__HTML_FTDETECT_VIM__")
+if exists("b:__HTML_FTDETECT_VIM__")
     finish
 endif
-let g:__HTML_FTDETECT_VIM__ = 1
+let b:__HTML_FTDETECT_VIM__ = 1
 
 
 " TODO xhtml support

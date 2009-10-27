@@ -16,14 +16,16 @@ XPTvar $WHILE_BRACKET_STL  \
 XPTvar $STRUCT_BRACKET_STL \ 
 XPTvar $FUNC_BRACKET_STL   \ 
 
+XPTinclude 
+      \ _common/common
+
 XPTvar $CL    /*
 XPTvar $CM    *
 XPTvar $CR    */
-
+XPTinclude 
+      \ _comment/doubleSign
 
 XPTinclude 
-      \ _common/common
-      \ _comment/doubleSign
       \ _condition/c.like
       \ _loops/java.for.like
       \ _loops/c.while.like

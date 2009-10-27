@@ -287,12 +287,18 @@ fun! s:ApplyMapAndSetting()
         return
     endif
     let b:__xpp_mapped = {}
+    let b:__xpp_mapped.i_up     =  g:MapPush('<up>', 'i', 1)
+    let b:__xpp_mapped.i_down   =  g:MapPush('<down>', 'i', 1)
     let b:__xpp_mapped.i_bs     =  g:MapPush('<bs>', 'i', 1)
     let b:__xpp_mapped.i_tab    =  g:MapPush('<tab>', 'i', 1)
+    let b:__xpp_mapped.i_cr     =  g:MapPush('<cr>', 'i', 1)
     let b:__xpp_mapped.i_c_e    =  g:MapPush('<C-e>', 'i', 1)
     let b:__xpp_mapped.i_c_y    =  g:MapPush('<C-y>', 'i', 1)
+    exe 'inoremap <silent> <buffer> <UP>' '<C-p>'
+    exe 'inoremap <silent> <buffer> <DOWN>' '<C-n>'
     exe 'inoremap <silent> <buffer> <bs>' '<C-r>=XPPshorten()<cr>'
     exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
+    exe 'inoremap <silent> <buffer> <cr>' '<C-r>=XPPenlarge()<cr>'
     exe 'inoremap <silent> <buffer> <C-e>' '<C-r>=XPPcancel()<cr>'
     exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
     call SettingPush( '&l:cinkeys', '' )
@@ -304,8 +310,11 @@ fun! s:ClearMapAndSetting()
     endif
     call g:MapPop(b:__xpp_mapped.i_c_y)
     call g:MapPop(b:__xpp_mapped.i_c_e)
+    call g:MapPop(b:__xpp_mapped.i_cr)
     call g:MapPop(b:__xpp_mapped.i_tab)
     call g:MapPop(b:__xpp_mapped.i_bs)
+    call g:MapPop(b:__xpp_mapped.i_down)
+    call g:MapPop(b:__xpp_mapped.i_up)
     call SettingPop() " indentkeys 
     call SettingPop() " cinkeys 
     unlet b:__xpp_mapped
