@@ -71,6 +71,7 @@
 "   fix : embedded language loading bug
 "   add : g:xptemplate_brace_complete option
 "   fix : with pum correct <up>, <down> and <cr> behavior
+"   improve : xml snippet
 "
 
 
