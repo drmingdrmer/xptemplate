@@ -347,8 +347,18 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
     let xt = xptObj.filetypes[ g:GetSnipFileFT() ].normalTemplates
 
     if has_key( xt, a:toWhich )
-        let xt[ a:name ] = deepcopy( xt[ a:toWhich ] )
-        let xt[ a:name ].name = a:name
+        let toSnip = xt[ a:toWhich ]
+        let xt[a:name] = {
+                        \ 'name'        : a:name,
+                        \ 'parsed'      : 0, 
+                        \ 'ftScope'     : toSnip.ftScope, 
+                        \ 'tmpl'        : toSnip.tmpl,
+                        \ 'priority'    : toSnip.priority,
+                        \ 'setting'     : deepcopy(toSnip.setting),
+                        \ 'ptn'         : deepcopy(toSnip.ptn),
+                        \ 'wrapped'     : toSnip.wrapped, 
+                        \}
+
         call s:ParseTemplateSetting( xptObj, a:setting )
         call g:xptutil.DeepExtend( xt[ a:name ].setting, a:setting )
     endif
