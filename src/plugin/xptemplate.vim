@@ -19,7 +19,6 @@
 " "}}}
 "
 " KNOWING BUG: "{{{
-"   bug:() can not be evaluated in Eval()
 "   
 "
 " "}}}
@@ -69,9 +68,14 @@
 "   fix : CR fixer bug.
 "   fix : default value indent
 "   fix : embedded language loading bug
-"   add : g:xptemplate_brace_complete option
 "   fix : with pum correct <up>, <down> and <cr> behavior
+"   fix : () can not be evaluated in Eval()
+"   fix : Eval function
+"   fix : bug of hint=...
+"   fix : bug of R()
 "   improve : xml snippet
+"   add : g:xptemplate_brace_complete option
+"   
 "
 
 
@@ -357,7 +361,11 @@ fun! g:GetSnipFileFT() "{{{
 endfunction "}}}
 
 fun! g:GetSnipFileFtScope() "{{{
-    let x = g:XPTobject()
+    return s:GetSnipFileFtScope()
+endfunction "}}}
+
+fun! s:GetSnipFileFtScope() "{{{
+    let x = s:XPTobject()
     return x.filetypes[ x.snipFileScope.filetype ]
 endfunction "}}}
 
@@ -1907,9 +1915,9 @@ fun! s:ApplyPreValues( placeHolder ) "{{{
 
 
     if !s:IsFilterEmpty( preValue ) 
-        let preValue = s:Eval( preValue )
         let [ filterIndent, filterText ] = s:GetFilterIndentAndText( preValue )
-        call s:SetPreValue( a:placeHolder, filterIndent, filterText )
+        let obj = s:Eval( filterText )
+        call s:SetPreValue( a:placeHolder, filterIndent, obj )
 
     else
         let preValue = has_key( setting.defaultValues, a:placeHolder.name ) ? 
@@ -1924,11 +1932,11 @@ fun! s:ApplyPreValues( placeHolder ) "{{{
                         \|| preValue =~ '\V_pre(' 
                         \|| preValue =~ '\V\u\w\+('
 
-                let text = s:Eval( preValue )
 
-                if type( text ) == type('')
-                    let [ filterIndent, filterText ] = s:GetFilterIndentAndText( text )
-                    call s:SetPreValue( a:placeHolder, filterIndent, filterText )
+                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( preValue )
+                let obj = s:Eval( filterText )
+                if type( obj ) == type('')
+                    call s:SetPreValue( a:placeHolder, filterIndent, obj )
                 endif
             endif
         endif
@@ -2703,8 +2711,8 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
     let str = a:filter
 
 
-    " popup list, action dictionary or string
-    let obj = s:Eval(str) 
+    let [ filterIndent, filterText ] = s:GetFilterIndentAndText( str )
+    let obj = s:Eval(filterText) 
 
     call s:log.Debug( 'filter=' . str, 'filterd=' . string( obj ) )
 
@@ -2740,8 +2748,7 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
 
     else 
         " string
-        let filterIndent = matchstr( obj, '\s*\ze\n' )
-        let filterText = matchstr( obj, '\n\zs\_.*' )
+        let filterText = obj
         let str = s:AdjustIndentAccordingToLine( filterText, filterIndent, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0], renderContext.leadingPlaceHolder )
 
         return s:FillinLeadingPlaceHolderAndSelect( renderContext, str )
@@ -2825,11 +2832,11 @@ fun! s:CreateStringMask( str ) "{{{
     endif
 
     if !exists( 'b:_xpeval' )
-        let b:_xpeval = { 'cache' : {} }
+        let b:_xpeval = { 'strMaskCache' : {}, 'evalCache' : {} }
     endif
 
-    if has_key( b:_xpeval.cache, a:str )
-        return b:_xpeval.cache[ a:str ]
+    if has_key( b:_xpeval.strMaskCache, a:str )
+        return b:_xpeval.strMaskCache[ a:str ]
     endif
 
     " non-escaped prefix
@@ -2868,7 +2875,7 @@ fun! s:CreateStringMask( str ) "{{{
 
     endwhile "}}}
 
-    let b:_xpeval.cache[ a:str ] = mask
+    let b:_xpeval.strMaskCache[ a:str ] = mask
 
     return mask
 
@@ -2879,10 +2886,25 @@ fun! XPTS2l(a, b)
 endfunction
 
 fun! s:Eval(s, ...) "{{{
-    let x = g:XPTobject()
+    let expr = ''
+
+    if a:s == ''
+        return ''
+    endif
+
+    if !exists( 'b:_xpeval' )
+        let b:_xpeval = { 'strMaskCache' : {}, 'evalCache' : {} }
+    endif
+
+    if has_key( b:_xpeval.evalCache, a:s )
+        let expr = b:_xpeval.evalCache[ a:s ]
+    endif
+
+
+
     let ctx = s:getRenderContext()
     if ctx.phase == 'uninit'
-        let xfunc = g:GetSnipFileFtScope().funcs
+        let xfunc = s:GetSnipFileFtScope().funcs
     else
         let xfunc = ctx.ftScope.funcs
     endif
@@ -2892,24 +2914,6 @@ fun! s:Eval(s, ...) "{{{
     if a:0 >= 1
         call extend( tmpEvalCtx, a:1, 'force' )
     endif
-
-
-    " non-escaped prefix
-    let nonEscaped =   '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
-
-
-    " TODO bug:() can not be evaluated
-    " TODO how to add '$' ?
-    let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . nonEscaped . '{\w\+(\[^($]\{-})}'
-    let vptn = '\V' . nonEscaped . '$\w\+' . '\|' . nonEscaped . '{$\w\+}'
-    " let sptn = '\V' . nonEscaped . '(\s\*)'
-
-    " let patternVarOrFunc = fptn . '\|' . vptn . '\|' . sptn
-    let patternVarOrFunc = fptn . '\|' . vptn
-
-    let stringMask = s:CreateStringMask( a:s )
-
-    call s:log.Debug( 'string =' . a:s, 'strmask=' . stringMask )
 
 
 
@@ -2934,11 +2938,45 @@ fun! s:Eval(s, ...) "{{{
     endif
 
 
+    if '' != expr
+        call s:log.Log('cached expression=' . expr)
+        try
+            return eval(expr)
+        catch /.*/
+            call s:log.Warn(v:exception)
+            " call s:log.Warn('expr=' . expr)
+            return ''
+        endtry
+    endif
+
+
+    " non-escaped prefix
+    let nonEscaped =   '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
+
+
+    " TODO bug:() can not be evaluated
+    " TODO how to add '$' ?
+    let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . nonEscaped . '{\w\+(\[^($]\{-})}'
+    let vptn = '\V' . nonEscaped . '$\w\+' . '\|' . nonEscaped . '{$\w\+}'
+    let sptn = '\V' . nonEscaped . '(\[^($]\{-})'
+
+    let patternVarOrFunc = fptn . '\|' . vptn . '\|' . sptn
+    " let patternVarOrFunc = fptn . '\|' . vptn
+
+    let stringMask = s:CreateStringMask( a:s )
+
+    call s:log.Debug( 'string =' . a:s, 'strmask=' . stringMask )
+
+
+
+
+
 
 
     " parameter string list
     let rangesToEval = {}
     let str = a:s
+    let evalMask = repeat('-', len(stringMask))
 
 
     while 1
@@ -2958,8 +2996,17 @@ fun! s:Eval(s, ...) "{{{
         endif
 
 
+        if matched[0:0] == '(' && matched[-1:-1] == ')'
+            " ignore it 
+            let contextedMatchedLen = len(matched)
+            let spaces = repeat(' ', contextedMatchedLen)
+            let stringMask = (matchedIndex == 0 ? "" : stringMask[:matchedIndex-1]) 
+                        \ . spaces
+                        \ . stringMask[matchedIndex + matchedLen :]
 
-        if matched[-1:] == ')' && has_key(xfunc, matchstr(matched, '^\w\+'))
+            continue
+
+        elseif matched[-1:] == ')' && has_key(xfunc, matchstr(matched, '^\w\+'))
             let matched = "xfunc." . matched
 
         elseif matched[0:0] == '$' && has_key(xfunc, matched)
@@ -2970,20 +3017,14 @@ fun! s:Eval(s, ...) "{{{
 
         let contextedMatchedLen = len(matched)
 
+        let spaces = repeat(' ', contextedMatchedLen)
 
-        " remove spanned sub expression
-        for i in keys(rangesToEval)
-            if i >= matchedIndex && i < matchedIndex + matchedLen
-                call remove(rangesToEval, i)
-            endif
-        endfor
-
-        " add unparsed string
-        let rangesToEval[matchedIndex] = contextedMatchedLen
-
+        let evalMask = (matchedIndex == 0 ? "" : evalMask[:matchedIndex-1]) 
+                    \ . '+' . spaces[1:]
+                    \ . evalMask[matchedIndex + matchedLen :]
 
         let stringMask = (matchedIndex == 0 ? "" : stringMask[:matchedIndex-1]) 
-                    \ . repeat(' ', contextedMatchedLen)
+                    \ . spaces
                     \ . stringMask[matchedIndex + matchedLen :]
 
         let str  = (matchedIndex == 0 ? "" :  str[:matchedIndex-1])
@@ -2993,56 +3034,41 @@ fun! s:Eval(s, ...) "{{{
     endwhile
 
 
+    let idx = 0
+    let expr = "''"
+    while 1
+        let matches = matchlist( evalMask, '\V\(-\*\)\(+ \*\)\?', idx )
+        if '' == matches[0]
+            break
+        endif
+
+        if '' != matches[1]
+            let part = str[ idx : idx + len(matches[1]) - 1 ]
+            let part = g:xptutil.UnescapeChar(part, '{$( ')
+            let expr .= '.' . string(part)
+        endif
+
+        if '' != matches[2]
+            let expr .= '.' . str[ idx + len(matches[1]) : idx + len(matches[0]) - 1 ]
+        endif
+
+        let idx += len(matches[0])
+    endwhile
+
+    let expr = matchstr(expr, "\\V\\^''.\\zs\\.\\*")
+    call s:log.Log('expression to evaluate=' . string(expr))
 
 
-    let sp = ""
-    let last = 0
-
-
-    let offsetsOfEltsToEval = sort(keys(rangesToEval), "XPTS2l")
-
-
+    let b:_xpeval.evalCache[a:s] = expr
 
 
     try
-        for k in offsetsOfEltsToEval
-
-            let kn = 0 + k
-            let vn = 0 + k + rangesToEval[k]
-
-
-            " unescape \{ and \(
-            " match the previous line )} - -..
-            let tmp = k == 0 ? "" : (str[last : kn-1])
-            " let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
-            " TODO need to unescape '[' ?
-            let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
-            let sp .= tmp
-
-
-            let evaledResult = eval(str[kn : vn-1])
-
-            if type(evaledResult) != type('') && type(evaledResult) != type(0)
-                call s:log.Log( "Eval:evaluated type is not string but =" . type(evaledResult) . ' '.str[ kn : vn - 1 ] )
-                " discard anything else
-                return evaledResult
-            endif
-
-            let sp .= evaledResult
-
-
-            let last = vn
-        endfor
-
-        let tmp = str[last : ]
-        " let tmp = substitute(tmp, '\\\(.\)', '\1', 'g')
-        let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
-        let sp .= tmp
+        return eval(expr)
     catch /.*/
-        echom v:exception
+        call s:log.Warn(v:exception)
+        " call s:log.Warn('expr=' . expr)
+        return ''
     endtry
-
-    return sp
 
 endfunction "}}}
 
@@ -3326,11 +3352,15 @@ fun! s:createRenderContext(x) "{{{
 endfunction "}}}
 
 fun! s:getRenderContext(...) "{{{
-    let x = a:0 == 1 ? a:1 : g:XPTobject()
+    let x = a:0 == 1 ? a:1 : s:XPTobject()
     return x.renderContext
 endfunction "}}}
 
 fun! g:XPTobject() "{{{
+    return s:XPTobject()
+endfunction
+
+fun! s:XPTobject() "{{{
     if !exists("b:xptemplateData")
         let b:xptemplateData = {
                     \   'filetypes'         : { '**' : g:FiletypeScope.New() }, 
@@ -3359,6 +3389,8 @@ fun! g:XPTobject() "{{{
     endif
     return b:xptemplateData
 endfunction "}}}
+
+
 
 fun! s:RedefinePattern() "{{{
     let xp = b:xptemplateData.snipFileScope.ptn
@@ -3519,8 +3551,12 @@ endfunction
 
 
 fun! s:GetFilterIndentAndText( filter ) "{{{
-    let filterIndent = matchstr( a:filter, '\s*\ze\n' )
-    let filterText = matchstr( a:filter, '\n\zs\_.*' )
+    if a:filter =~ '\n'
+        let filterIndent = matchstr( a:filter, '\s*\ze\n' )
+        let filterText = matchstr( a:filter, '\n\zs\_.*' )
+    else
+        return ['', a:filter]
+    endif
     return [ filterIndent, filterText ]
 endfunction "}}}
 

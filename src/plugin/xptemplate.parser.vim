@@ -201,17 +201,10 @@ fun! XPTinclude(...) "{{{
                 call XPTinclude(s)
             endfor
         elseif type(v) == type('') 
-            " let fullname = globpath( &rtp, 'ftplugin/' . v . '.xpt.vim' )
-            " if fullname == ''
-                " call s:log.Info( 'no such file in runtime path:' . v . ', included from:' . scope.filename )
-                " continue
-            " endif
-" 
-            " let fullname = split( fullname, "\n" )[0]
-" 
-            " if XPTbufData().filetypes[ scope.filetype ].IsSnippetLoaded( fullname )
-                " continue
-            " endif
+
+            if XPTbufData().filetypes[ scope.filetype ].IsSnippetLoaded( v )
+                continue
+            endif
 
             call XPTsnipScopePush()
             exe 'runtime ftplugin/' . v . '.xpt.vim'
@@ -416,6 +409,9 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 endfunction "}}}
 
 fun! s:GetSnipCommentHint(str) "{{{
+    if match(a:str, '\V' . s:nonEscaped . '\shint=') != -1
+        return ['', a:str]
+    endif
     let pos = match( a:str, '\V\s' . s:nonEscaped . '"' )
     if pos == -1
         return [ '', a:str ]

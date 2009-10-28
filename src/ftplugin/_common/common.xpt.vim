@@ -114,7 +114,7 @@ endfunction "}}}
 " reference to another finished item value
 fun! s:f.R(name) "{{{
     let namedStep = get( self._ctx, 'namedStep', {} )
-    return get( namedStep, 'value', '' )
+    return get( namedStep, a:name, '' )
 endfunction "}}}
 
 " black hole
