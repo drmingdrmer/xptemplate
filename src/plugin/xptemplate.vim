@@ -284,7 +284,7 @@ endfunction "}}}
 
 " which letter can be used in template name other than 'iskeyword'
 fun! XPTemplateKeyword(val) "{{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
 
     " word characters are already valid.
     let val = substitute(a:val, '\w', '', 'g')
@@ -299,7 +299,7 @@ fun! XPTemplateKeyword(val) "{{{
 endfunction "}}}
 
 fun! XPTemplatePriority(...) "{{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let p = a:0 == 0 ? 'lang' : a:1
 
     let x.snipFileScope.priority = s:ParsePriorityString(p)
@@ -366,7 +366,7 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
 endfunction "}}}
 
 fun! g:GetSnipFileFT() "{{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     return x.snipFileScope.filetype
 endfunction "}}}
 
@@ -375,7 +375,7 @@ fun! g:GetSnipFileFtScope() "{{{
 endfunction "}}}
 
 fun! s:GetSnipFileFtScope() "{{{
-    let x = s:XPTobject()
+    let x = b:xptemplateData
     return x.filetypes[ x.snipFileScope.filetype ]
 endfunction "}}}
 
@@ -386,7 +386,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     " @param String context			[optional] context syntax name
     " @param String|List|FunCRef str	template string
 
-    let x         = g:XPTobject()
+    let x = b:xptemplateData
     let ftScope   = x.filetypes[ g:GetSnipFileFT() ]
     let templates = ftScope.normalTemplates
     let xp        = x.snipFileScope.ptn
@@ -681,7 +681,7 @@ endfunction "}}}
 
 fun! XPTemplatePreWrap(wrap) "{{{
     " NOTE: start with "s" command, which produce pseudo indent space. 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let x.wrap = a:wrap
 
     " TODO is that ok?
@@ -716,7 +716,7 @@ fun! XPTemplatePreWrap(wrap) "{{{
 endfunction "}}}
 
 fun! XPTemplateDoWrap() "{{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let ppr = s:Popup("", x.wrapStartPos)
 
     call s:log.Log("popup result:".string(ppr))
@@ -725,7 +725,7 @@ endfunction "}}}
 
 " TODO remove the first argument
 fun! XPTemplateStart(pos_nonused_any_more, ...) " {{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
 
     call s:log.Log("a:000".string(a:000))
 
@@ -815,7 +815,7 @@ fun! s:GetHint(ctx) "{{{
 endfunction "}}}
 
 fun! s:ParsePriorityString(s) "{{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
 
     let pstr = a:s
     let prio = 0
@@ -878,7 +878,7 @@ fun! s:DoStart(sess) " {{{
     " @param sess       xpopup call back argument
 
 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
 
     " if s:getRenderContext().phase == 'popup'
         " call s:PopCtx()
@@ -930,7 +930,7 @@ endfunction " }}}
 " TODO deal with it in any condition
 fun! s:FinishRendering(...) "{{{
 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let renderContext = s:getRenderContext()
     let xp = renderContext.tmpl.ptn
     
@@ -971,7 +971,7 @@ endfunction "}}}
 
 fun! s:Popup(pref, coln) "{{{
 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
 
 
     " while s:getRenderContext().phase == 'popup'
@@ -1254,7 +1254,7 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
 
     call s:log.Debug( 'RenderTemplate : start, end=' . string( [ a:nameStartPosition, a:nameEndPosition ] ) )
 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let ctx = s:getRenderContext()
     let xp = s:getRenderContext().tmpl.ptn
 
@@ -1345,7 +1345,7 @@ endfunction " }}}
 " [ first, second, third, right-mark ]
 " [ first, first, right-mark, right-mark ]
 fun! s:GetNameInfo(end) "{{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let xp = x.renderContext.tmpl.ptn
 
     if getline(".")[col(".") - 1] != xp.l
@@ -1395,7 +1395,7 @@ fun! s:GetNameInfo(end) "{{{
 endfunction "}}}
 
 fun! s:GetValueInfo(end) "{{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let xp = x.renderContext.tmpl.ptn
 
     if getline(".")[col(".") - 1] != xp.r
@@ -2048,7 +2048,7 @@ fun! s:HighLightItem(name, switchon) " {{{
 endfunction " }}}
 
 fun! s:TopTmplRange() "{{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     if empty(x.stack)
         return s:TmplRange()
     else
@@ -2061,7 +2061,7 @@ fun! s:TopTmplRange() "{{{
 endfunction "}}}
 
 fun! s:TmplRange() "{{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let p = [line("."), col(".")]
 
     call s:GetRangeBetween(s:TL(), s:BR())
@@ -2841,10 +2841,6 @@ fun! s:CreateStringMask( str ) "{{{
         return ''
     endif
 
-    if !exists( 'b:_xpeval' )
-        let b:_xpeval = { 'strMaskCache' : {}, 'evalCache' : {} }
-    endif
-
     if has_key( b:_xpeval.strMaskCache, a:str )
         return b:_xpeval.strMaskCache[ a:str ]
     endif
@@ -2902,17 +2898,13 @@ fun! s:Eval(s, ...) "{{{
         return ''
     endif
 
-    if !exists( 'b:_xpeval' )
-        let b:_xpeval = { 'strMaskCache' : {}, 'evalCache' : {} }
-    endif
-
     if has_key( b:_xpeval.evalCache, a:s )
         let expr = b:_xpeval.evalCache[ a:s ]
     endif
 
 
+    let ctx = b:xptemplateData.renderContext
 
-    let ctx = s:getRenderContext()
     if ctx.phase == 'uninit'
         let xfunc = s:GetSnipFileFtScope().funcs
     else
@@ -2948,18 +2940,23 @@ fun! s:Eval(s, ...) "{{{
     endif
 
 
-    if '' != expr
-        call s:log.Log('cached expression=' . expr)
-        try
-            return eval(expr)
-        catch /.*/
-            call s:log.Warn(v:exception)
-            " call s:log.Warn('expr=' . expr)
-            return ''
-        endtry
+    if '' == expr
+        let expr = s:CompileExpr(a:s, xfunc)
+        let b:_xpeval.evalCache[a:s] = expr
     endif
 
 
+    try
+        return eval(expr)
+    catch /.*/
+        call s:log.Warn(v:exception)
+        " call s:log.Warn('expr=' . expr)
+        return ''
+    endtry
+
+endfunction "}}}
+
+fun! s:CompileExpr(s, xfunc) "{{{
     " non-escaped prefix
     let nonEscaped =   '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
@@ -2971,7 +2968,10 @@ fun! s:Eval(s, ...) "{{{
     let sptn = '\V' . nonEscaped . '(\[^($]\{-})'
 
     let patternVarOrFunc = fptn . '\|' . vptn . '\|' . sptn
-    " let patternVarOrFunc = fptn . '\|' . vptn
+
+    if a:s !~ patternVarOrFunc
+        return string(g:xptutil.UnescapeChar(a:s, '{$( '))
+    endif
 
     let stringMask = s:CreateStringMask( a:s )
 
@@ -2983,8 +2983,6 @@ fun! s:Eval(s, ...) "{{{
 
 
 
-    " parameter string list
-    let rangesToEval = {}
     let str = a:s
     let evalMask = repeat('-', len(stringMask))
 
@@ -3016,10 +3014,10 @@ fun! s:Eval(s, ...) "{{{
 
             continue
 
-        elseif matched[-1:] == ')' && has_key(xfunc, matchstr(matched, '^\w\+'))
+        elseif matched[-1:] == ')' && has_key(a:xfunc, matchstr(matched, '^\w\+'))
             let matched = "xfunc." . matched
 
-        elseif matched[0:0] == '$' && has_key(xfunc, matched)
+        elseif matched[0:0] == '$' && has_key(a:xfunc, matched)
             let matched = 'xfunc["' . matched . '"]'
 
         endif
@@ -3068,19 +3066,10 @@ fun! s:Eval(s, ...) "{{{
     let expr = matchstr(expr, "\\V\\^''.\\zs\\.\\*")
     call s:log.Log('expression to evaluate=' . string(expr))
 
-
-    let b:_xpeval.evalCache[a:s] = expr
-
-
-    try
-        return eval(expr)
-    catch /.*/
-        call s:log.Warn(v:exception)
-        " call s:log.Warn('expr=' . expr)
-        return ''
-    endtry
-
+    return expr
+    
 endfunction "}}}
+
 
 fun! s:TextBetween(p1, p2) "{{{
     if a:p1[0] > a:p2[0]
@@ -3138,7 +3127,7 @@ fun! s:LeftPos(p) "{{{
 endfunction "}}}
 
 fun! s:CheckAndBS(k) "{{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
 
     let p = [ line( "." ), col( "." ) ]
     let ctl = s:CTL(x)
@@ -3151,7 +3140,7 @@ fun! s:CheckAndBS(k) "{{{
     endif
 endfunction "}}}
 fun! s:CheckAndDel(k) "{{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
 
     let p = getpos(".")[1:2]
     let cbr = s:CBR(x)
@@ -3171,7 +3160,7 @@ fun! s:Goback() "{{{
     return ''
 endfunction "}}}
 
-fun! s:XPTinit() "{{{
+fun! s:XPTinitMapping() "{{{
     let disabledKeys = [
                 \ 's_[%', 
                 \ 's_]%', 
@@ -3236,7 +3225,7 @@ endfunction "}}}
 
 
 fun! s:ApplyMap() " {{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
 
 
     call SettingPush( '&l:textwidth', '0' )
@@ -3301,7 +3290,7 @@ endfunction "}}}
 
 
 fun! XPTbufData() "{{{
-    return g:XPTobject()
+    return b:xptemplateData
 endfunction "}}}
 
 
@@ -3330,20 +3319,20 @@ fun! XPTsnipScope()
 endfunction
 
 fun! XPTsnipScopePush()
-  let x = g:XPTobject()
-  let x.snipFileScopeStack += [x.snipFileScope]
+    let x = b:xptemplateData
+    let x.snipFileScopeStack += [x.snipFileScope]
 
-  unlet x.snipFileScope
+    unlet x.snipFileScope
 endfunction
 
 fun! XPTsnipScopePop()
-  let x = g:XPTobject()
-  if len(x.snipFileScopeStack) > 0
-    let x.snipFileScope = x.snipFileScopeStack[ -1 ]
-    call remove( x.snipFileScopeStack, -1 )
-  else
-    throw "snipFileScopeStack is empty"
-  endif
+    let x = b:xptemplateData
+    if len(x.snipFileScopeStack) > 0
+        let x.snipFileScope = x.snipFileScopeStack[ -1 ]
+        call remove( x.snipFileScopeStack, -1 )
+    else
+        throw "snipFileScopeStack is empty"
+    endif
 endfunction
 
 
@@ -3367,39 +3356,49 @@ fun! s:getRenderContext(...) "{{{
 endfunction "}}}
 
 fun! g:XPTobject() "{{{
-    return s:XPTobject()
+    if !exists("b:xptemplateData")
+        call XPTemplateInit()
+    endif
+    return b:xptemplateData
 endfunction
 
 fun! s:XPTobject() "{{{
     if !exists("b:xptemplateData")
-        let b:xptemplateData = {
-                    \   'filetypes'         : { '**' : g:FiletypeScope.New() }, 
-                    \   'wrapStartPos'      : 0, 
-                    \   'wrap'              : '', 
-                    \   'savedReg'          : '', 
-                    \}
-        let b:xptemplateData.posStack = []
-        let b:xptemplateData.stack = []
-
-        " which letter can be used in template name
-        let b:xptemplateData.keyword = '\w'
-        let b:xptemplateData.keywordList = []
-
-        let b:xptemplateData.snipFileScopeStack = []
-        let b:xptemplateData.snipFileScope = {}
-
-        call s:createRenderContext( b:xptemplateData )
-
-
-
-        " TODO is this the right place to do that?
-        call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
-
-        call s:XPTinit()
+        call XPTemplateInit()
     endif
     return b:xptemplateData
 endfunction "}}}
 
+
+fun! XPTemplateInit() "{{{
+    let b:xptemplateData = {
+                \   'filetypes'         : { '**' : g:FiletypeScope.New() }, 
+                \   'wrapStartPos'      : 0, 
+                \   'wrap'              : '', 
+                \   'savedReg'          : '', 
+                \}
+    let b:xptemplateData.posStack = []
+    let b:xptemplateData.stack = []
+
+    " which letter can be used in template name
+    let b:xptemplateData.keyword = '\w'
+    let b:xptemplateData.keywordList = []
+
+    let b:xptemplateData.snipFileScopeStack = []
+    let b:xptemplateData.snipFileScope = {}
+
+
+
+    call s:createRenderContext( b:xptemplateData )
+
+    " TODO is this the right place to do that?
+    call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
+
+    call s:XPTinitMapping()
+
+    let b:_xpeval = { 'strMaskCache' : {}, 'evalCache' : {} }
+    
+endfunction "}}}
 
 
 fun! s:RedefinePattern() "{{{
@@ -3414,10 +3413,6 @@ fun! s:RedefinePattern() "{{{
     " for search
     let xp.lft_e = nonEscaped. '\\'.xp.l
     let xp.rt_e  = nonEscaped. '\\'.xp.r
-
-    " regular pattern to match any template item.
-    " let xp.itemPattern       = xp.lft . '\%(NAME\)' . xp.rt
-    " let xp.itemContentPattern= xp.lft . '\zs\%(NAME\)\ze' . xp.rt
 
     let xp.item_var          = '$\w\+'
     let xp.item_qvar         = '{$\w\+}'
@@ -3843,7 +3838,7 @@ fun! s:CallPlugin(ev) "{{{
         throw "calling invalid event:".a:ev
     endif
 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let v = 0
 
     for f in s:plugins[a:ev]

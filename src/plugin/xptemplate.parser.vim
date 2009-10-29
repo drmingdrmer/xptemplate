@@ -50,7 +50,7 @@ com! -nargs=+ XPTembed      call XPTembed(<f-args>)
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
 fun! s:AssignSnipFT( filename ) "{{{
-    let x = g:XPTobject()
+    let x = b:xptemplateData
 
     let filename = substitute( a:filename, '\\', '/', 'g' )
 
@@ -94,7 +94,10 @@ endfunction "}}}
 
 
 fun! XPTsnippetFileInit( filename, ... ) "{{{
-    let x = XPTbufData()
+    if !exists("b:xptemplateData")
+        call XPTemplateInit()
+    endif
+    let x = b:xptemplateData
     let filetypes = x.filetypes
 
     let snipScope = XPTnewSnipScope(a:filename)
