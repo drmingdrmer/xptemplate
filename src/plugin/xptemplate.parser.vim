@@ -301,8 +301,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 
     let snippetLines = []
 
-    " TODO simple hint support
-    
+
     let setting = deepcopy( g:XPTemplateSettingPrototype )
 
     let [hint, lines[0]] = s:GetSnipCommentHint( lines[0] )
@@ -316,31 +315,25 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     let snippetParameters = snippetParameters[2:]
 
     for pair in snippetParameters
-        let nameAndValue = split(pair, '=', 1)
+        let name = matchstr(pair, '\V\^\[^=]\*')
+        let value = pair[ len(name) : ]
 
-        if len(nameAndValue) > 1
-            let propName = nameAndValue[0]
-            " let propValue = substitute( join( nameAndValue[1:], '=' ), '\\\(.\)', '\1', 'g' )
-            let propValue = g:xptutil.UnescapeChar( join( nameAndValue[1:], '=' ), ' ' )
+        " flag setting need no value present
+        let value = value[0:0] == '=' ? g:xptutil.UnescapeChar(value[1:], ' ') : 1
 
-            if propName == ''
-                throw 'empty property name at line:' . lines[0]
-
-            elseif !has_key( setting, propName )
-                let setting[propName] = propValue
-
-            endif
+        if !has_key( setting, name )
+            let setting[name] = value
         endif
     endfor
 
 
 
+    " skip the title line
     let start = 1
     let len = len( lines )
     while start < len
-        if lines[start] =~# '^XSET\%[m]\s\+'
-
-            let command = matchstr( lines[ start ], '^XSET\%[m]' )
+        let command = matchstr( lines[ start ], '\V\^XSETm\?\ze\s' )
+        if command != ''
 
             let [ key, val, start ] = s:getXSETkeyAndValue( lines, start )
             if key == ''
@@ -361,7 +354,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 
 
             " TODO can not input \XSET
-        elseif lines[start] =~# '^\\XSET\%[m]' " escaped XSET or XSETm
+        elseif lines[start] =~# '^\\XSET' " escaped XSET or XSETm
             let snippetLines += [ lines[ start ][1:] ]
             " break
 

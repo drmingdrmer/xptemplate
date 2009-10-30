@@ -41,9 +41,9 @@ fun! s:UnescapeChar( str, chars ) "{{{
 
     
     let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]-^' ) . ']\)'
-    call s:log.Log( 'to unescape pattern='.pattern )
+    " call s:log.Log( 'to unescape pattern='.pattern )
     let unescaped = substitute( a:str, pattern, '\1\2', 'g' )
-    call s:log.Log( 'unescaped ='.unescaped )
+    " call s:log.Log( 'unescaped ='.unescaped )
     return unescaped
 endfunction "}}}
 

@@ -423,7 +423,9 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
     call s:CleanupSnippet( x, foo )
 
-    let isWrapped = type(foo.snip) != type(function("tr")) && foo.snip =~ '\V' . xp.lft . s:wrappedName . xp.rt
+    " \type(foo.snip) != type(function("tr")) && 
+    let isWrapped = 
+                \foo.snip =~ '\V' . xp.lft . s:wrappedName . xp.rt
 
 
     call s:log.Log("tmpl :name=".a:name." priority=".prio)
@@ -616,16 +618,17 @@ fun! s:ParsePostQuoter( setting ) "{{{
 endfunction "}}}
 
 fun! s:addCursorToComeLast(setting) "{{{
-  let comeLast = copy( a:setting.comeLast )
+    " TODO simplify me
+    let comeLast = copy( a:setting.comeLast )
 
-  let cursorItem = filter( comeLast, 'v:val == "cursor"' )
-  call s:log.Debug( 'has cursor item?:' . string( cursorItem ) )
+    let cursorItem = filter( comeLast, 'v:val == "cursor"' )
+    call s:log.Debug( 'has cursor item?:' . string( cursorItem ) )
 
-  if cursorItem == []
-    call add( a:setting.comeLast, 'cursor' )
-  endif
+    if cursorItem == []
+        call add( a:setting.comeLast, 'cursor' )
+    endif
 
-  call s:log.Debug( 'has cursor item?:' . string( a:setting.comeLast ) )
+    call s:log.Debug( 'has cursor item?:' . string( a:setting.comeLast ) )
 
 endfunction "}}}
 
