@@ -3290,6 +3290,9 @@ endfunction "}}}
 
 
 fun! XPTbufData() "{{{
+    if !exists("b:xptemplateData")
+        call XPTemplateInit()
+    endif
     return b:xptemplateData
 endfunction "}}}
 
@@ -3884,3 +3887,6 @@ endfunction
 let &cpo = s:oldcpo
 
 " vim: set sw=4 sts=4 :
+
+
+

@@ -144,7 +144,7 @@ endfunction "}}}
 
 
 fun! s:FiletypeInit() "{{{
-    let x = XPTbufData()
+    let x = g:XPTobject()
     let fts = x.filetypes
     for [ ft, ftScope ] in items( fts )
 
