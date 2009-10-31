@@ -19,8 +19,6 @@
 " "}}}
 "
 " KNOWING BUG: "{{{
-"
-"
 " "}}}
 "
 " TODOLIST: "{{{
@@ -54,8 +52,6 @@
 " TODO prefixed template trigger
 " TODO class-style
 " TODO simplify if no need to popup, popup session
-" TODO on the first time template rendering, replace all vars with its value.
-" TODO pre-build expression to evaluate. compile expression to vim expression
 " TODO simplify wrapper snippets
 " TODO separately store wrapped templates and normal ones
 " TODO match snippet names from middle
@@ -66,18 +62,6 @@
 "
 "
 " Log of This version:
-"   fix : wrapping snippet leaves some spaces at end of line.
-"   fix : CR fixer bug.
-"   fix : default value indent
-"   fix : embedded language loading bug
-"   fix : with pum correct <up>, <down> and <cr> behavior
-"   fix : () can not be evaluated in Eval()
-"   fix : Eval function
-"   fix : bug of hint=...
-"   fix : bug of R()
-"   fix : in select mode, pair-closing plugins works
-"   improve : xml snippet
-"
 
 
 
