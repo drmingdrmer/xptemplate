@@ -75,8 +75,8 @@
 "   fix : Eval function
 "   fix : bug of hint=...
 "   fix : bug of R()
+"   fix : in select mode, pair-closing plugins works
 "   improve : xml snippet
-"   improve : in select mode, other pair closing plugins works
 "
 
 
