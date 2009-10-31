@@ -296,11 +296,15 @@
 	Use |g:xptemplate_goback| to change this mapping.
 
 
+							 *g:xptemplate_strict*
+								   {default:1}
+	Set to 1 to prevent incautious changing text outside place holders. Or
+	you are free to change other text outside place holders.
 
 						 *g:xptemplate_brace_complete*
 								   {default:0}
 	Set to 1 to let XPTemplate to do braces/quoters completing job. if
-	this option is set, the following key mappings are disabled
+	this option is set to 1, the following key mappings are disabled
 	when snippet rendering : >
 		i_'
 		i_"

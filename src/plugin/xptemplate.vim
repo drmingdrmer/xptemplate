@@ -62,6 +62,10 @@
 "
 " Log of This version:
 " add : strict mode(g:xptemplate_strict) : do not allow editing contents outside place holder
+" fix : longest matching text appears if g:xptemplate_ph_pum_accept_empty set to 1
+"
+"
+"
 
 
 
@@ -3615,14 +3619,20 @@ fun! s:XPTupdate(...) "{{{
     call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
 
     let rc = XPMupdate()
-
-    echom 'rc=' . string(rc) . ' phase=' . string(renderContext.phase) . ' strict=' . g:xptemplate_strict
+    call s:log.Log( 'rc=' . string(rc) . ' phase=' . string(renderContext.phase) . ' strict=' . g:xptemplate_strict )
 
     if g:xptemplate_strict 
                 \&& renderContext.phase == 'fillin'
                 \&& rc is g:XPM_RET.updated
         undo
         call XPMupdate()
+
+        " TODO better hint
+        " TODO allow user to move?
+        echohl WarningMsg
+        echoerr "editing outside place holder is not allowed whne g:xptemplate_strict=1"
+        echohl
+
         return 0
     endif
 

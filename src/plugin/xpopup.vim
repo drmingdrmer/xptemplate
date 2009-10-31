@@ -29,7 +29,7 @@ XPPgetSID
 delc XPPgetSID
 
 let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'debug' )
 " let s:log = CreateLogger( 'log' )
 
 fun! s:SetIfNotExist(k, v) "{{{
@@ -148,7 +148,7 @@ fun! s:popup(start_col, opt) dict "{{{
         let sess.matched = ''
         let sess.matchedCallback = 'onOneMatch'
         let actionList = []
-        let actionList += [ 'clearPum', 'callback' ]
+        let actionList += [ 'clearPum',  'clearPrefix', 'clearPum', 'callback' ]
 
     elseif len(sess.currentList) == 0
         call s:log.Debug("no matching")
@@ -265,6 +265,7 @@ fun! XPPprocess(list) "{{{
 
     call s:log.Debug("actionName=".actionName)
     call s:log.Debug("postAction=".postAction)
+    call s:log.Debug('current line=' . getline(line("."))  )
 
     
 
