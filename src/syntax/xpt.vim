@@ -130,7 +130,10 @@ syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
 " syntax match XPTcomment /^"\%(\s\|"\)*[^"]*$/ containedin=XPTregion
 " syntax match XPTcomment /^".*$/ containedin=XPTregion
 " hack
+
+syntax match XPThintMark /\V \zs**\ze / contained containedin=vimLineComment
 syntax match vimLineComment /^".*$/ containedin=XPTregion contains=@vimCommentGroup,vimCommentString,vimCommentTitle
+
 
 syntax match XPTbadIndent /^\(    \)*\zs \{1,3}\ze\%(\S\|$\)/ contained containedin=XPTsnippetBody
 syntax match XPTbadIndent /^\s*\zs\t/ contained containedin=XPTsnippetBody
@@ -198,6 +201,7 @@ hi link XPTbadIndent          Error
 hi link XPTmark               NonText
 hi link TemplateKey           Title
 
+hi link XPThintMark           Label
 
 hi link XPTemplateSnippetKey  Statement
 hi link XPTSnippetVar         Statement

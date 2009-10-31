@@ -586,6 +586,54 @@ WRAPPED_TEXT_line2)
     endtry
 
 
+    "  -------------try_--------------- 
+    " try                               
+    "     `wrapped^                     
+    " catch /`exception^/               
+    " `                                 
+    " `finally...{{^                    
+    " finally                           
+    "     `cursor^`}}^                  
+    " endtry                            
+
+
+
+try
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+catch /.*/
+
+finally
+    
+endtry
+
+try
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+catch /exception_TYPED/
+
+finally_TYPED
+endtryb
+
+a try
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+catch /.*/
+
+finally
+    
+endtryb
+
+a try
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+catch /.*/
+
+finally
+    
+endtry
+
+
     "  -------------varconf--------------- 
     " if !exists(_CMT_`access^g^:`varname^_CMT_) 
     "     let `access^:`varname^ = `val^   

@@ -220,6 +220,30 @@ WRAPPED_TEXT_line2{}
     \end{something}
 
 
+    %  -------------block--------------- 
+    % \begin{block}{`title~}             
+    %     `cursor~                       
+    % \end{block}                        
+
+
+
+    \begin{block}{title}
+        
+    \end{block}
+
+    \begin{block}{title_TYPED}
+        
+    \end{block} b
+
+    a \begin{block}{title}
+        
+    \end{block} b
+
+    a \begin{block}{title}
+        
+    \end{block}
+
+
     %  -------------doc--------------- 
     % \begin{document}                 
     %     `cursor~                     

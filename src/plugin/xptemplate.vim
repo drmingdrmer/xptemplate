@@ -19,12 +19,14 @@
 " "}}}
 "
 " KNOWING BUG: "{{{
-"   
+"
 "
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO visual mode special chars : d<bs> char
+" TODO strict mode : do not allow editing contents outside place holder
+" TODO highlight : when outside place holder
+" TODO super cancel : clear/default all and finish
 " TODO hint of whether xpt is running. sign, statusline, highlight
 " TODO 2 <tab> to accept empty
 " TODO /../../ ontime filter shortcut
@@ -62,7 +64,7 @@
 "
 " "}}}
 "
-" 
+"
 " Log of This version:
 "   fix : wrapping snippet leaves some spaces at end of line.
 "   fix : CR fixer bug.
@@ -74,8 +76,7 @@
 "   fix : bug of hint=...
 "   fix : bug of R()
 "   improve : xml snippet
-"   add : g:xptemplate_brace_complete option
-"   
+"   improve : in select mode, other pair closing plugins works
 "
 
 
@@ -113,8 +114,6 @@ let s:log = CreateLogger( 'debug' )
 
 call XPRaddPreJob( 'XPMupdateCursorStat' )
 call XPRaddPostJob( 'XPMupdateSpecificChangedRange' )
-" call XPMsetUpdateStrategy( 'manual' )  
-" call XPMsetUpdateStrategy( 'auto' ) 
 call XPMsetUpdateStrategy( 'normalMode' ) 
 
 
@@ -172,8 +171,8 @@ let g:XPTemplateSettingPrototype  = {
 
 fun! g:XPTapplyTemplateSettingDefaultValue( setting ) "{{{
     let s = a:setting
-    call s:SetIfEmpty( s,           'postQuoter', { 'start' : '{{', 'end' : '}}' } )
-    call s:SetIfEmpty( s.preValues, 'cursor', '$CURSOR_PH' )
+    let s.postQuoter        = get( s,           'postQuoter',   { 'start' : '{{', 'end' : '}}' } )
+    let s.preValues.cursor  = get( s.preValues, 'cursor',       '$CURSOR_PH' )
 endfunction "}}}
 
 let s:defaultPostFilter = {
@@ -200,7 +199,6 @@ let s:renderContextPrototype      = {
             \   'item'              : {}, 
             \   'leadingPlaceHolder' : {}, 
             \   'history'           : [], 
-            \   'step'              : [],
             \   'namedStep'         : {},
             \   'processing'        : 0,
             \   'marks'             : {
@@ -214,24 +212,8 @@ let s:renderContextPrototype      = {
 let s:vrangeClosed = "\\%>'<\\%<'>"
 let s:vrange       = '\V' . '\%(' . '\%(' . s:vrangeClosed .'\)' .  '\|' . "\\%'<\\|\\%'>" . '\)'
 
-let s:plugins = {}
-let s:plugins.beforeRender = []
-let s:plugins.afterRender = []
 
-let s:plugins.beforeFinish = []
-let s:plugins.afterFinish = []
 
-let s:plugins.beforeApplyPredefined = []
-let s:plugins.afterApplyPredefined = []
-
-let s:plugins.beforeInitItem = []
-let s:plugins.afterInitItem = []
-
-let s:plugins.beforeNextItem = []
-let s:plugins.afterNextItem = []
-
-let s:plugins.beforeUpdate = []
-let s:plugins.afterUpdate = []
 
 let s:priorities = {'all' : 64, 'spec' : 48, 'like' : 32, 'lang' : 16, 'sub' : 8, 'personal' : 0}
 let s:priPtn = 'all\|spec\|like\|lang\|sub\|personal\|\d\+'
@@ -387,7 +369,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     " @param String|List|FunCRef str	template string
 
     let x = b:xptemplateData
-    let ftScope   = x.filetypes[ g:GetSnipFileFT() ]
+    let ftScope   = x.filetypes[ x.snipFileScope.filetype ]
     let templates = ftScope.normalTemplates
     let xp        = x.snipFileScope.ptn
 
@@ -470,11 +452,10 @@ endfunction "}}}
 
 fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
+    " TODO error occured once: no key :"setting )"
+
     call s:ParseTemplateSetting( a:xptObj, a:tmplObj.setting )
 
-    if type( a:tmplObj.tmpl ) == type( '' )
-        " let a:tmplObj.tmpl = s:parseQuotedPostFilter( a:tmplObj )
-    endif
 
     call s:log.Debug( 'create template name=' . a:tmplObj.name . ' tmpl=' . a:tmplObj.tmpl )
 
@@ -482,12 +463,6 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
     call s:initItemOrderDict( a:tmplObj.setting )
 
 
-
-    if has_key( a:tmplObj.setting.defaultValues, 'cursor' )
-        call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . a:tmplObj.setting.defaultValues.cursor )
-    else
-        call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . 'empty!' )
-    endif
     if !has_key( a:tmplObj.setting.defaultValues, 'cursor' )
                 \ || a:tmplObj.setting.defaultValues.cursor !~ 'Finish'
         let a:tmplObj.setting.defaultValues.cursor = "\n" . 'Finish()'
@@ -1851,7 +1826,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
     let renderContext.firstList = []
     let renderContext.lastList = []
-    call s:log.Log( "itemList:" . String( renderContext.itemList ) )
+    call s:log.Log( "itemList:" . string( renderContext.itemList ) )
 
 
 
@@ -2196,7 +2171,6 @@ fun! s:FinishCurrentAndGotoNextItem(action) " {{{
 
     call s:log.Debug( "after post filter=" . XPMallMark() )
 
-    let renderContext.step += [{ 'name' : renderContext.item.name, 'value' : post }]
     if renderContext.item.name != ''
         let renderContext.namedStep[renderContext.item.name] = post
     endif
@@ -2890,62 +2864,34 @@ fun! s:CreateStringMask( str ) "{{{
 
 endfunction "}}}
 
-fun! XPTS2l(a, b)
-    return a:a - a:b
-endfunction
+fun! s:Eval(str, ...) "{{{
 
-fun! s:Eval(s, ...) "{{{
-    let expr = ''
-
-    if a:s == ''
+    if a:str == ''
         return ''
     endif
 
-    if has_key( b:_xpeval.evalCache, a:s )
-        let expr = b:_xpeval.evalCache[ a:s ]
-    endif
+    let expr = get( b:_xpeval.evalCache, a:str, '' )
 
+    let x = b:xptemplateData
+    let ctx = x.renderContext
 
-    let ctx = b:xptemplateData.renderContext
-
-    if ctx.phase == 'uninit'
-        let xfunc = s:GetSnipFileFtScope().funcs
-    else
-        let xfunc = ctx.ftScope.funcs
-    endif
-
-    let tmpEvalCtx = { 'typed' : '', 'usingCache' : 1 }
-
-    if a:0 >= 1
-        call extend( tmpEvalCtx, a:1, 'force' )
-    endif
-
-
+    " Eval from snippet definition phase or rendering phase
+    let xfunc = ctx.phase == 'uninit'
+                \ ? x.filetypes[ x.snipFileScope.filetype ].funcs
+                \ : ctx.ftScope.funcs
 
 
     " TODO simplify me
-    let xfunc._ctx = ctx.evalCtx
-    let xfunc._ctx.phase = ctx.phase
-    let xfunc._ctx.tmpl = ctx.tmpl
-    let xfunc._ctx.step = {}
-    let xfunc._ctx.namedStep = {}
-    let xfunc._ctx.value = ''
-    let xfunc._ctx.item = {}
-    let xfunc._ctx.leadingPlaceHolder = {}
-    if ctx.processing
-        let xfunc._ctx.step = ctx.step
-        let xfunc._ctx.namedStep = ctx.namedStep
-        let xfunc._ctx.name = ctx.item.name
-        let xfunc._ctx.fullname = ctx.item.fullname
-        let xfunc._ctx.value = tmpEvalCtx.typed
-        let xfunc._ctx.item = ctx.item
-        let xfunc._ctx.leadingPlaceHolder = ctx.leadingPlaceHolder
-    endif
+    let xfunc._ctx = ctx
+    let typed = a:0 == 1 ? get(a:1, 'typed', '') : ''
+    let ctx.evalCtx.value = ctx.processing ? typed : ''
 
 
     if '' == expr
-        let expr = s:CompileExpr(a:s, xfunc)
-        let b:_xpeval.evalCache[a:s] = expr
+        let expr = s:CompileExpr(a:str, xfunc)
+        " echom "a:str=".a:str
+        " echom "expr=".expr
+        let b:_xpeval.evalCache[a:str] = expr
     endif
 
 
@@ -2972,11 +2918,16 @@ fun! s:CompileExpr(s, xfunc) "{{{
 
     let patternVarOrFunc = fptn . '\|' . vptn . '\|' . sptn
 
-    if a:s !~ patternVarOrFunc
+    " simple test
+    if a:s !~  '\V\w(\|$\w'
         return string(g:xptutil.UnescapeChar(a:s, '{$( '))
     endif
 
     let stringMask = s:CreateStringMask( a:s )
+
+    if stringMask !~ patternVarOrFunc
+        return string(g:xptutil.UnescapeChar(a:s, '{$( '))
+    endif
 
     call s:log.Debug( 'string =' . a:s, 'strmask=' . stringMask )
 
@@ -3239,7 +3190,7 @@ fun! s:ApplyMap() " {{{
     call b:mapMask.Save()
 
     call b:mapSaver.UnmapAll()
-    call b:mapLiteral.Literalize()
+    call b:mapLiteral.Literalize( { 'insertAsSelect' : 1 } )
     call b:mapMask.UnmapAll()
 
 
@@ -3698,7 +3649,7 @@ fun! s:XPTupdate(...) "{{{
     call s:log.Log( "typed:".contentTyped )
 
 
-    call s:CallPlugin("beforeUpdate")
+    call s:CallPlugin("update", 'before')
 
     " update items
 
@@ -3735,7 +3686,7 @@ fun! s:XPTupdate(...) "{{{
 
 
 
-    call s:CallPlugin('afterUpdate')
+    call s:CallPlugin('update', 'after')
 
 
     let renderContext.lastContent = contentTyped
@@ -3839,37 +3790,39 @@ fun! g:XPTaddPlugin(event, func) "{{{
     endif
 endfunction "}}}
 
-fun! s:CallPlugin(ev) "{{{
-    if !has_key(s:plugins, a:ev)
-        throw "calling invalid event:".a:ev
-    endif
 
-    let x = b:xptemplateData
-    let v = 0
-
-    for f in s:plugins[a:ev]
-        let v = g:XPT[f](x)
-        " if !v
-        " return
-        " endif
-    endfor
-
-endfunction "}}}
-
-fun! s:Link(fs) "{{{
-    let list = split(a:fs, ' ')
-    for v in list
-        let s:f[v] = function('<SNR>'.s:sid . v)
+let s:plugins = {}
+fun! s:CreatePluginContainer( ... ) "{{{
+    for evt in a:000
+        let s:plugins[evt] = { 'before' : [], 'after' : []}
     endfor
 endfunction "}}}
 
-fun! s:SetIfEmpty( dict, name, value ) "{{{
-    if !has_key( a:dict, a:name )
-        let a:dict[ a:name ] = a:value
-    endif
-endfunction "}}}
+call s:CreatePluginContainer(
+            \'render', 
+            \'finish', 
+            \'preValue', 
+            \'defaultValue', 
+            \'postFilter', 
+            \'initItem', 
+            \'nextItem', 
+            \'prevItem', 
+            \'update', 
+            \)
+delfunc s:CreatePluginContainer
 
-call <SID>Link('TmplRange GetRangeBetween TextBetween GetStaticRange LeftPos')
+fun! s:CallPlugin(ev, when) "{{{
+    let cnt = get(s:plugins, a:ev, {})
+    let evs = get(cnt, a:when, [])
+    if evs == []
+        return
+    endif
+
+    for XPTplug in evs
+        call XPTplug(x, b:renderContext)
+    endfor
+
+endfunction "}}}
 
 
 com! XPTreload call XPTreload()

@@ -3,17 +3,26 @@ XPTemplate priority=all
 " containers
 let s:f = g:XPTfuncs() 
 
-XPTvar $author        $author is not set, you need to set g:xptemplate_vars="$author=your_name"
-XPTvar $email         $email is not set, you need to set g:xptemplate_vars="$author=your_email@com"
+XPTvar $author $author is not set, you need to set g:xptemplate_vars="$author=your_name"
+XPTvar $email  $email is not set, you need to set g:xptemplate_vars="$author=your_email@com"
 
 XPTvar $VOID
 
+" if () ** {
 XPTvar $IF_BRACKET_STL     ' '
+" } ** else {
 XPTvar $ELSE_BRACKET_STL   \n
+" for () ** {
 XPTvar $FOR_BRACKET_STL    ' '
+" while () ** {
 XPTvar $WHILE_BRACKET_STL  ' '
+" struct name ** {
 XPTvar $STRUCT_BRACKET_STL ' '
+" int fun() ** {
 XPTvar $FUNC_BRACKET_STL   ' '
+" class name ** {
+XPTvar $CLS_BRACKET_STL    ' '
+
 
 XPTvar $SP_ARG      ' '
 XPTvar $SP_IF       ' '
@@ -38,23 +47,29 @@ XPTinclude
 
 
 
+fun! s:f.Item()
+    return get( self._ctx, 'item', {} )
+endfunction
 
 " current name
-fun! s:f.N() "{{{
-    return get( self._ctx, 'name', '' )
+fun! s:f.ItemName() "{{{
+    return get( self.Item(), 'name', '' )
 endfunction "}}}
+let s:f.N = s:f.ItemName
 
 " name with edge
-fun! s:f.NN() "{{{
-    return get( self._ctx, 'fullname', '' )
+fun! s:f.ItemFullname() "{{{
+    return get( self.Item(), 'fullname', '')
 endfunction "}}}
+let s:f.NN = s:f.ItemFullname
 
-" current value
-fun! s:f.V() dict "{{{
-    return get( self._ctx, 'value', '' )
+" current value user typed
+fun! s:f.ItemValue() dict "{{{
+    return get( self._ctx.evalCtx, 'value', '' )
 endfunction "}}}
+let s:f.V = s:f.ItemValue
 
-" value match
+" if value match one of the regexps
 fun! s:f.Vmatch( ... ) 
     let v = self.V()
     for reg in a:000
@@ -72,7 +87,7 @@ fun! s:f.VMS( reg )
 endfunction 
 
 " edge stripped value
-fun! s:f.V0() dict
+fun! s:f.ItemStrippedValue()
   let v = self.V()
 
   let [edgeLeft, edgeRight] = self.ItemEdges()
@@ -82,6 +97,7 @@ fun! s:f.V0() dict
 
   return v
 endfunction
+let s:f.V0 = s:f.ItemStrippedValue
 
 fun! s:f.Phase() dict
     return get( self._ctx, 'phase', '' )
@@ -93,10 +109,13 @@ fun! s:f.E(s) "{{{
   return expand(a:s)
 endfunction "}}}
 
+
 " return the context
-fun! s:f.C() "{{{
+fun! s:f.Context() "{{{
   return self._ctx
 endfunction "}}}
+let s:f.C = s:f.Context
+
 
 " TODO this is not needed at all except as a shortcut.
 " post filter	substitute
@@ -106,21 +125,24 @@ fun! s:f.S(str, ptn, rep, ...) "{{{
 endfunction "}}}
 
 " equals to S(C().value, ...)
-fun! s:f.SV(ptn, rep, ...) "{{{
+fun! s:f.SubstituteWithValue(ptn, rep, ...) "{{{
   let flg = a:0 >= 1 ? a:1 : 'g'
   return substitute(self.V(), a:ptn, a:rep, flg)
 endfunction "}}}
+let s:f.SV = s:f.SubstituteWithValue
 
 " reference to another finished item value
-fun! s:f.R(name) "{{{
+fun! s:f.Reference(name) "{{{
     let namedStep = get( self._ctx, 'namedStep', {} )
     return get( namedStep, a:name, '' )
 endfunction "}}}
+let s:f.R = s:f.Reference
 
 " black hole
-fun! s:f.VOID(...) "{{{
+fun! s:f.Void(...) "{{{
   return ""
 endfunction "}}}
+let s:f.VOID = s:f.Void
 
 " Echo several expression and concat them.
 " That's the way to use normal vim script expression instead of mixed string
@@ -243,16 +265,15 @@ fun! s:f.xptFinishItemWith(postType) dict
 endfunction
 
 " TODO test me
-" unescape marks
-fun! s:f.UE(string) dict
-  let patterns = self.C().tmpl.ptn
+fun! s:f.UnescapeMarks(string) dict
+  let patterns = self._ctx.tmpl.ptn
   let charToEscape = '\(\[' . patterns.l . patterns.r . ']\)'
 
   let r = substitute( a:string,  '\v(\\*)\1\\?\V' . charToEscape, '\1\2', 'g')
 
   return r
-
 endfunction
+let s:f.UE = s:f.UnescapeMarks
 
 
 
@@ -309,6 +330,7 @@ fun! s:f.ItemEdges() "{{{
       return [ '', '' ]
   endif
 endfunction "}}}
+let s:f.Edges = s:f.ItemEdges
 
 
 fun! s:f.ItemCreate( name, edges, filters )
@@ -425,22 +447,7 @@ endfunction
 " They all start with prefix 'xpt'
 "
 
-let s:f.Edges = s:f.ItemEdges
-
-let s:f.ItemName = s:f.N
-let s:f.ItemFullname = s:f.NN
-let s:f.ItemValue = s:f.V
-let s:f.ItemStrippedValue = s:f.V0
-" s:f.E
-let s:f.Context = s:f.C
-" s:f.S 
-let s:f.SubstituteWithValue = s:f.SV
-let s:f.Reference = s:f.R
-let s:f.Void = s:f.VOID
-let s:f.UnescapeMarks = s:f.UE
-
 " ================================= Snippets ===================================
-call XPTemplateMark('`', '^')
 
 " Shortcuts
 call XPTemplate('Author', '`$author^')

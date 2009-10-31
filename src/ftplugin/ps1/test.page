@@ -1,8 +1,8 @@
 
 
 
-    /*  -------------"--------------- */
-    /* "`wrapped^"                    */
+    /*  -------------"_--------------- */
+    /* "`wrapped^"                     */
 
 
 
@@ -19,8 +19,8 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
-    /*  -------------'--------------- */
-    /* '`wrapped^'                    */
+    /*  -------------'_--------------- */
+    /* '`wrapped^'                     */
 
 
 
@@ -37,8 +37,8 @@ a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
-    /*  -------------(--------------- */
-    /* (`wrapped^)                    */
+    /*  -------------(_--------------- */
+    /* (`wrapped^)                     */
 
 
 
@@ -55,8 +55,8 @@ a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
-    /*  -------------<--------------- */
-    /* <`wrapped^>                    */
+    /*  -------------<_--------------- */
+    /* <`wrapped^>                     */
 
 
 
@@ -71,6 +71,42 @@ WRAPPED_TEXT_line2>b
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`wrapped^]                     */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]b
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``wrapped^\`                   */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`b
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
 
     /*  -------------Author--------------- */
@@ -87,79 +123,21 @@ a drdr.xp b
 a drdr.xp
 
 
-    /*  -------------Email--------------- */
-    /* `$email^                           */
-
-
-
-drdr.xp@gmail.com
-
-drdr.xp@gmail.com b
-
-a drdr.xp@gmail.com b
-
-a drdr.xp@gmail.com
-
-
-    /*  -------------File--------------- */
-    /* `file()^                          */
-
-
-
-test.page
-
-test.page b
-
-a test.page b
-
-a test.page
-
-
-    /*  -------------[--------------- */
-    /* [`wrapped^]                    */
-
-
-
-[WRAPPED_TEXT
-WRAPPED_TEXT_line2]
-
-[WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
-
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
-
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]
-
-
-    /*  -------------`--------------- */
-    /* \``wrapped^\`                  */
-
-
-
-`WRAPPED_TEXT
-WRAPPED_TEXT_line2`
-
-`WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
-
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
-
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`
-
-
     /*  -------------cmdlet--------------- */
     /* Cmdlet `verb^-`noun^                */
     /* {                                   */
-    /*     `Param...^                      */
-    /*     `Begin...^                      */
+    /*     `Param...{{^Param(              */
+    /*        `^                           */
+    /*     )`}}^                           */
+    /*     `Begin...{{^Begin               */
+    /*     {                               */
+    /*     }`}}^                           */
     /*     Process                         */
     /*     {                               */
     /*     }                               */
-    /*     `End...^                        */
+    /*     `End...{{^End                   */
+    /*     {                               */
+    /*     }`}}^                           */
     /* }                                   */
 
 
@@ -221,6 +199,34 @@ a Cmdlet verb-noun
     {
     }
 }
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com b
+
+a drdr.xp@gmail.com
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+test.page
+
+test.page b
+
+a test.page b
+
+a test.page
 
 
     /*  -------------for---------------                  */
@@ -332,9 +338,18 @@ a function funName( params )
     /*  -------------function--------------- */
     /* function `funName^( `params^ )        */
     /* {                                     */
-    /*     `Begin...^                        */
-    /*     `Process...^                      */
-    /*     `End...^                          */
+    /*     `Begin...{{^Begin                 */
+    /*     {                                 */
+    /*         `^                            */
+    /*     }`}}^                             */
+    /*     `Process...{{^Process             */
+    /*     {                                 */
+    /*         `^                            */
+    /*     }`}}^                             */
+    /*     `End...{{^End                     */
+    /*     {                                 */
+    /*         `^                            */
+    /*     }`}}^                             */
     /* }                                     */
 
 
@@ -406,13 +421,21 @@ a function funName( params )
     /*     `body^                      */
     /* }`                              */
     /* `...^`                          */
-    /* `else...^                       */
+    /* `else...{{^                     */
+    /* else                            */
+    /* {                               */
+    /*     `body^                      */
+    /* }`}}^                           */
 
 
 
 if ( cond )
 {
     code
+}
+elseif ( cond2 )
+{
+    body
 }
 elseif ( cond2 )
 {
@@ -446,6 +469,10 @@ elseif ( cond2 )
 {
     body
 }
+elseif ( cond2 )
+{
+    body
+}
 else
 {
     body
@@ -454,6 +481,10 @@ else
 a if ( cond )
 {
     code
+}
+elseif ( cond2 )
+{
+    body
 }
 elseif ( cond2 )
 {
@@ -477,7 +508,11 @@ else
     /* elseif ( `cond2^ )               */
     /* {                                */
     /*     `body^                       */
-    /* }`...^`else...^                  */
+    /* }`...^`else...{{^                */
+    /* else                             */
+    /* {                                */
+    /*     `body^                       */
+    /* }`}}^                            */
 
 
 
@@ -485,6 +520,10 @@ if ( cond )
 {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
+}
+elseif ( cond2 )
+{
+    body
 }
 elseif ( cond2 )
 {
@@ -518,6 +557,10 @@ elseif ( cond2 )
 {
     body
 }
+elseif ( cond2 )
+{
+    body
+}
 else
 {
     body
@@ -536,24 +579,29 @@ elseif ( cond2 )
 {
     body
 }
+elseif ( cond2 )
+{
+    body
+}
 else
 {
     body
 }
 
 
-    /*  -------------switch--------------- */
-    /* switch `option^^ (`what^)           */
-    /* {                                   */
-    /*  `pattern^ { `action^ }`...^        */
-    /*  `pattern^ { `action^ }`...^        */
-    /*  `Default...^                       */
-    /* }                                   */
+    /*  -------------switch---------------     */
+    /* switch `option^^ (`what^)               */
+    /* {                                       */
+    /*  `pattern^ { `action^ }`...^            */
+    /*  `pattern^ { `action^ }`...^            */
+    /*  `Default...{{^Default { `action^ }`}}^ */
+    /* }                                       */
 
 
 
 switch  (what)
 {
+ pattern { action }
  pattern { action }
  pattern { action }
  pattern { action }
@@ -571,11 +619,13 @@ a switch  (what)
  pattern { action }
  pattern { action }
  pattern { action }
+ pattern { action }
  Default { action }
 } b
 
 a switch  (what)
 {
+ pattern { action }
  pattern { action }
  pattern { action }
  pattern { action }
@@ -612,8 +662,8 @@ a trap [Exception]
 }
 
 
-    /*  -------------{--------------- */
-    /* {`wrapped^}                    */
+    /*  -------------{_--------------- */
+    /* {`wrapped^}                     */
 
 
 

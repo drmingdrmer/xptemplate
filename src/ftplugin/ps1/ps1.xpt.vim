@@ -1,13 +1,6 @@
-if exists("b:__PS1_XPT_VIM__")
-    finish
-endif
-let b:__PS1_XPT_VIM__ = 1
+XPTemplate priority=lang
 
 
-" containers
-let s:f = g:XPTfuncs() 
-
-" inclusion
 XPTinclude
       \ _common/common
 

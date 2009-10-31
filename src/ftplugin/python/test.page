@@ -124,26 +124,26 @@ a drdr.xp
 
 
     #  -------------class--------------- 
-    # class `ClassName^(`inherit^):      
-    #     def __init__(self, `args*^):   
+    # class `ClassName^(`inherit^^):     
+    #     def __init__(self`, `args*^):  
     #         `cursor^                   
 
 
 
-class ClassName(inherit):
-    def __init__(self, ):
+class ClassName():
+    def __init__(self):
         
 
         class ClassName_TYPED(inherit_TYPED):
             def __init__(self, args_TYPED, args_TYPED, args_TYPED):
                  b
 
-a class ClassName(inherit):
-    def __init__(self, ):
+a class ClassName():
+    def __init__(self):
          b
 
-a class ClassName(inherit):
-    def __init__(self, ):
+a class ClassName():
+    def __init__(self):
         
 
 
@@ -394,6 +394,20 @@ a if __name__ == "__main__" :
 
 a if __name__ == "__main__" :
     
+
+
+    #  -------------import--------------- 
+    # import `mod^                        
+
+
+
+import mod
+
+import mod_TYPED b
+
+a import mod b
+
+a import mod
 
 
     #  -------------importas--------------- 

@@ -1119,6 +1119,47 @@ name()
 }
 
 
+    /*  -------------fun_---------------                                                  */
+    /* `c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`param^)`$FUNC_BRACKET_STL^{ */
+    /*     `wrapped^                                                                      */
+    /*     `cursor^                                                                       */
+    /* }                                                                                  */
+
+
+
+    int
+name()
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+    
+}
+
+    int_TYPED
+name_TYPED(param_TYPED)
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+    
+}b
+
+a     int
+name()
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+    
+}b
+
+a     int
+name()
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+    
+}
+
+
     /*  -------------if---------------                     */
     /* if (`condition^)`$IF_BRACKET_STL^{                  */
     /*     `job^                                           */
