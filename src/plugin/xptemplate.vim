@@ -22,7 +22,6 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO strict mode : do not allow editing contents outside place holder
 " TODO highlight : when outside place holder
 " TODO super cancel : clear/default all and finish
 " TODO hint of whether xpt is running. sign, statusline, highlight
@@ -62,6 +61,7 @@
 "
 "
 " Log of This version:
+" add : strict mode(g:xptemplate_strict) : do not allow editing contents outside place holder
 
 
 
@@ -3598,7 +3598,7 @@ fun! s:XPTupdate(...) "{{{
     call s:log.Log( "marks before XPTupdate:\n" . XPMallMark() )
 
     call s:fixCrCausedIndentProblem()
-    
+
 
 
     " TODO hint to indicate whether cursor is at the right place 
@@ -3607,7 +3607,6 @@ fun! s:XPTupdate(...) "{{{
     let [ start, end ] = [ XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) ]
 
     if start == [0, 0] || end == [0, 0]
-        " call s:log.Info( 'fail to get start/end mark:' . string( [ start, end ] ) . ' of name=' . string( leaderMark ) )
         call s:Crash( 'mark lost :' . string( leaderMark ) )
         return -1
     endif
@@ -3616,6 +3615,16 @@ fun! s:XPTupdate(...) "{{{
     call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
 
     let rc = XPMupdate()
+
+    echom 'rc=' . string(rc) . ' phase=' . string(renderContext.phase) . ' strict=' . g:xptemplate_strict
+
+    if g:xptemplate_strict 
+                \&& renderContext.phase == 'fillin'
+                \&& rc is g:XPM_RET.updated
+        undo
+        call XPMupdate()
+        return 0
+    endif
 
     let [ start, end ] = [ XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) ]
 
@@ -3627,6 +3636,11 @@ fun! s:XPTupdate(...) "{{{
     if contentTyped ==# renderContext.lastContent
         call s:log.Log( "nothing different typed" )
         call XPMupdateStat()
+
+        " if g:xptemplate_strict
+            " call s:BreakUndo()
+        " endif
+
         return 0
     endif
 
@@ -3646,7 +3660,7 @@ fun! s:XPTupdate(...) "{{{
 
 
 
-    if rc == g:XPM_RET.likely_matched
+    if rc is g:XPM_RET.likely_matched
         " change taken in current focused place holder
         let relPos = s:recordRelativePosToMark( [ line( '.' ), col( '.' ) ], renderContext.leadingPlaceHolder.mark.start )
 
@@ -3672,17 +3686,28 @@ fun! s:XPTupdate(...) "{{{
 
     call s:CallPlugin('update', 'after')
 
-
     let renderContext.lastContent = contentTyped
     let renderContext.lastTotalLine = line( '$' )
 
-    
+
 
     call s:log.Log( "marks after XPTupdate:\n" . XPMallMark() )
 
     call XPMupdateStat()
 
+    " if g:xptemplate_strict
+        " call s:BreakUndo()
+    " endif
+
 endfunction "}}}
+
+fun! s:BreakUndo() "{{{
+    if mode() != 'i'
+        return
+    endif
+    call feedkeys("\<C-g>u", 'nt')
+endfunction "}}}
+
 
 fun! s:recordRelativePosToMark( pos, mark ) "{{{
     let p = XPMpos( a:mark )
@@ -3757,8 +3782,9 @@ augroup XPT "{{{
     au!
     au InsertEnter * call <SID>XPTcheck()
 
-    " au CursorHoldI * call <SID>XPTupdate()
     au CursorMovedI * call <SID>XPTupdate()
+    au CursorMovedI * call <SID>BreakUndo()
+
     au CursorMoved * call <SID>XPTtrackFollowingSpace()
 
     " InsertEnter is called in normal mode
