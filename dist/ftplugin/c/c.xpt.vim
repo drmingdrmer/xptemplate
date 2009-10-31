@@ -65,6 +65,7 @@ fun! s:f.c_printfElts( v )
   " remove '%%' representing a single '%'
   let v = substitute( a:v, '\V%%', '', 'g' )
 
+
   if v =~ '\V%'
 
     let start = 0

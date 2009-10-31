@@ -86,7 +86,7 @@ fun! g:XPTloadBundle(ft, bundle)
     endif
 endfunction 
 fun! s:FiletypeInit() 
-    let x = XPTbufData()
+    let x = g:XPTobject()
     let fts = x.filetypes
     for [ ft, ftScope ] in items( fts )
         let f = ftScope.funcs

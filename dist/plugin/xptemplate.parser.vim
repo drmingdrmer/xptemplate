@@ -21,7 +21,7 @@ com! -nargs=+ XPTinclude    call XPTinclude(<f-args>)
 com! -nargs=+ XPTembed      call XPTembed(<f-args>)
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 fun! s:AssignSnipFT( filename ) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let filename = substitute( a:filename, '\\', '/', 'g' )
     let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
     if empty( x.snipFileScopeStack ) 
@@ -44,7 +44,10 @@ fun! s:AssignSnipFT( filename )
     return ft
 endfunction 
 fun! XPTsnippetFileInit( filename, ... ) 
-    let x = XPTbufData()
+    if !exists("b:xptemplateData")
+        call XPTemplateInit()
+    endif
+    let x = b:xptemplateData
     let filetypes = x.filetypes
     let snipScope = XPTnewSnipScope(a:filename)
     let snipScope.filetype = s:AssignSnipFT( a:filename )
@@ -112,6 +115,9 @@ fun! XPTinclude(...)
                 call XPTinclude(s)
             endfor
         elseif type(v) == type('') 
+            if XPTbufData().filetypes[ scope.filetype ].IsSnippetLoaded( v )
+                continue
+            endif
             call XPTsnipScopePush()
             exe 'runtime ftplugin/' . v . '.xpt.vim'
             call XPTsnipScopePop()
@@ -183,22 +189,18 @@ fun! s:XPTemplateParseSnippet(lines)
     let snippetName = snippetParameters[1]
     let snippetParameters = snippetParameters[2:]
     for pair in snippetParameters
-        let nameAndValue = split(pair, '=', 1)
-        if len(nameAndValue) > 1
-            let propName = nameAndValue[0]
-            let propValue = g:xptutil.UnescapeChar( join( nameAndValue[1:], '=' ), ' ' )
-            if propName == ''
-                throw 'empty property name at line:' . lines[0]
-            elseif !has_key( setting, propName )
-                let setting[propName] = propValue
-            endif
+        let name = matchstr(pair, '\V\^\[^=]\*')
+        let value = pair[ len(name) : ]
+        let value = value[0:0] == '=' ? g:xptutil.UnescapeChar(value[1:], ' ') : 1
+        if !has_key( setting, name )
+            let setting[name] = value
         endif
     endfor
     let start = 1
     let len = len( lines )
     while start < len
-        if lines[start] =~# '^XSET\%[m]\s\+'
-            let command = matchstr( lines[ start ], '^XSET\%[m]' )
+        let command = matchstr( lines[ start ], '\V\^XSETm\?\ze\s' )
+        if command != ''
             let [ key, val, start ] = s:getXSETkeyAndValue( lines, start )
             if key == ''
                 let start += 1
@@ -206,7 +208,7 @@ fun! s:XPTemplateParseSnippet(lines)
             endif
             let [ keyname, keytype ] = s:GetKeyType( key )
             call s:handleXSETcommand(setting, command, keyname, keytype, val)
-        elseif lines[start] =~# '^\\XSET\%[m]' " escaped XSET or XSETm
+        elseif lines[start] =~# '^\\XSET' " escaped XSET or XSETm
             let snippetLines += [ lines[ start ][1:] ]
         else
             let snippetLines += [ lines[ start ] ]
@@ -234,6 +236,9 @@ fun! s:XPTemplateParseSnippet(lines)
     endif
 endfunction 
 fun! s:GetSnipCommentHint(str) 
+    if match(a:str, '\V' . s:nonEscaped . '\shint=') != -1
+        return ['', a:str]
+    endif
     let pos = match( a:str, '\V\s' . s:nonEscaped . '"' )
     if pos == -1
         return [ '', a:str ]

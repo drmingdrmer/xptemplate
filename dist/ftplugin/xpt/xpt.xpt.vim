@@ -97,6 +97,8 @@ XPTvar $WHILE_BRACKET_STL  ' '
 XPTvar $STRUCT_BRACKET_STL ' '
 " int fun() ** {
 XPTvar $FUNC_BRACKET_STL   ' '
+" class name ** {
+XPTvar $CLS_BRACKET_STL    ' '
 
 
 XPT varSpaces hint=variable\ to\ define\ spacing

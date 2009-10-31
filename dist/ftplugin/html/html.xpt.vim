@@ -60,11 +60,11 @@ let s:doctypes = {
       \}
 
 
-fun! s:f.doctypeList()
+fun! s:f.html_doctypeList()
   return keys( s:doctypes )
 endfunction
 
-fun! s:f.doctypePost(v)
+fun! s:f.html_doctypePosta(v)
   if has_key( s:doctypes, a:v )
     return s:doctypes[ a:v ]
   else
@@ -139,8 +139,8 @@ XPT html hint=<html><head>..<head><body>...
 </html>
 
 XPT doctype hint=<!DOCTYPE\ ***
-XSET doctype=doctypeList()
-XSET doctype|post=doctypePost( V() )
+XSET doctype=html_doctypeList()
+XSET doctype|post=html_doctypePosta( V() )
 <!DOCTYPE html PUBLIC `doctype^>
 
 

@@ -52,8 +52,8 @@ let g:XPTemplateSettingPrototype  = {
             \}
 fun! g:XPTapplyTemplateSettingDefaultValue( setting ) 
     let s = a:setting
-    call s:SetIfEmpty( s,           'postQuoter', { 'start' : '{{', 'end' : '}}' } )
-    call s:SetIfEmpty( s.preValues, 'cursor', '$CURSOR_PH' )
+    let s.postQuoter        = get( s,           'postQuoter',   { 'start' : '{{', 'end' : '}}' } )
+    let s.preValues.cursor  = get( s.preValues, 'cursor',       '$CURSOR_PH' )
 endfunction 
 let s:defaultPostFilter = {
             \   '\V\w\+?' : 'EchoIfNoChange( '''' )', 
@@ -77,7 +77,6 @@ let s:renderContextPrototype      = {
             \   'item'              : {}, 
             \   'leadingPlaceHolder' : {}, 
             \   'history'           : [], 
-            \   'step'              : [],
             \   'namedStep'         : {},
             \   'processing'        : 0,
             \   'marks'             : {
@@ -90,19 +89,6 @@ let s:renderContextPrototype      = {
             \}
 let s:vrangeClosed = "\\%>'<\\%<'>"
 let s:vrange       = '\V' . '\%(' . '\%(' . s:vrangeClosed .'\)' .  '\|' . "\\%'<\\|\\%'>" . '\)'
-let s:plugins = {}
-let s:plugins.beforeRender = []
-let s:plugins.afterRender = []
-let s:plugins.beforeFinish = []
-let s:plugins.afterFinish = []
-let s:plugins.beforeApplyPredefined = []
-let s:plugins.afterApplyPredefined = []
-let s:plugins.beforeInitItem = []
-let s:plugins.afterInitItem = []
-let s:plugins.beforeNextItem = []
-let s:plugins.afterNextItem = []
-let s:plugins.beforeUpdate = []
-let s:plugins.afterUpdate = []
 let s:priorities = {'all' : 64, 'spec' : 48, 'like' : 32, 'lang' : 16, 'sub' : 8, 'personal' : 0}
 let s:priPtn = 'all\|spec\|like\|lang\|sub\|personal\|\d\+'
 let s:f = {}
@@ -128,7 +114,7 @@ fun! s:ItemPumCB.onOneMatch(sess)
     return s:FinishCurrentAndGotoNextItem( '' )
 endfunction 
 fun! XPTemplateKeyword(val) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let val = substitute(a:val, '\w', '', 'g')
     let keyFilter = 'v:val !~ ''\V\[' . escape(val, '\]') . ']'' '
     call filter( x.keywordList, keyFilter )
@@ -136,7 +122,7 @@ fun! XPTemplateKeyword(val)
     let x.keyword = '\[' . escape( join( x.keywordList, '' ), '\]' ) . ']'
 endfunction 
 fun! XPTemplatePriority(...) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let p = a:0 == 0 ? 'lang' : a:1
     let x.snipFileScope.priority = s:ParsePriorityString(p)
 endfunction 
@@ -170,23 +156,35 @@ fun! XPTemplateAlias( name, toWhich, setting )
     let xptObj = g:XPTobject()
     let xt = xptObj.filetypes[ g:GetSnipFileFT() ].normalTemplates
     if has_key( xt, a:toWhich )
-        let xt[ a:name ] = deepcopy( xt[ a:toWhich ] )
-        let xt[ a:name ].name = a:name
+        let toSnip = xt[ a:toWhich ]
+        let xt[a:name] = {
+                        \ 'name'        : a:name,
+                        \ 'parsed'      : 0, 
+                        \ 'ftScope'     : toSnip.ftScope, 
+                        \ 'tmpl'        : toSnip.tmpl,
+                        \ 'priority'    : toSnip.priority,
+                        \ 'setting'     : deepcopy(toSnip.setting),
+                        \ 'ptn'         : deepcopy(toSnip.ptn),
+                        \ 'wrapped'     : toSnip.wrapped, 
+                        \}
         call s:ParseTemplateSetting( xptObj, a:setting )
         call g:xptutil.DeepExtend( xt[ a:name ].setting, a:setting )
     endif
 endfunction 
 fun! g:GetSnipFileFT() 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     return x.snipFileScope.filetype
 endfunction 
 fun! g:GetSnipFileFtScope() 
-    let x = g:XPTobject()
+    return s:GetSnipFileFtScope()
+endfunction 
+fun! s:GetSnipFileFtScope() 
+    let x = b:xptemplateData
     return x.filetypes[ x.snipFileScope.filetype ]
 endfunction 
 fun! XPTemplate(name, str_or_ctx, ...) 
-    let x         = g:XPTobject()
-    let ftScope   = x.filetypes[ g:GetSnipFileFT() ]
+    let x = b:xptemplateData
+    let ftScope   = x.filetypes[ x.snipFileScope.filetype ]
     let templates = ftScope.normalTemplates
     let xp        = x.snipFileScope.ptn
     let foo       = { 'snip' : '' }
@@ -205,7 +203,8 @@ fun! XPTemplate(name, str_or_ctx, ...)
         return
     endif
     call s:CleanupSnippet( x, foo )
-    let isWrapped = type(foo.snip) != type(function("tr")) && foo.snip =~ '\V' . xp.lft . s:wrappedName . xp.rt
+    let isWrapped = 
+                \foo.snip =~ '\V' . xp.lft . s:wrappedName . xp.rt
     let templates[a:name] = {
                 \ 'name'        : a:name,
                 \ 'parsed'      : 0, 
@@ -233,13 +232,8 @@ fun! s:CleanupSnippet( xptObj, foo )
 endfunction 
 fun! s:InitTemplateObject( xptObj, tmplObj ) 
     call s:ParseTemplateSetting( a:xptObj, a:tmplObj.setting )
-    if type( a:tmplObj.tmpl ) == type( '' )
-    endif
     call s:addCursorToComeLast(a:tmplObj.setting)
     call s:initItemOrderDict( a:tmplObj.setting )
-    if has_key( a:tmplObj.setting.defaultValues, 'cursor' )
-    else
-    endif
     if !has_key( a:tmplObj.setting.defaultValues, 'cursor' )
                 \ || a:tmplObj.setting.defaultValues.cursor !~ 'Finish'
         let a:tmplObj.setting.defaultValues.cursor = "\n" . 'Finish()'
@@ -319,11 +313,11 @@ fun! s:ParsePostQuoter( setting )
     let a:setting.postQuoter = { 'start' : quoters[0], 'end' : quoters[1] }
 endfunction 
 fun! s:addCursorToComeLast(setting) 
-  let comeLast = copy( a:setting.comeLast )
-  let cursorItem = filter( comeLast, 'v:val == "cursor"' )
-  if cursorItem == []
-    call add( a:setting.comeLast, 'cursor' )
-  endif
+    let comeLast = copy( a:setting.comeLast )
+    let cursorItem = filter( comeLast, 'v:val == "cursor"' )
+    if cursorItem == []
+        call add( a:setting.comeLast, 'cursor' )
+    endif
 endfunction 
 fun! s:initItemOrderDict( setting ) 
     let setting = a:setting
@@ -356,7 +350,7 @@ fun! XPTgetAllTemplates()
     return copy( XPTbufData().filetypes[ &filetype ].normalTemplates )
 endfunction 
 fun! XPTemplatePreWrap(wrap) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let x.wrap = a:wrap
     let x.wrap = substitute( x.wrap, '\n$', '', '' )
     let x.wrapStartPos = col(".")
@@ -375,12 +369,12 @@ fun! XPTemplatePreWrap(wrap)
     return leftSpaces . "\<C-r>=XPTemplateDoWrap()\<cr>"
 endfunction 
 fun! XPTemplateDoWrap() 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let ppr = s:Popup("", x.wrapStartPos)
     return ppr
 endfunction 
 fun! XPTemplateStart(pos_nonused_any_more, ...) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     if a:0 == 1 &&  type(a:1) == type({}) && has_key( a:1, 'tmplName' )  
         let startColumn = a:1.startPos[1]
         let templateName = a:1.tmplName
@@ -427,7 +421,7 @@ fun! s:GetHint(ctx)
     endif
 endfunction 
 fun! s:ParsePriorityString(s) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let pstr = a:s
     let prio = 0
     if pstr == ""
@@ -469,7 +463,7 @@ fun! s:newTemplateRenderContext( xptBufData, ftScope, tmplName )
     return renderContext
 endfunction 
 fun! s:DoStart(sess) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     if !has_key( s:GetContextFTObj().normalTemplates, a:sess.matched )
         return ''
     endif
@@ -491,7 +485,7 @@ fun! s:DoStart(sess)
     return action
 endfunction 
 fun! s:FinishRendering(...) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let renderContext = s:getRenderContext()
     let xp = renderContext.tmpl.ptn
     call s:removeMarksInRenderContext(renderContext) 
@@ -518,7 +512,7 @@ fun! s:removeMarksInRenderContext( renderContext )
     call XPMremoveMarkStartWith( renderContext.markNamePre )
 endfunction 
 fun! s:Popup(pref, coln) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let ctx = s:getRenderContext()
     if ctx.phase == 'finished'
         let ctx.phase = 'popup'
@@ -671,7 +665,7 @@ fun! s:parseQuotedPostFilter( tmplObj )
     return snip
 endfunction 
 fun! s:RenderTemplate(nameStartPosition, nameEndPosition) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let ctx = s:getRenderContext()
     let xp = s:getRenderContext().tmpl.ptn
     let ctx.phase = 'rendering'
@@ -708,7 +702,7 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition)
     silent! normal! gvzO
 endfunction 
 fun! s:GetNameInfo(end) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let xp = x.renderContext.tmpl.ptn
     if getline(".")[col(".") - 1] != xp.l
         throw "cursor is not at item start position:".string(getpos(".")[1:2])
@@ -739,7 +733,7 @@ fun! s:GetNameInfo(end)
     endif
 endfunction 
 fun! s:GetValueInfo(end) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let xp = x.renderContext.tmpl.ptn
     if getline(".")[col(".") - 1] != xp.r
         throw "cursor is not at item end position:".string(getpos(".")[1:2])
@@ -998,9 +992,9 @@ fun! s:ApplyPreValues( placeHolder )
     let preValue = a:placeHolder.name == '' ? '' : 
                 \ (has_key( setting.preValues, a:placeHolder.name ) ? setting.preValues[ a:placeHolder.name ] : '')
     if !s:IsFilterEmpty( preValue ) 
-        let preValue = s:Eval( preValue )
         let [ filterIndent, filterText ] = s:GetFilterIndentAndText( preValue )
-        call s:SetPreValue( a:placeHolder, filterIndent, filterText )
+        let obj = s:Eval( filterText )
+        call s:SetPreValue( a:placeHolder, filterIndent, obj )
     else
         let preValue = has_key( setting.defaultValues, a:placeHolder.name ) ? 
                     \setting.defaultValues[ a:placeHolder.name ] 
@@ -1009,10 +1003,10 @@ fun! s:ApplyPreValues( placeHolder )
             if preValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
                         \|| preValue =~ '\V_pre(' 
                         \|| preValue =~ '\V\u\w\+('
-                let text = s:Eval( preValue )
-                if type( text ) == type('')
-                    let [ filterIndent, filterText ] = s:GetFilterIndentAndText( text )
-                    call s:SetPreValue( a:placeHolder, filterIndent, filterText )
+                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( preValue )
+                let obj = s:Eval( filterText )
+                if type( obj ) == type('')
+                    call s:SetPreValue( a:placeHolder, filterIndent, obj )
                 endif
             endif
         endif
@@ -1083,7 +1077,7 @@ fun! s:HighLightItem(name, switchon)
     endif
 endfunction 
 fun! s:TopTmplRange() 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     if empty(x.stack)
         return s:TmplRange()
     else
@@ -1095,7 +1089,7 @@ fun! s:TopTmplRange()
     return r
 endfunction 
 fun! s:TmplRange() 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let p = [line("."), col(".")]
     call s:GetRangeBetween(s:TL(), s:BR())
     call cursor(p)
@@ -1174,7 +1168,6 @@ fun! s:FinishCurrentAndGotoNextItem(action)
         call XPreplace(XPMpos( marks.start ),XPMpos( marks.end ), '')
     endif
     let [ post, built ] = s:ApplyPostFilter()
-    let renderContext.step += [{ 'name' : renderContext.item.name, 'value' : post }]
     if renderContext.item.name != ''
         let renderContext.namedStep[renderContext.item.name] = post
     endif
@@ -1447,7 +1440,8 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter )
     let renderContext = a:renderContext
     let leader = renderContext.leadingPlaceHolder
     let str = a:filter
-    let obj = s:Eval(str) 
+    let [ filterIndent, filterText ] = s:GetFilterIndentAndText( str )
+    let obj = s:Eval(filterText) 
     if type(obj) == type({})
         let rc = s:HandleDefaultValueAction( renderContext, obj )
         return ( rc is -1 ) ? s:FillinLeadingPlaceHolderAndSelect( renderContext, '' ) : rc
@@ -1463,8 +1457,7 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter )
         call pumSess.SetAcceptEmpty(g:xptemplate_ph_pum_accept_empty)
         return pumSess.popup(col("."), { 'doCallback' : 1, 'enlarge' : 0 } )
     else 
-        let filterIndent = matchstr( obj, '\s*\ze\n' )
-        let filterText = matchstr( obj, '\n\zs\_.*' )
+        let filterText = obj
         let str = s:AdjustIndentAccordingToLine( filterText, filterIndent, XPMpos( renderContext.leadingPlaceHolder.mark.start )[0], renderContext.leadingPlaceHolder )
         return s:FillinLeadingPlaceHolderAndSelect( renderContext, str )
     endif
@@ -1512,11 +1505,8 @@ fun! s:CreateStringMask( str )
     if a:str == ''
         return ''
     endif
-    if !exists( 'b:_xpeval' )
-        let b:_xpeval = { 'cache' : {} }
-    endif
-    if has_key( b:_xpeval.cache, a:str )
-        return b:_xpeval.cache[ a:str ]
+    if has_key( b:_xpeval.strMaskCache, a:str )
+        return b:_xpeval.strMaskCache[ a:str ]
     endif
     let nonEscaped =   '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
     let dqe = '\V\('. nonEscaped . '"\)'
@@ -1540,48 +1530,48 @@ fun! s:CreateStringMask( str )
             let mask = substitute(mask, sptn, sub, '')
         endif
     endwhile 
-    let b:_xpeval.cache[ a:str ] = mask
+    let b:_xpeval.strMaskCache[ a:str ] = mask
     return mask
 endfunction 
-fun! XPTS2l(a, b)
-    return a:a - a:b
-endfunction
-fun! s:Eval(s, ...) 
-    let x = g:XPTobject()
-    let ctx = s:getRenderContext()
-    if ctx.phase == 'uninit'
-        let xfunc = g:GetSnipFileFtScope().funcs
-    else
-        let xfunc = ctx.ftScope.funcs
+fun! s:Eval(str, ...) 
+    if a:str == ''
+        return ''
     endif
-    let tmpEvalCtx = { 'typed' : '', 'usingCache' : 1 }
-    if a:0 >= 1
-        call extend( tmpEvalCtx, a:1, 'force' )
+    let expr = get( b:_xpeval.evalCache, a:str, '' )
+    let x = b:xptemplateData
+    let ctx = x.renderContext
+    let xfunc = ctx.phase == 'uninit'
+                \ ? x.filetypes[ x.snipFileScope.filetype ].funcs
+                \ : ctx.ftScope.funcs
+    let xfunc._ctx = ctx
+    let typed = a:0 == 1 ? get(a:1, 'typed', '') : ''
+    let ctx.evalCtx.value = ctx.processing ? typed : ''
+    if '' == expr
+        let expr = s:CompileExpr(a:str, xfunc)
+        let b:_xpeval.evalCache[a:str] = expr
     endif
+    try
+        return eval(expr)
+    catch /.*/
+        call s:log.Warn(v:exception)
+        return ''
+    endtry
+endfunction 
+fun! s:CompileExpr(s, xfunc) 
     let nonEscaped =   '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
     let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . nonEscaped . '{\w\+(\[^($]\{-})}'
     let vptn = '\V' . nonEscaped . '$\w\+' . '\|' . nonEscaped . '{$\w\+}'
-    let patternVarOrFunc = fptn . '\|' . vptn
-    let stringMask = s:CreateStringMask( a:s )
-    let xfunc._ctx = ctx.evalCtx
-    let xfunc._ctx.phase = ctx.phase
-    let xfunc._ctx.tmpl = ctx.tmpl
-    let xfunc._ctx.step = {}
-    let xfunc._ctx.namedStep = {}
-    let xfunc._ctx.value = ''
-    let xfunc._ctx.item = {}
-    let xfunc._ctx.leadingPlaceHolder = {}
-    if ctx.processing
-        let xfunc._ctx.step = ctx.step
-        let xfunc._ctx.namedStep = ctx.namedStep
-        let xfunc._ctx.name = ctx.item.name
-        let xfunc._ctx.fullname = ctx.item.fullname
-        let xfunc._ctx.value = tmpEvalCtx.typed
-        let xfunc._ctx.item = ctx.item
-        let xfunc._ctx.leadingPlaceHolder = ctx.leadingPlaceHolder
+    let sptn = '\V' . nonEscaped . '(\[^($]\{-})'
+    let patternVarOrFunc = fptn . '\|' . vptn . '\|' . sptn
+    if a:s !~  '\V\w(\|$\w'
+        return string(g:xptutil.UnescapeChar(a:s, '{$( '))
     endif
-    let rangesToEval = {}
+    let stringMask = s:CreateStringMask( a:s )
+    if stringMask !~ patternVarOrFunc
+        return string(g:xptutil.UnescapeChar(a:s, '{$( '))
+    endif
     let str = a:s
+    let evalMask = repeat('-', len(stringMask))
     while 1
         let matchedIndex = match(stringMask, patternVarOrFunc)
         if matchedIndex == -1
@@ -1592,49 +1582,49 @@ fun! s:Eval(s, ...)
         if matched =~ '^{.*}$'
             let matched = matched[1:-2]
         endif
-        if matched[-1:] == ')' && has_key(xfunc, matchstr(matched, '^\w\+'))
+        if matched[0:0] == '(' && matched[-1:-1] == ')'
+            let contextedMatchedLen = len(matched)
+            let spaces = repeat(' ', contextedMatchedLen)
+            let stringMask = (matchedIndex == 0 ? "" : stringMask[:matchedIndex-1]) 
+                        \ . spaces
+                        \ . stringMask[matchedIndex + matchedLen :]
+            continue
+        elseif matched[-1:] == ')' && has_key(a:xfunc, matchstr(matched, '^\w\+'))
             let matched = "xfunc." . matched
-        elseif matched[0:0] == '$' && has_key(xfunc, matched)
+        elseif matched[0:0] == '$' && has_key(a:xfunc, matched)
             let matched = 'xfunc["' . matched . '"]'
         endif
         let contextedMatchedLen = len(matched)
-        for i in keys(rangesToEval)
-            if i >= matchedIndex && i < matchedIndex + matchedLen
-                call remove(rangesToEval, i)
-            endif
-        endfor
-        let rangesToEval[matchedIndex] = contextedMatchedLen
+        let spaces = repeat(' ', contextedMatchedLen)
+        let evalMask = (matchedIndex == 0 ? "" : evalMask[:matchedIndex-1]) 
+                    \ . '+' . spaces[1:]
+                    \ . evalMask[matchedIndex + matchedLen :]
         let stringMask = (matchedIndex == 0 ? "" : stringMask[:matchedIndex-1]) 
-                    \ . repeat(' ', contextedMatchedLen)
+                    \ . spaces
                     \ . stringMask[matchedIndex + matchedLen :]
         let str  = (matchedIndex == 0 ? "" :  str[:matchedIndex-1])
                     \ . matched
                     \ . str[matchedIndex + matchedLen :]
     endwhile
-    let sp = ""
-    let last = 0
-    let offsetsOfEltsToEval = sort(keys(rangesToEval), "XPTS2l")
-    try
-        for k in offsetsOfEltsToEval
-            let kn = 0 + k
-            let vn = 0 + k + rangesToEval[k]
-            let tmp = k == 0 ? "" : (str[last : kn-1])
-            let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
-            let sp .= tmp
-            let evaledResult = eval(str[kn : vn-1])
-            if type(evaledResult) != type('') && type(evaledResult) != type(0)
-                return evaledResult
-            endif
-            let sp .= evaledResult
-            let last = vn
-        endfor
-        let tmp = str[last : ]
-        let tmp = g:xptutil.UnescapeChar( tmp, '[{$(' )
-        let sp .= tmp
-    catch /.*/
-        echom v:exception
-    endtry
-    return sp
+    let idx = 0
+    let expr = "''"
+    while 1
+        let matches = matchlist( evalMask, '\V\(-\*\)\(+ \*\)\?', idx )
+        if '' == matches[0]
+            break
+        endif
+        if '' != matches[1]
+            let part = str[ idx : idx + len(matches[1]) - 1 ]
+            let part = g:xptutil.UnescapeChar(part, '{$( ')
+            let expr .= '.' . string(part)
+        endif
+        if '' != matches[2]
+            let expr .= '.' . str[ idx + len(matches[1]) : idx + len(matches[0]) - 1 ]
+        endif
+        let idx += len(matches[0])
+    endwhile
+    let expr = matchstr(expr, "\\V\\^''.\\zs\\.\\*")
+    return expr
 endfunction 
 fun! s:TextBetween(p1, p2) 
     if a:p1[0] > a:p2[0]
@@ -1677,7 +1667,7 @@ fun! s:LeftPos(p)
     return p
 endfunction 
 fun! s:CheckAndBS(k) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let p = [ line( "." ), col( "." ) ]
     let ctl = s:CTL(x)
     if p[0] == ctl[0] && p[1] == ctl[1]
@@ -1688,7 +1678,7 @@ fun! s:CheckAndBS(k)
     endif
 endfunction 
 fun! s:CheckAndDel(k) 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     let p = getpos(".")[1:2]
     let cbr = s:CBR(x)
     if p[0] == cbr[0] && p[1] == cbr[1]
@@ -1703,7 +1693,7 @@ fun! s:Goback()
     call cursor( XPMpos( renderContext.leadingPlaceHolder.mark.end ) )
     return ''
 endfunction 
-fun! s:XPTinit() 
+fun! s:XPTinitMapping() 
     let disabledKeys = [
                 \ 's_[%', 
                 \ 's_]%', 
@@ -1755,13 +1745,13 @@ fun! s:XPTinit()
     call b:mapMask.AddList( disabledKeys )
 endfunction 
 fun! s:ApplyMap() 
-    let x = g:XPTobject()
+    let x = b:xptemplateData
     call SettingPush( '&l:textwidth', '0' )
     call b:mapSaver.Save()
     call b:mapLiteral.Save()
     call b:mapMask.Save()
     call b:mapSaver.UnmapAll()
-    call b:mapLiteral.Literalize()
+    call b:mapLiteral.Literalize( { 'insertAsSelect' : 1 } )
     call b:mapMask.UnmapAll()
     exe 'inoremap <silent> <buffer> '.g:xptemplate_nav_prev  .' <C-r>=<SID>ShipBack()<cr>'
     exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_prev  .' <Esc>`>a<C-r>=<SID>ShipBack()<cr>'
@@ -1794,7 +1784,10 @@ fun! s:CBR(...)
     return copy( cp.end.pos )
 endfunction 
 fun! XPTbufData() 
-    return g:XPTobject()
+    if !exists("b:xptemplateData")
+        call XPTemplateInit()
+    endif
+    return b:xptemplateData
 endfunction 
 let s:snipScopePrototype = {
             \'filename' : '', 
@@ -1815,18 +1808,18 @@ fun! XPTsnipScope()
   return g:XPTobject().snipFileScope
 endfunction
 fun! XPTsnipScopePush()
-  let x = g:XPTobject()
-  let x.snipFileScopeStack += [x.snipFileScope]
-  unlet x.snipFileScope
+    let x = b:xptemplateData
+    let x.snipFileScopeStack += [x.snipFileScope]
+    unlet x.snipFileScope
 endfunction
 fun! XPTsnipScopePop()
-  let x = g:XPTobject()
-  if len(x.snipFileScopeStack) > 0
-    let x.snipFileScope = x.snipFileScopeStack[ -1 ]
-    call remove( x.snipFileScopeStack, -1 )
-  else
-    throw "snipFileScopeStack is empty"
-  endif
+    let x = b:xptemplateData
+    if len(x.snipFileScopeStack) > 0
+        let x.snipFileScope = x.snipFileScopeStack[ -1 ]
+        call remove( x.snipFileScopeStack, -1 )
+    else
+        throw "snipFileScopeStack is empty"
+    endif
 endfunction
 fun! s:createRenderContext(x) 
     let a:x.renderContext = deepcopy( s:renderContextPrototype )
@@ -1838,28 +1831,38 @@ fun! s:createRenderContext(x)
     return a:x.renderContext
 endfunction 
 fun! s:getRenderContext(...) 
-    let x = a:0 == 1 ? a:1 : g:XPTobject()
+    let x = a:0 == 1 ? a:1 : s:XPTobject()
     return x.renderContext
 endfunction 
 fun! g:XPTobject() 
     if !exists("b:xptemplateData")
-        let b:xptemplateData = {
-                    \   'filetypes'         : { '**' : g:FiletypeScope.New() }, 
-                    \   'wrapStartPos'      : 0, 
-                    \   'wrap'              : '', 
-                    \   'savedReg'          : '', 
-                    \}
-        let b:xptemplateData.posStack = []
-        let b:xptemplateData.stack = []
-        let b:xptemplateData.keyword = '\w'
-        let b:xptemplateData.keywordList = []
-        let b:xptemplateData.snipFileScopeStack = []
-        let b:xptemplateData.snipFileScope = {}
-        call s:createRenderContext( b:xptemplateData )
-        call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
-        call s:XPTinit()
+        call XPTemplateInit()
     endif
     return b:xptemplateData
+endfunction
+fun! s:XPTobject() 
+    if !exists("b:xptemplateData")
+        call XPTemplateInit()
+    endif
+    return b:xptemplateData
+endfunction 
+fun! XPTemplateInit() 
+    let b:xptemplateData = {
+                \   'filetypes'         : { '**' : g:FiletypeScope.New() }, 
+                \   'wrapStartPos'      : 0, 
+                \   'wrap'              : '', 
+                \   'savedReg'          : '', 
+                \}
+    let b:xptemplateData.posStack = []
+    let b:xptemplateData.stack = []
+    let b:xptemplateData.keyword = '\w'
+    let b:xptemplateData.keywordList = []
+    let b:xptemplateData.snipFileScopeStack = []
+    let b:xptemplateData.snipFileScope = {}
+    call s:createRenderContext( b:xptemplateData )
+    call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
+    call s:XPTinitMapping()
+    let b:_xpeval = { 'strMaskCache' : {}, 'evalCache' : {} }
 endfunction 
 fun! s:RedefinePattern() 
     let xp = b:xptemplateData.snipFileScope.ptn
@@ -1962,8 +1965,12 @@ fun! s:IsFilterEmpty( filter )
     return a:filter !~ '\n.'
 endfunction
 fun! s:GetFilterIndentAndText( filter ) 
-    let filterIndent = matchstr( a:filter, '\s*\ze\n' )
-    let filterText = matchstr( a:filter, '\n\zs\_.*' )
+    if a:filter =~ '\n'
+        let filterIndent = matchstr( a:filter, '\s*\ze\n' )
+        let filterText = matchstr( a:filter, '\n\zs\_.*' )
+    else
+        return ['', a:filter]
+    endif
     return [ filterIndent, filterText ]
 endfunction 
 fun! s:Crash(...) 
@@ -2023,7 +2030,7 @@ fun! s:XPTupdate(...)
         call XPMupdateStat()
         return 0
     endif
-    call s:CallPlugin("beforeUpdate")
+    call s:CallPlugin("update", 'before')
     if rc == g:XPM_RET.likely_matched
         let relPos = s:recordRelativePosToMark( [ line( '.' ), col( '.' ) ], renderContext.leadingPlaceHolder.mark.start )
         try
@@ -2034,7 +2041,7 @@ fun! s:XPTupdate(...)
         call s:gotoRelativePosToMark( relPos, renderContext.leadingPlaceHolder.mark.start )
     else
     endif
-    call s:CallPlugin('afterUpdate')
+    call s:CallPlugin('update', 'after')
     let renderContext.lastContent = contentTyped
     let renderContext.lastTotalLine = line( '$' )
     call XPMupdateStat()
@@ -2107,28 +2114,34 @@ fun! g:XPTaddPlugin(event, func)
         throw "XPT does NOT support event:".a:event
     endif
 endfunction 
-fun! s:CallPlugin(ev) 
-    if !has_key(s:plugins, a:ev)
-        throw "calling invalid event:".a:ev
-    endif
-    let x = g:XPTobject()
-    let v = 0
-    for f in s:plugins[a:ev]
-        let v = g:XPT[f](x)
+let s:plugins = {}
+fun! s:CreatePluginContainer( ... ) 
+    for evt in a:000
+        let s:plugins[evt] = { 'before' : [], 'after' : []}
     endfor
 endfunction 
-fun! s:Link(fs) 
-    let list = split(a:fs, ' ')
-    for v in list
-        let s:f[v] = function('<SNR>'.s:sid . v)
+call s:CreatePluginContainer(
+            \'render', 
+            \'finish', 
+            \'preValue', 
+            \'defaultValue', 
+            \'postFilter', 
+            \'initItem', 
+            \'nextItem', 
+            \'prevItem', 
+            \'update', 
+            \)
+delfunc s:CreatePluginContainer
+fun! s:CallPlugin(ev, when) 
+    let cnt = get(s:plugins, a:ev, {})
+    let evs = get(cnt, a:when, [])
+    if evs == []
+        return
+    endif
+    for XPTplug in evs
+        call XPTplug(x, b:renderContext)
     endfor
 endfunction 
-fun! s:SetIfEmpty( dict, name, value ) 
-    if !has_key( a:dict, a:name )
-        let a:dict[ a:name ] = a:value
-    endif
-endfunction 
-call <SID>Link('TmplRange GetRangeBetween TextBetween GetStaticRange LeftPos')
 com! XPTreload call XPTreload()
 com! XPTcrash call <SID>Crash()
 fun! String( d, ... )

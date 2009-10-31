@@ -20,12 +20,15 @@ endfunction
 fun! s:IsSnippetLoaded( filename ) dict 
     return has_key( self.loadedSnipFiles, a:filename )
 endfunction 
-fun! s:SetSnippetLoaded( filename ) 
+fun! s:SetSnippetLoaded( filename ) dict 
     let self.loadedSnipFiles[ a:filename ] = 1
+    let fn = substitute(a:filename, '\\', '/', 'g')
+    let shortname = matchstr(fn, '\Vftplugin\/\zs\w\+\/\.\*\ze.xpt.vim')
+    let self.loadedSnipFiles[shortname] = 1
 endfunction 
 fun! s:CheckAndSetSnippetLoaded( filename ) dict 
     let loaded = has_key( self.loadedSnipFiles, a:filename )
-    let self.loadedSnipFiles[ a:filename ] = 1
+    call self.SetSnippetLoaded(a:filename)
     return loaded
 endfunction 
 let g:FiletypeScope = g:XPclass( s:sid, s:proto )

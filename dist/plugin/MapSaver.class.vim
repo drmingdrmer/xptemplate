@@ -46,13 +46,19 @@ fun! s:Save() dict
         call insert( self.saved, g:MapPush( key, mode, self.isLocal ) )
     endfor
 endfunction 
-fun! s:Literalize() dict 
+fun! s:Literalize( ... ) dict 
     if self.saved == []
         throw "keys are not saved yet, can not literalize"
     endif
+    let option = a:0 == 1 ? a:1 : {}
+    let insertAsSelect = get(option, 'insertAsSelect', 0)
     let localStr = self.isLocal ? '<buffer> ' : ''
     for [ mode, key ] in self.keys
-        exe 'silent! ' . mode . 'noremap ' . localStr . key . ' ' . key
+        if mode == 's' && insertAsSelect
+            exe 'silent! ' . mode . 'noremap ' . localStr . key . ' d<BS><C-o>:call feedkeys(' . string(key) . ', "mt")<CR>'
+        else
+            exe 'silent! ' . mode . 'noremap ' . localStr . key . ' ' . key
+        endif
     endfor
 endfunction 
 fun! s:Restore() dict 
