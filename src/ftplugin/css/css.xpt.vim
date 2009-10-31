@@ -32,9 +32,19 @@ endfunction
 XPTemplateDef
 
 
+
+
+XPT wd " width : 
+width: `^;
+
+
+XPT ht " height : 
+height: `^;
+
+
 XPT backrep hint=background-repeat
 XSET rep=Choose(['repeat', 'repeat-x','repeat-y','no-repeat'])
-background-repeat `rep^;
+background-repeat: `rep^;
 
 
 XPT azimuth hint=azimuth
@@ -348,17 +358,20 @@ XSET selec=Choose(['auto', 'fixed'])
 table-layout: `selec^;
 
 
-XPT textalign hint=text-align
+XPT tidt " text-indent
+text-indent: `^;`cursor^
+
+XPT tal hint=text-align
 XSET selec=Choose(['left', 'right', 'center', 'justify'])
 text-align: `selec^;
 
 
-XPT textdecoration hint=text-decoration
+XPT tdec hint=text-decoration
 XSET selec=Choose(['none', 'underline', 'overline', 'line-through', 'blink'])
 text-decoration: `selec^;
 
 
-XPT texttransform hint=text-transform
+XPT ttr hint=text-transform
 XSET selec=Choose(['capitalize', 'uppercase', 'lowercase', 'none'])
 text-transform: `selec^;
 

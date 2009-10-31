@@ -259,6 +259,10 @@
 	The key to trigger snippets, in insert or visual mode.
 	Use |g:xptemplate_key| to change this mapping.
 
+	NOTE: You can set this key to <tab>, as most users do, for
+	convenience. In such case, it results in a normal <tab> typing if
+	no WORD character before cursor 
+
 							  *i_<tab>*  *s_<tab>*
 							    *xpt-key-navigate*   
 						       *g:xptemplate_nav_next*

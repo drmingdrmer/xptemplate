@@ -22,6 +22,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO if no template found fall <C-\>/<tab> to other plugins
 " TODO highlight : when outside place holder
 " TODO super cancel : clear/default all and finish
 " TODO hint of whether xpt is running. sign, statusline, highlight
@@ -63,6 +64,8 @@
 " Log of This version:
 " add : strict mode(g:xptemplate_strict) : do not allow editing contents outside place holder
 " fix : longest matching text appears if g:xptemplate_ph_pum_accept_empty set to 1
+" fix : incorrect behavior of <CR>, <UP>, <DOWN> when pum is shown
+" fix : <tab> as trigger key
 "
 "
 "
@@ -690,7 +693,7 @@ fun! XPTemplateDoWrap() "{{{
 endfunction "}}}
 
 " TODO remove the first argument
-fun! XPTemplateStart(pos_nonused_any_more, ...) " {{{
+fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
     let x = b:xptemplateData
 
     call s:log.Log("a:000".string(a:000))
@@ -727,7 +730,15 @@ fun! XPTemplateStart(pos_nonused_any_more, ...) " {{{
             let [startLineNr, startColumn] = searchpos('\V\%(\w\|'. x.keyword .'\)\+\%#', "bn", line("."))
 
             if startLineNr == 0
-                let [startLineNr, startColumn] = [line("."), col(".")]
+                if g:xptemplate_key == g:xptemplate_nav_next
+                    " TODO other plugin like supertab?
+                    call feedkeys(eval('"\' . g:xptemplate_key . '"'), 'nt')
+                    return ""
+
+                else
+                    let [startLineNr, startColumn] = [line("."), col(".")]
+
+                endif
             endif
 
         endif
@@ -2709,6 +2720,15 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
         
         let marks = leader.isKey ? leader.editMark : leader.mark
         let [ start, end ] = XPMposList( marks.start, marks.end )
+
+
+        if len(obj) == 1
+            call XPreplace( start, end, obj[0] )
+            return s:FillinLeadingPlaceHolderAndSelect( renderContext, obj[0] )
+        endif
+
+
+
         call XPreplace( start, end, '')
         call cursor(start)
 
