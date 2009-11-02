@@ -42,7 +42,6 @@ call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 0	)
 
 call s:SetIfNotExist('g:xptemplate_vars'                , ''	)
 call s:SetIfNotExist('g:xptemplate_bundle'              , ''	)
-call s:SetIfNotExist('g:xptemplate_hl'                  , 1	)
 
 " for test script
 call s:SetIfNotExist('g:xpt_post_action',         '')
@@ -52,10 +51,10 @@ let g:XPTpvs = {}
 
 
 "for high lighting current editing item
-if !hlID('XPTCurrentItem') && g:xptemplate_hl
+if !hlID('XPTCurrentItem') && g:xptemplate_highlight
   hi XPTCurrentItem ctermbg=darkgreen gui=none guifg=#d59619 guibg=#efdfc1
 endif
-if !hlID('XPTIgnoredMark') && g:xptemplate_hl
+if !hlID('XPTIgnoredMark') && g:xptemplate_highlight
   hi XPTIgnoredMark cterm=none term=none ctermbg=black ctermfg=darkgrey gui=none guifg=#dddddd guibg=white
 endif
 

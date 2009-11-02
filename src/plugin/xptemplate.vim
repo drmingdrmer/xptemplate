@@ -117,7 +117,7 @@ fun! XPTmarkCompare( o, markToAdd, existedMark )
         if a:existedMark ==# rm
             return -1
         endif
-    
+
     elseif renderContext.action == 'build' && has_key( renderContext, 'buildingMarkRange' ) 
                 \&& renderContext.buildingMarkRange.end ==  a:existedMark
         call s:log.Debug( a:markToAdd . ' < ' . a:existedMark )
@@ -3088,33 +3088,6 @@ fun! s:LeftPos(p) "{{{
     return p
 endfunction "}}}
 
-fun! s:CheckAndBS(k) "{{{
-    let x = b:xptemplateData
-
-    let p = [ line( "." ), col( "." ) ]
-    let ctl = s:CTL(x)
-
-    if p[0] == ctl[0] && p[1] == ctl[1]
-        return ""
-    else
-        let k= eval('"\<'.a:k.'>"')
-        return k
-    endif
-endfunction "}}}
-fun! s:CheckAndDel(k) "{{{
-    let x = b:xptemplateData
-
-    let p = getpos(".")[1:2]
-    let cbr = s:CBR(x)
-
-    if p[0] == cbr[0] && p[1] == cbr[1]
-        return ""
-    else
-        let k= eval('"\<'.a:k.'>"')
-        return k
-    endif
-endfunction "}}}
-
 fun! s:Goback() "{{{
     let renderContext = s:getRenderContext()
     call cursor( XPMpos( renderContext.leadingPlaceHolder.mark.end ) )
@@ -3237,20 +3210,6 @@ fun! s:ClearMap() " {{{
 endfunction " }}}
 
 
-
-fun! s:CTL(...) "{{{
-    let x = a:0 == 1 ? a:1 : g:XPTobject()
-    let cp = x.renderContext.pos.curpos
-    return copy( cp.start.pos )
-endfunction "}}}
-
-fun! s:CBR(...) "{{{
-    let x = a:0 == 1 ? a:1 : g:XPTobject()
-    let cp = x.renderContext.pos.curpos
-    return copy( cp.end.pos )
-endfunction "}}}
-
-
 fun! XPTbufData() "{{{
     if !exists("b:xptemplateData")
         call XPTemplateInit()
@@ -3325,7 +3284,7 @@ fun! g:XPTobject() "{{{
         call XPTemplateInit()
     endif
     return b:xptemplateData
-endfunction
+endfunction "}}}
 
 fun! s:XPTobject() "{{{
     if !exists("b:xptemplateData")
@@ -3650,7 +3609,7 @@ fun! s:XPTupdate(...) "{{{
         " TODO better hint
         " TODO allow user to move?
         echohl WarningMsg
-        echoerr "editing outside place holder is not allowed whne g:xptemplate_strict=1"
+        echom "editing OUTSIDE place holder is not allowed whne g:xptemplate_strict=1, use " . g:xptemplate_goback . " to go back"
         echohl
 
         return 0
@@ -3822,9 +3781,9 @@ augroup XPT "{{{
 
 augroup END "}}}
 
-fun! g:XPTaddPlugin(event, func) "{{{
+fun! g:XPTaddPlugin(event, when, func) "{{{
     if has_key(s:plugins, a:event)
-        call add(s:plugins[a:event], a:func)
+        call add(s:plugins[a:event][a:when], a:func)
     else
         throw "XPT does NOT support event:".a:event
     endif

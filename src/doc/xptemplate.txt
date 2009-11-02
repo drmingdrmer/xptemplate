@@ -305,6 +305,10 @@
 	Set to 1 to prevent incautious changing text outside place holders. Or
 	you are free to change other text outside place holders.
 
+						      *g:xptemplate_highlight*
+								   {default:1}
+	Set to 1 to enable highlight.
+
 						 *g:xptemplate_brace_complete*
 								   {default:0}
 	Set to 1 to let XPTemplate to do braces/quoters completing job. if
