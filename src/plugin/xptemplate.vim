@@ -22,6 +22,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO do not break undo if snippet is not rendering
 " TODO if no template found fall <C-\>/<tab> to other plugins
 " TODO highlight : when outside place holder
 " TODO super cancel : clear/default all and finish
