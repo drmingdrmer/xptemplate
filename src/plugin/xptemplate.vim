@@ -22,6 +22,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO key mapping just show pum only. or option to make <C-\> show pum only
 " TODO do not break undo if snippet is not rendering
 " TODO if no template found fall <C-\>/<tab> to other plugins
 " TODO highlight : when outside place holder
@@ -67,6 +68,7 @@
 " fix : longest matching text appears if g:xptemplate_ph_pum_accept_empty set to 1
 " fix : incorrect behavior of <CR>, <UP>, <DOWN> when pum is shown
 " fix : <tab> as trigger key
+" add : unknown filetype support
 "
 "
 "
@@ -2690,7 +2692,6 @@ endfunction "}}}
 
 fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
 
-    call s:log.Log( "**" )
 
     let renderContext = a:renderContext
     let leader = renderContext.leadingPlaceHolder
@@ -3297,7 +3298,7 @@ endfunction "}}}
 
 fun! XPTemplateInit() "{{{
     let b:xptemplateData = {
-                \   'filetypes'         : { '**' : g:FiletypeScope.New() }, 
+                \   'filetypes'         : {}, 
                 \   'wrapStartPos'      : 0, 
                 \   'wrap'              : '', 
                 \   'savedReg'          : '', 
@@ -3757,7 +3758,7 @@ fun! s:GetContextFT() "{{{
     if exists( 'b:XPTfiletypeDetect' )
         return b:XPTfiletypeDetect()
     elseif &filetype == ''
-        return '**'
+        return 'unknown'
     else
         return &filetype
     endif
@@ -3765,7 +3766,12 @@ endfunction "}}}
 
 fun! s:GetContextFTObj() "{{{
     let x = XPTbufData()
-    return get( x.filetypes, s:GetContextFT(), {} )
+    let ft = s:GetContextFT()
+    if ft == 'unknown' && !has_key(x.filetypes, ft)
+        runtime ftplugin/unknown/unknown.xpt.vim
+    endif
+    let ftScope = get( x.filetypes, ft, {} )
+    return ftScope
 endfunction "}}}
 
 augroup XPT "{{{

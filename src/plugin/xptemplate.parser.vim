@@ -54,6 +54,10 @@ fun! s:AssignSnipFT( filename ) "{{{
 
     let filename = substitute( a:filename, '\\', '/', 'g' )
 
+    if filename =~ 'unknown.xpt.vim$'
+        return 'unknown'
+    endif
+
 
     let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
     if empty( x.snipFileScopeStack ) 

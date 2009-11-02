@@ -144,7 +144,10 @@ endfunction "}}}
 
 
 fun! s:FiletypeInit() "{{{
+    echom "ok.............."
+    
     let x = g:XPTobject()
+
     let fts = x.filetypes
     for [ ft, ftScope ] in items( fts )
 
@@ -171,7 +174,7 @@ fun! s:FiletypeInit() "{{{
 endfunction "}}}
 
 
-augroup XPTpvs
+augroup XPTftInit
   au!
   au FileType * call <SID>FiletypeInit()
 augroup END
