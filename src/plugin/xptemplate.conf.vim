@@ -143,8 +143,7 @@ endfunction "}}}
 
 
 
-fun! s:FiletypeInit() "{{{
-    echom "ok.............."
+fun! XPTfiletypeInit() "{{{
     
     let x = g:XPTobject()
 
@@ -176,7 +175,7 @@ endfunction "}}}
 
 augroup XPTftInit
   au!
-  au FileType * call <SID>FiletypeInit()
+  au FileType * call XPTfiletypeInit()
 augroup END
 
 

@@ -3769,6 +3769,7 @@ fun! s:GetContextFTObj() "{{{
     let ft = s:GetContextFT()
     if ft == 'unknown' && !has_key(x.filetypes, ft)
         runtime ftplugin/unknown/unknown.xpt.vim
+        call XPTfiletypeInit()
     endif
     let ftScope = get( x.filetypes, ft, {} )
     return ftScope
