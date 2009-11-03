@@ -64,11 +64,15 @@
 "
 "
 " Log of This version:
-" add : strict mode(g:xptemplate_strict) : do not allow editing contents outside place holder
 " fix : longest matching text appears if g:xptemplate_ph_pum_accept_empty set to 1
 " fix : incorrect behavior of <CR>, <UP>, <DOWN> when pum is shown
 " fix : <tab> as trigger key
+"
+" add : strict mode(g:xptemplate_strict) : do not allow editing contents outside place holder
 " add : unknown filetype support
+" add : <C-r><C-\> to show pop up menu
+"
+" improve : <C-g> go back and select
 "
 "
 "
@@ -701,39 +705,44 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
     call s:log.Log("a:000".string(a:000))
 
-    if a:0 == 1 &&  type(a:1) == type({}) && has_key( a:1, 'tmplName' )  
+    let opt = a:0 == 1 ? a:1 : {}
+
+    if has_key( opt, 'tmplName' )  
         " exact template trigger, without depending on any input
 
-        let startColumn = a:1.startPos[1]
-        let templateName = a:1.tmplName
+        let startColumn = opt.startPos[1]
+        let templateName = opt.tmplName
 
-        call cursor(a:1.startPos)
+        call cursor(opt.startPos)
 
         return  s:DoStart( {
-                    \'line' : a:1.startPos[0], 
+                    \'line' : opt.startPos[0], 
                     \'col' : startColumn, 
                     \'matched' : templateName, 
                     \'data' : { 'ftScope' : s:GetContextFTObj() } } )
 
-    else 
+    else
         " input mode
 
         let cursorColumn = col(".")
+        let startLineNr = line(".")
 
-        if x.wrapStartPos
+        if has_key( opt, 'popupOnly' ) 
+            let startColumn = cursorColumn
+
+        elseif x.wrapStartPos
             " TODO store wrapping and normal tempalte separately
 
-            let startLineNr = line(".")
             let startColumn = x.wrapStartPos
 
         else
             call s:log.Log("x.keyword=" . x.keyword)
 
             " TODO test escaping
-            let [startLineNr, startColumn] = searchpos('\V\%(\w\|'. x.keyword .'\)\+\%#', "bn", line("."))
+            let [startLineNr, startColumn] = searchpos('\V\%(\w\|'. x.keyword .'\)\+\%#', "bn", startLineNr )
 
             if startLineNr == 0
-                if g:xptemplate_key == g:xptemplate_nav_next
+                if g:xptemplate_key ==? '<Tab>'
                     " TODO other plugin like supertab?
                     call feedkeys(eval('"\' . g:xptemplate_key . '"'), 'nt')
                     return ""
@@ -2115,7 +2124,7 @@ fun! s:ShipBack() "{{{
     
     call XPMsetLikelyBetween( leader.mark.start, leader.mark.end )
     
-    let action = s:selectCurrent(renderContext)
+    let action = s:SelectCurrent(renderContext)
 
     call XPMupdateStat()
 
@@ -2460,7 +2469,7 @@ fun! s:GotoNextItem() "{{{
     call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
 
     if renderContext.item.processed
-        let action = s:selectCurrent(renderContext)
+        let action = s:SelectCurrent(renderContext)
 
         call XPMupdateStat()
 
@@ -2684,7 +2693,7 @@ fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
 
     call s:XPTupdate()
 
-    let action = s:selectCurrent(ctx)
+    let action = s:SelectCurrent(ctx)
     call XPMupdateStat()
     return action
 
@@ -2780,7 +2789,7 @@ fun! s:InitItem() " {{{
         " to update the edge to following place holder
         call s:XPTupdate()
 
-        let action = s:selectCurrent(renderContext)
+        let action = s:SelectCurrent(renderContext)
         call XPMupdateStat()
 
         return action
@@ -2789,7 +2798,7 @@ fun! s:InitItem() " {{{
 
 endfunction " }}}
 
-fun! s:selectCurrent( renderContext ) "{{{
+fun! s:SelectCurrent( renderContext ) "{{{
     let ph = a:renderContext.leadingPlaceHolder
     let marks = ph.isKey ? ph.editMark : ph.mark
 
@@ -3092,9 +3101,10 @@ endfunction "}}}
 
 fun! s:Goback() "{{{
     let renderContext = s:getRenderContext()
-    call cursor( XPMpos( renderContext.leadingPlaceHolder.mark.end ) )
+    " call cursor( XPMpos( renderContext.leadingPlaceHolder.mark.end ) )
+    " return ''
 
-    return ''
+    return s:SelectCurrent(renderContext)
 endfunction "}}}
 
 fun! s:XPTinitMapping() "{{{
@@ -3143,7 +3153,9 @@ fun! s:XPTinitMapping() "{{{
                 \
                 \ 's_' . g:xptemplate_nav_cancel, 
                 \ 's_' . g:xptemplate_to_right, 
+                \
                 \ 'n_' . g:xptemplate_goback, 
+                \ 'i_' . g:xptemplate_goback, 
                 \
                 \ 's_<DEL>', 
                 \ 's_<BS>', 
@@ -3187,6 +3199,7 @@ fun! s:ApplyMap() " {{{
     exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_cancel.' <Esc>i<C-r>=<SID>FinishCurrentAndGotoNextItem("clear")<cr>'
 
     exe 'nnoremap <silent> <buffer> '.g:xptemplate_goback . ' i<C-r>=<SID>Goback()<cr>'
+    exe 'inoremap <silent> <buffer> '.g:xptemplate_goback . '  <C-r>=<SID>Goback()<cr>'
 
     snoremap <silent> <buffer> <Del> <Del>i
     snoremap <silent> <buffer> <BS> d<BS>

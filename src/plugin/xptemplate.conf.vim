@@ -26,9 +26,10 @@ endfunction "}}}
 " call s:SetIfNotExist('g:xptemplate_limit_curosr'      , 0	)
 " call s:SetIfNotExist('g:xptemplate_show_stack'        , 1	)
 call s:SetIfNotExist('g:xptemplate_key'                 , '<C-\>'	)
+call s:SetIfNotExist('g:xptemplate_key_pum_only'        , '<C-r>' . g:xptemplate_key	)
 " call s:SetIfNotExist('g:xptemplate_crash'             , '<C-g>'	)
-call s:SetIfNotExist('g:xptemplate_nav_next'            , '<tab>'	)
-call s:SetIfNotExist('g:xptemplate_nav_prev'            , '<S-tab>'	)
+call s:SetIfNotExist('g:xptemplate_nav_next'            , '<Tab>'	)
+call s:SetIfNotExist('g:xptemplate_nav_prev'            , '<S-Tab>'	)
 call s:SetIfNotExist('g:xptemplate_nav_cancel'          , '<cr>'	)
 call s:SetIfNotExist('g:xptemplate_goback'              , '<C-g>'	)
 call s:SetIfNotExist('g:xptemplate_to_right'            , "<C-l>"	)
@@ -44,7 +45,10 @@ call s:SetIfNotExist('g:xptemplate_vars'                , ''	)
 call s:SetIfNotExist('g:xptemplate_bundle'              , ''	)
 
 " for test script
-call s:SetIfNotExist('g:xpt_post_action',         '')
+call s:SetIfNotExist('g:xpt_post_action', '')
+
+
+
 
 let g:XPTpvs = {}
 
@@ -73,7 +77,6 @@ endif
 let g:XPTmappings = {
       \ 'popup'         : "<C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
       \ 'trigger'       : "<C-r>=XPTemplateStart(0)<cr>", 
-      \ 'wrapTrigger_old'   : "\"0di<C-r>=XPTemplatePreWrap(@0)<cr>", 
       \ 'wrapTrigger'   : "\"0s<C-r>=XPTemplatePreWrap(@0)<cr>", 
       \ 'incSelTrigger' : "<C-c>`>a<C-r>=XPTemplateStart(0)<cr>", 
       \ 'excSelTrigger' : "<C-c>`>i<C-r>=XPTemplateStart(0)<cr>", 
@@ -86,6 +89,8 @@ let g:XPTmappings = {
 exe "inoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.trigger
 exe "xnoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.wrapTrigger
 exe "snoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.selTrigger
+
+exe "inoremap <silent> " . g:xptemplate_key_pum_only . " " . g:XPTmappings.popup
 
 
 " let &cpo = s:oldcpo
@@ -211,4 +216,4 @@ endif
 let &cpo = s:oldcpo
 
 
-" vim:tw=78:ts=80:sw=4:sts=4
+" vim:tw=78:ts=90:sw=4:sts=4
