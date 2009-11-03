@@ -263,9 +263,9 @@
 	Use |g:xptemplate_key| to change this mapping. Example : >
 		let g:xptemplate_key = '<Tab>'
 <
-	NOTE: You can set this key to <tab>, as most users do, for
-	convenience. In such case, it results in a normal <tab> typing if
-	no WORD character before cursor
+	NOTE: You can set this key to <Tab>, as most users do, for
+	convenience. In this case it results in a normal <Tab> if there is no
+	WORD character before the cursor.
 
 							  *i_<tab>*  *s_<tab>*
 							    *xpt-key-navigate*
@@ -309,8 +309,9 @@
 <
 							 *g:xptemplate_strict*
 								   {default:1}
-	Set to 1 to prevent incautious changing text outside place holders. Or
-	you are free to change other text outside place holders. Example : >
+	Set to 1 to prevent incautious changing text outside place holders.
+	Otherwise you are free to change text outside of place holders.
+	Example : >
 		let g:xptemplate_strict = 1
 <
 						      *g:xptemplate_highlight*
