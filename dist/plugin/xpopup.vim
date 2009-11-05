@@ -11,6 +11,7 @@ com! XPPgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPPgetSID
 delc XPPgetSID
 let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
 fun! s:SetIfNotExist(k, v) 
   if !exists(a:k)
     exe "let ".a:k."=".string(a:v)
@@ -75,7 +76,7 @@ fun! s:popup(start_col, opt) dict
         let sess.matched = ''
         let sess.matchedCallback = 'onOneMatch'
         let actionList = []
-        let actionList += [ 'clearPum', 'callback' ]
+        let actionList += [ 'clearPum',  'clearPrefix', 'clearPum', 'callback' ]
     elseif len(sess.currentList) == 0
         let sess.matched = ''
         let sess.matchedCallback = 'onEmpty'
@@ -190,24 +191,26 @@ fun! XPPprocess(list)
     endif
     return postAction
 endfunction 
-fun! XPPfixPopupOption() 
-    if !s:PopupCheck()
+fun! XPPcr() 
+    if !s:PopupCheck(1)
+        call feedkeys("\<CR>", 'mt')
         return ""
     endif
-    let sess = b:__xpp_current_session
-    let current = getline(".")[ sess.col - 1 : col(".") - 2 ]
-    if current != sess.longest
-        return "\<C-p>\<C-r>=XPPfixPopupOption()\<cr>"
-    endif
-    return "\<C-p>\<C-r>=XPPfixFinalize()\<cr>"
+    return "\<C-r>=XPPaccept()\<CR>"
 endfunction 
-fun! XPPfixFinalize() 
-    let sess = b:__xpp_current_session
-    let current = getline(".")[ sess.col - 1 : col(".") - 2 ]
-    if current == sess.longest
-        return "\<C-p>\<C-r>=XPPfixFinalize()\<cr>"
+fun! XPPup() 
+    if !s:PopupCheck(1)
+        call feedkeys("\<UP>", 'mt')
+        return ""
     endif
-    return "\<C-n>\<C-n>\<C-p>"
+    return "\<C-p>"
+endfunction 
+fun! XPPdown() 
+    if !s:PopupCheck(1)
+        call feedkeys("\<DOWN>", 'mt')
+        return ""
+    endif
+    return "\<C-n>"
 endfunction 
 fun! XPPcallback() 
     if !exists("b:__xpp_current_session")
@@ -294,11 +297,11 @@ fun! s:ApplyMapAndSetting()
     let b:__xpp_mapped.i_cr     =  g:MapPush('<cr>', 'i', 1)
     let b:__xpp_mapped.i_c_e    =  g:MapPush('<C-e>', 'i', 1)
     let b:__xpp_mapped.i_c_y    =  g:MapPush('<C-y>', 'i', 1)
-    exe 'inoremap <silent> <buffer> <UP>' '<C-p>'
-    exe 'inoremap <silent> <buffer> <DOWN>' '<C-n>'
-    exe 'inoremap <silent> <buffer> <bs>' '<C-r>=XPPshorten()<cr>'
+    exe 'inoremap <silent> <buffer> <UP>'   '<C-r>=XPPup()<CR>'
+    exe 'inoremap <silent> <buffer> <DOWN>' '<C-r>=XPPdown()<CR>'
+    exe 'inoremap <silent> <buffer> <bs>'  '<C-r>=XPPshorten()<cr>'
     exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
-    exe 'inoremap <silent> <buffer> <cr>' '<C-r>=XPPenlarge()<cr>'
+    exe 'inoremap <silent> <buffer> <cr>'  '<C-r>=XPPcr()<cr>'
     exe 'inoremap <silent> <buffer> <C-e>' '<C-r>=XPPcancel()<cr>'
     exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
     call SettingPush( '&l:cinkeys', '' )

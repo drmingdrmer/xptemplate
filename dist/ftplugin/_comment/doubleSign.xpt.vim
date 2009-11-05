@@ -19,7 +19,6 @@ XPT comment hint=$CL\ $CR
 `$CL^ `what^ `$CR^
 
 
-
 XPT commentBlock hint=$CL\ ...
 `$CL^ 
  `$CM^ `cursor^

@@ -14,31 +14,31 @@ fun! s:SetIfNotExist(k, v)
   endif
 endfunction 
 call s:SetIfNotExist('g:xptemplate_key'                 , '<C-\>'	)
-call s:SetIfNotExist('g:xptemplate_nav_next'            , '<tab>'	)
-call s:SetIfNotExist('g:xptemplate_nav_prev'            , '<S-tab>'	)
+call s:SetIfNotExist('g:xptemplate_key_pum_only'        , '<C-r>' . g:xptemplate_key	)
+call s:SetIfNotExist('g:xptemplate_nav_next'            , '<Tab>'	)
+call s:SetIfNotExist('g:xptemplate_nav_prev'            , '<S-Tab>'	)
 call s:SetIfNotExist('g:xptemplate_nav_cancel'          , '<cr>'	)
 call s:SetIfNotExist('g:xptemplate_goback'              , '<C-g>'	)
 call s:SetIfNotExist('g:xptemplate_to_right'            , "<C-l>"	)
-call s:SetIfNotExist('g:xptemplate_highlight'           , 1		)
-call s:SetIfNotExist('g:xptemplate_brace_complete'      , 0		)
-call s:SetIfNotExist('g:xptemplate_strip_left'          , 1		)
-call s:SetIfNotExist('g:xptemplate_fix'                 , 1		)
-call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 1		)
-call s:SetIfNotExist('g:xptemplate_vars'                , ''		)
-call s:SetIfNotExist('g:xptemplate_bundle'              , ''		)
-call s:SetIfNotExist('g:xptemplate_hl'                  , 1		)
-call s:SetIfNotExist('g:xpt_post_action',         '')
+call s:SetIfNotExist('g:xptemplate_strict'              , 2	)
+call s:SetIfNotExist('g:xptemplate_highlight'           , 1	)
+call s:SetIfNotExist('g:xptemplate_brace_complete'      , 0	)
+call s:SetIfNotExist('g:xptemplate_strip_left'          , 1	)
+call s:SetIfNotExist('g:xptemplate_fix'                 , 1	)
+call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 0	)
+call s:SetIfNotExist('g:xptemplate_vars'                , ''	)
+call s:SetIfNotExist('g:xptemplate_bundle'              , ''	)
+call s:SetIfNotExist('g:xpt_post_action', '')
 let g:XPTpvs = {}
-if !hlID('XPTCurrentItem') && g:xptemplate_hl
+if !hlID('XPTCurrentItem') && g:xptemplate_highlight
   hi XPTCurrentItem ctermbg=darkgreen gui=none guifg=#d59619 guibg=#efdfc1
 endif
-if !hlID('XPTIgnoredMark') && g:xptemplate_hl
+if !hlID('XPTIgnoredMark') && g:xptemplate_highlight
   hi XPTIgnoredMark cterm=none term=none ctermbg=black ctermfg=darkgrey gui=none guifg=#dddddd guibg=white
 endif
 let g:XPTmappings = {
       \ 'popup'         : "<C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
       \ 'trigger'       : "<C-r>=XPTemplateStart(0)<cr>", 
-      \ 'wrapTrigger_old'   : "\"0di<C-r>=XPTemplatePreWrap(@0)<cr>", 
       \ 'wrapTrigger'   : "\"0s<C-r>=XPTemplatePreWrap(@0)<cr>", 
       \ 'incSelTrigger' : "<C-c>`>a<C-r>=XPTemplateStart(0)<cr>", 
       \ 'excSelTrigger' : "<C-c>`>i<C-r>=XPTemplateStart(0)<cr>", 
@@ -49,6 +49,7 @@ let g:XPTmappings = {
 exe "inoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.trigger
 exe "xnoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.wrapTrigger
 exe "snoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.selTrigger
+exe "inoremap <silent> " . g:xptemplate_key_pum_only . " " . g:XPTmappings.popup
 let s:pvs = split(g:xptemplate_vars, '\V'.s:ep.'&')
 for s:v in s:pvs
   let s:key = matchstr(s:v, '\V\^\[^=]\*\ze=')
@@ -85,7 +86,7 @@ fun! g:XPTloadBundle(ft, bundle)
         return 1
     endif
 endfunction 
-fun! s:FiletypeInit() 
+fun! XPTfiletypeInit() 
     let x = g:XPTobject()
     let fts = x.filetypes
     for [ ft, ftScope ] in items( fts )
@@ -105,9 +106,9 @@ fun! s:FiletypeInit()
         endif
     endfor
 endfunction 
-augroup XPTpvs
+augroup XPTftInit
   au!
-  au FileType * call <SID>FiletypeInit()
+  au FileType * call XPTfiletypeInit()
 augroup END
 let bs=&bs
 if bs != 2 && bs !~ "start" 

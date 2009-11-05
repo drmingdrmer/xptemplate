@@ -23,6 +23,9 @@ let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 fun! s:AssignSnipFT( filename ) 
     let x = b:xptemplateData
     let filename = substitute( a:filename, '\\', '/', 'g' )
+    if filename =~ 'unknown.xpt.vim$'
+        return 'unknown'
+    endif
     let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
     if empty( x.snipFileScopeStack ) 
         if &filetype !~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim' 

@@ -13,10 +13,10 @@ let g:xpm_mark_nextline = 'l'
 let g:xpm_changenr_level = 1000
 let s:insertPattern = '[i]'
 let g:XPM_RET = {
-            \   'likely_matched' : {},
-            \   'no_updated_made' : {},
-            \   'undo_redo' : {},
-            \   'updated' : {},
+            \   'likely_matched'  : {'likely_matched'  : 1},
+            \   'no_updated_made' : {'no_updated_made' : 1},
+            \   'undo_redo'       : {'undo_redo'       : 1},
+            \   'updated'         : {'updated'         : 1},
             \}
 let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )

@@ -1,14 +1,13 @@
-if !exists("g:__XPTEMPLATE_VIM__")
-  finish
-endif
 if exists("g:__XPT_PLUGIN_HIGHLIGHT_VIM__")
   finish
 endif
 let g:__XPT_PLUGIN_HIGHLIGHT_VIM__ = 1
-if !g:xptemplate_hl 
+runtime plugin/xptemplate.conf.vim
+if !g:xptemplate_highlight 
   finish
 endif
-fun! g:XPT.XPTupdateHigh(x) 
+exe g:XPTsid
+fun! s:XPTupdateHigh(x) 
   if !g:xptemplate_highlight
     return 1
   endif
