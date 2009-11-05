@@ -243,7 +243,14 @@ endfunction "}}}
 
 fun! s:pumCB.onOneMatch(sess) "{{{
   call s:log.Log( "match one:".a:sess.matched )
-  return s:DoStart(a:sess)
+  if a:sess.matched == ''
+      " accepted empty
+
+      call feedkeys(eval('"\' . g:xptemplate_key . '"'), 'nt')
+      return ''
+  else
+      return s:DoStart(a:sess)
+  endif
 endfunction "}}}
 
 let s:ItemPumCB = {}
@@ -693,7 +700,7 @@ endfunction "}}}
 
 fun! XPTemplateDoWrap() "{{{
     let x = b:xptemplateData
-    let ppr = s:Popup("", x.wrapStartPos)
+    let ppr = s:Popup("", x.wrapStartPos, {})
 
     call s:log.Log("popup result:".string(ppr))
     return ppr
@@ -726,6 +733,13 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
         let cursorColumn = col(".")
         let startLineNr = line(".")
+        let accEmp = 0
+        if g:xptemplate_key ==? '<Tab>'
+            " TODO other plugin like supertab?
+            " call feedkeys(eval('"\' . g:xptemplate_key . '"'), 'nt')
+            let accEmp = 1
+
+        endif
 
         if has_key( opt, 'popupOnly' ) 
             let startColumn = cursorColumn
@@ -742,15 +756,8 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
             let [startLineNr, startColumn] = searchpos('\V\%(\w\|'. x.keyword .'\)\+\%#', "bn", startLineNr )
 
             if startLineNr == 0
-                if g:xptemplate_key ==? '<Tab>'
-                    " TODO other plugin like supertab?
-                    call feedkeys(eval('"\' . g:xptemplate_key . '"'), 'nt')
-                    return ""
-
-                else
                     let [startLineNr, startColumn] = [line("."), col(".")]
 
-                endif
             endif
 
         endif
@@ -761,7 +768,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
     
     call s:log.Log( 'to popup, templateName='.templateName )
 
-    return s:Popup( templateName, startColumn )
+    return s:Popup( templateName, startColumn, {'acceptEmpty' : accEmp} )
 
 endfunction " }}}
 
@@ -958,7 +965,7 @@ fun! s:removeMarksInRenderContext( renderContext ) "{{{
     call XPMremoveMarkStartWith( renderContext.markNamePre )
 endfunction "}}}
 
-fun! s:Popup(pref, coln) "{{{
+fun! s:Popup(pref, coln, opt) "{{{
 
     let x = b:xptemplateData
 
@@ -1019,7 +1026,9 @@ fun! s:Popup(pref, coln) "{{{
     let cmpl = cmpl + cmpl2
 
 
-    return XPPopupNew(s:pumCB, { 'ftScope' : ftScope }, cmpl).popup(a:coln, {})
+    let pumsess = XPPopupNew(s:pumCB, { 'ftScope' : ftScope }, cmpl)
+    call pumsess.SetAcceptEmpty(get(a:opt, 'acceptEmpty', 0))
+    return pumsess.popup(a:coln, {})
 
 endfunction "}}}
 
