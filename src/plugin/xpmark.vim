@@ -23,10 +23,10 @@ let s:insertPattern = '[i]'
 
 " XPMupdate returned status code
 let g:XPM_RET = {
-            \   'likely_matched' : {},
-            \   'no_updated_made' : {},
-            \   'undo_redo' : {},
-            \   'updated' : {},
+            \   'likely_matched'  : {'likely_matched'  : 1},
+            \   'no_updated_made' : {'no_updated_made' : 1},
+            \   'undo_redo'       : {'undo_redo'       : 1},
+            \   'updated'         : {'updated'         : 1},
             \}
 
 " TODO visual-mode Q command causes errors

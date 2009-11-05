@@ -18,15 +18,14 @@
 	|xpt-key-bind|  |xpt-mapping|
 	|xpt-snippet-syntax|
 	|xpt-api|
-		|XPTemplate()|		
-		|XPTemplateIndent()|	
-		|XPTemplateMark()|	
-		|XPTcontainer()|	
 
 								 *xpt-install*
 	Copy files and directories into one of your |runtimepath|s.
 
 								   *xpt-usage*
+	To see what snippets have been defined, press <C-r><C-\> in insert
+	mode. See |xpt-key-pum|.
+
 	In insert mode type the snippet name and press <C-\> to insert a
 	snippet. Use <Tab> to navigate through the snippet template.
 	For example when editing a C file : >
@@ -60,6 +59,9 @@
 
 <	The usage is described in more detail below.
 
+	For more information regarding the syntax of snippets see
+	|xpt-snippet-syntax|.
+
 								 *xpt-feature*
 	Live typing update
 	Navigate forward and backward		|xpt-key-navigate|
@@ -69,7 +71,7 @@
 	Repeatable snippet generation		|xpt-repetition|
 	Nested snippet				|xpt-nested|
 	Wrapping snippet			|xpt-wrapped|
-	Inclusion on snippet level or file level|xpt-snippet-include| 
+	Inclusion on snippet level or file level|xpt-snippet-include|
 						|xpt-snippet-XPTinclude|
 	Template priority			|xpt-snippet-priority|
 
@@ -94,28 +96,28 @@
 							      *xpt-nested*
 	Template can be expanded inside another template. There is no
 	difference between using a nested template or a top-level template.
-	For example, when you edit xp.c. Type switch<C-\> to generate a switch
-	block template: >
+	For example, when you edit a C file type switch<C-\> to generate a
+	switch block template: >
 		switch (fn) {
 		  case 0 :
 			<--------------cursor stops here
 		    break;
-		    `...^
+		    ...
 		  default:
-			`^
+			
 		}
 <	Now the cursor stops between "case 0 :" and "break;", type : >
 		if<C-\>
 <	It becomes : >
 		switch (fn) {		| upper level snippet
 		  case 0 :		|
-		    if (){		. nested snippet
-		      `cursor^		.
-		    }			.
+		    if (){            . nested snippet
+			              .
+		    }	              .
 		    break;		| upper level snippet
-		    `...^               |
+		    ...                 |
 		  default:              |
-			`^              |
+			                |
 		}                       |
 <	Type <Tab>, <Tab>.. to navigate out of the nested snippet : >
 		switch ("xp.c" == fn) {
@@ -197,11 +199,11 @@
 		      \ "try `what^",
 		      \ "   `pattern^ ->",
 		      \ "       `body^ `...0^;",
-		      \ "   `patternn^ ->",     
-		      \ "       `bodyn^`...0^",  
+		      \ "   `patternn^ ->",
+		      \ "       `bodyn^`...0^",
 		      \ "catch",
 		      \ "    `excep^ -> `toRet^ `...1^;",
-		      \ "    `except^ -> `toRet^`...1^", 
+		      \ "    `except^ -> `toRet^`...1^",
 		      \ "end `cursor^",
 		      \ "" ] )
 <
@@ -210,13 +212,13 @@
 		call XPTemplate('table2', [
 		      \ '<table>',
 		      \ '  <tr>',
-		      \ '    <td>`text^^</td>`...2^', 
-		      \ '    <td>`text^^</td>`...2^', 
-		      \ '  </tr>`...0^', 
+		      \ '    <td>`text^^</td>`...2^',
+		      \ '    <td>`text^^</td>`...2^',
+		      \ '  </tr>`...0^',
 		      \ '  <tr>',
-		      \ '    <td>`text^^</td>`...1^', 
-		      \ '    <td>`text^^</td>`...1^', 
-		      \ '  </tr>`...0^', 
+		      \ '    <td>`text^^</td>`...1^',
+		      \ '    <td>`text^^</td>`...1^',
+		      \ '  </tr>`...0^',
 		      \ '</table>'
 		      \])
 <
@@ -236,7 +238,7 @@
 <	Press V to select the line, press <C-\>, select call_" in the popup
 	and the result is : >
 		name(a, b)
-<	
+<
 								 *xpt-context*
 	You can define snippets that can only be triggered in certain
 	circumstances, for example in certain syntax items. Defining context
@@ -252,56 +254,88 @@
 				    *xpt-mapping*  *xpt-key-bind* *xpt-option*
 	Options can be set in |.vimrc| to modify XPTemplate's behaviors.
 
-							*i_CTRL-\*  *v_CTRL-\*
-							     *xpt-key-trigger*  
-							    *g:xptemplate_key*
+
+	    *i_<C-\>* *s_<C-\>* *v_<C-\>* *xpt-key-trigger* *g:xptemplate_key*
 							       {default:<C-\>}
 	The key to trigger snippets, in insert or visual mode.
-	Use |g:xptemplate_key| to change this mapping.
+	Use |g:xptemplate_key| to change this mapping. Example : >
+		let g:xptemplate_key = '<Tab>'
+<
+	NOTE: You can set this key to <Tab>, as most users do, for
+	convenience. In this case pressing <Tab> twice results in a normal
+	<Tab> if there is no snippet key matched.
 
-							  *i_<tab>*  *s_<tab>*
-							    *xpt-key-navigate*   
-						       *g:xptemplate_nav_next*
+
+		      *i_<C-r><C-\>* *xpt-key-pum* *g:xptemplate_key_pum_only*
+					       {default:<C-r>g:xptemplate_key}
+	Show pop up menu at cursor position. Example : >
+		let g:xptemplate_key_pum_only = '<S-Tab>'
+<	By default, this key map is set to '<C-r>' concatenated with
+	|g:xptemplate_key| : '<C-r><C-\>'.
+
+
+	       *i_<tab>*  *s_<tab>* *xpt-key-navigate* *g:xptemplate_nav_next*
 							       {default:<Tab>}
 	After a snippet was triggered, this key navigates to the next item.
-	Use |g:xptemplate_nav_next| to change this mapping.
+	Use |g:xptemplate_nav_next| to change this mapping. Example : >
+		let g:xptemplate_nav_next = '<C-j>'
+<
 
-						      *i_<S-tab>*  *s_<S-tab>*
-						       *g:xptemplate_nav_prev*
+			      *i_<S-tab>*  *s_<S-tab>* *g:xptemplate_nav_prev*
 							     {default:<S-Tab>}
 	After a snippet was triggered, press this key to navigate back to the
 	previous item.
-	Use |g:xptemplate_nav_prev| to change this mapping.
+	Use |g:xptemplate_nav_prev| to change this mapping. Example : >
+		let g:xptemplate_nav_prev = '<C-k>'
+<
 
-						     *s_<CR>*  *xpt-key-clear*
-						     *g:xptemplate_nav_cancel*
-								{default:<Cr>}
+	    *s_<CR>*  *xpt-key-clear* *g:xptemplate_nav_cancel* {default:<Cr>}
 	Press to clear current place holder and jump to next.
-	Use |g:xptemplate_nav_cancel| to change this mapping.
+	Use |g:xptemplate_nav_cancel| to change this mapping. Example : >
+		let g:xptemplate_nav_cancel = '<C-c>'
+<
 
-								    *s_CTRL-l*
-							  *xpt-key-goto-right*
-						       *g:xptemplate_to_right*
+			*s_<C-l>* *xpt-key-goto-right* *g:xptemplate_to_right*
 							     {default:"<C-l>"}
 	When a place holder is initially selected jump to the end of current
 	place holder and go to insert mode.
 	Use |g:xptemplate_to_right| to change this mapping. Example : >
-		let g:xptemplate_to_right = '<C-l>'
+		let g:xptemplate_to_right = '<C-;>'
 <
-								     *n_<C-g>*
-							      *xpt-key-goback*
-							 *g:xptemplate_goback*
-							       {default:<C-g>}
-	Go back to current place holder and to insert mode.
-	Use |g:xptemplate_goback| to change this mapping.
 
+		    *n_<C-g>* *i_<C-g>* *xpt-key-goback* *g:xptemplate_goback*
+							       {default:<C-g>}
+	When you move cursor outside of place holder you are editing, pressing
+	this key(in insert mode or normal mode) move cursor back to current
+	place holder and select the place holder text in select mode.
+
+	Use |g:xptemplate_goback| to change this mapping. Example : >
+		let g:xptemplate_goback = '<C-g>'
+<
+
+							 *g:xptemplate_strict*
+								   {default:2}
+	Set to 0 to let XPTemplate do the best maintaining snippet rendering,
+	even if you have changed text outside of place holders.
+	Example : >
+		let g:xptemplate_strict = 1
+<	
+	Set to 1 to prevent incautious changing text outside place holders.
+	Otherwise you are free to change text outside of place holders.
+
+	Set to 2 to let XPTemplate stop rendering if ANY changes taken to text
+	outside of place holders
+
+						      *g:xptemplate_highlight*
+								   {default:1}
+	Set to 1 to enable highlight.  TODO example.
 
 
 						 *g:xptemplate_brace_complete*
 								   {default:0}
-	Set to 1 to let XPTemplate to do braces/quoters completing job. if
-	this option is set, the following key mappings are disabled
-	when snippet rendering : >
+	Set to 1 to let XPTemplate to do braces/quotes completing job. If this
+	option is set, the following key mappings are disabled when in snippet
+	mode : >
 		i_'
 		i_"
 		i_[
@@ -317,19 +351,23 @@
 
 					    *g:xptemplate_ph_pum_accept_empty*
 								   {default:0}
-	When set to 1 popup menu for place holders accepts an empty input. So
+	When set to 1 popup menus for place holders accepts an empty input. So
 	when nothing typed pressing <Tab> closes the popup menu and sends the
-	cursor to next place holder.
-	When not set <Tab> expands text to longest and keeps popup menu open.
+	cursor to the next place holder.
+	When not set <Tab> expands the text to the longest match and keeps the
+	popup menu open.
+
 
 						     *g:xptemplate_strip_left*
 								   {default:1}
 	When set to 1 wrapping snippets |xpt-wrapped| remove space before the
 	line.
 
+
 				      *xpt-personal-var*   *g:xptemplate_vars*
 	g:xptemplate_vars sets personal information variables used in
-	snippets, like "author" and "email". see |xpt-snippet-variable|.
+	snippets, like "author" and "email", see |xpt-snippet-variable|.
+
 	Variables set with g:xptemplate_vars have the highest priority and
 	override any other variables set in *.xpt.vim. Syntax : >
 	let g:xptemplate_vars = 'name=value&name=value...'
@@ -342,12 +380,11 @@
 	'xp\ &\&123' and 'bal@bla'
 
 <	Or : >
-		let g:xptemplate_vars = exists('g:xptemplate_vars') ? 
+		let g:xptemplate_vars = exists('g:xptemplate_vars') ?
 			\ g:xptemplate_vars . '&' . '$other=bla'
 			\ : '$other=bla'
 <
 	Entries are separated with '&'.
-
 
 
 ==============================================================================
@@ -414,7 +451,7 @@ Fixed:2009 May 01	simplify snippet definition : '..XPT' is no more
 Fixed:2009 Apr 30	bug of line removed sometimes if folding is enabled
 			Thanks to C. Coutinho
 Fixed:2009 Apr 30	bug of weird 'cpo' option causes mapping not working
-Fixed:2009 Apr 29	bug of formatting line causes line removed. Thanks to 
+Fixed:2009 Apr 29	bug of formatting line causes line removed. Thanks to
 			C. Coutinho
 Fixed:2009 Apr 29	bug of default value at line end. Thanks to C. Coutinho
 Added:2009 Apr 29	new command format to define snippet
@@ -422,7 +459,7 @@ Fixed:2009 Apr 27	bug of formatting making snippet a mess.
 Fixed:2009 Apr 27	bug of post-filter value ends with "\n"
 Added:2009 Apr 26	nested repetition
 Fixed:2009 Apr 26	bug of double escaped '/' when applying predefined.
-Added:2009 Apr 25	|xpt-expression| as default value or post filter 
+Added:2009 Apr 25	|xpt-expression| as default value or post filter
 Fixed:2009 Apr 25	statusline reload bug
 Added:2009 Apr 23	function arguments
 Added:2009 Apr 22	multi repetition part.
@@ -431,7 +468,7 @@ Fixed:2009 Apr 22	item at [1, 1] cause crazy behavior. thanks to
 Fixed:2009 Apr 22	bug that folding causes some text incorrectly deleted
 Fixed:2009 Apr 22	bug of cursor stopping 1 char before snippet end
 Added:2009 Apr 22	ocaml snippets thanks to Vincent B.
-Fixed:2009 Apr 21	char before snippet name moved to after snippet if 
+Fixed:2009 Apr 21	char before snippet name moved to after snippet if
 			'virtualedit' is not set with 'onemore'
 Fixed:2009 Apr 21	ruler and statusline check.Thanks christian.coutinho
 Added:2009 Apr 19	plugin support

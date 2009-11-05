@@ -22,13 +22,14 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO strict mode : do not allow editing contents outside place holder
+" TODO <cr> in insert mode
 " TODO highlight : when outside place holder
 " TODO super cancel : clear/default all and finish
 " TODO hint of whether xpt is running. sign, statusline, highlight
 " TODO 2 <tab> to accept empty
 " TODO /../../ ontime filter shortcut
 " TODO ( ) shortcut of Echo
+" TODO if no template found fall <C-\>/<tab> to other plugins
 " TODO import utils
 " TODO key map to trigger in template
 " TODO php shebang, need to be defined in html filetype
@@ -62,6 +63,18 @@
 "
 "
 " Log of This version:
+" fix : longest matching text appears if g:xptemplate_ph_pum_accept_empty set to 1
+" fix : incorrect behavior of <CR>, <UP>, <DOWN> when pum is shown
+" fix : <tab> as trigger key
+"
+" add : strict mode(g:xptemplate_strict) : do not allow editing contents outside place holder
+" add : unknown filetype support
+" add : <C-r><C-\> to show pop up menu
+"
+" improve : <C-g> go back and select
+"
+"
+"
 
 
 
@@ -110,7 +123,7 @@ fun! XPTmarkCompare( o, markToAdd, existedMark )
         if a:existedMark ==# rm
             return -1
         endif
-    
+
     elseif renderContext.action == 'build' && has_key( renderContext, 'buildingMarkRange' ) 
                 \&& renderContext.buildingMarkRange.end ==  a:existedMark
         call s:log.Debug( a:markToAdd . ' < ' . a:existedMark )
@@ -229,7 +242,14 @@ endfunction "}}}
 
 fun! s:pumCB.onOneMatch(sess) "{{{
   call s:log.Log( "match one:".a:sess.matched )
-  return s:DoStart(a:sess)
+  if a:sess.matched == ''
+      " accepted empty
+
+      call feedkeys(eval('"\' . g:xptemplate_key . '"'), 'nt')
+      return ''
+  else
+      return s:DoStart(a:sess)
+  endif
 endfunction "}}}
 
 let s:ItemPumCB = {}
@@ -679,51 +699,64 @@ endfunction "}}}
 
 fun! XPTemplateDoWrap() "{{{
     let x = b:xptemplateData
-    let ppr = s:Popup("", x.wrapStartPos)
+    let ppr = s:Popup("", x.wrapStartPos, {})
 
     call s:log.Log("popup result:".string(ppr))
     return ppr
 endfunction "}}}
 
 " TODO remove the first argument
-fun! XPTemplateStart(pos_nonused_any_more, ...) " {{{
+fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
     let x = b:xptemplateData
 
     call s:log.Log("a:000".string(a:000))
 
-    if a:0 == 1 &&  type(a:1) == type({}) && has_key( a:1, 'tmplName' )  
+    let opt = a:0 == 1 ? a:1 : {}
+
+    if has_key( opt, 'tmplName' )  
         " exact template trigger, without depending on any input
 
-        let startColumn = a:1.startPos[1]
-        let templateName = a:1.tmplName
+        let startColumn = opt.startPos[1]
+        let templateName = opt.tmplName
 
-        call cursor(a:1.startPos)
+        call cursor(opt.startPos)
 
         return  s:DoStart( {
-                    \'line' : a:1.startPos[0], 
+                    \'line' : opt.startPos[0], 
                     \'col' : startColumn, 
                     \'matched' : templateName, 
                     \'data' : { 'ftScope' : s:GetContextFTObj() } } )
 
-    else 
+    else
         " input mode
 
         let cursorColumn = col(".")
+        let startLineNr = line(".")
+        let accEmp = 0
+        if g:xptemplate_key ==? '<Tab>'
+            " TODO other plugin like supertab?
+            " call feedkeys(eval('"\' . g:xptemplate_key . '"'), 'nt')
+            let accEmp = 1
 
-        if x.wrapStartPos
+        endif
+
+        if has_key( opt, 'popupOnly' ) 
+            let startColumn = cursorColumn
+
+        elseif x.wrapStartPos
             " TODO store wrapping and normal tempalte separately
 
-            let startLineNr = line(".")
             let startColumn = x.wrapStartPos
 
         else
             call s:log.Log("x.keyword=" . x.keyword)
 
             " TODO test escaping
-            let [startLineNr, startColumn] = searchpos('\V\%(\w\|'. x.keyword .'\)\+\%#', "bn", line("."))
+            let [startLineNr, startColumn] = searchpos('\V\%(\w\|'. x.keyword .'\)\+\%#', "bn", startLineNr )
 
             if startLineNr == 0
-                let [startLineNr, startColumn] = [line("."), col(".")]
+                    let [startLineNr, startColumn] = [line("."), col(".")]
+
             endif
 
         endif
@@ -734,7 +767,7 @@ fun! XPTemplateStart(pos_nonused_any_more, ...) " {{{
     
     call s:log.Log( 'to popup, templateName='.templateName )
 
-    return s:Popup( templateName, startColumn )
+    return s:Popup( templateName, startColumn, {'acceptEmpty' : accEmp} )
 
 endfunction " }}}
 
@@ -931,7 +964,7 @@ fun! s:removeMarksInRenderContext( renderContext ) "{{{
     call XPMremoveMarkStartWith( renderContext.markNamePre )
 endfunction "}}}
 
-fun! s:Popup(pref, coln) "{{{
+fun! s:Popup(pref, coln, opt) "{{{
 
     let x = b:xptemplateData
 
@@ -992,7 +1025,9 @@ fun! s:Popup(pref, coln) "{{{
     let cmpl = cmpl + cmpl2
 
 
-    return XPPopupNew(s:pumCB, { 'ftScope' : ftScope }, cmpl).popup(a:coln, {})
+    let pumsess = XPPopupNew(s:pumCB, { 'ftScope' : ftScope }, cmpl)
+    call pumsess.SetAcceptEmpty(get(a:opt, 'acceptEmpty', 0))
+    return pumsess.popup(a:coln, {})
 
 endfunction "}}}
 
@@ -2097,7 +2132,7 @@ fun! s:ShipBack() "{{{
     
     call XPMsetLikelyBetween( leader.mark.start, leader.mark.end )
     
-    let action = s:selectCurrent(renderContext)
+    let action = s:SelectCurrent(renderContext)
 
     call XPMupdateStat()
 
@@ -2442,7 +2477,7 @@ fun! s:GotoNextItem() "{{{
     call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
 
     if renderContext.item.processed
-        let action = s:selectCurrent(renderContext)
+        let action = s:SelectCurrent(renderContext)
 
         call XPMupdateStat()
 
@@ -2666,7 +2701,7 @@ fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
 
     call s:XPTupdate()
 
-    let action = s:selectCurrent(ctx)
+    let action = s:SelectCurrent(ctx)
     call XPMupdateStat()
     return action
 
@@ -2674,7 +2709,6 @@ endfunction "}}}
 
 fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
 
-    call s:log.Log( "**" )
 
     let renderContext = a:renderContext
     let leader = renderContext.leadingPlaceHolder
@@ -2705,6 +2739,15 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
         
         let marks = leader.isKey ? leader.editMark : leader.mark
         let [ start, end ] = XPMposList( marks.start, marks.end )
+
+
+        if len(obj) == 1
+            call XPreplace( start, end, obj[0] )
+            return s:FillinLeadingPlaceHolderAndSelect( renderContext, obj[0] )
+        endif
+
+
+
         call XPreplace( start, end, '')
         call cursor(start)
 
@@ -2754,7 +2797,7 @@ fun! s:InitItem() " {{{
         " to update the edge to following place holder
         call s:XPTupdate()
 
-        let action = s:selectCurrent(renderContext)
+        let action = s:SelectCurrent(renderContext)
         call XPMupdateStat()
 
         return action
@@ -2763,7 +2806,7 @@ fun! s:InitItem() " {{{
 
 endfunction " }}}
 
-fun! s:selectCurrent( renderContext ) "{{{
+fun! s:SelectCurrent( renderContext ) "{{{
     let ph = a:renderContext.leadingPlaceHolder
     let marks = ph.isKey ? ph.editMark : ph.mark
 
@@ -3064,38 +3107,12 @@ fun! s:LeftPos(p) "{{{
     return p
 endfunction "}}}
 
-fun! s:CheckAndBS(k) "{{{
-    let x = b:xptemplateData
-
-    let p = [ line( "." ), col( "." ) ]
-    let ctl = s:CTL(x)
-
-    if p[0] == ctl[0] && p[1] == ctl[1]
-        return ""
-    else
-        let k= eval('"\<'.a:k.'>"')
-        return k
-    endif
-endfunction "}}}
-fun! s:CheckAndDel(k) "{{{
-    let x = b:xptemplateData
-
-    let p = getpos(".")[1:2]
-    let cbr = s:CBR(x)
-
-    if p[0] == cbr[0] && p[1] == cbr[1]
-        return ""
-    else
-        let k= eval('"\<'.a:k.'>"')
-        return k
-    endif
-endfunction "}}}
-
 fun! s:Goback() "{{{
     let renderContext = s:getRenderContext()
-    call cursor( XPMpos( renderContext.leadingPlaceHolder.mark.end ) )
+    " call cursor( XPMpos( renderContext.leadingPlaceHolder.mark.end ) )
+    " return ''
 
-    return ''
+    return s:SelectCurrent(renderContext)
 endfunction "}}}
 
 fun! s:XPTinitMapping() "{{{
@@ -3144,7 +3161,9 @@ fun! s:XPTinitMapping() "{{{
                 \
                 \ 's_' . g:xptemplate_nav_cancel, 
                 \ 's_' . g:xptemplate_to_right, 
+                \
                 \ 'n_' . g:xptemplate_goback, 
+                \ 'i_' . g:xptemplate_goback, 
                 \
                 \ 's_<DEL>', 
                 \ 's_<BS>', 
@@ -3188,6 +3207,7 @@ fun! s:ApplyMap() " {{{
     exe 'snoremap <silent> <buffer> '.g:xptemplate_nav_cancel.' <Esc>i<C-r>=<SID>FinishCurrentAndGotoNextItem("clear")<cr>'
 
     exe 'nnoremap <silent> <buffer> '.g:xptemplate_goback . ' i<C-r>=<SID>Goback()<cr>'
+    exe 'inoremap <silent> <buffer> '.g:xptemplate_goback . '  <C-r>=<SID>Goback()<cr>'
 
     snoremap <silent> <buffer> <Del> <Del>i
     snoremap <silent> <buffer> <BS> d<BS>
@@ -3211,20 +3231,6 @@ fun! s:ClearMap() " {{{
     call b:mapSaver.Restore()
 
 endfunction " }}}
-
-
-
-fun! s:CTL(...) "{{{
-    let x = a:0 == 1 ? a:1 : g:XPTobject()
-    let cp = x.renderContext.pos.curpos
-    return copy( cp.start.pos )
-endfunction "}}}
-
-fun! s:CBR(...) "{{{
-    let x = a:0 == 1 ? a:1 : g:XPTobject()
-    let cp = x.renderContext.pos.curpos
-    return copy( cp.end.pos )
-endfunction "}}}
 
 
 fun! XPTbufData() "{{{
@@ -3301,7 +3307,7 @@ fun! g:XPTobject() "{{{
         call XPTemplateInit()
     endif
     return b:xptemplateData
-endfunction
+endfunction "}}}
 
 fun! s:XPTobject() "{{{
     if !exists("b:xptemplateData")
@@ -3313,7 +3319,7 @@ endfunction "}}}
 
 fun! XPTemplateInit() "{{{
     let b:xptemplateData = {
-                \   'filetypes'         : { '**' : g:FiletypeScope.New() }, 
+                \   'filetypes'         : {}, 
                 \   'wrapStartPos'      : 0, 
                 \   'wrap'              : '', 
                 \   'savedReg'          : '', 
@@ -3598,7 +3604,7 @@ fun! s:XPTupdate(...) "{{{
     call s:log.Log( "marks before XPTupdate:\n" . XPMallMark() )
 
     call s:fixCrCausedIndentProblem()
-    
+
 
 
     " TODO hint to indicate whether cursor is at the right place 
@@ -3607,7 +3613,6 @@ fun! s:XPTupdate(...) "{{{
     let [ start, end ] = [ XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) ]
 
     if start == [0, 0] || end == [0, 0]
-        " call s:log.Info( 'fail to get start/end mark:' . string( [ start, end ] ) . ' of name=' . string( leaderMark ) )
         call s:Crash( 'mark lost :' . string( leaderMark ) )
         return -1
     endif
@@ -3616,6 +3621,29 @@ fun! s:XPTupdate(...) "{{{
     call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
 
     let rc = XPMupdate()
+    call s:log.Log( 'rc=' . string(rc) . ' phase=' . string(renderContext.phase) . ' strict=' . g:xptemplate_strict )
+
+    if g:xptemplate_strict == 2
+                \&& renderContext.phase == 'fillin'
+                \&& rc is g:XPM_RET.updated
+        call s:Crash( 'changes outside of place holder' )
+        return -1
+    endif
+
+    if g:xptemplate_strict 
+                \&& renderContext.phase == 'fillin'
+                \&& rc is g:XPM_RET.updated
+        undo
+        call XPMupdate()
+
+        " TODO better hint
+        " TODO allow user to move?
+        echohl WarningMsg
+        echom "editing OUTSIDE place holder is not allowed whne g:xptemplate_strict=1, use " . g:xptemplate_goback . " to go back"
+        echohl
+
+        return 0
+    endif
 
     let [ start, end ] = [ XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) ]
 
@@ -3627,6 +3655,7 @@ fun! s:XPTupdate(...) "{{{
     if contentTyped ==# renderContext.lastContent
         call s:log.Log( "nothing different typed" )
         call XPMupdateStat()
+
         return 0
     endif
 
@@ -3646,7 +3675,7 @@ fun! s:XPTupdate(...) "{{{
 
 
 
-    if rc == g:XPM_RET.likely_matched
+    if rc is g:XPM_RET.likely_matched
         " change taken in current focused place holder
         let relPos = s:recordRelativePosToMark( [ line( '.' ), col( '.' ) ], renderContext.leadingPlaceHolder.mark.start )
 
@@ -3656,7 +3685,8 @@ fun! s:XPTupdate(...) "{{{
         try
             call s:UpdateFollowingPlaceHoldersWith( contentTyped, {} )
         catch /^XPM:.*/
-            return s:Crash( v:exception )
+            call s:Crash( v:exception )
+            return -1
         endtry
 
         call s:gotoRelativePosToMark( relPos, renderContext.leadingPlaceHolder.mark.start )
@@ -3672,17 +3702,27 @@ fun! s:XPTupdate(...) "{{{
 
     call s:CallPlugin('update', 'after')
 
-
     let renderContext.lastContent = contentTyped
     let renderContext.lastTotalLine = line( '$' )
 
-    
+
 
     call s:log.Log( "marks after XPTupdate:\n" . XPMallMark() )
 
     call XPMupdateStat()
 
 endfunction "}}}
+
+fun! s:BreakUndo() "{{{
+    if mode() != 'i'
+        return
+    endif
+    let x = s:XPTobject()
+    if x.renderContext.processing
+        call feedkeys("\<C-g>u", 'nt')
+    endif
+endfunction "}}}
+
 
 fun! s:recordRelativePosToMark( pos, mark ) "{{{
     let p = XPMpos( a:mark )
@@ -3742,7 +3782,7 @@ fun! s:GetContextFT() "{{{
     if exists( 'b:XPTfiletypeDetect' )
         return b:XPTfiletypeDetect()
     elseif &filetype == ''
-        return '**'
+        return 'unknown'
     else
         return &filetype
     endif
@@ -3750,15 +3790,22 @@ endfunction "}}}
 
 fun! s:GetContextFTObj() "{{{
     let x = XPTbufData()
-    return get( x.filetypes, s:GetContextFT(), {} )
+    let ft = s:GetContextFT()
+    if ft == 'unknown' && !has_key(x.filetypes, ft)
+        runtime ftplugin/unknown/unknown.xpt.vim
+        call XPTfiletypeInit()
+    endif
+    let ftScope = get( x.filetypes, ft, {} )
+    return ftScope
 endfunction "}}}
 
 augroup XPT "{{{
     au!
     au InsertEnter * call <SID>XPTcheck()
 
-    " au CursorHoldI * call <SID>XPTupdate()
     au CursorMovedI * call <SID>XPTupdate()
+    au CursorMovedI * call <SID>BreakUndo()
+
     au CursorMoved * call <SID>XPTtrackFollowingSpace()
 
     " InsertEnter is called in normal mode
@@ -3766,9 +3813,9 @@ augroup XPT "{{{
 
 augroup END "}}}
 
-fun! g:XPTaddPlugin(event, func) "{{{
+fun! g:XPTaddPlugin(event, when, func) "{{{
     if has_key(s:plugins, a:event)
-        call add(s:plugins[a:event], a:func)
+        call add(s:plugins[a:event][a:when], a:func)
     else
         throw "XPT does NOT support event:".a:event
     endif

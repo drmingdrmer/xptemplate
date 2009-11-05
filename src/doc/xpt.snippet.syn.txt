@@ -147,7 +147,6 @@
 	like+4		36 // like=32
 	all-		63 // all=64
 <
-
 							 *xpt-snippet-keyword*
 	|xpt-snippet-keyword| specifies what other characters can be used as
 	|xpt-snippet-name|.
@@ -268,7 +267,7 @@
 		|xpt-snippet-alias|
 
 							    *xpt-snippet-hint*
-	Set the 'menu' entry for the pop up menu, as a short description other
+	Set the 'menu' entry for the pop up menu; as a short description other
 	than |xpt-snippet-name|. Like the following C language popup menu : >
 		| #if           #if ...           |
 		| #ifdef        #if ...           |
@@ -278,12 +277,12 @@
 <	Or : >
 		XPT for " for (..;..;++)
 <	With the 'hint=' way:
-	" " need to be escaped.
+	" " needs to be escaped.
 
 	With both these 2 ways :
-	"(" need to be escaped if you do NOT want it to be evaluated as a
+	"(" needs to be escaped if you do NOT want it to be evaluated as a
 	function call.
-	"$" need to be escaped if you do NOT wnat it to be evaluated as
+	"$" needs to be escaped if you do NOT want it to be evaluated as
 	variable.
 
 							  *xpt-snippet-hidden*

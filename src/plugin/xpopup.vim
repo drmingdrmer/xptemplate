@@ -29,7 +29,7 @@ XPPgetSID
 delc XPPgetSID
 
 let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'debug' )
 " let s:log = CreateLogger( 'log' )
 
 fun! s:SetIfNotExist(k, v) "{{{
@@ -148,7 +148,7 @@ fun! s:popup(start_col, opt) dict "{{{
         let sess.matched = ''
         let sess.matchedCallback = 'onOneMatch'
         let actionList = []
-        let actionList += [ 'clearPum', 'callback' ]
+        let actionList += [ 'clearPum',  'clearPrefix', 'clearPum', 'callback' ]
 
     elseif len(sess.currentList) == 0
         call s:log.Debug("no matching")
@@ -265,6 +265,7 @@ fun! XPPprocess(list) "{{{
 
     call s:log.Debug("actionName=".actionName)
     call s:log.Debug("postAction=".postAction)
+    call s:log.Debug('current line=' . getline(line("."))  )
 
     
 
@@ -352,59 +353,6 @@ fun! XPPprocess(list) "{{{
     
 endfunction "}}}
 
-fun! XPPfixPopupOption() "{{{
-    " Fix the problem that initially popup selection highlight stays on the
-    " first item, second item or the last item. And that depends!
-    "
-    " XPPfixPopupOption() moves the selection highlight to before the first item,
-    " that makes nothing selected. Just like the 'longest' option of
-    " 'completeoption'
-    " 
-    " Selection is only made by user's pressing <C-p> or <C-n>
-
-
-    call s:log.Log("start")
-
-    if !s:PopupCheck()
-        return ""
-    endif
-
-    call s:log.Log("check is ok")
-
-    let sess = b:__xpp_current_session
-
-    let current = getline(".")[ sess.col - 1 : col(".") - 2 ]
-
-    call s:log.Log("current typed:".current)
-
-    if current != sess.longest
-        return "\<C-p>\<C-r>=XPPfixPopupOption()\<cr>"
-    endif
-
-
-    " Refresh : or popup may be partially shown. Display problem.
-    return "\<C-p>\<C-r>=XPPfixFinalize()\<cr>"
-endfunction "}}}
-
-fun! XPPfixFinalize() "{{{
-    call s:log.Log("start")
-
-    let sess = b:__xpp_current_session
-
-    let current = getline(".")[ sess.col - 1 : col(".") - 2 ]
-
-    call s:log.Log("current typed:".current)
-
-    if current == sess.longest
-        return "\<C-p>\<C-r>=XPPfixFinalize()\<cr>"
-    endif
-
-
-    " scroll to first.
-    return "\<C-n>\<C-n>\<C-p>"
-
-endfunction "}}}
-
 
 " Behaviors of Popup {{{
 "                                  |
@@ -422,6 +370,33 @@ endfunction "}}}
 "                                  |
 "                                  |
 " }}}
+
+fun! XPPcr() "{{{
+    if !s:PopupCheck(1)
+        call feedkeys("\<CR>", 'mt')
+        return ""
+    endif
+
+    return "\<C-r>=XPPaccept()\<CR>"
+endfunction "}}}
+
+fun! XPPup() "{{{
+    if !s:PopupCheck(1)
+        call feedkeys("\<UP>", 'mt')
+        return ""
+    endif
+
+    return "\<C-p>"
+endfunction "}}}
+
+fun! XPPdown() "{{{
+    if !s:PopupCheck(1)
+        call feedkeys("\<DOWN>", 'mt')
+        return ""
+    endif
+
+    return "\<C-n>"
+endfunction "}}}
 
 fun! XPPcallback() "{{{
     if !exists("b:__xpp_current_session")
@@ -492,7 +467,6 @@ fun! XPPenlarge() "{{{
         " use feedkeys, instead of <C-r>= for <C-r>= does not remap keys.
         call feedkeys("\<tab>", 'mt')
         return ""
-        " return "\<tab>"
     endif
 
     " TODO here check pum
@@ -577,12 +551,12 @@ fun! s:ApplyMapAndSetting() "{{{
     let b:__xpp_mapped.i_c_e    =  g:MapPush('<C-e>', 'i', 1)
     let b:__xpp_mapped.i_c_y    =  g:MapPush('<C-y>', 'i', 1)
 
-    exe 'inoremap <silent> <buffer> <UP>' '<C-p>'
-    exe 'inoremap <silent> <buffer> <DOWN>' '<C-n>'
+    exe 'inoremap <silent> <buffer> <UP>'   '<C-r>=XPPup()<CR>'
+    exe 'inoremap <silent> <buffer> <DOWN>' '<C-r>=XPPdown()<CR>'
 
-    exe 'inoremap <silent> <buffer> <bs>' '<C-r>=XPPshorten()<cr>'
+    exe 'inoremap <silent> <buffer> <bs>'  '<C-r>=XPPshorten()<cr>'
     exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
-    exe 'inoremap <silent> <buffer> <cr>' '<C-r>=XPPenlarge()<cr>'
+    exe 'inoremap <silent> <buffer> <cr>'  '<C-r>=XPPcr()<cr>'
     exe 'inoremap <silent> <buffer> <C-e>' '<C-r>=XPPcancel()<cr>'
     exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
 
