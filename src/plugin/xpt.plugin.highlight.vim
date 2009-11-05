@@ -3,7 +3,7 @@ if exists("g:__XPT_PLUGIN_HIGHLIGHT_VIM__")
 endif
 let g:__XPT_PLUGIN_HIGHLIGHT_VIM__ = 1
 
-runtime plugin/xptemplate.conf.vim
+runtime plugin/xptemplate.vim
 
 if !g:xptemplate_highlight 
   finish

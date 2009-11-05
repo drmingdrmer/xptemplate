@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.3.9.93
+" VERSION: 0.3.9.94
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
@@ -63,15 +63,6 @@
 "
 "
 " Log of This version:
-" fix : longest matching text appears if g:xptemplate_ph_pum_accept_empty set to 1
-" fix : incorrect behavior of <CR>, <UP>, <DOWN> when pum is shown
-" fix : <tab> as trigger key
-"
-" add : strict mode(g:xptemplate_strict) : do not allow editing contents outside place holder
-" add : unknown filetype support
-" add : <C-r><C-\> to show pop up menu
-"
-" improve : <C-g> go back and select
 "
 "
 "
