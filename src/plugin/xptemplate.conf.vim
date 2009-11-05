@@ -34,7 +34,7 @@ call s:SetIfNotExist('g:xptemplate_nav_cancel'          , '<cr>'	)
 call s:SetIfNotExist('g:xptemplate_goback'              , '<C-g>'	)
 call s:SetIfNotExist('g:xptemplate_to_right'            , "<C-l>"	)
 
-call s:SetIfNotExist('g:xptemplate_strict'              , 1	)
+call s:SetIfNotExist('g:xptemplate_strict'              , 2	)
 call s:SetIfNotExist('g:xptemplate_highlight'           , 1	)
 call s:SetIfNotExist('g:xptemplate_brace_complete'      , 0	)
 call s:SetIfNotExist('g:xptemplate_strip_left'          , 1	)

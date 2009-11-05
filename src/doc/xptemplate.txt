@@ -262,11 +262,11 @@
 		let g:xptemplate_key = '<Tab>'
 <
 	NOTE: You can set this key to <Tab>, as most users do, for
-	convenience. In this case it results in a normal <Tab> if there is no
-	WORD character before the cursor.
+	convenience. In this case pressing <Tab> twice results in a normal
+	<Tab> if there is no snippet key matched.
 
 
-			   *i_<C-\>* *xpt-key-pum* *g:xptemplate_key_pum_only*
+		      *i_<C-r><C-\>* *xpt-key-pum* *g:xptemplate_key_pum_only*
 					       {default:<C-r>g:xptemplate_key}
 	Show pop up menu at cursor position. Example : >
 		let g:xptemplate_key_pum_only = '<S-Tab>'
@@ -314,12 +314,17 @@
 <
 
 							 *g:xptemplate_strict*
-								   {default:1}
-	Set to 1 to prevent incautious changing text outside place holders.
-	Otherwise you are free to change text outside of place holders.
+								   {default:2}
+	Set to 0 to let XPTemplate do the best maintaining snippet rendering,
+	even if you have changed text outside of place holders.
 	Example : >
 		let g:xptemplate_strict = 1
-<
+<	
+	Set to 1 to prevent incautious changing text outside place holders.
+	Otherwise you are free to change text outside of place holders.
+
+	Set to 2 to let XPTemplate stop rendering if ANY changes taken to text
+	outside of place holders
 
 						      *g:xptemplate_highlight*
 								   {default:1}

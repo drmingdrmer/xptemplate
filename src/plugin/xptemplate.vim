@@ -22,15 +22,14 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO key mapping just show pum only. or option to make <C-\> show pum only
-" TODO do not break undo if snippet is not rendering
-" TODO if no template found fall <C-\>/<tab> to other plugins
+" TODO <cr> in insert mode
 " TODO highlight : when outside place holder
 " TODO super cancel : clear/default all and finish
 " TODO hint of whether xpt is running. sign, statusline, highlight
 " TODO 2 <tab> to accept empty
 " TODO /../../ ontime filter shortcut
 " TODO ( ) shortcut of Echo
+" TODO if no template found fall <C-\>/<tab> to other plugins
 " TODO import utils
 " TODO key map to trigger in template
 " TODO php shebang, need to be defined in html filetype
@@ -3624,6 +3623,13 @@ fun! s:XPTupdate(...) "{{{
     let rc = XPMupdate()
     call s:log.Log( 'rc=' . string(rc) . ' phase=' . string(renderContext.phase) . ' strict=' . g:xptemplate_strict )
 
+    if g:xptemplate_strict == 2
+                \&& renderContext.phase == 'fillin'
+                \&& rc is g:XPM_RET.updated
+        call s:Crash( 'changes outside of place holder' )
+        return -1
+    endif
+
     if g:xptemplate_strict 
                 \&& renderContext.phase == 'fillin'
                 \&& rc is g:XPM_RET.updated
@@ -3649,10 +3655,6 @@ fun! s:XPTupdate(...) "{{{
     if contentTyped ==# renderContext.lastContent
         call s:log.Log( "nothing different typed" )
         call XPMupdateStat()
-
-        " if g:xptemplate_strict
-            " call s:BreakUndo()
-        " endif
 
         return 0
     endif
@@ -3683,7 +3685,8 @@ fun! s:XPTupdate(...) "{{{
         try
             call s:UpdateFollowingPlaceHoldersWith( contentTyped, {} )
         catch /^XPM:.*/
-            return s:Crash( v:exception )
+            call s:Crash( v:exception )
+            return -1
         endtry
 
         call s:gotoRelativePosToMark( relPos, renderContext.leadingPlaceHolder.mark.start )
@@ -3708,17 +3711,16 @@ fun! s:XPTupdate(...) "{{{
 
     call XPMupdateStat()
 
-    " if g:xptemplate_strict
-        " call s:BreakUndo()
-    " endif
-
 endfunction "}}}
 
 fun! s:BreakUndo() "{{{
     if mode() != 'i'
         return
     endif
-    call feedkeys("\<C-g>u", 'nt')
+    let x = s:XPTobject()
+    if x.renderContext.processing
+        call feedkeys("\<C-g>u", 'nt')
+    endif
 endfunction "}}}
 
 
