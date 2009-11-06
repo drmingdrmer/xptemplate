@@ -1,4 +1,4 @@
-*XPTemplate*	For Vim version 7.2. Last change: 2009 Apr 16
+*XPTemplate*	For Vim version 7.2. Last change: 2009 Nov 06
 *xptemplate*
 *xpt*
 
@@ -288,8 +288,8 @@
 	Use |g:xptemplate_nav_prev| to change this mapping. Example : >
 		let g:xptemplate_nav_prev = '<C-k>'
 <
-
-	    *s_<CR>*  *xpt-key-clear* *g:xptemplate_nav_cancel* {default:<Cr>}
+			   *s_<CR>*  *xpt-key-clear* *g:xptemplate_nav_cancel*
+								{default:<Cr>}
 	Press to clear current place holder and jump to next.
 	Use |g:xptemplate_nav_cancel| to change this mapping. Example : >
 		let g:xptemplate_nav_cancel = '<C-c>'
@@ -299,6 +299,7 @@
 							     {default:"<C-l>"}
 	When a place holder is initially selected jump to the end of current
 	place holder and go to insert mode.
+
 	Use |g:xptemplate_to_right| to change this mapping. Example : >
 		let g:xptemplate_to_right = '<C-;>'
 <
@@ -375,7 +376,7 @@
 	let g:xptemplate_vars = '$author=xp\ \&\\\&123&$email=bal@bla'
 	let g:xptemplate_vars = 'author=xp\ \&\\\&123&email=bal@bla'
 
-<	both result in : >
+<	Both result in : >
 
 	'xp\ &\&123' and 'bal@bla'
 

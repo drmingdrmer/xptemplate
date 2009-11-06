@@ -22,6 +22,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO doc to add:how to add personal snippet
 " TODO <cr> in insert mode
 " TODO highlight : when outside place holder
 " TODO super cancel : clear/default all and finish

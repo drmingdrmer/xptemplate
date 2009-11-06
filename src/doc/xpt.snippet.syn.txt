@@ -146,6 +146,7 @@
 	lang		16
 	like+4		36 // like=32
 	all-		63 // all=64
+	all-1		63 // all=64
 <
 							 *xpt-snippet-keyword*
 	|xpt-snippet-keyword| specifies what other characters can be used as
@@ -174,10 +175,11 @@
 		XPTvar $VAR_NAME something
 <	Or with single quoter : >
 		XPTvar $VAR_NAME 'something'
-<	The only difference is in single quoter string space can be freely
-	used.  So that : >
+<	The only difference is that in single quoted strings space can be
+	freely used.  Like this : >
 		XPTvar $VAR	' '
-<	Instead of using escaped format "\ ".  
+<	Instead of using the escaped format "\ ".
+
 	Another example from C language : >
 		XPTvar $TRUE 1
 <	and a snippet defined as : >
@@ -197,8 +199,8 @@
 	|g:xptemplate_vars|. Variables defined with |g:xptemplate_vars|
 	override variables defined in any snippet files.
 
-	NOTE Conventionally, the name of |xpt-snippet-variable| must be upper
-	cased.
+	NOTE Conventionally the name of |xpt-snippet-variable| must be upper
+	case.
 
 	NOTE Override control of |xpt-snippet-variable| is affected by
 	|xpt-snippet-priority|.
@@ -223,7 +225,7 @@
 <
 
 								  *XPTinclude*
-							 *xpt-snippet-XPTinclude*
+						      *xpt-snippet-XPTinclude*
 	Syntax : >
 		XPTinclude <folder_name_in_ftplugin>/<filename>
 <	The <filename> is only the file root, without ".xpt.vim". 
@@ -237,7 +239,7 @@
 	Syntax : >
 		XPTembed <folder_name_in_ftplugin>/<filename>
 <	|XPTembed| acts like |XPTinclude|, except it includes only snippet
-	file for nested language, like javascript in html, or html in php.
+	files for nested languages, like JavaScript in HTML, or HTML in PHP.
 
 	NOTE TODO differences between XPTinclude by example.
 
@@ -300,13 +302,14 @@
 		endfor
 
 		XPT foreach alias=forin hint=for\ ..\ in\ ..\ ..\ endfor
-<	This makes "forin" and "foreach" the same.
+<	This makes "forin" and "foreach" the same, but with possible different
+	settings.
 
 	NOTE |xpt-snippet-alias| can be used to create shortcuts.
 
-							   *xpt-snippet-synonym*
-	Like |xpt-snippet-alias|, Synonym gives snippet another name. Syntax 
-	: >
+							 *xpt-snippet-synonym*
+	Like |xpt-snippet-alias|, synonym gives a snippet another name.
+	Syntax : >
 		XPT snippetName synonym=a|b|c...
 <	Where a, b and c are all the names of this snippet. For example : >
 		XPT forin synonym=fin|fi hint=for\ ..\ in\ ..\ ..\ endfor
@@ -341,9 +344,9 @@
 	|xpt-snippet-post-filter|, |xpt-snippet-default-value| and
 	|xpt-snippet-preset-value| is imported too, if it does not overrides.
 
-	Also you can use the short format : >
+	You can also use the short format : >
 		`:snippetName:^
-<	Only 2 ":" around snippet name are needed.
+<	Only two ":" around snippet name are needed.
 	
 	NOTE "Include" is literal, so that snippets with different
 	|xpt-snippet-mark| can not include each other.
