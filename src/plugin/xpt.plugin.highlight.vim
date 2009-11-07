@@ -13,6 +13,7 @@ endif
 
 exe g:XPTsid
 
+
 if !hlID( 'XPTcurrentPH' )
     hi def link XPTcurrentPH    DiffChange
 endif
@@ -22,6 +23,7 @@ endif
 if !hlID( 'XPTnextItem' )
     hi def link XPTnextItem     IncSearch
 endif
+
 
 fun! s:UpdateHL(x, ctx) "{{{
 
@@ -105,15 +107,15 @@ else
                 \}
 
     fun! s:ClearHL(x, ctx) "{{{
-        match none
-        2match none
-        3match none
+        for cmd in values( s:matchingCmd )
+            exe cmd 'none'
+        endfor
     endfunction "}}}
 
     fun! s:HL(grp, ptn) "{{{
         let cmd = get( s:matchingCmd, a:grp, '' )
         if '' != cmd
-            exe cmd, a:grp, '/'. a:ptn . '/'
+            exe cmd a:grp '/' . a:ptn . '/'
         endif
     endfunction "}}}
 
