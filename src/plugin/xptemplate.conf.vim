@@ -35,7 +35,7 @@ call s:SetIfNotExist('g:xptemplate_goback'              , '<C-g>'	)
 call s:SetIfNotExist('g:xptemplate_to_right'            , "<C-l>"	)
 
 call s:SetIfNotExist('g:xptemplate_strict'              , 2	)
-call s:SetIfNotExist('g:xptemplate_highlight'           , 1	)
+call s:SetIfNotExist('g:xptemplate_highlight'           , 'current,following,next'	)
 call s:SetIfNotExist('g:xptemplate_brace_complete'      , 0	)
 call s:SetIfNotExist('g:xptemplate_strip_left'          , 1	)
 call s:SetIfNotExist('g:xptemplate_fix'                 , 1	)
@@ -49,19 +49,7 @@ call s:SetIfNotExist('g:xpt_post_action', '')
 
 
 
-
 let g:XPTpvs = {}
-
-
-
-"for high lighting current editing item
-if !hlID('XPTCurrentItem') && g:xptemplate_highlight
-  hi XPTCurrentItem ctermbg=darkgreen gui=none guifg=#d59619 guibg=#efdfc1
-endif
-if !hlID('XPTIgnoredMark') && g:xptemplate_highlight
-  hi XPTIgnoredMark cterm=none term=none ctermbg=black ctermfg=darkgrey gui=none guifg=#dddddd guibg=white
-endif
-
 
 
 " TODO Be very careful with 'cpo' option!

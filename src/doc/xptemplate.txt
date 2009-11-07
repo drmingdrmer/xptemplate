@@ -28,9 +28,9 @@
 
 	In insert mode type the snippet name and press <C-\> to insert a
 	snippet. Use <Tab> to navigate through the snippet template.
-	For example when editing a C file : >
+	For example when editing a C file: >
 		for<C-\>
-<	generates : >
+<	generates: >
 		for ( i = 0; i < len; ++i ) {
 		    /* cursor */
 		}
@@ -43,11 +43,11 @@
 	NOTE with some European keyboards <C-\> does NOT work. In this case
 	you need to specify another key to trigger snippets.
 
-	Now type "abc", this result in : >
+	Now type "abc", this result in: >
 		for ( abc = 0; abc < len; ++abc ) {
 		    /* cursor */
 		}
-<	Now press <Tab>, the cursor jumps to "0", the next item : >
+<	Now press <Tab>, the cursor jumps to "0", the next item: >
 		for ( abc = 0; abc < len; ++abc ) {
 		    /* cursor */
 		}
@@ -82,9 +82,9 @@
 
 								   *xpt-popup*
 	If you type nothing or an incomplete snippet key and press <C-\>, a
-	popup menu shows up listing all possible snippet keys. For example : >
+	popup menu shows up listing all possible snippet keys. For example: >
 		fo<C-\>
-<	Shows : >
+<	Shows: >
 		for
 		forever
 		fornn
@@ -106,9 +106,9 @@
 		  default:
 			
 		}
-<	Now the cursor stops between "case 0 :" and "break;", type : >
+<	Now the cursor stops between "case 0 :" and "break;", type: >
 		if<C-\>
-<	It becomes : >
+<	It becomes: >
 		switch (fn) {		| upper level snippet
 		  case 0 :		|
 		    if (){            . nested snippet
@@ -119,7 +119,7 @@
 		  default:              |
 			                |
 		}                       |
-<	Type <Tab>, <Tab>.. to navigate out of the nested snippet : >
+<	Type <Tab>, <Tab>.. to navigate out of the nested snippet: >
 		switch ("xp.c" == fn) {
 		  case 0 :
 		    if (){
@@ -154,7 +154,7 @@
 		      \ '}'
 		      \])
 <
-	When you trigger a repetition template it works as below : >
+	When you trigger a repetition template it works as below: >
 		switch () {    <------- cursor stays here
 		  `...^
 
@@ -163,7 +163,7 @@
 		}
 <	Press <Tab>, the |`...^| is selected. Press <Tab> again to expand the
 	repetition part. Or press <Cr> |xpt-key-clear| to cancel the
-	repetition part. These 4 lines are expanded : >
+	repetition part. These 4 lines are expanded: >
 		switch () {
 
 		  case `17^ :       | expanded
@@ -177,7 +177,7 @@
 <	Enter the repetition part. You may have noticed there is another
 	|`...^|, that is the another repeat trigger.
 
-	Press <Tab> 3 times : >
+	Press <Tab> 3 times: >
 		switch () {
 
 		  case 0 :
@@ -194,7 +194,7 @@
 		}
 <
 	Using the n in |`...^| with different numbers allows you define
-	multiple repetition parts in one snippet : >
+	multiple repetition parts in one snippet: >
 		call XPTemplate( "tryof", [
 		      \ "try `what^",
 		      \ "   `pattern^ ->",
@@ -208,7 +208,7 @@
 		      \ "" ] )
 <
 	Repetition parts can NOW be recursively defined. See *.html "table2"
-	snippet : >
+	snippet: >
 		call XPTemplate('table2', [
 		      \ '<table>',
 		      \ '  <tr>',
@@ -227,7 +227,7 @@
 								 *xpt-wrapped*
 	Wrapper snippets can only be triggered in visual mode, the place
 	holder `wrapped^ is replaced with the text selected in visual mode.
-	For instance the following snippet : >
+	For instance the following snippet: >
 		XPT call_ hint=..(\ SEL\ )
 		`name^(`wrapped^`, `^)`cursor^
 <	Use |V| to select some text, press <C-\> |v_CTRL-\|. The selected text
@@ -236,7 +236,7 @@
 	With this example line: >
 		a, b
 <	Press V to select the line, press <C-\>, select call_" in the popup
-	and the result is : >
+	and the result is: >
 		name(a, b)
 <
 								 *xpt-context*
@@ -258,7 +258,7 @@
 	    *i_<C-\>* *s_<C-\>* *v_<C-\>* *xpt-key-trigger* *g:xptemplate_key*
 							       {default:<C-\>}
 	The key to trigger snippets, in insert or visual mode.
-	Use |g:xptemplate_key| to change this mapping. Example : >
+	Use |g:xptemplate_key| to change this mapping. Example: >
 		let g:xptemplate_key = '<Tab>'
 <
 	NOTE: You can set this key to <Tab>, as most users do, for
@@ -268,7 +268,7 @@
 
 		      *i_<C-r><C-\>* *xpt-key-pum* *g:xptemplate_key_pum_only*
 					       {default:<C-r>g:xptemplate_key}
-	Show pop up menu at cursor position. Example : >
+	Show pop up menu at cursor position. Example: >
 		let g:xptemplate_key_pum_only = '<S-Tab>'
 <	By default, this key map is set to '<C-r>' concatenated with
 	|g:xptemplate_key| : '<C-r><C-\>'.
@@ -277,7 +277,7 @@
 	       *i_<tab>*  *s_<tab>* *xpt-key-navigate* *g:xptemplate_nav_next*
 							       {default:<Tab>}
 	After a snippet was triggered, this key navigates to the next item.
-	Use |g:xptemplate_nav_next| to change this mapping. Example : >
+	Use |g:xptemplate_nav_next| to change this mapping. Example: >
 		let g:xptemplate_nav_next = '<C-j>'
 <
 
@@ -285,13 +285,13 @@
 							     {default:<S-Tab>}
 	After a snippet was triggered, press this key to navigate back to the
 	previous item.
-	Use |g:xptemplate_nav_prev| to change this mapping. Example : >
+	Use |g:xptemplate_nav_prev| to change this mapping. Example: >
 		let g:xptemplate_nav_prev = '<C-k>'
 <
 			   *s_<CR>*  *xpt-key-clear* *g:xptemplate_nav_cancel*
 								{default:<Cr>}
 	Press to clear current place holder and jump to next.
-	Use |g:xptemplate_nav_cancel| to change this mapping. Example : >
+	Use |g:xptemplate_nav_cancel| to change this mapping. Example: >
 		let g:xptemplate_nav_cancel = '<C-c>'
 <
 
@@ -300,7 +300,7 @@
 	When a place holder is initially selected jump to the end of current
 	place holder and go to insert mode.
 
-	Use |g:xptemplate_to_right| to change this mapping. Example : >
+	Use |g:xptemplate_to_right| to change this mapping. Example: >
 		let g:xptemplate_to_right = '<C-;>'
 <
 
@@ -310,7 +310,7 @@
 	this key(in insert mode or normal mode) move cursor back to current
 	place holder and select the place holder text in select mode.
 
-	Use |g:xptemplate_goback| to change this mapping. Example : >
+	Use |g:xptemplate_goback| to change this mapping. Example: >
 		let g:xptemplate_goback = '<C-g>'
 <
 
@@ -318,7 +318,7 @@
 								   {default:2}
 	Set to 0 to let XPTemplate do the best maintaining snippet rendering,
 	even if you have changed text outside of place holders.
-	Example : >
+	Example: >
 		let g:xptemplate_strict = 1
 <	
 	Set to 1 to prevent incautious changing text outside place holders.
@@ -327,16 +327,69 @@
 	Set to 2 to let XPTemplate stop rendering if ANY changes taken to text
 	outside of place holders
 
+
 						      *g:xptemplate_highlight*
-								   {default:1}
-	Set to 1 to enable highlight.  TODO example.
+					    {default:'current,following,next'}
+	Specifying what place holders are high lighted. 
+
+	Value of |g:xptemplate_highlight| is "," separated string. 
+	Avalaible values are: "current", "following" and "next". Example: >
+		let g:xptemplate_highlight = 'following,next'
+<
+
+	"current" lets XPTemplate highlight place holder you are editing. See
+	|XPTcurrentPH|. 
+	For example the second and third "i" in "for" snippet of C language: >
+		for ( i = 0; i < len; ++i ) {
+		       \__________________________ highlighted
+<	
+	"following" lets XPTemplate highlight slave place holders which are
+	updated automatically. See |XPTfollowingPH|. 
+	For example the second and third "i" in "for" snippet of C language: >
+		for ( i = 0; i < len; ++i ) {
+			      \__________\________ highlighted
+<	
+	"next" lets XPtemplate highlight the place holders you are going to
+	edit. See |XPTnextItem|. 
+	For example the "0" and "len" if "for" snippet of C language: >
+		for ( i = 0; i < len; ++i ) {
+			   \______\\\_____________ highlighted
+<
+	Set |g:xptemplate_highlight| to '' to disable highlight.
+
+
+						     *xpt-customize-highlight*
+	You can specify which highlight Group to use for each kind of
+	highlight. 
+
+
+								*XPTcurrentPH*
+							  {default:DiffChange}
+	The highlight group of place holder you are editing. Example: >
+		hi link XPTcurrentPH Visual
+<	This statement tells XPTemplate use the highlight group "Visual" to
+	highlight "current" items. See |g:xptemplate_highlight|.
+
+	You can also define your highlight group directly. Example: >
+		hi XPTcurrentPH gui=none guibg=blue
+<		
+							      *XPTfollowingPH*
+							  {default:CursorLine}
+	The highlight group of slave place holders you are editing. Like
+	|XPTcurrentPH|.
+
+
+								 *XPTnextItem*
+							   {default:IncSearch}
+	The highlight group of item you are going to edit. Like
+	|XPTcurrentPH|.
 
 
 						 *g:xptemplate_brace_complete*
 								   {default:0}
 	Set to 1 to let XPTemplate to do braces/quotes completing job. If this
 	option is set, the following key mappings are disabled when in snippet
-	mode : >
+	mode: >
 		i_'
 		i_"
 		i_[
@@ -370,17 +423,17 @@
 	snippets, like "author" and "email", see |xpt-snippet-variable|.
 
 	Variables set with g:xptemplate_vars have the highest priority and
-	override any other variables set in *.xpt.vim. Syntax : >
+	override any other variables set in *.xpt.vim. Syntax: >
 	let g:xptemplate_vars = 'name=value&name=value...'
-<	Example : >
+<	Example: >
 	let g:xptemplate_vars = '$author=xp\ \&\\\&123&$email=bal@bla'
 	let g:xptemplate_vars = 'author=xp\ \&\\\&123&email=bal@bla'
 
-<	Both result in : >
+<	Both result in: >
 
 	'xp\ &\&123' and 'bal@bla'
 
-<	Or : >
+<	Or: >
 		let g:xptemplate_vars = exists('g:xptemplate_vars') ?
 			\ g:xptemplate_vars . '&' . '$other=bla'
 			\ : '$other=bla'

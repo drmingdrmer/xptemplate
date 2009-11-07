@@ -22,6 +22,10 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO autocomplete doc
+" TODO bundle doc
+" TODO BuildIfNoChange depending on default value or prevalue
+" TODO doc about xx*, xx?
 " TODO doc to add:how to add personal snippet
 " TODO <cr> in insert mode
 " TODO highlight : when outside place holder
@@ -64,7 +68,7 @@
 "
 "
 " Log of This version:
-"
+"   add : highlight, variable g:xptemplate_highlight sets up highlight 
 "
 "
 
@@ -78,12 +82,6 @@ let g:__XPTEMPLATE_VIM__ = 1
 
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
-
-com! XPTgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
-XPTgetSID
-delc XPTgetSID
-
-
 
 
 runtime plugin/xptemplate.conf.vim
@@ -921,8 +919,6 @@ fun! s:FinishRendering(...) "{{{
     let renderContext = s:getRenderContext()
     let xp = renderContext.tmpl.ptn
     
-    " match none 
-
     call s:removeMarksInRenderContext(renderContext) 
 
     if empty(x.stack)
@@ -934,9 +930,11 @@ fun! s:FinishRendering(...) "{{{
 
         let @" = x.savedReg
 
+        call s:CallPlugin( 'finishAll', 'after' )
         return '' 
     else
         call s:PopCtx()
+        call s:CallPlugin( 'finishSnippet', 'after' )
         let renderContext = s:getRenderContext()
         let behavior = renderContext.item.behavior
         if has_key( behavior, 'gotoNextAtOnce' ) && behavior.gotoNextAtOnce
@@ -1994,7 +1992,7 @@ fun! s:BuildItemForPlaceHolder( ctx, placeHolder ) "{{{
 endfunction "}}}
 
 
-fun! s:GetStaticRange(p, q) "{{{
+fun! XPTgetStaticRange(p, q) "{{{
     let tl = a:p
     let br = a:q
 
@@ -3383,7 +3381,6 @@ fun! s:PopCtx() "{{{
     let x = g:XPTobject()
     let x.renderContext = x.stack[-1]
     call remove(x.stack, -1)
-    " call s:HighLightItem(x.renderContext.name, 1)
 endfunction "}}}
 
 
@@ -3506,27 +3503,11 @@ endfunction "}}}
 
 fun! s:Crash(...) "{{{
 
-    " try
-        " throw ''
-    " catch /.*/
-        " let stack = matchstr( v:throwpoint, 'function\s\+\zs.\{-}\ze\.\.\%(Fatal\|Error\|Warn\|Info\|Log\|Debug\).*' )
-        " let stack = substitute( stack, '<SNR>\d\+_', '', 'g' )
-    " endtry
-
-    " throw "crashed"
-
     let msg = "XPTemplate snippet crashed :" . join( a:000, "\n" ) 
 
     call XPPend()
 
     let x = g:XPTobject()
-
-    " let stack = 'snippet stack:'
-    " for ctx in x.stack
-        " " TODO nicer message
-        " let stack .= ctx.tmpl.name . ' -> '
-    " endfor
-    " let stack .= x.renderContext.tmpl.name
 
     call s:ClearMap()
 
@@ -3534,11 +3515,11 @@ fun! s:Crash(...) "{{{
     call s:createRenderContext(x)
     call XPMflushWithHistory()
 
-    " TODO clear highlight
-
     echohl WarningMsg
     echom msg
     echohl
+
+    call s:CallPlugin( 'finishAll', 'after' )
 
     " no post typing action
     return ''
@@ -3823,7 +3804,8 @@ endfunction "}}}
 
 call s:CreatePluginContainer(
             \'render', 
-            \'finish', 
+            \'finishSnippet', 
+            \'finishAll', 
             \'preValue', 
             \'defaultValue', 
             \'postFilter', 
@@ -3841,8 +3823,10 @@ fun! s:CallPlugin(ev, when) "{{{
         return
     endif
 
+    let x = s:XPTobject()
+
     for XPTplug in evs
-        call XPTplug(x, b:renderContext)
+        call XPTplug(x, x.renderContext)
     endfor
 
 endfunction "}}}
