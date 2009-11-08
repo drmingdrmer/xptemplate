@@ -39,8 +39,8 @@
 	|xpt-snippet-item|
 	|xpt-snippet-placeholder|
 	|xpt-placeholder-mark|   
-	|xpt-placeholder-left-mark|  |`|  
-	|xpt-placeholder-right-mark|  |^|
+		|xpt-placeholder-left-mark|   |`|  
+		|xpt-placeholder-right-mark|  |^|
 	|xpt-placeholder-edge|
 	|xpt-snippet-leading-placeholder|
 
@@ -53,6 +53,8 @@
 	|xpt-snippet-preset-value|
 	|xpt-snippet-default-value|
 	|xpt-snippet-post-filter|
+		|xpt-snippet-default-post-filter|
+			|xpt-placeholder-optional-ph|
 
 	|xpt-placeholder-default-value|
 	|xpt-placeholder-post-filter|
@@ -65,7 +67,7 @@
 	A snippet file looks like this : >
 		XPTemplate priority=lang keyword=$	| |xpt-snippet-header|
 
-		let [s:f, s:v] = XPTcontainer()		| |xpt-snippet-function|
+		let s:f = XPTfuncs()			| |xpt-snippet-function|
 		 
 		XPTvar $TRUE          true		| |xpt-snippet-variable|
 		XPTvar $FALSE         false             |
@@ -577,6 +579,7 @@
 	|xpt-snippet-variable|, it is used as |xpt-snippet-preset-value|, too;
 	for better looking without any side-effect.
 
+
 						    *xpt-snippet-post-filter*
 	Post filters are executed after the user presses <Tab> and change the
 	typed text. To define a post filter use : >
@@ -591,9 +594,9 @@
 		}` `var^;
 <
 	Some usually-used post filter functions are defined in
-	ftplugin/common/common.xpt.vim. for |xpt-substitute| with name of 'S'.
-	For example for c language, "#ifndef" snippet is defined as follows :
-	>
+	ftplugin/_common/common.xpt.vim. 
+
+	For example for c language, "#ifndef" snippet is defined as follows : >
 		XPT #ifndef	hint=#ifndef\ ..
 		XSET symbol=S(fileRoot(),'\.','_','g')
 		XSET symbol|post=UpperCase(V())
@@ -603,8 +606,8 @@
 		`cursor^ 
 		#endif `$CL^ `symbol^ `$CR^
 		..XPT
-
-<	When you pressing <tab> from the first item "symbol", typed content are
+<	
+	When you pressing <tab> from the first item "symbol", typed content are
 	converted to upper case. Before <tab> pressed : >
 		#ifndef __gnu__
 		#    define __gnu__
@@ -616,6 +619,32 @@
 		`cursor^
 		#endif /* __GNU__ */
 <
+
+					     *xpt-snippet-default-post-filter*
+	Place holder with some special has default post filter set. Following
+	sections discuss them.
+
+	Place holders have default place holder defined: >
+		\V\w\+?		EchoIfNoChange('')
+<
+
+
+						 *xpt-placeholder-optional-ph*
+	If a place holder name matches pattern '\V\w\+?', "EchoIfNoChange('')"
+	is assigned as its post filter. 
+	This makes the place holder optional. 
+
+	For example a snippet defined as below: >
+		fun(`arg^`, `context?^)
+<	When you render this snippet, and cursor stays on "context?" : >
+		fun(arg, context?)
+			 --------
+				 \__ selected
+<	Pressing <Tab> clears it, and snippet becomes: >
+		fun(arg)
+<	
+
+
 						 *xpt-placeholder-post-filter*
 	For each place holder a private post filter can also be set by using
 	the |^||^| syntax : >

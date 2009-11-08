@@ -34,10 +34,12 @@ fun! s:UpdateHL(x, ctx) "{{{
 
     call s:ClearHL(a:x, a:ctx)
 
+
     if g:xptemplate_highlight =~ 'current'
         let r = s:MarkRange( a:ctx.leadingPlaceHolder.mark )
         call s:HL( 'XPTcurrentPH', r[2:] )
     endif
+
 
     if g:xptemplate_highlight =~ 'following'
         let r = ''
@@ -48,6 +50,7 @@ fun! s:UpdateHL(x, ctx) "{{{
 
         call s:HL( 'XPTfollowingPH', r[2:] )
     endif
+
 
     if g:xptemplate_highlight =~ 'next'
         let r = ''

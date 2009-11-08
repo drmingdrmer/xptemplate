@@ -1,4 +1,4 @@
-*XPTemplate*	For Vim version 7.2. Last change: 2009 Nov 06
+*XPTemplate*	For Vim version 7.2. Last change: 2009 Nov 08
 *xptemplate*
 *xpt*
 
@@ -16,7 +16,11 @@
 	|xpt-feature|
 	|xpt-option|
 	|xpt-key-bind|  |xpt-mapping|
+	|xpt-customize|
+		|xpt-write-snippet|
+
 	|xpt-snippet-syntax|
+	|xpt-snippet-tutorial|
 	|xpt-api|
 
 								 *xpt-install*
@@ -54,7 +58,7 @@
 <	After pressing <Tab> two more times the snippet mode stops and
 	cursor ends at line 2, column 4: >
 		for ( abc = 0; abc < len; ++abc ) {
-		    
+
 		}
 
 <	The usage is described in more detail below.
@@ -73,6 +77,7 @@
 	Wrapping snippet			|xpt-wrapped|
 	Inclusion on snippet level or file level|xpt-snippet-include|
 						|xpt-snippet-XPTinclude|
+
 	Template priority			|xpt-snippet-priority|
 
 	Named item or anonymous item		|xpt-snippet-item|
@@ -104,7 +109,7 @@
 		    break;
 		    ...
 		  default:
-			
+
 		}
 <	Now the cursor stops between "case 0 :" and "break;", type: >
 		if<C-\>
@@ -254,6 +259,23 @@
 				    *xpt-mapping*  *xpt-key-bind* *xpt-option*
 	Options can be set in |.vimrc| to modify XPTemplate's behaviors.
 
+	Key mappings:
+		|g:xptemplate_key|
+		|g:xptemplate_key_pum_only|
+		|g:xptemplate_nav_next|
+		|g:xptemplate_nav_prev|
+		|g:xptemplate_nav_cancel|
+		|g:xptemplate_goback|
+		|g:xptemplate_to_right|
+
+	Options:
+		|g:xptemplate_strict|
+		|g:xptemplate_highlight|
+		|g:xptemplate_brace_complete|
+		|g:xptemplate_strip_left|
+		|g:xptemplate_ph_pum_accept_empty|
+		|g:xptemplate_vars|
+		|g:xptemplate_bundle|
 
 	    *i_<C-\>* *s_<C-\>* *v_<C-\>* *xpt-key-trigger* *g:xptemplate_key*
 							       {default:<C-\>}
@@ -320,7 +342,7 @@
 	even if you have changed text outside of place holders.
 	Example: >
 		let g:xptemplate_strict = 1
-<	
+<
 	Set to 1 to prevent incautious changing text outside place holders.
 	Otherwise you are free to change text outside of place holders.
 
@@ -330,27 +352,27 @@
 
 						      *g:xptemplate_highlight*
 					    {default:'current,following,next'}
-	Specifying what place holders are high lighted. 
+	Specifying what place holders are high lighted.
 
-	Value of |g:xptemplate_highlight| is "," separated string. 
+	Value of |g:xptemplate_highlight| is "," separated string.
 	Avalaible values are: "current", "following" and "next". Example: >
 		let g:xptemplate_highlight = 'following,next'
 <
 
 	"current" lets XPTemplate highlight place holder you are editing. See
-	|XPTcurrentPH|. 
+	|XPTcurrentPH|.
 	For example the second and third "i" in "for" snippet of C language: >
 		for ( i = 0; i < len; ++i ) {
 		       \__________________________ highlighted
-<	
+<
 	"following" lets XPTemplate highlight slave place holders which are
-	updated automatically. See |XPTfollowingPH|. 
+	updated automatically. See |XPTfollowingPH|.
 	For example the second and third "i" in "for" snippet of C language: >
 		for ( i = 0; i < len; ++i ) {
 			      \__________\________ highlighted
-<	
+<
 	"next" lets XPtemplate highlight the place holders you are going to
-	edit. See |XPTnextItem|. 
+	edit. See |XPTnextItem|.
 	For example the "0" and "len" if "for" snippet of C language: >
 		for ( i = 0; i < len; ++i ) {
 			   \______\\\_____________ highlighted
@@ -360,7 +382,7 @@
 
 						     *xpt-customize-highlight*
 	You can specify which highlight Group to use for each kind of
-	highlight. 
+	highlight.
 
 
 								*XPTcurrentPH*
@@ -372,7 +394,7 @@
 
 	You can also define your highlight group directly. Example: >
 		hi XPTcurrentPH gui=none guibg=blue
-<		
+<
 							      *XPTfollowingPH*
 							  {default:CursorLine}
 	The highlight group of slave place holders you are editing. Like
@@ -429,9 +451,8 @@
 	let g:xptemplate_vars = '$author=xp\ \&\\\&123&$email=bal@bla'
 	let g:xptemplate_vars = 'author=xp\ \&\\\&123&email=bal@bla'
 
-<	Both result in: >
-
-	'xp\ &\&123' and 'bal@bla'
+<	Both the 2 lines above result in: >
+		'xp\ &\&123' and 'bal@bla'
 
 <	Or: >
 		let g:xptemplate_vars = exists('g:xptemplate_vars') ?
@@ -439,6 +460,135 @@
 			\ : '$other=bla'
 <
 	Entries are separated with '&'.
+
+
+							 *g:xptemplate_bundle*
+	This option specifies what libraries can be load. For example: >
+		let g:xptemplate_bundle = 'javascript_jquery'
+<	This tells XPT to load jquery snippet to javascript language.
+	Or: >
+		let g:xptemplate_bundle = 'javascript_jquery,c_*'
+<	It tells XPT to load jquery, and all supplied library snippets for C
+	language.
+
+
+
+==============================================================================
+
+							       *xpt-customize*
+
+	Global customization can be done with |xpt-option|.
+
+	Two options relate to personal settings:
+
+	|g:xptemplate_vars'|
+	This is a easy way to set up your personal information like your name
+	and email address.
+	This option actually sets up two variables "$author" and "$email". See
+	|xpt-snippet-variable|
+
+	|g:xptemplate_bundle|
+	This option sets up which library you want to load.
+
+
+						      *xpt-customize-variable*
+	|xpt-snippet-variable| are used to configure snippet format.
+	Each snippet has some variable defined to configure language format.
+	This is useful when some snippet are shared between languages, like
+	for loops in C and CPP.
+	
+	Brackets style variables may be defined as below: >
+		" if () ** {
+		XPTvar $IF_BRACKET_STL     ' '
+
+		" } ** else {
+		XPTvar $ELSE_BRACKET_STL   \n
+
+		" for () ** {
+		XPTvar $FOR_BRACKET_STL    ' '
+
+		" while () ** {
+		XPTvar $WHILE_BRACKET_STL  ' '
+
+		" struct name ** {
+		XPTvar $STRUCT_BRACKET_STL ' '
+
+		" int fun() ** {
+		XPTvar $FUNC_BRACKET_STL   ' '
+
+		" class name ** {
+		XPTvar $CLS_BRACKET_STL    ' '
+
+<	The "**" in comment marks where this variable should be used.
+	For example following is "for" snippet for both C and CPP: >
+		XPT for hint=for\ (..;..;++)
+		for (`i^ = `0^; `i^ < `len^; ++`i^)`$FOR_BRACKET_STL^{
+		    `cursor^			   ******************
+		}
+<	In C language "$FOR_BRACKET_STL" is set to ' '. In CPP
+	"$FOR_BRACKET_STL" is set to "\n". You can find them in
+	"ftplugin/c/c.xpt.vim" and "ftplugin/cpp/cpp.xpt.vim". 
+
+	In C this snippet results in: >
+		for ( i = 0; i < 10; ++i ) {
+
+		}
+<	In CPP this snippet results in: >
+		for ( i = 0; i < 10; ++i )
+		{
+
+		}
+<
+
+							   *xpt-write-snippet*
+
+
+						      *xpt-write-lang-snippet*
+	You can add snippets of new language, or add snippets to currently
+	supplied languages, in the same way.
+
+	Create a new file in some ftplugin directory. For exmpale, if you want
+	to add some PHP snippet, you can create file: >
+		&runtimepath/ftplugin/php/your_snippets.xpt.vim
+<	&runtimepath is ~/.vim in Unix like system, or ~/vimfiles/ folder in 
+	Windows. See |'runtimepath'|.
+
+	NOTE: It is strongly recommended to create your own runtimepath.
+
+	The file name "your_snippets.xpt.vim" has no limitation except it must
+	end with ".xpt.vim".
+
+	And then write your snippet in that file. Restart vim to load them.
+	See |xpt-snippet-syntax| and |xpt-snippet-tutorial|.
+
+
+
+						  *xpt-write-personal-snippet*
+	If you want to add some snippets those do not belong to any language, 
+	you can use the "personal" snippet.
+
+		1. Rename "/ftplugin/_common/personal_example.xpt.vim" to
+		"/ftplugin/_common/personal.xpt.vim". Or create one.
+
+		2. Add your snippets in "/ftplugin/_common/personal.xpt.vim".
+
+	"personal.xpt.vim" is loaded by _common/common.xpt.vim, and has
+	highest priority so that it is always loaded and there is no other
+	snippet overriding yours.
+
+	Example ftplugin/_common/personal.xpt.vim : >
+		XPTemplate priority=personal
+
+
+		XPTvar $author       your_name
+		XPTvar $email        your_email
+
+		XPTemplateDef
+
+		XPT yoursnippet " tips here
+		bla bla
+
+<	See |xpt-snippet-syntax| and |xpt-snippet-tutorial|.
 
 
 ==============================================================================

@@ -7,14 +7,17 @@ S()	xpt-function.txt	/*S()*
 S({expr},{pat},{sub},{flags})	xpt-function.txt	/*S({expr},{pat},{sub},{flags})*
 SV()	xpt-function.txt	/*SV()*
 V()	xpt-function.txt	/*V()*
+XPTcurrentPH	xptemplate.txt	/*XPTcurrentPH*
 XPTembed	xpt.snippet.syn.txt	/*XPTembed*
 XPTemplate	xptemplate.txt	/*XPTemplate*
 XPTemplate()	xpt.api.txt	/*XPTemplate()*
 XPTemplateDef	xpt.snippet.syn.txt	/*XPTemplateDef*
 XPTemplateMark()	xpt.api.txt	/*XPTemplateMark()*
 XPTemplatePriority()	xpt.api.txt	/*XPTemplatePriority()*
+XPTfollowingPH	xptemplate.txt	/*XPTfollowingPH*
 XPTfuncs()	xpt.api.txt	/*XPTfuncs()*
 XPTinclude	xpt.snippet.syn.txt	/*XPTinclude*
+XPTnextItem	xptemplate.txt	/*XPTnextItem*
 XPTvar	xpt.snippet.syn.txt	/*XPTvar*
 ^	xpt.snippet.syn.txt	/*^*
 `	xpt.snippet.syn.txt	/*`*
@@ -23,6 +26,7 @@ XPTvar	xpt.snippet.syn.txt	/*XPTvar*
 ```	xpt.snippet.syn.txt	/*```*
 `cursor^	xpt.snippet.syn.txt	/*`cursor^*
 g:xptemplate_brace_complete	xptemplate.txt	/*g:xptemplate_brace_complete*
+g:xptemplate_bundle	xptemplate.txt	/*g:xptemplate_bundle*
 g:xptemplate_goback	xptemplate.txt	/*g:xptemplate_goback*
 g:xptemplate_highlight	xptemplate.txt	/*g:xptemplate_highlight*
 g:xptemplate_key	xptemplate.txt	/*g:xptemplate_key*
@@ -55,6 +59,9 @@ xpt-```	xpt.snippet.syn.txt	/*xpt-```*
 xpt-api	xpt.api.txt	/*xpt-api*
 xpt-changes-log	xptemplate.txt	/*xpt-changes-log*
 xpt-context	xptemplate.txt	/*xpt-context*
+xpt-customize	xptemplate.txt	/*xpt-customize*
+xpt-customize-highlight	xptemplate.txt	/*xpt-customize-highlight*
+xpt-customize-variable	xptemplate.txt	/*xpt-customize-variable*
 xpt-feature	xptemplate.txt	/*xpt-feature*
 xpt-install	xptemplate.txt	/*xpt-install*
 xpt-key-bind	xptemplate.txt	/*xpt-key-bind*
@@ -75,6 +82,7 @@ xpt-placeholder-edge	xpt.snippet.syn.txt	/*xpt-placeholder-edge*
 xpt-placeholder-left-mark	xpt.snippet.syn.txt	/*xpt-placeholder-left-mark*
 xpt-placeholder-mark	xpt.snippet.syn.txt	/*xpt-placeholder-mark*
 xpt-placeholder-ontime-filter	xpt.snippet.syn.txt	/*xpt-placeholder-ontime-filter*
+xpt-placeholder-optional-ph	xpt.snippet.syn.txt	/*xpt-placeholder-optional-ph*
 xpt-placeholder-post-filter	xpt.snippet.syn.txt	/*xpt-placeholder-post-filter*
 xpt-placeholder-right-mark	xpt.snippet.syn.txt	/*xpt-placeholder-right-mark*
 xpt-placeholder-special	xpt.snippet.syn.txt	/*xpt-placeholder-special*
@@ -91,6 +99,7 @@ xpt-snippet-XSET	xpt.snippet.syn.txt	/*xpt-snippet-XSET*
 xpt-snippet-XSETm	xpt.snippet.syn.txt	/*xpt-snippet-XSETm*
 xpt-snippet-alias	xpt.snippet.syn.txt	/*xpt-snippet-alias*
 xpt-snippet-body	xpt.snippet.syn.txt	/*xpt-snippet-body*
+xpt-snippet-default-post-filter	xpt.snippet.syn.txt	/*xpt-snippet-default-post-filter*
 xpt-snippet-default-value	xpt.snippet.syn.txt	/*xpt-snippet-default-value*
 xpt-snippet-embed	xpt.snippet.syn.txt	/*xpt-snippet-embed*
 xpt-snippet-expandable	xpt.snippet.syn.txt	/*xpt-snippet-expandable*
@@ -117,9 +126,14 @@ xpt-snippet-sample	xpt.snippet.syn.txt	/*xpt-snippet-sample*
 xpt-snippet-setting	xpt.snippet.syn.txt	/*xpt-snippet-setting*
 xpt-snippet-synonym	xpt.snippet.syn.txt	/*xpt-snippet-synonym*
 xpt-snippet-syntax	xpt.snippet.syn.txt	/*xpt-snippet-syntax*
+xpt-snippet-tutorial	xpt.snippet.tutor.txt	/*xpt-snippet-tutorial*
 xpt-snippet-variable	xpt.snippet.syn.txt	/*xpt-snippet-variable*
 xpt-substitute	xpt-function.txt	/*xpt-substitute*
+xpt-tutor-hello	xpt.snippet.tutor.txt	/*xpt-tutor-hello*
 xpt-usage	xptemplate.txt	/*xpt-usage*
 xpt-wrapped	xptemplate.txt	/*xpt-wrapped*
+xpt-write-lang-snippet	xptemplate.txt	/*xpt-write-lang-snippet*
+xpt-write-personal-snippet	xptemplate.txt	/*xpt-write-personal-snippet*
+xpt-write-snippet	xptemplate.txt	/*xpt-write-snippet*
 xpt-{}	xpt.snippet.syn.txt	/*xpt-{}*
 xptemplate	xptemplate.txt	/*xptemplate*

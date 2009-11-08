@@ -22,22 +22,20 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO highlight invisible cursor position// at snippet end
+" TODO :XPTloadBundle
 " TODO autocomplete doc
 " TODO bundle doc
 " TODO BuildIfNoChange depending on default value or prevalue
-" TODO doc about xx*, xx?
 " TODO doc to add:how to add personal snippet
 " TODO <cr> in insert mode
-" TODO highlight : when outside place holder
 " TODO super cancel : clear/default all and finish
-" TODO hint of whether xpt is running. sign, statusline, highlight
 " TODO 2 <tab> to accept empty
 " TODO /../../ ontime filter shortcut
 " TODO ( ) shortcut of Echo
 " TODO if no template found fall <C-\>/<tab> to other plugins
 " TODO import utils
-" TODO key map to trigger in template
-" TODO php shebang, need to be defined in html filetype
+" TODO key map to trigger in template, secondary key
 " TODO more key mapping : [si]_<C-h> to go to head, n_<C-g> to go to back to end 
 " TODO improve context detection
 " TODO snippet only inside others
@@ -48,7 +46,6 @@
 " TODO ontime repetition
 " TODO in windows & in select mode to trigger wrapped or normal?
 " TODO change on previous item
-" TODO highlight all pending items
 " TODO <Plug>mapping
 " TODO item popup: repopup
 " TODO install guide
@@ -69,6 +66,7 @@
 "
 " Log of This version:
 "   add : highlight, variable g:xptemplate_highlight sets up highlight 
+"   add : document about default post-filter: "\w\+?" is optional place holder.
 "
 "
 

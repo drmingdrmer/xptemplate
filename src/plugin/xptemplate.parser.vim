@@ -61,10 +61,10 @@ fun! s:AssignSnipFT( filename ) "{{{
 
     let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
     if empty( x.snipFileScopeStack ) 
-        " Snippet file is loaded at top level
+        " Top Level
         "
         " All cross filetype inclusion must be done through XPTinclude or
-        " XPTembed, runtime command is disabled for inclusion or embed
+        " XPTembed, 'runtime' command is disabled for inclusion or embed
 
         if &filetype !~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim' 
             return 'not allowed'
@@ -214,7 +214,7 @@ fun! XPTinclude(...) "{{{
             endif
 
             call XPTsnipScopePush()
-            exe 'runtime ftplugin/' . v . '.xpt.vim'
+            exe 'runtime! ftplugin/' . v . '.xpt.vim'
             call XPTsnipScopePop()
 
         endif
@@ -231,7 +231,7 @@ fun! XPTembed(...) "{{{
             endfor
         elseif type(v) == type('')
             call XPTsnipScopePush()
-            exe 'runtime ftplugin/' . v . '.xpt.vim'
+            exe 'runtime! ftplugin/' . v . '.xpt.vim'
             call XPTsnipScopePop()
         endif
     endfor

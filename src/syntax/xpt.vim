@@ -60,7 +60,7 @@ syntax keyword  XPTSnippetVar XPTvar nextgroup=XptVarBody skipwhite
 " XPTinclude command
 " ==================
 syntax match    XptSnippetIncludeItemDir /\%(\w\+\/\)\+/ containedin=XptSnippetIncludeItem
-syntax match    XptSnippetIncludeItemFile /[a-zA-Z0-9_.]\+\s*$/ containedin=XptSnippetIncludeItem
+syntax match    XptSnippetIncludeItemFile /[a-zA-Z0-9_.*]\+\s*$/ containedin=XptSnippetIncludeItem
 syntax match    XptSnippetIncludeItem /[a-zA-Z0-9_.]\+\/.*/ containedin=XptSnippetIncludeBody
 syntax region   XptSnippetIncludeBody start=/^\s*\\/ end=/^\ze\s*[^\\	 ]/ keepend skipwhite
 syntax keyword  XptSnippetInclude     XPTinclude nextgroup=XptSnippetIncludeBody skipnl skipwhite

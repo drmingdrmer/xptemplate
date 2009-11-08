@@ -121,7 +121,11 @@ for ftAndBundle in s:bundle
 endfor
 
 fun! g:XPTaddBundle(ft, bundle) "{{{
-    " TODO 
+    let g:xptBundle[ a:ft ] = get( g:xptBundle, a:ft, {} )
+    let g:xptBundle[ a:ft ][ a:bundle ] = 1
+
+    exe 'runtime! ftplugin/' . a:ft . '/' . a:bundle . '.xpt.vim'
+    " TODO load it!
 endfunction "}}}
 
 fun! g:XPTloadBundle(ft, bundle) "{{{
