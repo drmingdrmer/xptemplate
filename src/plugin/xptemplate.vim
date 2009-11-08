@@ -23,13 +23,10 @@
 "
 " TODOLIST: "{{{
 " TODO highlight invisible cursor position// at snippet end
-" TODO :XPTloadBundle
-" TODO autocomplete doc
-" TODO bundle doc
 " TODO BuildIfNoChange depending on default value or prevalue
-" TODO doc to add:how to add personal snippet
 " TODO <cr> in insert mode
 " TODO super cancel : clear/default all and finish
+" TODO autocomplete doc
 " TODO 2 <tab> to accept empty
 " TODO /../../ ontime filter shortcut
 " TODO ( ) shortcut of Echo
@@ -67,6 +64,7 @@
 " Log of This version:
 "   add : highlight, variable g:xptemplate_highlight sets up highlight 
 "   add : document about default post-filter: "\w\+?" is optional place holder.
+"   add : bundle support g:xptemplate_bundle and g:XPTaddBundle()
 "
 "
 

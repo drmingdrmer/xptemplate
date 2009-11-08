@@ -83,6 +83,7 @@
 	Named item or anonymous item		|xpt-snippet-item|
 	Default value                 		|xpt-snippet-default-value|
 	Preset  value                 		|xpt-preset-value|
+	Snippet Bundle/Library Support		|xpt-bundle|
 	and more...
 
 								   *xpt-popup*
@@ -462,14 +463,26 @@
 	Entries are separated with '&'.
 
 
+								  *xpt-bundle*
+	A bundle is a collection of snippets for a certain purpose. For
+	example a library support bundle like
+	"ftplugin/javascript/jquery.xpt.vim".
+	XPTemplate supplies two ways to load bundles: |g:xptemplate_bundle|
+	and |g:XPTaddBundle()|.
+
+
 							 *g:xptemplate_bundle*
-	This option specifies what libraries can be load. For example: >
+
+	This option specifies what libraries will always be load to its file
+	type. For example: >
 		let g:xptemplate_bundle = 'javascript_jquery'
 <	This tells XPT to load jquery snippet to javascript language.
 	Or: >
 		let g:xptemplate_bundle = 'javascript_jquery,c_*'
 <	It tells XPT to load jquery, and all supplied library snippets for C
 	language.
+
+	Another way to load bundles is |g:XPTaddBundle()|.
 
 
 

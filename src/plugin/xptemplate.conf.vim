@@ -124,8 +124,8 @@ fun! g:XPTaddBundle(ft, bundle) "{{{
     let g:xptBundle[ a:ft ] = get( g:xptBundle, a:ft, {} )
     let g:xptBundle[ a:ft ][ a:bundle ] = 1
 
-    exe 'runtime! ftplugin/' . a:ft . '/' . a:bundle . '.xpt.vim'
-    " TODO load it!
+    " NOTE: problem: last snipFileScop is used in XPTembed. any side effect?
+    call XPTembed( a:ft . '/' . a:bundle )
 endfunction "}}}
 
 fun! g:XPTloadBundle(ft, bundle) "{{{
