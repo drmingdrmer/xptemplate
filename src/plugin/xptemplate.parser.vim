@@ -139,12 +139,10 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
 
         if key =~ 'prio\%[rity]'
             call XPTemplatePriority(val)
+            " echom 'snipFileScope.priority=' . x.snipFileScope.priority
 
         elseif key =~ 'mark'
             call XPTemplateMark( val[ 0 : 0 ], val[ 1 : 1 ] )
-
-        elseif key =~ 'ind\%[ent]'
-            call XPTemplateIndent(val)
 
         elseif key =~ 'key\%[word]'
             call XPTemplateKeyword(val)
@@ -375,13 +373,14 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     call s:log.Log("to parse tmpl : snippetName=" . snippetName)
 
 
-    let setting.filetype = snipScope.filetype
+    let setting.fromXPT = 1
 
 
     call s:log.Log("tmpl setting:".string(setting))
     if has_key( setting, 'alias' )
         call XPTemplateAlias( snippetName, setting.alias, setting )
     else
+        " setting must be presented or XPTemplate() create a temp snipScope for it
         call XPTemplate(snippetName, setting, snippetLines)
     endif
 

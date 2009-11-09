@@ -19,11 +19,9 @@
 " "}}}
 "
 " KNOWING BUG: "{{{
-"   C:#inc highlight does not updated at first
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO highlight invisible cursor position// at snippet end
 " TODO BuildIfNoChange depending on default value or prevalue
 " TODO <cr> in insert mode
 " TODO super cancel : clear/default all and finish
@@ -66,7 +64,7 @@
 "   add : highlight, variable g:xptemplate_highlight sets up highlight 
 "   add : document about default post-filter: "\w\+?" is optional place holder.
 "   add : bundle support g:xptemplate_bundle and g:XPTaddBundle()
-"   fix : calling XPTemplate from outside *.xpt.vim is allowed.
+"   fix : calling XPTemplate from outside of *.xpt.vim is allowed.
 "
 "
 
@@ -137,14 +135,8 @@ endfunction
 let s:NullDict              = {}
 let s:NullList              = []
 
-let s:ftNeedToRedraw        = '\<\%(' . join([ 'perl' ], '\|') . '\)\>'
-let s:unescapeHead          = '\v(\\*)\1\\?\V'
-
 let s:nonEscaped            = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
-let s:escaped               = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<=' . '\\'
 
-let s:stripPtn              = '\V\^\s\*\zs\.\*'
-let s:wrappedName           = "wrapped"
 let g:XPTemplateSettingPrototype  = { 
             \    'preValues'        : { 'cursor' : "\n" . '$CURSOR_PH' }, 
             \    'defaultValues'    : {}, 
@@ -194,18 +186,9 @@ let s:renderContextPrototype      = {
             \   'lastTotalLine'     : 0, 
             \   'lastFollowingSpace': '', 
             \}
-let s:vrangeClosed = "\\%>'<\\%<'>"
-let s:vrange       = '\V' . '\%(' . '\%(' . s:vrangeClosed .'\)' .  '\|' . "\\%'<\\|\\%'>" . '\)'
-
-
-
 
 let s:priorities = {'all' : 64, 'spec' : 48, 'like' : 32, 'lang' : 16, 'sub' : 8, 'personal' : 0}
 let s:priPtn = 'all\|spec\|like\|lang\|sub\|personal\|\d\+'
-
-let s:f = {}
-let g:XPT = s:f
-
 
 let g:XPT_RC = {
             \   'ok' : {}, 
@@ -214,8 +197,6 @@ let g:XPT_RC = {
             \       'keepIndent'    : {}, 
             \   }
             \}
-
-
 
 let s:buildingSeqNr = 0
 
@@ -287,33 +268,15 @@ fun! XPTemplateMark(sl, sr) "{{{
     call s:RedefinePattern()
 endfunction "}}}
 
-fun! XPTemplateIndent(p) "{{{
-    let x = g:XPTobject().snipFileScope.indent
-    call s:ParseIndent(x, a:p)
-endfunction "}}}
-
 fun! XPTmark() "{{{
     let renderContext = s:getRenderContext()
     let xp = renderContext.tmpl.ptn
     return [ xp.l, xp.r ]
 endfunction "}}}
 
-" deprecated
-fun! XPTcontainer() "{{{
-    echom "deprecated function:XPTcontainer, use g:XPTfuncs"
-    return [ g:XPTfuncs(), g:XPTfuncs() ]
-endfunction "}}}
-
-" deprecated
-fun! g:XPTvars() "{{{
-    echom "deprecated function:XPTcontainer, use g:XPTfuncs"
-    return g:XPTfuncs()
-endfunction "}}}
-
 fun! g:XPTfuncs() "{{{
     return g:GetSnipFileFtScope().funcs
 endfunction "}}}
-
 
 fun! XPTemplateAlias( name, toWhich, setting ) "{{{
     " TODO wrapping templates
@@ -353,6 +316,19 @@ fun! s:GetSnipFileFtScope() "{{{
     return x.filetypes[ x.snipFileScope.filetype ]
 endfunction "}}}
 
+fun! s:GetTempSnipScope( x, ft ) "{{{
+    if !has_key( a:x, '__tmp_snip_scope' )
+        let sc          = XPTnewSnipScope( '' )
+        let sc.priority = 0
+
+        let a:x.__tmp_snip_scope = sc
+    endif
+
+    let a:x.__tmp_snip_scope.filetype = '' == a:ft ? 'unknown' : a:ft
+
+    return a:x.__tmp_snip_scope
+endfunction "}}}
+
 " ********* XXX ********* 
 fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
@@ -360,60 +336,64 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     " @param String context			[optional] context syntax name
     " @param String|List|FunCRef str	template string
 
-    let x = b:xptemplateData
-
-    if a:0 == 1 && has_key( a:str_or_ctx, 'filetype' )
-        let ft = a:str_or_ctx.filetype
-    else
-        " let ft = x.snipFileScope.filetype
-        let ft = &filetype
-        if ft == ''
-            let ft = 'unknown'
-        endif
-        if ft == 'unknown' && !has_key(x.filetypes, ft)
-            runtime ftplugin/unknown/unknown.xpt.vim
-            call XPTfiletypeInit()
-        endif
-    endif
-    let ftScope   = x.filetypes[ ft ]
-    let templates = ftScope.normalTemplates
-    let xp        = x.snipFileScope.ptn
-
     " using dictionary member instead of direct variable for type limit
     let foo       = { 'snip' : '' }
-
     let templateSetting = deepcopy(g:XPTemplateSettingPrototype)
 
-    if a:0 == 0          " no syntax context
+    let x = b:xptemplateData
+
+    " called from outside snippet file 
+    if a:0 == 0 
+        let x.snipFileScope = s:GetTempSnipScope( x, &filetype )
         let foo.snip = a:str_or_ctx
 
-    elseif a:0 == 1      " with syntax context
+    else
+        if has_key( a:str_or_ctx, 'filetype' )
+            let x.snipFileScope = s:GetTempSnipScope(x, a:str_or_ctx.filetype )
+        endif
+
         call extend( templateSetting, a:str_or_ctx, 'force' )
         let foo.snip = a:1
 
     endif
 
-    call g:XPTapplyTemplateSettingDefaultValue( templateSetting )
+    if x.snipFileScope.filetype == 'unknown' 
+                \&& !has_key(x.filetypes, 'unknown')
 
+        call s:LoadSnippetFile( 'unknown/unknown' )
+    endif
 
-
-    let prio =  has_key(templateSetting, 'priority') ? 
-                \ s:ParsePriorityString(templateSetting.priority) :
-                \ x.snipFileScope.priority
-
-
-    " existed template is not overrided.
-    if has_key(templates, a:name) && templates[a:name].priority <= prio
+    if !has_key( x.filetypes, x.snipFileScope.filetype )
+        " TODO create the ft
         return
     endif
 
 
+    let ftScope   = x.filetypes[ x.snipFileScope.filetype ]
+    let templates = ftScope.normalTemplates
+    let xp        = x.snipFileScope.ptn
+
+
+    call g:XPTapplyTemplateSettingDefaultValue( templateSetting )
+
+
+
+    let prio =  has_key(templateSetting, 'priority')
+                \ ? s:ParsePriorityString(templateSetting.priority)
+                \ : x.snipFileScope.priority
+
+
+    " existed template is not overrided.
+    if has_key(templates, a:name) 
+                \&& templates[a:name].priority <= prio
+        return
+    endif
+
 
     call s:CleanupSnippet( x, foo )
 
-    " \type(foo.snip) != type(function("tr")) && 
     let isWrapped = 
-                \foo.snip =~ '\V' . xp.lft . s:wrappedName . xp.rt
+                \foo.snip =~ '\V' . xp.lft . 'wrapped' . xp.rt
 
 
     call s:log.Log("tmpl :name=".a:name." priority=".prio)
@@ -432,28 +412,11 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
 endfunction " }}}
 
+" needless
 fun! s:CleanupSnippet( xptObj, foo ) "{{{
-    if type( a:foo.snip ) == type( 'tr' )
-        return a:foo.snip
+    if type(a:foo.snip) == type([])
+        let a:foo.snip = join(a:foo.snip, "\n")
     endif
-
-
-    let foo = a:foo
-    if type(foo.snip) == type([])
-        let foo.snip = join(foo.snip, "\n")
-
-    endif
-
-    if type( foo.snip ) == type( '' )
-        let tabspace = repeat( ' ', &l:tabstop )
-        " let foo.snip = substitute( foo.snip, '\t', tabspace, 'g' )
-    endif
-
-    " let ptn = a:xptObj.snipFileScope.ptn
-    " let foo.snip = g:xptutil.UnescapeChar( foo.snip, ptn.l . ptn.r )
-
-    return foo.snip
-
 endfunction "}}}
 
 fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
@@ -562,19 +525,17 @@ fun! s:MergeSetting( tmplObject, incTmplObject ) "{{{
     call extend( a:tmplObject.setting.postFilters, a:incTmplObject.setting.postFilters, 'keep' )
 endfunction "}}}
 
-
-
 fun! s:ParseTemplateSetting( xptObj, setting ) "{{{
     let setting = a:setting
 
 
-    let idt = deepcopy(a:xptObj.snipFileScope.indent)
+    " let idt = deepcopy(a:xptObj.snipFileScope.indent)
 
-    if has_key(setting, 'indent')
-        call s:ParseIndent(idt, setting.indent)
-    endif
+    " if has_key(setting, 'indent')
+        " call s:ParseIndent(idt, setting.indent)
+    " endif
 
-    let setting.indent = idt
+    " let setting.indent = idt
 
 
     call s:GetHint(setting)
@@ -773,32 +734,6 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
 endfunction " }}}
 
-fun! s:ParseIndent(x, p) "{{{
-    let x = a:x
-
-    if a:p ==# "auto"
-        let x.type = 'auto'
-
-
-    elseif a:p =~ '/\d\+\(\*\d\+\)\?'
-        " TODO deprecated 
-        let x.type = 'rate'
-
-        call s:log.Log("a:p=".a:p)
-        let str = matchstr(a:p, '/\d\+\(\*\d\+\)\?')
-
-        let x.rate =split(str, '/\|\*')
-
-        if len(x.rate) == 1
-            let x.rate[1] = &l:shiftwidth
-        endif
-    else
-        " a:p == 'keep'
-        let x.type = 'keep'
-    endif
-
-endfunction "}}}
-
 " TODO refine me
 fun! s:GetHint(ctx) "{{{
 
@@ -811,6 +746,7 @@ fun! s:GetHint(ctx) "{{{
 
 endfunction "}}}
 
+" TODO simplify with split
 fun! s:ParsePriorityString(s) "{{{
     let x = b:xptemplateData
 
@@ -855,7 +791,6 @@ fun! s:ParsePriorityString(s) "{{{
 
     return prio
 endfunction "}}}
-
 
 fun! s:newTemplateRenderContext( xptBufData, ftScope, tmplName ) "{{{
     if s:getRenderContext().processing
@@ -1039,35 +974,15 @@ endfunction "}}}
 
 " TODO use tabstop if expandtab is not set
 " TODO bad name, bad arguments
+" TODO refine me
 fun! s:ApplyTmplIndent( templateObject, startPos ) "{{{
-    let indent = a:templateObject.setting.indent
+    " let indent = a:templateObject.setting.indent
     let tmpl = a:templateObject.tmpl
 
     let baseIndent = repeat(" ", indent(a:startPos[0]))
-    " at first, only use default indent
-    if indent.type =~# 'keep\|rate\|auto'
 
-        if indent.type ==# "rate"
-            let patternOfOriginalIndent = repeat(' ', indent.rate[0])
-            let patternOfOriginalIndent ='\(\%('.patternOfOriginalIndent.'\)*\)'
-
-            let expandedIndent = repeat('\1', indent.rate[1] / indent.rate[0])
-
-            call s:log.Log("indent:ptn, rep", patternOfOriginalIndent, expandedIndent)
-
-            let tmpl = substitute(tmpl, '\%(^\|\n\)\zs'.patternOfOriginalIndent, expandedIndent, 'g')
-        endif
-
-        let tmpl = substitute(tmpl, '\n', '&' . baseIndent, 'g')
-
-    endif
-
-    return tmpl
-
+    return substitute(tmpl, '\n', '&' . baseIndent, 'g')
 endfunction "}}}
-
-" TODO do it earlier?
-" TODO whether it is necessary to support dynamically generated snippet
 
 let s:oldRepPattern = '\w\*...\w\*'
 
@@ -1147,7 +1062,6 @@ fun! s:GetIndentBeforeEdge( tmplObj, textBeforeLeftMark ) "{{{
 
     return len( indentOfFirstLine )
 endfunction "}}}
-
 
 fun! s:parseQuotedPostFilter( tmplObj ) "{{{
     let xp = a:tmplObj.ptn
@@ -1249,8 +1163,6 @@ fun! s:parseQuotedPostFilter( tmplObj ) "{{{
 
 endfunction "}}}
 
-
-
 fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
 
     call s:log.Debug( 'RenderTemplate : start, end=' . string( [ a:nameStartPosition, a:nameEndPosition ] ) )
@@ -1293,15 +1205,6 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
     endif
 
 
-    " let wrapPos = match( tmpl, xp.lft . s:wrappedName . xp.rt )
-    " if wrapPos != -1
-        " let indent = matchstr( tmpl[ : wrapPos - 1 ], '\V\.\*\%(\^\|\n\)\zs\s\*' )
-        " let wrapped = substitute( x.wrap, '\n', "\n" . indent, 'g' )
-        " let tmpl = substitute(tmpl, '\V' . xp.lft . s:wrappedName . xp.rt, wrapped, 'g')
-    " endif
-
-
-
     " update xpm status
     call XPMupdate()
     call s:log.Debug( 'before insert new template mark' )
@@ -1331,15 +1234,16 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
         return s:Crash()
     endif
 
-    call s:log.Log("after buildvalues tmpl=\n", s:TextBetween(s:TL(), s:BR()))
 
 
 
-    " open all folds
-    call s:TopTmplRange()
-    silent! normal! gvzO
+    " " open all folds
+    " call s:TopTmplRange()
+    " silent! normal! gvzO
 
-
+    let ctx = empty( x.stack ) ? x.renderContext : x.stack[0]
+    let rg = XPMposList( ctx.marks.tmpl.start, ctx.marks.tmpl.end )
+    exe 'silent! ' . rg[0][0] . ',' . rg[1][0] . 'foldopen!'
 
 endfunction " }}}
 
@@ -1957,7 +1861,6 @@ fun! s:ApplyPreValues( placeHolder ) "{{{
     endif
 endfunction "}}}
 
-
 fun! s:SetPreValue( placeHolder, indent, text ) "{{{
 
     let marks = a:placeHolder.isKey ? a:placeHolder.editMark : a:placeHolder.mark
@@ -1971,8 +1874,6 @@ fun! s:SetPreValue( placeHolder, indent, text ) "{{{
         call XPRendSession()
     endtry
 endfunction "}}}
-
-
 
 fun! s:BuildItemForPlaceHolder( ctx, placeHolder ) "{{{
     " anonymous item with name set to '' will never been added to a:ctx.itemDict
@@ -2007,110 +1908,12 @@ fun! s:BuildItemForPlaceHolder( ctx, placeHolder ) "{{{
     return item
 endfunction "}}}
 
-
-fun! XPTgetStaticRange(p, q) "{{{
-    let tl = a:p
-    let br = a:q
-
-
-    let r = ''
-    if tl[0] == br[0]
-        let r = r . '\%' . tl[0] . 'l'
-        if tl[1] > 1
-            let r = r . '\%>' . (tl[1]-1) .'c'
-        endif
-
-        let r = r . '\%<' . br[1] . 'c'
-    else
-        let r = r . '\%>' . tl[0] .'l' . '\%<' . br[0] . 'l'
-        let r = r
-                    \. '\|' .'\%('.'\%'.tl[0].'l\%>'.(tl[1]-1) .'c\)'
-                    \. '\|' .'\%('.'\%'.br[0].'l\%<'.(br[1]+0) .'c\)'
-    endif
-
-    let r = '\%(' . r . '\)'
-    return '\V'.r
-
-endfunction "}}}
-
-" TODO use syn-keyword
-fun! s:HighLightItem(name, switchon) " {{{
-    let xp = s:getRenderContext().tmpl.ptn
-    if a:switchon
-        let ptn = substitute(xp.itemContentPattern, "NAME", a:name, "")
-
-        let ptn = xp.itemMarkLPattern
-        exe "2match XPTIgnoredMark /". ptn ."/"
-
-        let ptn = xp.itemMarkRPattern
-        exe "3match XPTIgnoredMark /". ptn ."/"
-    else
-        exe "2match none"
-        exe "3match none"
-    endif
-endfunction " }}}
-
-fun! s:TopTmplRange() "{{{
-    let x = b:xptemplateData
-    if empty(x.stack)
-        return s:TmplRange()
-    else
-        let old = x.renderContext
-        let x.renderContext = x.stack[0]
-        let r = s:TmplRange()
-        let x.renderContext = old
-    endif
-    return r
-endfunction "}}}
-
-fun! s:TmplRange() "{{{
-    let x = b:xptemplateData
-    let p = [line("."), col(".")]
-
-    call s:GetRangeBetween(s:TL(), s:BR())
-
-    call cursor(p)
-    return s:vrange
-endfunction "}}}
-
 fun! s:XPTvisual() "{{{
     if &l:slm =~ 'cmd'
 	normal! v\<C-g>
     else
 	normal! v
     endif
-endfunction "}}}
-
-fun! s:GetRangeBetween(p1, p2, ...) "{{{
-    let pre = a:0 == 1 && a:1
-
-    if pre
-        let p = getpos(".")[1:2]
-    endif
-
-    if a:p1[0]*1000+a:p1[1] <= a:p2[0]*1000+a:p2[1]
-        let [p1, p2] = [a:p1, a:p2]
-    else
-        let [p1, p2] = [a:p2, a:p1]
-    endif
-
-    " TODO &selection == 'old'
-    if &selection == "inclusive"
-        let p2 = s:LeftPos(p2)
-    endif
-
-    call cursor(p1)
-    call s:XPTvisual()
-    call cursor(p2)
-    normal! v
-
-
-    if pre
-        call cursor(p)
-    endif
-
-    return s:vrange
-
 endfunction "}}}
 
 fun! s:CleanupCurrentItem() "{{{
@@ -2238,6 +2041,7 @@ fun! s:removeCurrentMarks() "{{{
     endfor
 endfunction "}}}
 
+" TODO remove me
 fun! s:RemovePlaceHolderMark( placeHolder ) "{{{
     call XPMremove( a:placeHolder.mark.start )
     call XPMremove( a:placeHolder.mark.end )
@@ -2312,7 +2116,6 @@ fun! s:ApplyPostFilter() "{{{
         let [ text, ifToBuild, rc ] = s:EvalPostFilter( filterText, typed, leader )
 
 
-        call s:log.Log("before replace, tmpl=\n".s:TextBetween(s:TL(), s:BR()))
         call s:log.Log( 'text=' . text )
 
 
@@ -2522,15 +2325,6 @@ fun! s:GotoNextItem() "{{{
     endif
 
 endfunction "}}}
-
-
-fun! s:TL(...)
-    return XPMpos( g:XPTobject().renderContext.marks.tmpl.start )
-endfunction
-
-fun! s:BR(...)
-    return XPMpos( g:XPTobject().renderContext.marks.tmpl.end )
-endfunction
 
 fun! s:ExtractOneItem() "{{{
 
@@ -3255,11 +3049,10 @@ endfunction "}}}
 
 let s:snipScopePrototype = {
             \'filename' : '', 
-      \'ptn' : {'l':'`', 'r':'^'},
-      \'indent' : {'type' : 'auto', 'rate' : []},
-      \'priority' : s:priorities.lang, 
-      \'filetype' : '', 
-      \'inheritFT' : 0, 
+            \'ptn' : {'l':'`', 'r':'^'},
+            \'priority' : s:priorities.lang, 
+            \'filetype' : '', 
+            \'inheritFT' : 0, 
       \}
 
 fun! XPTnewSnipScope( filename )
@@ -3379,8 +3172,6 @@ fun! s:RedefinePattern() "{{{
     let xp.itemContent       = '\_.\{-}'
     let xp.item              = xp.lft . '\%(' . xp.itemContent . '\)' . xp.rt
 
-    let xp.itemMarkLPattern  = '\zs'. xp.lft . '\ze\%(' . xp.itemContent . '\)' . xp.rt
-    let xp.itemMarkRPattern  = xp.lft . '\%(' . xp.itemContent . '\)\zs' . xp.rt .'\ze'
 
     " let xp.cursorPattern     = xp.lft . '\%('.s:cursorName.'\)' . xp.rt
 
@@ -3786,11 +3577,15 @@ fun! s:GetContextFTObj() "{{{
     let x = XPTbufData()
     let ft = s:GetContextFT()
     if ft == 'unknown' && !has_key(x.filetypes, ft)
-        runtime ftplugin/unknown/unknown.xpt.vim
-        call XPTfiletypeInit()
+        call s:LoadSnippetFile( 'unknown/unknown' )
     endif
     let ftScope = get( x.filetypes, ft, {} )
     return ftScope
+endfunction "}}}
+
+fun! s:LoadSnippetFile(snip) "{{{
+    exe 'runtime! ftplugin/' . a:snip . '.xpt.vim'
+    call XPTfiletypeInit()
 endfunction "}}}
 
 augroup XPT "{{{
@@ -3814,7 +3609,6 @@ fun! g:XPTaddPlugin(event, when, func) "{{{
         throw "XPT does NOT support event:".a:event
     endif
 endfunction "}}}
-
 
 let s:plugins = {}
 fun! s:CreatePluginContainer( ... ) "{{{
@@ -3860,20 +3654,6 @@ com! XPTreload call XPTreload()
 com! XPTcrash call <SID>Crash()
 
 
-
-fun! String( d, ... )
-    " circle referencing can not be dealed well yet. 
-
-    let str = string( a:d )
-    let str = substitute( str, "\\V'\\%(\\[^']\\|''\\)\\{-}'" . '\s\*:\s\*function\[^)]),\s\*', '', 'g' )
-
-    return str
-
-endfunction
-
 let &cpo = s:oldcpo
 
 " vim: set sw=4 sts=4 :
-
-
-

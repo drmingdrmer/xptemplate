@@ -85,6 +85,30 @@ fun! s:MarkRange( marks ) "{{{
     return XPTgetStaticRange( pos[0], pos[1] )
 endfunction "}}}
 
+fun! XPTgetStaticRange(p, q) "{{{
+    let tl = a:p
+    let br = a:q
+
+
+    let r = ''
+    if tl[0] == br[0]
+        let r = r . '\%' . tl[0] . 'l'
+        if tl[1] > 1
+            let r = r . '\%>' . (tl[1]-1) .'c'
+        endif
+
+        let r = r . '\%<' . br[1] . 'c'
+    else
+        let r = r . '\%>' . tl[0] .'l' . '\%<' . br[0] . 'l'
+        let r = r
+                    \. '\|' .'\%('.'\%'.tl[0].'l\%>'.(tl[1]-1) .'c\)'
+                    \. '\|' .'\%('.'\%'.br[0].'l\%<'.(br[1]+0) .'c\)'
+    endif
+
+    let r = '\%(' . r . '\)'
+    return '\V'.r
+
+endfunction "}}}
 
 if exists( '*matchadd' )
 

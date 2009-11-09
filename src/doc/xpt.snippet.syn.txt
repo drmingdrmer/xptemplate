@@ -215,8 +215,8 @@
 		|xpt-snippet-post-filter|
 		|xpt-placeholder-ontime-filter|
 	To define |xpt-snippet-function|, the function container must be
-	fetched by using |XPTcontainer()|. For example : >
-		let s:f = XPTcontainer()
+	fetched by using |XPTfuncs()|. For example : >
+		let s:f = XPTfuncs()
 		fun! s:f.c_printfElts( v )
 			...
 		endfunction
@@ -501,7 +501,7 @@
 		|xpt-placeholder-ontime-filter|.
 
 	Functions can be |xpt-snippet-function|s defined as member of
-	|XPTcontainer()| or native Vim functions.
+	|XPTfuncs()| or native Vim functions.
 
 	Functions are called as member of rendering context :
 	|xpt-snippet-function-ctx|.
