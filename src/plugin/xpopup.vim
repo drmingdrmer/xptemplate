@@ -551,6 +551,7 @@ fun! s:ApplyMapAndSetting() "{{{
     let b:__xpp_mapped.i_c_e    =  g:MapPush('<C-e>', 'i', 1)
     let b:__xpp_mapped.i_c_y    =  g:MapPush('<C-y>', 'i', 1)
 
+
     exe 'inoremap <silent> <buffer> <UP>'   '<C-r>=XPPup()<CR>'
     exe 'inoremap <silent> <buffer> <DOWN>' '<C-r>=XPPdown()<CR>'
 
@@ -573,6 +574,7 @@ fun! s:ClearMapAndSetting() "{{{
     if !exists("b:__xpp_mapped")
         return
     endif
+
 
     call g:MapPop(b:__xpp_mapped.i_c_y)
     call g:MapPop(b:__xpp_mapped.i_c_e)

@@ -34,14 +34,18 @@ fun! s:UpdateHL(x, ctx) "{{{
 
     call s:ClearHL(a:x, a:ctx)
 
+    if pumvisible()
+        return 1
+    endif
 
-    if g:xptemplate_highlight =~ 'current'
+
+    if g:xptemplate_highlight =~ 'current' && a:ctx.phase == 'fillin'
         let r = s:MarkRange( a:ctx.leadingPlaceHolder.mark )
         call s:HL( 'XPTcurrentPH', r[2:] )
     endif
 
 
-    if g:xptemplate_highlight =~ 'following'
+    if g:xptemplate_highlight =~ 'following' && a:ctx.phase == 'fillin'
         let r = ''
 
         for ph in a:ctx.item.placeHolders
@@ -62,6 +66,11 @@ fun! s:UpdateHL(x, ctx) "{{{
                 let r .= '\|' . s:MarkRange( item.placeHolders[0].mark )
             endif
         endfor
+
+        if a:ctx.itemList == [] || 'cursor' != item.name 
+            let pos = XPMposList( a:ctx.marks.tmpl.end, a:ctx.marks.tmpl.end )
+            let r .= '\|' . XPTgetStaticRange( pos[0], [ pos[1][0], pos[1][1] + 1 ] )
+        endif
 
         call s:HL( 'XPTnextItem', r[2:] )
 
@@ -125,5 +134,8 @@ else
 endif
 
 
+call g:XPTaddPlugin("start", 'after', function( '<SNR>' . s:sid . "UpdateHL" ) )
 call g:XPTaddPlugin("update", 'after', function( '<SNR>' . s:sid . "UpdateHL" ) )
+call g:XPTaddPlugin("ph_pum", 'before', function( '<SNR>' . s:sid . "ClearHL" ) )
 call g:XPTaddPlugin("finishAll", 'after', function( '<SNR>' . s:sid . "ClearHL" ) )
+

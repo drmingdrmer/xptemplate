@@ -375,6 +375,8 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     call s:log.Log("to parse tmpl : snippetName=" . snippetName)
 
 
+    let setting.filetype = snipScope.filetype
+
 
     call s:log.Log("tmpl setting:".string(setting))
     if has_key( setting, 'alias' )

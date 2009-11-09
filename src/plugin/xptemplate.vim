@@ -19,6 +19,7 @@
 " "}}}
 "
 " KNOWING BUG: "{{{
+"   C:#inc highlight does not updated at first
 " "}}}
 "
 " TODOLIST: "{{{
@@ -65,6 +66,7 @@
 "   add : highlight, variable g:xptemplate_highlight sets up highlight 
 "   add : document about default post-filter: "\w\+?" is optional place holder.
 "   add : bundle support g:xptemplate_bundle and g:XPTaddBundle()
+"   fix : calling XPTemplate from outside *.xpt.vim is allowed.
 "
 "
 
@@ -359,7 +361,21 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     " @param String|List|FunCRef str	template string
 
     let x = b:xptemplateData
-    let ftScope   = x.filetypes[ x.snipFileScope.filetype ]
+
+    if a:0 == 1 && has_key( a:str_or_ctx, 'filetype' )
+        let ft = a:str_or_ctx.filetype
+    else
+        " let ft = x.snipFileScope.filetype
+        let ft = &filetype
+        if ft == ''
+            let ft = 'unknown'
+        endif
+        if ft == 'unknown' && !has_key(x.filetypes, ft)
+            runtime ftplugin/unknown/unknown.xpt.vim
+            call XPTfiletypeInit()
+        endif
+    endif
+    let ftScope   = x.filetypes[ ft ]
     let templates = ftScope.normalTemplates
     let xp        = x.snipFileScope.ptn
 
@@ -885,6 +901,8 @@ fun! s:DoStart(sess) " {{{
     let ctx.phase = 'rendered'
     let ctx.processing = 1
 
+    call s:CallPlugin( 'render', 'after' )
+
 
     if empty(x.stack)
         call s:ApplyMap()
@@ -893,16 +911,16 @@ fun! s:DoStart(sess) " {{{
     let x.wrap = ''
     let x.wrapStartPos = 0
 
-    let action =  s:GotoNextItem()
 
-    " NOTE: g:xpt_post_action is for debug only
-    let action .= ''
-    " let action .= g:xpt_post_action
+    let action =  s:GotoNextItem()
 
     call s:log.Debug("post action =".action)
     call s:log.Debug("mode:".mode())
 
     call s:log.Debug( "tmpl:", s:TextBetween( XPMpos( ctx.marks.tmpl.start ), XPMpos( ctx.marks.tmpl.end ) ) )
+
+    call s:CallPlugin( 'start', 'after' )
+    
 
     return action
 
@@ -1841,6 +1859,8 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
     call cursor( end )
 
     let renderContext.action = ''
+
+
     return 0
 endfunction "}}}
 
@@ -2737,6 +2757,8 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
         call XPreplace( start, end, '')
         call cursor(start)
 
+        call s:CallPlugin( 'ph_pum', 'before' )
+
         " done in InitItem
         " let renderContext.phase = 'fillin'
 
@@ -3119,6 +3141,9 @@ fun! s:XPTinitMapping() "{{{
                 \ 's_}', 
                 \ 's_[', 
                 \ 's_]', 
+                \
+                \ 's_g', 
+                \ 's_m', 
                 \]
 
     if g:xptemplate_brace_complete
@@ -3799,11 +3824,14 @@ fun! s:CreatePluginContainer( ... ) "{{{
 endfunction "}}}
 
 call s:CreatePluginContainer(
+            \'start', 
             \'render', 
+            \'build', 
             \'finishSnippet', 
             \'finishAll', 
             \'preValue', 
             \'defaultValue', 
+            \'ph_pum', 
             \'postFilter', 
             \'initItem', 
             \'nextItem', 
