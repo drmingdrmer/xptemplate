@@ -22,6 +22,9 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO short variable names.
+" TODO variable conventions
+" TODO move snippet relative doc to xpt.snippet.txt
 " TODO high light only editMark for nextItem.
 " TODO BuildIfNoChange depending on default value or prevalue
 " TODO <cr> in insert mode

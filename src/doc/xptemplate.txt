@@ -48,18 +48,23 @@
 	you need to specify another key to trigger snippets.
 
 	Now type "abc", this result in: >
+                         ////````````````````````````| edit area
+                        ////
+                       ////     ////`````````````````| lively updated
+		      ////     ////         ////`````'
 		for ( abc = 0; abc < len; ++abc ) {
 		    /* cursor */
 		}
 <	Now press <Tab>, the cursor jumps to "0", the next item: >
+			    //```````````````````````| focus here
 		for ( abc = 0; abc < len; ++abc ) {
 		    /* cursor */
 		}
-<	After pressing <Tab> two more times the snippet mode stops and
-	cursor ends at line 2, column 4: >
+<	After pressing <Tab> twice the snippet ends up with cursor staying at
+	line 2, column 8(or the value of |`softtabstop`|): >
 		for ( abc = 0; abc < len; ++abc ) {
-
-		}
+			
+		}       \\___________________________| cursor stays here
 
 <	The usage is described in more detail below.
 
