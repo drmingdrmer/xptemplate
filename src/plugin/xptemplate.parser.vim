@@ -107,6 +107,7 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
     let snipScope = XPTnewSnipScope(a:filename)
     let snipScope.filetype = s:AssignSnipFT( a:filename )
 
+
     if snipScope.filetype == 'not allowed'
         " TODO 
         call s:log.Info(  "not allowed:" . a:filename )
@@ -301,6 +302,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     let snipScope = XPTsnipScope()
     let snipScope.loadedSnip = get( snipScope, 'loadedSnip', {} )
 
+
     let snippetLines = []
 
 
@@ -398,7 +400,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
             call XPTemplateAlias( synonym, snippetName, {} )
 
             if has_key( snipScope.loadedSnip, synonym )
-                echom "XPT: warn : duplicate snippet:" . synonym . ' in file:' . snipScope.filename
+                echom "XPT: warn : duplicate synonym:" . synonym . ' in file:' . snipScope.filename
             endif
 
             let snipScope.loadedSnip[ synonym ] = 1
