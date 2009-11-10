@@ -65,7 +65,7 @@ std::map<`typeKey^,`val^>   `name^;
 `cursor^
 
 
-XPT class   hint=class+ctor indent=keep
+XPT class   hint=class\ ..
 class `className^
 {
 public:
@@ -75,15 +75,15 @@ public:
     `cursor^
 private:
 };
- 
+
 `className^::`className^( `ctorParam^ )
 {
 }
- 
+
 `className^::~`className^()
 {
 }
- 
+
 `className^::`className^( const `className^ &cpy )
 {
 }

@@ -25,11 +25,11 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 fun! s:f.c_fun_type_indent()
-  if self[ '$FUNC_BRACKET_STL' ] == "\n"
-    return repeat( ' ', &softtabstop == 0 ? &tabstop : &softtabstop )
-  else
-    return ""
-  endif
+    if self[ '$FUNC_BRACKET_STL' ] == "\n"
+        return repeat( ' ', &softtabstop == 0 ? &tabstop : &softtabstop )
+    else
+        return ""
+    endif
 endfunction
 
 fun! s:f.c_fun_body_indent()

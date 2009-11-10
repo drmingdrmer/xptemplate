@@ -358,7 +358,7 @@
 <
 
 						      *g:xptemplate_highlight*
-					    {default:'current,following,next'}
+							      {default:'next'}
 	Specifies which place holders are high lighted. The value of
 	|g:xptemplate_highlight| is a comma separated string.
 
