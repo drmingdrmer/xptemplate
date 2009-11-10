@@ -22,6 +22,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO high light only editMark for nextItem.
 " TODO BuildIfNoChange depending on default value or prevalue
 " TODO <cr> in insert mode
 " TODO super cancel : clear/default all and finish
