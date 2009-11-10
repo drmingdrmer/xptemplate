@@ -39,8 +39,8 @@
 	|xpt-snippet-item|
 	|xpt-snippet-placeholder|
 	|xpt-placeholder-mark|   
-	|xpt-placeholder-left-mark|  |`|  
-	|xpt-placeholder-right-mark|  |^|
+		|xpt-placeholder-left-mark|   |`|  
+		|xpt-placeholder-right-mark|  |^|
 	|xpt-placeholder-edge|
 	|xpt-snippet-leading-placeholder|
 
@@ -53,6 +53,8 @@
 	|xpt-snippet-preset-value|
 	|xpt-snippet-default-value|
 	|xpt-snippet-post-filter|
+		|xpt-snippet-default-post-filter|
+			|xpt-placeholder-optional-ph|
 
 	|xpt-placeholder-default-value|
 	|xpt-placeholder-post-filter|
@@ -65,7 +67,7 @@
 	A snippet file looks like this : >
 		XPTemplate priority=lang keyword=$	| |xpt-snippet-header|
 
-		let [s:f, s:v] = XPTcontainer()		| |xpt-snippet-function|
+		let s:f = XPTfuncs()			| |xpt-snippet-function|
 		 
 		XPTvar $TRUE          true		| |xpt-snippet-variable|
 		XPTvar $FALSE         false             |
@@ -146,6 +148,7 @@
 	lang		16
 	like+4		36 // like=32
 	all-		63 // all=64
+	all-1		63 // all=64
 <
 							 *xpt-snippet-keyword*
 	|xpt-snippet-keyword| specifies what other characters can be used as
@@ -174,10 +177,11 @@
 		XPTvar $VAR_NAME something
 <	Or with single quoter : >
 		XPTvar $VAR_NAME 'something'
-<	The only difference is in single quoter string space can be freely
-	used.  So that : >
+<	The only difference is that in single quoted strings space can be
+	freely used.  Like this : >
 		XPTvar $VAR	' '
-<	Instead of using escaped format "\ ".  
+<	Instead of using the escaped format "\ ".
+
 	Another example from C language : >
 		XPTvar $TRUE 1
 <	and a snippet defined as : >
@@ -197,8 +201,8 @@
 	|g:xptemplate_vars|. Variables defined with |g:xptemplate_vars|
 	override variables defined in any snippet files.
 
-	NOTE Conventionally, the name of |xpt-snippet-variable| must be upper
-	cased.
+	NOTE Conventionally the name of |xpt-snippet-variable| must be upper
+	case.
 
 	NOTE Override control of |xpt-snippet-variable| is affected by
 	|xpt-snippet-priority|.
@@ -211,8 +215,8 @@
 		|xpt-snippet-post-filter|
 		|xpt-placeholder-ontime-filter|
 	To define |xpt-snippet-function|, the function container must be
-	fetched by using |XPTcontainer()|. For example : >
-		let s:f = XPTcontainer()
+	fetched by using |XPTfuncs()|. For example : >
+		let s:f = XPTfuncs()
 		fun! s:f.c_printfElts( v )
 			...
 		endfunction
@@ -223,7 +227,7 @@
 <
 
 								  *XPTinclude*
-							 *xpt-snippet-XPTinclude*
+						      *xpt-snippet-XPTinclude*
 	Syntax : >
 		XPTinclude <folder_name_in_ftplugin>/<filename>
 <	The <filename> is only the file root, without ".xpt.vim". 
@@ -237,7 +241,7 @@
 	Syntax : >
 		XPTembed <folder_name_in_ftplugin>/<filename>
 <	|XPTembed| acts like |XPTinclude|, except it includes only snippet
-	file for nested language, like javascript in html, or html in php.
+	files for nested languages, like JavaScript in HTML, or HTML in PHP.
 
 	NOTE TODO differences between XPTinclude by example.
 
@@ -300,13 +304,14 @@
 		endfor
 
 		XPT foreach alias=forin hint=for\ ..\ in\ ..\ ..\ endfor
-<	This makes "forin" and "foreach" the same.
+<	This makes "forin" and "foreach" the same, but with possible different
+	settings.
 
 	NOTE |xpt-snippet-alias| can be used to create shortcuts.
 
-							   *xpt-snippet-synonym*
-	Like |xpt-snippet-alias|, Synonym gives snippet another name. Syntax 
-	: >
+							 *xpt-snippet-synonym*
+	Like |xpt-snippet-alias|, synonym gives a snippet another name.
+	Syntax : >
 		XPT snippetName synonym=a|b|c...
 <	Where a, b and c are all the names of this snippet. For example : >
 		XPT forin synonym=fin|fi hint=for\ ..\ in\ ..\ ..\ endfor
@@ -341,9 +346,9 @@
 	|xpt-snippet-post-filter|, |xpt-snippet-default-value| and
 	|xpt-snippet-preset-value| is imported too, if it does not overrides.
 
-	Also you can use the short format : >
+	You can also use the short format : >
 		`:snippetName:^
-<	Only 2 ":" around snippet name are needed.
+<	Only two ":" around snippet name are needed.
 	
 	NOTE "Include" is literal, so that snippets with different
 	|xpt-snippet-mark| can not include each other.
@@ -496,7 +501,7 @@
 		|xpt-placeholder-ontime-filter|.
 
 	Functions can be |xpt-snippet-function|s defined as member of
-	|XPTcontainer()| or native Vim functions.
+	|XPTfuncs()| or native Vim functions.
 
 	Functions are called as member of rendering context :
 	|xpt-snippet-function-ctx|.
@@ -574,6 +579,7 @@
 	|xpt-snippet-variable|, it is used as |xpt-snippet-preset-value|, too;
 	for better looking without any side-effect.
 
+
 						    *xpt-snippet-post-filter*
 	Post filters are executed after the user presses <Tab> and change the
 	typed text. To define a post filter use : >
@@ -588,9 +594,9 @@
 		}` `var^;
 <
 	Some usually-used post filter functions are defined in
-	ftplugin/common/common.xpt.vim. for |xpt-substitute| with name of 'S'.
-	For example for c language, "#ifndef" snippet is defined as follows :
-	>
+	ftplugin/_common/common.xpt.vim. 
+
+	For example for c language, "#ifndef" snippet is defined as follows : >
 		XPT #ifndef	hint=#ifndef\ ..
 		XSET symbol=S(fileRoot(),'\.','_','g')
 		XSET symbol|post=UpperCase(V())
@@ -600,8 +606,8 @@
 		`cursor^ 
 		#endif `$CL^ `symbol^ `$CR^
 		..XPT
-
-<	When you pressing <tab> from the first item "symbol", typed content are
+<	
+	When you pressing <tab> from the first item "symbol", typed content are
 	converted to upper case. Before <tab> pressed : >
 		#ifndef __gnu__
 		#    define __gnu__
@@ -613,6 +619,32 @@
 		`cursor^
 		#endif /* __GNU__ */
 <
+
+					     *xpt-snippet-default-post-filter*
+	Place holder with some special has default post filter set. Following
+	sections discuss them.
+
+	Place holders have default place holder defined: >
+		\V\w\+?		EchoIfNoChange('')
+<
+
+
+						 *xpt-placeholder-optional-ph*
+	If a place holder name matches pattern '\V\w\+?', "EchoIfNoChange('')"
+	is assigned as its post filter. 
+	This makes the place holder optional. 
+
+	For example a snippet defined as below: >
+		fun(`arg^`, `context?^)
+<	When you render this snippet, and cursor stays on "context?" : >
+		fun(arg, context?)
+			 --------
+				 \__ selected
+<	Pressing <Tab> clears it, and snippet becomes: >
+		fun(arg)
+<	
+
+
 						 *xpt-placeholder-post-filter*
 	For each place holder a private post filter can also be set by using
 	the |^||^| syntax : >

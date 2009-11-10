@@ -114,6 +114,7 @@ fun! XPreplace(start, end, replacement, ...)
         call extend(option, a:1, 'force')
     endif
     call XPRstartSession()
+    let positionAfterReplacement = a:end
     try
         let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, option )
     catch /.*/

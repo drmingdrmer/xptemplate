@@ -1,4 +1,4 @@
-XPTemplate priority=lang-
+XPTemplate priority=lang
 
 let s:f = g:XPTfuncs() 
  
@@ -37,7 +37,7 @@ XPTinclude
 
 XPTembed 
       \ html/html
-      \ html/php
+      \ html/php*
 
 
 

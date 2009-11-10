@@ -1,9 +1,9 @@
-" These snippets work only in html context of a php file
+" These snippets work only in html context of php file
 if &filetype != 'php'
     finish
 endif
 
-XPTemplate priority=lang-
+XPTemplate priority=lang-2
 
 XPTemplateDef
 

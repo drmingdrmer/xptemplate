@@ -1,6 +1,15 @@
 *xpt-api*
 
 
+							    *g:XPTaddBundle()*
+g:XPTaddBundle({filetype}, {bundle})
+	Load a bundle. {filetype} is the current buffer file type in most
+	case. And {bundle} is the file name who supplies the bundle. 
+
+	For example loading jquery bundle for html file: >
+		call g:XPTaddBundle('javascript', 'jquery')
+<
+	
 								  *XPTfuncs()*
 	g:XPTfuncs() returns a |Dictionary| container of functions which can
 	be used in templates in the current buffer. The normal usage of
