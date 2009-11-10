@@ -324,9 +324,9 @@
 <
 
 			*s_<C-l>* *xpt-key-goto-right* *g:xptemplate_to_right*
-							     {default:"<C-l>"}
+							       {default:<C-l>}
 	When a place holder is initially selected jump to the end of current
-	place holder and go to insert mode.
+	place holder and go into insert mode.
 
 	Use |g:xptemplate_to_right| to change this mapping. Example: >
 		let g:xptemplate_to_right = '<C-;>'
@@ -334,9 +334,9 @@
 
 		    *n_<C-g>* *i_<C-g>* *xpt-key-goback* *g:xptemplate_goback*
 							       {default:<C-g>}
-	When you move cursor outside of place holder you are editing, pressing
-	this key(in insert mode or normal mode) move cursor back to current
-	place holder and select the place holder text in select mode.
+	When you move the cursor outside of place holder you are editing,
+	pressing this key (in insert mode or normal mode) moves cursor back to
+	current place holder and selects the place holder text in select mode.
 
 	Use |g:xptemplate_goback| to change this mapping. Example: >
 		let g:xptemplate_goback = '<C-g>'
@@ -346,28 +346,28 @@
 								   {default:2}
 	Set to 0 to let XPTemplate do the best maintaining snippet rendering,
 	even if you have changed text outside of place holders.
-	Example: >
-		let g:xptemplate_strict = 1
-<
+
 	Set to 1 to prevent incautious changing text outside place holders.
 	Otherwise you are free to change text outside of place holders.
 
 	Set to 2 to let XPTemplate stop rendering if ANY changes taken to text
-	outside of place holders
+	outside of place holders.
 
+	Example : >
+		let g:xptemplate_strict = 1
+<
 
 						      *g:xptemplate_highlight*
 					    {default:'current,following,next'}
-	Specifying what place holders are high lighted.
+	Specifies which place holders are high lighted. The value of
+	|g:xptemplate_highlight| is a comma separated string.
 
-	Value of |g:xptemplate_highlight| is "," separated string.
-	Avalaible values are: "current", "following" and "next". Example: >
+	Possible values are: "current", "following" and "next". Example: >
 		let g:xptemplate_highlight = 'following,next'
 <
-
-	"current" lets XPTemplate highlight place holder you are editing. See
-	|XPTcurrentPH|.
-	For example the second and third "i" in "for" snippet of C language: >
+	"current" lets XPTemplate highlight the place holder you are currently
+	editing. See |XPTcurrentPH|.
+	For example the first "i" in "for" snippet of C language: >
 		for ( i = 0; i < len; ++i ) {
 		       \__________________________ highlighted
 <
@@ -377,7 +377,7 @@
 		for ( i = 0; i < len; ++i ) {
 			      \__________\________ highlighted
 <
-	"next" lets XPtemplate highlight the place holders you are going to
+	"next" lets XPTemplate highlight the place holders you are going to
 	edit. See |XPTnextItem|.
 	For example the "0" and "len" if "for" snippet of C language: >
 		for ( i = 0; i < len; ++i ) {
@@ -394,12 +394,12 @@
 								*XPTcurrentPH*
 							  {default:DiffChange}
 	The highlight group of place holder you are editing. Example: >
-		hi link XPTcurrentPH Visual
-<	This statement tells XPTemplate use the highlight group "Visual" to
+		highlight link XPTcurrentPH Visual
+<	This statement tells XPTemplate to use the highlight group "Visual" to
 	highlight "current" items. See |g:xptemplate_highlight|.
 
 	You can also define your highlight group directly. Example: >
-		hi XPTcurrentPH gui=none guibg=blue
+		highlight XPTcurrentPH gui=none guibg=blue
 <
 							      *XPTfollowingPH*
 							  {default:CursorLine}
@@ -467,6 +467,9 @@
 <
 	Entries are separated with '&'.
 
+	You can also set these settings in ftplugin/_common/personal.xpt.vim
+	in your runtime path using XPTvar |xpt-snippet-variable| (see also
+	|xpt-customize-variable|).
 
 								  *xpt-bundle*
 	A bundle is a collection of snippets for a certain purpose. For
@@ -510,7 +513,8 @@
 
 
 						      *xpt-customize-variable*
-	|xpt-snippet-variable| are used to configure snippet format.
+	|xpt-snippet-variable| are used to configure the snippet format.
+
 	Each snippet has some variable defined to configure language format.
 	This is useful when some snippet are shared between languages, like
 	for loops in C and CPP.
@@ -565,38 +569,37 @@
 	You can add snippets of new language, or add snippets to currently
 	supplied languages, in the same way.
 
-	Create a new file in some ftplugin directory. For exmpale, if you want
+	Create a new file in some ftplugin directory. For example, if you want
 	to add some PHP snippet, you can create file: >
 		&runtimepath/ftplugin/php/your_snippets.xpt.vim
 <	&runtimepath is ~/.vim in Unix like system, or ~/vimfiles/ folder in 
 	Windows. See |'runtimepath'|.
 
-	NOTE: It is strongly recommended to create your own runtimepath.
+	NOTE It is strongly recommended to create your own runtimepath.
 
 	The file name "your_snippets.xpt.vim" has no limitation except it must
 	end with ".xpt.vim".
 
-	And then write your snippet in that file. Restart vim to load them.
+	And then write your snippets in that file. Restart Vim to load them.
 	See |xpt-snippet-syntax| and |xpt-snippet-tutorial|.
 
 
-
 						  *xpt-write-personal-snippet*
-	If you want to add some snippets those do not belong to any language, 
-	you can use the "personal" snippet.
+	If you want to add some snippets which don't belong to any language,
+	or you want to set multiple variables, you can use the "personal"
+	snippet file.
 
-		1. Rename "/ftplugin/_common/personal_example.xpt.vim" to
-		"/ftplugin/_common/personal.xpt.vim". Or create one.
+		1. Rename "ftplugin/_common/personal_example.xpt.vim" to
+		   "ftplugin/_common/personal.xpt.vim". Or create one.
 
-		2. Add your snippets in "/ftplugin/_common/personal.xpt.vim".
+		2. Add your snippets in "ftplugin/_common/personal.xpt.vim".
 
-	"personal.xpt.vim" is loaded by _common/common.xpt.vim, and has
-	highest priority so that it is always loaded and there is no other
-	snippet overriding yours.
+	"personal.xpt.vim" is loaded by _common/common.xpt.vim and has the
+	highest priority. Thus it's always loaded and there are no other
+	snippets overriding yours.
 
 	Example ftplugin/_common/personal.xpt.vim : >
 		XPTemplate priority=personal
-
 
 		XPTvar $author       your_name
 		XPTvar $email        your_email

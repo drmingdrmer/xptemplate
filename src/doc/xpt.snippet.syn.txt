@@ -179,9 +179,12 @@
 		XPTvar $VAR_NAME 'something'
 <	The only difference is that in single quoted strings space can be
 	freely used.  Like this : >
-		XPTvar $VAR	' '
+		XPTvar $VAR_NAME ' '
 <	Instead of using the escaped format "\ ".
 
+	It's also possible to set a variable to the empty value: >
+		XPTvar $VAR_NAME ''
+<
 	Another example from C language : >
 		XPTvar $TRUE 1
 <	and a snippet defined as : >
