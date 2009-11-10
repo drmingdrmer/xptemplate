@@ -1,0 +1,27 @@
+*xpt-snippet-tutorial*
+
+			XPTemplate Snippet Tutorial
+
+								    by drdr.xp
+							     drdr.xp@gmail.com
+==============================================================================
+
+	|xpt-tutor-hello|
+							     *xpt-tutor-hello*
+	NOTE: TODO!!!!
+
+	1. Create snippet file
+	
+	1.0 Prepare
+		Find out where is your runtime path
+		Create new runtime path
+
+		Create snippet file
+		snippet file template
+		or xpt<C-\>
+	2. 
+
+
+
+
+" vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:
