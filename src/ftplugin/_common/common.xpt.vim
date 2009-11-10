@@ -43,7 +43,7 @@ XPTinclude
       \ _common/personal
       \ _common/cmn.counter
 
-" ========================= Function and Varaibles =============================
+" ========================= Function and Variables =============================
 
 
 
@@ -241,7 +241,7 @@ fun! s:f.Next( ... )
   endif
 endfunction
 
-" This function is intented to be used for popup selection :
+" This function is intended to be used for popup selection :
 " XSET bidule=Choose([' ','dabadi','dabada'])
 fun! s:f.Choose( lst ) "{{{
     return a:lst
@@ -441,10 +441,10 @@ endfunction
 
 
 
-" Short name is not good. Some alias to those short name functions are
-" made, with a meaningful names.
+" Short names are normally not good. Some alias to those short name functions are
+" made, with meaningful names.
 " 
-" They all start with prefix 'xpt'
+" They all start with prefix 'xpt'.
 "
 
 " ================================= Snippets ===================================

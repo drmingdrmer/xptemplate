@@ -4,7 +4,7 @@ XPTemplate priority=lang
 XPTinclude
       \ _common/common
 
-" ========================= Function and Varaibles =============================
+" ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
 XPTemplateDef

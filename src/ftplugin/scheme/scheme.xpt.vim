@@ -13,7 +13,7 @@ XPTinclude
       \ _common/common
       \ _condition/lisp.like
 
-" ========================= Function and Varaibles =============================
+" ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
 XPTemplateDef

@@ -87,7 +87,7 @@ XPT lbl hint=label{..}
 ..XPT
 
 XPT ref hint=ref{..}
-\ref{`curosr~}
+\ref{`cursor~}
 ..XPT
 
 XPT integral hint=int_..^..
@@ -95,7 +95,7 @@ XPT integral hint=int_..^..
 ..XPT
 
 XPT lim hint=lim_....
-\lim_{`what^}
+\lim_{`what~}
 ..XPT
 
 XPT itemize hint=begin{itemize}\ ...\ end{itemize}

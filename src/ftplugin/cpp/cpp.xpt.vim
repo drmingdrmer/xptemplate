@@ -38,7 +38,7 @@ XPTinclude
 XPTinclude
             \ c/c
 
-" ========================= Function and Varaibles =============================
+" ========================= Function and Variables =============================
 let s:f = g:XPTfuncs() 
 
 function! s:f.cleanTempl( ctx, ... )

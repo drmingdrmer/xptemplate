@@ -8,7 +8,7 @@ let s:f = g:XPTfuncs()
 XPTinclude
       \ _common/common
 
-" ========================= Function and Varaibles =============================
+" ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
 XPTemplateDef

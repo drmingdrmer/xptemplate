@@ -16,7 +16,7 @@ let s:f = g:XPTfuncs()
 
 
 
-" ========================= Function and Varaibles =============================
+" ========================= Function and Variables =============================
 " fun! s:f.c_enum_next(ptn) dict
   " let v = self.V()
   " if v == a:ptn
