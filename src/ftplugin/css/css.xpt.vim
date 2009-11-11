@@ -32,7 +32,8 @@ endfunction
 XPTemplateDef
 
 
-
+XPT padding " padding:
+padding: `^;
 
 XPT width " width : 
 width: `^;

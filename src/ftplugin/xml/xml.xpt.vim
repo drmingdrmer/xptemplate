@@ -26,7 +26,7 @@ XPTemplateDef
 
 XPT < hint=<Tag>..</Tag>
 XSET att*|post=BuildIfChanged(V().'="`val^"` `att*^`att*^xml_attVal()^')
-<`tag^` `att*^`att*^xml_attVal()^>`cursor^</`tag^>
+<`tag^` `att*^`att*^xml_attVal()^>`content^</`tag^>
 ..XPT
 
 
