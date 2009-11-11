@@ -231,7 +231,7 @@ fun! s:XPTemplateParseSnippet(lines)
         for synonym in synonyms
             call XPTemplateAlias( synonym, snippetName, {} )
             if has_key( snipScope.loadedSnip, synonym )
-                echom "XPT: warn : duplicate snippet:" . synonym . ' in file:' . snipScope.filename
+                echom "XPT: warn : duplicate synonym:" . synonym . ' in file:' . snipScope.filename
             endif
             let snipScope.loadedSnip[ synonym ] = 1
         endfor

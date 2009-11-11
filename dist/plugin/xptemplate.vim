@@ -167,6 +167,7 @@ fun! s:GetTempSnipScope( x, ft )
     if !has_key( a:x, '__tmp_snip_scope' )
         let sc          = XPTnewSnipScope( '' )
         let sc.priority = 0
+        let sc.isTmp = 1
         let a:x.__tmp_snip_scope = sc
     endif
     let a:x.__tmp_snip_scope.filetype = '' == a:ft ? 'unknown' : a:ft
@@ -177,12 +178,10 @@ fun! XPTemplate(name, str_or_ctx, ...)
     let templateSetting = deepcopy(g:XPTemplateSettingPrototype)
     let x = b:xptemplateData
     if a:0 == 0 
+        call XPTsnipScopePush()
         let x.snipFileScope = s:GetTempSnipScope( x, &filetype )
         let foo.snip = a:str_or_ctx
     else
-        if has_key( a:str_or_ctx, 'filetype' )
-            let x.snipFileScope = s:GetTempSnipScope(x, a:str_or_ctx.filetype )
-        endif
         call extend( templateSetting, a:str_or_ctx, 'force' )
         let foo.snip = a:1
     endif
@@ -202,6 +201,9 @@ fun! XPTemplate(name, str_or_ctx, ...)
                 \ : x.snipFileScope.priority
     if has_key(templates, a:name) 
                 \&& templates[a:name].priority <= prio
+        if has_key(x.snipFileScope, 'isTmp')
+            call XPTsnipScopePop()
+        endif
         return
     endif
     call s:CleanupSnippet( x, foo )
@@ -218,6 +220,9 @@ fun! XPTemplate(name, str_or_ctx, ...)
                 \ 'wrapped'     : isWrapped, 
                 \}
     call s:InitTemplateObject( x, templates[ a:name ] )
+    if has_key(x.snipFileScope, 'isTmp')
+        call XPTsnipScopePop()
+    endif
 endfunction 
 fun! s:CleanupSnippet( xptObj, foo ) 
     if type(a:foo.snip) == type([])

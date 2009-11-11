@@ -34,7 +34,7 @@ XPTinclude
       \ _loops/for
 
 
-" ========================= Function and Varaibles =============================
+" ========================= Function and Variables =============================
 
 let s:f = g:XPTfuncs() 
 
