@@ -354,10 +354,10 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
         let foo.snip = a:str_or_ctx
 
     else
-        if has_key( a:str_or_ctx, 'filetype' )
-            call XPTsnipScopePush()
-            let x.snipFileScope = s:GetTempSnipScope(x, a:str_or_ctx.filetype )
-        endif
+        " if has_key( a:str_or_ctx, 'fromXPT' )
+            " call XPTsnipScopePush()
+            " let x.snipFileScope = s:GetTempSnipScope(x, a:str_or_ctx.filetype )
+        " endif
 
         call extend( templateSetting, a:str_or_ctx, 'force' )
         let foo.snip = a:1
@@ -393,6 +393,10 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     " existed template is not overrided.
     if has_key(templates, a:name) 
                 \&& templates[a:name].priority <= prio
+
+        if has_key(x.snipFileScope, 'isTmp')
+            call XPTsnipScopePop()
+        endif
         return
     endif
 
