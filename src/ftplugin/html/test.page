@@ -55,18 +55,18 @@ a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
-    <!--  -------------<---------------                     -->
-    <!-- <`tag^` `att*^`att*^xml_attVal()^>`cursor^</`tag^> -->
+    <!--  -------------<---------------                      -->
+    <!-- <`tag^` `att*^`att*^xml_attVal()^>`content^</`tag^> -->
 
 
 
-    <tag></tag>
+    <tag>content</tag>
 
-    <tag_TYPED att_TYPED="val_TYPED" att_TYPED="val_TYPED" att_TYPED="val_TYPED"></tag_TYPED> b
+    <tag_TYPED att_TYPED="val_TYPED" att_TYPED="val_TYPED" att_TYPED="val_TYPED">content_TYPED</tag_TYPED> b
 
-    a <tag></tag> b
+    a <tag>content</tag> b
 
-    a <tag></tag>
+    a <tag>content</tag>
 
 
     <!--  -------------<_--------------- -->
@@ -514,7 +514,7 @@ WRAPPED_TEXT_line2</h1>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <link rel="stylesheet" type="text/css" href="" />
         <style></style>
-        <title>/media/ext2/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
+        <title>/home/drdrxp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
         <script language="javascript" type="text/javascript">
             <!-- -->
         </script>
@@ -546,7 +546,7 @@ a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <link rel="stylesheet" type="text/css" href="" />
         <style></style>
-        <title>/media/ext2/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
+        <title>/home/drdrxp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
         <script language="javascript" type="text/javascript">
             <!-- -->
         </script>
@@ -562,7 +562,7 @@ a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <link rel="stylesheet" type="text/css" href="" />
         <style></style>
-        <title>/media/ext2/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
+        <title>/home/drdrxp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/html/.test/test</title>
         <script language="javascript" type="text/javascript">
             <!-- -->
         </script>
@@ -713,18 +713,16 @@ a <script language="javascript" type="text/javascript">
 
 <table>
     <tr>
-        <td>_TYPED</td> td_TYPED
+        <td>_TYPED </td> td_TYPED
     </tr> tr_TYPED
 </table> b
 
 a <table>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td> </td> td...
     </tr>
     <tr>
+        <td></td>
         <td></td>
     </tr>
 </table> b
@@ -786,14 +784,11 @@ a <table>
 </tr>
 
 <tr>
-    <td>_TYPED</td> td_TYPED
+    <td>_TYPED </td> td_TYPED
 </tr> b
 
 a <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td> </td> td...
 </tr> b
 
 a <tr>

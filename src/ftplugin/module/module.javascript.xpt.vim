@@ -13,8 +13,8 @@ fun! s:ModPath()
 endfunction
 call DefTemplateFunc("modPath", s:SID()."ModPath")
 
-"call XPTemplate("module_javascript", "mod", '
-call XPTemplate("mod", '
+"call XPTdefineSnippet("module_javascript", "mod", '
+call XPTdefineSnippet("mod", {}, '
       \new Module(\"`modPath^\", [\n
       \],function ($t, $n, $p, $g, $r, $c){\n
       \/* private */\n

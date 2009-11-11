@@ -88,8 +88,8 @@ endfunction
 " ================================= Snippets ===================================
 
 
-call XPTemplate("id", {'syn' : 'tag'}, 'id="`^"')
-call XPTemplate("class", {'syn' : 'tag'}, 'class="`^"')
+call XPTdefineSnippet("id", {'syn' : 'tag'}, 'id="`^"')
+call XPTdefineSnippet("class", {'syn' : 'tag'}, 'class="`^"')
 
 
 

@@ -16,7 +16,7 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-call XPTemplate('vimformat', [ '" vim:tw=78:ts=8:sw=2:sts=2:et:norl:fdm=marker:fmr={{{,}}}' ])
+call XPTdefineSnippet('vimformat', {}, [ '" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}' ])
 
 XPTemplateDef
 

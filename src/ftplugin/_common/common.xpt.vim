@@ -4,7 +4,7 @@ XPTemplate priority=all
 let s:f = g:XPTfuncs() 
 
 XPTvar $author $author is not set, you need to set g:xptemplate_vars="$author=your_name"
-XPTvar $email  $email is not set, you need to set g:xptemplate_vars="$author=your_email@com"
+XPTvar $email  $email is not set, you need to set g:xptemplate_vars="$email=your_email@com"
 
 XPTvar $VOID
 
@@ -439,6 +439,27 @@ fun! s:f.CmplQuoter_pre() dict
 endfunction
 
 
+fun! s:f.AutoCmpl( list, ... )
+    if type( a:list ) == type( [] )
+        let list = a:list
+    else
+        let list = [ a:list ] + a:000
+    endif
+
+    let v = self.V0()
+    if v == ''
+        return ''
+    endif
+
+    for word in list
+        if word =~ '\V' . v
+            return word[ len( v ) : ]
+        endif
+    endfor
+
+    return ''
+endfunction
+
 
 
 " Short names are normally not good. Some alias to those short name functions are
@@ -450,17 +471,17 @@ endfunction
 " ================================= Snippets ===================================
 
 " Shortcuts
-call XPTemplate('Author', '`$author^')
-call XPTemplate('Email', '`$email^')
-call XPTemplate("Date", "`date()^")
-call XPTemplate("File", "`file()^")
-call XPTemplate("Path", "`path()^")
+call XPTdefineSnippet('Author', {}, '`$author^')
+call XPTdefineSnippet('Email', {}, '`$email^')
+call XPTdefineSnippet("Date", {}, "`date()^")
+call XPTdefineSnippet("File", {}, "`file()^")
+call XPTdefineSnippet("Path", {}, "`path()^")
 
 " wrapping snippets do not need using \w as name
-call XPTemplate('"_', {'hint' : '" ... "'}, '"`wrapped^"')
-call XPTemplate("'_", {'hint' : "' ... '"}, "'`wrapped^'")
-call XPTemplate("<_", {'hint' : '< ... >'}, '<`wrapped^>')
-call XPTemplate("(_", {'hint' : '( ... )'}, '(`wrapped^)')
-call XPTemplate("[_", {'hint' : '[ ... ]'}, '[`wrapped^]')
-call XPTemplate("{_", {'hint' : '{ ... }'}, '{`wrapped^}')
-call XPTemplate("`_", {'hint' : '` ... `'}, '\``wrapped^\`')
+call XPTdefineSnippet('"_', {'hint' : '" ... "'}, '"`wrapped^"')
+call XPTdefineSnippet("'_", {'hint' : "' ... '"}, "'`wrapped^'")
+call XPTdefineSnippet("<_", {'hint' : '< ... >'}, '<`wrapped^>')
+call XPTdefineSnippet("(_", {'hint' : '( ... )'}, '(`wrapped^)')
+call XPTdefineSnippet("[_", {'hint' : '[ ... ]'}, '[`wrapped^]')
+call XPTdefineSnippet("{_", {'hint' : '{ ... }'}, '{`wrapped^}')
+call XPTdefineSnippet("`_", {'hint' : '` ... `'}, '\``wrapped^\`')
