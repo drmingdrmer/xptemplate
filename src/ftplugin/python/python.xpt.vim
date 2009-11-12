@@ -8,7 +8,7 @@ XPTvar $NULL          None
 XPTvar $UNDEFINED     None
 
 XPTvar $VOID_LINE     # nothing
-XPTvar $CURSOR_PH     # cursor
+XPTvar $CURSOR_PH     pass
 
 XPTvar $BRif \n
 
@@ -45,16 +45,10 @@ XPT sb alias=python
 XPT if hint=if\ ..:\ ..\ else...
 if `cond^:
     `pass^
-``elif...`
-{{^elif `cond2^:
-    `pass^
-``elif...`
-^`}}^`else...{{^else:
-    `cursor^`}}^
-
+`else...{{^`:else:^`}}^
 
 XPT elif hint=else:
-elif `condition^:
+elif `cond^:
     `cursor^
 
 
@@ -64,8 +58,7 @@ else:
 
 
 XPT for hint=for\ ..\ in\ range\(\ ..\ )
-XSET 0|post=EchoIfNoChange( '' )
-for `var^ in range(``0`, ^`end^):
+for `var^ in range(`$SParg^``0?`,$SPcm^`end^`$SParg^):
     `cursor^
 
 XPT forin hint=for\ ..\ in\ ..:\ ...
@@ -75,7 +68,7 @@ for `vars^ in `seq^:
 
 XPT def hint=def\ ..(\ ..\ ):\ ...
 XSET args*|post=ExpandIfNotEmpty( ', ', 'args*' )
-def `func_name^(`args*^):
+def `func_name^`$SPfun^(`$SParg^`args*^`$SParg^):
     `cursor^
 
 
@@ -85,34 +78,24 @@ lambda `args*^: `expr^
 
 
 XPT try hint=try:\ ..\ except:\ ...
-XSET what=$VOID_LINE
 try:
-    `what^
-except `Exception^:
     `pass^
-``more_except...`
-^``else...`
-^`finally...^
-XSETm more_except...|post
+`:except:^
+`finally...{{^`:finally:^`}}^
+
+
+XPT except " except *
 except `Exception^:
-    `pass^
-``more_except...`
-^
-XSETm END
-XSETm else...|post
-else:
-    ``pass`
-^
-XSETm END
-XSETm finally...|post
-finally:
     `cursor^
-XSETm END
+
+
+XPT finally " finally:
+    `cursor^
 
 
 XPT class hint=class\ ..\ :\ def\ __init__\ ...
 XSET args*|post=ExpandIfNotEmpty( ', ', 'args*' )
-class `ClassName^(`inherit^^):
+class `ClassName^`$SPcls^(`$SParg``$SParg^):
     def __init__(self`, `args*^):
         `cursor^
 
@@ -142,12 +125,12 @@ XPT fromfuture hint=from\ __future__\ import\ ..
 from __future__ import `name^
 
 XPT genExp hint=\(func\(x)\ for\ x\ in\ seq)
-XSET ComeFirst=elem seq func
+XSET ComeFirst=elem seq
 XSET func|post=python_wrap_args_if_func(V(), Reference('elem'))
 (`func^ for `elem^ in `seq^)
 
 XPT listComp hint=\[func\(x)\ for\ x\ in\ seq]
-XSET ComeFirst=elem seq func
+XSET ComeFirst=elem seq
 XSET func|post=python_wrap_args_if_func(V(), Reference('elem'))
 [`func^ for `elem^ in `seq^]
 ..XPT

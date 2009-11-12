@@ -22,6 +22,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO python:if/else/def
 " TODO BuildIfNoChange depending on default value or prevalue
 " TODO super cancel : clear/default all and finish
 " TODO autocomplete doc
@@ -68,6 +69,7 @@
 "   improve : use short variable names.
 "   add : doc of variable conventions
 "   fix : moved snippet relative doc to xpt.snippet.txt
+"   fix : finish snippet rendering when jumping to cursor only if cursor is the last ph
 "
 "
 
@@ -1746,7 +1748,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
             call s:log.Debug( 'built ph='.string( placeHolder ) )
 
-            call s:EvaluateEdge( xp, placeHolder )
+            call s:EvaluateEdge( xp, item, placeHolder )
             call s:ApplyPreValues( placeHolder )
 
             call s:SetDefaultFilters( tmplObj, placeHolder )
@@ -1781,7 +1783,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
     return 0
 endfunction "}}}
 
-fun! s:EvaluateEdge( xp, ph ) "{{{
+fun! s:EvaluateEdge( xp, item, ph ) "{{{
     if !a:ph.isKey
         return
     endif
@@ -1791,6 +1793,9 @@ fun! s:EvaluateEdge( xp, ph ) "{{{
         call XPRstartSession()
         call XPreplaceByMarkInternal( a:ph.mark.start, a:ph.editMark.start, ledge )
         call XPRendSession()
+        let a:ph.leftEdge = ledge
+        let a:ph.fullname   = a:ph.leftEdge . a:item.name . a:ph.rightEdge
+        let a:item.fullname = a:ph.fullname
     endif
 
 
@@ -1799,7 +1804,11 @@ fun! s:EvaluateEdge( xp, ph ) "{{{
         call XPRstartSession()
         call XPreplaceByMarkInternal( a:ph.editMark.end, a:ph.mark.end, redge )
         call XPRendSession()
+        let a:ph.rightEdge = redge
+        let a:ph.fullname   = a:ph.leftEdge . a:item.name . a:ph.rightEdge
+        let a:item.fullname = a:ph.fullname
     endif
+
 endfunction "}}}
 
 fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{

@@ -545,6 +545,9 @@
 
 						*xpt-customize-variable-space*
 	Another set of variables is defined to customize spaces. They are: >
+		" int fun ** (
+		XPTvar $SPfun      ' '
+
 		" int fun( ** arg ** )
 		XPTvar $SParg      ' '
 

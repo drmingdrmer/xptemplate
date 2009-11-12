@@ -10,25 +10,49 @@ XPTvar $VOID
 
 " if () ** {
 XPTvar $BRif     ' '
+
 " } ** else {
-XPTvar $BRel   \n
+XPTvar $BRel     \n
+
 " for () ** {
 XPTvar $BRfor    ' '
+
 " while () ** {
-XPTvar $BRwhl  ' '
+XPTvar $BRwhl    ' '
+
 " struct name ** {
-XPTvar $BRstc ' '
+XPTvar $BRstc    ' '
+
 " int fun() ** {
-XPTvar $BRfun   ' '
+XPTvar $BRfun    ' '
+
 " class name ** {
 XPTvar $BRcls    ' '
 
 
+" int fun ** (
+XPTvar $SPfun      ''
+
+" int fun( ** arg ** )
 XPTvar $SParg      ' '
-XPTvar $SPcnd       ' '
+
+" if ** ( 
+XPTvar $SPif       ' '
+
+" if ( ** condition ** )
+XPTvar $SPcnd      ' '
+
+" a ** = ** b
 XPTvar $SPeq       ' '
+
+" a = a ** + ** 1
 XPTvar $SPop       ' '
-XPTvar $SPcm    ' '
+
+" (a, ** b, ** )
+XPTvar $SPcm       ' '
+
+" class name ** (
+XPTvar $SPcls      ' '
 
 XPTvar $TRUE          1
 XPTvar $FALSE         0
@@ -167,7 +191,11 @@ fun! s:f.EchoIfEq( expected, ... )
 endfunction
 
 fun! s:f.EchoIfNoChange( ... )
-  if self.V() ==# self.ItemFullname()
+    echom self.V()
+    echom self.V0()
+    echom self.ItemName()
+    echom self.ItemFullname()
+  if self.V0() ==# self.ItemName()
     return join( a:000, '' )
   else
     return self.V()
@@ -226,7 +254,11 @@ endfunction "}}}
 
 
 fun! s:f.Finish(...)
-    return { 'action' : 'finishTemplate', 'postTyping' : join( a:000 ) }
+    if empty( self._ctx.itemList )
+        return { 'action' : 'finishTemplate', 'postTyping' : join( a:000 ) }
+    else
+        return self.ItemName()
+    endif
 endfunction
 
 fun! s:f.Embed( snippet )
