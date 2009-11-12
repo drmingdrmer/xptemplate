@@ -7,12 +7,12 @@ XPTvar $FALSE         false
 XPTvar $NULL          null
 XPTvar $UNDEFINED     undefined
 
-XPTvar $IF_BRACKET_STL     ' '
-XPTvar $ELSE_BRACKET_STL   \n
-XPTvar $FOR_BRACKET_STL    ' '
-XPTvar $WHILE_BRACKET_STL  ' '
-XPTvar $STRUCT_BRACKET_STL ' '
-XPTvar $FUNC_BRACKET_STL   ' '
+XPTvar $BRif     ' '
+XPTvar $BRel   \n
+XPTvar $BRfor    ' '
+XPTvar $BRwhl  ' '
+XPTvar $BRstc ' '
+XPTvar $BRfun   ' '
 
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
@@ -109,7 +109,7 @@ function` `name^ (`arg*^) {
 
 
 XPT forin hint=for\ (var\ ..\ in\ ..)\ {..}
-for ( var `i^ in `array^ )`$FOR_BRACKET_STL^{
+for ( var `i^ in `array^ )`$BRfor^{
     var `e^ = `array^[`i^];
     `cursor^
 }
@@ -122,7 +122,7 @@ var `instant^ = new `Constructor^(`arg*^)
 
 XPT proto hint=...prototype...\ =\ function\(..)\ {\ ..\ }
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
-`Class^.prototype.`method^ = function(`arg*^)`$FUNC_BRACKET_STL^{
+`Class^.prototype.`method^ = function(`arg*^)`$BRfun^{
 `cursor^
 }
 
@@ -135,17 +135,17 @@ setTimeout(function() { `job^ }, `milliseconds^)
 XPT try hint=try\ {..}\ catch\ {..}\ finally
 XSET dealError=/* error handling */
 XSET job=$VOID_LINE
-try`$IF_BRACKET_STL^{
+try`$BRif^{
     `job^
 }
-catch (`err^)`$IF_BRACKET_STL^{
+catch (`err^)`$BRif^{
     `dealError^
 }`...^
-catch (`err^)`$IF_BRACKET_STL^{
+catch (`err^)`$BRif^{
     `dealError^
 }`...^`
 `finally...{{^
-finally`$IF_BRACKET_STL^{
+finally`$BRif^{
     `cursor^
 }`}}^
 
@@ -171,16 +171,16 @@ function` `name^ (`param^) {
 XPT try_ hint=try\ {..}\ catch\ {..}\ finally
 XSET dealError=/* error handling */
 XSET job=$VOID_LINE
-try`$IF_BRACKET_STL^{
+try`$BRif^{
     `wrapped^
 }
-catch (`err^)`$IF_BRACKET_STL^{
+catch (`err^)`$BRif^{
     `dealError^
 }`...^
-catch (`err^)`$IF_BRACKET_STL^{
+catch (`err^)`$BRif^{
     `dealError^
 }`...^`
 `finally...{{^
-finally`$IF_BRACKET_STL^{
+finally`$BRif^{
     `cursor^
 }`}}^

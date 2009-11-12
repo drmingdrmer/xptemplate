@@ -4,31 +4,31 @@ XPTemplate priority=all
 let s:f = g:XPTfuncs() 
 
 XPTvar $author $author is not set, you need to set g:xptemplate_vars="$author=your_name"
-XPTvar $email  $email is not set, you need to set g:xptemplate_vars="$author=your_email@com"
+XPTvar $email  $email is not set, you need to set g:xptemplate_vars="$email=your_email@com"
 
 XPTvar $VOID
 
 " if () ** {
-XPTvar $IF_BRACKET_STL     ' '
+XPTvar $BRif     ' '
 " } ** else {
-XPTvar $ELSE_BRACKET_STL   \n
+XPTvar $BRel   \n
 " for () ** {
-XPTvar $FOR_BRACKET_STL    ' '
+XPTvar $BRfor    ' '
 " while () ** {
-XPTvar $WHILE_BRACKET_STL  ' '
+XPTvar $BRwhl  ' '
 " struct name ** {
-XPTvar $STRUCT_BRACKET_STL ' '
+XPTvar $BRstc ' '
 " int fun() ** {
-XPTvar $FUNC_BRACKET_STL   ' '
+XPTvar $BRfun   ' '
 " class name ** {
-XPTvar $CLS_BRACKET_STL    ' '
+XPTvar $BRcls    ' '
 
 
-XPTvar $SP_ARG      ' '
-XPTvar $SP_IF       ' '
-XPTvar $SP_EQ       ' '
-XPTvar $SP_OP       ' '
-XPTvar $SP_COMMA    ' '
+XPTvar $SParg      ' '
+XPTvar $SPcnd       ' '
+XPTvar $SPeq       ' '
+XPTvar $SPop       ' '
+XPTvar $SPcm    ' '
 
 XPTvar $TRUE          1
 XPTvar $FALSE         0
@@ -439,6 +439,27 @@ fun! s:f.CmplQuoter_pre() dict
 endfunction
 
 
+fun! s:f.AutoCmpl( list, ... )
+    if type( a:list ) == type( [] )
+        let list = a:list
+    else
+        let list = [ a:list ] + a:000
+    endif
+
+    let v = self.V0()
+    if v == ''
+        return ''
+    endif
+
+    for word in list
+        if word =~ '\V' . v
+            return word[ len( v ) : ]
+        endif
+    endfor
+
+    return ''
+endfunction
+
 
 
 " Short names are normally not good. Some alias to those short name functions are
@@ -450,17 +471,17 @@ endfunction
 " ================================= Snippets ===================================
 
 " Shortcuts
-call XPTemplate('Author', '`$author^')
-call XPTemplate('Email', '`$email^')
-call XPTemplate("Date", "`date()^")
-call XPTemplate("File", "`file()^")
-call XPTemplate("Path", "`path()^")
+call XPTdefineSnippet('Author', {}, '`$author^')
+call XPTdefineSnippet('Email', {}, '`$email^')
+call XPTdefineSnippet("Date", {}, "`date()^")
+call XPTdefineSnippet("File", {}, "`file()^")
+call XPTdefineSnippet("Path", {}, "`path()^")
 
 " wrapping snippets do not need using \w as name
-call XPTemplate('"_', {'hint' : '" ... "'}, '"`wrapped^"')
-call XPTemplate("'_", {'hint' : "' ... '"}, "'`wrapped^'")
-call XPTemplate("<_", {'hint' : '< ... >'}, '<`wrapped^>')
-call XPTemplate("(_", {'hint' : '( ... )'}, '(`wrapped^)')
-call XPTemplate("[_", {'hint' : '[ ... ]'}, '[`wrapped^]')
-call XPTemplate("{_", {'hint' : '{ ... }'}, '{`wrapped^}')
-call XPTemplate("`_", {'hint' : '` ... `'}, '\``wrapped^\`')
+call XPTdefineSnippet('"_', {'hint' : '" ... "'}, '"`wrapped^"')
+call XPTdefineSnippet("'_", {'hint' : "' ... '"}, "'`wrapped^'")
+call XPTdefineSnippet("<_", {'hint' : '< ... >'}, '<`wrapped^>')
+call XPTdefineSnippet("(_", {'hint' : '( ... )'}, '(`wrapped^)')
+call XPTdefineSnippet("[_", {'hint' : '[ ... ]'}, '[`wrapped^]')
+call XPTdefineSnippet("{_", {'hint' : '{ ... }'}, '{`wrapped^}')
+call XPTdefineSnippet("`_", {'hint' : '` ... `'}, '\``wrapped^\`')

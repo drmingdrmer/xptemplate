@@ -4,8 +4,8 @@ XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 
-XPTvar $IF_BRACKET_STL  \ 
-XPTvar $ELSE_BRACKET_STL   \n
+XPTvar $BRif  \ 
+XPTvar $BRel   \n
 
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
@@ -19,20 +19,20 @@ XPTemplateDef
 
 XPT if		hint=if\ (..)\ {..}\ else...
 XSET job=$VOID_LINE
-if (`condition^)`$IF_BRACKET_STL^{ 
+if (`condition^)`$BRif^{ 
     `job^
-}` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^
+}` `else...{{^`$BRel^`Include:else^`}}^
 
 
 XPT elif hint=else\ if\ \(\ ...\ )\ {\ ...\ }
 XSET job=$VOID_LINE
-else if (`condition^)`$IF_BRACKET_STL^{
+else if (`condition^)`$BRif^{
     `job^
 }
 
 
 XPT else hint=else\ {\ ...\ }
-else`$IF_BRACKET_STL^{
+else`$BRif^{
     `cursor^
 }
 
@@ -56,11 +56,11 @@ XSET condition=Embed('0 != `var^')
 XPT ifee	hint=if\ (..)\ {..}\ elseif...
 XSET job=$VOID_LINE
 XSET another_cond=R('condition')
-if (`condition^)`$IF_BRACKET_STL^{
+if (`condition^)`$BRif^{
     `job^
 }` `else_if...^
 XSETm else_if...|post
-`$IF_BRACKET_STL^else if (`another_cond^)`$IF_BRACKET_STL^{
+`$BRif^else if (`another_cond^)`$BRif^{
     `job^
 }` `else_if...^
 XSETm END
@@ -68,7 +68,7 @@ XSETm END
 
 XPT switch	hint=switch\ (..)\ {case..}
 XSET job=$VOID_LINE
-switch (`var^)`$IF_BRACKET_STL^{
+switch (`var^)`$BRif^{
     case `constant^ :
         `job^
         break;
@@ -100,12 +100,12 @@ XSETm END
 
 
 XPT if_ hint=if\ (..)\ {\ SEL\ }
-if (`condition^)`$IF_BRACKET_STL^{
+if (`condition^)`$BRif^{
     `wrapped^
 }
 
 
 XPT else_ hint=else\ {\ SEL\ }
-else`$IF_BRACKET_STL^{
+else`$BRif^{
     `wrapped^
 }

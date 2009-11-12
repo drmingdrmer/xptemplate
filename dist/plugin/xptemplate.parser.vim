@@ -220,7 +220,7 @@ fun! s:XPTemplateParseSnippet(lines)
     if has_key( setting, 'alias' )
         call XPTemplateAlias( snippetName, setting.alias, setting )
     else
-        call XPTemplate(snippetName, setting, snippetLines)
+        call XPTdefineSnippet(snippetName, setting, snippetLines)
     endif
     if has_key( snipScope.loadedSnip, snippetName )
         echom "XPT: warn : duplicate snippet:" . snippetName . ' in file:' . snipScope.filename

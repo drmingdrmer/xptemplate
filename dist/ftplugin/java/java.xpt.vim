@@ -10,11 +10,11 @@ XPTvar $UNDEFINED     null
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
-XPTvar $IF_BRACKET_STL     \ 
-XPTvar $FOR_BRACKET_STL    \ 
-XPTvar $WHILE_BRACKET_STL  \ 
-XPTvar $STRUCT_BRACKET_STL \ 
-XPTvar $FUNC_BRACKET_STL   \ 
+XPTvar $BRif     \ 
+XPTvar $BRfor    \ 
+XPTvar $BRwhl  \ 
+XPTvar $BRstc \ 
+XPTvar $BRfun   \ 
 
 XPTinclude 
       \ _common/common
@@ -40,7 +40,7 @@ XPTemplateDef
 
 
 XPT foreach hint=for\ \(\ ..\ :\ ..\ \)
-for ( `type^ `var^ : `inWhat^ )`$FOR_BRACKET_STL^{
+for ( `type^ `var^ : `inWhat^ )`$BRfor^{
     `cursor^
 }
 
@@ -56,14 +56,14 @@ protected `type^ `varName^;
 
 XPT class hint=class\ ..\ ctor
 public class `className^ {
-    public `className^(` `ctorParam` ^)`$FUNC_BRACKET_STL^{
+    public `className^(` `ctorParam` ^)`$BRfun^{
         `cursor^
     }
 }
 
 
 XPT main hint=main\ (\ String\ )
-public static void main( String[] args )`$FUNC_BRACKET_STL^{
+public static void main( String[] args )`$BRfun^{
     `cursor^
 }
 

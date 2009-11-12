@@ -10,12 +10,12 @@ XPTvar $UNDEFINED
 XPTvar $VOID_LINE     # void;
 XPTvar $CURSOR_PH     # cursor
 
-XPTvar $IF_BRACKET_STL     \ 
-XPTvar $ELSE_BRACKET_STL   \n
-XPTvar $FOR_BRACKET_STL    \ 
-XPTvar $WHILE_BRACKET_STL  \ 
-XPTvar $STRUCT_BRACKET_STL \ 
-XPTvar $FUNC_BRACKET_STL   \ 
+XPTvar $BRif     \ 
+XPTvar $BRel   \n
+XPTvar $BRfor    \ 
+XPTvar $BRwhl  \ 
+XPTvar $BRstc \ 
+XPTvar $BRfun   \ 
 
 XPTinclude 
       \ _common/common
@@ -69,22 +69,22 @@ XPT xforeach hint=..\ foreach\ ..;
 
 
 XPT sub hint=sub\ ..\ {\ ..\ }
-sub `fun_name^`$FUNC_BRACKET_STL^{
+sub `fun_name^`$BRfun^{
     `cursor^
 }
 
 
 XPT unless hint=unless\ (\ ..\ )\ {\ ..\ }
-unless (`cond^)`$IF_BRACKET_STL^{
+unless (`cond^)`$BRif^{
     `cursor^
 }
 
 
 XPT eval hint=eval\ {\ ..\ };if...
-eval`$IF_BRACKET_STL^{
+eval`$BRif^{
     `risky^
 };
-if ($@)`$IF_BRACKET_STL^{
+if ($@)`$BRif^{
     `handle^
 }
 
@@ -94,44 +94,44 @@ XPT try alias=eval hint=eval\ {\ ..\ };\ if\ ...
 
 
 XPT whileeach hint=while\ \(\ \(\ key,\ val\ )\ =\ each\(\ %**\ )\ )
-while ( ( $`key^, $`val^ ) = each( %`array^ ) )`$WHILE_BRACKET_STL^{
+while ( ( $`key^, $`val^ ) = each( %`array^ ) )`$BRwhl^{
     `cursor^
 }
 
 XPT whileline hint=while\ \(\ defined\(\ \$line\ =\ <FILE>\ )\ )
-while ( defined( $`line^ = <`STDIN^> ) )`$WHILE_BRACKET_STL^{
+while ( defined( $`line^ = <`STDIN^> ) )`$BRwhl^{
     `cursor^
 }
 
 
 XPT foreach hint=foreach\ my\ ..\ (..){}
-foreach my $`var^ (@`array^)`$FOR_BRACKET_STL^{
+foreach my $`var^ (@`array^)`$BRfor^{
     `cursor^
 }
 
 
 XPT forkeys hint=foreach\ my\ var\ \(\ keys\ %**\ )
-foreach my $`var^ ( keys @`array^ )`$FOR_BRACKET_STL^{
+foreach my $`var^ ( keys @`array^ )`$BRfor^{
     `cursor^
 }
 
 
 XPT forvalues hint=foreach\ my\ var\ \(\ keys\ %**\ )
-foreach my $`var^ ( values @`array^ )`$FOR_BRACKET_STL^{
+foreach my $`var^ ( values @`array^ )`$BRfor^{
     `cursor^
 }
 
 
 XPT if hint=if\ (\ ..\ )\ {\ ..\ }\ ...
 XSET job=$CS job
-if ( `cond^ )`$IF_BRACKET_STL^{
+if ( `cond^ )`$BRif^{
     `job^
 }`
-`...^`$ELSE_BRACKET_STL^elsif ( `cond2^ )`$IF_BRACKET_STL^{
+`...^`$BRel^elsif ( `cond2^ )`$BRif^{
     `job^
 }`
 `...^`
-`else...{{^`$ELSE_BRACKET_STL^else`$IF_BRACKET_STL^{
+`else...{{^`$BRel^else`$BRif^{
     `cursor^
 }`}}^
 
@@ -140,7 +140,7 @@ package `className^;
 
 use base qw(`parent^);
 
-sub new`$FUNC_BRACKET_STL^{
+sub new`$BRfun^{
     my $class = shift;
     $class = ref $class if ref $class;
     my $self = bless {}, $class;
@@ -156,23 +156,23 @@ sub new`$FUNC_BRACKET_STL^{
 
 XPT if_ hint=if\ (..)\ {\ SEL\ }\ ...
 XSET job=$CS job
-if ( `cond^ )`$IF_BRACKET_STL^{
+if ( `cond^ )`$BRif^{
     `wrapped^
 }`
-`...^`$ELSE_BRACKET_STL^elsif ( `cond2^ )`$IF_BRACKET_STL^{
+`...^`$BRel^elsif ( `cond2^ )`$BRif^{
     `job^
 }`
 `...^`
-`else...{{^`$ELSE_BRACKET_STL^else`$IF_BRACKET_STL^{
+`else...{{^`$BRel^else`$BRif^{
     `cursor^
 }`}}^
 
 
 XPT eval_ hint=eval\ {\ ..\ };if...
-eval`$IF_BRACKET_STL^{
+eval`$BRif^{
     `wrapped^
 };
-if ($@)`$IF_BRACKET_STL^{
+if ($@)`$BRif^{
     `handle^
 }
 

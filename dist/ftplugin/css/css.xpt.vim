@@ -33,7 +33,7 @@ XPTemplateDef
 
 
 XPT padding " padding:
-padding: `^;
+padding: `v^`v^AutoCmpl( 'auto', '0px' )^;
 
 XPT width " width : 
 width: `^;
