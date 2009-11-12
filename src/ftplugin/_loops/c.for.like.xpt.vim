@@ -11,9 +11,9 @@ XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $BRif     \ 
-XPTvar $FOR_BRACKET_STL    \ 
-XPTvar $WHILE_BRACKET_STL  \ 
-XPTvar $STRUCT_BRACKET_STL \ 
+XPTvar $BRfor    \ 
+XPTvar $BRwhl  \ 
+XPTvar $BRstc \ 
 
 
 
@@ -26,13 +26,13 @@ XPTemplateDef
 
 
 XPT for hint=for\ (..;..;++)
-for (`i^ = `0^; `i^ < `len^; ++`i^)`$FOR_BRACKET_STL^{
+for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRfor^{
     `cursor^
 }
 
 
 XPT forr hint=for\ (..;..;--)
-for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$FOR_BRACKET_STL^{
+for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$BRfor^{
     `cursor^
 }
 

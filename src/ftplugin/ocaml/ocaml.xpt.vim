@@ -11,10 +11,10 @@ XPTvar $VOID_LINE  (* void *)
 XPTvar $CURSOR_PH      (* cursor *)
 
 XPTvar $BRif     \ 
-XPTvar $FOR_BRACKET_STL    \ 
-XPTvar $WHILE_BRACKET_STL  \ 
-XPTvar $STRUCT_BRACKET_STL \ 
-XPTvar $FUNC_BRACKET_STL   \ 
+XPTvar $BRfor    \ 
+XPTvar $BRwhl  \ 
+XPTvar $BRstc \ 
+XPTvar $BRfun   \ 
 
 XPTvar $CL    (*
 XPTvar $CM    *

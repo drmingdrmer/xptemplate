@@ -10,10 +10,10 @@ XPTvar $FALSE         false
 XPTvar $NULL          NULL
 
 XPTvar $BRif     \n
-XPTvar $FOR_BRACKET_STL    \n
-XPTvar $WHILE_BRACKET_STL  \n
-XPTvar $STRUCT_BRACKET_STL \n
-XPTvar $FUNC_BRACKET_STL   \n
+XPTvar $BRfor    \n
+XPTvar $BRwhl  \n
+XPTvar $BRstc \n
+XPTvar $BRfun   \n
 
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */

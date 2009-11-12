@@ -11,11 +11,11 @@ XPTvar $VOID_LINE      /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $BRif     \ 
-XPTvar $ELSE_BRACKET_STL   \n
-XPTvar $FOR_BRACKET_STL    \ 
-XPTvar $WHILE_BRACKET_STL  \ 
-XPTvar $STRUCT_BRACKET_STL \ 
-XPTvar $FUNC_BRACKET_STL   \ 
+XPTvar $BRel   \n
+XPTvar $BRfor    \ 
+XPTvar $BRwhl  \ 
+XPTvar $BRstc \ 
+XPTvar $BRfun   \ 
 
 XPTinclude 
       \ _common/common
@@ -57,7 +57,7 @@ XPT html hint=<?$PHP_TAG\ ...\ ?>
 
 
 XPT foreach hint=foreach\ (..\ as\ ..)\ {..}
-foreach ($`var^ as `container^)`$FOR_BRACKET_STL^{
+foreach ($`var^ as `container^)`$BRfor^{
     `cursor^
 }
 
@@ -65,21 +65,21 @@ foreach ($`var^ as `container^)`$FOR_BRACKET_STL^{
 XPT fun hint=function\ ..(\ ..\ )\ {..}
 XSET params=Void()
 XSET params|post=EchoIfEq('  ', '')
-function `funName^(` `params` ^)`$FUNC_BRACKET_STL^{
+function `funName^(` `params` ^)`$BRfun^{
     `cursor^
 }
 
 
 XPT class hint=class\ ..\ {\ ..\ }
-class `className^`$FUNC_BRACKET_STL^{
-    function __construct( `args^ )`$FUNC_BRACKET_STL^{
+class `className^`$BRfun^{
+    function __construct( `args^ )`$BRfun^{
         `cursor^
     }
 }
 
 
 XPT interface hint=interface\ ..\ {\ ..\ }
-interface `interfaceName^`$FUNC_BRACKET_STL^{
+interface `interfaceName^`$BRfun^{
     `cursor^
 }
 

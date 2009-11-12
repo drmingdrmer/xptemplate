@@ -11,11 +11,11 @@ XPTvar $VOID_LINE     # void;
 XPTvar $CURSOR_PH     # cursor
 
 XPTvar $BRif     \ 
-XPTvar $ELSE_BRACKET_STL   \n
-XPTvar $FOR_BRACKET_STL    \ 
-XPTvar $WHILE_BRACKET_STL  \ 
-XPTvar $STRUCT_BRACKET_STL \ 
-XPTvar $FUNC_BRACKET_STL   \ 
+XPTvar $BRel   \n
+XPTvar $BRfor    \ 
+XPTvar $BRwhl  \ 
+XPTvar $BRstc \ 
+XPTvar $BRfun   \ 
 
 XPTinclude 
       \ _common/common
@@ -69,7 +69,7 @@ XPT xforeach hint=..\ foreach\ ..;
 
 
 XPT sub hint=sub\ ..\ {\ ..\ }
-sub `fun_name^`$FUNC_BRACKET_STL^{
+sub `fun_name^`$BRfun^{
     `cursor^
 }
 
@@ -94,30 +94,30 @@ XPT try alias=eval hint=eval\ {\ ..\ };\ if\ ...
 
 
 XPT whileeach hint=while\ \(\ \(\ key,\ val\ )\ =\ each\(\ %**\ )\ )
-while ( ( $`key^, $`val^ ) = each( %`array^ ) )`$WHILE_BRACKET_STL^{
+while ( ( $`key^, $`val^ ) = each( %`array^ ) )`$BRwhl^{
     `cursor^
 }
 
 XPT whileline hint=while\ \(\ defined\(\ \$line\ =\ <FILE>\ )\ )
-while ( defined( $`line^ = <`STDIN^> ) )`$WHILE_BRACKET_STL^{
+while ( defined( $`line^ = <`STDIN^> ) )`$BRwhl^{
     `cursor^
 }
 
 
 XPT foreach hint=foreach\ my\ ..\ (..){}
-foreach my $`var^ (@`array^)`$FOR_BRACKET_STL^{
+foreach my $`var^ (@`array^)`$BRfor^{
     `cursor^
 }
 
 
 XPT forkeys hint=foreach\ my\ var\ \(\ keys\ %**\ )
-foreach my $`var^ ( keys @`array^ )`$FOR_BRACKET_STL^{
+foreach my $`var^ ( keys @`array^ )`$BRfor^{
     `cursor^
 }
 
 
 XPT forvalues hint=foreach\ my\ var\ \(\ keys\ %**\ )
-foreach my $`var^ ( values @`array^ )`$FOR_BRACKET_STL^{
+foreach my $`var^ ( values @`array^ )`$BRfor^{
     `cursor^
 }
 
@@ -127,11 +127,11 @@ XSET job=$CS job
 if ( `cond^ )`$BRif^{
     `job^
 }`
-`...^`$ELSE_BRACKET_STL^elsif ( `cond2^ )`$BRif^{
+`...^`$BRel^elsif ( `cond2^ )`$BRif^{
     `job^
 }`
 `...^`
-`else...{{^`$ELSE_BRACKET_STL^else`$BRif^{
+`else...{{^`$BRel^else`$BRif^{
     `cursor^
 }`}}^
 
@@ -140,7 +140,7 @@ package `className^;
 
 use base qw(`parent^);
 
-sub new`$FUNC_BRACKET_STL^{
+sub new`$BRfun^{
     my $class = shift;
     $class = ref $class if ref $class;
     my $self = bless {}, $class;
@@ -159,11 +159,11 @@ XSET job=$CS job
 if ( `cond^ )`$BRif^{
     `wrapped^
 }`
-`...^`$ELSE_BRACKET_STL^elsif ( `cond2^ )`$BRif^{
+`...^`$BRel^elsif ( `cond2^ )`$BRif^{
     `job^
 }`
 `...^`
-`else...{{^`$ELSE_BRACKET_STL^else`$BRif^{
+`else...{{^`$BRel^else`$BRif^{
     `cursor^
 }`}}^
 

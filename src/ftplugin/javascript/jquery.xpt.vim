@@ -13,11 +13,11 @@ XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
 
 XPTvar $BRif     ' '
-XPTvar $ELSE_BRACKET_STL   \n
-XPTvar $FOR_BRACKET_STL    ' '
-XPTvar $WHILE_BRACKET_STL  ' '
-XPTvar $STRUCT_BRACKET_STL ' '
-XPTvar $FUNC_BRACKET_STL   ' '
+XPTvar $BRel   \n
+XPTvar $BRfor    ' '
+XPTvar $BRwhl  ' '
+XPTvar $BRstc ' '
+XPTvar $BRfun   ' '
 
 " XPTvar $JQ jQuery
 XPTvar $JQ $

@@ -25,6 +25,7 @@ XPTvar	xpt.snippet.syn.txt	/*XPTvar*
 `::^	xpt.snippet.syn.txt	/*`::^*
 ```	xpt.snippet.syn.txt	/*```*
 `cursor^	xpt.snippet.syn.txt	/*`cursor^*
+g:XPTaddBundle()	xpt.api.txt	/*g:XPTaddBundle()*
 g:xptemplate_brace_complete	xptemplate.txt	/*g:xptemplate_brace_complete*
 g:xptemplate_bundle	xptemplate.txt	/*g:xptemplate_bundle*
 g:xptemplate_goback	xptemplate.txt	/*g:xptemplate_goback*
@@ -57,6 +58,7 @@ xpt-$	xpt.snippet.syn.txt	/*xpt-$*
 xpt-...	xptemplate.txt	/*xpt-...*
 xpt-```	xpt.snippet.syn.txt	/*xpt-```*
 xpt-api	xpt.api.txt	/*xpt-api*
+xpt-bundle	xptemplate.txt	/*xpt-bundle*
 xpt-changes-log	xptemplate.txt	/*xpt-changes-log*
 xpt-context	xptemplate.txt	/*xpt-context*
 xpt-customize	xptemplate.txt	/*xpt-customize*

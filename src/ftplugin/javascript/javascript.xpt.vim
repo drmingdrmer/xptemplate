@@ -8,11 +8,11 @@ XPTvar $NULL          null
 XPTvar $UNDEFINED     undefined
 
 XPTvar $BRif     ' '
-XPTvar $ELSE_BRACKET_STL   \n
-XPTvar $FOR_BRACKET_STL    ' '
-XPTvar $WHILE_BRACKET_STL  ' '
-XPTvar $STRUCT_BRACKET_STL ' '
-XPTvar $FUNC_BRACKET_STL   ' '
+XPTvar $BRel   \n
+XPTvar $BRfor    ' '
+XPTvar $BRwhl  ' '
+XPTvar $BRstc ' '
+XPTvar $BRfun   ' '
 
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
@@ -109,7 +109,7 @@ function` `name^ (`arg*^) {
 
 
 XPT forin hint=for\ (var\ ..\ in\ ..)\ {..}
-for ( var `i^ in `array^ )`$FOR_BRACKET_STL^{
+for ( var `i^ in `array^ )`$BRfor^{
     var `e^ = `array^[`i^];
     `cursor^
 }
@@ -122,7 +122,7 @@ var `instant^ = new `Constructor^(`arg*^)
 
 XPT proto hint=...prototype...\ =\ function\(..)\ {\ ..\ }
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
-`Class^.prototype.`method^ = function(`arg*^)`$FUNC_BRACKET_STL^{
+`Class^.prototype.`method^ = function(`arg*^)`$BRfun^{
 `cursor^
 }
 

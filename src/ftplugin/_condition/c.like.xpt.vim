@@ -5,7 +5,7 @@ XPTvar $FALSE         0
 XPTvar $NULL          NULL
 
 XPTvar $BRif  \ 
-XPTvar $ELSE_BRACKET_STL   \n
+XPTvar $BRel   \n
 
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
@@ -21,7 +21,7 @@ XPT if		hint=if\ (..)\ {..}\ else...
 XSET job=$VOID_LINE
 if (`condition^)`$BRif^{ 
     `job^
-}` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^
+}` `else...{{^`$BRel^`Include:else^`}}^
 
 
 XPT elif hint=else\ if\ \(\ ...\ )\ {\ ...\ }

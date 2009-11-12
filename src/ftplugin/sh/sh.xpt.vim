@@ -12,11 +12,11 @@ XPTvar $CURSOR_PH     # cursor
 
 
 XPTvar $BRif     \ 
-XPTvar $ELSE_BRACKET_STL   \n
-XPTvar $FOR_BRACKET_STL    \ 
-XPTvar $WHILE_BRACKET_STL  \ 
-XPTvar $STRUCT_BRACKET_STL \ 
-XPTvar $FUNC_BRACKET_STL   \ 
+XPTvar $BRel   \n
+XPTvar $BRfor    \ 
+XPTvar $BRwhl  \ 
+XPTvar $BRstc \ 
+XPTvar $BRfun   \ 
 
 XPTinclude 
       \ _common/common
@@ -98,7 +98,7 @@ echo `date +~fmt^`
 
 
 XPT forin
-for ~i^ in ~list^;~$FOR_BRACKET_STL^do
+for ~i^ in ~list^;~$BRfor^do
     ~cursor^
 done
 
@@ -107,18 +107,18 @@ XPT foreach alias=forin
 
 
 XPT for
-for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$FOR_BRACKET_STL^do
+for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$BRfor^do
     ~cursor^
 done
 
 XPT forr
-for ((~i^ = ~n^; ~i^ >~=^ ~start^; ~i^--));~$FOR_BRACKET_STL^do
+for ((~i^ = ~n^; ~i^ >~=^ ~start^; ~i^--));~$BRfor^do
     ~cursor^
 done
 
 
 XPT while
-while ~condition^;~$WHILE_BRACKET_STL^do
+while ~condition^;~$BRwhl^do
     ~cursor^
 done
 
@@ -178,6 +178,6 @@ XPT [[
 
 
 XPT fun
-~name^ ()~$FUNC_BRACKET_STL^{
+~name^ ()~$BRfun^{
     ~cursor^
 }

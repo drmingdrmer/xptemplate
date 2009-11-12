@@ -11,17 +11,17 @@ XPTvar $VOID
 " if () ** {
 XPTvar $BRif     ' '
 " } ** else {
-XPTvar $ELSE_BRACKET_STL   \n
+XPTvar $BRel   \n
 " for () ** {
-XPTvar $FOR_BRACKET_STL    ' '
+XPTvar $BRfor    ' '
 " while () ** {
-XPTvar $WHILE_BRACKET_STL  ' '
+XPTvar $BRwhl  ' '
 " struct name ** {
-XPTvar $STRUCT_BRACKET_STL ' '
+XPTvar $BRstc ' '
 " int fun() ** {
-XPTvar $FUNC_BRACKET_STL   ' '
+XPTvar $BRfun   ' '
 " class name ** {
-XPTvar $CLS_BRACKET_STL    ' '
+XPTvar $BRcls    ' '
 
 
 XPTvar $SP_ARG      ' '

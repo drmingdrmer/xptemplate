@@ -125,7 +125,7 @@ a drdr.xp
 
     //  -------------class---------------                          
     // public class `className^ {                                  
-    //     public `className^(` `ctorParam` ^)`$FUNC_BRACKET_STL^{ 
+    //     public `className^(` `ctorParam` ^)`$BRfun^{ 
     //         `cursor^                                            
     //     }                                                       
     // }                                                           
@@ -326,9 +326,9 @@ WRAPPED_TEXT_line2 */
 
 
     //  -------------do---------------           
-    // do`$WHILE_BRACKET_STL^{                   
+    // do`$BRwhl^{                   
     //     `cursor^                              
-    // }`$WHILE_BRACKET_STL^while (`condition^); 
+    // }`$BRwhl^while (`condition^); 
 
 
 
@@ -522,7 +522,7 @@ a for (int i = 0; i < len; ++i)  {
 
 
     //  -------------foreach---------------               
-    // for ( `type^ `var^ : `inWhat^ )`$FOR_BRACKET_STL^{ 
+    // for ( `type^ `var^ : `inWhat^ )`$BRfor^{ 
     //     `cursor^                                       
     // }                                                  
 
@@ -572,7 +572,7 @@ a for (int i = n; i >= end; --i)  {
     //  -------------if---------------                     
     // if (`condition^)`$BRif^{                  
     //     `job^                                           
-    // }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ 
+    // }` `else...{{^`$BRel^`Include:else^`}}^ 
 
 
 
@@ -605,7 +605,7 @@ else {
     //  -------------if0---------------                    
     // if (`condition^)`$BRif^{                  
     //     `job^                                           
-    // }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ 
+    // }` `else...{{^`$BRel^`Include:else^`}}^ 
 
 
 
@@ -708,7 +708,7 @@ a if (condition) {
     //  -------------ifn---------------                    
     // if (`condition^)`$BRif^{                  
     //     `job^                                           
-    // }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ 
+    // }` `else...{{^`$BRel^`Include:else^`}}^ 
 
 
 
@@ -741,7 +741,7 @@ else {
     //  -------------ifn0---------------                   
     // if (`condition^)`$BRif^{                  
     //     `job^                                           
-    // }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ 
+    // }` `else...{{^`$BRel^`Include:else^`}}^ 
 
 
 
@@ -774,7 +774,7 @@ else {
     //  -------------ifnn---------------                   
     // if (`condition^)`$BRif^{                  
     //     `job^                                           
-    // }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ 
+    // }` `else...{{^`$BRel^`Include:else^`}}^ 
 
 
 
@@ -805,7 +805,7 @@ else {
 
 
     //  -------------main---------------                            
-    // public static void main( String[] args )`$FUNC_BRACKET_STL^{ 
+    // public static void main( String[] args )`$BRfun^{ 
     //     `cursor^                                                 
     // }                                                            
 
@@ -1167,7 +1167,7 @@ finally
 
 
     //  -------------while---------------       
-    // while (`condition^)`$WHILE_BRACKET_STL^{ 
+    // while (`condition^)`$BRwhl^{ 
     //     `cursor^                             
     // }                                        
 
@@ -1191,9 +1191,9 @@ a while (condition) {
 
 
     //  -------------while0---------------       
-    // do`$WHILE_BRACKET_STL^{                   
+    // do`$BRwhl^{                   
     //     `cursor^                              
-    // }`$WHILE_BRACKET_STL^while (`condition^); 
+    // }`$BRwhl^while (`condition^); 
 
 
 
@@ -1215,7 +1215,7 @@ a do {
 
 
     //  -------------while1---------------      
-    // while (`condition^)`$WHILE_BRACKET_STL^{ 
+    // while (`condition^)`$BRwhl^{ 
     //     `cursor^                             
     // }                                        
 
@@ -1239,7 +1239,7 @@ a while (true) {
 
 
     //  -------------whilenn---------------     
-    // while (`condition^)`$WHILE_BRACKET_STL^{ 
+    // while (`condition^)`$BRwhl^{ 
     //     `cursor^                             
     // }                                        
 

@@ -124,8 +124,8 @@ a drdr.xp
 
 
     /*  -------------class---------------                     */
-/* class `className^`$FUNC_BRACKET_STL^{                  */
-/*     function __construct( `args^ )`$FUNC_BRACKET_STL^{ */
+/* class `className^`$BRfun^{                  */
+/*     function __construct( `args^ )`$BRfun^{ */
 /*         `cursor^                                       */
 /*     }                                                  */
 /* }                                                      */
@@ -326,9 +326,9 @@ WRAPPED_TEXT_line2 */
 
 
     /*  -------------do---------------           */
-/* do`$WHILE_BRACKET_STL^{                   */
+/* do`$BRwhl^{                   */
 /*     `cursor^                              */
-/* }`$WHILE_BRACKET_STL^while (`condition^); */
+/* }`$BRwhl^while (`condition^); */
 
 
 
@@ -454,7 +454,7 @@ a test.page
 
 
     /*  -------------for---------------                                                                   */
-/* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$FOR_BRACKET_STL^{ */
+/* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRfor^{ */
 /*     `cursor^                                                                                       */
 /* }                                                                                                  */
 
@@ -478,7 +478,7 @@ a for ( $i = 0; $i < len; ++$i ) {
 
 
     /*  -------------foreach---------------               */
-/* foreach ($`var^ as `container^)`$FOR_BRACKET_STL^{ */
+/* foreach ($`var^ as `container^)`$BRfor^{ */
 /*     `cursor^                                       */
 /* }                                                  */
 
@@ -516,7 +516,7 @@ a for (;;) /* void */
 
 
     /*  -------------fornn---------------                                                                             */
-/* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$FOR_BRACKET_STL^{ */
+/* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRfor^{ */
 /*     `cursor^                                                                                                   */
 /* }                                                                                                              */
 
@@ -540,7 +540,7 @@ a for ( $ptr = init; null != $ptr; $ptr ) {
 
 
     /*  -------------forr---------------                                                                     */
-/* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$FOR_BRACKET_STL^{ */
+/* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRfor^{ */
 /*     `cursor^                                                                                          */
 /* }                                                                                                     */
 
@@ -564,7 +564,7 @@ a for ( $i = 0; $i >= end; --$i ) {
 
 
     /*  -------------fun---------------                     */
-/* function `funName^(` `params` ^)`$FUNC_BRACKET_STL^{ */
+/* function `funName^(` `params` ^)`$BRfun^{ */
 /*     `cursor^                                         */
 /* }                                                    */
 
@@ -604,7 +604,7 @@ a function funName() {
     /*  -------------if---------------                     */
 /* if (`condition^)`$BRif^{                  */
 /*     `job^                                           */
-/* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
+/* }` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
@@ -637,7 +637,7 @@ else {
     /*  -------------if0---------------                    */
 /* if (`condition^)`$BRif^{                  */
 /*     `job^                                           */
-/* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
+/* }` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
@@ -740,7 +740,7 @@ a if (condition) {
     /*  -------------ifn---------------                    */
 /* if (`condition^)`$BRif^{                  */
 /*     `job^                                           */
-/* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
+/* }` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
@@ -773,7 +773,7 @@ else {
     /*  -------------ifn0---------------                   */
 /* if (`condition^)`$BRif^{                  */
 /*     `job^                                           */
-/* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
+/* }` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
@@ -806,7 +806,7 @@ else {
     /*  -------------ifnn---------------                   */
 /* if (`condition^)`$BRif^{                  */
 /*     `job^                                           */
-/* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
+/* }` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
@@ -837,7 +837,7 @@ else {
 
 
     /*  -------------interface---------------        */
-/* interface `interfaceName^`$FUNC_BRACKET_STL^{ */
+/* interface `interfaceName^`$BRfun^{ */
 /*     `cursor^                                  */
 /* }                                             */
 
@@ -948,7 +948,7 @@ a switch (var) {
 
 
     /*  -------------while---------------       */
-/* while (`condition^)`$WHILE_BRACKET_STL^{ */
+/* while (`condition^)`$BRwhl^{ */
 /*     `cursor^                             */
 /* }                                        */
 
@@ -972,9 +972,9 @@ while (condition_TYPED) {
 
 
     /*  -------------while0---------------       */
-/* do`$WHILE_BRACKET_STL^{                   */
+/* do`$BRwhl^{                   */
 /*     `cursor^                              */
-/* }`$WHILE_BRACKET_STL^while (`condition^); */
+/* }`$BRwhl^while (`condition^); */
 
 
 
@@ -996,7 +996,7 @@ do {
 
 
     /*  -------------while1---------------      */
-/* while (`condition^)`$WHILE_BRACKET_STL^{ */
+/* while (`condition^)`$BRwhl^{ */
 /*     `cursor^                             */
 /* }                                        */
 
@@ -1020,7 +1020,7 @@ while (true) {
 
 
     /*  -------------whilenn---------------     */
-/* while (`condition^)`$WHILE_BRACKET_STL^{ */
+/* while (`condition^)`$BRwhl^{ */
 /*     `cursor^                             */
 /* }                                        */
 
