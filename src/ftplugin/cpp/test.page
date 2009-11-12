@@ -467,15 +467,15 @@ public:
     
 private:
 };
- 
+
 className::className( ctorParam )
 {
 }
- 
+
 className::~className()
 {
 }
- 
+
 className::className( const className &cpy )
 {
 }
@@ -489,15 +489,15 @@ public:
     
 private:
 };
- 
+
 className_TYPED::className_TYPED( ctorParam_TYPED )
 {
 }
- 
+
 className_TYPED::~className_TYPED()
 {
 }
- 
+
 className_TYPED::className_TYPED( const className_TYPED &cpy )
 {
 } b
@@ -511,15 +511,15 @@ public:
     
 private:
 };
- 
+
 className::className( ctorParam )
 {
 }
- 
+
 className::~className()
 {
 }
- 
+
 className::className( const className &cpy )
 {
 } b
@@ -533,15 +533,15 @@ public:
     
 private:
 };
- 
+
 className::className( ctorParam )
 {
 }
- 
+
 className::~className()
 {
 }
- 
+
 className::className( const className &cpy )
 {
 }
@@ -779,10 +779,10 @@ a do
 while (condition);
 
 
-    /*  -------------elif---------------       */
-    /* else if (`condition^)`$IF_BRACKET_STL^{ */
-    /*     `job^                               */
-    /* }                                       */
+    /*  -------------elif--------------- */
+    /* else if (`condition^)`$BRif^{     */
+    /*     `job^                         */
+    /* }                                 */
 
 
 
@@ -808,7 +808,7 @@ a else if (condition)
 
 
     /*  -------------else--------------- */
-    /* else`$IF_BRACKET_STL^{            */
+    /* else`$BRif^{                      */
     /*     `cursor^                      */
     /* }                                 */
 
@@ -836,7 +836,7 @@ a else
 
 
     /*  -------------else_--------------- */
-    /* else`$IF_BRACKET_STL^{             */
+    /* else`$BRif^{                       */
     /*     `wrapped^                      */
     /* }                                  */
 
@@ -1063,10 +1063,10 @@ a test.page
   
 
 
-    /*  -------------for---------------                             */
-    /* for (`int^ `i^ = `0^; `i^ < `len^; ++`i^) `$IF_BRACKET_STL^{ */
-    /*     `cursor^                                                 */
-    /* }                                                            */
+    /*  -------------for---------------                   */
+    /* for (`int^ `i^ = `0^; `i^ < `len^; ++`i^) `$BRif^{ */
+    /*     `cursor^                                       */
+    /* }                                                  */
 
 
 
@@ -1133,10 +1133,10 @@ a for ( ptr = init; NULL != ptr; ptr )
 }
 
 
-    /*  -------------forr---------------                               */
-    /* for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^) `$IF_BRACKET_STL^{ */
-    /*     `cursor^                                                    */
-    /* }                                                               */
+    /*  -------------forr---------------                     */
+    /* for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^) `$BRif^{ */
+    /*     `cursor^                                          */
+    /* }                                                     */
 
 
 
@@ -1249,7 +1249,7 @@ name()
 
 
     /*  -------------if---------------                     */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                            */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1289,7 +1289,7 @@ else
 
 
     /*  -------------if0---------------                    */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                            */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1328,10 +1328,10 @@ else
 }
 
 
-    /*  -------------if_---------------   */
-    /* if (`condition^)`$IF_BRACKET_STL^{ */
-    /*     `wrapped^                      */
-    /* }                                  */
+    /*  -------------if_--------------- */
+    /* if (`condition^)`$BRif^{         */
+    /*     `wrapped^                    */
+    /* }                                */
 
 
 
@@ -1360,10 +1360,10 @@ a if (condition)
 }
 
 
-    /*  -------------ifee---------------  */
-    /* if (`condition^)`$IF_BRACKET_STL^{ */
-    /*     `job^                          */
-    /* }` `else_if...^                    */
+    /*  -------------ifee--------------- */
+    /* if (`condition^)`$BRif^{          */
+    /*     `job^                         */
+    /* }` `else_if...^                   */
 
 
 
@@ -1425,7 +1425,7 @@ else if (condition)
 
 
     /*  -------------ifn---------------                    */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                            */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1465,7 +1465,7 @@ else
 
 
     /*  -------------ifn0---------------                   */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                            */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1505,7 +1505,7 @@ else
 
 
     /*  -------------ifnn---------------                   */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                            */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1747,7 +1747,7 @@ a struct structName
 
 
     /*  -------------switch--------------- */
-    /* switch (`var^)`$IF_BRACKET_STL^{    */
+    /* switch (`var^)`$BRif^{              */
     /*     case `constant^ :               */
     /*         `job^                       */
     /*         break;                      */

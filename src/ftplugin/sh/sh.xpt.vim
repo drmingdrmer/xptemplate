@@ -11,7 +11,7 @@ XPTvar $VOID_LINE     # void
 XPTvar $CURSOR_PH     # cursor
 
 
-XPTvar $IF_BRACKET_STL     \ 
+XPTvar $BRif     \ 
 XPTvar $ELSE_BRACKET_STL   \n
 XPTvar $FOR_BRACKET_STL    \ 
 XPTvar $WHILE_BRACKET_STL  \ 
@@ -139,7 +139,7 @@ esac
 
 
 XPT if
-if ~condition^~condition^sh_complete_brace()^;~$IF_BRACKET_STL^then
+if ~condition^~condition^sh_complete_brace()^;~$BRif^then
     ~cursor^
 fi
 
@@ -150,7 +150,7 @@ else
 
 
 XPT ife
-if ~condition^~condition^sh_complete_brace()^;~$IF_BRACKET_STL^then
+if ~condition^~condition^sh_complete_brace()^;~$BRif^then
     ~job^
 else
     ~cursor^
@@ -158,7 +158,7 @@ fi
 
 
 XPT elif
-elif ~condition^~condition^sh_complete_brace()^;~$IF_BRACKET_STL^then
+elif ~condition^~condition^sh_complete_brace()^;~$BRif^then
     ~cursor^
 
 

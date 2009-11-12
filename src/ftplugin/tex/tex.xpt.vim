@@ -7,7 +7,7 @@ XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
 XPTvar $VOID_LINE     /* void */;
-XPTvar $IF_BRACKET_STL \n
+XPTvar $BRif \n
 
 XPTinclude 
       \ _common/common

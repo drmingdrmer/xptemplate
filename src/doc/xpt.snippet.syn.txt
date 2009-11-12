@@ -692,7 +692,7 @@
 	Another way to define expandable is by using XSET command to define a
 	post filter: >
 		XPT if
-		if (`condition^)`$IF_BRACKET_STL^{ 
+		if (`condition^)`$BRif^{ 
 		    `job^
 		}` `else...^
 		XSETm else...|post

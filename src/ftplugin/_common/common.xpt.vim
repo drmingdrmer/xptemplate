@@ -9,7 +9,7 @@ XPTvar $email  $email is not set, you need to set g:xptemplate_vars="$email=your
 XPTvar $VOID
 
 " if () ** {
-XPTvar $IF_BRACKET_STL     ' '
+XPTvar $BRif     ' '
 " } ** else {
 XPTvar $ELSE_BRACKET_STL   \n
 " for () ** {

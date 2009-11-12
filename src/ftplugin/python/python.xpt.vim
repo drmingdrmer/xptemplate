@@ -10,7 +10,7 @@ XPTvar $UNDEFINED     None
 XPTvar $VOID_LINE     # nothing
 XPTvar $CURSOR_PH     # cursor
 
-XPTvar $IF_BRACKET_STL \n
+XPTvar $BRif \n
 
 XPTinclude 
       \ _common/common

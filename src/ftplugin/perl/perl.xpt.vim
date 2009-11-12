@@ -10,7 +10,7 @@ XPTvar $UNDEFINED
 XPTvar $VOID_LINE     # void;
 XPTvar $CURSOR_PH     # cursor
 
-XPTvar $IF_BRACKET_STL     \ 
+XPTvar $BRif     \ 
 XPTvar $ELSE_BRACKET_STL   \n
 XPTvar $FOR_BRACKET_STL    \ 
 XPTvar $WHILE_BRACKET_STL  \ 
@@ -75,16 +75,16 @@ sub `fun_name^`$FUNC_BRACKET_STL^{
 
 
 XPT unless hint=unless\ (\ ..\ )\ {\ ..\ }
-unless (`cond^)`$IF_BRACKET_STL^{
+unless (`cond^)`$BRif^{
     `cursor^
 }
 
 
 XPT eval hint=eval\ {\ ..\ };if...
-eval`$IF_BRACKET_STL^{
+eval`$BRif^{
     `risky^
 };
-if ($@)`$IF_BRACKET_STL^{
+if ($@)`$BRif^{
     `handle^
 }
 
@@ -124,14 +124,14 @@ foreach my $`var^ ( values @`array^ )`$FOR_BRACKET_STL^{
 
 XPT if hint=if\ (\ ..\ )\ {\ ..\ }\ ...
 XSET job=$CS job
-if ( `cond^ )`$IF_BRACKET_STL^{
+if ( `cond^ )`$BRif^{
     `job^
 }`
-`...^`$ELSE_BRACKET_STL^elsif ( `cond2^ )`$IF_BRACKET_STL^{
+`...^`$ELSE_BRACKET_STL^elsif ( `cond2^ )`$BRif^{
     `job^
 }`
 `...^`
-`else...{{^`$ELSE_BRACKET_STL^else`$IF_BRACKET_STL^{
+`else...{{^`$ELSE_BRACKET_STL^else`$BRif^{
     `cursor^
 }`}}^
 
@@ -156,23 +156,23 @@ sub new`$FUNC_BRACKET_STL^{
 
 XPT if_ hint=if\ (..)\ {\ SEL\ }\ ...
 XSET job=$CS job
-if ( `cond^ )`$IF_BRACKET_STL^{
+if ( `cond^ )`$BRif^{
     `wrapped^
 }`
-`...^`$ELSE_BRACKET_STL^elsif ( `cond2^ )`$IF_BRACKET_STL^{
+`...^`$ELSE_BRACKET_STL^elsif ( `cond2^ )`$BRif^{
     `job^
 }`
 `...^`
-`else...{{^`$ELSE_BRACKET_STL^else`$IF_BRACKET_STL^{
+`else...{{^`$ELSE_BRACKET_STL^else`$BRif^{
     `cursor^
 }`}}^
 
 
 XPT eval_ hint=eval\ {\ ..\ };if...
-eval`$IF_BRACKET_STL^{
+eval`$BRif^{
     `wrapped^
 };
-if ($@)`$IF_BRACKET_STL^{
+if ($@)`$BRif^{
     `handle^
 }
 

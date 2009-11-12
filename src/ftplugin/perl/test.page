@@ -269,10 +269,10 @@ WRAPPED_TEXT_line2
 
 
     #  -------------eval--------------- 
-    # eval`$IF_BRACKET_STL^{            
+    # eval`$BRif^{            
     #     `risky^                       
     # };                                
-    # if ($@)`$IF_BRACKET_STL^{         
+    # if ($@)`$BRif^{         
     #     `handle^                      
     # }                                 
 
@@ -308,10 +308,10 @@ WRAPPED_TEXT_line2
 
 
     #  -------------eval_--------------- 
-    # eval`$IF_BRACKET_STL^{             
+    # eval`$BRif^{             
     #     `wrapped^                      
     # };                                 
-    # if ($@)`$IF_BRACKET_STL^{          
+    # if ($@)`$BRif^{          
     #     `handle^                       
     # }                                  
 
@@ -499,14 +499,14 @@ if ($@) {
 
 
     #  -------------if---------------                             
-    # if ( `cond^ )`$IF_BRACKET_STL^{                             
+    # if ( `cond^ )`$BRif^{                             
     #     `job^                                                   
     # }`                                                          
-    # `...^`$ELSE_BRACKET_STL^elsif ( `cond2^ )`$IF_BRACKET_STL^{ 
+    # `...^`$ELSE_BRACKET_STL^elsif ( `cond2^ )`$BRif^{ 
     #     `job^                                                   
     # }`                                                          
     # `...^`                                                      
-    # `else...{{^`$ELSE_BRACKET_STL^else`$IF_BRACKET_STL^{        
+    # `else...{{^`$ELSE_BRACKET_STL^else`$BRif^{        
     #     `cursor^                                                
     # }`}}^                                                       
 
@@ -568,14 +568,14 @@ if ($@) {
 
 
     #  -------------if_---------------                            
-    # if ( `cond^ )`$IF_BRACKET_STL^{                             
+    # if ( `cond^ )`$BRif^{                             
     #     `wrapped^                                               
     # }`                                                          
-    # `...^`$ELSE_BRACKET_STL^elsif ( `cond2^ )`$IF_BRACKET_STL^{ 
+    # `...^`$ELSE_BRACKET_STL^elsif ( `cond2^ )`$BRif^{ 
     #     `job^                                                   
     # }`                                                          
     # `...^`                                                      
-    # `else...{{^`$ELSE_BRACKET_STL^else`$IF_BRACKET_STL^{        
+    # `else...{{^`$ELSE_BRACKET_STL^else`$BRif^{        
     #     `cursor^                                                
     # }`}}^                                                       
 
@@ -756,10 +756,10 @@ else {
 
 
     #  -------------try--------------- 
-    # eval`$IF_BRACKET_STL^{           
+    # eval`$BRif^{           
     #     `risky^                      
     # };                               
-    # if ($@)`$IF_BRACKET_STL^{        
+    # if ($@)`$BRif^{        
     #     `handle^                     
     # }                                
 
@@ -795,10 +795,10 @@ else {
 
 
     #  -------------try_--------------- 
-    # eval`$IF_BRACKET_STL^{            
+    # eval`$BRif^{            
     #     `wrapped^                     
     # };                                
-    # if ($@)`$IF_BRACKET_STL^{         
+    # if ($@)`$BRif^{         
     #     `handle^                      
     # }                                 
 
@@ -838,7 +838,7 @@ if ($@) {
 
 
     #  -------------unless--------------- 
-    # unless (`cond^)`$IF_BRACKET_STL^{   
+    # unless (`cond^)`$BRif^{   
     #     `cursor^                        
     # }                                   
 

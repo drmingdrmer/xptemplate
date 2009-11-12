@@ -521,7 +521,7 @@
 	
 	Brackets style variables may be defined as below: >
 		" if () ** {
-		XPTvar $IF_BRACKET_STL     ' '
+		XPTvar $BRif     ' '
 
 		" } ** else {
 		XPTvar $ELSE_BRACKET_STL   \n

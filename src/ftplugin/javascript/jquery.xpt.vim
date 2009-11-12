@@ -12,7 +12,7 @@ XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
 
-XPTvar $IF_BRACKET_STL     ' '
+XPTvar $BRif     ' '
 XPTvar $ELSE_BRACKET_STL   \n
 XPTvar $FOR_BRACKET_STL    ' '
 XPTvar $WHILE_BRACKET_STL  ' '

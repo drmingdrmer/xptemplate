@@ -86,7 +86,7 @@ XPTvar $VAR_PRE
 
 XPT varFormat hint=variables\ to\ define\ format
 " if () ** {
-XPTvar $IF_BRACKET_STL     ' '
+XPTvar $BRif     ' '
 " } ** else {
 XPTvar $ELSE_BRACKET_STL   \n
 " for () ** {

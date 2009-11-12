@@ -10,7 +10,7 @@ XPTvar $UNDEFINED     NULL
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      -- cursor
 
-XPTvar $IF_BRACKET_STL     \n
+XPTvar $BRif     \n
 XPTvar $FOR_BRACKET_STL    \n
 XPTvar $WHILE_BRACKET_STL  \n
 XPTvar $STRUCT_BRACKET_STL \n

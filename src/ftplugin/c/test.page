@@ -608,7 +608,7 @@ a do {
 
 
     /*  -------------elif---------------       */
-    /* else if (`condition^)`$IF_BRACKET_STL^{ */
+    /* else if (`condition^)`$BRif^{ */
     /*     `job^                               */
     /* }                                       */
 
@@ -632,7 +632,7 @@ a else if (condition) {
 
 
     /*  -------------else--------------- */
-    /* else`$IF_BRACKET_STL^{            */
+    /* else`$BRif^{            */
     /*     `cursor^                      */
     /* }                                 */
 
@@ -656,7 +656,7 @@ a else {
 
 
     /*  -------------else_--------------- */
-    /* else`$IF_BRACKET_STL^{             */
+    /* else`$BRif^{             */
     /*     `wrapped^                      */
     /* }                                  */
 
@@ -1049,7 +1049,7 @@ name()
 
 
     /*  -------------if---------------                     */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                  */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1082,7 +1082,7 @@ else {
 
 
     /*  -------------if0---------------                    */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                  */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1115,7 +1115,7 @@ else {
 
 
     /*  -------------if_---------------   */
-    /* if (`condition^)`$IF_BRACKET_STL^{ */
+    /* if (`condition^)`$BRif^{ */
     /*     `wrapped^                      */
     /* }                                  */
 
@@ -1143,7 +1143,7 @@ a if (condition) {
 
 
     /*  -------------ifee---------------  */
-    /* if (`condition^)`$IF_BRACKET_STL^{ */
+    /* if (`condition^)`$BRif^{ */
     /*     `job^                          */
     /* }` `else_if...^                    */
 
@@ -1185,7 +1185,7 @@ a if (condition) {
 
 
     /*  -------------ifn---------------                    */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                  */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1218,7 +1218,7 @@ else {
 
 
     /*  -------------ifn0---------------                   */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                  */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1251,7 +1251,7 @@ else {
 
 
     /*  -------------ifnn---------------                   */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                  */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1434,7 +1434,7 @@ a struct structName {
 
 
     /*  -------------switch--------------- */
-    /* switch (`var^)`$IF_BRACKET_STL^{    */
+    /* switch (`var^)`$BRif^{    */
     /*     case `constant^ :               */
     /*         `job^                       */
     /*         break;                      */

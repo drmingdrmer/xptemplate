@@ -5,7 +5,7 @@ XPTvar $TRUE           1
 XPTvar $FALSE          0
 XPTvar $NULL           NULL
 
-XPTvar $IF_BRACKET_STL     \ 
+XPTvar $BRif     \ 
 XPTvar $FOR_BRACKET_STL    \ 
 XPTvar $WHILE_BRACKET_STL  \ 
 XPTvar $STRUCT_BRACKET_STL \ 

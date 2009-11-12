@@ -923,7 +923,7 @@ endtry
 
     "  -------------varFormat--------------- 
     " _CMT_ if () ** {                       
-    " XPTvar $IF_BRACKET_STL     ' '         
+    " XPTvar $BRif     ' '         
     " _CMT_ } ** else {                      
     " XPTvar $ELSE_BRACKET_STL   \n          
     " _CMT_ for () ** {                      
@@ -940,7 +940,7 @@ endtry
 
 
     " if () ** {
-    XPTvar $IF_BRACKET_STL     ' '
+    XPTvar $BRif     ' '
     " } ** else {
     XPTvar $ELSE_BRACKET_STL   \n
     " for () ** {
@@ -955,7 +955,7 @@ endtry
     XPTvar $CLS_BRACKET_STL    ' '
 
     " if () ** {
-    XPTvar $IF_BRACKET_STL     ' '
+    XPTvar $BRif     ' '
     " } ** else {
     XPTvar $ELSE_BRACKET_STL   \n
     " for () ** {
@@ -970,7 +970,7 @@ endtry
     XPTvar $CLS_BRACKET_STL    ' ' b
 
     a " if () ** {
-    XPTvar $IF_BRACKET_STL     ' '
+    XPTvar $BRif     ' '
     " } ** else {
     XPTvar $ELSE_BRACKET_STL   \n
     " for () ** {
@@ -985,7 +985,7 @@ endtry
     XPTvar $CLS_BRACKET_STL    ' ' b
 
     a " if () ** {
-    XPTvar $IF_BRACKET_STL     ' '
+    XPTvar $BRif     ' '
     " } ** else {
     XPTvar $ELSE_BRACKET_STL   \n
     " for () ** {
@@ -1198,7 +1198,7 @@ endtry
     XPTvar $UNDEFINED     NULL
     
     " if () ** {
-    XPTvar $IF_BRACKET_STL     ' '
+    XPTvar $BRif     ' '
     " } ** else {
     XPTvar $ELSE_BRACKET_STL   \n
     " for () ** {
@@ -1239,7 +1239,7 @@ endtry
     XPTvar $UNDEFINED     NULL
     
     " if () ** {
-    XPTvar $IF_BRACKET_STL     ' '
+    XPTvar $BRif     ' '
     " } ** else {
     XPTvar $ELSE_BRACKET_STL   \n
     " for () ** {
@@ -1277,7 +1277,7 @@ endtry
      XPTvar $UNDEFINED     NULL
      
      " if () ** {
-     XPTvar $IF_BRACKET_STL     ' '
+     XPTvar $BRif     ' '
      " } ** else {
      XPTvar $ELSE_BRACKET_STL   \n
      " for () ** {
@@ -1318,7 +1318,7 @@ endtry
       XPTvar $UNDEFINED     NULL
       
       " if () ** {
-      XPTvar $IF_BRACKET_STL     ' '
+      XPTvar $BRif     ' '
       " } ** else {
       XPTvar $ELSE_BRACKET_STL   \n
       " for () ** {

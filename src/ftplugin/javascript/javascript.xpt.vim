@@ -7,7 +7,7 @@ XPTvar $FALSE         false
 XPTvar $NULL          null
 XPTvar $UNDEFINED     undefined
 
-XPTvar $IF_BRACKET_STL     ' '
+XPTvar $BRif     ' '
 XPTvar $ELSE_BRACKET_STL   \n
 XPTvar $FOR_BRACKET_STL    ' '
 XPTvar $WHILE_BRACKET_STL  ' '
@@ -135,17 +135,17 @@ setTimeout(function() { `job^ }, `milliseconds^)
 XPT try hint=try\ {..}\ catch\ {..}\ finally
 XSET dealError=/* error handling */
 XSET job=$VOID_LINE
-try`$IF_BRACKET_STL^{
+try`$BRif^{
     `job^
 }
-catch (`err^)`$IF_BRACKET_STL^{
+catch (`err^)`$BRif^{
     `dealError^
 }`...^
-catch (`err^)`$IF_BRACKET_STL^{
+catch (`err^)`$BRif^{
     `dealError^
 }`...^`
 `finally...{{^
-finally`$IF_BRACKET_STL^{
+finally`$BRif^{
     `cursor^
 }`}}^
 
@@ -171,16 +171,16 @@ function` `name^ (`param^) {
 XPT try_ hint=try\ {..}\ catch\ {..}\ finally
 XSET dealError=/* error handling */
 XSET job=$VOID_LINE
-try`$IF_BRACKET_STL^{
+try`$BRif^{
     `wrapped^
 }
-catch (`err^)`$IF_BRACKET_STL^{
+catch (`err^)`$BRif^{
     `dealError^
 }`...^
-catch (`err^)`$IF_BRACKET_STL^{
+catch (`err^)`$BRif^{
     `dealError^
 }`...^`
 `finally...{{^
-finally`$IF_BRACKET_STL^{
+finally`$BRif^{
     `cursor^
 }`}}^

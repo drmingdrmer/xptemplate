@@ -664,7 +664,7 @@ while (condition);
 
 
     /*  -------------elif---------------       */
-    /* else if (`condition^)`$IF_BRACKET_STL^{ */
+    /* else if (`condition^)`$BRif^{ */
     /*     `job^                               */
     /* }                                       */
 
@@ -692,7 +692,7 @@ a else if (condition)
 
 
     /*  -------------else--------------- */
-    /* else`$IF_BRACKET_STL^{            */
+    /* else`$BRif^{            */
     /*     `cursor^                      */
     /* }                                 */
 
@@ -720,7 +720,7 @@ a else
 
 
     /*  -------------else_--------------- */
-    /* else`$IF_BRACKET_STL^{             */
+    /* else`$BRif^{             */
     /*     `wrapped^                      */
     /* }                                  */
 
@@ -948,7 +948,7 @@ a test.page
 
 
     /*  -------------for---------------                             */
-    /* for (`int^ `i^ = `0^; `i^ < `len^; ++`i^) `$IF_BRACKET_STL^{ */
+    /* for (`int^ `i^ = `0^; `i^ < `len^; ++`i^) `$BRif^{ */
     /*     `cursor^                                                 */
     /* }                                                            */
 
@@ -1046,7 +1046,7 @@ a for ( ptr = init; null != ptr; ptr )
 
 
     /*  -------------forr---------------                               */
-    /* for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^) `$IF_BRACKET_STL^{ */
+    /* for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^) `$BRif^{ */
     /*     `cursor^                                                    */
     /* }                                                               */
 
@@ -1161,7 +1161,7 @@ name()
 
 
     /*  -------------if---------------                     */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                  */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1201,7 +1201,7 @@ else
 
 
     /*  -------------if0---------------                    */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                  */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1241,7 +1241,7 @@ else
 
 
     /*  -------------if_---------------   */
-    /* if (`condition^)`$IF_BRACKET_STL^{ */
+    /* if (`condition^)`$BRif^{ */
     /*     `wrapped^                      */
     /* }                                  */
 
@@ -1273,7 +1273,7 @@ a if (condition)
 
 
     /*  -------------ifee---------------  */
-    /* if (`condition^)`$IF_BRACKET_STL^{ */
+    /* if (`condition^)`$BRif^{ */
     /*     `job^                          */
     /* }` `else_if...^                    */
 
@@ -1337,7 +1337,7 @@ else if (condition)
 
 
     /*  -------------ifn---------------                    */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                  */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1377,7 +1377,7 @@ else
 
 
     /*  -------------ifn0---------------                   */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                  */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1417,7 +1417,7 @@ else
 
 
     /*  -------------ifnn---------------                   */
-    /* if (`condition^)`$IF_BRACKET_STL^{                  */
+    /* if (`condition^)`$BRif^{                  */
     /*     `job^                                           */
     /* }` `else...{{^`$ELSE_BRACKET_STL^`Include:else^`}}^ */
 
@@ -1699,7 +1699,7 @@ a public struct structName
 
 
     /*  -------------switch--------------- */
-    /* switch (`var^)`$IF_BRACKET_STL^{    */
+    /* switch (`var^)`$BRif^{    */
     /*     case `constant^ :               */
     /*         `job^                       */
     /*         break;                      */

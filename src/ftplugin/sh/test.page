@@ -373,7 +373,7 @@ WRAPPED_TEXT_line2
 
 
     #  -------------elif---------------                                     
-    # elif ~condition^~condition^sh_complete_brace()^;~$IF_BRACKET_STL^then 
+    # elif ~condition^~condition^sh_complete_brace()^;~$BRif^then 
     #     ~cursor^                                                          
 
 
@@ -540,7 +540,7 @@ elif condition; then
 
 
     #  -------------if---------------                                     
-    # if ~condition^~condition^sh_complete_brace()^;~$IF_BRACKET_STL^then 
+    # if ~condition^~condition^sh_complete_brace()^;~$BRif^then 
     #     ~cursor^                                                        
     # fi                                                                  
 
@@ -564,7 +564,7 @@ elif condition; then
 
 
     #  -------------ife---------------                                    
-    # if ~condition^~condition^sh_complete_brace()^;~$IF_BRACKET_STL^then 
+    # if ~condition^~condition^sh_complete_brace()^;~$BRif^then 
     #     ~job^                                                           
     # else                                                                
     #     ~cursor^                                                        
