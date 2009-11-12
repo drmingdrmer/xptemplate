@@ -403,7 +403,7 @@
 <
 
 					    *g:xptemplate_ph_pum_accept_empty*
-								   {default:0}
+								   {default:1}
 	When set to 1 popup menus for place holders accepts an empty input. So
 	when nothing typed pressing <Tab> closes the popup menu and sends the
 	cursor to the next place holder.
