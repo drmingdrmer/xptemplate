@@ -22,10 +22,6 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO short variable names.
-" TODO doc of variable conventions
-" TODO move snippet relative doc to xpt.snippet.txt
-" TODO high light only editMark for nextItem.
 " TODO BuildIfNoChange depending on default value or prevalue
 " TODO super cancel : clear/default all and finish
 " TODO autocomplete doc
@@ -69,6 +65,9 @@
 "   add : document about default post-filter: "\w\+?" is optional place holder.
 "   add : bundle support g:xptemplate_bundle and g:XPTaddBundle()
 "   fix : calling XPTemplate from outside of *.xpt.vim is allowed.
+"   improve : use short variable names.
+"   add : doc of variable conventions
+"   fix : moved snippet relative doc to xpt.snippet.txt
 "
 "
 

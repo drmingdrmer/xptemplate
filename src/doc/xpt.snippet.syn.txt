@@ -704,14 +704,78 @@
 
 						      *xpt-snippet-repetition*
 	Repetition is only a special case utilizing expandable, that another
-	same expandable trigger residing inside the expandable part. : >
-		XPT enum
-		enum `name^ {
-		    `elt^;`
-		    `...{{^
-		    `elt^;`
-		    `...^`}}^
-		}` `var^;
-<	See |xpt-repetition| for using repetition.
+	same expandable trigger residing inside the expandable part.
+
+	For example the "case"s in "switch". To specify the repetition part,
+	just wrap the part you want it to repeat with `...^. n is a number and
+	can be omitted.  Take the case from "switch": >
+		XPT switch
+		switch (`^) {
+		  `...^            | repetition part
+		  case `^0^ :      |
+		    `^             |
+		    break;         |
+		  `...^            |
+		
+		  default:
+		    `^
+		}
+<
+	When you trigger a repetition template it works as below: >
+		switch () {    <------- cursor stays here
+		  `...^
+
+		  default:
+		      `^
+		}
+<	Press <Tab>, the |`...^| is selected. Press <Tab> again to expand the
+	repetition part. Or press <Cr> |xpt-key-clear| to cancel the
+	repetition part. These 4 lines are expanded: >
+		switch () {
+
+		  case `^ :         | expanded
+		    `^              |
+			break;      |
+		    `...^           |
+
+		  default:
+			`^
+		}
+<	Enter the repetition part. There is another |`...^|, that is the
+	another repeat trigger.
+
+	Press <Tab> 3 times: >
+		switch () {
+
+		  case 0 :
+
+		    break;
+
+		  case `^ :        | selected repetition part
+		    `^             |
+			break;     |
+		    `...^          |
+
+		  default:
+			`^
+		}
+<
+	Using named |`...^| allows you define multiple repetition parts in one
+	snippet. For example: >
+		XPT switch
+		switch (`^) {
+		  `case...^        | repetition part
+		  case `^0^ :      |
+		    `^             |
+		    break;         |
+		  `case...^        |
+		
+		  default:
+		    `^
+		}
+<
+
+	See |xpt-repetition| for using repetition.
+
 
 " vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:

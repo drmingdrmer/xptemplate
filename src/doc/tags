@@ -59,11 +59,12 @@ xpt-...	xptemplate.txt	/*xpt-...*
 xpt-```	xpt.snippet.syn.txt	/*xpt-```*
 xpt-api	xpt.api.txt	/*xpt-api*
 xpt-bundle	xptemplate.txt	/*xpt-bundle*
-xpt-changes-log	xptemplate.txt	/*xpt-changes-log*
 xpt-context	xptemplate.txt	/*xpt-context*
 xpt-customize	xptemplate.txt	/*xpt-customize*
 xpt-customize-highlight	xptemplate.txt	/*xpt-customize-highlight*
 xpt-customize-variable	xptemplate.txt	/*xpt-customize-variable*
+xpt-customize-variable-format	xptemplate.txt	/*xpt-customize-variable-format*
+xpt-customize-variable-space	xptemplate.txt	/*xpt-customize-variable-space*
 xpt-feature	xptemplate.txt	/*xpt-feature*
 xpt-install	xptemplate.txt	/*xpt-install*
 xpt-key-bind	xptemplate.txt	/*xpt-key-bind*

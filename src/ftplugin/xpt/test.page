@@ -618,73 +618,73 @@ WRAPPED_TEXT_line2
 
 
     "  -------------sparg--------------- 
-    " \`$SP_ARG\^                        
+    " \`$SParg\^                        
 
 
 
-    `$SP_ARG^
+    `$SParg^
 
-    `$SP_ARG^ b
+    `$SParg^ b
 
-    a `$SP_ARG^ b
+    a `$SParg^ b
 
-    a `$SP_ARG^
+    a `$SParg^
 
 
     "  -------------spcomma--------------- 
-    " \`$SP_COMMA\^                        
+    " \`$SPcm\^                        
 
 
 
-    `$SP_COMMA^
+    `$SPcm^
 
-    `$SP_COMMA^ b
+    `$SPcm^ b
 
-    a `$SP_COMMA^ b
+    a `$SPcm^ b
 
-    a `$SP_COMMA^
+    a `$SPcm^
 
 
     "  -------------speq--------------- 
-    " \`$SP_EQ\^                        
+    " \`$SPeq\^                        
 
 
 
-    `$SP_EQ^
+    `$SPeq^
 
-    `$SP_EQ^ b
+    `$SPeq^ b
 
-    a `$SP_EQ^ b
+    a `$SPeq^ b
 
-    a `$SP_EQ^
+    a `$SPeq^
 
 
     "  -------------spif--------------- 
-    " \`$SP_IF\^                        
+    " \`$SPcnd\^                        
 
 
 
-    `$SP_IF^
+    `$SPcnd^
 
-    `$SP_IF^ b
+    `$SPcnd^ b
 
-    a `$SP_IF^ b
+    a `$SPcnd^ b
 
-    a `$SP_IF^
+    a `$SPcnd^
 
 
     "  -------------spop--------------- 
-    " \`$SP_OP\^                        
+    " \`$SPop\^                        
 
 
 
-    `$SP_OP^
+    `$SPop^
 
-    `$SP_OP^ b
+    `$SPop^ b
 
-    a `$SP_OP^ b
+    a `$SPop^ b
 
-    a `$SP_OP^
+    a `$SPop^
 
 
     "  -------------str_--------------- 
@@ -1040,61 +1040,61 @@ endtry
 
     "  -------------varSpaces--------------- 
     " _CMT_ int fun( ** arg ** )             
-    " XPTvar $SP_ARG      ' '                
+    " XPTvar $SParg      ' '                
     " _CMT_ if ( ** condition ** )           
-    " XPTvar $SP_IF       ' '                
+    " XPTvar $SPcnd       ' '                
     " _CMT_ a ** = ** b                      
-    " XPTvar $SP_EQ       ' '                
+    " XPTvar $SPeq       ' '                
     " _CMT_ a = a ** + ** 1                  
-    " XPTvar $SP_OP       ' '                
+    " XPTvar $SPop       ' '                
     " _CMT_ (a, ** b, ** )                   
-    " XPTvar $SP_COMMA    ' '                
+    " XPTvar $SPcm    ' '                
 
 
 
     " int fun( ** arg ** )
-    XPTvar $SP_ARG      ' '
+    XPTvar $SParg      ' '
     " if ( ** condition ** )
-    XPTvar $SP_IF       ' '
+    XPTvar $SPcnd       ' '
     " a ** = ** b
-    XPTvar $SP_EQ       ' '
+    XPTvar $SPeq       ' '
     " a = a ** + ** 1
-    XPTvar $SP_OP       ' '
+    XPTvar $SPop       ' '
     " (a, ** b, ** )
-    XPTvar $SP_COMMA    ' '
+    XPTvar $SPcm    ' '
 
     " int fun( ** arg ** )
-    XPTvar $SP_ARG      ' '
+    XPTvar $SParg      ' '
     " if ( ** condition ** )
-    XPTvar $SP_IF       ' '
+    XPTvar $SPcnd       ' '
     " a ** = ** b
-    XPTvar $SP_EQ       ' '
+    XPTvar $SPeq       ' '
     " a = a ** + ** 1
-    XPTvar $SP_OP       ' '
+    XPTvar $SPop       ' '
     " (a, ** b, ** )
-    XPTvar $SP_COMMA    ' ' b
+    XPTvar $SPcm    ' ' b
 
     a " int fun( ** arg ** )
-    XPTvar $SP_ARG      ' '
+    XPTvar $SParg      ' '
     " if ( ** condition ** )
-    XPTvar $SP_IF       ' '
+    XPTvar $SPcnd       ' '
     " a ** = ** b
-    XPTvar $SP_EQ       ' '
+    XPTvar $SPeq       ' '
     " a = a ** + ** 1
-    XPTvar $SP_OP       ' '
+    XPTvar $SPop       ' '
     " (a, ** b, ** )
-    XPTvar $SP_COMMA    ' ' b
+    XPTvar $SPcm    ' ' b
 
     a " int fun( ** arg ** )
-    XPTvar $SP_ARG      ' '
+    XPTvar $SParg      ' '
     " if ( ** condition ** )
-    XPTvar $SP_IF       ' '
+    XPTvar $SPcnd       ' '
     " a ** = ** b
-    XPTvar $SP_EQ       ' '
+    XPTvar $SPeq       ' '
     " a = a ** + ** 1
-    XPTvar $SP_OP       ' '
+    XPTvar $SPop       ' '
     " (a, ** b, ** )
-    XPTvar $SP_COMMA    ' '
+    XPTvar $SPcm    ' '
 
 
     "  -------------vimformat---------------                     

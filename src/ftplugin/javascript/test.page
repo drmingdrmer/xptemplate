@@ -20,7 +20,7 @@ WRAPPED_TEXT_line2"
 
 
     //  -------------$---------------                            
-    // $(`$SP_ARG^`e^`e^CmplQuoter_pre()^`, `context?^`$SP_ARG^) 
+    // $(`$SParg^`e^`e^CmplQuoter_pre()^`, `context?^`$SParg^) 
 
 
 
@@ -124,7 +124,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------ac---------------     
-    // addClass(`$SP_ARG^`class^`$SP_ARG^) 
+    // addClass(`$SParg^`class^`$SParg^) 
 
 
 
@@ -166,7 +166,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------ag---------------                                                                                   
-    // `$JQ^.get(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SP_ARG^) 
+    // `$JQ^.get(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SParg^) 
 
 
 
@@ -180,7 +180,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------agj---------------                                                   
-    // `$JQ^.getJSON(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`, `callback^`$SP_ARG^) 
+    // `$JQ^.getJSON(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`, `callback^`$SParg^) 
 
 
 
@@ -194,7 +194,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------ags---------------                                            
-    // `$JQ^.getScript(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `callback^`$SP_ARG^) 
+    // `$JQ^.getScript(`$SParg^`url^`url^CmplQuoter_pre()^`, `callback^`$SParg^) 
 
 
 
@@ -208,7 +208,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------aj---------------     
-    // `$JQ^.ajax(`$SP_ARG^`opt^`$SP_ARG^) 
+    // `$JQ^.ajax(`$SParg^`opt^`$SParg^) 
 
 
 
@@ -222,7 +222,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------ajaxComplete---------------                                                                             
-    // ajaxComplete(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^) 
+    // ajaxComplete(`$SParg^`fun...{{^function (`$SParg^`event^`, `xhr^`, `ajaxOption^`$SParg^){ `cursor^ }`}}^`$SParg^) 
 
 
 
@@ -236,7 +236,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------ajaxError---------------                                                                                     
-    // ajaxError(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`, `err^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^) 
+    // ajaxError(`$SParg^`fun...{{^function (`$SParg^`event^`, `xhr^`, `ajaxOption^`, `err^`$SParg^){ `cursor^ }`}}^`$SParg^) 
 
 
 
@@ -250,7 +250,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------ajaxSend---------------                                                                             
-    // ajaxSend(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^) 
+    // ajaxSend(`$SParg^`fun...{{^function (`$SParg^`event^`, `xhr^`, `ajaxOption^`$SParg^){ `cursor^ }`}}^`$SParg^) 
 
 
 
@@ -264,7 +264,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------ajaxStart---------------               
-    // ajaxStart(`$SP_ARG^`fun...{{^`:_fun0:^`}}^`$SP_ARG^) 
+    // ajaxStart(`$SParg^`fun...{{^`:_fun0:^`}}^`$SParg^) 
 
 
 
@@ -278,7 +278,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------ajaxStop---------------               
-    // ajaxStop(`$SP_ARG^`fun...{{^`:_fun0:^`}}^`$SP_ARG^) 
+    // ajaxStop(`$SParg^`fun...{{^`:_fun0:^`}}^`$SParg^) 
 
 
 
@@ -292,7 +292,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------ajaxSuccess---------------                                                                             
-    // ajaxSuccess(`$SP_ARG^`fun...{{^function (`$SP_ARG^`event^`, `xhr^`, `ajaxOption^`$SP_ARG^){ `cursor^ }`}}^`$SP_ARG^) 
+    // ajaxSuccess(`$SParg^`fun...{{^function (`$SParg^`event^`, `xhr^`, `ajaxOption^`$SParg^){ `cursor^ }`}}^`$SParg^) 
 
 
 
@@ -306,7 +306,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------ani---------------              
-    // animate(`$SP_ARG^`params^`, `param^`$SP_ARG^) 
+    // animate(`$SParg^`params^`, `param^`$SParg^) 
 
 
 
@@ -334,7 +334,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------apost---------------                                                                                 
-    // `$JQ^.post(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SP_ARG^) 
+    // `$JQ^.post(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SParg^) 
 
 
 
@@ -376,7 +376,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------asetup---------------      
-    // `$JQ^.ajaxSetup(`$SP_ARG^`opt^`$SP_ARG^) 
+    // `$JQ^.ajaxSetup(`$SParg^`opt^`$SParg^) 
 
 
 
@@ -414,7 +414,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------attr--------------- 
-    // attr(`$SP_ARG^`name^`$SP_ARG^)    
+    // attr(`$SParg^`name^`$SParg^)    
 
 
 
@@ -909,7 +909,7 @@ WRAPPED_TEXT_line2 */
 
 
     //  -------------da---------------           
-    // data(`$SP_ARG^`name^`, `value?^`$SP_ARG^) 
+    // data(`$SParg^`name^`, `value?^`$SParg^) 
 
 
 
@@ -937,7 +937,7 @@ WRAPPED_TEXT_line2 */
 
 
     //  -------------die---------------                             
-    // die(`$SP_ARG^`type^`type^CmplQuoter_pre()^`, `fun^`$SP_ARG^) 
+    // die(`$SParg^`type^`type^CmplQuoter_pre()^`, `fun^`$SParg^) 
 
 
 
@@ -951,7 +951,7 @@ WRAPPED_TEXT_line2 */
 
 
     //  -------------dq---------------   
-    // dequeue(`$SP_ARG^`name^`$SP_ARG^) 
+    // dequeue(`$SParg^`name^`$SParg^) 
 
 
 
@@ -1097,7 +1097,7 @@ a else {
 
 
     //  -------------eq--------------- 
-    // eq(`$SP_ARG^`^`$SP_ARG^)        
+    // eq(`$SParg^`^`$SParg^)        
 
 
 
@@ -1408,7 +1408,7 @@ a else {
 
 
     //  -------------ft---------------                                                                                             
-    // fadeTo(`$SP_ARG^`speed^`speed^CmplQuoter_pre()^`, `opacity^`opacity^CmplQuoter_pre()^`, `fun...{{^, `:_fun0:^`}}^`$SP_ARG^) 
+    // fadeTo(`$SParg^`speed^`speed^CmplQuoter_pre()^`, `opacity^`opacity^CmplQuoter_pre()^`, `fun...{{^, `:_fun0:^`}}^`$SParg^) 
 
 
 
@@ -1479,7 +1479,7 @@ a function name (param) {
 
 
     //  -------------get--------------- 
-    // get(`$SP_ARG^`^`$SP_ARG^)        
+    // get(`$SParg^`^`$SParg^)        
 
 
 
@@ -1493,7 +1493,7 @@ a function name (param) {
 
 
     //  -------------hc---------------     
-    // hasClass(`$SP_ARG^`class^`$SP_ARG^) 
+    // hasClass(`$SParg^`class^`$SParg^) 
 
 
 
@@ -1521,7 +1521,7 @@ a function name (param) {
 
 
     //  -------------ho---------------                                                      
-    // hover(`$SP_ARG^`over...{{^, `:_ev_fun_a:^`}}^`, `out..{{^, `:_ev_fun:^`}}^`$SP_ARG^) 
+    // hover(`$SParg^`over...{{^, `:_ev_fun_a:^`}}^`, `out..{{^, `:_ev_fun:^`}}^`$SParg^) 
 
 
 
@@ -1812,7 +1812,7 @@ a if (condition) {
 
 
     //  -------------ind--------------- 
-    // index(`$SP_ARG^`^`$SP_ARG^)      
+    // index(`$SParg^`^`$SParg^)      
 
 
 
@@ -1882,7 +1882,7 @@ a if (condition) {
 
 
     //  -------------jq---------------                                
-    // jQuery(`$SP_ARG^`e^`e^CmplQuoter_pre()^`, `context?^`$SP_ARG^) 
+    // jQuery(`$SParg^`e^`e^CmplQuoter_pre()^`, `context?^`$SParg^) 
 
 
 
@@ -1952,7 +1952,7 @@ a if (condition) {
 
 
     //  -------------load---------------                                                                                           
-    // load(`$SP_ARG^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `function...{{^, `:_ld_callback:^`}}^`$SP_ARG^) 
+    // load(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `function...{{^, `:_ld_callback:^`}}^`$SParg^) 
 
 
 
@@ -2134,7 +2134,7 @@ a if (condition) {
 
 
     //  -------------oh---------------         
-    // outerHeight(`$SP_ARG^`margin^`$SP_ARG^) 
+    // outerHeight(`$SParg^`margin^`$SParg^) 
 
 
 
@@ -2190,7 +2190,7 @@ a if (condition) {
 
 
     //  -------------ow---------------        
-    // outerWidth(`$SP_ARG^`margin^`$SP_ARG^) 
+    // outerWidth(`$SParg^`margin^`$SParg^) 
 
 
 
@@ -2326,7 +2326,7 @@ a if (condition) {
 
 
     //  -------------qu---------------            
-    // queue(`$SP_ARG^`name^`, `toAdd?^`$SP_ARG^) 
+    // queue(`$SParg^`name^`, `toAdd?^`$SParg^) 
 
 
 
@@ -2340,7 +2340,7 @@ a if (condition) {
 
 
     //  -------------rd---------------                  
-    // ready(`$SP_ARG^`fun...{{^`:_fun0:^`}}^`$SP_ARG^) 
+    // ready(`$SParg^`fun...{{^`:_fun0:^`}}^`$SParg^) 
 
 
 
@@ -2410,7 +2410,7 @@ a if (condition) {
 
 
     //  -------------rma---------------     
-    // removeAttr(`$SP_ARG^`name^`$SP_ARG^) 
+    // removeAttr(`$SParg^`name^`$SParg^) 
 
 
 
@@ -2424,7 +2424,7 @@ a if (condition) {
 
 
     //  -------------rmd---------------     
-    // removeData(`$SP_ARG^`name^`$SP_ARG^) 
+    // removeData(`$SParg^`name^`$SParg^) 
 
 
 
@@ -2564,7 +2564,7 @@ a if (condition) {
 
 
     //  -------------slc---------------          
-    // slice(`$SP_ARG^`start^`, `end?^`$SP_ARG^) 
+    // slice(`$SParg^`start^`, `end?^`$SParg^) 
 
 
 
@@ -2749,7 +2749,7 @@ a if (condition) {
 
 
     //  -------------tc---------------                    
-    // toggleClass(`$SP_ARG^`class^`, `switch?^`$SP_ARG^) 
+    // toggleClass(`$SParg^`class^`, `switch?^`$SParg^) 
 
 
 
@@ -2777,7 +2777,7 @@ a if (condition) {
 
 
     //  -------------tg---------------                                                       
-    // toggle(`$SP_ARG^`fn1...{{^, `:_ev_fun_a:^`}}^`, `fn2...{{^, `:_ev_fun:^`}}^`$SP_ARG^) 
+    // toggle(`$SParg^`fn1...{{^, `:_ev_fun_a:^`}}^`, `fn2...{{^, `:_ev_fun:^`}}^`$SParg^) 
 
 
 
@@ -2989,7 +2989,7 @@ finally {
 
 
     //  -------------ub---------------                                 
-    // unbind(`$SP_ARG^`type^`type^CmplQuoter_pre()^`, `fun^`$SP_ARG^) 
+    // unbind(`$SParg^`type^`type^CmplQuoter_pre()^`, `fun^`$SParg^) 
 
 
 

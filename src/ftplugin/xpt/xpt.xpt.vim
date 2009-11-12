@@ -103,15 +103,17 @@ XPTvar $BRcls    ' '
 
 XPT varSpaces hint=variable\ to\ define\ spacing
 " int fun( ** arg ** )
-XPTvar $SP_ARG      ' '
+XPTvar $SParg      ' '
+" if ** ( 
+XPTvar $SPif       ' '
 " if ( ** condition ** )
-XPTvar $SP_IF       ' '
+XPTvar $SPcnd      ' '
 " a ** = ** b
-XPTvar $SP_EQ       ' '
+XPTvar $SPeq       ' '
 " a = a ** + ** 1
-XPTvar $SP_OP       ' '
+XPTvar $SPop       ' '
 " (a, ** b, ** )
-XPTvar $SP_COMMA    ' '
+XPTvar $SPcm       ' '
 
 
 XPT varConst hint=variables\ to\ define\ constants
@@ -135,20 +137,20 @@ XPTvar $CL    `left sign^
 XPTvar $CM    `cursor^
 XPTvar $CR    `right sign^
 
-XPT sparg " `\$SP_ARG^
-\`$SP_ARG\^
+XPT sparg " `\$SParg^
+\`$SParg\^
 
-XPT spif hint=`\$SP_ARG^
-\`$SP_IF\^
+XPT spcnd hint=`\$SPcnd^
+\`$SPcnd\^
 
-XPT speq hint=`\$SP_EQ^
-\`$SP_EQ\^
+XPT speq hint=`\$SPeq^
+\`$SPeq\^
 
-XPT spop hint=`\$SP_OP^
-\`$SP_OP\^
+XPT spop hint=`\$SPop^
+\`$SPop\^
 
-XPT spcomma hint=`\$SP_COMMA^
-\`$SP_COMMA\^
+XPT spcomma hint=`\$SPcm^
+\`$SPcm\^
 
 XPT buildifeq hint={{}}
 \``name^{{\^`cursor^\`}}\^

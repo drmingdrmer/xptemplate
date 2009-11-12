@@ -24,11 +24,11 @@ XPTvar $BRfun   ' '
 XPTvar $BRcls    ' '
 
 
-XPTvar $SP_ARG      ' '
-XPTvar $SP_IF       ' '
-XPTvar $SP_EQ       ' '
-XPTvar $SP_OP       ' '
-XPTvar $SP_COMMA    ' '
+XPTvar $SParg      ' '
+XPTvar $SPcnd       ' '
+XPTvar $SPeq       ' '
+XPTvar $SPop       ' '
+XPTvar $SPcm    ' '
 
 XPTvar $TRUE          1
 XPTvar $FALSE         0

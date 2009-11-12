@@ -122,9 +122,9 @@
 <	It becomes: >
 		switch (fn) {		| upper level snippet
 		  case 0 :		|
-		    if (){            . nested snippet
-			              .
-		    }	              .
+		    if (){              . nested snippet
+			                .
+		    }	                .
 		    break;		| upper level snippet
 		    ...                 |
 		  default:              |
@@ -152,18 +152,17 @@
 	"switch". To specify the repetition part is easy, just wrap the part
 	you want it to repeat with `...n^. n is a number and can be omitted.
 	Take the case from "switch": >
-		call XPTemplate('switch', [
-		      \ 'switch (`^) {',
-		      \ '  `...^',            | repetition part
-		      \ '  case `^0^ :',      |
-		      \ '    `^',             |
-		      \ '    break;',         |
-		      \ '  `...^',            |
-		      \ '',
-		      \ '  default:',
-		      \ '    `^',
-		      \ '}'
-		      \])
+		XPT switch
+		      switch (`^) {
+		        `...^            | repetition part
+		        case `^0^ :      |
+		          `^             |
+		          break;         |
+		        `...^            |
+		      
+		        default:
+		          `^
+		      }
 <
 	When you trigger a repetition template it works as below: >
 		switch () {    <------- cursor stays here
@@ -177,7 +176,7 @@
 	repetition part. These 4 lines are expanded: >
 		switch () {
 
-		  case `17^ :       | expanded
+		  case `^ :         | expanded
 		    `^              |
 			break;      |
 		    `...^           |
@@ -195,7 +194,7 @@
 
 		    break;
 
-		  case `20^ :      | selected repetition part
+		  case `^ :        | selected repetition part
 		    `^             |
 			break;     |
 		    `...^          |
@@ -204,36 +203,8 @@
 			`^
 		}
 <
-	Using the n in |`...^| with different numbers allows you define
-	multiple repetition parts in one snippet: >
-		call XPTemplate( "tryof", [
-		      \ "try `what^",
-		      \ "   `pattern^ ->",
-		      \ "       `body^ `...0^;",
-		      \ "   `patternn^ ->",
-		      \ "       `bodyn^`...0^",
-		      \ "catch",
-		      \ "    `excep^ -> `toRet^ `...1^;",
-		      \ "    `except^ -> `toRet^`...1^",
-		      \ "end `cursor^",
-		      \ "" ] )
-<
-	Repetition parts can NOW be recursively defined. See *.html "table2"
-	snippet: >
-		call XPTemplate('table2', [
-		      \ '<table>',
-		      \ '  <tr>',
-		      \ '    <td>`text^^</td>`...2^',
-		      \ '    <td>`text^^</td>`...2^',
-		      \ '  </tr>`...0^',
-		      \ '  <tr>',
-		      \ '    <td>`text^^</td>`...1^',
-		      \ '    <td>`text^^</td>`...1^',
-		      \ '  </tr>`...0^',
-		      \ '</table>'
-		      \])
-<
 	See also |xpt-snippet-repetition|.
+
 
 								 *xpt-wrapped*
 	Wrapper snippets can only be triggered in visual mode, the place
@@ -514,7 +485,17 @@
 
 						      *xpt-customize-variable*
 	|xpt-snippet-variable| are used to configure the snippet format.
+	Customization variables should be defined in a snippet file with
+	"personal" priority, See |xpt-priority-value|.
+	To create a snippet file to define your variables, see
+	|xpt-write-lang-snippet|.
 
+
+	See also: |xpt-customize-variable-format| 
+		  |xpt-customize-variable-space|
+
+
+					       *xpt-customize-variable-format*
 	Each snippet has some variable defined to configure language format.
 	This is useful when some snippet are shared between languages, like
 	for loops in C and CPP.
@@ -561,6 +542,35 @@
 
 		}
 <
+
+						*xpt-customize-variable-space*
+	Another set of variables is defined to customize spaces. They are: >
+		" int fun( ** arg ** )
+		XPTvar $SParg      ' '
+
+		" if ** ( 
+		XPTvar $SPif       ' '
+
+		" if ( ** condition ** )
+		XPTvar $SPcnd      ' '
+
+		" a ** = ** b
+		XPTvar $SPeq       ' '
+
+		" a = a ** + ** 1
+		XPTvar $SPop       ' '
+
+		" (a, ** b, ** )
+		XPTvar $SPcm       ' '
+<	For example function snippet defined as below: >
+		XPT fun
+		int fun(`SParg^args`SParg^)
+<	If "$SParg" is set to ' ', snippet results in: >
+		int fun( args )
+<	If "$SParg" is set to '', snippet results in: >
+		int fun(args)
+<
+
 
 							   *xpt-write-snippet*
 
@@ -611,165 +621,6 @@
 
 <	See |xpt-snippet-syntax| and |xpt-snippet-tutorial|.
 
-
-==============================================================================
-
-							     *xpt-changes-log*
-: > <
-==== 0.3.7.21 ====
-Added:2009 Jun 01       XPTreload command to reload all snippets to current buffer.
-Added:2009 May 29	standalone popup plugin.
-==== 0.3.7.20 ====
-Fixed:2009 May 23	avoiding popup fall back into line complete mode
-==== 0.3.7.19 ====
-Added:2009 May 23	protect buffer local mapping from being broken by xpt
-==== 0.3.7.18 ====
-Added:2009 May 23	smart case sensitive matching of snippet name
-Fixed:2009 May 23	map stack bug of failed to backup mapping
-Added:2009 May 22	for snippet name, other keywords can be specified
-==== 0.3.7.17 ====
-Fixed:2009 May 20	redraw only for language indenting depending on syntax
-Fixed:2009 May 18	unescape \XPT in snippet body
-Added:2009 May 18	much more nice snippet popup hint : longest match, <tab> to trigger snippet
-Fixed:2009 May 17	escaping moved to post-filter phase
-Fixed:2009 May 17	select none when popup shown
-Fixed:2009 May 17	bug of first line indent
-Fixed:2009 May 17	bug of predefined not applying if snippet contains $BRACKETSTYLE.
-==== 0.3.7.15 ====
-Fixed:2009 May 17	bug of nowrapscan setting causing unexpected expanding.
-==== 0.3.7.14 ====
-Fixed:2009 May 17	indent problem with perl. caused by perl indent expression.
-Fixed:2009 May 16	fix indent for default value and post filter
-Added:2009 May 16	multi line XSET : XSETm varname= {lines of codes} XSETm END. Get away annoying "\n"
-Fixed:2009 May 16	bug of typing '\' becoming '\\'
-==== 0.3.7.13 ====
-Added:2009 May 15	fullname and name both for tepmlate functions
-Added:2009 May 15	mechanism to expand snippet in item. 'Trigger("name")'
-Fixed:2009 May 15	cursor at last causes it deletes 1 char before.
-Fixed:2009 May 14	bug of item edge with default value
-Added:2009 May 14	popup hint for item value, which is defined as default
-			value returning a list instead of string
-Added:2009 May 12	More simple snippet file format
-Added:2009 May 11	highlight options
-Added:2009 May 10	item edge now can contain \W chars
-Fixed:2009 May 09	case bug of popup
-Fixed:2009 May 09	bug of laststatus=0 causing cursor limit not working
-Fixed:2009 May 09	bug of snippet range exceeding snippet end if
-			following content contains '^'
-Fixed:2009 May 09	On finishing template, unescape bug
-Added:2009 May 09	personal variable setting
-Added:2009 May 09	navigation key mapping config.
-Fixed:2009 May 05	bug that left mark is deleted if touched the previous
-			right mark
-Fixed:2009 May 05	bug that anonymous item swallow default value.
-Fixed:2009 May 05	bug of ';' left if cursor followed by space
-Added:2009 May 04	apply predefined in expanded araa
-Fixed:2009 May 04	for compatibility, changing vim setting is only affect
-			locally
-Fixed:2009 May 04	indent bug of indenting make item can not be found
-Added:2009 May 03	item edge element
-Fixed:2009 May 03	items content does not change if <cr> pressed
-Fixed:2009 May 01	items in default value can be selected.
-Fixed:2009 May 01	Don't show popup if only 1 key matches
-Fixed:2009 May 01	simplify snippet definition : '..XPT' is no more
-			needed.
-Fixed:2009 Apr 30	bug of line removed sometimes if folding is enabled
-			Thanks to C. Coutinho
-Fixed:2009 Apr 30	bug of weird 'cpo' option causes mapping not working
-Fixed:2009 Apr 29	bug of formatting line causes line removed. Thanks to
-			C. Coutinho
-Fixed:2009 Apr 29	bug of default value at line end. Thanks to C. Coutinho
-Added:2009 Apr 29	new command format to define snippet
-Fixed:2009 Apr 27	bug of formatting making snippet a mess.
-Fixed:2009 Apr 27	bug of post-filter value ends with "\n"
-Added:2009 Apr 26	nested repetition
-Fixed:2009 Apr 26	bug of double escaped '/' when applying predefined.
-Added:2009 Apr 25	|xpt-expression| as default value or post filter
-Fixed:2009 Apr 25	statusline reload bug
-Added:2009 Apr 23	function arguments
-Added:2009 Apr 22	multi repetition part.
-Fixed:2009 Apr 22	item at [1, 1] cause crazy behavior. thanks to
-			Vincent.B
-Fixed:2009 Apr 22	bug that folding causes some text incorrectly deleted
-Fixed:2009 Apr 22	bug of cursor stopping 1 char before snippet end
-Added:2009 Apr 22	ocaml snippets thanks to Vincent B.
-Fixed:2009 Apr 21	char before snippet name moved to after snippet if
-			'virtualedit' is not set with 'onemore'
-Fixed:2009 Apr 21	ruler and statusline check.Thanks christian.coutinho
-Added:2009 Apr 19	plugin support
-Added:2009 Apr 18	delayed default value
-Fixed:2009 Apr 18	auto formating causes invalid range
-Added:2009 Apr 18	default value can be mixed with variable and function
-Added:2009 Apr 18	function can take parameters
-Fixed:2009 Apr 18	cursor bug
-Fixed:2009 Apr 18	cursor protection bug if item with no content
-			some code refinement
-Fixed:2009-Apr-16	format overwhelming char next to snippet
-Fixed:2009-Apr-14	escape. at last unescape marks
-Fixed:2009-Apr-14	unescape when building positionn list
-Added:2009-Apr-14	format as typed
-Added:2009-Apr-14	reentering insert mode cancels wrap snippet
-Added:2009-Apr-13	out of item content protection
-Fixed:2009-Apr-13	default value for item without name
-Fixed:2009-Apr-12	item highlight more precisely
-Fixed:2009-Apr-12	to format default value
-Fixed:2009-Apr-12	repetition snippet bug of escaped char
-Added:2009-Apr-12	user defined snippet generation
-Added:2009-Apr-12	on-type high light
-Added:2009-Apr-12	hide cursor if only appears at last
-Added:2009-Apr-12	repetition elements `...^
-Fixed:2009-Apr-12	bug of '\' in typed content
-Fixed:2009-Apr-12	self nested range bug
-Fixed:2009-Apr-12	inline snippet goes to upper line
-Fixed:2009-Apr-12	update items as input
-Fixed:2009-Apr-11	syntax context sensitive bug
-Added:2009-Apr-11	remember alternative value before snippet rendering
-Added:2009-Apr-11	alternative default value
-Added:2009-Apr-10	new function and variable interface
-Added:2009-Apr-10	zero-width item
-Fixed:2009-Apr-10	do not use mark 'O' anymore
-Fixed:2009-Apr-10	new function and variable definition format
-Added:2009-Apr-10	render snippet in another tempalte nested snippet
-Added:2009-Apr-09	strip left space for wrapping snippet
-Fixed:2009-Apr-09	0 width content replacing problem
-Added:2009-Apr-09	cursor position protect
-Fixed:2009-Apr-09	more precise searching range
-Added:2009-Mar-27	templating with wrapping
-Fixed:2009-Mar-25	typed content with '~' is incorrectly dealed
-Fixed:2009-Mar-25	using buffer-scope data to store snippet data
-Added:2009-Mar-25	dealing with escaped snippet mark character correctly
-Added:2009-Mar-19	add common snippet
-Fixed:2009-Mar-17	indent bug
-Fixed:2009-Mar-17	format after finishing all types
-Added:2009-Mar-16	buffer depended snippet item mark
-Added:2009-03-15	user defined variables and functions in snippet
-Added:2009-03-14	syntax context sensitive snippet rendering
-Fixed:2009-03-03	precise range for typed content
-Fixed:2009-02-27	fix select mode mapping
-Fixed:2008-06-15	fix the bug of some text being selected at start
-Fixed:2008-06-15	bug of cursor at first column not being rendered correctly
-Fixed:2008-06-15	fix no item bug.
-Added:2008-06-15	add default cursor position at snippet end
-Fixed:2008-06-11	bug of popup menu while no word char under cursor
-Fixed:2008-06-11	bug syn highlight not cleared
-Fixed:2008-06-11	bug unrecognized item at 1st column
-Fixed:2008-06-11	bug first item is in insert mode not select mode
-Added:2008-06-10	add tempalte complete popup
-Fixed:2008-06-10	use <C-r>= instead of <esc>
-Fixed:2008-06-09	move \V to pattern const
-Added:2008-06-08	auto clear cursor mark and return to normal insert
-Added:2008-06-08	high light cuurent variable
-Added:2008-06-08	replace search navigation with search()
-Added:2008-06-08	while searching & replace symbel, use very no-magic
-Added:2008-06-07	migrated to vim7, use dictionary
-Fixed:2008-02-13	bug with folding when snippet rendered
-Added:2008-02-07	predefined functions
-Added:2007-08-26	default value
-Added:2007-08-26	predefined variables
-Added:2007-08-25	cursor position
-Fixed:2007-09-19	single character snippet bug that expanding more than one word
-Fixed:2007-09-20	cursor position when no snippet recognized.
-Added:2007-09-20	high light for current item
 
 ==============================================================================
 " vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:
