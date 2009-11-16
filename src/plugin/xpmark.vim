@@ -29,6 +29,9 @@ let g:XPM_RET = {
             \   'updated'         : {'updated'         : 1},
             \}
 
+let s:emptyHistoryElt = {'list':[], 'dict' :{}, 'likely' : { 'start' : '', 'end' : '' }}
+
+
 " TODO visual-mode Q command causes errors
 " TODO while editing .dot file, some error occurs complaining 'snapshot'
 " working with inexistent number.
@@ -130,8 +133,8 @@ fun! XPMflush() "{{{
     let d = s:bufData()
     let d.marks = {}
     let d.orderedMarks = []
-    let d.markHistory[ changenr() ] = { 'dict' : d.marks, 'list': d.orderedMarks }
     let d.changeLikelyBetween  = { 'start' : '', 'end' : '' }
+    let d.markHistory[ changenr() ] = { 'dict' : d.marks, 'list': d.orderedMarks, 'likely' : d.changeLikelyBetween }
 
 endfunction "}}}
 
@@ -363,7 +366,7 @@ fun! s:snapshot() dict "{{{
         if has_key( self.markHistory, n-2 )
             let self.markHistory[ n-1 ] = self.markHistory[ n-2 ]
         else
-            let self.markHistory[ n-1 ] = {'list':[], 'dict' :{}}
+            let self.markHistory[ n-1 ] = deepcopy( s:emptyHistoryElt )
             " throw ( 'no history nr:' . ( n-1 ) . ' lastNr:' . self.lastChangenr . ' history:' . string( self.markHistory ) )
         endif
     endif
@@ -381,9 +384,12 @@ fun! s:snapshot() dict "{{{
         let n += 1
     endwhile
 
+    " NOTE: marks should be copied by deepcopy. but any mark change is taking
+    "       by creating a new object, it is ok for now.
     let self.marks = copy( self.marks )
     let self.orderedMarks = copy( self.orderedMarks )
-    let self.markHistory[ nr ] = { 'dict' : self.marks, 'list': self.orderedMarks }
+    let self.changeLikelyBetween = deepcopy( self.changeLikelyBetween )
+    let self.markHistory[ nr ] = { 'dict' : self.marks, 'list': self.orderedMarks, 'likely' : self.changeLikelyBetween }
 
 
 endfunction "}}}
@@ -398,16 +404,7 @@ fun! s:handleUndoRedo() dict "{{{
         " undo action "{{{
 
         call s:log.Log( "undo" )
-
-
-        if has_key( self.markHistory, nr )
-            let self.marks = self.markHistory[ nr ].dict
-            let self.orderedMarks = self.markHistory[ nr ].list
-        else
-            call s:log.Info( 'u : no ' . nr . ' in markHistory, create new mark set' )
-            let self.marks = {}
-            let self.orderedMarks = []
-        endif
+        call self.ToChangeNr( nr )
 
         return 1
 
@@ -417,15 +414,7 @@ fun! s:handleUndoRedo() dict "{{{
         " redo action "{{{
 
         call s:log.Log( "redo" )
-
-        if has_key( self.markHistory, nr )
-            let self.marks = self.markHistory[ nr ].dict
-            let self.orderedMarks = self.markHistory[ nr ].list
-        else
-            call s:log.Info( "<C-r> no " . nr . ' in markHistory, create new mark set' )
-            let self.marks = {}
-            let self.orderedMarks = []
-        endif
+        call self.ToChangeNr( nr )
 
         return 1
 
@@ -436,6 +425,26 @@ fun! s:handleUndoRedo() dict "{{{
         return 0
 
     endif
+endfunction "}}}
+
+fun! s:ToChangeNr( nr ) dict "{{{
+
+    if has_key( self.markHistory, a:nr )
+        let self.marks = self.markHistory[ a:nr ].dict
+        let self.orderedMarks = self.markHistory[ a:nr ].list
+        let self.changeLikelyBetween = self.markHistory[ a:nr ].likely
+
+        " if !has_key( self.marks, self.changeLikelyBetween.start )
+              " \ || !has_key( self.marks, self.changeLikelyBetween.end )
+            " let self.changeLikelyBetween = { 'start' : '', 'end' : '' }
+        " endif
+    else
+        call s:log.Info( "No " . a:nr . ' in markHistory, create new mark set' )
+        let self.marks = {}
+        let self.orderedMarks = []
+        let self.changeLikelyBetween = { 'start' : '', 'end' : '' }
+    endif
+    
 endfunction "}}}
 
 fun! s:insertModeUpdate() dict "{{{
@@ -973,9 +982,16 @@ endfunction "}}}
 
 fun! s:findLikelyRange(changeStart, bChangeEnd) dict "{{{
     if self.changeLikelyBetween.start == ''
-                \ || self.changeLikelyBetween.end == ''
+          \ || self.changeLikelyBetween.end == ''
         return [ -1, -1 ]
+
+    elseif !has_key( self.marks, self.changeLikelyBetween.start )
+          \ || !has_key( self.marks, self.changeLikelyBetween.end )
+
+        return [ -1, -1 ]
+
     endif
+
 
 
     let [ likelyStart, likelyEnd ] = [ self.marks[ self.changeLikelyBetween.start ], 
@@ -1137,25 +1153,26 @@ fun! s:ClassPrototype(...) "{{{
 endfunction "}}}
 
 let s:prototype =  s:ClassPrototype(
-            \    'addMarkOrder',
-            \    'compare',
-            \    'findLikelyRange', 
-            \    'handleUndoRedo',
-            \    'initCurrentStat',
-            \    'insertModeUpdate',
-            \    'isUpdateNeeded',
-            \    'normalModeUpdate',
-            \    'removeMark',
-            \    'saveCurrentCursorStat',
-            \    'saveCurrentStat',
-            \    'snapshot',
-            \    'updateForLinewiseDeletion',
-            \    'updateMarks', 
-            \    'updateMarksAfter', 
-            \    'updateMarksAfterLine',
-            \    'updateMarksBefore', 
-            \    'updateWithNewChangeRange',
-            \)
+      \    'ToChangeNr', 
+      \    'addMarkOrder',
+      \    'compare',
+      \    'findLikelyRange', 
+      \    'handleUndoRedo',
+      \    'initCurrentStat',
+      \    'insertModeUpdate',
+      \    'isUpdateNeeded',
+      \    'normalModeUpdate',
+      \    'removeMark',
+      \    'saveCurrentCursorStat',
+      \    'saveCurrentStat',
+      \    'snapshot',
+      \    'updateForLinewiseDeletion',
+      \    'updateMarks', 
+      \    'updateMarksAfter', 
+      \    'updateMarksAfterLine',
+      \    'updateMarksBefore', 
+      \    'updateWithNewChangeRange',
+      \)
 
 fun! s:initBufData() "{{{
     let nr = changenr()
@@ -1173,7 +1190,7 @@ fun! s:initBufData() "{{{
                 \ 'changenrRange'        : [nr, nr], 
                 \ }
 
-    let b:_xpmark.markHistory[ nr ] = { 'dict' : b:_xpmark.marks, 'list' : b:_xpmark.orderedMarks }
+    let b:_xpmark.markHistory[ nr ] = { 'dict' : b:_xpmark.marks, 'list' : b:_xpmark.orderedMarks, 'likely' : b:_xpmark.changeLikelyBetween }
 
 
 

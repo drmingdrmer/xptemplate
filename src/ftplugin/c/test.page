@@ -415,18 +415,42 @@ a name(WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
+    /*  -------------case--------------- */
+    /* case `constant^`$SPif^:           */
+    /*     `job^                         */
+    /*     break;                        */
+
+
+
+case constant :
+    /* void */;
+    break;
+
+    case constant_TYPED :
+        job_TYPED
+        break; b
+
+        a case constant :
+            /* void */;
+            break; b
+
+            a case constant :
+                /* void */;
+                break;
+
+
     /*  -------------comment--------------- */
     /* `$CL^ `what^ `$CR^                   */
 
 
 
-/* what */
+                /* what */
 
-/* what_TYPED */ b
+                /* what_TYPED */ b
 
-a /* what */ b
+                a /* what */ b
 
-a /* what */
+                a /* what */
 
 
     /*  -------------comment_--------------- */
@@ -437,14 +461,14 @@ a /* what */
 /* WRAPPED_TEXT
 WRAPPED_TEXT_line2 */
 
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */b
+                /* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */b
 
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */b
+                a /* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */b
 
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
+                a /* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */
 
 
     /*  -------------commentBlock--------------- */
@@ -454,21 +478,21 @@ WRAPPED_TEXT_line2 */
 
 
 
-/* 
- * 
- */
+                /* 
+                 * 
+                 */
 
-/* 
- * 
- */ b
+                /* 
+                 * 
+                 */ b
 
-a /* 
- * 
- */ b
+                a /* 
+                 * 
+                 */ b
 
-a /* 
- * 
- */
+                a /* 
+                 * 
+                 */
 
 
     /*  -------------commentBlock_--------------- */
@@ -483,20 +507,20 @@ a /*
  WRAPPED_TEXT_line2
  */
 
-/* 
- * WRAPPED_TEXT
- WRAPPED_TEXT_line2
- */b
+                /* 
+                 * WRAPPED_TEXT
+                 WRAPPED_TEXT_line2
+                 */b
 
-a /* 
- * WRAPPED_TEXT
- WRAPPED_TEXT_line2
- */b
+                a /* 
+                 * WRAPPED_TEXT
+                 WRAPPED_TEXT_line2
+                 */b
 
-a /* 
- * WRAPPED_TEXT
- WRAPPED_TEXT_line2
- */
+                a /* 
+                 * WRAPPED_TEXT
+                 WRAPPED_TEXT_line2
+                 */
 
 
     /*  -------------commentDoc--------------- */
@@ -506,21 +530,21 @@ a /*
 
 
 
-/** 
- * 
- */
+                /** 
+                 * 
+                 */
 
-/** 
- * 
- */ b
+                /** 
+                 * 
+                 */ b
 
-a /** 
- * 
- */ b
+                a /** 
+                 * 
+                 */ b
 
-a /** 
- * 
- */
+                a /** 
+                 * 
+                 */
 
 
     /*  -------------commentDoc_--------------- */
@@ -535,20 +559,20 @@ a /**
  WRAPPED_TEXT_line2
  */
 
-/** 
- * WRAPPED_TEXT
- WRAPPED_TEXT_line2
- */b
+                /** 
+                 * WRAPPED_TEXT
+                 WRAPPED_TEXT_line2
+                 */b
 
-a /** 
- * WRAPPED_TEXT
- WRAPPED_TEXT_line2
- */b
+                a /** 
+                 * WRAPPED_TEXT
+                 WRAPPED_TEXT_line2
+                 */b
 
-a /** 
- * WRAPPED_TEXT
- WRAPPED_TEXT_line2
- */
+                a /** 
+                 * WRAPPED_TEXT
+                 WRAPPED_TEXT_line2
+                 */
 
 
     /*  -------------commentLine--------------- */
@@ -556,13 +580,13 @@ a /**
 
 
 
-/* what */
+                /* what */
 
-/* what_TYPED */ b
+                /* what_TYPED */ b
 
-a /* what */ b
+                a /* what */ b
 
-a /* what */
+                a /* what */
 
 
     /*  -------------commentLine_--------------- */
@@ -573,14 +597,33 @@ a /* what */
 /* WRAPPED_TEXT
 WRAPPED_TEXT_line2 */
 
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */b
+                /* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */b
 
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */b
+                a /* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */b
 
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
+                a /* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */
+
+
+    /*  -------------default--------------- */
+    /* default:                             */
+    /*     `cursor^                         */
+
+
+
+                default:
+                    
+
+                default:
+                     b
+
+                     a default:
+                          b
+
+                          a default:
+                              
 
 
     /*  -------------do--------------- */
@@ -590,9 +633,9 @@ WRAPPED_TEXT_line2 */
 
 
 
-do {
-    
-} while (condition);
+                          do {
+                              
+                          } while (condition);
 
 do {
     
@@ -607,26 +650,26 @@ a do {
 } while (condition);
 
 
-    /*  -------------elif--------------- */
-    /* else if (`condition^)`$BRif^{     */
-    /*     `job^                         */
-    /* }                                 */
+    /*  -------------elif---------------                   */
+    /* else if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
+    /*     `job^                                           */
+    /* }                                                   */
 
 
 
-else if (condition) {
+else if ( condition ) {
     /* void */;
 }
 
-else if (condition_TYPED) {
+else if ( condition_TYPED ) {
     job_TYPED
 } b
 
-a else if (condition) {
+a else if ( condition ) {
     /* void */;
 } b
 
-a else if (condition) {
+a else if ( condition ) {
     /* void */;
 }
 
@@ -906,7 +949,7 @@ a for ( i = 0; i < len; ++i ) {
 
 for (;;) /* void */
 
-for (;;) body_TYPED b
+for (;;) /* void */ b
 
 a for (;;) /* void */ b
 
@@ -1048,32 +1091,32 @@ name()
 }
 
 
-    /*  -------------if---------------         */
-    /* if (`condition^)`$BRif^{                */
-    /*     `job^                               */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^ */
+    /*  -------------if---------------                */
+    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
+    /*     `job^                                      */
+    /* }` `else...{{^`$BRel^`Include:else^`}}^        */
 
 
 
-if (condition) { 
+if ( condition ) {
     /* void */;
 }
 else {
     
 }
 
-if (condition_TYPED) { 
+if ( condition_TYPED ) {
     job_TYPED
 } else_TYPED b
 
-a if (condition) { 
+a if ( condition ) {
     /* void */;
 }
 else {
     
 } b
 
-a if (condition) { 
+a if ( condition ) {
     /* void */;
 }
 else {
@@ -1081,32 +1124,32 @@ else {
 }
 
 
-    /*  -------------if0---------------        */
-    /* if (`condition^)`$BRif^{                */
-    /*     `job^                               */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^ */
+    /*  -------------if0---------------               */
+    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
+    /*     `job^                                      */
+    /* }` `else...{{^`$BRel^`Include:else^`}}^        */
 
 
 
-if (0 == var) { 
+if ( 0 == var ) {
     /* void */;
 }
 else {
     
 }
 
-if (0 == var_TYPED) { 
+if ( 0 == var_TYPED ) {
     job_TYPED
 } else_TYPED b
 
-a if (0 == var) { 
+a if ( 0 == var ) {
     /* void */;
 }
 else {
     
 } b
 
-a if (0 == var) { 
+a if ( 0 == var ) {
     /* void */;
 }
 else {
@@ -1114,102 +1157,102 @@ else {
 }
 
 
-    /*  -------------if_--------------- */
-    /* if (`condition^)`$BRif^{         */
-    /*     `wrapped^                    */
-    /* }                                */
+    /*  -------------if_---------------               */
+    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
+    /*     `wrapped^                                  */
+    /* }                                              */
 
 
 
-if (condition) {
+if ( condition ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
-if (condition_TYPED) {
+if ( condition_TYPED ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }b
 
-a if (condition) {
+a if ( condition ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }b
 
-a if (condition) {
+a if ( condition ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
 
-    /*  -------------ifee--------------- */
-    /* if (`condition^)`$BRif^{          */
-    /*     `job^                         */
-    /* }` `else_if...^                   */
+    /*  -------------ifee---------------              */
+    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
+    /*     `job^                                      */
+    /* }` `else_if...^                                */
 
 
 
-if (condition) {
+if ( condition ) {
     /* void */;
-} else if (condition) {
+} else if ( condition ) {
     /* void */;
-} else if (condition) {
+} else if ( condition ) {
     /* void */;
-} else if (condition) {
+} else if ( condition ) {
     /* void */;
 }
 
-if (condition_TYPED) {
+if ( condition_TYPED ) {
     job_TYPED
 } else_if_TYPED b
 
-a if (condition) {
+a if ( condition ) {
     /* void */;
-} else if (condition ) {
+} else if ( condition ) {
     /* void */;
-} else if (condition ) {
+} else if ( condition ) {
     /* void */;
-} else if (condition ) {
+} else if ( condition ) {
     /* void */;
 } b
 
-a if (condition) {
+a if ( condition ) {
     /* void */;
-} else if (condition) {
+} else if ( condition ) {
     /* void */;
-} else if (condition) {
+} else if ( condition ) {
     /* void */;
-} else if (condition) {
+} else if ( condition ) {
     /* void */;
 }
 
 
-    /*  -------------ifn---------------        */
-    /* if (`condition^)`$BRif^{                */
-    /*     `job^                               */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^ */
+    /*  -------------ifn---------------               */
+    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
+    /*     `job^                                      */
+    /* }` `else...{{^`$BRel^`Include:else^`}}^        */
 
 
 
-if (NULL == var) { 
+if ( NULL == var ) {
     /* void */;
 }
 else {
     
 }
 
-if (NULL == var_TYPED) { 
+if ( NULL == var_TYPED ) {
     job_TYPED
 } else_TYPED b
 
-a if (NULL == var) { 
+a if ( NULL == var ) {
     /* void */;
 }
 else {
     
 } b
 
-a if (NULL == var) { 
+a if ( NULL == var ) {
     /* void */;
 }
 else {
@@ -1217,32 +1260,32 @@ else {
 }
 
 
-    /*  -------------ifn0---------------       */
-    /* if (`condition^)`$BRif^{                */
-    /*     `job^                               */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^ */
+    /*  -------------ifn0---------------              */
+    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
+    /*     `job^                                      */
+    /* }` `else...{{^`$BRel^`Include:else^`}}^        */
 
 
 
-if (0 != var) { 
+if ( 0 != var ) {
     /* void */;
 }
 else {
     
 }
 
-if (0 != var_TYPED) { 
+if ( 0 != var_TYPED ) {
     job_TYPED
 } else_TYPED b
 
-a if (0 != var) { 
+a if ( 0 != var ) {
     /* void */;
 }
 else {
     
 } b
 
-a if (0 != var) { 
+a if ( 0 != var ) {
     /* void */;
 }
 else {
@@ -1250,32 +1293,32 @@ else {
 }
 
 
-    /*  -------------ifnn---------------       */
-    /* if (`condition^)`$BRif^{                */
-    /*     `job^                               */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^ */
+    /*  -------------ifnn---------------              */
+    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
+    /*     `job^                                      */
+    /* }` `else...{{^`$BRel^`Include:else^`}}^        */
 
 
 
-if (NULL != var) { 
+if ( NULL != var ) {
     /* void */;
 }
 else {
     
 }
 
-if (NULL != var_TYPED) { 
+if ( NULL != var_TYPED ) {
     job_TYPED
 } else_TYPED b
 
-a if (NULL != var) { 
+a if ( NULL != var ) {
     /* void */;
 }
 else {
     
 } b
 
-a if (NULL != var) { 
+a if ( NULL != var ) {
     /* void */;
 }
 else {
@@ -1433,20 +1476,23 @@ a struct structName {
 } ;
 
 
-    /*  -------------switch--------------- */
-    /* switch (`var^)`$BRif^{              */
-    /*     case `constant^ :               */
-    /*         `job^                       */
-    /*         break;                      */
-    /* `                                   */
-    /*     `case...`                       */
-    /* ^`                                  */
-    /*     `default...^                    */
-    /* }                                   */
+    /*  -------------switch---------------    */
+    /* switch (`$SParg^`var^`$SParg^)`$BRif^{ */
+    /*     `:case:^                           */
+    /* `                                      */
+    /*     `case...`                          */
+    /*     {{^                                */
+    /*     `:case:^                           */
+    /* `                                      */
+    /*     `case...`                          */
+    /* ^`}}^`                                 */
+    /*     `default...`{{^                    */
+    /*     `:default:^`}}^                    */
+    /* }                                      */
 
 
 
-switch (var) {
+switch ( var ) {
     case constant :
         /* void */;
         break;
@@ -1467,17 +1513,17 @@ switch (var) {
         
 }
 
-switch (var_TYPED) {
+switch ( var_TYPED ) {
     case constant_TYPED :
         job_TYPED
         break;
 
     case_TYPED
-
+    
     default_TYPED
 } b
 
-a switch (var) {
+a switch ( var ) {
     case constant :
         /* void */;
         break;
@@ -1498,7 +1544,7 @@ a switch (var) {
         
 } b
 
-a switch (var) {
+a switch ( var ) {
     case constant :
         /* void */;
         break;

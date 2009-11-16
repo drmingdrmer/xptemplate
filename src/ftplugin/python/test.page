@@ -123,40 +123,145 @@ a drdr.xp b
 a drdr.xp
 
 
-    #  -------------class--------------- 
-    # class `ClassName^(`inherit^^):     
-    #     def __init__(self`, `args*^):  
-    #         `cursor^                   
+    #  -------------class---------------                  
+    # class `ClassName^`$SPcls^(`$SParg`parent?`$SParg^): 
+    #     `__init__...{{^`:init:^`}}^                     
 
 
 
 class ClassName():
-    def __init__(self):
+    def __init__( self ):
         
 
-        class ClassName_TYPED(inherit_TYPED):
-            def __init__(self, args_TYPED, args_TYPED, args_TYPED):
-                 b
+        class ClassName_TYPED( parent_TYPED ):
+            __init___TYPED b
 
 a class ClassName():
-    def __init__(self):
+    def __init__( self ):
          b
 
 a class ClassName():
-    def __init__(self):
+    def __init__( self ):
         
 
 
-    #  -------------def--------------- 
-    # def `func_name^(`args*^):        
-    #     `cursor^                     
+    #  -------------comment--------------- 
+    # `$CS^ `cursor^                       
+
+
+
+# 
+#
+#  b
+#
+a #  b
+
+a # 
+
+
+    #  -------------comment_--------------- 
+    # `$CS^ `wrapped^                       
+
+
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+
+    #  -------------commentBlock--------------- 
+    # `$CS^ `cursor^                            
+    # `$CS^                                     
+
+
+
+# 
+#
+#
+# 
+# b
+#
+a # 
+# b
+#
+a # 
+#
+#
+
+    #  -------------commentDoc--------------- 
+    # `$CS^                                   
+    # `$CS^ `cursor^                          
+    # `$CS^                                   
+
+
+
+#
+# 
+#
+#
+#
+# 
+# b
+#
+a #
+# 
+# b
+#
+a #
+# 
+#
+#
+
+    #  -------------commentLine--------------- 
+    # `$CS^ `cursor^                           
+
+
+
+# 
+#
+#  b
+#
+a #  b
+
+a # 
+
+
+    #  -------------commentLine_--------------- 
+    # `$CS^ `wrapped^                           
+
+
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2b
+
+a # WRAPPED_TEXT
+WRAPPED_TEXT_line2
+
+
+    #  -------------def---------------   
+    # def `func_name^`$SPfun^(`:args:^): 
+    #     `cursor^                       
 
 
 
 def func_name():
     
 
-    def func_name_TYPED(args_TYPED, args_TYPED, args_TYPED):
+    def func_name_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ):
          b
 
 a def func_name():
@@ -167,21 +272,21 @@ a def func_name():
 
 
     #  -------------elif--------------- 
-    # elif `condition^:                 
+    # elif `cond^:                      
     #     `cursor^                      
 
 
 
-elif condition:
+elif cond:
     
 
-    elif condition_TYPED:
+    elif cond_TYPED:
          b
 
-a elif condition:
+a elif cond:
      b
 
-a elif condition:
+a elif cond:
     
 
 
@@ -218,6 +323,25 @@ a drdr.xp@gmail.com b
 a drdr.xp@gmail.com
 
 
+    #  -------------except--------------- 
+    # except `Exception^:                 
+    #     `pass^                          
+
+
+
+except Exception:
+    pass
+
+except Exception_TYPED:
+    pass b
+
+a except Exception:
+    pass b
+
+a except Exception:
+    pass
+
+
     #  -------------File--------------- 
     # `file()^                          
 
@@ -232,22 +356,41 @@ a test.page b
 a test.page
 
 
-    #  -------------for---------------  
-    # for `var^ in range(``0`, ^`end^): 
-    #     `cursor^                      
+    #  -------------finally--------------- 
+    # finally:                             
+    #     `cursor^                         
 
 
 
-for var in range(end):
+finally:
     
 
-    for var_TYPED in range(0_TYPED, end_TYPED):
+    finally:
          b
 
-a for var in range(end):
+a finally:
      b
 
-a for var in range(end):
+a finally:
+    
+
+
+    #  -------------for---------------                       
+    # for `var^ in range(`$SParg^``0?`,$SPcm^`end^`$SParg^): 
+    #     `cursor^                                           
+
+
+
+for var in range( end ):
+    
+
+    for var_TYPED in range( 0_TYPED, end_TYPED ):
+         b
+
+a for var in range( end ):
+     b
+
+a for var in range( end ):
     
 
 
@@ -270,32 +413,18 @@ a for vars in seq:
     
 
 
-    #  -------------from--------------- 
-    # from `module^ import `item^       
+    #  -------------from---------------       
+    # from `module^ import `item^` as `name?^ 
 
 
 
 from module import item
 
-from module_TYPED import item_TYPED b
+from module_TYPED import item_TYPED as name_TYPED b
 
 a from module import item b
 
 a from module import item
-
-
-    #  -------------fromas---------------   
-    # from `module^ import `item^ as `name^ 
-
-
-
-from module import item as name
-
-from module_TYPED import item_TYPED as name_TYPED b
-
-a from module import item as name b
-
-a from module import item as name
 
 
     #  -------------fromfuture--------------- 
@@ -305,7 +434,7 @@ a from module import item as name
 
 from __future__ import name
 
-from __future__ import name_TYPED b
+from __future__ import name b
 
 a from __future__ import name b
 
@@ -313,125 +442,106 @@ a from __future__ import name
 
 
     #  -------------genExp--------------- 
-    # (`func^ for `elem^ in `seq^)        
+    # (`$SPar^`:generator:^`$SPar^)       
 
 
 
-(func(elem) for elem in seq)
+( func for elem in seq )
 
-(func_TYPED(elem_TYPED) for elem_TYPED in seq_TYPED) b
+( func_TYPED for elem_TYPED in seq_TYPED if condition_TYPED ) b
 
-a (func(elem) for elem in seq) b
+a ( func for elem in seq ) b
 
-a (func(elem) for elem in seq)
+a ( func for elem in seq )
 
 
     #  -------------if--------------- 
     # if `cond^:                      
     #     `pass^                      
-    # ``elif...`                      
-    # {{^elif `cond2^:                
-    #     `pass^                      
-    # ``elif...`                      
-    # ^`}}^`else...{{^else:           
-    #     `cursor^`}}^                
+    # `else...{{^`:else:^`}}^         
 
 
 
 if cond:
-    pass
-elif cond2:
-    pass
-elif cond2:
-    pass
-elif cond2:
     pass
 else:
     
 
     if cond_TYPED:
         pass_TYPED
-    elif_TYPED
-else_TYPED b
+    else_TYPED b
 
 a if cond:
-    pass
-elif cond2:
-    pass
-elif cond2:
-    pass
-elif cond2:
     pass
 else:
      b
 
 a if cond:
     pass
-elif cond2:
-    pass
-elif cond2:
-    pass
-elif cond2:
-    pass
 else:
     
 
 
-    #  -------------ifmain--------------- 
-    # if __name__ == "__main__" :         
-    #     `cursor^                        
+    #  -------------ifmain---------------    
+    # if __name__`$SPop^==`$SPop^"__main__": 
+    #     `cursor^                           
 
 
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     
 
-    if __name__ == "__main__" :
+    if __name__ == "__main__":
          b
 
-a if __name__ == "__main__" :
+a if __name__ == "__main__":
      b
 
-a if __name__ == "__main__" :
+a if __name__ == "__main__":
     
 
 
     #  -------------import--------------- 
-    # import `mod^                        
+    # import `mod^` as `name?^            
 
 
 
 import mod
 
-import mod_TYPED b
+import mod_TYPED as name_TYPED b
 
 a import mod b
 
 a import mod
 
 
-    #  -------------importas--------------- 
-    # import `module^ as `name^             
+    #  -------------init---------------                        
+    # def __init__`$SPfun^(`$SParg^self`,$SPcm`arg*^`$SParg^): 
+    #     `cursor^                                             
 
 
 
-import module as name
+def __init__( self ):
+    
 
-import module_TYPED as name_TYPED b
+    def __init__( self, arg_TYPED, arg_TYPED, arg_TYPED ):
+         b
 
-a import module as name b
+a def __init__( self ):
+     b
 
-a import module as name
+a def __init__( self ):
+    
 
 
     #  -------------lambda--------------- 
-    # lambda `args*^: `expr^              
+    # lambda `arg*^: `expr^               
 
 
 
 lambda : expr
 
-lambda args_TYPED, args_TYPED, args_TYPED: expr_TYPED b
+lambda arg_TYPED, arg_TYPED, arg_TYPED: expr b
 
 a lambda : expr b
 
@@ -439,17 +549,17 @@ a lambda : expr
 
 
     #  -------------listComp--------------- 
-    # [`func^ for `elem^ in `seq^]          
+    # [`$SPar^`:generator:^`$SPar^]         
 
 
 
-[func(elem) for elem in seq]
+[ func for elem in seq ]
 
-[func_TYPED(elem_TYPED) for elem_TYPED in seq_TYPED] b
+[ func_TYPED for elem_TYPED in seq_TYPED if condition_TYPED ] b
 
-a [func(elem) for elem in seq] b
+a [ func for elem in seq ] b
 
-a [func(elem) for elem in seq]
+a [ func for elem in seq ]
 
 
     #  -------------python--------------- 
@@ -523,64 +633,35 @@ a #!/usr/bin/env python
 
     #  -------------try--------------- 
     # try:                             
-    #     `what^                       
-    # except `Exception^:              
-    #     `pass^                       
-    # ``more_except...`                
-    # ^``else...`                      
-    # ^`finally...^                    
+    #     `job^                        
+    # `:except:^                       
+    # `finally...{{^`:finally:^`}}^    
 
 
 
 try:
-    # nothing
+    job
 except Exception:
-    pass
-except Exception:
-    pass
-except Exception:
-    pass
-except Exception:
-    pass
-else:
     pass
 finally:
     
 
     try:
-        what_TYPED
+        job_TYPED
     except Exception_TYPED:
         pass_TYPED
-    more_except_TYPED
-else_TYPED
     finally_TYPED b
 
 a try:
-    # nothing
+    job
 except Exception:
-    pass
-except Exception:
-    pass
-except Exception:
-    pass
-except Exception:
-    pass
-else:
     pass
 finally:
      b
 
 a try:
-    # nothing
+    job
 except Exception:
-    pass
-except Exception:
-    pass
-except Exception:
-    pass
-except Exception:
-    pass
-else:
     pass
 finally:
     
@@ -615,7 +696,7 @@ finally:
 
     try:
         WRAPPED_TEXT
-            WRAPPED_TEXT_line2
+        WRAPPED_TEXT_line2
     except Exception_TYPED:
         pass_TYPED
     more_except_TYPED

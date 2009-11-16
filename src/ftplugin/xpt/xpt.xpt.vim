@@ -87,37 +87,53 @@ XPTvar $VAR_PRE
 XPT varFormat hint=variables\ to\ define\ format
 " if () ** {
 XPTvar $BRif     ' '
+
 " } ** else {
-XPTvar $BRel   \n
+XPTvar $BRel     \n
+
 " for () ** {
 XPTvar $BRfor    ' '
+
 " while () ** {
-XPTvar $BRwhl  ' '
+XPTvar $BRwhl    ' '
+
 " struct name ** {
-XPTvar $BRstc ' '
+XPTvar $BRstc    ' '
+
 " int fun() ** {
-XPTvar $BRfun   ' '
+XPTvar $BRfun    ' '
+
 " class name ** {
-XPTvar $BRcls    ' '
+XPTvar $BRcls    ''
 
 
 XPT varSpaces hint=variable\ to\ define\ spacing
 " int fun ** (
 XPTvar $SPfun      ''
+
 " int fun( ** arg ** )
 XPTvar $SParg      ' '
+
 " if ** ( 
 XPTvar $SPif       ' '
+
 " if ( ** condition ** )
 XPTvar $SPcnd      ' '
+
 " a ** = ** b
 XPTvar $SPeq       ' '
+
 " a = a ** + ** 1
 XPTvar $SPop       ' '
+
 " (a, ** b, ** )
 XPTvar $SPcm       ' '
+
 " class name ** (
 XPTvar $SPcls      ' '
+
+" [ ** a, b ** ], { ** 'k' : 'v' ** }
+XPTvar $SPar       ' '
 
 
 XPT varConst hint=variables\ to\ define\ constants
@@ -147,6 +163,9 @@ XPT spfun " `\$SPfun^
 XPT sparg " `\$SParg^
 \`$SParg\^
 
+XPT spif " `\$SPif^
+\`$SPif\^
+
 XPT spcnd hint=`\$SPcnd^
 \`$SPcnd\^
 
@@ -162,6 +181,9 @@ XPT spcm hint=`\$SPcm^
 XPT spcls " `\$SPcls^
 \`$SPcls\^
 
+XPT spar " `\$SPar^
+\`$SPar\^
+
 
 XPT buildifeq hint={{}}
 \``name^{{\^`cursor^\`}}\^
@@ -173,7 +195,7 @@ XPT inc hint=`::^
 XPT fun hint=fun!\ s:f.**
 XSET parameters|def=
 XSET parameters|post=Echo( V() =~ '^\s*$' ? '' : V() )
-fun! s:f.`name^(` `parameters` ^)
+fun! s:f.`name^(`$SParg`parameters`$SParg^)
     `cursor^
 endfunction
 
@@ -182,10 +204,7 @@ endfunction
 XPT xpt hint=start\ template\ to\ write\ template
 XPTemplate priority=`prio^` `mark...^
 XSET prio=ChooseStr( 'all', 'spec', 'like', 'lang', 'sub', 'personal' )
-XSET keyword_disable...|post= keyword=`char^
 XSET mark...|post= mark=`char^
-XSET indent_disable...|post= indent=`indentValue^
-XSET indentValue=ChooseStr( 'auto', 'keep' )
 
 let s:f = g:XPTfuncs() 
 

@@ -19,11 +19,14 @@
 " "}}}
 "
 " KNOWING BUG: "{{{
+"   python:comment_ wrapper only add '#' to first line
+"
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO python:if/else/def
-" TODO BuildIfNoChange depending on default value or prevalue
+" TODO html/css fixing: ship-back, repopup 
+" TODO global synonym 
+" TODO default synonym
 " TODO super cancel : clear/default all and finish
 " TODO autocomplete doc
 " TODO <cr> in insert mode
@@ -62,14 +65,24 @@
 "
 "
 " Log of This version:
+"   fix : calling XPTemplate from outside of *.xpt.vim is allowed.
+"   fix : moved snippet relative doc to xpt.snippet.txt
+"   fix : finish snippet rendering when jumping to cursor only if cursor is the last ph
+"   fix : bug of select mode mapping
+"   fix : bug of undo Thanks to Simon Riderich
+"   fix : add preset value docs
+"   fix : wrapper indent bug
 "   add : highlight, variable g:xptemplate_highlight sets up highlight 
 "   add : document about default post-filter: "\w\+?" is optional place holder.
 "   add : bundle support g:xptemplate_bundle and g:XPTaddBundle()
-"   fix : calling XPTemplate from outside of *.xpt.vim is allowed.
-"   improve : use short variable names.
 "   add : doc of variable conventions
-"   fix : moved snippet relative doc to xpt.snippet.txt
-"   fix : finish snippet rendering when jumping to cursor only if cursor is the last ph
+"   add : finish rendering at once when selecting the last place holder
+"   add : function names and variable names convention in doc
+"   add : BuildIfNoChange depending on initial value of place hodler than its name
+"   improve : use short variable names.
+"   improve : improvement of python snippet
+"
+"
 "
 "
 
@@ -535,6 +548,10 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern ) "{{{
 endfunction "}}}
 
 fun! s:MergeSetting( tmplObject, incTmplObject ) "{{{
+    let a:tmplObject.setting.comeFirst += a:incTmplObject.setting.comeFirst
+    let a:tmplObject.setting.comeLast += a:incTmplObject.setting.comeLast
+    call s:initItemOrderDict( a:tmplObject.setting )
+
     call extend( a:tmplObject.setting.preValues, a:incTmplObject.setting.preValues, 'keep' )
     call extend( a:tmplObject.setting.defaultValues, a:incTmplObject.setting.defaultValues, 'keep' )
     call extend( a:tmplObject.setting.postFilters, a:incTmplObject.setting.postFilters, 'keep' )
@@ -594,7 +611,11 @@ fun! s:initItemOrderDict( setting ) "{{{
     " TODO move me to template creation phase
 
     let setting = a:setting
+    let setting.comeFirst = g:xptutil.RemoveDuplicate( a:setting.comeFirst )
+    let setting.comeLast  = g:xptutil.RemoveDuplicate( a:setting.comeLast )
+
     let [ first, last ] = [ setting.comeFirst, setting.comeLast ]
+
 
     let setting.firstDict = {}
     let setting.lastDict = {}
@@ -650,7 +671,7 @@ fun! XPTemplatePreWrap(wrap) "{{{
     let x.wrapStartPos = col(".")
 
 
-    if g:xptemplate_strip_left || x.wrap =~ '\n'
+    if ( g:xptemplate_strip_left || x.wrap =~ '\n' ) && visualmode() ==# 'V'
         let indent = matchstr( x.wrap, '^\s*' )
         let x.wrap = x.wrap[ len( indent ) : ]
 
@@ -659,6 +680,12 @@ fun! XPTemplatePreWrap(wrap) "{{{
         let x.wrap = s:BuildFilterIndent( x.wrap, len( indent ) )
 
         call s:log.Log( 'wrapped=' . x.wrap )
+
+    else
+        let x.wrap = 'Echo(' . string( x.wrap ) . ')'
+        let x.wrap = s:BuildFilterIndent( x.wrap, indent( line( "." ) ) )
+
+
     endif
 
 
@@ -1843,6 +1870,7 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
 endfunction "}}}
 
 " TODO simplify : if PH has preValue, replace it at once, without replacing with the name
+" TODO delay this to after template rendering
 fun! s:ApplyPreValues( placeHolder ) "{{{
     let renderContext = s:getRenderContext()
     let tmplObj = renderContext.tmpl
@@ -1887,6 +1915,8 @@ fun! s:SetPreValue( placeHolder, indent, text ) "{{{
 
     let marks = a:placeHolder.isKey ? a:placeHolder.editMark : a:placeHolder.mark
     let text = s:AdjustIndentAccordingToLine( a:text, a:indent, XPMpos( marks.start )[0], a:placeHolder )
+
+
     call s:log.Log( 'preValue=' . text )
     call XPRstartSession()
     try
@@ -1904,12 +1934,13 @@ fun! s:BuildItemForPlaceHolder( ctx, placeHolder ) "{{{
         let item = a:ctx.itemDict[ a:placeHolder.name ]
 
     else
-        let item = { 'name'         : a:placeHolder.name, 
-                    \'fullname'     : a:placeHolder.name, 
-                    \'processed'    : 0, 
-                    \'placeHolders' : [], 
-                    \'keyPH'        : s:NullDict, 
-                    \'behavior'     : {}, 
+        let item = { 'name'         : a:placeHolder.name,
+                    \'fullname'     : a:placeHolder.name,
+                    \'initValue'    : a:placeHolder.name,
+                    \'processed'    : 0,
+                    \'placeHolders' : [],
+                    \'keyPH'        : s:NullDict,
+                    \'behavior'     : {},
                     \}
 
         call s:addItemToRenderContext( a:ctx, item )
@@ -2274,7 +2305,6 @@ endfunction "}}}
 " TODO rename me
 fun! s:GotoNextItem() "{{{
     " @return   insert mode typing action
-    " @param    position from where to start search.
 
     let renderContext = s:getRenderContext()
     " call s:log.Log( 'renderContext=' . string( renderContext ) )
@@ -2317,10 +2347,26 @@ fun! s:GotoNextItem() "{{{
 
     let postaction = s:InitItem()
 
+    let renderContext.item.initValue = s:TextBetween( XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) )
+
 
     " InitItem may change template stack
     let renderContext = s:getRenderContext()
     let leader =  renderContext.leadingPlaceHolder
+
+    " TODO extract following part to function
+    
+    if renderContext.processing
+          \ && empty( renderContext.itemList )
+          \ && !has_key( renderContext.tmpl.setting.postFilters, renderContext.item.name )
+          \ && leader.postFilter == ''
+          \ && empty( renderContext.item.placeHolders )
+          \ && XPMpos( leader.mark.end ) == XPMpos( renderContext.marks.tmpl.end )
+
+        call s:FinishRendering()
+        return postaction
+
+    endif
 
 
 
@@ -2726,6 +2772,8 @@ fun! s:Eval(str, ...) "{{{
     let x = b:xptemplateData
     let ctx = x.renderContext
 
+    " TODO not good, give me the 'funcs' directy
+    "
     " Eval from snippet definition phase or rendering phase
     let xfunc = ctx.phase == 'uninit'
                 \ ? x.filetypes[ x.snipFileScope.filetype ].funcs
@@ -2941,60 +2989,61 @@ endfunction "}}}
 
 fun! s:XPTinitMapping() "{{{
     let disabledKeys = [
-                \ 's_[%', 
-                \ 's_]%', 
-                \]
+        \ 's_[%', 
+        \ 's_]%', 
+        \]
 
     " Note: <bs> works the same with <C-h>, but only masking <bs> in buffer
     " level does mask <c-h>. So that <bs> still works with old mapping
     let literalKeys = [
-                \ 's_%', 
-                \ 's_''', 
-                \ 's_"', 
-                \ 's_(', 
-                \ 's_)', 
-                \ 's_{', 
-                \ 's_}', 
-                \ 's_[', 
-                \ 's_]', 
-                \
-                \ 's_g', 
-                \ 's_m', 
-                \]
+        \ 's_%', 
+        \ 's_''', 
+        \ 's_"', 
+        \ 's_(', 
+        \ 's_)', 
+        \ 's_{', 
+        \ 's_}', 
+        \ 's_[', 
+        \ 's_]', 
+        \
+        \ 's_g', 
+        \ 's_m', 
+        \ 's_a', 
+        \]
 
     if g:xptemplate_brace_complete
         let literalKeys += [
-                    \ 'i_''', 
-                    \ 'i_"', 
-                    \ 'i_[', 
-                    \ 'i_(', 
-                    \ 'i_{', 
-                    \ 'i_]', 
-                    \ 'i_)', 
-                    \ 'i_}', 
-                    \ 'i_<BS>', 
-                    \ 'i_<C-h>', 
-                    \ 'i_<DEL>', 
-                    \]
+            \ 'i_''', 
+            \ 'i_"', 
+            \ 'i_[', 
+            \ 'i_(', 
+            \ 'i_{', 
+            \ 'i_]', 
+            \ 'i_)', 
+            \ 'i_}', 
+            \ 'i_<BS>', 
+            \ 'i_<C-h>', 
+            \ 'i_<DEL>', 
+            \]
     endif
 
     let b:mapSaver = g:MapSaver.New(1)
     call b:mapSaver.AddList(
-                \ 'i_' . g:xptemplate_nav_next, 
-                \ 's_' . g:xptemplate_nav_next, 
-                \
-                \ 'i_' . g:xptemplate_nav_prev, 
-                \ 's_' . g:xptemplate_nav_prev, 
-                \
-                \ 's_' . g:xptemplate_nav_cancel, 
-                \ 's_' . g:xptemplate_to_right, 
-                \
-                \ 'n_' . g:xptemplate_goback, 
-                \ 'i_' . g:xptemplate_goback, 
-                \
-                \ 's_<DEL>', 
-                \ 's_<BS>', 
-                \)
+        \ 'i_' . g:xptemplate_nav_next, 
+        \ 's_' . g:xptemplate_nav_next, 
+        \
+        \ 'i_' . g:xptemplate_nav_prev, 
+        \ 's_' . g:xptemplate_nav_prev, 
+        \
+        \ 's_' . g:xptemplate_nav_cancel, 
+        \ 's_' . g:xptemplate_to_right, 
+        \
+        \ 'n_' . g:xptemplate_goback, 
+        \ 'i_' . g:xptemplate_goback, 
+        \
+        \ 's_<DEL>', 
+        \ 's_<BS>', 
+        \)
 
     let b:mapLiteral = g:MapSaver.New( 1 )
     call b:mapLiteral.AddList( literalKeys )
@@ -3437,7 +3486,7 @@ fun! s:XPTupdate(...) "{{{
         return -1
     endif
 
-    if g:xptemplate_strict 
+    if g:xptemplate_strict == 1
                 \&& renderContext.phase == 'fillin'
                 \&& rc is g:XPM_RET.updated
         undo
@@ -3482,7 +3531,10 @@ fun! s:XPTupdate(...) "{{{
 
 
 
-    if rc is g:XPM_RET.likely_matched
+    if rc is g:XPM_RET.likely_matched 
+          \|| rc is g:XPM_RET.no_updated_made
+        " NOTE: sometimes, update is made before key mapping finished. Thus XPTupdate can not catch likely_matched result
+
         " change taken in current focused place holder
         let relPos = s:recordRelativePosToMark( [ line( '.' ), col( '.' ) ], renderContext.leadingPlaceHolder.mark.start )
 

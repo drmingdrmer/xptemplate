@@ -93,6 +93,17 @@ fun! s:f.ItemValue() dict "{{{
 endfunction "}}}
 let s:f.V = s:f.ItemValue
 
+fun! s:f.ItemInitValue()
+    return get( self.Item(), 'initValue', '' )
+endfunction
+let s:f.IV = s:f.ItemInitValue
+
+fun! s:f.ItemInitValueWithEdge()
+    let [ l, r ] = self.ItemEdges()
+    return l . self.IV() . r
+endfunction
+let s:f.IVE = s:f.ItemInitValueWithEdge
+
 " if value match one of the regexps
 fun! s:f.Vmatch( ... ) 
     let v = self.V()
@@ -191,10 +202,6 @@ fun! s:f.EchoIfEq( expected, ... )
 endfunction
 
 fun! s:f.EchoIfNoChange( ... )
-    echom self.V()
-    echom self.V0()
-    echom self.ItemName()
-    echom self.ItemFullname()
   if self.V0() ==# self.ItemName()
     return join( a:000, '' )
   else
@@ -226,7 +233,8 @@ endfunction
 
 fun! s:f.BuildIfChanged( ... )
   let v = substitute( self.V(), "\\V\n\\|\\s", '', 'g')
-  let fn = substitute( self.ItemFullname(), "\\V\n\\|\\s", '', 'g')
+  " let fn = substitute( self.ItemFullname(), "\\V\n\\|\\s", '', 'g')
+  let fn = substitute( self.ItemInitValueWithEdge(), "\\V\n\\|\\s", '', 'g')
 
   if v ==# fn || v == ''
       " return { 'action' : 'keepIndent', 'text' : self.V() }
@@ -238,7 +246,8 @@ endfunction
 
 fun! s:f.BuildIfNoChange( ... )
   let v = substitute( self.V(), "\\V\n\\|\\s", '', 'g')
-  let fn = substitute( self.ItemFullname(), "\\V\n\\|\\s", '', 'g')
+  " let fn = substitute( self.ItemFullname(), "\\V\n\\|\\s", '', 'g')
+  let fn = substitute( self.ItemInitValueWithEdge(), "\\V\n\\|\\s", '', 'g')
 
   if v ==# fn
       return { 'action' : 'build', 'text' : join( a:000, '' ) }
@@ -401,7 +410,7 @@ endfunction
 fun! s:f.ExpandIfNotEmpty( sep, item, ... ) "{{{
   let v = self.V()
 
-  let marks = XPTmark()
+  let [ ml, mr ] = XPTmark()
 
   if a:0 != 0
     let r = a:1
@@ -409,12 +418,29 @@ fun! s:f.ExpandIfNotEmpty( sep, item, ... ) "{{{
     let r = ''
   endif
   
-  let t = ( v == '' || v == a:item || v == ( a:sep . a:item ) )
+  " let t = ( v == '' || v == a:item || v == ( a:sep . a:item . r ) )
+  let t = ( v == '' || v =~ '\V' . a:item )
         \ ? ''
-        \ : ( v . marks[0] . a:sep . marks[0] . a:item . marks[0] . r . marks[1] . 'ExpandIfNotEmpty("' . a:sep . '", "' . a:item  . '")' . marks[1] . marks[1] )
+        \ : ( v . ml . a:sep . ml . a:item . ml . r . mr . 'ExpandIfNotEmpty("' . a:sep . '", "' . a:item  . '")' . mr . mr )
 
   return t
 endfunction "}}}
+
+fun! s:f.ExpandInsideEdge( newLeftEdge, newRightEdge )
+    let v = self.V()
+    let fullname = self.ItemFullname()
+
+    let [ ll, er ] = self.ItemEdges()
+
+    if v ==# fullname || v == ''
+        return ''
+    endif
+
+    return substitute( v, '\V' . er . '\$' , '' , '' )
+                \. self.ItemCreate( self.ItemName(), { 'left' : a:newLeftEdge, 'right' : a:newRightEdge }, {} ) 
+                \. er
+endfunction
+
 
 let s:xptCompleteMap = [ 
             \"''",

@@ -94,6 +94,19 @@ fun! s:XPTgetCurrentOrPreviousSynName() "{{{
 
 endfunction "}}}
 
+fun! s:RemoveDuplicate( list )
+    let dict = {}
+    let newList = []
+    for e in a:list
+        if !has_key( dict, e )
+            call add( newList, e )
+        endif
+        let dict[ e ] = 1
+    endfor
+
+    return newList
+endfunction
+
 let g:xptutil = g:XPclass( s:sid, {} )
 
 let &cpo = s:oldcpo
