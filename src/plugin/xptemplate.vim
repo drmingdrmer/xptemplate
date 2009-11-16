@@ -25,6 +25,7 @@
 "
 " TODOLIST: "{{{
 " TODO html/css fixing: ship-back, repopup 
+" TODO parse inclusion in XSET values
 " TODO global synonym 
 " TODO default synonym
 " TODO super cancel : clear/default all and finish
