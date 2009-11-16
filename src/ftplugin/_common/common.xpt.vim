@@ -1,3 +1,4 @@
+" Default settings and functions used in every snippet file.
 XPTemplate priority=all
 
 " containers
@@ -36,11 +37,20 @@ XPTvar $SPfun      ''
 " int fun( ** arg ** )
 XPTvar $SParg      ' '
 
-" if ** ( 
+" if ** (
 XPTvar $SPif       ' '
 
 " if ( ** condition ** )
 XPTvar $SPcnd      ' '
+
+" while ** (
+XPTvar $SPwhl      ' '
+
+" for ** (
+XPTvar $SPfor      ' '
+
+" for ( ** statement ** )
+XPTvar $SPfstm     ' '
 
 " a ** = ** b
 XPTvar $SPeq       ' '

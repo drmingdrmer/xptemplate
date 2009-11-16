@@ -53,7 +53,7 @@ XPTemplateDef
 XPT incf hint=XPTinclude\ ...
 XSET path=xpt_vim_path()
 XSET name=xpt_vim_name( R( 'path' ) )
-XPTinclude 
+XPTinclude
     \ _common/common`
     `...{{^`
     \ `path^/`name^`
@@ -61,7 +61,7 @@ XPTinclude
 
 
 XPT container hint=let\ [s:f,\ s:v]\ =...
-let s:f = g:XPTfuncs() 
+let s:f = g:XPTfuncs()
 
 
 XPT tmpl hint=XPT\ name\ ...
@@ -119,6 +119,15 @@ XPTvar $SPif       ' '
 
 " if ( ** condition ** )
 XPTvar $SPcnd      ' '
+
+" while ** (
+XPTvar $SPwhl      ' '
+
+" for ** (
+XPTvar $SPfor      ' '
+
+" for ( ** statement ** )
+XPTvar $SPfstm     ' '
 
 " a ** = ** b
 XPTvar $SPeq       ' '
@@ -206,7 +215,7 @@ XPTemplate priority=`prio^` `mark...^
 XSET prio=ChooseStr( 'all', 'spec', 'like', 'lang', 'sub', 'personal' )
 XSET mark...|post= mark=`char^
 
-let s:f = g:XPTfuncs() 
+let s:f = g:XPTfuncs()
 
 `Include:varConst^
 

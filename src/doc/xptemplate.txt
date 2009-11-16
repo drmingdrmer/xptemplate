@@ -228,8 +228,8 @@
 	circumstances, for example in certain syntax items. Defining context
 	depended snippets is done by adding another parameter to the
 	XPTemplate call "{'syn' : 'the context name'}" : >
-		call XPTemplate("para", {'syn' : 'comment'}, "
-			\@param {`Object^} `name^ `desc^")
+		XPT para syn=comment
+		@param {`Object^} `name^ `desc^
 <	Now the snippet "para" can be only triggered in syntax items named
 	"comment".
 
@@ -558,6 +558,15 @@
 
 		" if ( ** condition ** )
 		XPTvar $SPcnd      ' '
+
+		" while ** (
+		XPTvar $SPwhl      ' '
+
+		" for ** (
+		XPTvar $SPfor      ' '
+
+		" for ( ** statement ** )
+		XPTvar $SPfstm     ' '
 
 		" a ** = ** b
 		XPTvar $SPeq       ' '
