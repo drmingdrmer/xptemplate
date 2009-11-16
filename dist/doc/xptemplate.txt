@@ -87,7 +87,7 @@
 
 	Named item or anonymous item		|xpt-snippet-item|
 	Default value                 		|xpt-snippet-default-value|
-	Preset  value                 		|xpt-preset-value|
+	Preset  value                 		|xpt-snippet-preset-value|
 	Snippet Bundle/Library Support		|xpt-bundle|
 	and more...
 
@@ -545,6 +545,9 @@
 
 						*xpt-customize-variable-space*
 	Another set of variables is defined to customize spaces. They are: >
+		" int fun ** (
+		XPTvar $SPfun      ' '
+
 		" int fun( ** arg ** )
 		XPTvar $SParg      ' '
 
@@ -562,6 +565,9 @@
 
 		" (a, ** b, ** )
 		XPTvar $SPcm       ' '
+
+		" [ ** a, b ** ], { ** 'k' : 'v' ** }
+		XPTvar $SPar
 <	For example function snippet defined as below: >
 		XPT fun
 		int fun(`SParg^args`SParg^)
