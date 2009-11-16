@@ -24,8 +24,8 @@ svn export --force $CurrentDir $DistDir
 
 cd $DistDir
 # plugin/debug.vim	\
+# plugin/xpop.test.vim	\
 rm -rf	\
-  plugin/xpop.test.vim	\
   plugin/xptemplateTest.vim	\
   plugin/xptemplate.importer.vim	\
   xpt.ex	\
