@@ -1,16 +1,19 @@
 *xpt-api*
 
+	This file describes the public functions provided by XPTemplate which
+	can be used in snippets.
 
 							    *g:XPTaddBundle()*
 g:XPTaddBundle({filetype}, {bundle})
 	Load a bundle. {filetype} is the current buffer file type in most
-	case. And {bundle} is the file name who supplies the bundle.
+	case. And {bundle} is the file name which supplies the bundle.
 
 	For example loading jquery bundle for HTML buffer(or JAVASCRIPT buffer): >
 		call g:XPTaddBundle('javascript', 'jquery')
 <
 	
 								  *XPTfuncs()*
+g:XPTfuncs()
 	g:XPTfuncs() returns a |Dictionary| container of functions which can
 	be used in templates in the current buffer. The normal usage of
 	g:XPTfuncs() to define a template function is : >

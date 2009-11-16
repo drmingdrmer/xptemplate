@@ -243,8 +243,8 @@
 <	The <filename> is only the file root, without ".xpt.vim". 
 	XPTinclude can include several snippets at one time.
 
-	NOTE do NOT use |runtime| to include other snippet files. XPTinclude
-	handles snippet priority, but |runtime| does NOT.
+	NOTE do NOT use |:runtime| to include other snippet files. XPTinclude
+	handles snippet priority, but |:runtime| does NOT.
 
 								    *XPTembed*
 							   *xpt-snippet-embed*
@@ -271,7 +271,7 @@
 
 							    *xpt-snippet-name*
 	<snippetName> is the name the user has to type to trigger this
-	snippet. It can only contain characters defined in |iskeyword| and
+	snippet. It can only contain characters defined in 'iskeyword' and
 	|xpt-snippet-keyword|.
 
 							 *xpt-snippet-setting*
@@ -489,7 +489,7 @@
 <	The second "i", with double |`| before "<", is the leading one.
 
 						     *xpt-placeholder-special*
-	Special place holders include : |xpt-placeholder-cursur| and
+	Special place holders include : |xpt-placeholder-cursor| and
 	|xpt-placeholder-wrapped|.
 
 					 *`cursor^*   *xpt-placeholder-cursor*
