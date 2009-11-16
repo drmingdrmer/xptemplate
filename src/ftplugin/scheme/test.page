@@ -271,7 +271,7 @@ WRAPPED_TEXT_line2`
          (varn initn stepn)
               (varn initn stepn)
                    (varn initn stepn)}
-       ([test] exprs )
+       ([test] exprs  exprs exprs)
        (command0) ^
        (command1)^
        (command1))
@@ -284,7 +284,7 @@ WRAPPED_TEXT_line2`
          (varn initn stepn)
               (varn initn stepn)
                    (varn initn stepn)}
-       ([test] exprs )
+       ([test] exprs  exprs exprs)
        (command0) ^
        (command1)^
        (command1)) b
@@ -293,7 +293,7 @@ WRAPPED_TEXT_line2`
          (varn initn stepn)
               (varn initn stepn)
                    (varn initn stepn)}
-       ([test] exprs )
+       ([test] exprs  exprs exprs)
        (command0) ^
        (command1)^
        (command1))

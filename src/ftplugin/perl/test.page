@@ -230,10 +230,10 @@ a # WRAPPED_TEXT
 WRAPPED_TEXT_line2
 
 
-    #  -------------do---------------           
-    # do`$BRwhl^{                   
-    #     `cursor^                              
-    # }`$BRwhl^while (`condition^); 
+    #  -------------do--------------- 
+    # do`$BRwhl^{                     
+    #     `cursor^                    
+    # }`$BRwhl^while (`condition^);   
 
 
 
@@ -268,52 +268,52 @@ WRAPPED_TEXT_line2
     a drdr.xp@gmail.com
 
 
-    #  -------------eval--------------- 
-    # eval`$BRif^{            
-    #     `risky^                       
-    # };                                
-    # if ($@)`$BRif^{         
-    #     `handle^                      
-    # }                                 
+    #  -------------eval---------------     
+    # eval`$BRif^{                          
+    #     `risky^                           
+    # };                                    
+    # if`$SPif^(`$SPcnd^$@`$SPcnd^)`$BRif^{ 
+    #     `handle^                          
+    # }                                     
 
 
 
     eval {
         risky
     };
-    if ($@) {
+    if ( $@ ) {
         handle
     }
 
     eval {
         risky_TYPED
     };
-    if ($@) {
+    if ( $@ ) {
         handle_TYPED
     } b
 
     a eval {
         risky
     };
-    if ($@) {
+    if ( $@ ) {
         handle
     } b
 
     a eval {
         risky
     };
-    if ($@) {
+    if ( $@ ) {
         handle
     }
 
 
-    #  -------------eval_--------------- 
-    # eval`$BRif^{             
-    #     `wrapped^                      
-    # };                                 
-    # if ($@)`$BRif^{          
-    #     `handle^                       
-    # }                                  
+    #  -------------eval_---------------    
+    # eval`$BRif^{                          
+    #     `wrapped^                         
+    # };                                    
+    # if`$SPif^(`$SPcnd^$@`$SPcnd^)`$BRif^{ 
+    #     `handle^                          
+    # }                                     
 
 
 
@@ -321,7 +321,7 @@ eval {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 };
-if ($@) {
+if ( $@ ) {
     handle
 }
 
@@ -329,7 +329,7 @@ eval {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 };
-if ($@) {
+if ( $@ ) {
     handle_TYPED
 }b
 
@@ -337,7 +337,7 @@ a eval {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 };
-if ($@) {
+if ( $@ ) {
     handle
 }b
 
@@ -345,7 +345,7 @@ a eval {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 };
-if ($@) {
+if ( $@ ) {
     handle
 }
 
@@ -364,10 +364,10 @@ if ($@) {
     a test.page
 
 
-    #  -------------for---------------                                                                   
+    #  -------------for---------------                                                         
     # for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRfor^{ 
-    #     `cursor^                                                                                       
-    # }                                                                                                  
+    #     `cursor^                                                                             
+    # }                                                                                        
 
 
 
@@ -388,26 +388,26 @@ if ($@) {
     }
 
 
-    #  -------------foreach---------------            
-    # foreach my $`var^ (@`array^)`$BRfor^{ 
-    #     `cursor^                                    
-    # }                                               
+    #  -------------foreach---------------                           
+    # foreach`$SPfor^my $`var^ (`$SPfstm^@`array^`$SPfstm^)`$BRfor^{ 
+    #     `cursor^                                                   
+    # }                                                              
 
 
 
-    foreach my $var (@array) {
+    foreach my $var ( @array ) {
         
     }
 
-    foreach my $var_TYPED (@array_TYPED) {
+    foreach my $var_TYPED ( @array_TYPED ) {
         
     } b
 
-    a foreach my $var (@array) {
+    a foreach my $var ( @array ) {
         
     } b
 
-    a foreach my $var (@array) {
+    a foreach my $var ( @array ) {
         
     }
 
@@ -419,17 +419,17 @@ if ($@) {
 
     for (;;) # void
 
-    for (;;) body_TYPED b
+    for (;;) # void b
 
     a for (;;) # void b
 
     a for (;;) # void
 
 
-    #  -------------forkeys---------------                   
-    # foreach my $`var^ ( keys @`array^ )`$BRfor^{ 
-    #     `cursor^                                           
-    # }                                                      
+    #  -------------forkeys---------------                                
+    # foreach`$SPfor^my $`var^ (`$SPfstm^keys @`array^`$SPfstm^)`$BRfor^{ 
+    #     `cursor^                                                        
+    # }                                                                   
 
 
 
@@ -450,10 +450,10 @@ if ($@) {
     }
 
 
-    #  -------------forr---------------                                                                     
+    #  -------------forr---------------                                                           
     # for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRfor^{ 
-    #     `cursor^                                                                                          
-    # }                                                                                                     
+    #     `cursor^                                                                                
+    # }                                                                                           
 
 
 
@@ -474,10 +474,10 @@ if ($@) {
     }
 
 
-    #  -------------forvalues---------------                   
-    # foreach my $`var^ ( values @`array^ )`$BRfor^{ 
-    #     `cursor^                                             
-    # }                                                        
+    #  -------------forvalues---------------                                
+    # foreach`$SPfor^my $`var^ (`$SPfstm^values @`array^`$SPfstm^)`$BRfor^{ 
+    #     `cursor^                                                          
+    # }                                                                     
 
 
 
@@ -498,17 +498,17 @@ if ($@) {
     }
 
 
-    #  -------------if---------------                             
-    # if ( `cond^ )`$BRif^{                             
-    #     `job^                                                   
-    # }`                                                          
-    # `...^`$BRel^elsif ( `cond2^ )`$BRif^{ 
-    #     `job^                                                   
-    # }`                                                          
-    # `...^`                                                      
-    # `else...{{^`$BRel^else`$BRif^{        
-    #     `cursor^                                                
-    # }`}}^                                                       
+    #  -------------if---------------                                
+    # if`$SPif^(`$SPcnd^`cond^`$SPcnd^)`$BRif^{                      
+    #     `job^                                                      
+    # }`                                                             
+    # `elsif...^`$BRel^elsif`$SPif^(`$SPcnd^`cond2^`$SPcnd^)`$BRif^{ 
+    #     `job^                                                      
+    # }`                                                             
+    # `elsif...^`                                                    
+    # `else...{{^`$BRel^else`$BRif^{                                 
+    #     `cursor^                                                   
+    # }`}}^                                                          
 
 
 
@@ -531,7 +531,7 @@ if ($@) {
     if ( cond_TYPED ) {
         job_TYPED
     }
-    _TYPED
+    elsif_TYPED
     else_TYPED b
 
     a if ( cond ) {
@@ -567,17 +567,17 @@ if ($@) {
     }
 
 
-    #  -------------if_---------------                            
-    # if ( `cond^ )`$BRif^{                             
-    #     `wrapped^                                               
-    # }`                                                          
-    # `...^`$BRel^elsif ( `cond2^ )`$BRif^{ 
-    #     `job^                                                   
-    # }`                                                          
-    # `...^`                                                      
-    # `else...{{^`$BRel^else`$BRif^{        
-    #     `cursor^                                                
-    # }`}}^                                                       
+    #  -------------if_---------------                               
+    # if`$SPif^(`$SPcnd^`cond^`$SPcnd^)`$BRif^{                      
+    #     `wrapped^                                                  
+    # }`                                                             
+    # `elsif...^`$BRel^elsif`$SPif^(`$SPcnd^`cond2^`$SPcnd^)`$BRif^{ 
+    #     `job^                                                      
+    # }`                                                             
+    # `elsif...^`                                                    
+    # `else...{{^`$BRel^else`$BRif^{                                 
+    #     `cursor^                                                   
+    # }`}}^                                                          
 
 
 
@@ -602,7 +602,7 @@ if ( cond_TYPED ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
-_TYPED
+elsif_TYPED
 else_TYPEDb
 
 a if ( cond ) {
@@ -645,7 +645,7 @@ else {
     #                                        
     # use base qw(`parent^);                 
     #                                        
-    # sub new`$BRfun^{            
+    # sub new`$BRfun^{                       
     #     my $class = shift;                 
     #     $class = ref $class if ref $class; 
     #     my $self = bless {}, $class;       
@@ -731,10 +731,10 @@ else {
       
 
 
-    #  -------------sub---------------   
-    # sub `fun_name^`$BRfun^{ 
-    #     `cursor^                       
-    # }                                  
+    #  -------------sub--------------- 
+    # sub `fun_name^`$BRfun^{          
+    #     `cursor^                     
+    # }                                
 
 
 
@@ -755,52 +755,52 @@ else {
     }
 
 
-    #  -------------try--------------- 
-    # eval`$BRif^{           
-    #     `risky^                      
-    # };                               
-    # if ($@)`$BRif^{        
-    #     `handle^                     
-    # }                                
+    #  -------------try---------------      
+    # eval`$BRif^{                          
+    #     `risky^                           
+    # };                                    
+    # if`$SPif^(`$SPcnd^$@`$SPcnd^)`$BRif^{ 
+    #     `handle^                          
+    # }                                     
 
 
 
     eval {
         risky
     };
-    if ($@) {
+    if ( $@ ) {
         handle
     }
 
     eval {
         risky_TYPED
     };
-    if ($@) {
+    if ( $@ ) {
         handle_TYPED
     } b
 
     a eval {
         risky
     };
-    if ($@) {
+    if ( $@ ) {
         handle
     } b
 
     a eval {
         risky
     };
-    if ($@) {
+    if ( $@ ) {
         handle
     }
 
 
-    #  -------------try_--------------- 
-    # eval`$BRif^{            
-    #     `wrapped^                     
-    # };                                
-    # if ($@)`$BRif^{         
-    #     `handle^                      
-    # }                                 
+    #  -------------try_---------------     
+    # eval`$BRif^{                          
+    #     `wrapped^                         
+    # };                                    
+    # if`$SPif^(`$SPcnd^$@`$SPcnd^)`$BRif^{ 
+    #     `handle^                          
+    # }                                     
 
 
 
@@ -808,7 +808,7 @@ eval {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 };
-if ($@) {
+if ( $@ ) {
     handle
 }
 
@@ -816,7 +816,7 @@ eval {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 };
-if ($@) {
+if ( $@ ) {
     handle_TYPED
 }b
 
@@ -824,7 +824,7 @@ a eval {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 };
-if ($@) {
+if ( $@ ) {
     handle
 }b
 
@@ -832,39 +832,39 @@ a eval {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 };
-if ($@) {
+if ( $@ ) {
     handle
 }
 
 
-    #  -------------unless--------------- 
-    # unless (`cond^)`$BRif^{   
-    #     `cursor^                        
-    # }                                   
+    #  -------------unless---------------           
+    # unless`$SPif^(`$SPcnd^`cond^`$SPcnd^)`$BRif^{ 
+    #     `cursor^                                  
+    # }                                             
 
 
 
-    unless (cond) {
+    unless ( cond ) {
         
     }
 
-    unless (cond_TYPED) {
+    unless ( cond_TYPED ) {
         
     } b
 
-    a unless (cond) {
+    a unless ( cond ) {
         
     } b
 
-    a unless (cond) {
+    a unless ( cond ) {
         
     }
 
 
-    #  -------------while---------------       
-    # while (`condition^)`$BRwhl^{ 
-    #     `cursor^                             
-    # }                                        
+    #  -------------while--------------- 
+    # while (`condition^)`$BRwhl^{       
+    #     `cursor^                       
+    # }                                  
 
 
 
@@ -885,10 +885,10 @@ if ($@) {
     }
 
 
-    #  -------------while0---------------       
-    # do`$BRwhl^{                   
-    #     `cursor^                              
-    # }`$BRwhl^while (`condition^); 
+    #  -------------while0--------------- 
+    # do`$BRwhl^{                         
+    #     `cursor^                        
+    # }`$BRwhl^while (`condition^);       
 
 
 
@@ -909,10 +909,10 @@ if ($@) {
     } while (0);
 
 
-    #  -------------while1---------------      
-    # while (`condition^)`$BRwhl^{ 
-    #     `cursor^                             
-    # }                                        
+    #  -------------while1--------------- 
+    # while (`condition^)`$BRwhl^{        
+    #     `cursor^                        
+    # }                                   
 
 
 
@@ -933,10 +933,10 @@ if ($@) {
     }
 
 
-    #  -------------whileeach---------------                               
-    # while ( ( $`key^, $`val^ ) = each( %`array^ ) )`$BRwhl^{ 
-    #     `cursor^                                                         
-    # }                                                                    
+    #  -------------whileeach---------------                                                                          
+    # while`$SPwhl^(`$SPcnd^(`$SParg^$`key^,`$SPcm^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SPcnd^)`$BRwhl^{ 
+    #     `cursor^                                                                                                    
+    # }                                                                                                               
 
 
 
@@ -957,10 +957,10 @@ if ($@) {
     }
 
 
-    #  -------------whileline---------------                        
-    # while ( defined( $`line^ = <`STDIN^> ) )`$BRwhl^{ 
-    #     `cursor^                                                  
-    # }                                                             
+    #  -------------whileline---------------                                                           
+    # while`$SPwhl^(`$SPcnd^defined(`$SParg^$`line^`$SPeq^=`$SPeq^<`STDIN^>`$SParg^)`$SPcnd^)`$BRwhl^{ 
+    #     `cursor^                                                                                     
+    # }                                                                                                
 
 
 

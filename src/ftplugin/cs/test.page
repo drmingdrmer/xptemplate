@@ -360,13 +360,13 @@ a drdr.xp b
 a drdr.xp
 
 
-    /*  -------------bitfield---------------     */
-    /* struct `structName^`$BRstc^{ */
-    /*     `type^ `field^ : `bits^;`             */
-    /*     `...^                                 */
-    /*     `type^ `field^ : `bits^;`             */
-    /*     `...^                                 */
-    /* }` `var^^;                                */
+    /*  -------------bitfield--------------- */
+    /* struct `structName^`$BRstc^{          */
+    /*     `type^ `field^ : `bits^;`         */
+    /*     `...^                             */
+    /*     `type^ `field^ : `bits^;`         */
+    /*     `...^                             */
+    /* }` `var^^;                            */
 
 
 
@@ -419,6 +419,30 @@ a name(WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
+    /*  -------------case--------------- */
+    /* case `constant^`$SPif^:           */
+    /*     `job^                         */
+    /*     break;                        */
+
+
+
+case constant :
+    /* void */;
+    break;
+
+    case constant_TYPED :
+        job_TYPED
+        break; b
+
+        a case constant :
+            /* void */;
+            break; b
+
+            a case constant :
+                /* void */;
+                break;
+
+
     /*  -------------class---------------      */
     /* class `className^                       */
     /* {                                       */
@@ -430,13 +454,13 @@ WRAPPED_TEXT_line2)
 
 
 
-class className
-{
-    public className( ctorParam )
-    {
-        
-    }
-}
+                class className
+                {
+                    public className( ctorParam )
+                    {
+                        
+                    }
+                }
 
 class className_TYPED
 {
@@ -631,68 +655,85 @@ a /* WRAPPED_TEXT
 WRAPPED_TEXT_line2 */
 
 
-    /*  -------------do---------------           */
-    /* do`$BRwhl^{                   */
-    /*     `cursor^                              */
-    /* }`$BRwhl^while (`condition^); */
+    /*  -------------default--------------- */
+    /* default:                             */
+    /*     `cursor^                         */
 
 
 
-do
-{
+default:
     
-}
-while (condition);
 
-do
-{
-    
-}
-while (condition_TYPED); b
+default:
+     b
 
-a do
-{
-    
-}
-while (condition); b
+     a default:
+          b
 
-a do
-{
-    
-}
-while (condition);
+          a default:
+              
 
 
-    /*  -------------elif---------------       */
-    /* else if (`condition^)`$BRif^{ */
-    /*     `job^                               */
-    /* }                                       */
+    /*  -------------do--------------- */
+    /* do`$BRwhl^{                     */
+    /*     `cursor^                    */
+    /* }`$BRwhl^while (`condition^);   */
 
 
 
-else if (condition)
-{
-    /* void */;
-}
+          do
+          {
+              
+          }
+          while (condition);
 
-else if (condition_TYPED)
+          do
+          {
+              
+          }
+          while (condition_TYPED); b
+
+          a do
+          {
+              
+          }
+          while (condition); b
+
+          a do
+          {
+              
+          }
+          while (condition);
+
+
+    /*  -------------elif--------------- */
+    /* else `Include:_if^                */
+
+
+
+          else if ( condition )
+          {
+              /* void */;
+          }
+
+else if ( condition_TYPED )
 {
     job_TYPED
 } b
 
-a else if (condition)
+a else if ( condition )
 {
     /* void */;
 } b
 
-a else if (condition)
+a else if ( condition )
 {
     /* void */;
 }
 
 
     /*  -------------else--------------- */
-    /* else`$BRif^{            */
+    /* else`$BRif^{                      */
     /*     `cursor^                      */
     /* }                                 */
 
@@ -720,7 +761,7 @@ a else
 
 
     /*  -------------else_--------------- */
-    /* else`$BRif^{             */
+    /* else`$BRif^{                       */
     /*     `wrapped^                      */
     /* }                                  */
 
@@ -766,7 +807,7 @@ a drdr.xp@gmail.com
 
 
     /*  -------------enum--------------- */
-    /* enum `name^`$BRstc^{ */
+    /* enum `name^`$BRstc^{              */
     /*     `elt^;`                       */
     /*     `...{^                        */
     /*     `elt^;`                       */
@@ -947,10 +988,10 @@ a test.page
   
 
 
-    /*  -------------for---------------                             */
+    /*  -------------for---------------                   */
     /* for (`int^ `i^ = `0^; `i^ < `len^; ++`i^) `$BRif^{ */
-    /*     `cursor^                                                 */
-    /* }                                                            */
+    /*     `cursor^                                       */
+    /* }                                                  */
 
 
 
@@ -975,10 +1016,10 @@ a for (int i = 0; i < len; ++i)
 }
 
 
-    /*  -------------foreach---------------               */
+    /*  -------------foreach---------------     */
     /* foreach ( `var^ `e^ in `what^ )`$BRfor^{ */
-    /*     `cursor^                                       */
-    /* }                                                  */
+    /*     `cursor^                             */
+    /* }                                        */
 
 
 
@@ -1010,17 +1051,17 @@ a foreach ( var e in what )
 
 for (;;) /* void */
 
-for (;;) body_TYPED b
+for (;;) /* void */ b
 
 a for (;;) /* void */ b
 
 a for (;;) /* void */
 
 
-    /*  -------------fornn---------------                                                                             */
+    /*  -------------fornn---------------                                                                   */
     /* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRfor^{ */
-    /*     `cursor^                                                                                                   */
-    /* }                                                                                                              */
+    /*     `cursor^                                                                                         */
+    /* }                                                                                                    */
 
 
 
@@ -1045,10 +1086,10 @@ a for ( ptr = init; null != ptr; ptr )
 }
 
 
-    /*  -------------forr---------------                               */
+    /*  -------------forr---------------                     */
     /* for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^) `$BRif^{ */
-    /*     `cursor^                                                    */
-    /* }                                                               */
+    /*     `cursor^                                          */
+    /* }                                                     */
 
 
 
@@ -1087,10 +1128,10 @@ a fprintf( stream, "pattern" ) b
 a fprintf( stream, "pattern" )
 
 
-    /*  -------------fun---------------                                                   */
+    /*  -------------fun---------------                                        */
     /* `c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`param^)`$BRfun^{ */
-    /*     `cursor^                                                                       */
-    /* }                                                                                  */
+    /*     `cursor^                                                            */
+    /* }                                                                       */
 
 
 
@@ -1119,11 +1160,11 @@ name()
 }
 
 
-    /*  -------------fun_---------------                                                  */
+    /*  -------------fun_---------------                                       */
     /* `c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`param^)`$BRfun^{ */
-    /*     `wrapped^                                                                      */
-    /*     `cursor^                                                                       */
-    /* }                                                                                  */
+    /*     `wrapped^                                                           */
+    /*     `cursor^                                                            */
+    /* }                                                                       */
 
 
 
@@ -1161,14 +1202,12 @@ name()
 
 
     /*  -------------if---------------                     */
-    /* if (`condition^)`$BRif^{                  */
-    /*     `job^                                           */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^ */
+    /* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
-if (condition)
-{ 
+if ( condition )
+{
     /* void */;
 }
 else
@@ -1176,13 +1215,13 @@ else
     
 }
 
-if (condition_TYPED)
-{ 
+if ( condition_TYPED )
+{
     job_TYPED
 } else_TYPED b
 
-a if (condition)
-{ 
+a if ( condition )
+{
     /* void */;
 }
 else
@@ -1190,8 +1229,8 @@ else
     
 } b
 
-a if (condition)
-{ 
+a if ( condition )
+{
     /* void */;
 }
 else
@@ -1201,14 +1240,12 @@ else
 
 
     /*  -------------if0---------------                    */
-    /* if (`condition^)`$BRif^{                  */
-    /*     `job^                                           */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^ */
+    /* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
-if (0 == var)
-{ 
+if ( 0 == var )
+{
     /* void */;
 }
 else
@@ -1216,13 +1253,13 @@ else
     
 }
 
-if (0 == var_TYPED)
-{ 
+if ( 0 == var_TYPED )
+{
     job_TYPED
 } else_TYPED b
 
-a if (0 == var)
-{ 
+a if ( 0 == var )
+{
     /* void */;
 }
 else
@@ -1230,8 +1267,8 @@ else
     
 } b
 
-a if (0 == var)
-{ 
+a if ( 0 == var )
+{
     /* void */;
 }
 else
@@ -1240,111 +1277,107 @@ else
 }
 
 
-    /*  -------------if_---------------   */
-    /* if (`condition^)`$BRif^{ */
-    /*     `wrapped^                      */
-    /* }                                  */
+    /*  -------------if_---------------               */
+    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
+    /*     `wrapped^                                  */
+    /* }                                              */
 
 
 
-if (condition)
+if ( condition )
 {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
-if (condition_TYPED)
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}b
-
-a if (condition)
+if ( condition_TYPED )
 {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }b
 
-a if (condition)
+a if ( condition )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}b
+
+a if ( condition )
 {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
 
-    /*  -------------ifee---------------  */
-    /* if (`condition^)`$BRif^{ */
-    /*     `job^                          */
-    /* }` `else_if...^                    */
+    /*  -------------ifee--------------- */
+    /* `Include:_if^` `else_if...^       */
 
 
 
-if (condition)
+if ( condition )
 {
     /* void */;
 }
-else if (condition)
+else if ( condition )
 {
     /* void */;
 }
-else if (condition)
+else if ( condition )
 {
     /* void */;
 }
-else if (condition)
+else if ( condition )
 {
     /* void */;
 }
 
-if (condition_TYPED)
+if ( condition_TYPED )
 {
     job_TYPED
 } else_if_TYPED b
 
-a if (condition)
+a if ( condition )
 {
     /* void */;
 }
-else if (condition )
+else if ( condition )
 {
     /* void */;
 }
-else if (condition )
+else if ( condition )
 {
     /* void */;
 }
-else if (condition )
+else if ( condition )
 {
     /* void */;
 } b
 
-a if (condition)
+a if ( condition )
 {
     /* void */;
 }
-else if (condition)
+else if ( condition )
 {
     /* void */;
 }
-else if (condition)
+else if ( condition )
 {
     /* void */;
 }
-else if (condition)
+else if ( condition )
 {
     /* void */;
 }
 
 
     /*  -------------ifn---------------                    */
-    /* if (`condition^)`$BRif^{                  */
-    /*     `job^                                           */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^ */
+    /* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
-if (null == var)
-{ 
+if ( null == var )
+{
     /* void */;
 }
 else
@@ -1352,13 +1385,13 @@ else
     
 }
 
-if (null == var_TYPED)
-{ 
+if ( null == var_TYPED )
+{
     job_TYPED
 } else_TYPED b
 
-a if (null == var)
-{ 
+a if ( null == var )
+{
     /* void */;
 }
 else
@@ -1366,8 +1399,8 @@ else
     
 } b
 
-a if (null == var)
-{ 
+a if ( null == var )
+{
     /* void */;
 }
 else
@@ -1377,14 +1410,12 @@ else
 
 
     /*  -------------ifn0---------------                   */
-    /* if (`condition^)`$BRif^{                  */
-    /*     `job^                                           */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^ */
+    /* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
-if (0 != var)
-{ 
+if ( 0 != var )
+{
     /* void */;
 }
 else
@@ -1392,13 +1423,13 @@ else
     
 }
 
-if (0 != var_TYPED)
-{ 
+if ( 0 != var_TYPED )
+{
     job_TYPED
 } else_TYPED b
 
-a if (0 != var)
-{ 
+a if ( 0 != var )
+{
     /* void */;
 }
 else
@@ -1406,8 +1437,8 @@ else
     
 } b
 
-a if (0 != var)
-{ 
+a if ( 0 != var )
+{
     /* void */;
 }
 else
@@ -1417,14 +1448,12 @@ else
 
 
     /*  -------------ifnn---------------                   */
-    /* if (`condition^)`$BRif^{                  */
-    /*     `job^                                           */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^ */
+    /* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
-if (null != var)
-{ 
+if ( null != var )
+{
     /* void */;
 }
 else
@@ -1432,13 +1461,13 @@ else
     
 }
 
-if (null != var_TYPED)
-{ 
+if ( null != var_TYPED )
+{
     job_TYPED
 } else_TYPED b
 
-a if (null != var)
-{ 
+a if ( null != var )
+{
     /* void */;
 }
 else
@@ -1446,8 +1475,8 @@ else
     
 } b
 
-a if (null != var)
-{ 
+a if ( null != var )
+{
     /* void */;
 }
 else
@@ -1698,20 +1727,23 @@ a public struct structName
 }
 
 
-    /*  -------------switch--------------- */
-    /* switch (`var^)`$BRif^{    */
-    /*     case `constant^ :               */
-    /*         `job^                       */
-    /*         break;                      */
-    /* `                                   */
-    /*     `case...`                       */
-    /* ^`                                  */
-    /*     `default...^                    */
-    /* }                                   */
+    /*  -------------switch---------------    */
+    /* switch (`$SParg^`var^`$SParg^)`$BRif^{ */
+    /*     `:case:^                           */
+    /* `                                      */
+    /*     `case...`                          */
+    /*     {{^                                */
+    /*     `:case:^                           */
+    /* `                                      */
+    /*     `case...`                          */
+    /* ^`}}^`                                 */
+    /*     `default...`{{^                    */
+    /*     `:default:^`}}^                    */
+    /* }                                      */
 
 
 
-switch (var)
+switch ( var )
 {
     case constant :
         /* void */;
@@ -1733,18 +1765,18 @@ switch (var)
         
 }
 
-switch (var_TYPED)
+switch ( var_TYPED )
 {
     case constant_TYPED :
         job_TYPED
         break;
 
     case_TYPED
-
+    
     default_TYPED
 } b
 
-a switch (var)
+a switch ( var )
 {
     case constant :
         /* void */;
@@ -1766,7 +1798,7 @@ a switch (var)
         
 } b
 
-a switch (var)
+a switch ( var )
 {
     case constant :
         /* void */;
@@ -1973,10 +2005,10 @@ finally
 }
 
 
-    /*  -------------while---------------       */
-    /* while (`condition^)`$BRwhl^{ */
-    /*     `cursor^                             */
-    /* }                                        */
+    /*  -------------while--------------- */
+    /* while (`condition^)`$BRwhl^{       */
+    /*     `cursor^                       */
+    /* }                                  */
 
 
 
@@ -2001,10 +2033,10 @@ a while (condition)
 }
 
 
-    /*  -------------while0---------------       */
-    /* do`$BRwhl^{                   */
-    /*     `cursor^                              */
-    /* }`$BRwhl^while (`condition^); */
+    /*  -------------while0--------------- */
+    /* do`$BRwhl^{                         */
+    /*     `cursor^                        */
+    /* }`$BRwhl^while (`condition^);       */
 
 
 
@@ -2033,10 +2065,10 @@ a do
 while (false);
 
 
-    /*  -------------while1---------------      */
-    /* while (`condition^)`$BRwhl^{ */
-    /*     `cursor^                             */
-    /* }                                        */
+    /*  -------------while1--------------- */
+    /* while (`condition^)`$BRwhl^{        */
+    /*     `cursor^                        */
+    /* }                                   */
 
 
 
@@ -2061,10 +2093,10 @@ a while (true)
 }
 
 
-    /*  -------------whilenn---------------     */
-    /* while (`condition^)`$BRwhl^{ */
-    /*     `cursor^                             */
-    /* }                                        */
+    /*  -------------whilenn--------------- */
+    /* while (`condition^)`$BRwhl^{         */
+    /*     `cursor^                         */
+    /* }                                    */
 
 
 

@@ -349,12 +349,12 @@ WRAPPED_TEXT_line2 *)
 
  a (* 
   * WRAPPED_TEXT
-   WRAPPED_TEXT_line2
+  WRAPPED_TEXT_line2
   *)b
 
   a (* 
    * WRAPPED_TEXT
-     WRAPPED_TEXT_line2
+   WRAPPED_TEXT_line2
    *)
 
 
@@ -401,12 +401,12 @@ WRAPPED_TEXT_line2 *)
 
  a (** 
   * WRAPPED_TEXT
-   WRAPPED_TEXT_line2
+  WRAPPED_TEXT_line2
   *)b
 
   a (** 
    * WRAPPED_TEXT
-     WRAPPED_TEXT_line2
+   WRAPPED_TEXT_line2
    *)
 
 
@@ -811,7 +811,7 @@ with [ exc_TYPED -> rez_TYPED
 
      a try 
          WRAPPED_TEXT
-              WRAPPED_TEXT_line2
+         WRAPPED_TEXT_line2
      with [ exc -> rez
           | exc2 -> rez2
           | exc2 -> rez2
@@ -820,7 +820,7 @@ with [ exc_TYPED -> rez_TYPED
 
           a try 
               WRAPPED_TEXT
-                        WRAPPED_TEXT_line2
+              WRAPPED_TEXT_line2
           with [ exc -> rez
                | exc2 -> rez2
                | exc2 -> rez2

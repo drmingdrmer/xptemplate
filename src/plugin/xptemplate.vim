@@ -20,6 +20,7 @@
 "
 " KNOWING BUG: "{{{
 "   python:comment_ wrapper only add '#' to first line
+"   scheme:do indent problem of ...0
 "
 " "}}}
 "
@@ -2334,6 +2335,8 @@ fun! s:GotoNextItem() "{{{
     call s:log.Log( "all marks:" . XPMallMark() )
 
 
+
+
     let leader =  renderContext.leadingPlaceHolder
     let leaderMark = leader.isKey ? leader.editMark : leader.mark
     call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
@@ -2346,9 +2349,16 @@ fun! s:GotoNextItem() "{{{
         return action
     endif
 
+
+    let currentItem = renderContext.item
+    let renderContext.item.initValue = s:TextBetween( XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) )
+
     let postaction = s:InitItem()
 
-    let renderContext.item.initValue = s:TextBetween( XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) )
+    " NOTE: InitItem() may change current item to next one
+    if currentItem == renderContext.item
+        let renderContext.item.initValue = s:TextBetween( XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) )
+    endif
 
 
     " InitItem may change template stack

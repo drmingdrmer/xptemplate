@@ -372,9 +372,9 @@ WRAPPED_TEXT_line2
                       
 
 
-    #  -------------elif---------------                                     
+    #  -------------elif---------------                           
     # elif ~condition^~condition^sh_complete_brace()^;~$BRif^then 
-    #     ~cursor^                                                          
+    #     ~cursor^                                                
 
 
 
@@ -419,10 +419,10 @@ elif condition; then
     a test.page
 
 
-    #  -------------for---------------                           
+    #  -------------for---------------                 
     # for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$BRfor^do 
-    #     ~cursor^                                               
-    # done                                                       
+    #     ~cursor^                                     
+    # done                                             
 
 
 
@@ -443,10 +443,10 @@ elif condition; then
     done
 
 
-    #  -------------foreach---------------   
-    # for ~i^ in ~list^;~$BRfor^do 
-    #     ~cursor^                           
-    # done                                   
+    #  -------------foreach--------------- 
+    # for ~i^ in ~list^;~$BRfor^do         
+    #     ~cursor^                         
+    # done                                 
 
 
 
@@ -467,10 +467,10 @@ elif condition; then
     done
 
 
-    #  -------------forin---------------     
-    # for ~i^ in ~list^;~$BRfor^do 
-    #     ~cursor^                           
-    # done                                   
+    #  -------------forin--------------- 
+    # for ~i^ in ~list^;~$BRfor^do       
+    #     ~cursor^                       
+    # done                               
 
 
 
@@ -491,10 +491,10 @@ elif condition; then
     done
 
 
-    #  -------------forr---------------                               
+    #  -------------forr---------------                     
     # for ((~i^ = ~n^; ~i^ >~=^ ~start^; ~i^--));~$BRfor^do 
-    #     ~cursor^                                                    
-    # done                                                            
+    #     ~cursor^                                          
+    # done                                                  
 
 
 
@@ -516,7 +516,7 @@ elif condition; then
 
 
     #  -------------fun--------------- 
-    # ~name^ ()~$BRfun^{    
+    # ~name^ ()~$BRfun^{               
     #     ~cursor^                     
     # }                                
 
@@ -539,10 +539,10 @@ elif condition; then
     }
 
 
-    #  -------------if---------------                                     
+    #  -------------if---------------                           
     # if ~condition^~condition^sh_complete_brace()^;~$BRif^then 
-    #     ~cursor^                                                        
-    # fi                                                                  
+    #     ~cursor^                                              
+    # fi                                                        
 
 
 
@@ -563,12 +563,12 @@ elif condition; then
     fi
 
 
-    #  -------------ife---------------                                    
+    #  -------------ife---------------                          
     # if ~condition^~condition^sh_complete_brace()^;~$BRif^then 
-    #     ~job^                                                           
-    # else                                                                
-    #     ~cursor^                                                        
-    # fi                                                                  
+    #     ~job^                                                 
+    # else                                                      
+    #     ~cursor^                                              
+    # fi                                                        
 
 
 
@@ -651,10 +651,10 @@ elif condition; then
       
 
 
-    #  -------------while---------------       
-    # while ~condition^;~$BRwhl^do 
-    #     ~cursor^                             
-    # done                                     
+    #  -------------while--------------- 
+    # while ~condition^;~$BRwhl^do       
+    #     ~cursor^                       
+    # done                               
 
 
 
@@ -675,10 +675,10 @@ elif condition; then
     done
 
 
-    #  -------------while1---------------      
-    # while ~condition^;~$BRwhl^do 
-    #     ~cursor^                             
-    # done                                     
+    #  -------------while1--------------- 
+    # while ~condition^;~$BRwhl^do        
+    #     ~cursor^                        
+    # done                                
 
 
 

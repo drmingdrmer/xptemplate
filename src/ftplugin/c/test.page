@@ -650,10 +650,8 @@ a do {
 } while (condition);
 
 
-    /*  -------------elif---------------                   */
-    /* else if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
-    /*     `job^                                           */
-    /* }                                                   */
+    /*  -------------elif--------------- */
+    /* else `Include:_if^                */
 
 
 
@@ -1091,10 +1089,8 @@ name()
 }
 
 
-    /*  -------------if---------------                */
-    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
-    /*     `job^                                      */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^        */
+    /*  -------------if---------------                     */
+    /* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
@@ -1124,10 +1120,8 @@ else {
 }
 
 
-    /*  -------------if0---------------               */
-    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
-    /*     `job^                                      */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^        */
+    /*  -------------if0---------------                    */
+    /* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
@@ -1185,20 +1179,21 @@ a if ( condition ) {
 }
 
 
-    /*  -------------ifee---------------              */
-    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
-    /*     `job^                                      */
-    /* }` `else_if...^                                */
+    /*  -------------ifee--------------- */
+    /* `Include:_if^` `else_if...^       */
 
 
 
 if ( condition ) {
     /* void */;
-} else if ( condition ) {
+}
+else if ( condition ) {
     /* void */;
-} else if ( condition ) {
+}
+else if ( condition ) {
     /* void */;
-} else if ( condition ) {
+}
+else if ( condition ) {
     /* void */;
 }
 
@@ -1208,29 +1203,33 @@ if ( condition_TYPED ) {
 
 a if ( condition ) {
     /* void */;
-} else if ( condition ) {
+}
+else if ( condition ) {
     /* void */;
-} else if ( condition ) {
+}
+else if ( condition ) {
     /* void */;
-} else if ( condition ) {
+}
+else if ( condition ) {
     /* void */;
 } b
 
 a if ( condition ) {
     /* void */;
-} else if ( condition ) {
+}
+else if ( condition ) {
     /* void */;
-} else if ( condition ) {
+}
+else if ( condition ) {
     /* void */;
-} else if ( condition ) {
+}
+else if ( condition ) {
     /* void */;
 }
 
 
-    /*  -------------ifn---------------               */
-    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
-    /*     `job^                                      */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^        */
+    /*  -------------ifn---------------                    */
+    /* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
@@ -1260,10 +1259,8 @@ else {
 }
 
 
-    /*  -------------ifn0---------------              */
-    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
-    /*     `job^                                      */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^        */
+    /*  -------------ifn0---------------                   */
+    /* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
@@ -1293,10 +1290,8 @@ else {
 }
 
 
-    /*  -------------ifnn---------------              */
-    /* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
-    /*     `job^                                      */
-    /* }` `else...{{^`$BRel^`Include:else^`}}^        */
+    /*  -------------ifnn---------------                   */
+    /* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 

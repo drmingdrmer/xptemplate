@@ -19,7 +19,7 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
-    //  -------------$---------------                            
+    //  -------------$---------------                          
     // $(`$SParg^`e^`e^CmplQuoter_pre()^`, `context?^`$SParg^) 
 
 
@@ -123,7 +123,7 @@ a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
 
 
-    //  -------------ac---------------     
+    //  -------------ac---------------   
     // addClass(`$SParg^`class^`$SParg^) 
 
 
@@ -165,7 +165,7 @@ WRAPPED_TEXT_line2`
     a after( expr )
 
 
-    //  -------------ag---------------                                                                                   
+    //  -------------ag---------------                                                                                 
     // `$JQ^.get(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SParg^) 
 
 
@@ -179,7 +179,7 @@ WRAPPED_TEXT_line2`
     a $.get( url, data, callback, "xml" )
 
 
-    //  -------------agj---------------                                                   
+    //  -------------agj---------------                                                 
     // `$JQ^.getJSON(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`, `callback^`$SParg^) 
 
 
@@ -193,7 +193,7 @@ WRAPPED_TEXT_line2`
     a $.getJSON( url, data, callback )
 
 
-    //  -------------ags---------------                                            
+    //  -------------ags---------------                                          
     // `$JQ^.getScript(`$SParg^`url^`url^CmplQuoter_pre()^`, `callback^`$SParg^) 
 
 
@@ -207,7 +207,7 @@ WRAPPED_TEXT_line2`
     a $.getScript( url, callback )
 
 
-    //  -------------aj---------------     
+    //  -------------aj---------------   
     // `$JQ^.ajax(`$SParg^`opt^`$SParg^) 
 
 
@@ -221,7 +221,7 @@ WRAPPED_TEXT_line2`
     a $.ajax( opt )
 
 
-    //  -------------ajaxComplete---------------                                                                             
+    //  -------------ajaxComplete---------------                                                                         
     // ajaxComplete(`$SParg^`fun...{{^function (`$SParg^`event^`, `xhr^`, `ajaxOption^`$SParg^){ `cursor^ }`}}^`$SParg^) 
 
 
@@ -235,7 +235,7 @@ WRAPPED_TEXT_line2`
     a ajaxComplete( function ( event, xhr, ajaxOption ){  } )
 
 
-    //  -------------ajaxError---------------                                                                                     
+    //  -------------ajaxError---------------                                                                                 
     // ajaxError(`$SParg^`fun...{{^function (`$SParg^`event^`, `xhr^`, `ajaxOption^`, `err^`$SParg^){ `cursor^ }`}}^`$SParg^) 
 
 
@@ -249,7 +249,7 @@ WRAPPED_TEXT_line2`
     a ajaxError( function ( event, xhr, ajaxOption, err ){  } )
 
 
-    //  -------------ajaxSend---------------                                                                             
+    //  -------------ajaxSend---------------                                                                         
     // ajaxSend(`$SParg^`fun...{{^function (`$SParg^`event^`, `xhr^`, `ajaxOption^`$SParg^){ `cursor^ }`}}^`$SParg^) 
 
 
@@ -263,7 +263,7 @@ WRAPPED_TEXT_line2`
     a ajaxSend( function ( event, xhr, ajaxOption ){  } )
 
 
-    //  -------------ajaxStart---------------               
+    //  -------------ajaxStart---------------             
     // ajaxStart(`$SParg^`fun...{{^`:_fun0:^`}}^`$SParg^) 
 
 
@@ -277,7 +277,7 @@ WRAPPED_TEXT_line2`
     a ajaxStart( function() {  } )
 
 
-    //  -------------ajaxStop---------------               
+    //  -------------ajaxStop---------------             
     // ajaxStop(`$SParg^`fun...{{^`:_fun0:^`}}^`$SParg^) 
 
 
@@ -291,7 +291,7 @@ WRAPPED_TEXT_line2`
     a ajaxStop( function() {  } )
 
 
-    //  -------------ajaxSuccess---------------                                                                             
+    //  -------------ajaxSuccess---------------                                                                         
     // ajaxSuccess(`$SParg^`fun...{{^function (`$SParg^`event^`, `xhr^`, `ajaxOption^`$SParg^){ `cursor^ }`}}^`$SParg^) 
 
 
@@ -305,7 +305,7 @@ WRAPPED_TEXT_line2`
     a ajaxSuccess( function ( event, xhr, ajaxOption ){  } )
 
 
-    //  -------------ani---------------              
+    //  -------------ani---------------            
     // animate(`$SParg^`params^`, `param^`$SParg^) 
 
 
@@ -333,7 +333,7 @@ WRAPPED_TEXT_line2`
     a append( expr )
 
 
-    //  -------------apost---------------                                                                                 
+    //  -------------apost---------------                                                                               
     // `$JQ^.post(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SParg^) 
 
 
@@ -375,7 +375,7 @@ WRAPPED_TEXT_line2`
     a andSelf()
 
 
-    //  -------------asetup---------------      
+    //  -------------asetup---------------    
     // `$JQ^.ajaxSetup(`$SParg^`opt^`$SParg^) 
 
 
@@ -414,7 +414,7 @@ WRAPPED_TEXT_line2`
 
 
     //  -------------attr--------------- 
-    // attr(`$SParg^`name^`$SParg^)    
+    // attr(`$SParg^`name^`$SParg^)      
 
 
 
@@ -587,6 +587,30 @@ console.log(t1-t0);
     a blur( function ( ev ) {  } ) b
 
     a blur( function ( ev ) {  } )
+
+
+    //  -------------case--------------- 
+    // case `constant^`$SPif^:           
+    //     `job^                         
+    //     break;                        
+
+
+
+    case constant :
+        /* void */;
+        break;
+
+        case constant_TYPED :
+            job_TYPED
+            break; b
+
+            a case constant :
+                /* void */;
+                break; b
+
+                a case constant :
+                    /* void */;
+                    break;
 
 
     //  -------------ch--------------- 
@@ -887,7 +911,7 @@ WRAPPED_TEXT_line2 */
 
     @param {Object} name desc
 
-    @param {Object_TYPED} name_TYPED desc_TYPED b
+    @param {Object_TYPED} name_TYPED desc b
 
     a @param {Object} name desc b
 
@@ -908,7 +932,7 @@ WRAPPED_TEXT_line2 */
     a css(  )
 
 
-    //  -------------da---------------           
+    //  -------------da---------------         
     // data(`$SParg^`name^`, `value?^`$SParg^) 
 
 
@@ -936,7 +960,26 @@ WRAPPED_TEXT_line2 */
     a dbclick( function ( ev ) {  } )
 
 
-    //  -------------die---------------                             
+    //  -------------default--------------- 
+    // default:                             
+    //     `cursor^                         
+
+
+
+    default:
+        
+
+        default:
+             b
+
+             a default:
+                  b
+
+                  a default:
+                      
+
+
+    //  -------------die---------------                           
     // die(`$SParg^`type^`type^CmplQuoter_pre()^`, `fun^`$SParg^) 
 
 
@@ -950,7 +993,7 @@ WRAPPED_TEXT_line2 */
     a die( type, fun )
 
 
-    //  -------------dq---------------   
+    //  -------------dq--------------- 
     // dequeue(`$SParg^`name^`$SParg^) 
 
 
@@ -979,25 +1022,23 @@ WRAPPED_TEXT_line2 */
 
 
     //  -------------elif--------------- 
-    // else if (`condition^)`$BRif^{     
-    //     `job^                         
-    // }                                 
+    // else `Include:_if^                
 
 
 
-    else if (condition) {
+    else if ( condition ) {
         /* void */;
     }
 
-    else if (condition_TYPED) {
+    else if ( condition_TYPED ) {
         job_TYPED
     } b
 
-    a else if (condition) {
+    a else if ( condition ) {
         /* void */;
     } b
 
-    a else if (condition) {
+    a else if ( condition ) {
         /* void */;
     }
 
@@ -1097,7 +1138,7 @@ a else {
 
 
     //  -------------eq--------------- 
-    // eq(`$SParg^`^`$SParg^)        
+    // eq(`$SParg^`^`$SParg^)          
 
 
 
@@ -1323,7 +1364,7 @@ a else {
 
     for (;;) /* void */
 
-        for (;;) body_TYPED b
+        for (;;) /* void */ b
 
     a for (;;) /* void */ b
 
@@ -1407,7 +1448,7 @@ a else {
     }
 
 
-    //  -------------ft---------------                                                                                             
+    //  -------------ft---------------                                                                                           
     // fadeTo(`$SParg^`speed^`speed^CmplQuoter_pre()^`, `opacity^`opacity^CmplQuoter_pre()^`, `fun...{{^, `:_fun0:^`}}^`$SParg^) 
 
 
@@ -1479,7 +1520,7 @@ a function name (param) {
 
 
     //  -------------get--------------- 
-    // get(`$SParg^`^`$SParg^)        
+    // get(`$SParg^`^`$SParg^)          
 
 
 
@@ -1492,7 +1533,7 @@ a function name (param) {
     a get(  )
 
 
-    //  -------------hc---------------     
+    //  -------------hc---------------   
     // hasClass(`$SParg^`class^`$SParg^) 
 
 
@@ -1520,7 +1561,7 @@ a function name (param) {
     a hide( speed, function() {  } )
 
 
-    //  -------------ho---------------                                                      
+    //  -------------ho---------------                                                    
     // hover(`$SParg^`over...{{^, `:_ev_fun_a:^`}}^`, `out..{{^, `:_ev_fun:^`}}^`$SParg^) 
 
 
@@ -1562,32 +1603,30 @@ a function name (param) {
     a html(  )
 
 
-    //  -------------if---------------         
-    // if (`condition^)`$BRif^{                
-    //     `job^                               
-    // }` `else...{{^`$BRel^`Include:else^`}}^ 
+    //  -------------if---------------                     
+    // `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ 
 
 
 
-    if (condition) { 
+    if ( condition ) {
         /* void */;
     }
     else {
         
     }
 
-    if (condition_TYPED) { 
+    if ( condition_TYPED ) {
         job_TYPED
     } else_TYPED b
 
-    a if (condition) { 
+    a if ( condition ) {
         /* void */;
     }
     else {
         
     } b
 
-    a if (condition) { 
+    a if ( condition ) {
         /* void */;
     }
     else {
@@ -1595,32 +1634,30 @@ a function name (param) {
     }
 
 
-    //  -------------if0---------------        
-    // if (`condition^)`$BRif^{                
-    //     `job^                               
-    // }` `else...{{^`$BRel^`Include:else^`}}^ 
+    //  -------------if0---------------                    
+    // `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ 
 
 
 
-    if (0 == var) { 
+    if ( 0 == var ) {
         /* void */;
     }
     else {
         
     }
 
-    if (0 == var_TYPED) { 
+    if ( 0 == var_TYPED ) {
         job_TYPED
     } else_TYPED b
 
-    a if (0 == var) { 
+    a if ( 0 == var ) {
         /* void */;
     }
     else {
         
     } b
 
-    a if (0 == var) { 
+    a if ( 0 == var ) {
         /* void */;
     }
     else {
@@ -1628,102 +1665,107 @@ a function name (param) {
     }
 
 
-    //  -------------if_--------------- 
-    // if (`condition^)`$BRif^{         
-    //     `wrapped^                    
-    // }                                
+    //  -------------if_---------------               
+    // if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ 
+    //     `wrapped^                                  
+    // }                                              
 
 
 
-if (condition) {
+if ( condition ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
-if (condition_TYPED) {
+if ( condition_TYPED ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }b
 
-a if (condition) {
+a if ( condition ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }b
 
-a if (condition) {
+a if ( condition ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
 
     //  -------------ifee--------------- 
-    // if (`condition^)`$BRif^{          
-    //     `job^                         
-    // }` `else_if...^                   
+    // `Include:_if^` `else_if...^       
 
 
 
-    if (condition) {
+    if ( condition ) {
         /* void */;
-    } else if (condition) {
+    }
+    else if ( condition ) {
         /* void */;
-    } else if (condition) {
+    }
+    else if ( condition ) {
         /* void */;
-    } else if (condition) {
+    }
+    else if ( condition ) {
         /* void */;
     }
 
-    if (condition_TYPED) {
+    if ( condition_TYPED ) {
         job_TYPED
     } else_if_TYPED b
 
-    a if (condition) {
+    a if ( condition ) {
         /* void */;
-    } else if (condition ) {
+    }
+    else if ( condition ) {
         /* void */;
-    } else if (condition ) {
+    }
+    else if ( condition ) {
         /* void */;
-    } else if (condition ) {
+    }
+    else if ( condition ) {
         /* void */;
     } b
 
-    a if (condition) {
+    a if ( condition ) {
         /* void */;
-    } else if (condition) {
+    }
+    else if ( condition ) {
         /* void */;
-    } else if (condition) {
+    }
+    else if ( condition ) {
         /* void */;
-    } else if (condition) {
+    }
+    else if ( condition ) {
         /* void */;
     }
 
 
-    //  -------------ifn---------------        
-    // if (`condition^)`$BRif^{                
-    //     `job^                               
-    // }` `else...{{^`$BRel^`Include:else^`}}^ 
+    //  -------------ifn---------------                    
+    // `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ 
 
 
 
-    if (NULL == var) { 
+    if ( NULL == var ) {
         /* void */;
     }
     else {
         
     }
 
-    if (NULL == var_TYPED) { 
+    if ( NULL == var_TYPED ) {
         job_TYPED
     } else_TYPED b
 
-    a if (NULL == var) { 
+    a if ( NULL == var ) {
         /* void */;
     }
     else {
         
     } b
 
-    a if (NULL == var) { 
+    a if ( NULL == var ) {
         /* void */;
     }
     else {
@@ -1731,32 +1773,30 @@ a if (condition) {
     }
 
 
-    //  -------------ifn0---------------       
-    // if (`condition^)`$BRif^{                
-    //     `job^                               
-    // }` `else...{{^`$BRel^`Include:else^`}}^ 
+    //  -------------ifn0---------------                   
+    // `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ 
 
 
 
-    if (0 != var) { 
+    if ( 0 != var ) {
         /* void */;
     }
     else {
         
     }
 
-    if (0 != var_TYPED) { 
+    if ( 0 != var_TYPED ) {
         job_TYPED
     } else_TYPED b
 
-    a if (0 != var) { 
+    a if ( 0 != var ) {
         /* void */;
     }
     else {
         
     } b
 
-    a if (0 != var) { 
+    a if ( 0 != var ) {
         /* void */;
     }
     else {
@@ -1764,32 +1804,30 @@ a if (condition) {
     }
 
 
-    //  -------------ifnn---------------       
-    // if (`condition^)`$BRif^{                
-    //     `job^                               
-    // }` `else...{{^`$BRel^`Include:else^`}}^ 
+    //  -------------ifnn---------------                   
+    // `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ 
 
 
 
-    if (NULL != var) { 
+    if ( NULL != var ) {
         /* void */;
     }
     else {
         
     }
 
-    if (NULL != var_TYPED) { 
+    if ( NULL != var_TYPED ) {
         job_TYPED
     } else_TYPED b
 
-    a if (NULL != var) { 
+    a if ( NULL != var ) {
         /* void */;
     }
     else {
         
     } b
 
-    a if (NULL != var) { 
+    a if ( NULL != var ) {
         /* void */;
     }
     else {
@@ -1812,7 +1850,7 @@ a if (condition) {
 
 
     //  -------------ind--------------- 
-    // index(`$SParg^`^`$SParg^)      
+    // index(`$SParg^`^`$SParg^)        
 
 
 
@@ -1881,7 +1919,7 @@ a if (condition) {
     a innerWidth()
 
 
-    //  -------------jq---------------                                
+    //  -------------jq---------------                              
     // jQuery(`$SParg^`e^`e^CmplQuoter_pre()^`, `context?^`$SParg^) 
 
 
@@ -1951,7 +1989,7 @@ a if (condition) {
     a load( function ( ev ) {  } )
 
 
-    //  -------------load---------------                                                                                           
+    //  -------------load---------------                                                                                         
     // load(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `function...{{^, `:_ld_callback:^`}}^`$SParg^) 
 
 
@@ -2133,7 +2171,7 @@ a if (condition) {
     a not( expr )
 
 
-    //  -------------oh---------------         
+    //  -------------oh---------------       
     // outerHeight(`$SParg^`margin^`$SParg^) 
 
 
@@ -2189,7 +2227,7 @@ a if (condition) {
     a offsetParent()
 
 
-    //  -------------ow---------------        
+    //  -------------ow---------------      
     // outerWidth(`$SParg^`margin^`$SParg^) 
 
 
@@ -2325,7 +2363,7 @@ a if (condition) {
     a prev(  )
 
 
-    //  -------------qu---------------            
+    //  -------------qu---------------          
     // queue(`$SParg^`name^`, `toAdd?^`$SParg^) 
 
 
@@ -2339,7 +2377,7 @@ a if (condition) {
     a queue( name )
 
 
-    //  -------------rd---------------                  
+    //  -------------rd---------------                
     // ready(`$SParg^`fun...{{^`:_fun0:^`}}^`$SParg^) 
 
 
@@ -2409,7 +2447,7 @@ a if (condition) {
     a remove(  )
 
 
-    //  -------------rma---------------     
+    //  -------------rma---------------   
     // removeAttr(`$SParg^`name^`$SParg^) 
 
 
@@ -2423,7 +2461,7 @@ a if (condition) {
     a removeAttr( name )
 
 
-    //  -------------rmd---------------     
+    //  -------------rmd---------------   
     // removeData(`$SParg^`name^`$SParg^) 
 
 
@@ -2563,7 +2601,7 @@ a if (condition) {
     a sibling(  )
 
 
-    //  -------------slc---------------          
+    //  -------------slc---------------        
     // slice(`$SParg^`start^`, `end?^`$SParg^) 
 
 
@@ -2647,20 +2685,23 @@ a if (condition) {
     a submit( function ( ev ) {  } )
 
 
-    //  -------------switch--------------- 
-    // switch (`var^)`$BRif^{              
-    //     case `constant^ :               
-    //         `job^                       
-    //         break;                      
-    // `                                   
-    //     `case...`                       
-    // ^`                                  
-    //     `default...^                    
-    // }                                   
+    //  -------------switch---------------    
+    // switch (`$SParg^`var^`$SParg^)`$BRif^{ 
+    //     `:case:^                           
+    // `                                      
+    //     `case...`                          
+    //     {{^                                
+    //     `:case:^                           
+    // `                                      
+    //     `case...`                          
+    // ^`}}^`                                 
+    //     `default...`{{^                    
+    //     `:default:^`}}^                    
+    // }                                      
 
 
 
-    switch (var) {
+    switch ( var ) {
         case constant :
             /* void */;
             break;
@@ -2681,17 +2722,17 @@ a if (condition) {
             
     }
 
-    switch (var_TYPED) {
+    switch ( var_TYPED ) {
         case constant_TYPED :
             job_TYPED
             break;
     
         case_TYPED
-    
+        
         default_TYPED
     } b
 
-    a switch (var) {
+    a switch ( var ) {
         case constant :
             /* void */;
             break;
@@ -2712,7 +2753,7 @@ a if (condition) {
             
     } b
 
-    a switch (var) {
+    a switch ( var ) {
         case constant :
             /* void */;
             break;
@@ -2748,7 +2789,7 @@ a if (condition) {
     a size()
 
 
-    //  -------------tc---------------                    
+    //  -------------tc---------------                  
     // toggleClass(`$SParg^`class^`, `switch?^`$SParg^) 
 
 
@@ -2776,7 +2817,7 @@ a if (condition) {
     a text(  )
 
 
-    //  -------------tg---------------                                                       
+    //  -------------tg---------------                                                     
     // toggle(`$SParg^`fn1...{{^, `:_ev_fun_a:^`}}^`, `fn2...{{^, `:_ev_fun:^`}}^`$SParg^) 
 
 
@@ -2988,7 +3029,7 @@ finally {
 }
 
 
-    //  -------------ub---------------                                 
+    //  -------------ub---------------                               
     // unbind(`$SParg^`type^`type^CmplQuoter_pre()^`, `fun^`$SParg^) 
 
 

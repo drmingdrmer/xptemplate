@@ -521,31 +521,31 @@ a \begin{something}
 
 
     %  -------------lim--------------- 
-    % \lim_{`what^}                    
+    % \lim_{`what~}                    
 
 
 
-    \lim_{`what^}
+    \lim_{what}
 
-    \lim_{`what^} b
+    \lim_{what_TYPED} b
 
-    a \lim_{`what^} b
+    a \lim_{what} b
 
-    a \lim_{`what^}
+    a \lim_{what}
 
 
     %  -------------ref--------------- 
-    % \ref{`curosr~}                   
+    % \ref{`cursor~}                   
 
 
 
-    \ref{curosr}
+    \ref{}
 
-    \ref{curosr_TYPED} b
+    \ref{} b
 
-    a \ref{curosr} b
+    a \ref{} b
 
-    a \ref{curosr}
+    a \ref{}
 
 
     %  -------------section--------------- 
@@ -696,11 +696,11 @@ WRAPPED_TEXT_line2}
     WRAPPED_TEXT_line2}
 
     {WRAPPED_TEXT
-        WRAPPED_TEXT_line2}b
+    WRAPPED_TEXT_line2}b
 
-        a {WRAPPED_TEXT
-                WRAPPED_TEXT_line2}b
+    a {WRAPPED_TEXT
+    WRAPPED_TEXT_line2}b
 
-                a {WRAPPED_TEXT
-                                WRAPPED_TEXT_line2}
+    a {WRAPPED_TEXT
+    WRAPPED_TEXT_line2}
 

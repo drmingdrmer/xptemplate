@@ -6,17 +6,17 @@
 
 
 
-"WRAPPED_TEXT
-WRAPPED_TEXT_line2"
+"    WRAPPED_TEXT
+    WRAPPED_TEXT_line2"
 
-"WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+    "WRAPPED_TEXT
+    WRAPPED_TEXT_line2"b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+    a "WRAPPED_TEXT
+    WRAPPED_TEXT_line2"b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"
+    a "WRAPPED_TEXT
+    WRAPPED_TEXT_line2"
 
 
     <!--  -------------'_--------------- -->
@@ -24,17 +24,17 @@ WRAPPED_TEXT_line2"
 
 
 
-'WRAPPED_TEXT
-WRAPPED_TEXT_line2'
+'    WRAPPED_TEXT
+    WRAPPED_TEXT_line2'
 
-'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+    'WRAPPED_TEXT
+    WRAPPED_TEXT_line2'b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+    a 'WRAPPED_TEXT
+    WRAPPED_TEXT_line2'b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'
+    a 'WRAPPED_TEXT
+    WRAPPED_TEXT_line2'
 
 
     <!--  -------------(_--------------- -->
@@ -42,31 +42,31 @@ WRAPPED_TEXT_line2'
 
 
 
-(WRAPPED_TEXT
-WRAPPED_TEXT_line2)
+(    WRAPPED_TEXT
+    WRAPPED_TEXT_line2)
 
-(WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+    (WRAPPED_TEXT
+    WRAPPED_TEXT_line2)b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+    a (WRAPPED_TEXT
+    WRAPPED_TEXT_line2)b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)
-
-
-    <!--  -------------<---------------                     -->
-    <!-- <`tag^` `att*^`att*^xml_attVal()^>`cursor^</`tag^> -->
+    a (WRAPPED_TEXT
+    WRAPPED_TEXT_line2)
 
 
+    <!--  -------------<---------------                      -->
+    <!-- <`tag^` `att*^`att*^xml_attVal()^>`content^</`tag^> -->
 
-<tag></tag>
 
-<tag_TYPED att_TYPED="val_TYPED" att_TYPED="val_TYPED" att_TYPED="val_TYPED"></tag_TYPED> b
 
-a <tag></tag> b
+<tag>content</tag>
 
-a <tag></tag>
+<tag_TYPED att_TYPED="val_TYPED" att_TYPED="val_TYPED" att_TYPED="val_TYPED">content_TYPED</tag_TYPED> b
+
+a <tag>content</tag> b
+
+a <tag>content</tag>
 
 
     <!--  -------------<_--------------- -->
@@ -92,17 +92,17 @@ WRAPPED_TEXT_line2</span>
 
 
 
-[WRAPPED_TEXT
-WRAPPED_TEXT_line2]
+[    WRAPPED_TEXT
+    WRAPPED_TEXT_line2]
 
-[WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+    [WRAPPED_TEXT
+    WRAPPED_TEXT_line2]b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+    a [WRAPPED_TEXT
+    WRAPPED_TEXT_line2]b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]
+    a [WRAPPED_TEXT
+    WRAPPED_TEXT_line2]
 
 
     <!--  -------------`_--------------- -->
@@ -110,17 +110,17 @@ WRAPPED_TEXT_line2]
 
 
 
-`WRAPPED_TEXT
-WRAPPED_TEXT_line2`
+`    WRAPPED_TEXT
+    WRAPPED_TEXT_line2`
 
-`WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+    `WRAPPED_TEXT
+    WRAPPED_TEXT_line2`b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+    a `WRAPPED_TEXT
+    WRAPPED_TEXT_line2`b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`
+    a `WRAPPED_TEXT
+    WRAPPED_TEXT_line2`
 
 
     <!--  -------------a--------------- -->
@@ -142,8 +142,8 @@ WRAPPED_TEXT_line2`
 
 
 
-<a href="">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a>
+<a href="">    WRAPPED_TEXT
+    WRAPPED_TEXT_line2</a>
 
 <a href="_TYPED">WRAPPED_TEXT
 WRAPPED_TEXT_line2</a>b
@@ -216,17 +216,17 @@ WRAPPED_TEXT_line2</a>
 
 
 
-<![CDATA[WRAPPED_TEXT
-WRAPPED_TEXT_line2]]>
+<![CDATA[    WRAPPED_TEXT
+    WRAPPED_TEXT_line2]]>
 
-<![CDATA[WRAPPED_TEXT
-WRAPPED_TEXT_line2]]>b
+    <![CDATA[WRAPPED_TEXT
+    WRAPPED_TEXT_line2]]>b
 
-a <![CDATA[WRAPPED_TEXT
-WRAPPED_TEXT_line2]]>b
+    a <![CDATA[WRAPPED_TEXT
+    WRAPPED_TEXT_line2]]>b
 
-a <![CDATA[WRAPPED_TEXT
-WRAPPED_TEXT_line2]]>
+    a <![CDATA[WRAPPED_TEXT
+    WRAPPED_TEXT_line2]]>
 
 
     <!--  -------------choose--------------- -->
@@ -325,8 +325,8 @@ a <xsl:choose>
 
 
 
-<!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->
+<!--     WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->
 
 <!-- WRAPPED_TEXT
 WRAPPED_TEXT_line2 -->b
@@ -349,17 +349,17 @@ WRAPPED_TEXT_line2 -->
       
      -->
 
-     <!-- 
-       
-      --> b
+<!-- 
+  
+ --> b
 
-      a <!-- 
-        
-       --> b
+ a <!-- 
+   
+  --> b
 
-       a <!-- 
-         
-        -->
+  a <!-- 
+    
+   -->
 
 
     <!--  -------------commentBlock_--------------- -->
@@ -370,24 +370,24 @@ WRAPPED_TEXT_line2 -->
 
 
 <!-- 
+      WRAPPED_TEXT
+      WRAPPED_TEXT_line2
+ -->
+
+<!-- 
+  WRAPPED_TEXT
+  WRAPPED_TEXT_line2
+ -->b
+
+a <!-- 
+  WRAPPED_TEXT
+  WRAPPED_TEXT_line2
+ -->b
+
+a <!-- 
   WRAPPED_TEXT
   WRAPPED_TEXT_line2
  -->
-
- <!-- 
-   WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-  -->b
-
-  a <!-- 
-    WRAPPED_TEXT
-      WRAPPED_TEXT_line2
-   -->b
-
-   a <!-- 
-     WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-    -->
 
 
     <!--  -------------commentDoc--------------- -->
@@ -401,17 +401,17 @@ WRAPPED_TEXT_line2 -->
       
      -->
 
-     <!-- 
-       
-      --> b
+<!-- 
+  
+ --> b
 
-      a <!-- 
-        
-       --> b
+ a <!-- 
+   
+  --> b
 
-       a <!-- 
-         
-        -->
+  a <!-- 
+    
+   -->
 
 
     <!--  -------------commentDoc_--------------- -->
@@ -422,24 +422,24 @@ WRAPPED_TEXT_line2 -->
 
 
 <!-- 
+      WRAPPED_TEXT
+      WRAPPED_TEXT_line2
+ -->
+
+<!-- 
+  WRAPPED_TEXT
+  WRAPPED_TEXT_line2
+ -->b
+
+a <!-- 
+  WRAPPED_TEXT
+  WRAPPED_TEXT_line2
+ -->b
+
+a <!-- 
   WRAPPED_TEXT
   WRAPPED_TEXT_line2
  -->
-
- <!-- 
-   WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-  -->b
-
-  a <!-- 
-    WRAPPED_TEXT
-      WRAPPED_TEXT_line2
-   -->b
-
-   a <!-- 
-     WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-    -->
 
 
     <!--  -------------commentLine--------------- -->
@@ -461,8 +461,8 @@ WRAPPED_TEXT_line2 -->
 
 
 
-<!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->
+<!--     WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->
 
 <!-- WRAPPED_TEXT
 WRAPPED_TEXT_line2 -->b
@@ -493,8 +493,8 @@ WRAPPED_TEXT_line2 -->
 
 
 
-<div>WRAPPED_TEXT
-WRAPPED_TEXT_line2</div>
+<div>    WRAPPED_TEXT
+    WRAPPED_TEXT_line2</div>
 
 <div>WRAPPED_TEXT
 WRAPPED_TEXT_line2</div>b
@@ -591,8 +591,8 @@ a <xsl:for-each select="match">
 
 
 
-<h1>WRAPPED_TEXT
-WRAPPED_TEXT_line2</h1>
+<h1>    WRAPPED_TEXT
+    WRAPPED_TEXT_line2</h1>
 
 <hn_TYPED>WRAPPED_TEXT
 WRAPPED_TEXT_line2</hn_TYPED>b
@@ -629,7 +629,7 @@ WRAPPED_TEXT_line2</h1>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <link rel="stylesheet" type="text/css" href="" />
         <style></style>
-        <title>/media/ext2/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/xslt/.test/test</title>
+        <title>/home/drdrxp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/xslt/.test/test</title>
         <script language="javascript" type="text/javascript">
             <!-- -->
         </script>
@@ -661,7 +661,7 @@ a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <link rel="stylesheet" type="text/css" href="" />
         <style></style>
-        <title>/media/ext2/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/xslt/.test/test</title>
+        <title>/home/drdrxp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/xslt/.test/test</title>
         <script language="javascript" type="text/javascript">
             <!-- -->
         </script>
@@ -677,7 +677,7 @@ a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <link rel="stylesheet" type="text/css" href="" />
         <style></style>
-        <title>/media/ext2/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/xslt/.test/test</title>
+        <title>/home/drdrxp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/xslt/.test/test</title>
         <script language="javascript" type="text/javascript">
             <!-- -->
         </script>
@@ -793,8 +793,8 @@ a <ol>
 
 
 
-<p>WRAPPED_TEXT
-WRAPPED_TEXT_line2</p>
+<p>    WRAPPED_TEXT
+    WRAPPED_TEXT_line2</p>
 
 <p>WRAPPED_TEXT
 WRAPPED_TEXT_line2</p>b
@@ -957,18 +957,16 @@ a <xsl:stylesheet version="1.0"
 
 <table>
     <tr>
-        <td>_TYPED</td> td_TYPED
+        <td>_TYPED </td> td_TYPED
     </tr> tr_TYPED
 </table> b
 
 a <table>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td> </td> td...
     </tr>
     <tr>
+        <td></td>
         <td></td>
     </tr>
 </table> b
@@ -1054,14 +1052,11 @@ a <xsl:template match="match">
 </tr>
 
 <tr>
-    <td>_TYPED</td> td_TYPED
+    <td>_TYPED </td> td_TYPED
 </tr> b
 
 a <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td> </td> td...
 </tr> b
 
 a <tr>
@@ -1163,15 +1158,15 @@ a <xsl:when test="ex">
 
 
 
-{WRAPPED_TEXT
-WRAPPED_TEXT_line2}
+{    WRAPPED_TEXT
+    WRAPPED_TEXT_line2}
 
-{WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+    {WRAPPED_TEXT
+    WRAPPED_TEXT_line2}b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+    a {WRAPPED_TEXT
+    WRAPPED_TEXT_line2}b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}
+    a {WRAPPED_TEXT
+    WRAPPED_TEXT_line2}
 

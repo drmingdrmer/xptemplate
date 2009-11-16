@@ -259,6 +259,7 @@ fun! s:f.BuildIfNoChange( ... )
   " let fn = substitute( self.ItemFullname(), "\\V\n\\|\\s", '', 'g')
   let fn = substitute( self.ItemInitValueWithEdge(), "\\V\n\\|\\s", '', 'g')
 
+
   if v ==# fn
       return { 'action' : 'build', 'text' : join( a:000, '' ) }
   else

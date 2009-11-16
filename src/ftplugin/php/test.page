@@ -123,12 +123,36 @@ a drdr.xp b
 a drdr.xp
 
 
-    /*  -------------class---------------                     */
+    /*  -------------case--------------- */
+/* case `constant^`$SPif^:           */
+/*     `job^                         */
+/*     break;                        */
+
+
+
+case constant :
+    /* void */;
+    break;
+
+case constant_TYPED :
+    job_TYPED
+    break; b
+
+a case constant :
+    /* void */;
+    break; b
+
+a case constant :
+    /* void */;
+    break;
+
+
+    /*  -------------class---------------          */
 /* class `className^`$BRfun^{                  */
 /*     function __construct( `args^ )`$BRfun^{ */
-/*         `cursor^                                       */
-/*     }                                                  */
-/* }                                                      */
+/*         `cursor^                            */
+/*     }                                       */
+/* }                                           */
 
 
 
@@ -227,7 +251,7 @@ a /*
 
 /* 
  * WRAPPED_TEXT
- WRAPPED_TEXT_line2
+WRAPPED_TEXT_line2
  */ b
 
 a /* 
@@ -279,7 +303,7 @@ a /**
 
 /** 
  * WRAPPED_TEXT
- WRAPPED_TEXT_line2
+WRAPPED_TEXT_line2
  */ b
 
 a /** 
@@ -325,10 +349,29 @@ a /* WRAPPED_TEXT
 WRAPPED_TEXT_line2 */
 
 
-    /*  -------------do---------------           */
-/* do`$BRwhl^{                   */
-/*     `cursor^                              */
-/* }`$BRwhl^while (`condition^); */
+    /*  -------------default--------------- */
+/* default:                             */
+/*     `cursor^                         */
+
+
+
+default:
+    
+
+default:
+     b
+
+a default:
+     b
+
+a default:
+    
+
+
+    /*  -------------do--------------- */
+/* do`$BRwhl^{                     */
+/*     `cursor^                    */
+/* }`$BRwhl^while (`condition^);   */
 
 
 
@@ -349,32 +392,30 @@ a do {
 } while (condition);
 
 
-    /*  -------------elif---------------       */
-/* else if (`condition^)`$BRif^{ */
-/*     `job^                               */
-/* }                                       */
+    /*  -------------elif--------------- */
+/* else `Include:_if^                */
 
 
 
-else if (condition) {
+else if ( condition ) {
     /* void */;
 }
 
-else if (condition_TYPED) {
+else if ( condition_TYPED ) {
     job_TYPED
 } b
 
-a else if (condition) {
+a else if ( condition ) {
     /* void */;
 } b
 
-a else if (condition) {
+a else if ( condition ) {
     /* void */;
 }
 
 
     /*  -------------else--------------- */
-/* else`$BRif^{            */
+/* else`$BRif^{                      */
 /*     `cursor^                      */
 /* }                                 */
 
@@ -398,7 +439,7 @@ a else {
 
 
     /*  -------------else_--------------- */
-/* else`$BRif^{             */
+/* else`$BRif^{                       */
 /*     `wrapped^                      */
 /* }                                  */
 
@@ -411,7 +452,7 @@ else {
 
 else {
     WRAPPED_TEXT
-    WRAPPED_TEXT_line2
+   WRAPPED_TEXT_line2
 } b
 
 a else {
@@ -453,10 +494,10 @@ a test.page b
 a test.page
 
 
-    /*  -------------for---------------                                                                   */
+    /*  -------------for---------------                                                         */
 /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRfor^{ */
-/*     `cursor^                                                                                       */
-/* }                                                                                                  */
+/*     `cursor^                                                                             */
+/* }                                                                                        */
 
 
 
@@ -477,10 +518,10 @@ a for ( $i = 0; $i < len; ++$i ) {
 }
 
 
-    /*  -------------foreach---------------               */
+    /*  -------------foreach---------------     */
 /* foreach ($`var^ as `container^)`$BRfor^{ */
-/*     `cursor^                                       */
-/* }                                                  */
+/*     `cursor^                             */
+/* }                                        */
 
 
 
@@ -508,17 +549,17 @@ a foreach ($var as container) {
 
 for (;;) /* void */
 
-for (;;) body_TYPED b
+for (;;) /* void */ b
 
 a for (;;) /* void */ b
 
 a for (;;) /* void */
 
 
-    /*  -------------fornn---------------                                                                             */
+    /*  -------------fornn---------------                                                                   */
 /* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRfor^{ */
-/*     `cursor^                                                                                                   */
-/* }                                                                                                              */
+/*     `cursor^                                                                                         */
+/* }                                                                                                    */
 
 
 
@@ -539,10 +580,10 @@ a for ( $ptr = init; null != $ptr; $ptr ) {
 }
 
 
-    /*  -------------forr---------------                                                                     */
+    /*  -------------forr---------------                                                           */
 /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRfor^{ */
-/*     `cursor^                                                                                          */
-/* }                                                                                                     */
+/*     `cursor^                                                                                */
+/* }                                                                                           */
 
 
 
@@ -563,10 +604,10 @@ a for ( $i = 0; $i >= end; --$i ) {
 }
 
 
-    /*  -------------fun---------------                     */
+    /*  -------------fun---------------          */
 /* function `funName^(` `params` ^)`$BRfun^{ */
-/*     `cursor^                                         */
-/* }                                                    */
+/*     `cursor^                              */
+/* }                                         */
 
 
 
@@ -602,31 +643,29 @@ a function funName() {
 
 
     /*  -------------if---------------                     */
-/* if (`condition^)`$BRif^{                  */
-/*     `job^                                           */
-/* }` `else...{{^`$BRel^`Include:else^`}}^ */
+/* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
-    if (condition) { 
+    if ( condition ) {
         /* void */;
     }
     else {
         
     }
 
-if (condition_TYPED) { 
+if ( condition_TYPED ) {
     job_TYPED
 } else_TYPED b
 
-a if (condition) { 
+a if ( condition ) {
     /* void */;
 }
 else {
     
 } b
 
-    a if (condition) { 
+    a if ( condition ) {
         /* void */;
     }
     else {
@@ -635,31 +674,29 @@ else {
 
 
     /*  -------------if0---------------                    */
-/* if (`condition^)`$BRif^{                  */
-/*     `job^                                           */
-/* }` `else...{{^`$BRel^`Include:else^`}}^ */
+/* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
-if (0 == var) { 
+if ( 0 == var ) {
     /* void */;
 }
 else {
     
 }
 
-if (0 == var_TYPED) { 
+if ( 0 == var_TYPED ) {
     job_TYPED
 } else_TYPED b
 
-a if (0 == var) { 
+a if ( 0 == var ) {
     /* void */;
 }
 else {
     
 } b
 
-    a if (0 == var) { 
+    a if ( 0 == var ) {
         /* void */;
     }
     else {
@@ -667,102 +704,107 @@ else {
     }
 
 
-    /*  -------------if_---------------   */
-/* if (`condition^)`$BRif^{ */
-/*     `wrapped^                      */
-/* }                                  */
+    /*  -------------if_---------------               */
+/* if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ */
+/*     `wrapped^                                  */
+/* }                                              */
 
 
 
-if (condition) {
+if ( condition ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
-if (condition_TYPED) {
+if ( condition_TYPED ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }b
 
-a if (condition) {
+a if ( condition ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }b
 
-a if (condition) {
+a if ( condition ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
 
-    /*  -------------ifee---------------  */
-/* if (`condition^)`$BRif^{ */
-/*     `job^                          */
-/* }` `else_if...^                    */
+    /*  -------------ifee--------------- */
+/* `Include:_if^` `else_if...^       */
 
 
 
-if (condition) {
+if ( condition ) {
     /* void */;
-} else if (condition) {
+}
+else if ( condition ) {
     /* void */;
-} else if (condition) {
+}
+else if ( condition ) {
     /* void */;
-} else if (condition) {
+}
+else if ( condition ) {
     /* void */;
 }
 
-if (condition_TYPED) {
+if ( condition_TYPED ) {
     job_TYPED
 } else_if_TYPED b
 
-a if (condition) {
+a if ( condition ) {
     /* void */;
-} else if (condition ) {
+}
+else if ( condition ) {
     /* void */;
-} else if (condition ) {
+}
+else if ( condition ) {
     /* void */;
-} else if (condition ) {
+}
+else if ( condition ) {
     /* void */;
 } b
 
-    a if (condition) {
+    a if ( condition ) {
         /* void */;
-    } else if (condition) {
+    }
+    else if ( condition ) {
         /* void */;
-    } else if (condition) {
+    }
+    else if ( condition ) {
         /* void */;
-    } else if (condition) {
+    }
+    else if ( condition ) {
         /* void */;
     }
 
 
     /*  -------------ifn---------------                    */
-/* if (`condition^)`$BRif^{                  */
-/*     `job^                                           */
-/* }` `else...{{^`$BRel^`Include:else^`}}^ */
+/* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
-if (null == var) { 
+if ( null == var ) {
     /* void */;
 }
 else {
     
 }
 
-if (null == var_TYPED) { 
+if ( null == var_TYPED ) {
     job_TYPED
 } else_TYPED b
 
-a if (null == var) { 
+a if ( null == var ) {
     /* void */;
 }
 else {
     
 } b
 
-    a if (null == var) { 
+    a if ( null == var ) {
         /* void */;
     }
     else {
@@ -771,31 +813,29 @@ else {
 
 
     /*  -------------ifn0---------------                   */
-/* if (`condition^)`$BRif^{                  */
-/*     `job^                                           */
-/* }` `else...{{^`$BRel^`Include:else^`}}^ */
+/* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
-if (0 != var) { 
+if ( 0 != var ) {
     /* void */;
 }
 else {
     
 }
 
-if (0 != var_TYPED) { 
+if ( 0 != var_TYPED ) {
     job_TYPED
 } else_TYPED b
 
-a if (0 != var) { 
+a if ( 0 != var ) {
     /* void */;
 }
 else {
     
 } b
 
-    a if (0 != var) { 
+    a if ( 0 != var ) {
         /* void */;
     }
     else {
@@ -804,31 +844,29 @@ else {
 
 
     /*  -------------ifnn---------------                   */
-/* if (`condition^)`$BRif^{                  */
-/*     `job^                                           */
-/* }` `else...{{^`$BRel^`Include:else^`}}^ */
+/* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
-if (null != var) { 
+if ( null != var ) {
     /* void */;
 }
 else {
     
 }
 
-if (null != var_TYPED) { 
+if ( null != var_TYPED ) {
     job_TYPED
 } else_TYPED b
 
-a if (null != var) { 
+a if ( null != var ) {
     /* void */;
 }
 else {
     
 } b
 
-    a if (null != var) { 
+    a if ( null != var ) {
         /* void */;
     }
     else {
@@ -836,10 +874,10 @@ else {
     }
 
 
-    /*  -------------interface---------------        */
-/* interface `interfaceName^`$BRfun^{ */
-/*     `cursor^                                  */
-/* }                                             */
+    /*  -------------interface--------------- */
+/* interface `interfaceName^`$BRfun^{     */
+/*     `cursor^                           */
+/* }                                      */
 
 
 
@@ -860,20 +898,23 @@ interface interfaceName_TYPED {
         }
 
 
-    /*  -------------switch--------------- */
-/* switch (`var^)`$BRif^{    */
-/*     case `constant^ :               */
-/*         `job^                       */
-/*         break;                      */
-/* `                                   */
-/*     `case...`                       */
-/* ^`                                  */
-/*     `default...^                    */
-/* }                                   */
+    /*  -------------switch---------------    */
+/* switch (`$SParg^`var^`$SParg^)`$BRif^{ */
+/*     `:case:^                           */
+/* `                                      */
+/*     `case...`                          */
+/*     {{^                                */
+/*     `:case:^                           */
+/* `                                      */
+/*     `case...`                          */
+/* ^`}}^`                                 */
+/*     `default...`{{^                    */
+/*     `:default:^`}}^                    */
+/* }                                      */
 
 
 
-switch (var) {
+switch ( var ) {
     case constant :
         /* void */;
         break;
@@ -894,17 +935,17 @@ switch (var) {
         
 }
 
-switch (var_TYPED) {
+switch ( var_TYPED ) {
     case constant_TYPED :
         job_TYPED
         break;
 
     case_TYPED
-
+    
     default_TYPED
 } b
 
-a switch (var) {
+a switch ( var ) {
     case constant :
         /* void */;
         break;
@@ -925,7 +966,7 @@ a switch (var) {
         
 } b
 
-    a switch (var) {
+    a switch ( var ) {
         case constant :
             /* void */;
             break;
@@ -947,10 +988,10 @@ a switch (var) {
     }
 
 
-    /*  -------------while---------------       */
-/* while (`condition^)`$BRwhl^{ */
-/*     `cursor^                             */
-/* }                                        */
+    /*  -------------while--------------- */
+/* while (`condition^)`$BRwhl^{       */
+/*     `cursor^                       */
+/* }                                  */
 
 
 
@@ -971,10 +1012,10 @@ while (condition_TYPED) {
         }
 
 
-    /*  -------------while0---------------       */
-/* do`$BRwhl^{                   */
-/*     `cursor^                              */
-/* }`$BRwhl^while (`condition^); */
+    /*  -------------while0--------------- */
+/* do`$BRwhl^{                         */
+/*     `cursor^                        */
+/* }`$BRwhl^while (`condition^);       */
 
 
 
@@ -995,10 +1036,10 @@ do {
         } while (false);
 
 
-    /*  -------------while1---------------      */
-/* while (`condition^)`$BRwhl^{ */
-/*     `cursor^                             */
-/* }                                        */
+    /*  -------------while1--------------- */
+/* while (`condition^)`$BRwhl^{        */
+/*     `cursor^                        */
+/* }                                   */
 
 
 
@@ -1019,10 +1060,10 @@ while (true) {
         }
 
 
-    /*  -------------whilenn---------------     */
-/* while (`condition^)`$BRwhl^{ */
-/*     `cursor^                             */
-/* }                                        */
+    /*  -------------whilenn--------------- */
+/* while (`condition^)`$BRwhl^{         */
+/*     `cursor^                         */
+/* }                                    */
 
 
 

@@ -302,7 +302,7 @@ a proc name {args} {
 
 regexp r str match vars
 
-regexp r_TYPED str_TYPED match vars_TYPED b
+regexp r_TYPED str_TYPED match vars b
 
 a regexp r str match vars b
 
@@ -316,7 +316,7 @@ a regexp r str match vars
 
 regsub in str out
 
-regsub in_TYPED str_TYPED out_TYPED b
+regsub in_TYPED str_TYPED out b
 
 a regsub in str out b
 
