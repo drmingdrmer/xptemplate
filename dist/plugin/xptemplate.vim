@@ -1238,8 +1238,12 @@ fun! s:GotoNextItem()
         call XPMupdateStat()
         return action
     endif
-    let postaction = s:InitItem()
+    let currentItem = renderContext.item
     let renderContext.item.initValue = s:TextBetween( XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) )
+    let postaction = s:InitItem()
+    if currentItem == renderContext.item
+        let renderContext.item.initValue = s:TextBetween( XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) )
+    endif
     let renderContext = s:getRenderContext()
     let leader =  renderContext.leadingPlaceHolder
     if renderContext.processing
