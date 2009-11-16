@@ -1,5 +1,7 @@
 XPTemplate priority=like
 
+XPTvar $TRUE          1
+XPTvar $FALSE         0
 XPTvar $NULL          NULL
 
 
@@ -34,18 +36,20 @@ XPTvar $CURSOR_PH      /* cursor */
 " ================================= Snippets ===================================
 XPTemplateDef
 
-XPT if		hint=if\ (..)\ {..}\ else...
-XSET job=$VOID_LINE
+XPT _if hidden=1
 if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{
     `job^
-}` `else...{{^`$BRel^`Include:else^`}}^
+}
+
+
+XPT if hint=if\ (..)\ {..}\ else...
+XSET job=$VOID_LINE
+`Include:_if^` `else...{{^`$BRel^`Include:else^`}}^
 
 
 XPT elif hint=else\ if\ \(\ ...\ )\ {\ ...\ }
 XSET job=$VOID_LINE
-else if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{
-    `job^
-}
+else `Include:_if^
 
 
 XPT else hint=else\ {\ ...\ }
@@ -70,14 +74,12 @@ XPT ifn0 alias=if	hint=if\ (0\ !=\ ..)\ {..}\ else...
 XSET condition=Embed('0`$SPop^!=`$SPop^`var^')
 
 
-XPT ifee	hint=if\ (..)\ {..}\ elseif...
+XPT ifee	hint=if\ (..)\ {..}\ else\ if...
 XSET job=$VOID_LINE
 XSET another_cond=R('condition')
-if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{
-    `job^
-}` `else_if...^
+`Include:_if^` `else_if...^
 XSETm else_if...|post
-`$BRif^else if`$SPif^(`$SPcnd^`another_cond^`$SPcnd^)`$BRif^{
+`$BRel^else if`$SPif^(`$SPcnd^`another_cond^`$SPcnd^)`$BRif^{
     `job^
 }` `else_if...^
 XSETm END

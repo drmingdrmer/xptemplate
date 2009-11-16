@@ -7,7 +7,7 @@
 								    by drdr.xp
 							     drdr.xp@gmail.com
 
-	XPTemplate is a Snippet rendering engine.
+	XPTemplate is a snippet rendering engine.
 
 	|xpt-install|
 	|xpt-usage|
@@ -24,11 +24,11 @@
 	|xpt-api|
 
 								 *xpt-install*
-	Copy files and directories into one of your |runtimepath|s.
+	Copy files and directories into one of your 'runtimepath's.
 
 								   *xpt-usage*
-	To see what snippets have been defined, press <C-r><C-\> in insert
-	mode. See |xpt-key-pum|.
+	To see what snippets have been defined for the current filetype, press
+	<C-r><C-\> in insert mode. See |xpt-key-pum|.
 
 	In insert mode type the snippet name and press <C-\> to insert a
 	snippet. Use <Tab> to navigate through the snippet template.
@@ -47,7 +47,7 @@
 	NOTE with some European keyboards <C-\> does NOT work. In this case
 	you need to specify another key to trigger snippets.
 
-	Now type "abc", this result in: >
+	Now type "abc", this results in: >
                          ////````````````````````````| edit area
                         ////
                        ////     ////`````````````````| lively updated
@@ -61,7 +61,7 @@
 		    /* cursor */
 		}
 <	After pressing <Tab> twice the snippet ends up with cursor staying at
-	line 2, column 8(or the value of |`softtabstop`|): >
+	line 2, column 8 (or the value of 'softtabstop'): >
 		for ( abc = 0; abc < len; ++abc ) {
 			
 		}       \\___________________________| cursor stays here
@@ -69,7 +69,8 @@
 <	The usage is described in more detail below.
 
 	For more information regarding the syntax of snippets see
-	|xpt-snippet-syntax|.
+	|xpt-snippet-syntax|. To customize settings see |xpt-option|.
+
 
 								 *xpt-feature*
 	Live typing update
@@ -78,8 +79,8 @@
 	Ordered place holders			|xpt-snippet-ComeFist|
 	Embedded functions and variables	|xpt-snippet-function|
 	Repeatable snippet generation		|xpt-repetition|
-	Nested snippet				|xpt-nested|
-	Wrapping snippet			|xpt-wrapped|
+	Nested snippets				|xpt-nested|
+	Wrapping snippets			|xpt-wrapped|
 	Inclusion on snippet level or file level|xpt-snippet-include|
 						|xpt-snippet-XPTinclude|
 
@@ -87,7 +88,7 @@
 
 	Named item or anonymous item		|xpt-snippet-item|
 	Default value                 		|xpt-snippet-default-value|
-	Preset  value                 		|xpt-snippet-preset-value|
+	Preset value                 		|xpt-snippet-preset-value|
 	Snippet Bundle/Library Support		|xpt-bundle|
 	and more...
 
@@ -105,13 +106,13 @@
 	trigger the snippet.
 
 							      *xpt-nested*
-	Template can be expanded inside another template. There is no
+	Templates can be expanded inside another template. There is no
 	difference between using a nested template or a top-level template.
 	For example, when you edit a C file type switch<C-\> to generate a
 	switch block template: >
 		switch (fn) {
 		  case 0 :
-			<--------------cursor stops here
+			<-------------- cursor stops here after two <Tab>s
 		    break;
 		    ...
 		  default:
@@ -122,7 +123,7 @@
 <	It becomes: >
 		switch (fn) {		| upper level snippet
 		  case 0 :		|
-		    if (){              . nested snippet
+		    if () {             . nested snippet
 			                .
 		    }	                .
 		    break;		| upper level snippet
@@ -131,9 +132,9 @@
 			                |
 		}                       |
 <	Type <Tab>, <Tab>.. to navigate out of the nested snippet: >
-		switch ("xp.c" == fn) {
+		switch (fn) {
 		  case 0 :
-		    if (){
+		    if () {
 
 		    }
 		    break;
@@ -141,16 +142,17 @@
 		  default:
 			<--------------cursor stops here
 		}
-<	Now cursor stops after "default:", and we get out back to the "switch"
-	snippet
+<	Now cursor stops after "default:" and we get out back to the "switch"
+	snippet.
 
 ==============================================================================
 
 
 				      *`...^*    *xpt-...*    *xpt-repetition*
-	Some segment can be defined as repeatable, for example the "case"s in
-	"switch". To specify the repetition part is easy, just wrap the part
-	you want it to repeat with `...n^. n is a number and can be omitted.
+	Some segments can be defined as repeatable, for example the "case"s in
+	"switch". Specifying the repetition part is easy, just wrap the part
+	you want it to repeat with `...n^. n is a number and can be omitted if
+	only one repetition part is used.
 	Take the case from "switch": >
 		XPT switch
 		      switch (`^) {
@@ -226,8 +228,8 @@
 	circumstances, for example in certain syntax items. Defining context
 	depended snippets is done by adding another parameter to the
 	XPTemplate call "{'syn' : 'the context name'}" : >
-		call XPTemplate("para", {'syn' : 'comment'}, "
-			\@param {`Object^} `name^ `desc^")
+		XPT para syn=comment
+		@param {`Object^} `name^ `desc^
 <	Now the snippet "para" can be only triggered in syntax items named
 	"comment".
 
@@ -473,7 +475,7 @@
 
 	Two options relate to personal settings:
 
-	|g:xptemplate_vars'|
+	|g:xptemplate_vars|
 	This is a easy way to set up your personal information like your name
 	and email address.
 	This option actually sets up two variables "$author" and "$email". See
@@ -498,7 +500,7 @@
 					       *xpt-customize-variable-format*
 	Each snippet has some variable defined to configure language format.
 	This is useful when some snippet are shared between languages, like
-	for loops in C and CPP.
+	for loops in C and CPP or to accommodate different user preferences.
 	
 	Brackets style variables may be defined as below: >
 		" if () ** {
@@ -557,6 +559,15 @@
 		" if ( ** condition ** )
 		XPTvar $SPcnd      ' '
 
+		" while ** (
+		XPTvar $SPwhl      ' '
+
+		" for ** (
+		XPTvar $SPfor      ' '
+
+		" for ( ** statement ** )
+		XPTvar $SPfstm     ' '
+
 		" a ** = ** b
 		XPTvar $SPeq       ' '
 
@@ -570,7 +581,7 @@
 		XPTvar $SPar
 <	For example function snippet defined as below: >
 		XPT fun
-		int fun(`SParg^args`SParg^)
+		int fun(`$SParg^`args^`$SParg^)
 <	If "$SParg" is set to ' ', snippet results in: >
 		int fun( args )
 <	If "$SParg" is set to '', snippet results in: >
@@ -589,7 +600,7 @@
 	to add some PHP snippet, you can create file: >
 		&runtimepath/ftplugin/php/your_snippets.xpt.vim
 <	&runtimepath is ~/.vim in Unix like system, or ~/vimfiles/ folder in 
-	Windows. See |'runtimepath'|.
+	Windows. See 'runtimepath'.
 
 	NOTE It is strongly recommended to create your own runtimepath.
 
