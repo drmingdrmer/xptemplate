@@ -141,6 +141,17 @@ XPT beg hint=begin{..}\ ..\ end{..}
 \end{`something~}
 ..XPT
 
+XPT columns hint=\begin{columns}...
+\begin{columns}
+    \begin{column}[l]{`size~5cm~}
+    \end{column}`...~
+
+    \begin{column}[l]{`size~5cm~}
+    \end{column}`...~
+    `cursor~
+\end{columns}
+..XPT
+
 XPT enclose_ hint=\begin{..}\ SEL\ \end{..}
 \begin{`something~}
     `wrapped~
