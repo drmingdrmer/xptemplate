@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.3.9.94
+" VERSION: 0.3.9.96
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
@@ -25,6 +25,11 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO option to combine variables
+"       Maybe only $SPfun (which combines the SPif/SPwhl/SPfor **
+"       settings) and $SParg (which combines the SPcnd/while/SPfsmt ( **
+"       ... ** settings) is enough. What do you think?
+" 
 " TODO html/css fixing: ship-back, repopup 
 " TODO parse inclusion in XSET values
 " TODO global synonym 
@@ -67,22 +72,6 @@
 "
 "
 " Log of This version:
-"   fix : calling XPTemplate from outside of *.xpt.vim is allowed.
-"   fix : moved snippet relative doc to xpt.snippet.txt
-"   fix : finish snippet rendering when jumping to cursor only if cursor is the last ph
-"   fix : bug of select mode mapping
-"   fix : bug of undo Thanks to Simon Riderich
-"   fix : add preset value docs
-"   fix : wrapper indent bug
-"   add : highlight, variable g:xptemplate_highlight sets up highlight 
-"   add : document about default post-filter: "\w\+?" is optional place holder.
-"   add : bundle support g:xptemplate_bundle and g:XPTaddBundle()
-"   add : doc of variable conventions
-"   add : finish rendering at once when selecting the last place holder
-"   add : function names and variable names convention in doc
-"   add : BuildIfNoChange depending on initial value of place hodler than its name
-"   improve : use short variable names.
-"   improve : improvement of python snippet
 "
 "
 "
