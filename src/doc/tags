@@ -36,6 +36,7 @@ g:xptemplate_nav_cancel	xptemplate.txt	/*g:xptemplate_nav_cancel*
 g:xptemplate_nav_next	xptemplate.txt	/*g:xptemplate_nav_next*
 g:xptemplate_nav_prev	xptemplate.txt	/*g:xptemplate_nav_prev*
 g:xptemplate_ph_pum_accept_empty	xptemplate.txt	/*g:xptemplate_ph_pum_accept_empty*
+g:xptemplate_snippet_folders	xptemplate.txt	/*g:xptemplate_snippet_folders*
 g:xptemplate_strict	xptemplate.txt	/*g:xptemplate_strict*
 g:xptemplate_strip_left	xptemplate.txt	/*g:xptemplate_strip_left*
 g:xptemplate_to_right	xptemplate.txt	/*g:xptemplate_to_right*
@@ -78,6 +79,7 @@ xpt-mapping	xptemplate.txt	/*xpt-mapping*
 xpt-mixed	xpt.snippet.syn.txt	/*xpt-mixed*
 xpt-nested	xptemplate.txt	/*xpt-nested*
 xpt-option	xptemplate.txt	/*xpt-option*
+xpt-personal-folder	xptemplate.txt	/*xpt-personal-folder*
 xpt-personal-var	xptemplate.txt	/*xpt-personal-var*
 xpt-placeholder-cursor	xpt.snippet.syn.txt	/*xpt-placeholder-cursor*
 xpt-placeholder-default-value	xpt.snippet.syn.txt	/*xpt-placeholder-default-value*
@@ -135,8 +137,8 @@ xpt-substitute	xpt-function.txt	/*xpt-substitute*
 xpt-tutor-hello	xpt.snippet.tutor.txt	/*xpt-tutor-hello*
 xpt-usage	xptemplate.txt	/*xpt-usage*
 xpt-wrapped	xptemplate.txt	/*xpt-wrapped*
+xpt-write-common-snippet	xptemplate.txt	/*xpt-write-common-snippet*
 xpt-write-lang-snippet	xptemplate.txt	/*xpt-write-lang-snippet*
-xpt-write-personal-snippet	xptemplate.txt	/*xpt-write-personal-snippet*
 xpt-write-snippet	xptemplate.txt	/*xpt-write-snippet*
 xpt-{}	xpt.snippet.syn.txt	/*xpt-{}*
 xptemplate	xptemplate.txt	/*xptemplate*

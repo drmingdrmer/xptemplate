@@ -25,11 +25,14 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO test in windows: g:xptemplate_snippet_folders
+" TODO license snippets.
+" TODO add statements to deprecated snippet file like _comment/xml.xpt.vim
 " TODO option to combine variables
 "       Maybe only $SPfun (which combines the SPif/SPwhl/SPfor **
 "       settings) and $SParg (which combines the SPcnd/while/SPfsmt ( **
 "       ... ** settings) is enough. What do you think?
-" 
+" TODO short variable
 " TODO html/css fixing: ship-back, repopup 
 " TODO parse inclusion in XSET values
 " TODO global synonym 
@@ -72,6 +75,7 @@
 "
 "
 " Log of This version:
+"   add : personal folder for personal snippets :h 
 "
 "
 "

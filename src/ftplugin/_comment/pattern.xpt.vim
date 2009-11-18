@@ -1,8 +1,7 @@
 " priority is a bit lower than 'spec'
 XPTemplate priority=spec+
 
-
-let s:f = g:XPTfuncs() 
+echom "_comment/pattern is deprecated."
 
 
 " XPTvar $CL  Warn_$CL_IS_NOT_SET

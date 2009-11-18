@@ -1,23 +1,11 @@
-XPTemplate priority=spec keyword=<
+" NOTE: You can include this file into which uses XML comment format.  But It is
+"       recommended to include _comment/doubleSign (or singleSign,
+"       singleDouble) directly.
+XPTemplate priority=spec
 
-let s:f = g:XPTfuncs() 
- 
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $UNDEFINED     NULL
-XPTvar $VOID_LINE /* void */;
-XPTvar $BRif \n
 XPTvar $CL <!--
 XPTvar $CR -->
 
 
-XPTinclude 
-      \ _comment/pattern
-
-
-" ========================= Function and Variables =============================
-
-
-" ================================= Snippets ===================================
-XPTemplateDef
+XPTinclude
+      \ _comment/doubleSign

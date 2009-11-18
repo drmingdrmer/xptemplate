@@ -6,6 +6,7 @@ let g:__XPTEMPLATE_CONF_VIM__ = 1
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
+
 runtime plugin/debug.vim
 
 let s:escapeHead   = '\v(\\*)\V'
@@ -43,21 +44,36 @@ call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 1	)
 
 call s:SetIfNotExist('g:xptemplate_vars'                , ''	)
 call s:SetIfNotExist('g:xptemplate_bundle'              , ''	)
+" TODO add doc
+call s:SetIfNotExist('g:xptemplate_snippet_folders'     , []	)
 
 " for test script
 call s:SetIfNotExist('g:xpt_post_action', '')
 
 
+" setup other snippets folder {{{
+
+let s:path = expand( "<sfile>" )
+let s:filename = 'xptemplate.conf.vim'
+let s:path = substitute( s:path, '\', '/', 'g' )
+let s:path = matchstr( s:path, '\V\.\*\ze/plugin/' . s:filename )
+
+let &runtimepath .= ',' . s:path . '/personal'
+
+for s:path in g:xptemplate_snippet_folders
+    let &runtimepath .= ',' . s:path
+endfor
+
+unlet s:path
+unlet s:filename
+
+" }}}
+
+
+
 
 let g:XPTpvs = {}
 
-
-" TODO Be very careful with 'cpo' option!
-" TODO test popup with cpo set with '<', that makes "\<...>" failed to work
-"
-" let s:oldcpo = &cpo
-" " enable <key> encoding
-" set cpo-=<
 
 " 'selTrigger' used in select mode trigger, but if 'selection' changed after this
 " script loaded, incSelTrigger or excSelTrigger should be used according to

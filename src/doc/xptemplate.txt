@@ -255,6 +255,7 @@
 		|g:xptemplate_ph_pum_accept_empty|
 		|g:xptemplate_vars|
 		|g:xptemplate_bundle|
+		|g:xptemplate_snippet_folders|
 
 	    *i_<C-\>* *s_<C-\>* *v_<C-\>* *xpt-key-trigger* *g:xptemplate_key*
 							       {default:<C-\>}
@@ -588,21 +589,55 @@
 		int fun(args)
 <
 
+						*g:xptemplate_snippet_folders*
+								  {default:[]}
+	A list to specify which other folders are used as snippet folders.
+	For example: >
+		let g:xptemplate_snippet_folders = [
+			\ $HOME . '/my_snippets',
+			\ '/all_user_snippets' ]
+<	Thus the snippet file "$HOME/my_snippets/ftplugin/c/my.c.xpt.vim" can
+	be loaded to C files.
+	And "/all_user_snippets/ftplugins/html/all.html.xpt.vim" can be loaded
+	to HTML files.
 
-							   *xpt-write-snippet*
+
+
+				   *xpt-personal-folder*   *xpt-write-snippet*
+	Snippet file is actually |ftplugin| and with file extension
+	".xpt.vim", like "c.xpt.vim". So you can manage snippet files just
+	like the way you manage |ftplugin|.
+
+	You have THREE place to put your own snippets:
+
+	Path_to_xpt/personal				Recommended.
+							Enough for
+							most user
+
+	Folders in |g:xptemplate_snippet_folders|	Recommended for
+							multiple snippet
+							libraries owner
+	
+	Other 'runtimepath'				Need to manage
+							'runtimepath' yourself
+
+	Details are discussed in following section.
 
 
 						      *xpt-write-lang-snippet*
 	You can add snippets of new language, or add snippets to currently
 	supplied languages, in the same way.
 
-	Create a new file in some ftplugin directory. For example, if you want
+	Create a new file in some |ftplugin| directory. For example, if you want
 	to add some PHP snippet, you can create file: >
+		path_to_xpt/personal/ftplugin/php/your_snippets.xpt.vim
+<	Or: >
 		&runtimepath/ftplugin/php/your_snippets.xpt.vim
-<	&runtimepath is ~/.vim in Unix like system, or ~/vimfiles/ folder in 
-	Windows. See 'runtimepath'.
+<	&runtimepath can be ~/.vim in Unix like system, or ~/vimfiles/ folder
+	in Windows. See 'runtimepath'.
 
-	NOTE It is strongly recommended to create your own runtimepath.
+	NOTE It is strongly recommended to add your own snippets in
+	"path_to_xpt/personal".
 
 	The file name "your_snippets.xpt.vim" has no limitation except it must
 	end with ".xpt.vim".
@@ -611,21 +646,22 @@
 	See |xpt-snippet-syntax| and |xpt-snippet-tutorial|.
 
 
-						  *xpt-write-personal-snippet*
+						    *xpt-write-common-snippet*
 	If you want to add some snippets which don't belong to any language,
-	or you want to set multiple variables, you can use the "personal"
-	snippet file.
+	or you want to set multiple variables, you can use the "personal
+	common" snippet file.
 
-		1. Rename "ftplugin/_common/personal_example.xpt.vim" to
-		   "ftplugin/_common/personal.xpt.vim". Or create one.
+		1. Rename "personal/ftplugin/_common/personal_example.xpt.vim"
+		   to "personal/ftplugin/_common/personal.xpt.vim".
+		   Or create one from scratch.
 
-		2. Add your snippets in "ftplugin/_common/personal.xpt.vim".
+		2. Add your snippets into the "personal.xpt.vim".
 
 	"personal.xpt.vim" is loaded by _common/common.xpt.vim and has the
 	highest priority. Thus it's always loaded and there are no other
 	snippets overriding yours.
 
-	Example ftplugin/_common/personal.xpt.vim : >
+	Example personal/ftplugin/_common/personal.xpt.vim : >
 		XPTemplate priority=personal
 
 		XPTvar $author       your_name
