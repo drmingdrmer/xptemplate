@@ -101,10 +101,8 @@ XPTvar $BRwhl    ' '
 XPTvar $BRstc    ' '
 
 " int fun() ** {
-XPTvar $BRfun    ' '
-
 " class name ** {
-XPTvar $BRcls    ''
+XPTvar $BRfun    ' '
 
 
 XPT varSpaces hint=variable\ to\ define\ spacing

@@ -523,7 +523,7 @@
 		XPTvar $BRfun   ' '
 
 		" class name ** {
-		XPTvar $BRcls    ' '
+		XPTvar $BRfun    ' '
 
 <	The "**" in comment marks where this variable should be used.
 	For example following is "for" snippet for both C and CPP: >

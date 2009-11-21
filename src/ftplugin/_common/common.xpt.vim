@@ -28,7 +28,7 @@ XPTvar $BRstc    ' '
 XPTvar $BRfun    ' '
 
 " class name ** {
-XPTvar $BRcls    ' '
+XPTvar $BRfun    ' '
 
 
 " int fun ** (

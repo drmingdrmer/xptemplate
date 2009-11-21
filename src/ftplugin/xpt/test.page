@@ -935,7 +935,7 @@ endtry
     " _CMT_ int fun() ** {                   
     " XPTvar $BRfun   ' '         
     " _CMT_ class name ** {                  
-    " XPTvar $BRcls    ' '         
+    " XPTvar $BRfun    ' '         
 
 
 
@@ -952,7 +952,7 @@ endtry
     " int fun() ** {
     XPTvar $BRfun   ' '
     " class name ** {
-    XPTvar $BRcls    ' '
+    XPTvar $BRfun    ' '
 
     " if () ** {
     XPTvar $BRif     ' '
@@ -967,7 +967,7 @@ endtry
     " int fun() ** {
     XPTvar $BRfun   ' '
     " class name ** {
-    XPTvar $BRcls    ' ' b
+    XPTvar $BRfun    ' ' b
 
     a " if () ** {
     XPTvar $BRif     ' '
@@ -982,7 +982,7 @@ endtry
     " int fun() ** {
     XPTvar $BRfun   ' '
     " class name ** {
-    XPTvar $BRcls    ' ' b
+    XPTvar $BRfun    ' ' b
 
     a " if () ** {
     XPTvar $BRif     ' '
@@ -997,7 +997,7 @@ endtry
     " int fun() ** {
     XPTvar $BRfun   ' '
     " class name ** {
-    XPTvar $BRcls    ' '
+    XPTvar $BRfun    ' '
 
 
     "  -------------varHelper--------------- 
@@ -1210,7 +1210,7 @@ endtry
     " int fun() ** {
     XPTvar $BRfun   ' '
     " class name ** {
-    XPTvar $BRcls    ' '
+    XPTvar $BRfun    ' '
     
     XPTinclude 
         \ _common/common
@@ -1251,7 +1251,7 @@ endtry
     " int fun() ** {
     XPTvar $BRfun   ' '
     " class name ** {
-    XPTvar $BRcls    ' '
+    XPTvar $BRfun    ' '
     
     XPTinclude_TYPED
     
@@ -1289,7 +1289,7 @@ endtry
      " int fun() ** {
      XPTvar $BRfun   ' '
      " class name ** {
-     XPTvar $BRcls    ' '
+     XPTvar $BRfun    ' '
      
      XPTinclude 
          \ _common/common
@@ -1330,7 +1330,7 @@ endtry
       " int fun() ** {
       XPTvar $BRfun   ' '
       " class name ** {
-      XPTvar $BRcls    ' '
+      XPTvar $BRfun    ' '
       
       XPTinclude 
           \ _common/common
