@@ -1,4 +1,4 @@
-XPTemplate priority=lang keyword=$
+XPTemplate priority=lang
 
 let s:f = g:XPTfuncs() 
  
@@ -10,7 +10,6 @@ XPTvar $UNDEFINED     undefined
 XPTvar $BRif     ' '
 XPTvar $BRel   \n
 XPTvar $BRloop    ' '
-XPTvar $BRloop  ' '
 XPTvar $BRstc ' '
 XPTvar $BRfun   ' '
 

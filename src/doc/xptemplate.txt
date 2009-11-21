@@ -505,23 +505,21 @@
 	
 	Brackets style variables may be defined as below: >
 		" if () ** {
+		" else ** {
 		XPTvar $BRif     ' '
 
 		" } ** else {
-		XPTvar $BRel   \n
+		XPTvar $BRel     \n
 
 		" for () ** {
+		" while () ** {
+		" do ** {
 		XPTvar $BRloop    ' '
 
-		" while () ** {
-		XPTvar $BRloop  ' '
-
 		" struct name ** {
-		XPTvar $BRstc ' '
+		XPTvar $BRstc    ' '
 
 		" int fun() ** {
-		XPTvar $BRfun   ' '
-
 		" class name ** {
 		XPTvar $BRfun    ' '
 
@@ -549,37 +547,26 @@
 						*xpt-customize-variable-space*
 	Another set of variables is defined to customize spaces. They are: >
 		" int fun ** (
-		XPTvar $SPfun      ' '
+		" class name ** (
+		XPTvar $SPfun      ''
 
 		" int fun( ** arg ** )
+		" if ( ** condition ** )
+		" for ( ** statement ** )
+		" [ ** a, b ** ]
+		" { ** 'k' : 'v' ** }
 		XPTvar $SParg      ' '
 
 		" if ** ( 
-		XPTvar $SPcmd       ' '
-
-		" if ( ** condition ** )
-		XPTvar $SParg      ' '
-
 		" while ** (
-		XPTvar $SPcmd      ' '
-
 		" for ** (
 		XPTvar $SPcmd      ' '
 
-		" for ( ** statement ** )
-		XPTvar $SParg     ' '
-
+		" a = a ** + ** 1
+		" (a, ** b, ** )
 		" a ** = ** b
 		XPTvar $SPop       ' '
 
-		" a = a ** + ** 1
-		XPTvar $SPop       ' '
-
-		" (a, ** b, ** )
-		XPTvar $SPop       ' '
-
-		" [ ** a, b ** ], { ** 'k' : 'v' ** }
-		XPTvar $SParg
 <	For example function snippet defined as below: >
 		XPT fun
 		int fun(`$SParg^`args^`$SParg^)

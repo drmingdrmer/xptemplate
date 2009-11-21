@@ -94,8 +94,6 @@ XPTvar $BRel     \n
 " do ** {
 XPTvar $BRloop    ' '
 
-XPTvar $BRloop    ' '
-
 " struct name ** {
 XPTvar $BRstc    ' '
 
