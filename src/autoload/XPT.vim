@@ -1,14 +1,29 @@
-if exists("g:__XPCLASS_VIM__")
+if exists("g:__XPT_VIM__")
     finish
 endif
-let g:__XPCLASS_VIM__ = 1
+let g:__XPT_VIM__ = 1
+
 
 
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
+let XPT#let_sid = 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
 
-fun! g:XPclass( sid, proto ) "{{{
+
+fun! XPT#getCmdOutput( cmd ) "{{{
+    let l:a = ""
+
+    redir => l:a
+    exe a:cmd
+    redir END
+
+    return l:a
+endfunction "}}}
+
+
+
+fun! XPT#class( sid, proto ) "{{{
     let clz = deepcopy( a:proto )
 
     let funcs = split( XPT#getCmdOutput( 'silent function /' . a:sid ), "\n" )
@@ -21,20 +36,21 @@ fun! g:XPclass( sid, proto ) "{{{
     endfor
 
     " wrapper
-    let clz.__init__ = get( clz, 'New', function( 'g:XPclassVoidInit' ) )
-    let clz.New = function( 'g:XPclassNew' )
+    let clz.__init__ = get( clz, 'New', function( 'XPT#classVoidInit' ) )
+    let clz.New = function( 'XPT#classNew' )
 
     return clz
 endfunction "}}}
 
-fun! g:XPclassNew( ... ) dict "{{{
+fun! XPT#classNew( ... ) dict "{{{
     let inst = copy( self )
     call call( inst.__init__, a:000, inst )
     let inst.__class__ = self
     return inst
 endfunction "}}}
 
-fun! g:XPclassVoidInit( ... ) dict "{{{
+fun! XPT#classVoidInit( ... ) dict "{{{
 endfunction "}}}
+
 
 let &cpo = s:oldcpo

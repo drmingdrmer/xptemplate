@@ -21,12 +21,12 @@ let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 " TODO popup fix:select it if strictly matched
 runtime plugin/debug.vim
-runtime plugin/xpreplace.vim
-runtime plugin/mapstack.vim
+runtime plugin/SettingSwitch.class.vim
+runtime plugin/MapSaver.class.vim
 
-com! XPPgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
-XPPgetSID
-delc XPPgetSID
+
+exe XPT#let_sid
+
 
 let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )
@@ -66,6 +66,7 @@ let s:sessionPrototype = {
             \ }
             " \ 'postAction'  : '',
 " }}}
+
 
 " Additional argument can be a list
 fun! XPPopupNew(callback, data, ...) "{{{
@@ -238,6 +239,37 @@ fun! s:sessionPrototype.updatePrefixIndex(list) "{{{
 endfunction "}}}
 
 
+
+fun! s:_InitBuffer() "{{{
+    if exists( 'b:__xpp_buffer_init' )
+        return
+    endif
+
+    let b:_xpp_map_saver = g:MapSaver.New( 1 )
+    call b:_xpp_map_saver.AddList( 
+          \ 'i_<UP>', 
+          \ 'i_<DOWN>', 
+          \
+          \ 'i_<BS>', 
+          \ 'i_<TAB>', 
+          \ 'i_<CR>', 
+          \
+          \ 'i_<C-e>', 
+          \ 'i_<C-y>', 
+          \)
+
+    " Disable indent keys or cinkeys, or for c language, <C-\>,
+    " then selecting snippet start with '#' causes a choas.
+    let b:_xpp_setting_switch = g:SettingSwitch.New()
+    call b:_xpp_setting_switch.AddList( 
+          \ [ '&l:cinkeys', '' ], 
+          \ [ '&l:indentkeys', '' ], 
+          \)
+    " TODO  '&l:ignorecase', '1'???
+
+    let b:__xpp_buffer_init = 1
+endfunction "}}}
+
 " Operations of <C-R>
 
 fun! XPPprocess(list) "{{{
@@ -370,6 +402,11 @@ endfunction "}}}
 "                                  |
 "                                  |
 " }}}
+
+fun! XPPcomplete(col, list) "{{{
+    
+endfunction "}}}
+
 
 fun! XPPcr() "{{{
     if !s:PopupCheck(1)
@@ -537,20 +574,8 @@ endfunction "}}}
 
 " TODO using g:xptemplate_nav_next for enlarge ?
 fun! s:ApplyMapAndSetting() "{{{
-    if exists("b:__xpp_mapped")
-        return
-    endif
-    let b:__xpp_mapped = {}
-
-    let b:__xpp_mapped.i_up     =  g:MapPush('<up>', 'i', 1)
-    let b:__xpp_mapped.i_down   =  g:MapPush('<down>', 'i', 1)
-
-    let b:__xpp_mapped.i_bs     =  g:MapPush('<bs>', 'i', 1)
-    let b:__xpp_mapped.i_tab    =  g:MapPush('<tab>', 'i', 1)
-    let b:__xpp_mapped.i_cr     =  g:MapPush('<cr>', 'i', 1)
-    let b:__xpp_mapped.i_c_e    =  g:MapPush('<C-e>', 'i', 1)
-    let b:__xpp_mapped.i_c_y    =  g:MapPush('<C-y>', 'i', 1)
-
+    call s:_InitBuffer()
+    call b:_xpp_map_saver.Save()
 
     exe 'inoremap <silent> <buffer> <UP>'   '<C-r>=XPPup()<CR>'
     exe 'inoremap <silent> <buffer> <DOWN>' '<C-r>=XPPdown()<CR>'
@@ -562,35 +587,20 @@ fun! s:ApplyMapAndSetting() "{{{
     exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
 
 
-    " disable indent keys or cinkeys, or for c language, <C-\>, then selecting
-    " snippet start with '#' causes a choas.
-    call SettingPush( '&l:cinkeys', '' )
-    call SettingPush( '&l:indentkeys', '' )
-    " call SettingPush( '&l:ignorecase', '1' )
+    call b:_xpp_setting_switch.Switch()
 
 endfunction "}}}
 
 fun! s:ClearMapAndSetting() "{{{
-    if !exists("b:__xpp_mapped")
-        return
-    endif
+    call s:_InitBuffer()
+
+    " if &completefunc == 'XPPcompleteFunc'
+        " let 
 
 
-    call g:MapPop(b:__xpp_mapped.i_c_y)
-    call g:MapPop(b:__xpp_mapped.i_c_e)
-    call g:MapPop(b:__xpp_mapped.i_cr)
-    call g:MapPop(b:__xpp_mapped.i_tab)
-    call g:MapPop(b:__xpp_mapped.i_bs)
+    call b:_xpp_map_saver.Restore()
+    call b:_xpp_setting_switch.Restore()
 
-    call g:MapPop(b:__xpp_mapped.i_down)
-    call g:MapPop(b:__xpp_mapped.i_up)
-
-
-    " call SettingPop() " ignorecase 
-    call SettingPop() " indentkeys 
-    call SettingPop() " cinkeys 
-
-    unlet b:__xpp_mapped
 endfunction "}}}
 
 
@@ -742,4 +752,3 @@ call extend( s:sessionPrototype, s:sessionPrototype2, 'force' )
 
 let &cpo = s:oldcpo
 
-" vim: set sw=4 sts=4 :

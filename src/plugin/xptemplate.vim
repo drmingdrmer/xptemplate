@@ -348,7 +348,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     call XPTsnipScopePush()
     " @param String name			tempalte name
     " @param String context			[optional] context syntax name
-    " @param String|List|FunCRef str	template string
+    " @param String|List|FunCRef str		template string
 
     " using dictionary member instead of direct variable for type limit
     let templateSetting = deepcopy(g:XPTemplateSettingPrototype)
@@ -3576,13 +3576,25 @@ fun! s:XPTupdate(...) "{{{
 
 endfunction "}}}
 
+fun! s:DoBreakUndo() "{{{
+    if pumvisible()
+        " force pum to show. to fix autocomplpop problem:div<C-\><space>
+        return "\<C-n>\<C-p>"
+    endif
+    return "\<C-g>u"
+endfunction "}}}
+
+inoremap <Plug>XPTdoBreakUndo <C-r>=<SID>DoBreakUndo()<CR>
+
 fun! s:BreakUndo() "{{{
-    if mode() != 'i'
+    if mode() != 'i' || pumvisible()
         return
     endif
+    call s:log.Debug( "BreakUndo" )
     let x = s:XPTobject()
     if x.renderContext.processing
-        call feedkeys("\<C-g>u", 'nt')
+        call feedkeys( "\<Plug>XPTdoBreakUndo", 'mt' )
+        " call feedkeys("\<C-g>u", 'nt')
     endif
 endfunction "}}}
 

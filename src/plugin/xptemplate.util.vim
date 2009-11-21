@@ -23,7 +23,6 @@ exe g:XPTsid
 
 let s:unescapeHead          = '\v(\\*)\1\\?\V'
 
-
 fun! g:XPclassPrototype( sid, ...) "{{{
     let p = {}
     for name in a:000
@@ -94,7 +93,7 @@ fun! s:XPTgetCurrentOrPreviousSynName() "{{{
 
 endfunction "}}}
 
-fun! s:RemoveDuplicate( list )
+fun! s:RemoveDuplicate( list ) "{{{
     let dict = {}
     let newList = []
     for e in a:list
@@ -105,7 +104,7 @@ fun! s:RemoveDuplicate( list )
     endfor
 
     return newList
-endfunction
+endfunction "}}}
 
 let g:xptutil = g:XPclass( s:sid, {} )
 
