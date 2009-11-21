@@ -25,6 +25,9 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO autocomplpop compatible
+" TODO _ started snippets are internal by convention.
+" TODO xpreplace use SettingSwitch, 
 " TODO completefunc instead of complete()
 " TODO bug that conflict with AutoComplePop 
 " TODO test in windows: g:xptemplate_snippet_folders
@@ -102,6 +105,7 @@ runtime plugin/xpmark.vim
 runtime plugin/xpopup.vim
 runtime plugin/xptemplate.conf.vim
 runtime plugin/MapSaver.class.vim
+runtime plugin/SettingSwitch.class.vim
 runtime plugin/FiletypeScope.class.vim
 
 
@@ -3057,6 +3061,12 @@ fun! s:XPTinitMapping() "{{{
     call b:mapMask.AddList( disabledKeys )
 
 
+    let b:xptemplateData.settingSwitch = g:SettingSwitch.New()
+    call b:xptemplateData.settingSwitch.AddList(
+          \[ '&l:textwidth', '0' ], 
+          \)
+
+
 endfunction "}}}
 
 
@@ -3065,7 +3075,7 @@ fun! s:ApplyMap() " {{{
     let x = b:xptemplateData
 
 
-    call SettingPush( '&l:textwidth', '0' )
+    call b:xptemplateData.settingSwitch.Switch()
 
 
     call b:mapSaver.Save()
@@ -3104,7 +3114,7 @@ endfunction " }}}
 
 fun! s:ClearMap() " {{{
 
-    call SettingPop( '&l:textwidth' )
+    call b:xptemplateData.settingSwitch.Restore()
 
     call b:mapMask.Restore()
     call b:mapLiteral.Restore()

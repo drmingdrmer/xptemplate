@@ -403,8 +403,12 @@ endfunction "}}}
 "                                  |
 " }}}
 
+
+" NOTE: complete() has the problem that it select a random element when pum shown
 fun! XPPcomplete(col, list) "{{{
-    
+    let oldcfu = &completefunc
+    set completefunc=XPPcompleteFunc
+    return "\<C-x>\<C-u>"
 endfunction "}}}
 
 

@@ -7,17 +7,12 @@ let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
 runtime plugin/debug.vim
-runtime plugin/xpclass.vim
 
 
 let s:log = CreateLogger( 'warn' )
 " let s:log = CreateLogger( 'debug' )
 
-let g:XPTsid = 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
 
-
-
-exe g:XPTsid
 
 
 
@@ -106,9 +101,8 @@ fun! s:RemoveDuplicate( list ) "{{{
     return newList
 endfunction "}}}
 
-let g:xptutil = g:XPclass( s:sid, {} )
+exe XPT#let_sid
+let g:xptutil = XPT#class( s:sid, {} )
 
 let &cpo = s:oldcpo
 
-
-" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}

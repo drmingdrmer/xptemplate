@@ -7,8 +7,8 @@ let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
 runtime plugin/debug.vim
-runtime plugin/mapstack.vim
 runtime plugin/xpmark.vim
+runtime plugin/SettingSwitch.class.vim
 
 " TODO xpreplace line start with <tab> leaving a ';', ada:beg snippet
 "
@@ -21,43 +21,43 @@ runtime plugin/xpmark.vim
 " 444444444444444444444444444444444444444
 " 555555555555555555555555555555555555555
 " 
-" 
-
-fun! TestXPR()
-    call XPMadd( 'a', [ 12, 6 ], 'l' )
-    call XPMadd( 'b', [ 12, 6 ], 'r' )
-
-    call XPRstartSession()
-
-    call XPreplaceByMarkInternal( 'a', 'b', ', element..' )
-
-    call XPRendSession()
-    call XPMremove( 'a' )
-    call XPMremove( 'b' )
-endfunction
-
 
 
 let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )
 
+
+
+fun! s:InitBuffer() "{{{
+    if exists( 'b:__xpr_init' )
+        return
+    endif
+
+    let b:__xpr_init = { 'settingSwitch' : g:SettingSwitch.New() }
+    call b:__xpr_init.settingSwitch.AddList( 
+          \ [ '&l:virtualedit', 'all' ],
+          \ [ '&l:whichwrap',   'b,s,h,l,<,>,~,[,]' ],
+          \ [ '&l:selection',   'exclusive' ],
+          \ [ '&l:selectmode',  '' ],
+          \)
+
+endfunction "}}}
+
+
 fun! XPRstartSession() "{{{
+
+    call s:InitBuffer()
+
     if exists( 'b:_xpr_session' )
         return
     endif
 
     let b:_xpr_session = {}
 
-
-    call SettingPush( '&l:ve', 'all' )
-    call SettingPush( '&l:ww', 'b,s,h,l,<,>,~,[,]' )
-    call SettingPush( '&l:selection', 'exclusive' )
-    call SettingPush( '&l:selectmode', '' )
+    call b:__xpr_init.settingSwitch.Switch()
 
     let b:_xpr_session.savedReg = @"
     let @" = 'XPreplaceInited'
-
-
 
 endfunction "}}}
 
@@ -69,11 +69,8 @@ fun! XPRendSession() "{{{
 
     let @" = b:_xpr_session.savedReg
 
-    call SettingPop()
-    call SettingPop()
-    call SettingPop()
-    call SettingPop()
-
+    call b:__xpr_init.settingSwitch.Restore()
+    
     unlet b:_xpr_session
 endfunction "}}}
 

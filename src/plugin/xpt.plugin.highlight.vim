@@ -11,7 +11,6 @@ if '' == g:xptemplate_highlight
     finish
 endif
 
-exe g:XPTsid
 
 
 if !hlID( 'XPTcurrentPH' )
@@ -158,6 +157,7 @@ else
 endif
 
 
+exe XPT#let_sid
 call g:XPTaddPlugin("start", 'after', function( '<SNR>' . s:sid . "UpdateHL" ) )
 call g:XPTaddPlugin("update", 'after', function( '<SNR>' . s:sid . "UpdateHL" ) )
 call g:XPTaddPlugin("ph_pum", 'before', function( '<SNR>' . s:sid . "ClearHL" ) )

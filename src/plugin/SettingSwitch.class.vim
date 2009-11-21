@@ -21,10 +21,6 @@ fun! s:Add( key, value ) dict "{{{
 endfunction "}}}
 
 fun! s:AddList( ... ) dict "{{{
-    if a:0 > 0 && type( a:1 ) == type( [] )
-        call call( self.AddList, a:1, self )
-        return
-    endif
     for item in a:000
         call self.Add( item[0], item[1] )
     endfor
@@ -35,9 +31,9 @@ fun! s:Switch() dict "{{{
     if self.saved != []
         throw "settings are already saved and can not be save again"
     endif
-    for setting in self.settings
-        call insert( self.saved, setting )
-        exe 'let ' . setting[0] . '=' . eval( setting[0] )
+    for [ key, value ] in self.settings
+        call insert( self.saved, [ key, eval( key ) ] )
+        exe 'let ' . key . '=' . string( value )
     endfor
 endfunction "}}}
 
@@ -47,7 +43,7 @@ fun! s:Restore() dict "{{{
     endif
 
     for setting in self.saved
-        exe 'let '. setting[0] . '=' . setting[1]
+        exe 'let '. setting[0] . '=' . string( setting[1] )
     endfor
 
     let self.saved = []
