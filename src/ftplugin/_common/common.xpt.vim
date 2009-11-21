@@ -41,7 +41,7 @@ XPTvar $SParg      ' '
 XPTvar $SPif       ' '
 
 " if ( ** condition ** )
-XPTvar $SPcnd      ' '
+XPTvar $SParg      ' '
 
 " while ** (
 XPTvar $SPwhl      ' '

@@ -112,13 +112,11 @@ XPT varSpaces hint=variable\ to\ define\ spacing
 XPTvar $SPfun      ''
 
 " int fun( ** arg ** )
+" if ( ** condition ** )
 XPTvar $SParg      ' '
 
 " if ** ( 
 XPTvar $SPif       ' '
-
-" if ( ** condition ** )
-XPTvar $SPcnd      ' '
 
 " while ** (
 XPTvar $SPwhl      ' '
@@ -175,8 +173,8 @@ XPT sparg " `\$SParg^
 XPT spif " `\$SPif^
 \`$SPif\^
 
-XPT spcnd hint=`\$SPcnd^
-\`$SPcnd\^
+XPT spcnd hint=`\$SParg^
+\`$SParg\^
 
 XPT speq hint=`\$SPeq^
 \`$SPeq\^

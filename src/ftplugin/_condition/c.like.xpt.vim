@@ -20,7 +20,7 @@ XPTvar $SParg      ' '
 XPTvar $SPif       ' '
 
 " if ( ** condition ** )
-XPTvar $SPcnd      ' '
+XPTvar $SParg      ' '
 
 " a = a ** + ** 1
 XPTvar $SPop       ' '
@@ -37,7 +37,7 @@ XPTvar $CURSOR_PH      /* cursor */
 XPTemplateDef
 
 XPT _if hidden=1
-if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{
+if`$SPif^(`$SParg^`condition^`$SParg^)`$BRif^{
     `job^
 }
 
@@ -79,7 +79,7 @@ XSET job=$VOID_LINE
 XSET another_cond=R('condition')
 `Include:_if^` `else_if...^
 XSETm else_if...|post
-`$BRel^else if`$SPif^(`$SPcnd^`another_cond^`$SPcnd^)`$BRif^{
+`$BRel^else if`$SPif^(`$SParg^`another_cond^`$SParg^)`$BRif^{
     `job^
 }` `else_if...^
 XSETm END
@@ -116,7 +116,7 @@ default:
 
 
 XPT if_ hint=if\ (..)\ {\ SEL\ }
-if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{
+if`$SPif^(`$SParg^`condition^`$SParg^)`$BRif^{
     `wrapped^
 }
 

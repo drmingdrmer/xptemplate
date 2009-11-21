@@ -75,7 +75,7 @@ sub `fun_name^`$BRfun^{
 
 
 XPT unless hint=unless\ (\ ..\ )\ {\ ..\ }
-unless`$SPif^(`$SPcnd^`cond^`$SPcnd^)`$BRif^{
+unless`$SPif^(`$SParg^`cond^`$SParg^)`$BRif^{
     `cursor^
 }
 
@@ -84,7 +84,7 @@ XPT eval hint=eval\ {\ ..\ };if...
 eval`$BRif^{
     `risky^
 };
-if`$SPif^(`$SPcnd^$@`$SPcnd^)`$BRif^{
+if`$SPif^(`$SParg^$@`$SParg^)`$BRif^{
     `handle^
 }
 
@@ -92,12 +92,12 @@ XPT try alias=eval hint=eval\ {\ ..\ };\ if\ ...
 
 
 XPT whileeach hint=while\ \(\ \(\ key,\ val\ )\ =\ each\(\ %**\ )\ )
-while`$SPwhl^(`$SPcnd^(`$SParg^$`key^,`$SPcm^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SPcnd^)`$BRwhl^{
+while`$SPwhl^(`$SParg^(`$SParg^$`key^,`$SPcm^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRwhl^{
     `cursor^
 }
 
 XPT whileline hint=while\ \(\ defined\(\ \$line\ =\ <FILE>\ )\ )
-while`$SPwhl^(`$SPcnd^defined(`$SParg^$`line^`$SPeq^=`$SPeq^<`STDIN^>`$SParg^)`$SPcnd^)`$BRwhl^{
+while`$SPwhl^(`$SParg^defined(`$SParg^$`line^`$SPeq^=`$SPeq^<`STDIN^>`$SParg^)`$SParg^)`$BRwhl^{
     `cursor^
 }
 
@@ -122,10 +122,10 @@ foreach`$SPfor^my $`var^ (`$SPfstm^values @`array^`$SPfstm^)`$BRfor^{
 
 XPT if hint=if\ (\ ..\ )\ {\ ..\ }\ ...
 XSET job=$CS job
-if`$SPif^(`$SPcnd^`cond^`$SPcnd^)`$BRif^{
+if`$SPif^(`$SParg^`cond^`$SParg^)`$BRif^{
     `job^
 }`
-`elsif...^`$BRel^elsif`$SPif^(`$SPcnd^`cond2^`$SPcnd^)`$BRif^{
+`elsif...^`$BRel^elsif`$SPif^(`$SParg^`cond2^`$SParg^)`$BRif^{
     `job^
 }`
 `elsif...^`
@@ -154,10 +154,10 @@ sub new`$BRfun^{
 
 XPT if_ hint=if\ (..)\ {\ SEL\ }\ ...
 XSET job=$CS job
-if`$SPif^(`$SPcnd^`cond^`$SPcnd^)`$BRif^{
+if`$SPif^(`$SParg^`cond^`$SParg^)`$BRif^{
     `wrapped^
 }`
-`elsif...^`$BRel^elsif`$SPif^(`$SPcnd^`cond2^`$SPcnd^)`$BRif^{
+`elsif...^`$BRel^elsif`$SPif^(`$SParg^`cond2^`$SParg^)`$BRif^{
     `job^
 }`
 `elsif...^`
@@ -170,7 +170,7 @@ XPT eval_ hint=eval\ {\ ..\ };if...
 eval`$BRif^{
     `wrapped^
 };
-if`$SPif^(`$SPcnd^$@`$SPcnd^)`$BRif^{
+if`$SPif^(`$SParg^$@`$SParg^)`$BRif^{
     `handle^
 }
 

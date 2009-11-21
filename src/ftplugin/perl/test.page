@@ -272,7 +272,7 @@ WRAPPED_TEXT_line2
     # eval`$BRif^{                          
     #     `risky^                           
     # };                                    
-    # if`$SPif^(`$SPcnd^$@`$SPcnd^)`$BRif^{ 
+    # if`$SPif^(`$SParg^$@`$SParg^)`$BRif^{ 
     #     `handle^                          
     # }                                     
 
@@ -311,7 +311,7 @@ WRAPPED_TEXT_line2
     # eval`$BRif^{                          
     #     `wrapped^                         
     # };                                    
-    # if`$SPif^(`$SPcnd^$@`$SPcnd^)`$BRif^{ 
+    # if`$SPif^(`$SParg^$@`$SParg^)`$BRif^{ 
     #     `handle^                          
     # }                                     
 
@@ -499,10 +499,10 @@ if ( $@ ) {
 
 
     #  -------------if---------------                                
-    # if`$SPif^(`$SPcnd^`cond^`$SPcnd^)`$BRif^{                      
+    # if`$SPif^(`$SParg^`cond^`$SParg^)`$BRif^{                      
     #     `job^                                                      
     # }`                                                             
-    # `elsif...^`$BRel^elsif`$SPif^(`$SPcnd^`cond2^`$SPcnd^)`$BRif^{ 
+    # `elsif...^`$BRel^elsif`$SPif^(`$SParg^`cond2^`$SParg^)`$BRif^{ 
     #     `job^                                                      
     # }`                                                             
     # `elsif...^`                                                    
@@ -568,10 +568,10 @@ if ( $@ ) {
 
 
     #  -------------if_---------------                               
-    # if`$SPif^(`$SPcnd^`cond^`$SPcnd^)`$BRif^{                      
+    # if`$SPif^(`$SParg^`cond^`$SParg^)`$BRif^{                      
     #     `wrapped^                                                  
     # }`                                                             
-    # `elsif...^`$BRel^elsif`$SPif^(`$SPcnd^`cond2^`$SPcnd^)`$BRif^{ 
+    # `elsif...^`$BRel^elsif`$SPif^(`$SParg^`cond2^`$SParg^)`$BRif^{ 
     #     `job^                                                      
     # }`                                                             
     # `elsif...^`                                                    
@@ -759,7 +759,7 @@ else {
     # eval`$BRif^{                          
     #     `risky^                           
     # };                                    
-    # if`$SPif^(`$SPcnd^$@`$SPcnd^)`$BRif^{ 
+    # if`$SPif^(`$SParg^$@`$SParg^)`$BRif^{ 
     #     `handle^                          
     # }                                     
 
@@ -798,7 +798,7 @@ else {
     # eval`$BRif^{                          
     #     `wrapped^                         
     # };                                    
-    # if`$SPif^(`$SPcnd^$@`$SPcnd^)`$BRif^{ 
+    # if`$SPif^(`$SParg^$@`$SParg^)`$BRif^{ 
     #     `handle^                          
     # }                                     
 
@@ -838,7 +838,7 @@ if ( $@ ) {
 
 
     #  -------------unless---------------           
-    # unless`$SPif^(`$SPcnd^`cond^`$SPcnd^)`$BRif^{ 
+    # unless`$SPif^(`$SParg^`cond^`$SParg^)`$BRif^{ 
     #     `cursor^                                  
     # }                                             
 
@@ -934,7 +934,7 @@ if ( $@ ) {
 
 
     #  -------------whileeach---------------                                                                          
-    # while`$SPwhl^(`$SPcnd^(`$SParg^$`key^,`$SPcm^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SPcnd^)`$BRwhl^{ 
+    # while`$SPwhl^(`$SParg^(`$SParg^$`key^,`$SPcm^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRwhl^{ 
     #     `cursor^                                                                                                    
     # }                                                                                                               
 
@@ -958,7 +958,7 @@ if ( $@ ) {
 
 
     #  -------------whileline---------------                                                           
-    # while`$SPwhl^(`$SPcnd^defined(`$SParg^$`line^`$SPeq^=`$SPeq^<`STDIN^>`$SParg^)`$SPcnd^)`$BRwhl^{ 
+    # while`$SPwhl^(`$SParg^defined(`$SParg^$`line^`$SPeq^=`$SPeq^<`STDIN^>`$SParg^)`$SParg^)`$BRwhl^{ 
     #     `cursor^                                                                                     
     # }                                                                                                
 

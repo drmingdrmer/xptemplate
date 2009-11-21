@@ -22,7 +22,7 @@ XPTvar $SParg      ' '
 XPTvar $SPif       ' '
 
 " if ( ** condition ** )
-XPTvar $SPcnd      ' '
+XPTvar $SParg      ' '
 
 " a ** = ** b
 XPTvar $SPeq       ' '

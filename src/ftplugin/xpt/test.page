@@ -660,17 +660,17 @@ WRAPPED_TEXT_line2
 
 
     "  -------------spif--------------- 
-    " \`$SPcnd\^                        
+    " \`$SParg\^                        
 
 
 
-    `$SPcnd^
+    `$SParg^
 
-    `$SPcnd^ b
+    `$SParg^ b
 
-    a `$SPcnd^ b
+    a `$SParg^ b
 
-    a `$SPcnd^
+    a `$SParg^
 
 
     "  -------------spop--------------- 
@@ -1042,7 +1042,7 @@ endtry
     " _CMT_ int fun( ** arg ** )             
     " XPTvar $SParg      ' '                
     " _CMT_ if ( ** condition ** )           
-    " XPTvar $SPcnd       ' '                
+    " XPTvar $SParg       ' '                
     " _CMT_ a ** = ** b                      
     " XPTvar $SPeq       ' '                
     " _CMT_ a = a ** + ** 1                  
@@ -1055,7 +1055,7 @@ endtry
     " int fun( ** arg ** )
     XPTvar $SParg      ' '
     " if ( ** condition ** )
-    XPTvar $SPcnd       ' '
+    XPTvar $SParg       ' '
     " a ** = ** b
     XPTvar $SPeq       ' '
     " a = a ** + ** 1
@@ -1066,7 +1066,7 @@ endtry
     " int fun( ** arg ** )
     XPTvar $SParg      ' '
     " if ( ** condition ** )
-    XPTvar $SPcnd       ' '
+    XPTvar $SParg       ' '
     " a ** = ** b
     XPTvar $SPeq       ' '
     " a = a ** + ** 1
@@ -1077,7 +1077,7 @@ endtry
     a " int fun( ** arg ** )
     XPTvar $SParg      ' '
     " if ( ** condition ** )
-    XPTvar $SPcnd       ' '
+    XPTvar $SParg       ' '
     " a ** = ** b
     XPTvar $SPeq       ' '
     " a = a ** + ** 1
@@ -1088,7 +1088,7 @@ endtry
     a " int fun( ** arg ** )
     XPTvar $SParg      ' '
     " if ( ** condition ** )
-    XPTvar $SPcnd       ' '
+    XPTvar $SParg       ' '
     " a ** = ** b
     XPTvar $SPeq       ' '
     " a = a ** + ** 1

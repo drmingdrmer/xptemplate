@@ -1666,7 +1666,7 @@ a function name (param) {
 
 
     //  -------------if_---------------               
-    // if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{ 
+    // if`$SPif^(`$SParg^`condition^`$SParg^)`$BRif^{ 
     //     `wrapped^                                  
     // }                                              
 
