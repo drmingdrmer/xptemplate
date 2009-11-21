@@ -133,7 +133,6 @@ XPTvar $SPop       ' '
 " (a, ** b, ** )
 XPTvar $SPcm       ' '
 
-XPTvar $SPcls      ' '
 
 " [ ** a, b ** ], { ** 'k' : 'v' ** }
 XPTvar $SPar       ' '
@@ -177,9 +176,6 @@ XPT spop hint=`\$SPop^
 
 XPT spcm hint=`\$SPcm^
 \`$SPcm\^
-
-XPT spcls " `\$SPcls^
-\`$SPcls\^
 
 XPT spar " `\$SPar^
 \`$SPar\^

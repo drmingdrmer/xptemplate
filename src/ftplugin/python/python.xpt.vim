@@ -34,7 +34,7 @@ XPTvar $SPop       ' '
 XPTvar $SPcm       ' '
 
 " class name ** (
-XPTvar $SPcls      ''
+XPTvar $SPfun      ''
 
 " [ ** a, b ** ], { ** 'k' : 'v' ** }
 XPTvar $SPar       ' '
@@ -139,7 +139,7 @@ finally:
 
 
 XPT class hint=class\ ..\ :\ def\ __init__\ ...
-class `ClassName^`$SPcls^(`$SParg`parent?`$SParg^):
+class `ClassName^`$SPfun^(`$SParg`parent?`$SParg^):
     `__init__...{{^`:init:^`}}^
 
 

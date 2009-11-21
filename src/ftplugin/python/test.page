@@ -124,7 +124,7 @@ a drdr.xp
 
 
     #  -------------class---------------                  
-    # class `ClassName^`$SPcls^(`$SParg`parent?`$SParg^): 
+    # class `ClassName^`$SPfun^(`$SParg`parent?`$SParg^): 
     #     `__init__...{{^`:init:^`}}^                     
 
 

@@ -62,7 +62,7 @@ XPTvar $SPop       ' '
 XPTvar $SPcm       ' '
 
 " class name ** (
-XPTvar $SPcls      ' '
+XPTvar $SPfun      ' '
 
 XPTvar $TRUE          1
 XPTvar $FALSE         0
