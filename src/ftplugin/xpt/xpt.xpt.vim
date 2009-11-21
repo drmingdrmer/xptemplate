@@ -114,6 +114,7 @@ XPTvar $SPfun      ''
 
 " int fun( ** arg ** )
 " if ( ** condition ** )
+" for ( ** statement ** )
 " [ ** a, b ** ]
 " { ** 'k' : 'v' ** }
 XPTvar $SParg      ' '
@@ -122,9 +123,6 @@ XPTvar $SParg      ' '
 " while ** (
 " for ** (
 XPTvar $SPcmd      ' '
-
-" for ( ** statement ** )
-XPTvar $SPfstm     ' '
 
 " a = a ** + ** 1
 " (a, ** b, ** )

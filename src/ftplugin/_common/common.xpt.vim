@@ -50,7 +50,7 @@ XPTvar $SPcmd      ' '
 XPTvar $SPcmd      ' '
 
 " for ( ** statement ** )
-XPTvar $SPfstm     ' '
+XPTvar $SParg     ' '
 
 " a ** = ** b
 XPTvar $SPop       ' '

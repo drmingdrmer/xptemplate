@@ -103,19 +103,19 @@ while`$SPcmd^(`$SParg^defined(`$SParg^$`line^`$SPop^=`$SPop^<`STDIN^>`$SParg^)`$
 
 
 XPT foreach hint=foreach\ my\ ..\ (..){}
-foreach`$SPcmd^my $`var^ (`$SPfstm^@`array^`$SPfstm^)`$BRfor^{
+foreach`$SPcmd^my $`var^ (`$SParg^@`array^`$SParg^)`$BRfor^{
     `cursor^
 }
 
 
 XPT forkeys hint=foreach\ my\ var\ \(\ keys\ %**\ )
-foreach`$SPcmd^my $`var^ (`$SPfstm^keys @`array^`$SPfstm^)`$BRfor^{
+foreach`$SPcmd^my $`var^ (`$SParg^keys @`array^`$SParg^)`$BRfor^{
     `cursor^
 }
 
 
 XPT forvalues hint=foreach\ my\ var\ \(\ keys\ %**\ )
-foreach`$SPcmd^my $`var^ (`$SPfstm^values @`array^`$SPfstm^)`$BRfor^{
+foreach`$SPcmd^my $`var^ (`$SParg^values @`array^`$SParg^)`$BRfor^{
     `cursor^
 }
 
