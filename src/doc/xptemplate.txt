@@ -579,7 +579,7 @@
 		XPTvar $SPcm       ' '
 
 		" [ ** a, b ** ], { ** 'k' : 'v' ** }
-		XPTvar $SPar
+		XPTvar $SParg
 <	For example function snippet defined as below: >
 		XPT fun
 		int fun(`$SParg^`args^`$SParg^)

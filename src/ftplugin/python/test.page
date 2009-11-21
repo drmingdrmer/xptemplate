@@ -442,7 +442,7 @@ a from __future__ import name
 
 
     #  -------------genExp--------------- 
-    # (`$SPar^`:generator:^`$SPar^)       
+    # (`$SParg^`:generator:^`$SParg^)       
 
 
 
@@ -549,7 +549,7 @@ a lambda : expr
 
 
     #  -------------listComp--------------- 
-    # [`$SPar^`:generator:^`$SPar^]         
+    # [`$SParg^`:generator:^`$SParg^]         
 
 
 

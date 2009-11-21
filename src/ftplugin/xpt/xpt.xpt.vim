@@ -114,6 +114,8 @@ XPTvar $SPfun      ''
 
 " int fun( ** arg ** )
 " if ( ** condition ** )
+" [ ** a, b ** ]
+" { ** 'k' : 'v' ** }
 XPTvar $SParg      ' '
 
 " if ** ( 
@@ -132,10 +134,6 @@ XPTvar $SPop       ' '
 
 " (a, ** b, ** )
 XPTvar $SPcm       ' '
-
-
-" [ ** a, b ** ], { ** 'k' : 'v' ** }
-XPTvar $SPar       ' '
 
 
 XPT varConst hint=variables\ to\ define\ constants
@@ -176,9 +174,6 @@ XPT spop hint=`\$SPop^
 
 XPT spcm hint=`\$SPcm^
 \`$SPcm\^
-
-XPT spar " `\$SPar^
-\`$SPar\^
 
 
 XPT buildifeq hint={{}}

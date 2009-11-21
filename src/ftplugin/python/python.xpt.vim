@@ -37,7 +37,7 @@ XPTvar $SPcm       ' '
 XPTvar $SPfun      ''
 
 " [ ** a, b ** ], { ** 'k' : 'v' ** }
-XPTvar $SPar       ' '
+XPTvar $SParg       ' '
 
 XPTinclude 
       \ _common/common
@@ -171,11 +171,11 @@ from __future__ import `name^
 
 
 XPT genExp hint=\(func\(x)\ for\ x\ in\ seq)
-(`$SPar^`:generator:^`$SPar^)
+(`$SParg^`:generator:^`$SParg^)
 
 
 XPT listComp hint=\[func\(x)\ for\ x\ in\ seq]
-[`$SPar^`:generator:^`$SPar^]
+[`$SParg^`:generator:^`$SParg^]
 
 
 
