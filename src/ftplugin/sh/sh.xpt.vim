@@ -13,8 +13,8 @@ XPTvar $CURSOR_PH     # cursor
 
 XPTvar $BRif     \ 
 XPTvar $BRel   \n
-XPTvar $BRfor    \ 
-XPTvar $BRwhl  \ 
+XPTvar $BRloop    \ 
+XPTvar $BRloop  \ 
 XPTvar $BRstc \ 
 XPTvar $BRfun   \ 
 
@@ -98,7 +98,7 @@ echo `date +~fmt^`
 
 
 XPT forin
-for ~i^ in ~list^;~$BRfor^do
+for ~i^ in ~list^;~$BRloop^do
     ~cursor^
 done
 
@@ -107,18 +107,18 @@ XPT foreach alias=forin
 
 
 XPT for
-for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$BRfor^do
+for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$BRloop^do
     ~cursor^
 done
 
 XPT forr
-for ((~i^ = ~n^; ~i^ >~=^ ~start^; ~i^--));~$BRfor^do
+for ((~i^ = ~n^; ~i^ >~=^ ~start^; ~i^--));~$BRloop^do
     ~cursor^
 done
 
 
 XPT while
-while ~condition^;~$BRwhl^do
+while ~condition^;~$BRloop^do
     ~cursor^
 done
 

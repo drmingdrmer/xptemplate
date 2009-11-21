@@ -14,8 +14,8 @@ XPTvar $UNDEFINED     NULL
 
 XPTvar $BRif     ' '
 XPTvar $BRel   \n
-XPTvar $BRfor    ' '
-XPTvar $BRwhl  ' '
+XPTvar $BRloop    ' '
+XPTvar $BRloop  ' '
 XPTvar $BRstc ' '
 XPTvar $BRfun   ' '
 

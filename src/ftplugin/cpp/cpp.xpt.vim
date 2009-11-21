@@ -10,8 +10,8 @@ XPTvar $FALSE         false
 XPTvar $NULL          NULL
 
 XPTvar $BRif     \n
-XPTvar $BRfor    \n
-XPTvar $BRwhl  \n
+XPTvar $BRloop    \n
+XPTvar $BRloop  \n
 XPTvar $BRstc \n
 XPTvar $BRfun   \n
 

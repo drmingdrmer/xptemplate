@@ -369,9 +369,9 @@ default:
 
 
     //  -------------do--------------- 
-    // do`$BRwhl^{                     
+    // do`$BRloop^{                     
     //     `cursor^                    
-    // }`$BRwhl^while (`condition^);   
+    // }`$BRloop^while (`condition^);   
 
 
 
@@ -563,7 +563,7 @@ a for (int i = 0; i < len; ++i)  {
 
 
     //  -------------foreach---------------     
-    // for ( `type^ `var^ : `inWhat^ )`$BRfor^{ 
+    // for ( `type^ `var^ : `inWhat^ )`$BRloop^{ 
     //     `cursor^                             
     // }                                        
 
@@ -1208,7 +1208,7 @@ finally
 
 
     //  -------------while--------------- 
-    // while (`condition^)`$BRwhl^{       
+    // while (`condition^)`$BRloop^{       
     //     `cursor^                       
     // }                                  
 
@@ -1232,9 +1232,9 @@ a while (condition) {
 
 
     //  -------------while0--------------- 
-    // do`$BRwhl^{                         
+    // do`$BRloop^{                         
     //     `cursor^                        
-    // }`$BRwhl^while (`condition^);       
+    // }`$BRloop^while (`condition^);       
 
 
 
@@ -1256,7 +1256,7 @@ a do {
 
 
     //  -------------while1--------------- 
-    // while (`condition^)`$BRwhl^{        
+    // while (`condition^)`$BRloop^{        
     //     `cursor^                        
     // }                                   
 
@@ -1280,7 +1280,7 @@ a while (true) {
 
 
     //  -------------whilenn--------------- 
-    // while (`condition^)`$BRwhl^{         
+    // while (`condition^)`$BRloop^{         
     //     `cursor^                         
     // }                                    
 

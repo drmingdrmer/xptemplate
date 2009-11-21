@@ -9,8 +9,8 @@ XPTvar $UNDEFINED     undefined
 
 XPTvar $BRif     ' '
 XPTvar $BRel   \n
-XPTvar $BRfor    ' '
-XPTvar $BRwhl  ' '
+XPTvar $BRloop    ' '
+XPTvar $BRloop  ' '
 XPTvar $BRstc ' '
 XPTvar $BRfun   ' '
 
@@ -109,7 +109,7 @@ function` `name^ (`arg*^) {
 
 
 XPT forin hint=for\ (var\ ..\ in\ ..)\ {..}
-for ( var `i^ in `array^ )`$BRfor^{
+for ( var `i^ in `array^ )`$BRloop^{
     var `e^ = `array^[`i^];
     `cursor^
 }

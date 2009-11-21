@@ -7,8 +7,8 @@ XPTvar $FALSE         false
 XPTvar $NULL          null
 
 XPTvar $BRif     \n
-XPTvar $BRfor    \n
-XPTvar $BRwhl  \n
+XPTvar $BRloop    \n
+XPTvar $BRloop  \n
 XPTvar $BRstc \n
 XPTvar $BRfun   \n
 
@@ -38,7 +38,7 @@ XPTemplateDef
 
 
 XPT foreach hint=foreach\ (..\ in\ ..)\ {..}
-foreach ( `var^ `e^ in `what^ )`$BRfor^{
+foreach ( `var^ `e^ in `what^ )`$BRloop^{
     `cursor^
 }
 

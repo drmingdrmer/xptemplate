@@ -11,8 +11,8 @@ XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      -- cursor
 
 XPTvar $BRif     \n
-XPTvar $BRfor    \n
-XPTvar $BRwhl  \n
+XPTvar $BRloop    \n
+XPTvar $BRloop  \n
 XPTvar $BRstc \n
 XPTvar $BRfun   \n
 

@@ -408,7 +408,7 @@
 	For example : >
 		XPT for hint=for\ (..;..;++)
 		XSET ComeFirst=0 len
-		for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRfor^{
+		for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRloop^{
 		    `cursor^
 		}
 <	So that "0" is focused first, then "len" and then "i".

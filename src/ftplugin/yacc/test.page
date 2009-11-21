@@ -627,9 +627,9 @@ a default:
 
 
     /*  -------------do--------------- */
-    /* do`$BRwhl^{                     */
+    /* do`$BRloop^{                     */
     /*     `cursor^                    */
-    /* }`$BRwhl^while (`condition^);   */
+    /* }`$BRloop^while (`condition^);   */
 
 
 
@@ -917,7 +917,7 @@ a /**-------------------------/// sum \\\---------------------------
 
 
     /*  -------------for---------------                                                         */
-    /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRfor^{ */
+    /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRloop^{ */
     /*     `cursor^                                                                             */
     /* }                                                                                        */
 
@@ -955,7 +955,7 @@ a for (;;) /* void */
 
 
     /*  -------------fornn---------------                                                                   */
-    /* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRfor^{ */
+    /* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRloop^{ */
     /*     `cursor^                                                                                         */
     /* }                                                                                                    */
 
@@ -979,7 +979,7 @@ a for ( ptr = init; NULL != ptr; ptr ) {
 
 
     /*  -------------forr---------------                                                           */
-    /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRfor^{ */
+    /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRloop^{ */
     /*     `cursor^                                                                                */
     /* }                                                                                           */
 
@@ -1602,7 +1602,7 @@ a %token
 
 
     /*  -------------while--------------- */
-    /* while (`condition^)`$BRwhl^{       */
+    /* while (`condition^)`$BRloop^{       */
     /*     `cursor^                       */
     /* }                                  */
 
@@ -1626,9 +1626,9 @@ a while (condition) {
 
 
     /*  -------------while0--------------- */
-    /* do`$BRwhl^{                         */
+    /* do`$BRloop^{                         */
     /*     `cursor^                        */
-    /* }`$BRwhl^while (`condition^);       */
+    /* }`$BRloop^while (`condition^);       */
 
 
 
@@ -1650,7 +1650,7 @@ a do {
 
 
     /*  -------------while1--------------- */
-    /* while (`condition^)`$BRwhl^{        */
+    /* while (`condition^)`$BRloop^{        */
     /*     `cursor^                        */
     /* }                                   */
 
@@ -1674,7 +1674,7 @@ a while (1) {
 
 
     /*  -------------whilenn--------------- */
-    /* while (`condition^)`$BRwhl^{         */
+    /* while (`condition^)`$BRloop^{         */
     /*     `cursor^                         */
     /* }                                    */
 

@@ -369,9 +369,9 @@ a default:
 
 
     /*  -------------do--------------- */
-/* do`$BRwhl^{                     */
+/* do`$BRloop^{                     */
 /*     `cursor^                    */
-/* }`$BRwhl^while (`condition^);   */
+/* }`$BRloop^while (`condition^);   */
 
 
 
@@ -495,7 +495,7 @@ a test.page
 
 
     /*  -------------for---------------                                                         */
-/* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRfor^{ */
+/* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRloop^{ */
 /*     `cursor^                                                                             */
 /* }                                                                                        */
 
@@ -519,7 +519,7 @@ a for ( $i = 0; $i < len; ++$i ) {
 
 
     /*  -------------foreach---------------     */
-/* foreach ($`var^ as `container^)`$BRfor^{ */
+/* foreach ($`var^ as `container^)`$BRloop^{ */
 /*     `cursor^                             */
 /* }                                        */
 
@@ -557,7 +557,7 @@ a for (;;) /* void */
 
 
     /*  -------------fornn---------------                                                                   */
-/* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRfor^{ */
+/* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRloop^{ */
 /*     `cursor^                                                                                         */
 /* }                                                                                                    */
 
@@ -581,7 +581,7 @@ a for ( $ptr = init; null != $ptr; $ptr ) {
 
 
     /*  -------------forr---------------                                                           */
-/* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRfor^{ */
+/* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRloop^{ */
 /*     `cursor^                                                                                */
 /* }                                                                                           */
 
@@ -989,7 +989,7 @@ a switch ( var ) {
 
 
     /*  -------------while--------------- */
-/* while (`condition^)`$BRwhl^{       */
+/* while (`condition^)`$BRloop^{       */
 /*     `cursor^                       */
 /* }                                  */
 
@@ -1013,9 +1013,9 @@ while (condition_TYPED) {
 
 
     /*  -------------while0--------------- */
-/* do`$BRwhl^{                         */
+/* do`$BRloop^{                         */
 /*     `cursor^                        */
-/* }`$BRwhl^while (`condition^);       */
+/* }`$BRloop^while (`condition^);       */
 
 
 
@@ -1037,7 +1037,7 @@ do {
 
 
     /*  -------------while1--------------- */
-/* while (`condition^)`$BRwhl^{        */
+/* while (`condition^)`$BRloop^{        */
 /*     `cursor^                        */
 /* }                                   */
 
@@ -1061,7 +1061,7 @@ while (true) {
 
 
     /*  -------------whilenn--------------- */
-/* while (`condition^)`$BRwhl^{         */
+/* while (`condition^)`$BRloop^{         */
 /*     `cursor^                         */
 /* }                                    */
 

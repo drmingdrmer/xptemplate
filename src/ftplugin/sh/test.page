@@ -420,7 +420,7 @@ elif condition; then
 
 
     #  -------------for---------------                 
-    # for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$BRfor^do 
+    # for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$BRloop^do 
     #     ~cursor^                                     
     # done                                             
 
@@ -444,7 +444,7 @@ elif condition; then
 
 
     #  -------------foreach--------------- 
-    # for ~i^ in ~list^;~$BRfor^do         
+    # for ~i^ in ~list^;~$BRloop^do         
     #     ~cursor^                         
     # done                                 
 
@@ -468,7 +468,7 @@ elif condition; then
 
 
     #  -------------forin--------------- 
-    # for ~i^ in ~list^;~$BRfor^do       
+    # for ~i^ in ~list^;~$BRloop^do       
     #     ~cursor^                       
     # done                               
 
@@ -492,7 +492,7 @@ elif condition; then
 
 
     #  -------------forr---------------                     
-    # for ((~i^ = ~n^; ~i^ >~=^ ~start^; ~i^--));~$BRfor^do 
+    # for ((~i^ = ~n^; ~i^ >~=^ ~start^; ~i^--));~$BRloop^do 
     #     ~cursor^                                          
     # done                                                  
 
@@ -652,7 +652,7 @@ elif condition; then
 
 
     #  -------------while--------------- 
-    # while ~condition^;~$BRwhl^do       
+    # while ~condition^;~$BRloop^do       
     #     ~cursor^                       
     # done                               
 
@@ -676,7 +676,7 @@ elif condition; then
 
 
     #  -------------while1--------------- 
-    # while ~condition^;~$BRwhl^do        
+    # while ~condition^;~$BRloop^do        
     #     ~cursor^                        
     # done                                
 

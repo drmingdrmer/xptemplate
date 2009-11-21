@@ -7,8 +7,8 @@ XPTvar $FALSE          0
 XPTvar $NULL           NULL
 
 XPTvar $BRif     \ 
-XPTvar $BRfor    \ 
-XPTvar $BRwhl  \ 
+XPTvar $BRloop    \ 
+XPTvar $BRloop  \ 
 XPTvar $BRstc \ 
 XPTvar $BRfun   \n
 

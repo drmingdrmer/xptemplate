@@ -675,9 +675,9 @@ default:
 
 
     /*  -------------do--------------- */
-    /* do`$BRwhl^{                     */
+    /* do`$BRloop^{                     */
     /*     `cursor^                    */
-    /* }`$BRwhl^while (`condition^);   */
+    /* }`$BRloop^while (`condition^);   */
 
 
 
@@ -1017,7 +1017,7 @@ a for (int i = 0; i < len; ++i)
 
 
     /*  -------------foreach---------------     */
-    /* foreach ( `var^ `e^ in `what^ )`$BRfor^{ */
+    /* foreach ( `var^ `e^ in `what^ )`$BRloop^{ */
     /*     `cursor^                             */
     /* }                                        */
 
@@ -1059,7 +1059,7 @@ a for (;;) /* void */
 
 
     /*  -------------fornn---------------                                                                   */
-    /* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRfor^{ */
+    /* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRloop^{ */
     /*     `cursor^                                                                                         */
     /* }                                                                                                    */
 
@@ -2006,7 +2006,7 @@ finally
 
 
     /*  -------------while--------------- */
-    /* while (`condition^)`$BRwhl^{       */
+    /* while (`condition^)`$BRloop^{       */
     /*     `cursor^                       */
     /* }                                  */
 
@@ -2034,9 +2034,9 @@ a while (condition)
 
 
     /*  -------------while0--------------- */
-    /* do`$BRwhl^{                         */
+    /* do`$BRloop^{                         */
     /*     `cursor^                        */
-    /* }`$BRwhl^while (`condition^);       */
+    /* }`$BRloop^while (`condition^);       */
 
 
 
@@ -2066,7 +2066,7 @@ while (false);
 
 
     /*  -------------while1--------------- */
-    /* while (`condition^)`$BRwhl^{        */
+    /* while (`condition^)`$BRloop^{        */
     /*     `cursor^                        */
     /* }                                   */
 
@@ -2094,7 +2094,7 @@ a while (true)
 
 
     /*  -------------whilenn--------------- */
-    /* while (`condition^)`$BRwhl^{         */
+    /* while (`condition^)`$BRloop^{         */
     /*     `cursor^                         */
     /* }                                    */
 

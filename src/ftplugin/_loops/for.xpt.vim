@@ -8,7 +8,7 @@ let s:f = g:XPTfuncs()
  
 XPTvar $NULL            NULL
 XPTvar $CURSOR_PH       CURSOR
-XPTvar $BRfor ' '
+XPTvar $BRloop ' '
 
 XPTvar $VAR_PRE 
 XPTvar $FOR_SCOPE 
@@ -25,20 +25,20 @@ XPTemplateDef
 
 
 XPT for hint=for\ (..;..;++)
-for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRfor^{
+for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRloop^{
     `cursor^
 }
 
 
 XPT forr hint=for\ (..;..;--)
-for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRfor^{
+for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRloop^{
     `cursor^
 }
 
 
 XPT fornn hint=for\ \(\ ;\ $NULL\ !=\ var;\ )
 XSET ptrOp=R( 'ptr' )
-for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRfor^{
+for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRloop^{
     `cursor^
 }
 

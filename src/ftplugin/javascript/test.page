@@ -1334,7 +1334,7 @@ a else {
 
 
     //  -------------for---------------                                                         
-    // for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRfor^{ 
+    // for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRloop^{ 
     //     `cursor^                                                                             
     // }                                                                                        
 
@@ -1372,7 +1372,7 @@ a else {
 
 
     //  -------------forin---------------  
-    // for ( var `i^ in `array^ )`$BRfor^{ 
+    // for ( var `i^ in `array^ )`$BRloop^{ 
     //     var `e^ = `array^[`i^];         
     //     `cursor^                        
     // }                                   
@@ -1401,7 +1401,7 @@ a else {
 
 
     //  -------------fornn---------------                                                                   
-    // for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRfor^{ 
+    // for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRloop^{ 
     //     `cursor^                                                                                         
     // }                                                                                                    
 
@@ -1425,7 +1425,7 @@ a else {
 
 
     //  -------------forr---------------                                                           
-    // for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRfor^{ 
+    // for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRloop^{ 
     //     `cursor^                                                                                
     // }                                                                                           
 

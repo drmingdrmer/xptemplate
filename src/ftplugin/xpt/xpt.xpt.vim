@@ -9,7 +9,7 @@ XPTinclude
 
 " ========================= Function and Variables =============================
 
-fun! s:f.hintEscape()
+fun! s:f.xpt_vim_hint_escape()
   " let v = substitute( self.V(), '\(\\*\)\([( ]\)', '\1\1\\\2', 'g' )
   let v = substitute( self.V(), '\(\\*\)\([(]\)', '\1\1\\\2', 'g' )
   return v
@@ -28,9 +28,6 @@ for v in s:xpt_snip
 
   let s:xpts[ ft ] += [ snip ]
 endfor
-
-" echom string( s:xpts )
-
 
 
 fun! s:f.xpt_vim_path()
@@ -65,7 +62,7 @@ let s:f = g:XPTfuncs()
 
 
 XPT tmpl hint=XPT\ name\ ...
-XSET tips|post=hintEscape()
+XSET tips|post=xpt_vim_hint_escape()
 \XPT `name^ " `tips^
 `cursor^
 
@@ -86,16 +83,18 @@ XPTvar $VAR_PRE
 
 XPT varFormat hint=variables\ to\ define\ format
 " if () ** {
+" else ** {
 XPTvar $BRif     ' '
 
 " } ** else {
 XPTvar $BRel     \n
 
 " for () ** {
-XPTvar $BRfor    ' '
-
 " while () ** {
-XPTvar $BRwhl    ' '
+" do ** {
+XPTvar $BRloop    ' '
+
+XPTvar $BRloop    ' '
 
 " struct name ** {
 XPTvar $BRstc    ' '

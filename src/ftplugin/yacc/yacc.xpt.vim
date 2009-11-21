@@ -12,8 +12,8 @@ XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $BRif     \ 
 XPTvar $BRel   \n
-XPTvar $BRfor    \ 
-XPTvar $BRwhl  \ 
+XPTvar $BRloop    \ 
+XPTvar $BRloop  \ 
 XPTvar $BRstc \ 
 XPTvar $BRfun   \ 
 

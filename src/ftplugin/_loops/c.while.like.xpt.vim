@@ -6,7 +6,7 @@ XPTvar $TRUE           1
 XPTvar $FALSE          0
 XPTvar $NULL           NULL
 
-XPTvar $BRwhl  \ 
+XPTvar $BRloop  \ 
 
 
 " ================================= Snippets ===================================
@@ -14,14 +14,14 @@ XPTemplateDef
 
 
 XPT while hint=while\ \(\ ...\ )
-while (`condition^)`$BRwhl^{
+while (`condition^)`$BRloop^{
     `cursor^
 }
 
 XPT do hint=do\ {\ ..\ }\ while\ (..)
-do`$BRwhl^{
+do`$BRloop^{
     `cursor^
-}`$BRwhl^while (`condition^);
+}`$BRloop^while (`condition^);
 
 
 XPT while0 alias=do hint=do\ {\ ..\ }\ while\ ($FALSE)

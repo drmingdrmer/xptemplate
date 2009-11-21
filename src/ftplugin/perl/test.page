@@ -231,9 +231,9 @@ WRAPPED_TEXT_line2
 
 
     #  -------------do--------------- 
-    # do`$BRwhl^{                     
+    # do`$BRloop^{                     
     #     `cursor^                    
-    # }`$BRwhl^while (`condition^);   
+    # }`$BRloop^while (`condition^);   
 
 
 
@@ -365,7 +365,7 @@ if ( $@ ) {
 
 
     #  -------------for---------------                                                         
-    # for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRfor^{ 
+    # for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRloop^{ 
     #     `cursor^                                                                             
     # }                                                                                        
 
@@ -389,7 +389,7 @@ if ( $@ ) {
 
 
     #  -------------foreach---------------                           
-    # foreach`$SPcmd^my $`var^ (`$SParg^@`array^`$SParg^)`$BRfor^{ 
+    # foreach`$SPcmd^my $`var^ (`$SParg^@`array^`$SParg^)`$BRloop^{ 
     #     `cursor^                                                   
     # }                                                              
 
@@ -427,7 +427,7 @@ if ( $@ ) {
 
 
     #  -------------forkeys---------------                                
-    # foreach`$SPcmd^my $`var^ (`$SParg^keys @`array^`$SParg^)`$BRfor^{ 
+    # foreach`$SPcmd^my $`var^ (`$SParg^keys @`array^`$SParg^)`$BRloop^{ 
     #     `cursor^                                                        
     # }                                                                   
 
@@ -451,7 +451,7 @@ if ( $@ ) {
 
 
     #  -------------forr---------------                                                           
-    # for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRfor^{ 
+    # for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRloop^{ 
     #     `cursor^                                                                                
     # }                                                                                           
 
@@ -475,7 +475,7 @@ if ( $@ ) {
 
 
     #  -------------forvalues---------------                                
-    # foreach`$SPcmd^my $`var^ (`$SParg^values @`array^`$SParg^)`$BRfor^{ 
+    # foreach`$SPcmd^my $`var^ (`$SParg^values @`array^`$SParg^)`$BRloop^{ 
     #     `cursor^                                                          
     # }                                                                     
 
@@ -862,7 +862,7 @@ if ( $@ ) {
 
 
     #  -------------while--------------- 
-    # while (`condition^)`$BRwhl^{       
+    # while (`condition^)`$BRloop^{       
     #     `cursor^                       
     # }                                  
 
@@ -886,9 +886,9 @@ if ( $@ ) {
 
 
     #  -------------while0--------------- 
-    # do`$BRwhl^{                         
+    # do`$BRloop^{                         
     #     `cursor^                        
-    # }`$BRwhl^while (`condition^);       
+    # }`$BRloop^while (`condition^);       
 
 
 
@@ -910,7 +910,7 @@ if ( $@ ) {
 
 
     #  -------------while1--------------- 
-    # while (`condition^)`$BRwhl^{        
+    # while (`condition^)`$BRloop^{        
     #     `cursor^                        
     # }                                   
 
@@ -934,7 +934,7 @@ if ( $@ ) {
 
 
     #  -------------whileeach---------------                                                                          
-    # while`$SPcmd^(`$SParg^(`$SParg^$`key^,`$SPop^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRwhl^{ 
+    # while`$SPcmd^(`$SParg^(`$SParg^$`key^,`$SPop^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRloop^{ 
     #     `cursor^                                                                                                    
     # }                                                                                                               
 
@@ -958,7 +958,7 @@ if ( $@ ) {
 
 
     #  -------------whileline---------------                                                           
-    # while`$SPcmd^(`$SParg^defined(`$SParg^$`line^`$SPop^=`$SPop^<`STDIN^>`$SParg^)`$SParg^)`$BRwhl^{ 
+    # while`$SPcmd^(`$SParg^defined(`$SParg^$`line^`$SPop^=`$SPop^<`STDIN^>`$SParg^)`$SParg^)`$BRloop^{ 
     #     `cursor^                                                                                     
     # }                                                                                                
 

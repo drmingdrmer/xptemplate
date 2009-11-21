@@ -11,8 +11,8 @@ XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $BRif     \ 
-XPTvar $BRfor    \ 
-XPTvar $BRwhl  \ 
+XPTvar $BRloop    \ 
+XPTvar $BRloop  \ 
 XPTvar $BRstc \ 
 
 
@@ -26,13 +26,13 @@ XPTemplateDef
 
 
 XPT for hint=for\ (..;..;++)
-for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRfor^{
+for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRloop^{
     `cursor^
 }
 
 
 XPT forr hint=for\ (..;..;--)
-for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$BRfor^{
+for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$BRloop^{
     `cursor^
 }
 

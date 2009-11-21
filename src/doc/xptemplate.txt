@@ -511,10 +511,10 @@
 		XPTvar $BRel   \n
 
 		" for () ** {
-		XPTvar $BRfor    ' '
+		XPTvar $BRloop    ' '
 
 		" while () ** {
-		XPTvar $BRwhl  ' '
+		XPTvar $BRloop  ' '
 
 		" struct name ** {
 		XPTvar $BRstc ' '
@@ -528,11 +528,11 @@
 <	The "**" in comment marks where this variable should be used.
 	For example following is "for" snippet for both C and CPP: >
 		XPT for hint=for\ (..;..;++)
-		for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRfor^{
+		for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRloop^{
 		    `cursor^			   ******************
 		}
-<	In C language "$BRfor" is set to ' '. In CPP
-	"$BRfor" is set to "\n". You can find them in
+<	In C language "$BRloop" is set to ' '. In CPP
+	"$BRloop" is set to "\n". You can find them in
 	"ftplugin/c/c.xpt.vim" and "ftplugin/cpp/cpp.xpt.vim". 
 
 	In C this snippet results in: >

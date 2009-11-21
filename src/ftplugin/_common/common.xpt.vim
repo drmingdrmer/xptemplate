@@ -16,10 +16,10 @@ XPTvar $BRif     ' '
 XPTvar $BRel     \n
 
 " for () ** {
-XPTvar $BRfor    ' '
+XPTvar $BRloop    ' '
 
 " while () ** {
-XPTvar $BRwhl    ' '
+XPTvar $BRloop    ' '
 
 " struct name ** {
 XPTvar $BRstc    ' '

@@ -11,8 +11,8 @@ XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $BRif     \ 
-XPTvar $BRfor    \ 
-XPTvar $BRwhl  \ 
+XPTvar $BRloop    \ 
+XPTvar $BRloop  \ 
 XPTvar $BRstc \ 
 XPTvar $BRfun   \ 
 
@@ -40,7 +40,7 @@ XPTemplateDef
 
 
 XPT foreach hint=for\ \(\ ..\ :\ ..\ \)
-for ( `type^ `var^ : `inWhat^ )`$BRfor^{
+for ( `type^ `var^ : `inWhat^ )`$BRloop^{
     `cursor^
 }
 

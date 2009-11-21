@@ -927,9 +927,9 @@ endtry
     " _CMT_ } ** else {                      
     " XPTvar $BRel   \n          
     " _CMT_ for () ** {                      
-    " XPTvar $BRfor    ' '         
+    " XPTvar $BRloop    ' '         
     " _CMT_ while () ** {                    
-    " XPTvar $BRwhl  ' '         
+    " XPTvar $BRloop  ' '         
     " _CMT_ struct name ** {                 
     " XPTvar $BRstc ' '         
     " _CMT_ int fun() ** {                   
@@ -944,9 +944,9 @@ endtry
     " } ** else {
     XPTvar $BRel   \n
     " for () ** {
-    XPTvar $BRfor    ' '
+    XPTvar $BRloop    ' '
     " while () ** {
-    XPTvar $BRwhl  ' '
+    XPTvar $BRloop  ' '
     " struct name ** {
     XPTvar $BRstc ' '
     " int fun() ** {
@@ -959,9 +959,9 @@ endtry
     " } ** else {
     XPTvar $BRel   \n
     " for () ** {
-    XPTvar $BRfor    ' '
+    XPTvar $BRloop    ' '
     " while () ** {
-    XPTvar $BRwhl  ' '
+    XPTvar $BRloop  ' '
     " struct name ** {
     XPTvar $BRstc ' '
     " int fun() ** {
@@ -974,9 +974,9 @@ endtry
     " } ** else {
     XPTvar $BRel   \n
     " for () ** {
-    XPTvar $BRfor    ' '
+    XPTvar $BRloop    ' '
     " while () ** {
-    XPTvar $BRwhl  ' '
+    XPTvar $BRloop  ' '
     " struct name ** {
     XPTvar $BRstc ' '
     " int fun() ** {
@@ -989,9 +989,9 @@ endtry
     " } ** else {
     XPTvar $BRel   \n
     " for () ** {
-    XPTvar $BRfor    ' '
+    XPTvar $BRloop    ' '
     " while () ** {
-    XPTvar $BRwhl  ' '
+    XPTvar $BRloop  ' '
     " struct name ** {
     XPTvar $BRstc ' '
     " int fun() ** {
@@ -1202,9 +1202,9 @@ endtry
     " } ** else {
     XPTvar $BRel   \n
     " for () ** {
-    XPTvar $BRfor    ' '
+    XPTvar $BRloop    ' '
     " while () ** {
-    XPTvar $BRwhl  ' '
+    XPTvar $BRloop  ' '
     " struct name ** {
     XPTvar $BRstc ' '
     " int fun() ** {
@@ -1243,9 +1243,9 @@ endtry
     " } ** else {
     XPTvar $BRel   \n
     " for () ** {
-    XPTvar $BRfor    ' '
+    XPTvar $BRloop    ' '
     " while () ** {
-    XPTvar $BRwhl  ' '
+    XPTvar $BRloop  ' '
     " struct name ** {
     XPTvar $BRstc ' '
     " int fun() ** {
@@ -1281,9 +1281,9 @@ endtry
      " } ** else {
      XPTvar $BRel   \n
      " for () ** {
-     XPTvar $BRfor    ' '
+     XPTvar $BRloop    ' '
      " while () ** {
-     XPTvar $BRwhl  ' '
+     XPTvar $BRloop  ' '
      " struct name ** {
      XPTvar $BRstc ' '
      " int fun() ** {
@@ -1322,9 +1322,9 @@ endtry
       " } ** else {
       XPTvar $BRel   \n
       " for () ** {
-      XPTvar $BRfor    ' '
+      XPTvar $BRloop    ' '
       " while () ** {
-      XPTvar $BRwhl  ' '
+      XPTvar $BRloop  ' '
       " struct name ** {
       XPTvar $BRstc ' '
       " int fun() ** {

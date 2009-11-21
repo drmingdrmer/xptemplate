@@ -12,8 +12,8 @@ XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $BRif     \ 
 XPTvar $BRel   \n
-XPTvar $BRfor    \ 
-XPTvar $BRwhl  \ 
+XPTvar $BRloop    \ 
+XPTvar $BRloop  \ 
 XPTvar $BRstc \ 
 XPTvar $BRfun   \ 
 
@@ -57,7 +57,7 @@ XPT html hint=<?$PHP_TAG\ ...\ ?>
 
 
 XPT foreach hint=foreach\ (..\ as\ ..)\ {..}
-foreach ($`var^ as `container^)`$BRfor^{
+foreach ($`var^ as `container^)`$BRloop^{
     `cursor^
 }
 
