@@ -109,6 +109,7 @@ XPTvar $BRcls    ''
 
 XPT varSpaces hint=variable\ to\ define\ spacing
 " int fun ** (
+" class name ** (
 XPTvar $SPfun      ''
 
 " int fun( ** arg ** )
@@ -116,13 +117,9 @@ XPTvar $SPfun      ''
 XPTvar $SParg      ' '
 
 " if ** ( 
-XPTvar $SPif       ' '
-
 " while ** (
-XPTvar $SPwhl      ' '
-
 " for ** (
-XPTvar $SPfor      ' '
+XPTvar $SPcmd      ' '
 
 " for ( ** statement ** )
 XPTvar $SPfstm     ' '
@@ -136,7 +133,6 @@ XPTvar $SPop       ' '
 " (a, ** b, ** )
 XPTvar $SPcm       ' '
 
-" class name ** (
 XPTvar $SPcls      ' '
 
 " [ ** a, b ** ], { ** 'k' : 'v' ** }
@@ -170,11 +166,8 @@ XPT spfun " `\$SPfun^
 XPT sparg " `\$SParg^
 \`$SParg\^
 
-XPT spif " `\$SPif^
-\`$SPif\^
-
-XPT spcnd hint=`\$SParg^
-\`$SParg\^
+XPT spcmd " `\$SPcmd^
+\`$SPcmd\^
 
 XPT speq hint=`\$SPeq^
 \`$SPeq\^

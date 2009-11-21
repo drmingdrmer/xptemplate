@@ -124,7 +124,7 @@ a drdr.xp
 
 
     /*  -------------case--------------- */
-/* case `constant^`$SPif^:           */
+/* case `constant^`$SPcmd^:           */
 /*     `job^                         */
 /*     break;                        */
 
@@ -705,7 +705,7 @@ else {
 
 
     /*  -------------if_---------------               */
-/* if`$SPif^(`$SParg^`condition^`$SParg^)`$BRif^{ */
+/* if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{ */
 /*     `wrapped^                                  */
 /* }                                              */
 

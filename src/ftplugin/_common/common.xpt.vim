@@ -38,16 +38,16 @@ XPTvar $SPfun      ''
 XPTvar $SParg      ' '
 
 " if ** (
-XPTvar $SPif       ' '
+XPTvar $SPcmd       ' '
 
 " if ( ** condition ** )
 XPTvar $SParg      ' '
 
 " while ** (
-XPTvar $SPwhl      ' '
+XPTvar $SPcmd      ' '
 
 " for ** (
-XPTvar $SPfor      ' '
+XPTvar $SPcmd      ' '
 
 " for ( ** statement ** )
 XPTvar $SPfstm     ' '

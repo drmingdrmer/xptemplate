@@ -34,7 +34,7 @@
 " TODO license snippets.
 " TODO add statements to deprecated snippet file like _comment/xml.xpt.vim
 " TODO option to combine variables
-"       Maybe only $SPfun (which combines the SPif/SPwhl/SPfor **
+"       Maybe only $SPfun (which combines the SPcmd/SPcmd/SPcmd **
 "       settings) and $SParg (which combines the SParg/while/SPfsmt ( **
 "       ... ** settings) is enough. What do you think?
 " TODO short variable

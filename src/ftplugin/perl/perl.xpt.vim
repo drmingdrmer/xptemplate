@@ -75,7 +75,7 @@ sub `fun_name^`$BRfun^{
 
 
 XPT unless hint=unless\ (\ ..\ )\ {\ ..\ }
-unless`$SPif^(`$SParg^`cond^`$SParg^)`$BRif^{
+unless`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
     `cursor^
 }
 
@@ -84,7 +84,7 @@ XPT eval hint=eval\ {\ ..\ };if...
 eval`$BRif^{
     `risky^
 };
-if`$SPif^(`$SParg^$@`$SParg^)`$BRif^{
+if`$SPcmd^(`$SParg^$@`$SParg^)`$BRif^{
     `handle^
 }
 
@@ -92,40 +92,40 @@ XPT try alias=eval hint=eval\ {\ ..\ };\ if\ ...
 
 
 XPT whileeach hint=while\ \(\ \(\ key,\ val\ )\ =\ each\(\ %**\ )\ )
-while`$SPwhl^(`$SParg^(`$SParg^$`key^,`$SPcm^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRwhl^{
+while`$SPcmd^(`$SParg^(`$SParg^$`key^,`$SPcm^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRwhl^{
     `cursor^
 }
 
 XPT whileline hint=while\ \(\ defined\(\ \$line\ =\ <FILE>\ )\ )
-while`$SPwhl^(`$SParg^defined(`$SParg^$`line^`$SPeq^=`$SPeq^<`STDIN^>`$SParg^)`$SParg^)`$BRwhl^{
+while`$SPcmd^(`$SParg^defined(`$SParg^$`line^`$SPeq^=`$SPeq^<`STDIN^>`$SParg^)`$SParg^)`$BRwhl^{
     `cursor^
 }
 
 
 XPT foreach hint=foreach\ my\ ..\ (..){}
-foreach`$SPfor^my $`var^ (`$SPfstm^@`array^`$SPfstm^)`$BRfor^{
+foreach`$SPcmd^my $`var^ (`$SPfstm^@`array^`$SPfstm^)`$BRfor^{
     `cursor^
 }
 
 
 XPT forkeys hint=foreach\ my\ var\ \(\ keys\ %**\ )
-foreach`$SPfor^my $`var^ (`$SPfstm^keys @`array^`$SPfstm^)`$BRfor^{
+foreach`$SPcmd^my $`var^ (`$SPfstm^keys @`array^`$SPfstm^)`$BRfor^{
     `cursor^
 }
 
 
 XPT forvalues hint=foreach\ my\ var\ \(\ keys\ %**\ )
-foreach`$SPfor^my $`var^ (`$SPfstm^values @`array^`$SPfstm^)`$BRfor^{
+foreach`$SPcmd^my $`var^ (`$SPfstm^values @`array^`$SPfstm^)`$BRfor^{
     `cursor^
 }
 
 
 XPT if hint=if\ (\ ..\ )\ {\ ..\ }\ ...
 XSET job=$CS job
-if`$SPif^(`$SParg^`cond^`$SParg^)`$BRif^{
+if`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
     `job^
 }`
-`elsif...^`$BRel^elsif`$SPif^(`$SParg^`cond2^`$SParg^)`$BRif^{
+`elsif...^`$BRel^elsif`$SPcmd^(`$SParg^`cond2^`$SParg^)`$BRif^{
     `job^
 }`
 `elsif...^`
@@ -154,10 +154,10 @@ sub new`$BRfun^{
 
 XPT if_ hint=if\ (..)\ {\ SEL\ }\ ...
 XSET job=$CS job
-if`$SPif^(`$SParg^`cond^`$SParg^)`$BRif^{
+if`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
     `wrapped^
 }`
-`elsif...^`$BRel^elsif`$SPif^(`$SParg^`cond2^`$SParg^)`$BRif^{
+`elsif...^`$BRel^elsif`$SPcmd^(`$SParg^`cond2^`$SParg^)`$BRif^{
     `job^
 }`
 `elsif...^`
@@ -170,7 +170,7 @@ XPT eval_ hint=eval\ {\ ..\ };if...
 eval`$BRif^{
     `wrapped^
 };
-if`$SPif^(`$SParg^$@`$SParg^)`$BRif^{
+if`$SPcmd^(`$SParg^$@`$SParg^)`$BRif^{
     `handle^
 }
 

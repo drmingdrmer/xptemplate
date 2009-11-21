@@ -19,7 +19,7 @@ XPTvar $SPfun      ''
 XPTvar $SParg      ' '
 
 " if ** ( 
-XPTvar $SPif       ' '
+XPTvar $SPcmd       ' '
 
 " if ( ** condition ** )
 XPTvar $SParg      ' '
