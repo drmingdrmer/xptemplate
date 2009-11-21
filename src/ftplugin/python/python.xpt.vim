@@ -25,13 +25,13 @@ XPTvar $SPcmd       ' '
 XPTvar $SParg      ' '
 
 " a ** = ** b
-XPTvar $SPeq       ' '
+XPTvar $SPop       ' '
 
 " a = a ** + ** 1
 XPTvar $SPop       ' '
 
 " (a, ** b, ** )
-XPTvar $SPcm       ' '
+XPTvar $SPop       ' '
 
 " class name ** (
 XPTvar $SPfun      ''
@@ -102,7 +102,7 @@ else:
 
 
 XPT for hint=for\ ..\ in\ range\(\ ..\ )
-for `var^ in range(`$SParg^``0?`,$SPcm^`end^`$SParg^):
+for `var^ in range(`$SParg^``0?`,$SPop^`end^`$SParg^):
     `cursor^
 
 
@@ -117,7 +117,7 @@ def `func_name^`$SPfun^(`:args:^):
 
 
 XPT lambda hint=(lambda\ ..\ :\ ..)
-XSET arg*|post=ExpandInsideEdge( ',$SPcm', '' )
+XSET arg*|post=ExpandInsideEdge( ',$SPop', '' )
 lambda `arg*^: `expr^
 
 
@@ -144,8 +144,8 @@ class `ClassName^`$SPfun^(`$SParg`parent?`$SParg^):
 
 
 XPT init " def __init__
-XSET arg*|post=ExpandInsideEdge( ',$SPcm', '' )
-def __init__`$SPfun^(`$SParg^self`,$SPcm`arg*^`$SParg^):
+XSET arg*|post=ExpandInsideEdge( ',$SPop', '' )
+def __init__`$SPfun^(`$SParg^self`,$SPop`arg*^`$SParg^):
     `cursor^
 
 
@@ -186,7 +186,7 @@ XSET ComeFirst=elem seq func
 
 
 XPT args hidden " expandable arguments
-XSET arg*|post=ExpandInsideEdge( ',$SPcm', '' )
+XSET arg*|post=ExpandInsideEdge( ',$SPop', '' )
 `$SParg`arg*`$SParg^
 
 

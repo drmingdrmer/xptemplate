@@ -934,7 +934,7 @@ if ( $@ ) {
 
 
     #  -------------whileeach---------------                                                                          
-    # while`$SPcmd^(`$SParg^(`$SParg^$`key^,`$SPcm^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRwhl^{ 
+    # while`$SPcmd^(`$SParg^(`$SParg^$`key^,`$SPop^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRwhl^{ 
     #     `cursor^                                                                                                    
     # }                                                                                                               
 
@@ -958,7 +958,7 @@ if ( $@ ) {
 
 
     #  -------------whileline---------------                                                           
-    # while`$SPcmd^(`$SParg^defined(`$SParg^$`line^`$SPeq^=`$SPeq^<`STDIN^>`$SParg^)`$SParg^)`$BRwhl^{ 
+    # while`$SPcmd^(`$SParg^defined(`$SParg^$`line^`$SPop^=`$SPop^<`STDIN^>`$SParg^)`$SParg^)`$BRwhl^{ 
     #     `cursor^                                                                                     
     # }                                                                                                
 

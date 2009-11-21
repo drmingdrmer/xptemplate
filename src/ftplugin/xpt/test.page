@@ -632,31 +632,31 @@ WRAPPED_TEXT_line2
 
 
     "  -------------spcomma--------------- 
-    " \`$SPcm\^                        
+    " \`$SPop\^                        
 
 
 
-    `$SPcm^
+    `$SPop^
 
-    `$SPcm^ b
+    `$SPop^ b
 
-    a `$SPcm^ b
+    a `$SPop^ b
 
-    a `$SPcm^
+    a `$SPop^
 
 
     "  -------------speq--------------- 
-    " \`$SPeq\^                        
+    " \`$SPop\^                        
 
 
 
-    `$SPeq^
+    `$SPop^
 
-    `$SPeq^ b
+    `$SPop^ b
 
-    a `$SPeq^ b
+    a `$SPop^ b
 
-    a `$SPeq^
+    a `$SPop^
 
 
     "  -------------spif--------------- 
@@ -1044,11 +1044,11 @@ endtry
     " _CMT_ if ( ** condition ** )           
     " XPTvar $SParg       ' '                
     " _CMT_ a ** = ** b                      
-    " XPTvar $SPeq       ' '                
+    " XPTvar $SPop       ' '                
     " _CMT_ a = a ** + ** 1                  
     " XPTvar $SPop       ' '                
     " _CMT_ (a, ** b, ** )                   
-    " XPTvar $SPcm    ' '                
+    " XPTvar $SPop    ' '                
 
 
 
@@ -1057,44 +1057,44 @@ endtry
     " if ( ** condition ** )
     XPTvar $SParg       ' '
     " a ** = ** b
-    XPTvar $SPeq       ' '
+    XPTvar $SPop       ' '
     " a = a ** + ** 1
     XPTvar $SPop       ' '
     " (a, ** b, ** )
-    XPTvar $SPcm    ' '
+    XPTvar $SPop    ' '
 
     " int fun( ** arg ** )
     XPTvar $SParg      ' '
     " if ( ** condition ** )
     XPTvar $SParg       ' '
     " a ** = ** b
-    XPTvar $SPeq       ' '
+    XPTvar $SPop       ' '
     " a = a ** + ** 1
     XPTvar $SPop       ' '
     " (a, ** b, ** )
-    XPTvar $SPcm    ' ' b
+    XPTvar $SPop    ' ' b
 
     a " int fun( ** arg ** )
     XPTvar $SParg      ' '
     " if ( ** condition ** )
     XPTvar $SParg       ' '
     " a ** = ** b
-    XPTvar $SPeq       ' '
+    XPTvar $SPop       ' '
     " a = a ** + ** 1
     XPTvar $SPop       ' '
     " (a, ** b, ** )
-    XPTvar $SPcm    ' ' b
+    XPTvar $SPop    ' ' b
 
     a " int fun( ** arg ** )
     XPTvar $SParg      ' '
     " if ( ** condition ** )
     XPTvar $SParg       ' '
     " a ** = ** b
-    XPTvar $SPeq       ' '
+    XPTvar $SPop       ' '
     " a = a ** + ** 1
     XPTvar $SPop       ' '
     " (a, ** b, ** )
-    XPTvar $SPcm    ' '
+    XPTvar $SPop    ' '
 
 
     "  -------------vimformat---------------                     

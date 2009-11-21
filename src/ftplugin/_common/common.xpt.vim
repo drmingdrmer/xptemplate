@@ -53,13 +53,13 @@ XPTvar $SPcmd      ' '
 XPTvar $SPfstm     ' '
 
 " a ** = ** b
-XPTvar $SPeq       ' '
+XPTvar $SPop       ' '
 
 " a = a ** + ** 1
 XPTvar $SPop       ' '
 
 " (a, ** b, ** )
-XPTvar $SPcm       ' '
+XPTvar $SPop       ' '
 
 " class name ** (
 XPTvar $SPfun      ' '

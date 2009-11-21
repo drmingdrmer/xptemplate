@@ -376,7 +376,7 @@ a finally:
 
 
     #  -------------for---------------                       
-    # for `var^ in range(`$SParg^``0?`,$SPcm^`end^`$SParg^): 
+    # for `var^ in range(`$SParg^``0?`,$SPop^`end^`$SParg^): 
     #     `cursor^                                           
 
 
@@ -516,7 +516,7 @@ a import mod
 
 
     #  -------------init---------------                        
-    # def __init__`$SPfun^(`$SParg^self`,$SPcm`arg*^`$SParg^): 
+    # def __init__`$SPfun^(`$SParg^self`,$SPop`arg*^`$SParg^): 
     #     `cursor^                                             
 
 

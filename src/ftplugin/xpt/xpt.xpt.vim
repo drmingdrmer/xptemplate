@@ -126,14 +126,11 @@ XPTvar $SPcmd      ' '
 " for ( ** statement ** )
 XPTvar $SPfstm     ' '
 
-" a ** = ** b
-XPTvar $SPeq       ' '
-
 " a = a ** + ** 1
+" (a, ** b, ** )
+" a ** = ** b
 XPTvar $SPop       ' '
 
-" (a, ** b, ** )
-XPTvar $SPcm       ' '
 
 
 XPT varConst hint=variables\ to\ define\ constants
@@ -166,14 +163,8 @@ XPT sparg " `\$SParg^
 XPT spcmd " `\$SPcmd^
 \`$SPcmd\^
 
-XPT speq hint=`\$SPeq^
-\`$SPeq\^
-
 XPT spop hint=`\$SPop^
 \`$SPop\^
-
-XPT spcm hint=`\$SPcm^
-\`$SPcm\^
 
 
 XPT buildifeq hint={{}}
