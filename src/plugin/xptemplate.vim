@@ -113,7 +113,7 @@ call XPRaddPostJob( 'XPMupdateSpecificChangedRange' )
 call XPMsetUpdateStrategy( 'normalMode' ) 
 
 
-fun! XPTmarkCompare( o, markToAdd, existedMark )
+fun! XPTmarkCompare( o, markToAdd, existedMark ) "{{{
     call s:log.Log( 'compare : ' . a:markToAdd . ' and ' . a:existedMark )
     let renderContext = s:getRenderContext()
 
@@ -131,7 +131,7 @@ fun! XPTmarkCompare( o, markToAdd, existedMark )
 
     call s:log.Debug( a:markToAdd . ' > ' . a:existedMark )
     return 1
-endfunction
+endfunction "}}}
 
 
 " escape rule:
@@ -149,14 +149,15 @@ let s:NullDict              = {}
 let s:NullList              = []
 
 let s:nonEscaped            = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
+let s:repetitionPattern     = '\w\*...\w\*'
 
 let g:XPTemplateSettingPrototype  = { 
-            \    'preValues'        : { 'cursor' : "\n" . '$CURSOR_PH' }, 
-            \    'defaultValues'    : {}, 
-            \    'postFilters'      : {}, 
-            \    'comeFirst'        : [], 
-            \    'comeLast'         : [], 
-            \}
+      \    'preValues'        : { 'cursor' : "\n" . '$CURSOR_PH' }, 
+      \    'defaultValues'    : {}, 
+      \    'postFilters'      : {}, 
+      \    'comeFirst'        : [], 
+      \    'comeLast'         : [], 
+      \}
 
 
 fun! g:XPTapplyTemplateSettingDefaultValue( setting ) "{{{
@@ -180,38 +181,39 @@ fun! s:SetDefaultFilters( tmplObj, ph ) "{{{
 endfunction "}}}
 
 let s:renderContextPrototype      = {
-            \   'ftScope'           : {},
-            \   'tmpl'              : {},
-            \   'evalCtx'           : {},
-            \   'phase'             : 'uninit',
-            \   'action'            : '',
-            \   'markNamePre'       : '', 
-            \   'item'              : {}, 
-            \   'leadingPlaceHolder' : {}, 
-            \   'history'           : [], 
-            \   'namedStep'         : {},
-            \   'processing'        : 0,
-            \   'marks'             : {
-            \      'tmpl'           : {'start' : '', 'end' : ''} },
-            \   'itemDict'          : {},
-            \   'itemList'          : [],
-            \   'lastContent'       : '',
-            \   'lastTotalLine'     : 0, 
-            \   'lastFollowingSpace': '', 
-            \}
+      \   'ftScope'           : {},
+      \   'tmpl'              : {},
+      \   'evalCtx'           : {},
+      \   'phase'             : 'uninit',
+      \   'action'            : '',
+      \   'markNamePre'       : '', 
+      \   'item'              : {}, 
+      \   'leadingPlaceHolder' : {}, 
+      \   'history'           : [], 
+      \   'namedStep'         : {},
+      \   'processing'        : 0,
+      \   'marks'             : {
+      \      'tmpl'           : {'start' : '', 'end' : ''} },
+      \   'itemDict'          : {},
+      \   'itemList'          : [],
+      \   'lastContent'       : '',
+      \   'lastTotalLine'     : 0, 
+      \   'lastFollowingSpace': '', 
+      \}
 
 let s:priorities = {'all' : 64, 'spec' : 48, 'like' : 32, 'lang' : 16, 'sub' : 8, 'personal' : 0}
 let s:priPtn = 'all\|spec\|like\|lang\|sub\|personal\|\d\+'
 
 let g:XPT_RC = {
-            \   'ok' : {}, 
-            \   'POST' : {
-            \       'unchanged'     : {}, 
-            \       'keepIndent'    : {}, 
-            \   }
-            \}
+      \   'ok' : {}, 
+      \   'POST' : {
+      \       'unchanged'     : {}, 
+      \       'keepIndent'    : {}, 
+      \   }
+      \}
 
 let s:buildingSeqNr = 0
+let s:anonymouseIndex = 0
 
 
 
@@ -274,7 +276,7 @@ fun! XPTemplatePriority(...) "{{{
 endfunction "}}}
 
 fun! XPTemplateMark(sl, sr) "{{{
-  call s:log.Debug( 'XPTemplateMark called with:' . string( [ a:sl, a:sr ] ) )
+    call s:log.Debug( 'XPTemplateMark called with:' . string( [ a:sl, a:sr ] ) )
     let xp = g:XPTobject().snipFileScope.ptn
     let xp.l = a:sl
     let xp.r = a:sr
@@ -321,10 +323,6 @@ fun! g:GetSnipFileFT() "{{{
 endfunction "}}}
 
 fun! g:GetSnipFileFtScope() "{{{
-    return s:GetSnipFileFtScope()
-endfunction "}}}
-
-fun! s:GetSnipFileFtScope() "{{{
     let x = b:xptemplateData
     return x.filetypes[ x.snipFileScope.filetype ]
 endfunction "}}}
@@ -440,7 +438,6 @@ fun! XPTdefineSnippet( name, setting, snip ) "{{{
     call s:InitTemplateObject( x, templates[ a:name ] )
 
 endfunction "}}}
-
 
 fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
@@ -564,9 +561,6 @@ fun! s:DoIncludeToSnip( tmplDict, tmplObject, snip, pattern ) "{{{
     
 endfunction "}}}
 
-
-
-
 fun! s:MergeSetting( tmplObject, incTmplObject ) "{{{
     let a:tmplObject.setting.comeFirst += a:incTmplObject.setting.comeFirst
     let a:tmplObject.setting.comeLast += a:incTmplObject.setting.comeLast
@@ -580,17 +574,10 @@ endfunction "}}}
 fun! s:ParseTemplateSetting( xptObj, setting ) "{{{
     let setting = a:setting
 
-
-    " let idt = deepcopy(a:xptObj.snipFileScope.indent)
-
-    " if has_key(setting, 'indent')
-        " call s:ParseIndent(idt, setting.indent)
-    " endif
-
-    " let setting.indent = idt
-
-
-    call s:GetHint(setting)
+    " Note: empty means nothing, "" means something that can override others
+    if has_key(setting, 'hint')
+        let setting.hint = s:Eval( setting.hint )
+    endif
 
     call s:ParsePostQuoter( setting )
 
@@ -796,18 +783,6 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
 endfunction " }}}
 
-" TODO refine me
-fun! s:GetHint(ctx) "{{{
-
-    if has_key(a:ctx, 'hint')
-        let a:ctx.hint = s:Eval(a:ctx.hint)
-    else
-        " Note: empty means nothing, "" means something that can override others
-        " let a:ctx.hint = ""
-    endif
-
-endfunction "}}}
-
 " TODO simplify with split
 fun! s:ParsePriorityString(s) "{{{
     let x = b:xptemplateData
@@ -925,7 +900,7 @@ fun! s:FinishRendering(...) "{{{
     let renderContext = s:getRenderContext()
     let xp = renderContext.tmpl.ptn
     
-    call s:removeMarksInRenderContext(renderContext) 
+    call XPMremoveMarkStartWith( renderContext.markNamePre )
 
     if empty(x.stack)
         let renderContext.processing = 0
@@ -953,22 +928,11 @@ fun! s:FinishRendering(...) "{{{
 
 endfunction "}}}
 
-fun! s:removeMarksInRenderContext( renderContext ) "{{{
-
-    let renderContext = a:renderContext
-
-    call XPMremoveMarkStartWith( renderContext.markNamePre )
-endfunction "}}}
-
 fun! s:Popup(pref, coln, opt) "{{{
 
     let x = b:xptemplateData
 
 
-    " while s:getRenderContext().phase == 'popup'
-        " call s:PopCtx()
-    " endwhile
-    " call s:PushCtx()
     let ctx = s:getRenderContext()
     if ctx.phase == 'finished'
         let ctx.phase = 'popup'
@@ -1041,7 +1005,6 @@ fun! s:ApplyTmplIndent( templateObject, startPos ) "{{{
     return substitute(tmpl, '\n', '&' . baseIndent, 'g')
 endfunction "}}}
 
-let s:oldRepPattern = '\w\*...\w\*'
 
 fun! s:ParseRepetition(str, tmplObject) "{{{
     let tmplObj = a:tmplObject
@@ -1052,7 +1015,7 @@ fun! s:ParseRepetition(str, tmplObject) "{{{
 
     let bef = ""
     let rest = ""
-    let rp = xp.lft . s:oldRepPattern . xp.rt
+    let rp = xp.lft . s:repetitionPattern . xp.rt
     let repPtn = '\V\(' . rp . '\)\_.\{-}' . '\1'
     let repContPtn = '\V\(' . rp . '\)\zs\_.\{-}' . '\1'
 
@@ -1528,7 +1491,6 @@ endfunction "}}}
 " itemname
 "
 
-let s:anonymouseIndex = 0
 
 fun! s:buildMarksOfPlaceHolder(ctx, item, placeHolder, nameInfo, valueInfo) "{{{
     " TODO do not create edge mark if not necessary 
@@ -1833,7 +1795,6 @@ fun! s:NextLeftMark( markRange ) "{{{
     return markPos
 
 endfunction "}}}
-
 
 
 fun! s:EvaluateEdge( xp, item, ph ) "{{{
@@ -2772,11 +2733,11 @@ fun! s:SelectCurrent( renderContext ) "{{{
         normal! v
 
 
-        return s:SelectAction()
+        " Weird, but that's only way to select content
+        return "\<esc>gv\<C-g>"
     endif
 
 endfunction "}}}
-
 
 fun! s:CreateStringMask( str ) "{{{
 
@@ -2989,7 +2950,6 @@ fun! s:CompileExpr(s, xfunc) "{{{
     
 endfunction "}}}
 
-
 fun! s:TextBetween(p1, p2) "{{{
     if a:p1[0] > a:p2[0]
         return ""
@@ -3018,31 +2978,6 @@ fun! s:TextBetween(p1, p2) "{{{
     call s:log.Log( "content between " . string( [a:p1, a:p2] ) . ' is :'.join( r, "\n" ) )
     return join(r, "\n")
 
-endfunction "}}}
-
-" Weird, but that's only way to select content
-fun! s:SelectAction() "{{{
-    return "\<esc>gv\<C-g>"
-
-    if &l:slm =~ 'cmd'
-        return "\<esc>gv"
-    else
-        return "\<esc>gv\<C-g>"
-    endif
-endfunction "}}}
-
-fun! s:LeftPos(p) "{{{
-    let p = a:p
-    if p[1] == 1
-        if p[0] > 1
-            let p = [p[0]-1, col([p[0]-1, "$"])]
-        endif
-    else
-        let p = [p[0], p[1]-1]
-    endif
-
-    let p[1] = max([p[1], 1])
-    return p
 endfunction "}}}
 
 fun! s:Goback() "{{{
@@ -3128,7 +3063,6 @@ fun! s:XPTinitMapping() "{{{
 endfunction "}}}
 
 
-
 fun! s:ApplyMap() " {{{
     let x = b:xptemplateData
 
@@ -3191,11 +3125,11 @@ endfunction "}}}
 
 
 let s:snipScopePrototype = {
-            \'filename' : '', 
-            \'ptn' : {'l':'`', 'r':'^'},
-            \'priority' : s:priorities.lang, 
-            \'filetype' : '', 
-            \'inheritFT' : 0, 
+      \'filename' : '', 
+      \'ptn'      : {'l':'`', 'r':'^'},
+      \'priority' : s:priorities.lang, 
+      \'filetype' : '', 
+      \'inheritFT' : 0, 
       \}
 
 fun! XPTnewSnipScope( filename )
@@ -3263,7 +3197,6 @@ fun! s:XPTobject() "{{{
     return b:xptemplateData
 endfunction "}}}
 
-
 fun! XPTemplateInit() "{{{
     let b:xptemplateData = {
                 \   'filetypes'         : {}, 
@@ -3293,7 +3226,6 @@ fun! XPTemplateInit() "{{{
     let b:_xpeval = { 'strMaskCache' : {}, 'evalCache' : {} }
     
 endfunction "}}}
-
 
 fun! s:RedefinePattern() "{{{
     let xp = b:xptemplateData.snipFileScope.ptn
@@ -3338,27 +3270,6 @@ fun! s:PopCtx() "{{{
     call remove(x.stack, -1)
 endfunction "}}}
 
-
-" TODO accept position argument
-fun! s:GetBackPos() "{{{
-    return [line(".") - line("$"), col(".") - len(getline("."))]
-endfunction "}}}
-
-fun! s:PushBackPos() "{{{
-    call add(g:XPTobject().posStack, s:GetBackPos())
-endfunction "}}}
-fun! s:PopBackPos() "{{{
-    let x = g:XPTobject()
-    let bp = x.posStack[-1]
-    call remove(x.posStack, -1)
-
-    let l = bp[0] + line("$")
-    let p = [l, bp[1] + len(getline(l))]
-    call cursor(p)
-    return p
-endfunction "}}}
-
-
 fun! s:SynNameStack(l, c) "{{{
     if exists( '*synstack' )
         let ids = synstack(a:l, a:c)
@@ -3377,10 +3288,6 @@ fun! s:SynNameStack(l, c) "{{{
         return [synIDattr( synID( a:l, a:c, 0 ), "name" )]
 
     endif
-endfunction "}}}
-
-fun! s:CurSynNameStack() "{{{
-    return SynNameStack(line("."), col("."))
 endfunction "}}}
 
 
@@ -3667,6 +3574,7 @@ fun! s:BreakUndo() "{{{
 endfunction "}}}
 
 
+" TODO using mark
 fun! s:recordRelativePosToMark( pos, mark ) "{{{
     let p = XPMpos( a:mark )
     if a:pos[0] == p[0] 
