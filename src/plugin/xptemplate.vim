@@ -26,20 +26,13 @@
 "
 " TODOLIST: "{{{
 " TODO autocomplpop compatible
-" TODO _ started snippets are internal by convention.
-" TODO xpreplace use SettingSwitch, 
-" TODO completefunc instead of complete()
 " TODO bug that conflict with AutoComplePop 
+" TODO _ started snippets are internal by convention.
+" TODO completefunc instead of complete()
 " TODO test in windows: g:xptemplate_snippet_folders
 " TODO license snippets.
-" TODO add statements to deprecated snippet file like _comment/xml.xpt.vim
-" TODO option to combine variables
-"       Maybe only $SPfun (which combines the SPcmd/SPcmd/SPcmd **
-"       settings) and $SParg (which combines the SParg/while/SPfsmt ( **
-"       ... ** settings) is enough. What do you think?
-" TODO short variable
 " TODO html/css fixing: ship-back, repopup 
-" TODO parse inclusion in XSET values
+" TODO xpreplace use SettingSwitch, 
 " TODO global synonym 
 " TODO default synonym
 " TODO super cancel : clear/default all and finish
@@ -81,6 +74,9 @@
 "
 " Log of This version:
 "   add : personal folder for personal snippets :h 
+"   fix : simplify variables
+"   fix : autocomplpop compatible
+"   add : inclusion( `:snippet_name:^ and `Include:snippet_name^ ) is supported for XSET[m]
 "
 "
 "
@@ -496,11 +492,27 @@ fun! s:ParseInclusion( tmplDict, tmplObject ) "{{{
 endfunction "}}}
 
 fun! s:DoInclude( tmplDict, tmplObject, pattern ) "{{{
+
+    let a:tmplObject.tmpl = s:DoIncludeToSnip( a:tmplDict, a:tmplObject, a:tmplObject.tmpl, a:pattern )
+
+    " done in building phase 
+    " call s:DoIncludeToXSET( a:tmplDict, a:tmplObject, a:tmplObject.setting.defaultValues, a:pattern )
+    " call s:DoIncludeToXSET( a:tmplDict, a:tmplObject, a:tmplObject.setting.preValues, a:pattern )
+    " call s:DoIncludeToXSET( a:tmplDict, a:tmplObject, a:tmplObject.setting.postFilters, a:pattern )
+    
+endfunction "}}}
+
+fun! s:DoIncludeToXSET( tmplDict, tmplObject, dict, pattern ) "{{{
+    for [ key, val ] in items( a:dict )
+        let a:dict[ key ] = s:DoIncludeToSnip( a:tmplDict, a:tmplObject, val, a:pattern )
+    endfor
+endfunction "}}}
+
+fun! s:DoIncludeToSnip( tmplDict, tmplObject, snip, pattern ) "{{{
+    " make every line is started with \n
+    let snip = "\n" . a:snip
+
     let included = { a:tmplObject.name : 1 }
-
-    " \n added to start
-    let snip = "\n" . a:tmplObject.tmpl
-
     let pos = 0
     while 1
         let pos = match( snip, a:pattern.line, pos )
@@ -510,19 +522,18 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern ) "{{{
 
         let [ matching, indent, incName ] = matchlist( snip, a:pattern.line, pos )[ : 2 ]
         let indent = matchstr( split( matching, '\n' )[ -1 ], '^\s*' )
+
         call s:log.Debug( 'match list result:' . string( matchlist( snip, a:pattern.line, pos ) ) )
         call s:log.Debug( 'inclusion line:' . matching )
         call s:log.Debug( 'indent=' . string( indent ) )
 
         if has_key( a:tmplDict, incName )
-            if has_key( included, incName )
-                let included[ incName ] += 1
-                if included[ incName ] > 100
-                    throw "XPT : include too many snippet:" . incName . ' in ' . a:tmplObject.name
-                endif
-            else
-                let included[ incName ] = 1
+            if has_key( included, incName ) && included[ incName ] > 20
+                throw "XPT : include too many snippet:" . incName . ' in ' . a:tmplObject.name
             endif
+
+            let included[ incName ] = get( included, incName, 0 ) + 1
+
 
             let ph = matchstr( matching, a:pattern.ph )
 
@@ -530,21 +541,31 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern ) "{{{
             call s:MergeSetting( a:tmplObject, incTmplObject )
             
             let incSnip = substitute( incTmplObject.tmpl, '\n', '&' . indent, 'g' )
-            let snip = snip[ : pos + len( matching ) - len( ph ) - 1 ] . incSnip . snip[ pos + len( matching ) : ]
+
+            let leftEnd    = pos + len( matching ) - len( ph )
+            let rightStart = pos + len( matching )
+
+            let left  = snip[ : leftEnd - 1 ]
+            let right = snip[ rightStart : ]
+
+            let snip = left . incSnip . right
 
             call s:log.Log( 'include ' . incTmplObject.name . ' : ' . snip )
 
 
         else
-            throw "XPT : include invalid snippet:" . incName . ' in ' . a:tmplObject.name
+            throw "XPT : include inexistent snippet:" . incName . ' in ' . a:tmplObject.name
         endif
         
     endwhile
 
     " remove "\n"
-    let a:tmplObject.tmpl = snip[1:]
+    return snip[1:]
     
 endfunction "}}}
+
+
+
 
 fun! s:MergeSetting( tmplObject, incTmplObject ) "{{{
     let a:tmplObject.setting.comeFirst += a:incTmplObject.setting.comeFirst
@@ -853,13 +874,8 @@ fun! s:DoStart(sess) " {{{
 
     let x = b:xptemplateData
 
-    " if s:getRenderContext().phase == 'popup'
-        " call s:PopCtx()
-    " endif
-
     if !has_key( s:GetContextFTObj().normalTemplates, a:sess.matched )
         return ''
-        " return g:xpt_post_action
     endif
 
     let x.savedReg = @"
@@ -1416,15 +1432,13 @@ endfunction "}}}
 
 fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
-    " 1) Place holder with edge is the editable place holder, for edges of
-    " uneditable place holder being ignored. So that only place holder is
-    " edited can has edges that will take effect.
+    " 1) Place holder with edge is the editable place holder. Or the key place holder
     "
     " 2) If none of place holders of one item has edge. The first place
-    " holder will be the editable one.
+    " holder is the key place holder.
     "
     " 3) if more than one place holders set with edge, the first
-    " encountered one takes effect.
+    " one is the key place holder.
 
     let xp = a:ctx.tmpl.ptn
 
@@ -1449,8 +1463,16 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
         return { 'value' : fullname }
     endif
 
+    let incPattern = '\V\^:\zs\.\*\ze:\$\|\^Include:\zs\.\*\$'
+    if name =~ incPattern
+        " build-time inclusion for XSET
+        return { 'include' : matchstr( name, incPattern ) }
+    endif
+
+
+
     " PlaceHolder.item is set by caller.
-    " At this step, to which item this placeHolder belongs is not concerned.
+    " After this step, to which item this placeHolder belongs has not been set.
     let placeHolder = { 
                 \ 'name'        : name, 
                 \ 'isKey'       : (a:nameInfo[0] != a:nameInfo[1]), 
@@ -1642,8 +1664,6 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
     let xp = renderContext.tmpl.ptn
 
 
-    let [ start, end ] = XPMposList( a:markRange.start, a:markRange.end )
-
 
     let renderContext.action = 'build'
 
@@ -1657,9 +1677,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
     let renderContext.buildingMarkRange = copy( a:markRange )
 
 
-    let start = XPMpos( a:markRange.start )
-    call cursor( start )
-
+    call XPMgoto( a:markRange.start )
 
 
     let i = 0
@@ -1668,45 +1686,10 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
         call s:log.Log( "build from here" )
 
+        let markPos = s:NextLeftMark( a:markRange )
 
-
-
-
-        while 1
-
-            let end = XPMpos( a:markRange.end )
-            let nEnd = end[0] * 10000 + end[1]
-
-            call s:log.Log("build place holders : end=".string(end))
-
-        
-            " TODO '^' need to be escaped
-            let markPos = searchpos( '\V\\\*\[' . xp.l . xp.r . ']', 'cW' )
-            if markPos == [0, 0] || markPos[0] * 10000 + markPos[1] >= nEnd
-                break
-            endif
-
-
-            let content = getline( markPos[0] )[ markPos[1] - 1 : ]
-            let char = matchstr( content, '[' . xp.l . xp.r . ']' )
-            let content = matchstr( content, '^\\*' )
-
-            call s:log.Log( 'content=' . content, 'char=' . char )
-
-            let newEsc = repeat( '\', len( content ) / 2 )
-            call XPreplace( markPos, [ markPos[0], markPos[1] + len( content ) ], newEsc )
-
-            if len( content ) % 2 == 0 && char == xp.l
-                call cursor( [ markPos[0], markPos[1] + len( newEsc ) ] )
-                let end = XPMpos( a:markRange.end )
-                let nEnd = end[0] * 10000 + end[1]
-                break
-            endif
-
-            call cursor( [ markPos[0], markPos[1] + len( newEsc ) + 1 ] )
-
-
-        endwhile
+        let end = XPMpos( a:markRange.end )
+        let nEnd = end[0] * 10000 + end[1]
 
 
 
@@ -1720,15 +1703,6 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
 
         let nn = [ line( "." ), col( "." ) ]
-
-        " " TODO move this action to GetNameInfo
-        " let nn = searchpos(xp.lft, 'cW')
-        " call s:log.Debug( 'nn=' . string( nn ) )
-        " if nn == [0, 0] || nn[0] * 10000 + nn[1] >= nEnd
-            " break
-        " endif
-
-        
 
 
         let nameInfo = s:GetNameInfo(end)
@@ -1756,11 +1730,19 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
         call s:log.Log( 'built placeHolder=' . string( placeHolder ) )
 
-        if has_key( placeHolder, 'value' )
+        if has_key( placeHolder, 'include' )
+            call s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo )
+
+            " left cursor at the beginning of place holder for further building
+            call cursor( nameInfo[0] )
+
+        elseif has_key( placeHolder, 'value' )
             " render it instantly
             " Cursor left just after replacement, and it is where next search
             " start
             call s:ApplyInstantValue( placeHolder, nameInfo, valueInfo )
+            " TODO continue building?
+            " move cursor to start?
 
         else
             " build item and marks, as a fill in place holder
@@ -1809,6 +1791,51 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
     return 0
 endfunction "}}}
 
+
+fun! s:NextLeftMark( markRange ) "{{{
+    let renderContext = s:getRenderContext()
+    let xp = renderContext.tmpl.ptn
+
+    while 1
+
+        let end = XPMpos( a:markRange.end )
+        let nEnd = end[0] * 10000 + end[1]
+
+        call s:log.Log("build place holders : end=".string(end))
+
+
+        " TODO '^' need to be escaped
+        let markPos = searchpos( '\V\\\*\[' . xp.l . xp.r . ']', 'cW' )
+        if markPos == [0, 0] || markPos[0] * 10000 + markPos[1] >= nEnd
+            break
+        endif
+
+
+        let content = getline( markPos[0] )[ markPos[1] - 1 : ]
+        let char = matchstr( content, '[' . xp.l . xp.r . ']' )
+        let content = matchstr( content, '^\\*' )
+
+        call s:log.Log( 'content=' . content, 'char=' . char )
+
+        let newEsc = repeat( '\', len( content ) / 2 )
+        call XPreplace( markPos, [ markPos[0], markPos[1] + len( content ) ], newEsc )
+
+        if len( content ) % 2 == 0 && char == xp.l
+            call cursor( [ markPos[0], markPos[1] + len( newEsc ) ] )
+            break
+        endif
+
+        call cursor( [ markPos[0], markPos[1] + len( newEsc ) + 1 ] )
+
+
+    endwhile
+
+    return markPos
+
+endfunction "}}}
+
+
+
 fun! s:EvaluateEdge( xp, item, ph ) "{{{
     if !a:ph.isKey
         return
@@ -1837,6 +1864,38 @@ fun! s:EvaluateEdge( xp, item, ph ) "{{{
 
 endfunction "}}}
 
+fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
+    let renderContext = b:xptemplateData.renderContext
+    let tmplDict = renderContext.ftScope.normalTemplates
+
+    let placeHolder = a:placeHolder
+    let nameInfo    = a:nameInfo
+    let valueInfo   = a:valueInfo
+
+    call s:log.Debug( 'buildtime inclusion' )
+
+    if !has_key( tmplDict, placeHolder.include )
+        echom "unknown inclusion :" . placeHolder.include
+        return
+    endif
+
+    let incTmplObject = tmplDict[ placeHolder.include ]
+
+    " TODO replace with softtabstop
+    let indentSpace = repeat( ' ', indent( nameInfo[0][0] ) )
+
+    " TODO  including multiple times causes settings are merged multiple times.
+    "       what about create a single tmplObject for each rendering?
+    call s:MergeSetting( renderContext.tmpl, incTmplObject )
+
+    let incSnip = incTmplObject.tmpl
+    let incSnip = substitute( incSnip, '\n', '&' . indentSpace, 'g' )
+
+    let valueInfo[-1][1] += 1
+    call XPreplace( nameInfo[0], valueInfo[-1], incSnip )
+
+endfunction "}}}
+
 fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
 
     let placeHolder = a:placeHolder
@@ -1852,6 +1911,8 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
 
         let indentSpace = repeat( ' ', indent( nameInfo[0][0] ) )
         let value = substitute( value, '\n', '&' . indentSpace, 'g' )
+
+
     elseif value !~ '\n'
         " simple format, without indent setting 
 
@@ -2770,7 +2831,6 @@ fun! s:CreateStringMask( str ) "{{{
 endfunction "}}}
 
 fun! s:Eval(str, ...) "{{{
-
     if a:str == ''
         return ''
     endif
@@ -2796,8 +2856,6 @@ fun! s:Eval(str, ...) "{{{
 
     if '' == expr
         let expr = s:CompileExpr(a:str, xfunc)
-        " echom "a:str=".a:str
-        " echom "expr=".expr
         let b:_xpeval.evalCache[a:str] = expr
     endif
 
@@ -3589,7 +3647,7 @@ endfunction "}}}
 fun! s:DoBreakUndo() "{{{
     if pumvisible()
         " force pum to show. to fix autocomplpop problem:div<C-\><space>
-        return "\<C-n>\<C-p>"
+        return "\<UP>\<DOWN>"
     endif
     return "\<C-g>u"
 endfunction "}}}
@@ -3603,7 +3661,7 @@ fun! s:BreakUndo() "{{{
     call s:log.Debug( "BreakUndo" )
     let x = s:XPTobject()
     if x.renderContext.processing
-        call feedkeys( "\<Plug>XPTdoBreakUndo", 'mt' )
+        call feedkeys( "\<Plug>XPTdoBreakUndo", 'm' )
         " call feedkeys("\<C-g>u", 'nt')
     endif
 endfunction "}}}
@@ -3755,5 +3813,6 @@ com! XPTcrash call <SID>Crash()
 
 
 let &cpo = s:oldcpo
+
 
 " vim: set sw=4 sts=4 :

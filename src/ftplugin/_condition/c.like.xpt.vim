@@ -14,13 +14,11 @@ XPTvar $BRel     \n
 
 
 " int fun( ** arg ** )
+" if ( ** condition ** )
 XPTvar $SParg      ' '
 
 " if ** (
 XPTvar $SPcmd       ' '
-
-" if ( ** condition ** )
-XPTvar $SParg      ' '
 
 " a = a ** + ** 1
 XPTvar $SPop       ' '
@@ -75,14 +73,7 @@ XSET condition=Embed('0`$SPop^!=`$SPop^`var^')
 
 
 XPT ifee	hint=if\ (..)\ {..}\ else\ if...
-XSET job=$VOID_LINE
-XSET another_cond=R('condition')
-`Include:_if^` `else_if...^
-XSETm else_if...|post
-`$BRel^else if`$SPcmd^(`$SParg^`another_cond^`$SParg^)`$BRif^{
-    `job^
-}` `else_if...^
-XSETm END
+`Include:_if^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^
 
 
 XPT switch	hint=switch\ (..)\ {case..}

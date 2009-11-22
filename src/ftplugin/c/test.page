@@ -416,7 +416,7 @@ WRAPPED_TEXT_line2)
 
 
     /*  -------------case--------------- */
-    /* case `constant^`$SPcmd^:           */
+    /* case `constant^`$SPcmd^:          */
     /*     `job^                         */
     /*     break;                        */
 
@@ -627,9 +627,9 @@ WRAPPED_TEXT_line2 */
 
 
     /*  -------------do--------------- */
-    /* do`$BRloop^{                     */
+    /* do`$BRloop^{                    */
     /*     `cursor^                    */
-    /* }`$BRloop^while (`condition^);   */
+    /* }`$BRloop^while (`condition^);  */
 
 
 
@@ -916,10 +916,10 @@ a test.page
   
 
 
-    /*  -------------for---------------                                                         */
+    /*  -------------for---------------                                                          */
     /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRloop^{ */
-    /*     `cursor^                                                                             */
-    /* }                                                                                        */
+    /*     `cursor^                                                                              */
+    /* }                                                                                         */
 
 
 
@@ -954,10 +954,10 @@ a for (;;) /* void */ b
 a for (;;) /* void */
 
 
-    /*  -------------fornn---------------                                                                   */
+    /*  -------------fornn---------------                                                                    */
     /* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRloop^{ */
-    /*     `cursor^                                                                                         */
-    /* }                                                                                                    */
+    /*     `cursor^                                                                                          */
+    /* }                                                                                                     */
 
 
 
@@ -978,10 +978,10 @@ a for ( ptr = init; NULL != ptr; ptr ) {
 }
 
 
-    /*  -------------forr---------------                                                           */
+    /*  -------------forr---------------                                                            */
     /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRloop^{ */
-    /*     `cursor^                                                                                */
-    /* }                                                                                           */
+    /*     `cursor^                                                                                 */
+    /* }                                                                                            */
 
 
 
@@ -1151,10 +1151,10 @@ else {
 }
 
 
-    /*  -------------if_---------------               */
+    /*  -------------if_---------------                */
     /* if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{ */
-    /*     `wrapped^                                  */
-    /* }                                              */
+    /*     `wrapped^                                   */
+    /* }                                               */
 
 
 
@@ -1179,8 +1179,8 @@ a if ( condition ) {
 }
 
 
-    /*  -------------ifee--------------- */
-    /* `Include:_if^` `else_if...^       */
+    /*  -------------ifee---------------                                    */
+    /* `Include:_if^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ */
 
 
 
@@ -1562,7 +1562,7 @@ a switch ( var ) {
 
 
     /*  -------------while--------------- */
-    /* while (`condition^)`$BRloop^{       */
+    /* while (`condition^)`$BRloop^{      */
     /*     `cursor^                       */
     /* }                                  */
 
@@ -1586,9 +1586,9 @@ a while (condition) {
 
 
     /*  -------------while0--------------- */
-    /* do`$BRloop^{                         */
+    /* do`$BRloop^{                        */
     /*     `cursor^                        */
-    /* }`$BRloop^while (`condition^);       */
+    /* }`$BRloop^while (`condition^);      */
 
 
 
@@ -1610,7 +1610,7 @@ a do {
 
 
     /*  -------------while1--------------- */
-    /* while (`condition^)`$BRloop^{        */
+    /* while (`condition^)`$BRloop^{       */
     /*     `cursor^                        */
     /* }                                   */
 
@@ -1634,7 +1634,7 @@ a while (1) {
 
 
     /*  -------------whilenn--------------- */
-    /* while (`condition^)`$BRloop^{         */
+    /* while (`condition^)`$BRloop^{        */
     /*     `cursor^                         */
     /* }                                    */
 
