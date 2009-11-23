@@ -160,7 +160,8 @@ endfunction "}}}
 
 fun! s:Save() dict "{{{
     if self.saved != []
-        throw "keys are already saved and can not be save again"
+        " throw "keys are already saved and can not be save again"
+        return
     endif
     for [ mode, key ] in self.keys
         call insert( self.saved, s:_GetMapInfo( key, mode, self.isLocal ) )

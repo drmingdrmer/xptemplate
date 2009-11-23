@@ -42,7 +42,7 @@ let s:emptyHistoryElt = {'list':[], 'dict' :{}, 'likely' : { 'start' : '', 'end'
 
 
 let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
+" let s:log = CreateLogger( 'debug' )
 
 
 let g:XPMpreferLeft = 'l'

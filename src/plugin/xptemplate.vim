@@ -27,11 +27,9 @@
 " TODOLIST: "{{{
 " TODO autocomplpop compatible
 " TODO bug that conflict with AutoComplePop 
-" TODO _ started snippets are internal by convention.
 " TODO completefunc instead of complete()
 " TODO test in windows: g:xptemplate_snippet_folders
 " TODO license snippets.
-" TODO html/css fixing: ship-back, repopup 
 " TODO xpreplace use SettingSwitch, 
 " TODO global synonym 
 " TODO default synonym
@@ -77,6 +75,7 @@
 "   fix : simplify variables
 "   fix : autocomplpop compatible
 "   add : inclusion( `:snippet_name:^ and `Include:snippet_name^ ) is supported for XSET[m]
+"   fix : non-built post filter will not break ship-back
 "
 "
 "
@@ -1250,7 +1249,7 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
     let ctx.lastList = []
 
 
-    if 0 != s:BuildPlaceHolders( ctx.marks.tmpl )
+    if 0 > s:BuildPlaceHolders( ctx.marks.tmpl )
         return s:Crash()
     endif
 
@@ -1620,6 +1619,7 @@ endfunction "}}}
 fun! s:BuildPlaceHolders( markRange ) "{{{
 
     let s:buildingSeqNr += 1
+    let rc = 0
 
     let renderContext = s:getRenderContext()
     let tmplObj = renderContext.tmpl
@@ -1689,6 +1689,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
 
         let placeHolder = s:CreatePlaceHolder(renderContext, nameInfo, valueInfo)
+        let rc = 1
 
         call s:log.Log( 'built placeHolder=' . string( placeHolder ) )
 
@@ -1750,7 +1751,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
     let renderContext.action = ''
 
 
-    return 0
+    return rc
 endfunction "}}}
 
 
@@ -1895,41 +1896,38 @@ endfunction "}}}
 fun! s:ApplyPreValues( placeHolder ) "{{{
     let renderContext = s:getRenderContext()
     let tmplObj = renderContext.tmpl
-    let xp = tmplObj.ptn
+    " let xp = tmplObj.ptn
     let setting = tmplObj.setting
 
     let preValue = a:placeHolder.name == '' ? '' : 
-                \ (has_key( setting.preValues, a:placeHolder.name ) ? setting.preValues[ a:placeHolder.name ] : '')
+          \ ( has_key( setting.preValues, a:placeHolder.name ) 
+          \       ? setting.preValues[ a:placeHolder.name ] 
+          \       : '' )
 
 
-    if !s:IsFilterEmpty( preValue ) 
-        let [ filterIndent, filterText ] = s:GetFilterIndentAndText( preValue )
-        let obj = s:Eval( filterText )
-        call s:SetPreValue( a:placeHolder, filterIndent, obj )
-
-    else
-        let preValue = has_key( setting.defaultValues, a:placeHolder.name ) ? 
-                    \setting.defaultValues[ a:placeHolder.name ] 
-                    \: a:placeHolder.ontimeFilter
-
-
-        if !s:IsFilterEmpty( preValue ) 
-
-            "Note: does not include function or function is preValue safe(with '_pre' suffix)
-            if preValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
-                        \|| preValue =~ '\V_pre(' 
-                        \|| preValue =~ '\V\u\w\+('
-
-
-                let [ filterIndent, filterText ] = s:GetFilterIndentAndText( preValue )
-                let obj = s:Eval( filterText )
-                if type( obj ) == type('')
-                    call s:SetPreValue( a:placeHolder, filterIndent, obj )
-                endif
-            endif
-        endif
-
+    if s:IsFilterEmpty( preValue ) 
+        let preValue = has_key( setting.defaultValues, a:placeHolder.name ) 
+              \ ? setting.defaultValues[ a:placeHolder.name ] 
+              \ : a:placeHolder.ontimeFilter
     endif
+
+    " "Note: does not include function or function is preValue safe(with '_pre' suffix)
+    " if preValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
+                " \|| preValue =~ '\V_pre(' 
+                " \|| preValue =~ '\V\u\w\*('
+
+    if s:IsFilterEmpty( preValue ) 
+        return
+    endif
+
+    let [ filterIndent, filterText ] = s:GetFilterIndentAndText( preValue )
+
+    let obj = s:Eval( filterText )
+
+    if type( obj ) == type( '' )
+        call s:SetPreValue( a:placeHolder, filterIndent, obj )
+    endif
+
 endfunction "}}}
 
 fun! s:SetPreValue( placeHolder, indent, text ) "{{{
@@ -2211,9 +2209,12 @@ fun! s:ApplyPostFilter() "{{{
         if ifToBuild
             call cursor( start )
             let renderContext.firstList = []
-            if 0 != s:BuildPlaceHolders( marks )
+            let buidrc = s:BuildPlaceHolders( marks )
+            if 0 > buildrc
                 return [ s:Crash(), ifToBuild ]
             endif
+
+            let ifToBuild = 0 < buildrc
 
             " change back the phase
             let renderContext.phase = 'post'
@@ -2231,12 +2232,6 @@ fun! s:ApplyPostFilter() "{{{
         call s:UpdateFollowingPlaceHoldersWith( typed, { 'indent' : filterIndent, 'post' : text } )
         return [ text, ifToBuild ]
     endif
-
-
-
-    " TODO is this needed?
-    " call s:XPTupdate()
-
 
 endfunction "}}}
 
@@ -2560,7 +2555,7 @@ fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet ) "{{{
 
     call XPreplace( range[0], range[1] , a:snippet )
 
-    if 0 != s:BuildPlaceHolders( marks )
+    if 0 > s:BuildPlaceHolders( marks )
         return s:Crash('building place holder failed')
     endif
 
@@ -2588,7 +2583,7 @@ fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
     let xp = ctx.tmpl.ptn
 
     if str =~ '\V' . xp.lft . '\.\*' . xp.rt
-        if 0 != s:BuildPlaceHolders( marks )
+        if 0 > s:BuildPlaceHolders( marks )
             return s:Crash()
         endif
 

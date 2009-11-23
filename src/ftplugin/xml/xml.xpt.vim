@@ -16,8 +16,15 @@ XPTinclude
 
 " ========================= Function and Variables =============================
 
-fun! s:f.xml_attVal()
-    return self.Vmatch('\Vatt*', '\V\^\s\*\$') || self.Phase()=='post' ? '' : '="val"'
+fun! s:f.xml_att_val()
+    if self.Phase()=='post'
+        return ''
+    endif
+
+    let name = self.ItemName()
+    return self.Vmatch('\V' . name, '\V\^\s\*\$') 
+          \ ? '' 
+          \ : '="val" ' . name
 endfunction
 
 " ================================= Snippets ===================================
@@ -25,8 +32,8 @@ XPTemplateDef
 
 
 XPT < hint=<Tag>..</Tag>
-XSET att*|post=BuildIfChanged(V().'="`val^"` `att*^`att*^xml_attVal()^')
-<`tag^` `att*^`att*^xml_attVal()^>`content^</`tag^>
+XSET att*|post=BuildIfChanged(V().'="`val^"` `att*^`att*^xml_att_val()^')
+<`tag^` `att*^`att*^xml_att_val()^>`content^</`tag^>
 ..XPT
 
 
@@ -38,7 +45,7 @@ XPT style hint=<?xml-stylesheet...
 <?xml-stylesheet type="`style^text/css^" href="`from^">
 
 
-XPT CDATA hint=<![CDATA[...
+XPT cdata hint=<![CDATA[...
 <![CDATA[`cursor^]]>
 
 
@@ -49,7 +56,7 @@ XPT <_ hint=<Tag>\ SEL\ </Tag>
 <`tag^` `...{{^ `name^="`val^"` `...^`}}^>`wrapped^</`tag^>
 
 
-XPT CDATA_ hint=<![CDATA[\ SEL\ ]]>
+XPT cdata_ hint=<![CDATA[\ SEL\ ]]>
 <![CDATA[`wrapped^]]>
 
 

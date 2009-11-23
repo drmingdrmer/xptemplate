@@ -35,18 +35,17 @@ XPTvar $CURSOR_PH      /* cursor */
 XPTemplateDef
 
 XPT _if hidden=1
+XSET job=$VOID_LINE
 if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
     `job^
 }
 
 
 XPT if hint=if\ (..)\ {..}\ else...
-XSET job=$VOID_LINE
 `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^
 
 
 XPT elif hint=else\ if\ \(\ ...\ )\ {\ ...\ }
-XSET job=$VOID_LINE
 else `Include:_if^
 
 

@@ -354,6 +354,7 @@
 		printf( "`pattern^"`elts^ )
 <	NOTE XSET/XSETm commands can be placed anywhere inside a snippet.
 
+
 				       *`::^* *Include:* *xpt-snippet-include*
 	Snippet can include another snippet, by using inclusion place holder : >
 		`Include:snippetNmae^
@@ -363,10 +364,26 @@
 
 	You can also use the short format : >
 		`:snippetName:^
-<	Only two ":" around snippet name are needed.
+<	Only two ":" around snippet name are needed. Take example of
+	"if" snippet in "_condition/c.like.xpt.vim": >
+		
+		XPT _if hidden=1
+		if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
+		    `job^
+		}
+
+		XPT if hint=if\ (..)\ {..}\ else...
+		`Include:_if^` `else...{{^`$BRel^`Include:else^`}}^
+
+<	Real "if" includes the "_if" snippet and "else" snippet.
 	
-	NOTE "Include" is literal, so that snippets with different
-	|xpt-snippet-mark| can not include each other.
+	NOTE	"Include" is literal, so that snippets with different
+		|xpt-snippet-mark| can not include each other.
+
+	NOTE	Conventionally, snippet whose name starts with "_" is supplied
+		by XPTemplate, and incomplete to use directly. 
+		Normally these snippets are set with |xpt-snippet-hidden| on
+		and for inclusion only.
 
 							    *xpt-snippet-XSET*
 	In |xpt-snippet-body| XSET commands can be used anywhere to set : 

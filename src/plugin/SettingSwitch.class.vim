@@ -29,7 +29,7 @@ endfunction "}}}
 
 fun! s:Switch() dict "{{{
     if self.saved != []
-        throw "settings are already saved and can not be save again"
+        " throw "settings are already saved and can not be save again"
     endif
     for [ key, value ] in self.settings
         call insert( self.saved, [ key, eval( key ) ] )

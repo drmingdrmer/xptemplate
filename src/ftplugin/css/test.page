@@ -222,17 +222,17 @@ a background-position: top left;
 
 
     /*  -------------backrep--------------- */
-    /* background-repeat `rep^;             */
+    /* background-repeat: `rep^;            */
 
 
 
-background-repeat repeat;
+background-repeat: repeat;
 
-background-repeat repeat; b
+background-repeat: repeat; b
 
-a background-repeat repeat; b
+a background-repeat: repeat; b
 
-a background-repeat repeat;
+a background-repeat: repeat;
 
 
     /*  -------------border---------------     */
@@ -492,13 +492,13 @@ a border-width: thin;
 
 
 
-bottom: ;
+bottom: auto;
 
-bottom: ; b
+bottom: selec_TYPED; b
 
-a bottom: ; b
+a bottom: auto; b
 
-a bottom: ;
+a bottom: auto;
 
 
     /*  -------------captionside--------------- */
@@ -935,18 +935,32 @@ a font-weight: normal; b
 a font-weight: normal;
 
 
+    /*  -------------height--------------- */
+    /* height: `^;                         */
+
+
+
+height: ;
+
+height: _TYPED; b
+
+a height: ;  b
+
+a height: ; 
+
+
     /*  -------------letterspacing--------------- */
     /* letter-spacing: `selec^;                   */
 
 
 
-letter-spacing: ;
+letter-spacing: normal;
 
-letter-spacing: ; b
+letter-spacing: selec_TYPED; b
 
-a letter-spacing: ; b
+a letter-spacing: normal; b
 
-a letter-spacing: ;
+a letter-spacing: normal;
 
 
     /*  -------------lineheight--------------- */
@@ -954,13 +968,13 @@ a letter-spacing: ;
 
 
 
-line-height: ;
+line-height: normal;
 
-line-height: ; b
+line-height: selec_TYPED; b
 
-a line-height: ; b
+a line-height: normal; b
 
-a line-height: ;
+a line-height: normal;
 
 
     /*  -------------liststyleimage--------------- */
@@ -1010,13 +1024,13 @@ a list-style-type: disc;
 
 
 
-margin: ;
+margin: auto;
 
-margin: ; b
+margin: selec_TYPED; b
 
-a margin: ; b
+a margin: auto; b
 
-a margin: ;
+a margin: auto;
 
 
     /*  -------------maxheight--------------- */
@@ -1024,13 +1038,13 @@ a margin: ;
 
 
 
-max-height: ;
+max-height: auto;
 
-max-height: ; b
+max-height: selec_TYPED; b
 
-a max-height: ; b
+a max-height: auto; b
 
-a max-height: ;
+a max-height: auto;
 
 
     /*  -------------maxwidth--------------- */
@@ -1038,13 +1052,13 @@ a max-height: ;
 
 
 
-max-width: ;
+max-width: none;
 
-max-width: ; b
+max-width: selec_TYPED; b
 
-a max-width: ; b
+a max-width: none; b
 
-a max-width: ;
+a max-width: none;
 
 
     /*  -------------minheight--------------- */
@@ -1052,13 +1066,13 @@ a max-width: ;
 
 
 
-min-height: ;
+min-height: none;
 
-min-height: ; b
+min-height: selec_TYPED; b
 
-a min-height: ; b
+a min-height: none; b
 
-a min-height: ;
+a min-height: none;
 
 
     /*  -------------minwidth--------------- */
@@ -1066,13 +1080,13 @@ a min-height: ;
 
 
 
-min-width: ;
+min-width: none;
 
-min-width: ; b
+min-width: selec_TYPED; b
 
-a min-width: ; b
+a min-width: none; b
 
-a min-width: ;
+a min-width: none;
 
 
     /*  -------------outline---------------    */
@@ -1143,6 +1157,20 @@ overflow: visible; b
 a overflow: visible; b
 
 a overflow: visible;
+
+
+    /*  -------------padding---------------       */
+    /* padding: `v^`v^AutoCmpl( 'auto', '0px' )^; */
+
+
+
+padding: v;
+
+padding: v_TYPED; b
+
+a padding: v; b
+
+a padding: v;
 
 
     /*  -------------pagebreakafter--------------- */
@@ -1234,13 +1262,13 @@ a position: static;
 
 
 
-quotes: ;
+quotes: none;
 
-quotes: ; b
+quotes: selec_TYPED; b
 
-a quotes: ; b
+a quotes: none; b
 
-a quotes: ;
+a quotes: none;
 
 
     /*  -------------speak--------------- */
@@ -1355,6 +1383,20 @@ a text-decoration: none; b
 a text-decoration: none;
 
 
+    /*  -------------textindent--------------- */
+    /* text-indent: `^;`cursor^                */
+
+
+
+text-indent: ;
+
+text-indent: _TYPED; b
+
+a text-indent: ; b
+
+a text-indent: ;
+
+
     /*  -------------texttransform--------------- */
     /* text-transform: `selec^;                   */
 
@@ -1374,13 +1416,13 @@ a text-transform: capitalize;
 
 
 
-top: ;
+top: auto;
 
-top: ; b
+top: selec_TYPED; b
 
-a top: ; b
+a top: auto; b
 
-a top: ;
+a top: auto;
 
 
     /*  -------------unicodebidi--------------- */
@@ -1453,18 +1495,32 @@ a white-space: normal; b
 a white-space: normal;
 
 
+    /*  -------------width--------------- */
+    /* width: `^;                         */
+
+
+
+width: ; 
+
+width: _TYPED; b
+
+a width: ;  b
+
+a width: ; 
+
+
     /*  -------------wordspacing--------------- */
     /* word-spacing: `selec^;                   */
 
 
 
-word-spacing: ;
+word-spacing: normal;
 
-word-spacing: ; b
+word-spacing: selec_TYPED; b
 
-a word-spacing: ; b
+a word-spacing: normal; b
 
-a word-spacing: ;
+a word-spacing: normal;
 
 
     /*  -------------zindex--------------- */
@@ -1472,13 +1528,13 @@ a word-spacing: ;
 
 
 
-z-index: ;
+z-index: auto;
 
-z-index: ; b
+z-index: selec_TYPED; b
 
-a z-index: ; b
+a z-index: auto; b
 
-a z-index: ;
+a z-index: auto;
 
 
     /*  -------------{_--------------- */

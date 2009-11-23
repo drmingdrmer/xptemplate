@@ -359,20 +359,20 @@ XSET selec=Choose(['auto', 'fixed'])
 table-layout: `selec^;
 
 
-XPT tidt " text-indent
+XPT textindent " text-indent
 text-indent: `^;`cursor^
 
-XPT tal hint=text-align
+XPT textalign hint=text-align
 XSET selec=Choose(['left', 'right', 'center', 'justify'])
 text-align: `selec^;
 
 
-XPT tdec hint=text-decoration
+XPT textdecoration hint=text-decoration
 XSET selec=Choose(['none', 'underline', 'overline', 'line-through', 'blink'])
 text-decoration: `selec^;
 
 
-XPT ttr hint=text-transform
+XPT texttransform hint=text-transform
 XSET selec=Choose(['capitalize', 'uppercase', 'lowercase', 'none'])
 text-transform: `selec^;
 

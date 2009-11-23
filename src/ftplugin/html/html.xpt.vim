@@ -4,15 +4,13 @@ let s:f = g:XPTfuncs()
  
 XPTinclude 
       \ _common/common
+      \ xml/xml
 
 XPTvar $CL    <!--
 XPTvar $CM    
 XPTvar $CR    -->
 XPTinclude 
       \ _comment/doubleSign
-
-XPTinclude 
-      \ xml/xml
 
 XPTembed
       \ javascript/javascript
@@ -60,11 +58,11 @@ let s:doctypes = {
       \}
 
 
-fun! s:f.html_doctypeList()
-  return keys( s:doctypes )
+fun! s:f.html_doctype_list()
+    return keys( s:doctypes )
 endfunction
 
-fun! s:f.html_doctypePosta(v)
+fun! s:f.html_doctype_post(v)
   if has_key( s:doctypes, a:v )
     return s:doctypes[ a:v ]
   else
@@ -76,7 +74,7 @@ endfunction
 fun! s:f.html_tagAttr()
   let tagName = self.V()
   if tagName ==? 'a'
-    return tagName . ' href="' . self.ItemCreate( '#', {}, {} ) . '"'
+      return tagName . ' href="' . self.ItemCreate( '#', {}, {} ) . '"'
   " elseif tagName ==? 'div'
   " elseif tagName ==? 'table'
   else
@@ -139,8 +137,8 @@ XPT html hint=<html><head>..<head><body>...
 </html>
 
 XPT doctype hint=<!DOCTYPE\ ***
-XSET doctype=html_doctypeList()
-XSET doctype|post=html_doctypePosta( V() )
+XSET doctype=html_doctype_list()
+XSET doctype|post=html_doctype_post( V() )
 <!DOCTYPE html PUBLIC `doctype^>
 
 
