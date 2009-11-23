@@ -98,7 +98,6 @@ runtime plugin/mapstack.vim
 runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
 runtime plugin/xpopup.vim
-runtime plugin/xptemplate.conf.vim
 runtime plugin/MapSaver.class.vim
 runtime plugin/SettingSwitch.class.vim
 runtime plugin/FiletypeScope.class.vim
@@ -2209,7 +2208,7 @@ fun! s:ApplyPostFilter() "{{{
         if ifToBuild
             call cursor( start )
             let renderContext.firstList = []
-            let buidrc = s:BuildPlaceHolders( marks )
+            let buildrc = s:BuildPlaceHolders( marks )
             if 0 > buildrc
                 return [ s:Crash(), ifToBuild ]
             endif
