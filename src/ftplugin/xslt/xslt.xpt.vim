@@ -1,7 +1,7 @@
 XPTemplate priority=lang- keyword=<
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
@@ -10,12 +10,11 @@ XPTvar $UNDEFINED     NULL
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      cursor
 
-XPTvar $BRif     \ 
-XPTvar $BRel   \n
-XPTvar $BRloop    \ 
-XPTvar $BRloop  \ 
-XPTvar $BRstc \ 
-XPTvar $BRfun   \ 
+XPTvar $BRif          ' '
+XPTvar $BRel          \n
+XPTvar $BRloop        ' '
+XPTvar $BRstc         ' '
+XPTvar $BRfun         ' '
 
 XPTinclude
       \ _common/common
@@ -23,9 +22,9 @@ XPTinclude
       \ xml/xml
 
 XPTvar $CL    <!--
-XPTvar $CM    
+XPTvar $CM
 XPTvar $CR    -->
-XPTinclude 
+XPTinclude
       \ _comment/doubleSign
 
 " ========================= Function and Variables =============================

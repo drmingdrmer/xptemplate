@@ -7,10 +7,10 @@ XPTvar $NULL          NULL
 
 XPTvar $VOID_LINE /* void */;
 
-XPTvar $BRstc \ 
+XPTvar $BRstc         ' '
 
 " containers
-let s:f = g:XPTfuncs() 
+let s:f = g:XPTfuncs()
 
 
 

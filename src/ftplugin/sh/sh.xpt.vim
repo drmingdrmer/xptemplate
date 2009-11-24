@@ -1,7 +1,7 @@
 XPTemplate priority=lang mark=~^ keyword=$([{
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
@@ -11,41 +11,40 @@ XPTvar $VOID_LINE     # void
 XPTvar $CURSOR_PH     # cursor
 
 
-XPTvar $BRif     \ 
-XPTvar $BRel   \n
-XPTvar $BRloop    \ 
-XPTvar $BRloop  \ 
-XPTvar $BRstc \ 
-XPTvar $BRfun   \ 
+XPTvar $BRif          ' '
+XPTvar $BRel          \n
+XPTvar $BRloop        ' '
+XPTvar $BRstc         ' '
+XPTvar $BRfun         ' '
 
-XPTinclude 
+XPTinclude
       \ _common/common
 
 XPTvar $CS    #
-XPTinclude 
+XPTinclude
       \ _comment/singleSign
 
 
 " ========================= Function and Variables =============================
 
 let s:braceMap = {
-            \   '`' : '`', 
-            \   '{' : '}', 
-            \   '[' : ']', 
-            \   '(' : ')', 
-            \  '{{' : '}}', 
-            \  '[[' : ']]', 
-            \  '((' : '))', 
-            \  '{ ' : ' }', 
-            \  '[ ' : ' ]', 
-            \  '( ' : ' )', 
-            \ '{{ ' : ' }}', 
-            \ '[[ ' : ' ]]', 
-            \ '(( ' : ' ))', 
+            \   '`' : '`',
+            \   '{' : '}',
+            \   '[' : ']',
+            \   '(' : ')',
+            \  '{{' : '}}',
+            \  '[[' : ']]',
+            \  '((' : '))',
+            \  '{ ' : ' }',
+            \  '[ ' : ' ]',
+            \  '( ' : ' )',
+            \ '{{ ' : ' }}',
+            \ '[[ ' : ' ]]',
+            \ '(( ' : ' ))',
             \}
 
 fun! s:f.sh_complete_brace()
-    if !g:xptemplate_brace_complete 
+    if !g:xptemplate_brace_complete
         return ''
     endif
     let v = self.V()

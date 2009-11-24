@@ -1,16 +1,16 @@
 XPTemplate priority=spec
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $CURSOR_PH     <!-- cursor -->
 
-XPTinclude 
+XPTinclude
       \ _common/common
 
 XPTvar $CL    <!--
-XPTvar $CM    
+XPTvar $CM
 XPTvar $CR    -->
-XPTinclude 
+XPTinclude
       \ _comment/doubleSign
 
 
@@ -22,8 +22,8 @@ fun! s:f.xml_att_val()
     endif
 
     let name = self.ItemName()
-    return self.Vmatch('\V' . name, '\V\^\s\*\$') 
-          \ ? '' 
+    return self.Vmatch('\V' . name, '\V\^\s\*\$')
+          \ ? ''
           \ : '="val" ' . name
 endfunction
 

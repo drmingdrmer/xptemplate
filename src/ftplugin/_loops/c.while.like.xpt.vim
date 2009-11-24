@@ -6,7 +6,7 @@ XPTvar $TRUE           1
 XPTvar $FALSE          0
 XPTvar $NULL           NULL
 
-XPTvar $BRloop  \ 
+XPTvar $BRloop         ' '
 
 
 " ================================= Snippets ===================================

@@ -4,16 +4,16 @@
 
 XPTemplate priority=all-
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $NULL            NULL
 XPTvar $CURSOR_PH       CURSOR
 XPTvar $BRloop ' '
 
-XPTvar $VAR_PRE 
-XPTvar $FOR_SCOPE 
+XPTvar $VAR_PRE
+XPTvar $FOR_SCOPE
 
-XPTinclude 
+XPTinclude
       \ _common/common
 
 

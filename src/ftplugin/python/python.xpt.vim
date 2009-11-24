@@ -1,7 +1,7 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          True
 XPTvar $FALSE         False
 XPTvar $NULL          None
@@ -18,7 +18,7 @@ XPTvar $SPfun      ''
 " int fun( ** arg ** )
 XPTvar $SParg      ' '
 
-" if ** ( 
+" if ** (
 XPTvar $SPcmd       ' '
 
 " if ( ** condition ** )
@@ -39,12 +39,12 @@ XPTvar $SPfun      ''
 " [ ** a, b ** ], { ** 'k' : 'v' ** }
 XPTvar $SParg       ' '
 
-XPTinclude 
+XPTinclude
       \ _common/common
 
 
 XPTvar $CS    #
-XPTinclude 
+XPTinclude
     \ _comment/singleSign
 
 

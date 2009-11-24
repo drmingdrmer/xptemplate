@@ -1,15 +1,15 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
-XPTinclude 
+let s:f = g:XPTfuncs()
+
+XPTinclude
       \ _common/common
       \ xml/xml
 
 XPTvar $CL    <!--
-XPTvar $CM    
+XPTvar $CM
 XPTvar $CR    -->
-XPTinclude 
+XPTinclude
       \ _comment/doubleSign
 
 XPTembed
@@ -26,7 +26,6 @@ fun! s:f.createTable(...) "{{{
 
   let ncol_str = inputdialog("num of column:")
   let ncol = ncol_str + 0
-  
 
   let l = ""
   let i = 0 | while i < nrow | let i += 1
@@ -70,7 +69,7 @@ fun! s:f.html_doctype_post(v)
   endif
 endfunction
 
-" TODO do not apply to following place holder 
+" TODO do not apply to following place holder
 fun! s:f.html_tagAttr()
   let tagName = self.V()
   if tagName ==? 'a'

@@ -9,5 +9,5 @@ XPTvar $CR   */
 
 XPTvar $CS  //
 
-XPTinclude 
+XPTinclude
       \ _comment/singleDouble

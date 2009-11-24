@@ -5,11 +5,10 @@ XPTvar $TRUE           1
 XPTvar $FALSE          0
 XPTvar $NULL           NULL
 
-XPTvar $BRif     \ 
-XPTvar $BRloop    \ 
-XPTvar $BRloop  \ 
-XPTvar $BRstc \ 
-XPTvar $BRfun   \n
+XPTvar $BRif           ' '
+XPTvar $BRloop         ' '
+XPTvar $BRstc          ' '
+XPTvar $BRfun          \n
 
 XPTvar $VOID_LINE      /* void */;
 XPTvar $CURSOR_PH      /* cursor */
@@ -36,11 +35,11 @@ XPTinclude
 
 " ========================= Function and Variables =============================
 
-let s:f = g:XPTfuncs() 
+let s:f = g:XPTfuncs()
 
 let s:printfElts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-"  %[flags][width][.precision][length]specifier  
+"  %[flags][width][.precision][length]specifier
 let s:printfItemPattern = '\V\C' . '%' . '\[+\- 0#]\*' . '\%(*\|\d\+\)\?' . '\(.*\|.\d\+\)\?' . '\[hlL]\?' . '\(\[cdieEfgGosuxXpn]\)'
 
 let s:printfSpecifierMap = {
@@ -93,7 +92,7 @@ fun! s:f.c_printfElts( v )
     endwhile
     return post
 
-  else 
+  else
     return self.Next( '' )
 
   endif
@@ -154,15 +153,15 @@ XSET cursor|pre=CURSOR
  * <b>`function^</b>
  * @version : `1.0^
  * @since : `strftime("%Y %b %d")^
- * 
+ *
  * @description :
  *     `cursor^
- * @usage : 
- * 
+ * @usage :
+ *
  * @author : `$author^ | `$email^
- * @copyright `.com.cn^ 
- * @TODO : 
- * 
+ * @copyright `.com.cn^
+ * @TODO :
+ *
  *--------------------------\\\ `sum^ ///---------------------------*/
 
 ..XPT

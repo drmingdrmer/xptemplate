@@ -18,14 +18,14 @@ if has_key(s:v, '$CL') && has_key(s:v, '$CR')
 
   " block comment
   call XPTdefineSnippet('cb', {'hint' : '$CL ...'}, [
-        \'`$CL^', 
-        \' `$CM^ `cursor^', 
+        \'`$CL^',
+        \' `$CM^ `cursor^',
         \' `$CR^' ])
 
   " block doc comment
   call XPTdefineSnippet('cd', {'hint' : '$CL$CM ...'}, [
-        \'`$CL^`$CM^', 
-        \' `$CM^ `cursor^', 
+        \'`$CL^`$CM^',
+        \' `$CM^ `cursor^',
         \' `$CR^' ])
 
 endif

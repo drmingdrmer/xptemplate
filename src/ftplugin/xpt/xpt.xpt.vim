@@ -1,8 +1,8 @@
 XPTemplate priority=sub
 
-let s:f = g:XPTfuncs() 
- 
-XPTinclude 
+let s:f = g:XPTfuncs()
+
+XPTinclude
       \ _common/common
       \ vim/vim
 
@@ -38,7 +38,7 @@ fun! s:f.xpt_vim_name(path)
   let path = matchstr( a:path, '\w\+' )
   if has_key( s:xpts, path )
     return s:xpts[ path ]
-  else 
+  else
     return ''
   endif
 endfunction
@@ -46,7 +46,7 @@ endfunction
 " ================================= Snippets ===================================
 XPTemplateDef
 
-" TODO detect path to generate popup list 
+" TODO detect path to generate popup list
 XPT incf hint=XPTinclude\ ...
 XSET path=xpt_vim_path()
 XSET name=xpt_vim_name( R( 'path' ) )
@@ -114,7 +114,7 @@ XPTvar $SPfun      ''
 " { ** 'k' : 'v' ** }
 XPTvar $SParg      ' '
 
-" if ** ( 
+" if ** (
 " while ** (
 " for ** (
 XPTvar $SPcmd      ' '

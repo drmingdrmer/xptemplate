@@ -7,5 +7,5 @@ XPTvar $CL  /*
 XPTvar $CM   *
 XPTvar $CR   */
 
-XPTinclude 
+XPTinclude
       \ _comment/doubleSign

@@ -1,7 +1,7 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
@@ -10,17 +10,16 @@ XPTvar $UNDEFINED     NULL
 XPTvar $VOID_LINE  (* void *)
 XPTvar $CURSOR_PH      (* cursor *)
 
-XPTvar $BRif     \ 
-XPTvar $BRloop    \ 
-XPTvar $BRloop  \ 
-XPTvar $BRstc \ 
-XPTvar $BRfun   \ 
+XPTvar $BRif          ' '
+XPTvar $BRloop        ' '
+XPTvar $BRstc         ' '
+XPTvar $BRfun         ' '
 
 XPTvar $CL    (*
 XPTvar $CM    *
 XPTvar $CR    *)
 
-XPTinclude 
+XPTinclude
       \ _common/common
       \ _comment/doubleSign
 
@@ -83,7 +82,6 @@ object
    method `field^ : `type^` `...^
 end;
 
-            
 
 XPT classtypecom hint=(**\ ..\ *)\ class\ type\ ..\ =\ object\ ..\ end
 (** `class_descr^^ *)
@@ -103,7 +101,7 @@ type `typename^` `typeParams?^ =
   | `constructor^`...^
   ];
 
-            
+
 XPT typesumcom hint=(**\ ..\ *)\ type\ ..\ =\ ..\ |\ ..
 XSET typeParams?|post=EchoIfNoChange( '' )
 (** `typeDescr^ *)
@@ -128,7 +126,7 @@ type `typename^ `_^^=
     ; `otherfield^ : `othertype^ (** `desc^ *)`...^
     };
 
-            
+
 XPT try hint=try\ ..\ with\ ..\ ->\ ..
 try `expr^
 with [ `exc^ -> `rez^
@@ -181,7 +179,7 @@ in
 
 
 XPT try_ hint=try\ SEL\ with\ ..\ ->\ ..
-try 
+try
     `wrapped^
 with [ `exc^ -> `rez^
 `     `...`

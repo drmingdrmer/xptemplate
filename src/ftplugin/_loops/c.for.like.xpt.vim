@@ -1,7 +1,7 @@
 XPTemplate priority=like
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
@@ -10,10 +10,10 @@ XPTvar $UNDEFINED     NULL
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
-XPTvar $BRif     \ 
-XPTvar $BRloop    \ 
-XPTvar $BRloop  \ 
-XPTvar $BRstc \ 
+XPTvar $BRif          ' '
+XPTvar $BRloop        ' '
+XPTvar $BRloop        ' '
+XPTvar $BRstc         ' '
 
 
 

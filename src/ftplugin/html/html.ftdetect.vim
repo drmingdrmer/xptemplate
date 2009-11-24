@@ -23,7 +23,7 @@ let s:pattern = {
             \       'start' : '\V\c<style\_[^>]\*>',
             \       'mid'   : '',
             \       'end'   : '\V\c</style>',
-            \       'skip'  : s:skipPattern, 
+            \       'skip'  : s:skipPattern,
             \   },
             \}
 

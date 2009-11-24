@@ -1,8 +1,8 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
+let s:f = g:XPTfuncs()
 
 
-XPTinclude 
+XPTinclude
     \ _common/common
 

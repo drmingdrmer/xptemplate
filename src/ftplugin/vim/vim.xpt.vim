@@ -1,15 +1,15 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 
-XPTinclude 
+XPTinclude
       \ _common/common
 
 XPTvar $CS    "
-XPTinclude 
+XPTinclude
       \ _comment/singleSign
 
 " ========================= Function and Variables =============================

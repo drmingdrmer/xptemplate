@@ -1,35 +1,34 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
-XPTvar $NULL          
-XPTvar $UNDEFINED     
+XPTvar $NULL
+XPTvar $UNDEFINED
 
 XPTvar $VOID_LINE     # void;
 XPTvar $CURSOR_PH     # cursor
 
-XPTvar $BRif     \ 
+XPTvar $BRif          ' '
 XPTvar $BRel   \n
-XPTvar $BRloop    \ 
-XPTvar $BRloop  \ 
-XPTvar $BRstc \ 
-XPTvar $BRfun   \ 
+XPTvar $BRloop        ' '
+XPTvar $BRstc         ' '
+XPTvar $BRfun         ' '
 
-XPTinclude 
+XPTinclude
       \ _common/common
 
 XPTvar $CS #
-XPTinclude 
+XPTinclude
       \ _comment/singleSign
 
 XPTvar $VAR_PRE    $
-XPTvar $FOR_SCOPE  my\ 
-XPTinclude 
+XPTvar $FOR_SCOPE  'my '
+XPTinclude
       \ _loops/for
 
-XPTinclude 
+XPTinclude
       \ _loops/c.while.like
 
 

@@ -1,7 +1,7 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          true
 XPTvar $FALSE         false
 XPTvar $NULL          null
@@ -10,32 +10,31 @@ XPTvar $UNDEFINED     null
 XPTvar $VOID_LINE      /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
-XPTvar $BRif     \ 
-XPTvar $BRel   \n
-XPTvar $BRloop    \ 
-XPTvar $BRloop  \ 
-XPTvar $BRstc \ 
-XPTvar $BRfun   \ 
+XPTvar $BRif          ' '
+XPTvar $BRel          \n
+XPTvar $BRloop        ' '
+XPTvar $BRstc         ' '
+XPTvar $BRfun         ' '
 
-XPTinclude 
+XPTinclude
       \ _common/common
 
 XPTvar $CL    /*
 XPTvar $CM    *
 XPTvar $CR    */
-XPTinclude 
+XPTinclude
       \ _comment/doubleSign
 
 XPTvar $VAR_PRE   $
-XPTvar $FOR_SCOPE 
-XPTinclude 
+XPTvar $FOR_SCOPE
+XPTinclude
       \ _loops/for
 
-XPTinclude 
+XPTinclude
       \ _condition/c.like
       \ _loops/c.while.like
 
-XPTembed 
+XPTembed
       \ html/html
       \ html/php*
 
@@ -44,7 +43,7 @@ XPTembed
 if exists( 'php_noShortTags' )
     XPTvar $PHP_TAG php
 else
-    XPTvar $PHP_TAG 
+    XPTvar $PHP_TAG
 endif
 
 " ========================= Function and Variables =============================

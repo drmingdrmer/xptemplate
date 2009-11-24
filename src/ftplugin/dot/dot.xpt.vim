@@ -1,15 +1,15 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $VOID_LINE  /* void */
 XPTvar $CURSOR_PH      /* cursor */
 
 XPTvar $CL    /*
-XPTvar $CM    
+XPTvar $CM
 XPTvar $CR    */
 
-XPTinclude 
+XPTinclude
       \ _common/common
       \ _comment/doubleSign
 

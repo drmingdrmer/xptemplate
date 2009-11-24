@@ -1,7 +1,7 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
@@ -12,7 +12,7 @@ XPTvar $CURSOR_PH      # cursor
 
 XPTvar $CS    #
 
-XPTinclude 
+XPTinclude
       \ _common/common
       \ _comment/singleSign
 

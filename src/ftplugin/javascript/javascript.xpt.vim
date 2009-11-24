@@ -1,7 +1,7 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          true
 XPTvar $FALSE         false
 XPTvar $NULL          null
@@ -21,12 +21,12 @@ XPTvar $CM   *
 XPTvar $CR   */
 
 
-XPTinclude 
+XPTinclude
       \ _common/common
       \ _comment/doubleSign
       \ _condition/c.like
 
-XPTvar $VAR_PRE 
+XPTvar $VAR_PRE
 XPTvar $FOR_SCOPE 'var '
 XPTinclude
       \ _loops/for
@@ -88,15 +88,15 @@ XPT fcmt hint=full\ doxygen\ comment
  * <b>`function^</b>
  * @version : `1.0^
  * @since : `date^
- * 
+ *
  * @description :
  *   `cursor^
- * @usage : 
- * 
+ * @usage :
+ *
  * @author : `$author^ | `$email^
- * @copyright : 
- * @TODO : 
- * 
+ * @copyright :
+ * @TODO :
+ *
  *--------------------------\\\ `sum^ ///---------------------------*/
 
 

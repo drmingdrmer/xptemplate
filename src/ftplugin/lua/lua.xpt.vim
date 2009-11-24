@@ -1,7 +1,7 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
@@ -18,7 +18,7 @@ XPTvar $BRfun   \n
 
 XPTvar $CS    --
 
-XPTinclude 
+XPTinclude
       \ _common/common
       \ _comment/singleSign
 
@@ -133,7 +133,7 @@ print(`cursor^)
 XPT repeat hint=repeat\ ..\ until\ ..
 repeat
     `cursor^
-until 
+until
 
 
 XPT while hint=while\ ..\ do\ ...\ end

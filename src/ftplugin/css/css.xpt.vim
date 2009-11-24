@@ -1,7 +1,7 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
@@ -9,7 +9,7 @@ XPTvar $CL  /*
 XPTvar $CM   *
 XPTvar $CR   */
 
-XPTinclude 
+XPTinclude
       \ _common/common
       \ _comment/doubleSign
 
@@ -35,11 +35,11 @@ XPTemplateDef
 XPT padding " padding:
 padding: `v^`v^AutoCmpl( 'auto', '0px' )^;
 
-XPT width " width : 
+XPT width " width :
 width: `^;
 
 
-XPT height " height : 
+XPT height " height :
 height: `^;
 
 

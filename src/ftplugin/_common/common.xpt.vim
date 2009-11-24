@@ -2,7 +2,7 @@
 XPTemplate priority=all
 
 " containers
-let s:f = g:XPTfuncs() 
+let s:f = g:XPTfuncs()
 
 XPTvar $author $author is not set, you need to set g:xptemplate_vars="$author=your_name"
 XPTvar $email  $email is not set, you need to set g:xptemplate_vars="$email=your_email@com"
@@ -69,7 +69,7 @@ XPTvar $FALSE         0
 XPTvar $NULL          0
 XPTvar $UNDEFINED     0
 
-XPTvar $VOID_LINE  
+XPTvar $VOID_LINE
 XPTvar $CURSOR_PH      CURSOR
 
 
@@ -115,7 +115,7 @@ endfunction
 let s:f.IVE = s:f.ItemInitValueWithEdge
 
 " if value match one of the regexps
-fun! s:f.Vmatch( ... ) 
+fun! s:f.Vmatch( ... )
     let v = self.V()
     for reg in a:000
         if match(v, reg) != -1
@@ -124,12 +124,12 @@ fun! s:f.Vmatch( ... )
     endfor
 
     return 0
-endfunction 
+endfunction
 
 " value matchstr
-fun! s:f.VMS( reg ) 
+fun! s:f.VMS( reg )
     return matchstr(self.V(), a:reg)
-endfunction 
+endfunction
 
 " edge stripped value
 fun! s:f.ItemStrippedValue()
@@ -304,13 +304,13 @@ fun! s:f.ChooseStr(...) "{{{
 endfunction "}}}
 
 " XXX
-" Fill in postType, and finish template rendering at once. 
+" Fill in postType, and finish template rendering at once.
 " This make nested template rendering go back to upper level, top-level
 " template rendering quit.
 fun! s:f.xptFinishTemplateWith(postType) dict
 endfunction
 
-" XXX  
+" XXX
 " Fill in postType, jump to next item. For creating item being able to be
 " automatically filled in
 fun! s:f.xptFinishItemWith(postType) dict
@@ -390,9 +390,9 @@ fun! s:f.ItemCreate( name, edges, filters )
 
 
   let item = ml . a:name
-  
+
   if has_key( a:edges, 'left' )
-    let item = ml . a:edges.left . item 
+    let item = ml . a:edges.left . item
   endif
 
   if has_key( a:edges, 'right' )
@@ -428,7 +428,7 @@ fun! s:f.ExpandIfNotEmpty( sep, item, ... ) "{{{
   else
     let r = ''
   endif
-  
+
   " let t = ( v == '' || v == a:item || v == ( a:sep . a:item . r ) )
   let t = ( v == '' || v =~ '\V' . a:item )
         \ ? ''
@@ -448,12 +448,12 @@ fun! s:f.ExpandInsideEdge( newLeftEdge, newRightEdge )
     endif
 
     return substitute( v, '\V' . er . '\$' , '' , '' )
-                \. self.ItemCreate( self.ItemName(), { 'left' : a:newLeftEdge, 'right' : a:newRightEdge }, {} ) 
+                \. self.ItemCreate( self.ItemName(), { 'left' : a:newLeftEdge, 'right' : a:newRightEdge }, {} )
                 \. er
 endfunction
 
 
-let s:xptCompleteMap = [ 
+let s:xptCompleteMap = [
             \"''",
             \'""',
             \'()',
@@ -462,13 +462,13 @@ let s:xptCompleteMap = [
             \'<>',
             \'||',
             \'**',
-            \'``', 
+            \'``',
             \]
 let s:xptCompleteLeft = join( map( deepcopy( s:xptCompleteMap ), 'v:val[0:0]' ), '' )
 let s:xptCompleteRight = join( map( deepcopy( s:xptCompleteMap ), 'v:val[1:1]' ), '' )
 
 fun! s:f.CompleteRightPart( left ) dict
-    if !g:xptemplate_brace_complete 
+    if !g:xptemplate_brace_complete
         return ''
     endif
 
@@ -476,7 +476,7 @@ fun! s:f.CompleteRightPart( left ) dict
     " let left = substitute( a:left, '[', '[[]', 'g' )
     let left = escape( a:left, '[\' )
     let v = matchstr( v, '^\V\[' . left . ']\+' )
-    if v == '' 
+    if v == ''
         return ''
     endif
 
@@ -487,7 +487,7 @@ fun! s:f.CompleteRightPart( left ) dict
 endfunction
 
 fun! s:f.CmplQuoter_pre() dict
-    if !g:xptemplate_brace_complete 
+    if !g:xptemplate_brace_complete
         return ''
     endif
 
@@ -533,7 +533,7 @@ endfunction
 
 " Short names are normally not good. Some alias to those short name functions are
 " made, with meaningful names.
-" 
+"
 " They all start with prefix 'xpt'.
 "
 
