@@ -494,7 +494,7 @@
 	|xpt-write-lang-snippet|.
 
 
-	See also: |xpt-customize-variable-format| 
+	See also: |xpt-customize-variable-format|
 		  |xpt-customize-variable-space|
 
 
@@ -514,7 +514,7 @@
 		" for () ** {
 		" while () ** {
 		" do ** {
-		XPTvar $BRloop    ' '
+		XPTvar $BRloop   ' '
 
 		" struct name ** {
 		XPTvar $BRstc    ' '
@@ -529,9 +529,9 @@
 		for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRloop^{
 		    `cursor^			   ******************
 		}
-<	In C language "$BRloop" is set to ' '. In CPP
-	"$BRloop" is set to "\n". You can find them in
-	"ftplugin/c/c.xpt.vim" and "ftplugin/cpp/cpp.xpt.vim". 
+<	In C language "$BRloop" is set to ' '. In CPP "$BRloop" is set to
+	"\n". You can find them in "ftplugin/c/c.xpt.vim" and
+	"ftplugin/cpp/cpp.xpt.vim".
 
 	In C this snippet results in: >
 		for ( i = 0; i < 10; ++i ) {
@@ -557,7 +557,7 @@
 		" { ** 'k' : 'v' ** }
 		XPTvar $SParg      ' '
 
-		" if ** ( 
+		" if ** (
 		" while ** (
 		" for ** (
 		XPTvar $SPcmd      ' '

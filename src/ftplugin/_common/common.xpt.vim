@@ -10,59 +10,46 @@ XPTvar $email  $email is not set, you need to set g:xptemplate_vars="$email=your
 XPTvar $VOID
 
 " if () ** {
+" else ** {
 XPTvar $BRif     ' '
 
 " } ** else {
 XPTvar $BRel     \n
 
 " for () ** {
-XPTvar $BRloop    ' '
-
 " while () ** {
-XPTvar $BRloop    ' '
+" do ** {
+XPTvar $BRloop   ' '
 
 " struct name ** {
 XPTvar $BRstc    ' '
 
 " int fun() ** {
-XPTvar $BRfun    ' '
-
 " class name ** {
 XPTvar $BRfun    ' '
 
 
 " int fun ** (
+" class name ** (
 XPTvar $SPfun      ''
 
 " int fun( ** arg ** )
+" if ( ** condition ** )
+" for ( ** statement ** )
+" [ ** a, b ** ]
+" { ** 'k' : 'v' ** }
 XPTvar $SParg      ' '
 
 " if ** (
-XPTvar $SPcmd       ' '
-
-" if ( ** condition ** )
-XPTvar $SParg      ' '
-
 " while ** (
-XPTvar $SPcmd      ' '
-
 " for ** (
 XPTvar $SPcmd      ' '
 
-" for ( ** statement ** )
-XPTvar $SParg     ' '
-
 " a ** = ** b
-XPTvar $SPop       ' '
-
 " a = a ** + ** 1
-XPTvar $SPop       ' '
-
 " (a, ** b, ** )
 XPTvar $SPop       ' '
 
-" class name ** (
-XPTvar $SPfun      ' '
 
 XPTvar $TRUE          1
 XPTvar $FALSE         0

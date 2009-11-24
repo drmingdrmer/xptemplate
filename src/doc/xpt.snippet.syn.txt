@@ -204,11 +204,9 @@
 	|g:xptemplate_vars|. Variables defined with |g:xptemplate_vars|
 	override variables defined in any snippet files.
 
-	NOTE	Conventionally the name of |xpt-snippet-variable| supplied by
-		XPTemplate is upper-case letter started.
-		User defined variable name should starts with lower-case
-		letter.
-	
+	NOTE	By convention the names of |xpt-snippet-variable| supplied by
+		XPTemplate start with an upper-case letter. User defined
+		variable name should start with a lower-case letter.
 
 	NOTE	Override control of |xpt-snippet-variable| is affected by
 		|xpt-snippet-priority|.
@@ -231,10 +229,9 @@
 		XSET elts=c_printfElts( R( 'pattern' ) )
 		printf( "`pattern^"`elts^ )
 <
-	NOTE	Conventionally the name of |xpt-snippet-function| supplied by
-		XPTemplate is upper-case letter started.
-		User defined function name should starts with lower-case
-		letter.
+	NOTE	By convention the names of |xpt-snippet-function|s supplied by
+		XPTemplate start with an upper-case letter. User defined
+		function names should starts with a lower-case letter.
 
 								  *XPTinclude*
 						      *xpt-snippet-XPTinclude*
@@ -272,7 +269,9 @@
 							    *xpt-snippet-name*
 	<snippetName> is the name the user has to type to trigger this
 	snippet. It can only contain characters defined in 'iskeyword' and
-	|xpt-snippet-keyword|.
+	|xpt-snippet-keyword|. Custom snippets (not provided by XPTemplate)
+	should not start with "_" by convention as these snippets are used by
+	XPTemplate internally, see also |xpt-snippet-include|.
 
 							 *xpt-snippet-setting*
 	The 'name=value' defines snippet settings, including
@@ -364,7 +363,7 @@
 
 	You can also use the short format : >
 		`:snippetName:^
-<	Only two ":" around snippet name are needed. Take example of
+<	Only two ":" around the snippet name are needed. Take example of
 	"if" snippet in "_condition/c.like.xpt.vim": >
 		
 		XPT _if hidden=1
