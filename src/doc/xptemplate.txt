@@ -597,16 +597,15 @@
 
 	You have THREE place to put your own snippets:
 
-	Path_to_xpt/personal				Recommended.
-							Enough for
-							most user
+	Path_to_xpt/personal				
+		Recommended.  Enough for most users. What you need to do is
+		putting snippet files into this folder.
 
-	Folders in |g:xptemplate_snippet_folders|	Recommended for
-							multiple snippet
-							libraries owner
+	Folders in |g:xptemplate_snippet_folders|	
+		Recommended for multiple snippet libraries owner.
 	
-	Other 'runtimepath'				Need to manage
-							'runtimepath' yourself
+	Other 'runtimepath'				
+		Need to manage 'runtimepath' yourself.
 
 	Details are discussed in following section.
 
@@ -623,8 +622,8 @@
 <	&runtimepath can be ~/.vim in Unix like system, or ~/vimfiles/ folder
 	in Windows. See 'runtimepath'.
 
-	NOTE It is strongly recommended to add your own snippets in
-	"path_to_xpt/personal".
+	NOTE	It is strongly recommended to add your own snippets in
+		"path_to_xpt/personal".
 
 	The file name "your_snippets.xpt.vim" has no limitation except it must
 	end with ".xpt.vim".
@@ -638,11 +637,11 @@
 	or you want to set multiple variables, you can use the "personal
 	common" snippet file.
 
-		1. Rename "personal/ftplugin/_common/personal_example.xpt.vim"
-		   to "personal/ftplugin/_common/personal.xpt.vim".
-		   Or create one from scratch.
+	1. Rename "personal/ftplugin/_common/personal_example.xpt.vim" to
+	"personal/ftplugin/_common/personal.xpt.vim".  Or create one from
+	scratch.
 
-		2. Add your snippets into the "personal.xpt.vim".
+	2. Add your snippets into the "personal.xpt.vim".
 
 	"personal.xpt.vim" is loaded by _common/common.xpt.vim and has the
 	highest priority. Thus it's always loaded and there are no other
