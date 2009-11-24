@@ -25,6 +25,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO disable acp when pum shown.
 " TODO autocomplpop compatible
 " TODO bug that conflict with AutoComplePop 
 " TODO completefunc instead of complete()

@@ -363,8 +363,8 @@
 
 	You can also use the short format : >
 		`:snippetName:^
-<	Only two ":" around the snippet name are needed. Take example of
-	"if" snippet in "_condition/c.like.xpt.vim": >
+<	Only two ":" around the snippet name are needed. Take the "if" snippet
+	in "_condition/c.like.xpt.vim" for example: >
 		
 		XPT _if hidden=1
 		if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
@@ -374,15 +374,15 @@
 		XPT if hint=if\ (..)\ {..}\ else...
 		`Include:_if^` `else...{{^`$BRel^`Include:else^`}}^
 
-<	Real "if" includes the "_if" snippet and "else" snippet.
+<	The real "if" includes the "_if" and "else" snippets.
 	
 	NOTE	"Include" is literal, so that snippets with different
 		|xpt-snippet-mark| can not include each other.
 
-	NOTE	Conventionally, snippet whose name starts with "_" is supplied
-		by XPTemplate, and incomplete to use directly. 
-		Normally these snippets are set with |xpt-snippet-hidden| on
-		and for inclusion only.
+	NOTE	By convention snippet names starting with "_" are supplied by
+		XPTemplate and shouldn't be used for custom snippets. Normally
+		these snippets are set with |xpt-snippet-hidden| on and for
+		inclusion only.
 
 							    *xpt-snippet-XSET*
 	In |xpt-snippet-body| XSET commands can be used anywhere to set : 

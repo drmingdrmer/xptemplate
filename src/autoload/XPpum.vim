@@ -23,7 +23,7 @@ fun! XPpum#completeFunc( first, base )
     endif
 
     if a:first
-        return b:__xppum.col
+        return b:__xppum.col - 1
     else
         return b:__xppum.list
     endif
@@ -36,7 +36,9 @@ fun! XPpum#complete( col, list ) "{{{
     " 1) trigger user-defined pum
     " 2) restore old 'completefunc' setting
     " 3) force refreshing pum
-    return "\<C-x>\<C-u>\<C-r>=<SNR>" . s:sid . "RestoreCommpletefunc()\<CR>\<C-n>\<C-p>"
+    " return "\<C-x>\<C-u>\<C-r>=<SNR>" . s:sid . "RestoreCommpletefunc()\<CR>\<C-n>\<C-p>"
+    " return "\<C-x>\<C-u>\<C-n>\<C-p>"
+    return "\<C-x>\<C-u>"
 endfunction "}}}
 
 fun! s:RestoreCommpletefunc() "{{{
@@ -44,7 +46,7 @@ fun! s:RestoreCommpletefunc() "{{{
         return ''
     endif
 
-    let &completefunc = b:__xppum.oldcfu
+    " let &completefunc = b:__xppum.oldcfu
     unlet b:__xppum
     return ''
 endfunction "}}}

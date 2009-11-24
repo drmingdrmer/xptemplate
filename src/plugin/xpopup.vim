@@ -285,7 +285,7 @@ fun! XPPprocess(list) "{{{
     let sess = b:__xpp_current_session
 
     if len(a:list) == 0
-        return ''
+        return "\<C-n>\<C-p>"
     endif
 
 
@@ -318,9 +318,12 @@ fun! XPPprocess(list) "{{{
 
     elseif actionName == 'popup'
         call s:ApplyMapAndSetting()
-        call complete( sess.col, sess.currentList )
+        " call complete( sess.col, sess.currentList )
+        let postAction =  XPpum#complete( sess.col, sess.currentList )
 
-    elseif actionName == 'fixPopup'
+    elseif actionName == 'disa fixPopup'
+
+
         let beforeCursor = col( "." ) - 2
         let beforeCursor = beforeCursor == -1 ? 0 : beforeCursor
         let current = getline(".")[ sess.col - 1 : beforeCursor ]
@@ -373,6 +376,8 @@ fun! XPPprocess(list) "{{{
 
     else
         " test concern
+
+        let postAction .= "\<C-n>\<C-p>"
         let postAction .= g:xpt_post_action
 
     endif

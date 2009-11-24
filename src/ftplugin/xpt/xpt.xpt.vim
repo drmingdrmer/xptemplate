@@ -92,7 +92,7 @@ XPTvar $BRel     \n
 " for () ** {
 " while () ** {
 " do ** {
-XPTvar $BRloop    ' '
+XPTvar $BRloop   ' '
 
 " struct name ** {
 XPTvar $BRstc    ' '
@@ -119,11 +119,10 @@ XPTvar $SParg      ' '
 " for ** (
 XPTvar $SPcmd      ' '
 
+" a ** = ** b
 " a = a ** + ** 1
 " (a, ** b, ** )
-" a ** = ** b
 XPTvar $SPop       ' '
-
 
 
 XPT varConst hint=variables\ to\ define\ constants
