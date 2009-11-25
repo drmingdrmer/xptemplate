@@ -159,6 +159,7 @@ fun! s:popup(start_col, opt) dict "{{{
         let actionList += ['callback']
 
     elseif len(sess.currentList) == 1
+          \&& doCallback
         call s:log.Debug("only 1 item matched")
 
         let sess.matched = type(sess.currentList[0]) == type({}) ? sess.currentList[0].word : sess.currentList[0]
@@ -166,8 +167,8 @@ fun! s:popup(start_col, opt) dict "{{{
         let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
 
     elseif sess.prefix != "" 
-                \&& sess.longest ==? sess.prefix 
-                \&& doCallback
+          \&& sess.longest ==? sess.prefix 
+          \&& doCallback
         " If the typed text matches all items with case ignored, Try to find
         " the first matched item.
 
@@ -189,12 +190,14 @@ fun! s:popup(start_col, opt) dict "{{{
 
         if sess.matched == ''
             let actionList += [ 'popup', 'fixPopup' ]
+            " let actionList += [ 'popup' ]
         endif
 
     else
 
         call s:log.Debug("no match and list is not empty")
         let actionList += [ 'popup', 'fixPopup' ]
+        " let actionList += [ 'popup' ]
 
     endif
 
@@ -260,11 +263,18 @@ fun! s:_InitBuffer() "{{{
 
     " Disable indent keys or cinkeys, or for c language, <C-\>,
     " then selecting snippet start with '#' causes a choas.
+    " NOTE:  user-defined pum does not accept non-keywords char. pressing
+    "       non-keywords char make pum disappear.
+    "
+    " 33 is the min visual char "!".
+    " 127 is last ascii char.
+    " and other multi bytes letters.
     let b:_xpp_setting_switch = g:SettingSwitch.New()
     call b:_xpp_setting_switch.AddList( 
           \ [ '&l:cinkeys', '' ], 
           \ [ '&l:indentkeys', '' ], 
           \)
+          " \ [ '&iskeyword', '33-127,128-255' ], 
     " TODO  '&l:ignorecase', '1'???
 
     let b:__xpp_buffer_init = 1
@@ -318,10 +328,11 @@ fun! XPPprocess(list) "{{{
 
     elseif actionName == 'popup'
         call s:ApplyMapAndSetting()
-        " call complete( sess.col, sess.currentList )
-        let postAction =  XPpum#complete( sess.col, sess.currentList )
+        call complete( sess.col, sess.currentList )
+        " let postAction =  XPpum#complete( sess.col, sess.currentList
+              " \ , function( '<SNR>' . s:sid . 'ApplyMapAndSetting' ) )
 
-    elseif actionName == 'disa fixPopup'
+    elseif actionName == 'fixPopup'
 
 
         let beforeCursor = col( "." ) - 2
@@ -377,7 +388,7 @@ fun! XPPprocess(list) "{{{
     else
         " test concern
 
-        let postAction .= "\<C-n>\<C-p>"
+        " let postAction .= "\<C-n>\<C-p>"
         let postAction .= g:xpt_post_action
 
     endif
@@ -520,6 +531,7 @@ fun! XPPenlarge() "{{{
     "
     " if pumvisible
 
+    " call s:ClearMapAndSetting()
     return "\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
 endfunction "}}}
 
@@ -595,13 +607,37 @@ fun! s:ApplyMapAndSetting() "{{{
     exe 'inoremap <silent> <buffer> <C-e>' '<C-r>=XPPcancel()<cr>'
     exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
 
+    " augroup XPP
+        " au!
+        " au CursorMovedI * call s:CheckAndRepop()
+    " augroup END
 
     call b:_xpp_setting_switch.Switch()
 
+    if exists( ':AcpDisable' )
+        AcpDisable
+    endif
+
+endfunction "}}}
+
+
+fun! s:CheckAndRepop() "{{{
+    if !exists( 'b:__xpp_buffer_init' )
+        return
+    endif
+
+    if !pumvisible()
+          \ && len(b:__xpp_current_session.currentList) > 1
+        call feedkeys( "\<C-r>=XPPrepopup(0, 'noenlarge')\<cr>" )
+    endif
 endfunction "}}}
 
 fun! s:ClearMapAndSetting() "{{{
     call s:_InitBuffer()
+
+    " augroup XPP
+        " au!
+    " augroup END
 
     " if &completefunc == 'XPPcompleteFunc'
         " let 
@@ -609,6 +645,9 @@ fun! s:ClearMapAndSetting() "{{{
 
     call b:_xpp_map_saver.Restore()
     call b:_xpp_setting_switch.Restore()
+    if exists( ':AcpEnable' )
+        AcpEnable
+    endif
 
 endfunction "}}}
 

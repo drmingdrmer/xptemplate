@@ -14,7 +14,7 @@ exe XPT#let_sid
 
 
 fun! XPpum#completeFunc( first, base )
-    if !exists( 'b:__xppum' )
+    if !exists( 'b:__xppum' . s:sid )
         if a:first
             return col( "." )
         else
@@ -23,31 +23,42 @@ fun! XPpum#completeFunc( first, base )
     endif
 
     if a:first
-        return b:__xppum.col - 1
+        return b:__xppum{s:sid}.col - 1
     else
-        return b:__xppum.list
+
+        let &completefunc = b:__xppum{s:sid}.oldcfu
+        call b:__xppum{s:sid}.onShow()
+
+        let list = b:__xppum{s:sid}.list
+
+        unlet b:__xppum{s:sid}
+
+        return list
     endif
 endfunction
 
-fun! XPpum#complete( col, list ) "{{{
-    let b:__xppum = { 'col' : a:col, 'list' : a:list, 'oldcfu' : &completefunc }
+fun! XPpum#complete( col, list, onShow ) "{{{
+    let b:__xppum{s:sid} = { 'col' : a:col, 'list' : a:list, 'oldcfu' : &completefunc, 'onShow' : a:onShow }
     set completefunc=XPpum#completeFunc
 
-    " 1) trigger user-defined pum
-    " 2) restore old 'completefunc' setting
-    " 3) force refreshing pum
-    " return "\<C-x>\<C-u>\<C-r>=<SNR>" . s:sid . "RestoreCommpletefunc()\<CR>\<C-n>\<C-p>"
-    " return "\<C-x>\<C-u>\<C-n>\<C-p>"
-    return "\<C-x>\<C-u>"
+
+    let keyTriggerUserDefinedPum = "\<C-x>\<C-u>"
+    let keyCleanupPumSetting     = "\<C-r>=<SNR>" . s:sid . "RestoreCommpletefunc()\<CR>"
+    let keyForceRefresh          = "\<C-n>\<C-p>"
+
+    return keyTriggerUserDefinedPum
+          " \ . keyCleanupPumSetting
+          " \ . keyForceRefresh
+
 endfunction "}}}
 
 fun! s:RestoreCommpletefunc() "{{{
-    if !exists( 'b:__xppum' )
+    if !exists( 'b:__xppum' . s:sid )
         return ''
     endif
 
-    " let &completefunc = b:__xppum.oldcfu
-    unlet b:__xppum
+    let &completefunc = b:__xppum{s:sid}.oldcfu
+    unlet b:__xppum{s:sid}
     return ''
 endfunction "}}}
 

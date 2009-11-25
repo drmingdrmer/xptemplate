@@ -145,25 +145,25 @@ WRAPPED_TEXT_line2
 #ifndef TEST
 #     define TEST
 
- 
+
 #endif /* TEST */
 
 #ifndef SYMBOL_TYPED
 #     define SYMBOL_TYPED
 
- 
+
 #endif /* SYMBOL_TYPED */ b
 
 a #ifndef TEST
 #     define TEST
 
- 
+
 #endif /* TEST */ b
 
 a #ifndef TEST
 #     define TEST
 
- 
+
 #endif /* TEST */
 
 
@@ -478,19 +478,19 @@ WRAPPED_TEXT_line2 */
 
 
 
-                /* 
+                /*
                  * 
                  */
 
-                /* 
+                /*
                  * 
                  */ b
 
-                a /* 
+                a /*
                  * 
                  */ b
 
-                a /* 
+                a /*
                  * 
                  */
 
@@ -502,22 +502,22 @@ WRAPPED_TEXT_line2 */
 
 
 
-/* 
+/*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
 
-                /* 
+                /*
                  * WRAPPED_TEXT
                  WRAPPED_TEXT_line2
                  */b
 
-                a /* 
+                a /*
                  * WRAPPED_TEXT
                  WRAPPED_TEXT_line2
                  */b
 
-                a /* 
+                a /*
                  * WRAPPED_TEXT
                  WRAPPED_TEXT_line2
                  */
@@ -530,19 +530,19 @@ WRAPPED_TEXT_line2 */
 
 
 
-                /** 
+                /**
                  * 
                  */
 
-                /** 
+                /**
                  * 
                  */ b
 
-                a /** 
+                a /**
                  * 
                  */ b
 
-                a /** 
+                a /**
                  * 
                  */
 
@@ -554,22 +554,22 @@ WRAPPED_TEXT_line2 */
 
 
 
-/** 
+/**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
 
-                /** 
+                /**
                  * WRAPPED_TEXT
                  WRAPPED_TEXT_line2
                  */b
 
-                a /** 
+                a /**
                  * WRAPPED_TEXT
                  WRAPPED_TEXT_line2
                  */b
 
-                a /** 
+                a /**
                  * WRAPPED_TEXT
                  WRAPPED_TEXT_line2
                  */
@@ -852,15 +852,15 @@ a test.page
  * <b>function</b>
  * @version : 1.0
  * @since : 2009 Oct 08
- * 
+ *
  * @description :
  *     
- * @usage : 
- * 
+ * @usage :
+ *
  * @author : drdr.xp | drdr.xp@gmail.com
- * @copyright .com.cn 
- * @TODO : 
- * 
+ * @copyright .com.cn
+ * @TODO :
+ *
  *--------------------------\\\ sum ///---------------------------*/
 
 
@@ -869,15 +869,15 @@ a test.page
  * <b>function_TYPED</b>
  * @version : 10_TYPED
  * @since : 2009 Oct 08
- * 
+ *
  * @description :
  *     
- * @usage : 
- * 
+ * @usage :
+ *
  * @author : drdr.xp | drdr.xp@gmail.com
- * @copyright comcn_TYPED 
- * @TODO : 
- * 
+ * @copyright comcn_TYPED
+ * @TODO :
+ *
  *--------------------------\\\ sum_TYPED ///---------------------------*/
  b
 
@@ -886,15 +886,15 @@ a test.page
   * <b>function</b>
   * @version : 1.0
   * @since : 2009 Oct 08
-  * 
+  *
   * @description :
   *     
-  * @usage : 
-  * 
+  * @usage :
+  *
   * @author : drdr.xp | drdr.xp@gmail.com
-  * @copyright .com.cn 
-  * @TODO : 
-  * 
+  * @copyright .com.cn
+  * @TODO :
+  *
   *--------------------------\\\ sum ///---------------------------*/
   b
 
@@ -903,15 +903,15 @@ a test.page
    * <b>function</b>
    * @version : 1.0
    * @since : 2009 Oct 08
-   * 
+   *
    * @description :
    *     
-   * @usage : 
-   * 
+   * @usage :
+   *
    * @author : drdr.xp | drdr.xp@gmail.com
-   * @copyright .com.cn 
-   * @TODO : 
-   * 
+   * @copyright .com.cn
+   * @TODO :
+   *
    *--------------------------\\\ sum ///---------------------------*/
   
 

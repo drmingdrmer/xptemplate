@@ -25,6 +25,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO repopup when ship-back or re-tab to place holder.
 " TODO disable acp when pum shown.
 " TODO autocomplpop compatible
 " TODO bug that conflict with AutoComplePop 
@@ -240,10 +241,11 @@ let s:ItemPumCB = {}
 fun! s:ItemPumCB.onOneMatch(sess) "{{{
 
     " TODO  next item is better?
-    call s:XPTupdate()
-
-    return s:FinishCurrentAndGotoNextItem( '' )
-    " return ""
+    if 0 == s:XPTupdate()
+	return s:FinishCurrentAndGotoNextItem( '' )
+    else
+	return ""
+    endif
 endfunction "}}}
 
 

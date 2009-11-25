@@ -55,8 +55,8 @@
     WRAPPED_TEXT_line2)
 
 
-    <!--  -------------<---------------                      -->
-    <!-- <`tag^` `att*^`att*^xml_attVal()^>`content^</`tag^> -->
+    <!--  -------------<---------------                       -->
+    <!-- <`tag^` `att*^`att*^xml_att_val()^>`content^</`tag^> -->
 
 
 
@@ -183,7 +183,7 @@ WRAPPED_TEXT_line2</a>
     a <br />
 
 
-    <!--  -------------CDATA--------------- -->
+    <!--  -------------cdata--------------- -->
     <!-- <![CDATA[`cursor^]]>               -->
 
 
@@ -197,7 +197,7 @@ WRAPPED_TEXT_line2</a>
     a <![CDATA[]]>
 
 
-    <!--  -------------CDATA_--------------- -->
+    <!--  -------------cdata_--------------- -->
     <!-- <![CDATA[`wrapped^]]>               -->
 
 
@@ -254,19 +254,19 @@ WRAPPED_TEXT_line2</a>
 
 
 
-    <!-- 
+    <!--
       
      -->
 
-     <!-- 
+     <!--
        
       --> b
 
-      a <!-- 
+      a <!--
         
        --> b
 
-       a <!-- 
+       a <!--
          
         -->
 
@@ -278,22 +278,22 @@ WRAPPED_TEXT_line2</a>
 
 
 
-<!-- 
+<!--
       WRAPPED_TEXT
       WRAPPED_TEXT_line2
  -->
 
- <!-- 
+ <!--
    WRAPPED_TEXT
    WRAPPED_TEXT_line2
   -->b
 
-  a <!-- 
+  a <!--
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
    -->b
 
-   a <!-- 
+   a <!--
      WRAPPED_TEXT
      WRAPPED_TEXT_line2
     -->
@@ -306,19 +306,19 @@ WRAPPED_TEXT_line2</a>
 
 
 
-    <!-- 
+    <!--
       
      -->
 
-     <!-- 
+     <!--
        
       --> b
 
-      a <!-- 
+      a <!--
         
        --> b
 
-       a <!-- 
+       a <!--
          
         -->
 
@@ -330,22 +330,22 @@ WRAPPED_TEXT_line2</a>
 
 
 
-<!-- 
+<!--
       WRAPPED_TEXT
       WRAPPED_TEXT_line2
  -->
 
- <!-- 
+ <!--
    WRAPPED_TEXT
    WRAPPED_TEXT_line2
   -->b
 
-  a <!-- 
+  a <!--
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
    -->b
 
-   a <!-- 
+   a <!--
      WRAPPED_TEXT
      WRAPPED_TEXT_line2
     -->

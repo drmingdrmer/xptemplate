@@ -136,6 +136,8 @@ fun! s:NewTestFile(ft) "{{{
     setlocal shiftwidth=4
     setlocal softtabstop=4
 
+
+
     silent! wincmd o
 
     let &ft = a:ft
