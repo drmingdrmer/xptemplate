@@ -6,6 +6,10 @@ XPTinclude
       \ _common/common
       \ xml/xml
 
+
+
+XPTvar $CURSOR_PH 
+
 XPTvar $CL    <!--
 XPTvar $CM
 XPTvar $CR    -->
@@ -151,7 +155,6 @@ XPT div hint=<div>\ ..\ </div>
 
 
 XPT p hint=<p>\ ..\ </p>
-XSET attr?|post=EchoIfNoChange('')
 <p` `attr?^>`cursor^</p>
 
 

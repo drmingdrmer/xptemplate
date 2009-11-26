@@ -25,18 +25,14 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO repopup when ship-back or re-tab to place holder.
-" TODO disable acp when pum shown.
-" TODO autocomplpop compatible
-" TODO bug that conflict with AutoComplePop 
-" TODO completefunc instead of complete()
 " TODO test in windows: g:xptemplate_snippet_folders
-" TODO license snippets.
 " TODO xpreplace use SettingSwitch, 
 " TODO global synonym 
 " TODO default synonym
 " TODO super cancel : clear/default all and finish
 " TODO autocomplete doc
+" TODO license snippets.
+" TODO repopup when ship-back or re-tab to place holder.
 " TODO <cr> in insert mode
 " TODO 2 <tab> to accept empty
 " TODO /../../ ontime filter shortcut
@@ -73,11 +69,12 @@
 "
 "
 " Log of This version:
-"   add : personal folder for personal snippets :h 
+"   add : personal folder for personal snippets :h xpt-personal-folder
 "   fix : simplify variables
 "   fix : autocomplpop compatible
-"   add : inclusion( `:snippet_name:^ and `Include:snippet_name^ ) is supported for XSET[m]
+"   add : inclusion( `:snippet_name:^ and `Include:snippet_name^ ) is supported in XSET[m]
 "   fix : non-built post filter will not break ship-back
+"   fix : disable autocomplpop when pum shown.
 "
 "
 "
@@ -449,7 +446,7 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
     call s:log.Debug( 'create template name=' . a:tmplObj.name . ' tmpl=' . a:tmplObj.tmpl )
 
-    call s:addCursorToComeLast(a:tmplObj.setting)
+    call s:AddCursorToComeLast(a:tmplObj.setting)
     call s:initItemOrderDict( a:tmplObj.setting )
 
 
@@ -599,7 +596,7 @@ fun! s:ParsePostQuoter( setting ) "{{{
     let a:setting.postQuoter = { 'start' : quoters[0], 'end' : quoters[1] }
 endfunction "}}}
 
-fun! s:addCursorToComeLast(setting) "{{{
+fun! s:AddCursorToComeLast(setting) "{{{
     " TODO simplify me
     let comeLast = copy( a:setting.comeLast )
 
@@ -1084,7 +1081,7 @@ fun! s:GetIndentBeforeEdge( tmplObj, textBeforeLeftMark ) "{{{
     return len( indentOfFirstLine )
 endfunction "}}}
 
-fun! s:parseQuotedPostFilter( tmplObj ) "{{{
+fun! s:ParseQuotedPostFilter( tmplObj ) "{{{
     let xp = a:tmplObj.ptn
     let postFilters = a:tmplObj.setting.postFilters
     let quoter = a:tmplObj.setting.postQuoter
@@ -1203,7 +1200,7 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
         else
             call s:ParseInclusion( ctx.ftScope.normalTemplates, ctx.tmpl )
         endif
-        let ctx.tmpl.tmpl = s:parseQuotedPostFilter( ctx.tmpl )
+        let ctx.tmpl.tmpl = s:ParseQuotedPostFilter( ctx.tmpl )
         let ctx.tmpl.tmpl = s:ParseRepetition(ctx.tmpl.tmpl, ctx.tmpl)
 
         let ctx.tmpl.parsed = 1
@@ -1255,12 +1252,6 @@ fun! s:RenderTemplate(nameStartPosition, nameEndPosition) " {{{
         return s:Crash()
     endif
 
-
-
-
-    " " open all folds
-    " call s:TopTmplRange()
-    " silent! normal! gvzO
 
     let ctx = empty( x.stack ) ? x.renderContext : x.stack[0]
     let rg = XPMposList( ctx.marks.tmpl.start, ctx.marks.tmpl.end )
@@ -1493,7 +1484,7 @@ endfunction "}}}
 "
 
 
-fun! s:buildMarksOfPlaceHolder(ctx, item, placeHolder, nameInfo, valueInfo) "{{{
+fun! s:BuildMarksOfPlaceHolder(ctx, item, placeHolder, nameInfo, valueInfo) "{{{
     " TODO do not create edge mark if not necessary 
 
     let [ctx, item, placeHolder, nameInfo, valueInfo] = 
@@ -1572,7 +1563,7 @@ fun! s:buildMarksOfPlaceHolder(ctx, item, placeHolder, nameInfo, valueInfo) "{{{
 
 endfunction "}}}
 
-fun! s:addItemToRenderContext( ctx, item ) "{{{
+fun! s:AddItemToRenderContext( ctx, item ) "{{{
 
     let [ctx, item] = [ a:ctx, a:item ]
 
@@ -1714,7 +1705,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
             let item = s:BuildItemForPlaceHolder( renderContext, placeHolder )
 
-            call s:buildMarksOfPlaceHolder( renderContext, item, placeHolder, nameInfo, valueInfo )
+            call s:BuildMarksOfPlaceHolder( renderContext, item, placeHolder, nameInfo, valueInfo )
 
             " nameInfo and valueInfo is updated according to new position
             " call cursor(nameInfo[3])
@@ -1964,7 +1955,7 @@ fun! s:BuildItemForPlaceHolder( ctx, placeHolder ) "{{{
                     \'behavior'     : {},
                     \}
 
-        call s:addItemToRenderContext( a:ctx, item )
+        call s:AddItemToRenderContext( a:ctx, item )
 
     endif
 
@@ -2687,9 +2678,6 @@ fun! s:InitItem() " {{{
     else
         " TODO needed to fill in?
         let str = renderContext.item.name
-        " return s:FillinLeadingPlaceHolderAndSelect( renderContext, str )
-        " TODO needed?
-        " call XPMupdate()
 
         " to update the edge to following place holder
         call s:XPTupdate()

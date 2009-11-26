@@ -81,6 +81,9 @@ endfunction "}}}
 
 fun! s:MarkRange( marks ) "{{{
     let pos = XPMposList( a:marks.start, a:marks.end )
+    if pos[0] == pos[1]
+        let pos[1][1] += 1
+    endif
     return XPTgetStaticRange( pos[0], pos[1] )
 endfunction "}}}
 
