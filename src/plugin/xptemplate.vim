@@ -457,9 +457,14 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
     call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . a:tmplObj.setting.defaultValues.cursor )
 
-    let nonWordChar = substitute( a:tmplObj.name, '\w', '', 'g' ) 
-    if nonWordChar != '' && !a:tmplObj.wrapped
-        call XPTemplateKeyword( nonWordChar )
+    if len( a:tmplObj.name ) == 1
+          \ && 0 " diabled 
+
+    else
+        let nonWordChar = substitute( a:tmplObj.name, '\w', '', 'g' ) 
+        if nonWordChar != '' && !a:tmplObj.wrapped
+            call XPTemplateKeyword( nonWordChar )
+        endif
     endif
 
 endfunction "}}}
@@ -1899,10 +1904,14 @@ fun! s:ApplyPreValues( placeHolder ) "{{{
 
 
     if s:IsFilterEmpty( preValue ) 
-        let preValue = has_key( setting.defaultValues, a:placeHolder.name ) 
-              \ ? setting.defaultValues[ a:placeHolder.name ] 
-              \ : a:placeHolder.ontimeFilter
+        let preValue = a:placeHolder.ontimeFilter != ''
+              \ ? a:placeHolder.ontimeFilter
+              \ : has_key( setting.defaultValues, a:placeHolder.name ) 
+              \     ? setting.defaultValues[ a:placeHolder.name ] 
+              \     : ''
+
     endif
+
 
     " "Note: does not include function or function is preValue safe(with '_pre' suffix)
     " if preValue !~ '\V' . xp.item_func . '\|' . xp.item_qfunc 
@@ -2809,7 +2818,7 @@ fun! s:Eval(str, ...) "{{{
     try
         return eval(expr)
     catch /.*/
-        call s:log.Warn(v:exception)
+        call s:log.Warn(expr . "\n" . v:exception)
         " call s:log.Warn('expr=' . expr)
         return ''
     endtry
@@ -3327,6 +3336,7 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
             call s:log.Debug( 'after update 1 place holder:', s:TextBetween( XPMpos( renderContext.marks.tmpl.start ), XPMpos( renderContext.marks.tmpl.end ) ) )
         endfor
     catch /.*/
+        " echom v:exception
     finally
         call XPRendSession()
     endtry

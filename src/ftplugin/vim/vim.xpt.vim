@@ -127,7 +127,7 @@ XSET exception=.*
 try
     `wrapped^
 catch /`exception^/
-`
+    `handle^`
 `finally...{{^
 finally
     `cursor^`}}^

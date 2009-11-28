@@ -95,6 +95,17 @@ fun! s:f.ItemInitValue()
 endfunction
 let s:f.IV = s:f.ItemInitValue
 
+fun! s:f.ItemValueStripped( ... )
+    let ptn = a:0 == 0 || a:1 =~ 'lr'
+          \ ? '\V\^\s\*\|\s\*\$'
+          \ : ( a:1 == 'l'
+          \     ? '\V\^\s\*'
+          \     : '\V\s\*\$' )
+    return substitute( self.ItemValue(), ptn, '', 'g' )
+endfunction
+let s:f.VS = s:f.ItemValueStripped
+
+
 fun! s:f.ItemInitValueWithEdge()
     let [ l, r ] = self.ItemEdges()
     return l . self.IV() . r
@@ -170,6 +181,10 @@ fun! s:f.Reference(name) "{{{
 endfunction "}}}
 let s:f.R = s:f.Reference
 
+fun! s:f.Snippet( name )
+    return get( self._ctx.ftScope.normalTemplates, a:name, { 'tmpl' : '' } )[ 'tmpl' ]
+endfunction
+
 " black hole
 fun! s:f.Void(...) "{{{
   return ""
@@ -179,31 +194,31 @@ let s:f.VOID = s:f.Void
 " Echo several expression and concat them.
 " That's the way to use normal vim script expression instead of mixed string
 fun! s:f.Echo(...)
-  return join( a:000, '' )
+    return join( a:000, '' )
 endfunction
 
 fun! s:f.EchoIf( isTrue, ... )
-  if a:isTrue
-    return join( a:000, '' )
-  else
-    return self.V()
-  endif
+    if a:isTrue
+        return join( a:000, '' )
+    else
+        return self.V()
+    endif
 endfunction
 
 fun! s:f.EchoIfEq( expected, ... )
-  if self.V() ==# a:expected
-    return join( a:000, '' )
-  else
-    return self.V()
-  endif
+    if self.V() ==# a:expected
+        return join( a:000, '' )
+    else
+        return self.V()
+    endif
 endfunction
 
 fun! s:f.EchoIfNoChange( ... )
-  if self.V0() ==# self.ItemName()
-    return join( a:000, '' )
-  else
-    return self.V()
-  endif
+    if self.V0() ==# self.ItemName()
+        return join( a:000, '' )
+    else
+        return self.V()
+    endif
 endfunction
 
 fun! s:f.Commentize( text )
@@ -428,7 +443,7 @@ fun! s:f.ExpandInsideEdge( newLeftEdge, newRightEdge )
     let v = self.V()
     let fullname = self.ItemFullname()
 
-    let [ ll, er ] = self.ItemEdges()
+    let [ el, er ] = self.ItemEdges()
 
     if v ==# fullname || v == ''
         return ''
@@ -495,20 +510,29 @@ fun! s:f.CmplQuoter_pre() dict
 endfunction
 
 
-fun! s:f.AutoCmpl( list, ... )
+fun! s:f.AutoCmpl( keepInPost, list, ... )
+
+    if !a:keepInPost && self.Phase() == 'post'
+        return ''
+    endif
+
     if type( a:list ) == type( [] )
         let list = a:list
     else
         let list = [ a:list ] + a:000
     endif
-
+    
+    echom self.Phase()
+    echom self.V() . '--'
+    
     let v = self.V0()
     if v == ''
         return ''
     endif
-
+    
+    
     for word in list
-        if word =~ '\V' . v
+        if word =~ '\V\^' . v
             return word[ len( v ) : ]
         endif
     endfor
