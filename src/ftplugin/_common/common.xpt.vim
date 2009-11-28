@@ -522,8 +522,6 @@ fun! s:f.AutoCmpl( keepInPost, list, ... )
         let list = [ a:list ] + a:000
     endif
     
-    echom self.Phase()
-    echom self.V() . '--'
     
     let v = self.V0()
     if v == ''
