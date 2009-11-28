@@ -252,22 +252,22 @@ a # WRAPPED_TEXT
 WRAPPED_TEXT_line2
 
 
-    #  -------------def---------------   
-    # def `func_name^`$SPfun^(`:args:^): 
-    #     `cursor^                       
+    #  -------------def---------------                                                      
+    # def `name^`$SPfun^(`a^python_sp_arg()^``a^`a^AutoCmpl(0,'self')^`a^python_sp_arg()^): 
+    #     `cursor^                                                                          
 
 
 
-def func_name():
+def name():
     
 
-    def func_name_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ):
+    def name_TYPED( a_TYPED, arg_TYPED, arg_TYPED, arg_TYPED ):
          b
 
-a def func_name():
+a def name():
      b
 
-a def func_name():
+a def name():
     
 
 
@@ -324,21 +324,21 @@ a drdr.xp@gmail.com
 
 
     #  -------------except--------------- 
-    # except `Exception^:                 
+    # except `Exception^` as `e^:         
     #     `pass^                          
 
 
 
-except Exception:
+except Exception as e:
     pass
 
-except Exception_TYPED:
+except Exception_TYPED as e_TYPED:
     pass b
 
-a except Exception:
+a except Exception as e:
     pass b
 
-a except Exception:
+a except Exception as e:
     pass
 
 
@@ -356,60 +356,109 @@ a test.page b
 a test.page
 
 
+    #  -------------filehead--------------- 
+    # `$PYTHON_DOC_MARK^                    
+    # File    : `file()^                    
+    # Author  : `$author^                   
+    # Contact : `$email^                    
+    # Date    : `date()^                    
+    #                                       
+    # Description: `cursor^                 
+    # `$PYTHON_DOC_MARK^                    
+
+
+
+'''
+File    : test.page
+Author  : drdr.xp
+Contact : drdr.xp@gmail.com
+Date    : 2009 Oct 08
+
+Description: 
+'''
+
+'''
+File    : test.page
+Author  : drdr.xp
+Contact : drdr.xp@gmail.com
+Date    : 2009 Oct 08
+
+Description: 
+''' b
+
+a '''
+File    : test.page
+Author  : drdr.xp
+Contact : drdr.xp@gmail.com
+Date    : 2009 Oct 08
+
+Description: 
+''' b
+
+a '''
+File    : test.page
+Author  : drdr.xp
+Contact : drdr.xp@gmail.com
+Date    : 2009 Oct 08
+
+Description: 
+'''
+
+
     #  -------------finally--------------- 
     # finally:                             
-    #     `cursor^                         
+    #     pass`^                           
 
 
 
 finally:
-    
+    pass
 
-    finally:
-         b
-
-a finally:
-     b
+finally:
+    pass b
 
 a finally:
+    pass b
+
+a finally:
+    pass
+
+
+    #  -------------for---------------           
+    # for `var^ in `seq^`seq^python_seq_cmpl()^: 
+    #     `cursor^                               
+
+
+
+for var in seq:
     
 
-
-    #  -------------for---------------                       
-    # for `var^ in range(`$SParg^``0?`,$SPop^`end^`$SParg^): 
-    #     `cursor^                                           
-
-
-
-for var in range( end ):
-    
-
-    for var_TYPED in range( 0_TYPED, end_TYPED ):
+    for var_TYPED in seq_TYPED:
          b
 
-a for var in range( end ):
+a for var in seq:
      b
 
-a for var in range( end ):
+a for var in seq:
     
 
 
-    #  -------------forin--------------- 
-    # for `vars^ in `seq^:               
-    #     `cursor^                       
+    #  -------------forrange--------------- 
+    # for `i^ in `:range:^:                 
+    #     `cursor^                          
 
 
 
-for vars in seq:
+for i in range( end ):
     
 
-    for vars_TYPED in seq_TYPED:
+    for i_TYPED in range( 0_TYPED, end_TYPED ):
          b
 
-a for vars in seq:
+a for i in range( end ):
      b
 
-a for vars in seq:
+a for i in range( end ):
     
 
 
@@ -442,7 +491,7 @@ a from __future__ import name
 
 
     #  -------------genExp--------------- 
-    # (`$SParg^`:generator:^`$SParg^)       
+    # (`$SParg^`:_generator:^`$SParg^)    
 
 
 
@@ -456,8 +505,7 @@ a ( func for elem in seq )
 
 
     #  -------------if--------------- 
-    # if `cond^:                      
-    #     `pass^                      
+    # `:_if:^                         
     # `else...{{^`:else:^`}}^         
 
 
@@ -549,7 +597,7 @@ a lambda : expr
 
 
     #  -------------listComp--------------- 
-    # [`$SParg^`:generator:^`$SParg^]         
+    # [`$SParg^`:_generator:^`$SParg^]      
 
 
 
@@ -560,6 +608,20 @@ a lambda : expr
 a [ func for elem in seq ] b
 
 a [ func for elem in seq ]
+
+
+    #  -------------p--------------- 
+    # pass                           
+
+
+
+pass
+
+pass b
+
+a pass b
+
+a pass
 
 
     #  -------------python--------------- 
@@ -583,6 +645,34 @@ a #!/usr/bin/env python
 a #!/usr/bin/env python
 # coding: utf-8
 
+
+
+    #  -------------range---------------       
+    # range(`$SParg^``0?`,$SPop^`end^`$SParg^) 
+
+
+
+range( end )
+
+range( 0_TYPED, end_TYPED ) b
+
+a range( end ) b
+
+a range( end )
+
+
+    #  -------------s--------------- 
+    # self.                          
+
+
+
+self.
+
+self. b
+
+a self. b
+
+a self.
 
 
     #  -------------sb--------------- 
@@ -641,98 +731,88 @@ a #!/usr/bin/env python
 
 try:
     job
-except Exception:
+except Exception as e:
     pass
 finally:
-    
-
-    try:
-        job_TYPED
-    except Exception_TYPED:
-        pass_TYPED
-    finally_TYPED b
-
-a try:
-    job
-except Exception:
     pass
-finally:
-     b
+
+try:
+    job_TYPED
+except Exception_TYPED as e_TYPED:
+    pass_TYPED
+finally_TYPED b
 
 a try:
     job
-except Exception:
+except Exception as e:
     pass
 finally:
-    
+    pass b
+
+a try:
+    job
+except Exception as e:
+    pass
+finally:
+    pass
 
 
     #  -------------try_--------------- 
     # try:                              
     #     `wrapped^                     
-    # except `Exception^:               
-    #     `pass^                        
-    # ``more_except...`                 
-    # ^``else...`                       
-    # ^`finally...^                     
+    # `:except:^                        
+    # `finally...{{^`:finally:^`}}^     
 
 
 
 try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-except Exception:
-    pass
-except Exception:
-    pass
-except Exception:
-    pass
-except Exception:
-    pass
-else:
+except Exception as e:
     pass
 finally:
+    pass
+
+try:
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+except Exception_TYPED as e_TYPED:
+    pass_TYPED
+finally_TYPEDb
+
+a try:
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+except Exception as e:
+    pass
+finally:
+    passb
+
+a try:
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+except Exception as e:
+    pass
+finally:
+    pass
+
+
+    #  -------------while--------------- 
+    # while `condition^:                 
+    #     `cursor^                       
+
+
+
+while condition:
     
 
-    try:
-        WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-    except Exception_TYPED:
-        pass_TYPED
-    more_except_TYPED
-else_TYPED
-    finally_TYPEDb
+    while condition_TYPED:
+         b
 
-a try:
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-except Exception:
-    pass
-except Exception:
-    pass
-except Exception:
-    pass
-except Exception:
-    pass
-else:
-    pass
-finally:
-    b
+a while condition:
+     b
 
-a try:
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-except Exception:
-    pass
-except Exception:
-    pass
-except Exception:
-    pass
-except Exception:
-    pass
-else:
-    pass
-finally:
+a while condition:
     
 
 
