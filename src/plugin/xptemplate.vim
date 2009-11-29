@@ -74,6 +74,7 @@
 "   fix : non-built post filter will not break ship-back
 "   fix : disable autocomplpop when pum shown.
 "   fix : wrapper indent problem with tab.
+"   improve : python snippets
 "   add : personal folder for personal snippets :h xpt-personal-folder
 "   add : inclusion( `:snippet_name:^ and `Include:snippet_name^ ) is supported in XSET[m]
 "
