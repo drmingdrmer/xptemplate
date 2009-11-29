@@ -86,7 +86,7 @@ let s:assert_map = {
 "}}}
 
 fun! s:RubyAssertPopupSort(a, b) "{{{
-  return a:a.word > a:b.word
+    return a:a.word == a:b.word ? 0 : a:a.word > a:b.word ? 1 : -1
 endfunction "}}}
 
 fun! s:f.RubyAssertPopup() "{{{
@@ -414,7 +414,7 @@ end
 XPT deft hint=def\ test_..\ ..\ end
 XSET name|post=RubySnakeCase()
 XSET arg*|post=RepeatInsideEdges(', ')
-def test_`name^`(`arg*`)^
+def test_`name^
     `cursor^
 end
 
