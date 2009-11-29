@@ -33,6 +33,8 @@ rm -rf	\
   doc/tags	\
   xpt.files.txt	\
   bench.vim	\
+  todo	\
+
   
 
 if [ "$1" = "no" ]; then
