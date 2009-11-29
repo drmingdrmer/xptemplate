@@ -28,7 +28,18 @@ call s:SetIfNotExist('g:xptemplate_fix'                 , 1	)
 call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 1	)
 call s:SetIfNotExist('g:xptemplate_vars'                , ''	)
 call s:SetIfNotExist('g:xptemplate_bundle'              , ''	)
+call s:SetIfNotExist('g:xptemplate_snippet_folders'     , []	)
 call s:SetIfNotExist('g:xpt_post_action', '')
+let s:path = expand( "<sfile>" )
+let s:filename = 'xptemplate.conf.vim'
+let s:path = substitute( s:path, '\', '/', 'g' )
+let s:path = matchstr( s:path, '\V\.\*\ze/plugin/' . s:filename )
+let &runtimepath .= ',' . s:path . '/personal'
+for s:path in g:xptemplate_snippet_folders
+    let &runtimepath .= ',' . s:path
+endfor
+unlet s:path
+unlet s:filename
 let g:XPTpvs = {}
 let g:XPTmappings = {
       \ 'popup'         : "<C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 

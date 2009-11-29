@@ -1,11 +1,11 @@
-" finish " not finished 
+" finish " not finished
 if !g:XPTloadBundle( 'javascript', 'jquery' )
     finish
 endif
 
 XPTemplate priority=lang-2
 
-let s:f = g:XPTfuncs() 
+let s:f = g:XPTfuncs()
 
 XPTvar $TRUE          1
 XPTvar $FALSE         0
@@ -14,15 +14,15 @@ XPTvar $UNDEFINED     NULL
 
 XPTvar $BRif     ' '
 XPTvar $BRel   \n
-XPTvar $BRfor    ' '
-XPTvar $BRwhl  ' '
+XPTvar $BRloop    ' '
+XPTvar $BRloop  ' '
 XPTvar $BRstc ' '
 XPTvar $BRfun   ' '
 
 " XPTvar $JQ jQuery
 XPTvar $JQ $
 
-XPTinclude 
+XPTinclude
     \ _common/common
 
 
@@ -51,7 +51,7 @@ let s:options = {
             \'xhr'           : 1,
             \}
 fun! s:f.jquery_ajaxOptions()
-    
+
 endfunction
 
 " ================================= Snippets ===================================

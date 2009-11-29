@@ -1,15 +1,15 @@
 XPTemplate priority=sub
 
-let s:f = g:XPTfuncs() 
- 
-XPTinclude 
+let s:f = g:XPTfuncs()
+
+XPTinclude
       \ _common/common
       \ vim/vim
 
 
 " ========================= Function and Variables =============================
 
-fun! s:f.hintEscape()
+fun! s:f.xpt_vim_hint_escape()
   " let v = substitute( self.V(), '\(\\*\)\([( ]\)', '\1\1\\\2', 'g' )
   let v = substitute( self.V(), '\(\\*\)\([(]\)', '\1\1\\\2', 'g' )
   return v
@@ -29,9 +29,6 @@ for v in s:xpt_snip
   let s:xpts[ ft ] += [ snip ]
 endfor
 
-" echom string( s:xpts )
-
-
 
 fun! s:f.xpt_vim_path()
   return keys( s:xpts )
@@ -41,7 +38,7 @@ fun! s:f.xpt_vim_name(path)
   let path = matchstr( a:path, '\w\+' )
   if has_key( s:xpts, path )
     return s:xpts[ path ]
-  else 
+  else
     return ''
   endif
 endfunction
@@ -49,7 +46,7 @@ endfunction
 " ================================= Snippets ===================================
 XPTemplateDef
 
-" TODO detect path to generate popup list 
+" TODO detect path to generate popup list
 XPT incf hint=XPTinclude\ ...
 XSET path=xpt_vim_path()
 XSET name=xpt_vim_name( R( 'path' ) )
@@ -65,7 +62,7 @@ let s:f = g:XPTfuncs()
 
 
 XPT tmpl hint=XPT\ name\ ...
-XSET tips|post=hintEscape()
+XSET tips|post=xpt_vim_hint_escape()
 \XPT `name^ " `tips^
 `cursor^
 
@@ -86,63 +83,46 @@ XPTvar $VAR_PRE
 
 XPT varFormat hint=variables\ to\ define\ format
 " if () ** {
+" else ** {
 XPTvar $BRif     ' '
 
 " } ** else {
 XPTvar $BRel     \n
 
 " for () ** {
-XPTvar $BRfor    ' '
-
 " while () ** {
-XPTvar $BRwhl    ' '
+" do ** {
+XPTvar $BRloop   ' '
 
 " struct name ** {
 XPTvar $BRstc    ' '
 
 " int fun() ** {
-XPTvar $BRfun    ' '
-
 " class name ** {
-XPTvar $BRcls    ''
+XPTvar $BRfun    ' '
 
 
 XPT varSpaces hint=variable\ to\ define\ spacing
 " int fun ** (
+" class name ** (
 XPTvar $SPfun      ''
 
 " int fun( ** arg ** )
+" if ( ** condition ** )
+" for ( ** statement ** )
+" [ ** a, b ** ]
+" { ** 'k' : 'v' ** }
 XPTvar $SParg      ' '
 
-" if ** ( 
-XPTvar $SPif       ' '
-
-" if ( ** condition ** )
-XPTvar $SPcnd      ' '
-
+" if ** (
 " while ** (
-XPTvar $SPwhl      ' '
-
 " for ** (
-XPTvar $SPfor      ' '
-
-" for ( ** statement ** )
-XPTvar $SPfstm     ' '
+XPTvar $SPcmd      ' '
 
 " a ** = ** b
-XPTvar $SPeq       ' '
-
 " a = a ** + ** 1
-XPTvar $SPop       ' '
-
 " (a, ** b, ** )
-XPTvar $SPcm       ' '
-
-" class name ** (
-XPTvar $SPcls      ' '
-
-" [ ** a, b ** ], { ** 'k' : 'v' ** }
-XPTvar $SPar       ' '
+XPTvar $SPop       ' '
 
 
 XPT varConst hint=variables\ to\ define\ constants
@@ -172,26 +152,11 @@ XPT spfun " `\$SPfun^
 XPT sparg " `\$SParg^
 \`$SParg\^
 
-XPT spif " `\$SPif^
-\`$SPif\^
-
-XPT spcnd hint=`\$SPcnd^
-\`$SPcnd\^
-
-XPT speq hint=`\$SPeq^
-\`$SPeq\^
+XPT spcmd " `\$SPcmd^
+\`$SPcmd\^
 
 XPT spop hint=`\$SPop^
 \`$SPop\^
-
-XPT spcm hint=`\$SPcm^
-\`$SPcm\^
-
-XPT spcls " `\$SPcls^
-\`$SPcls\^
-
-XPT spar " `\$SPar^
-\`$SPar\^
 
 
 XPT buildifeq hint={{}}

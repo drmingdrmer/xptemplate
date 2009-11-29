@@ -1,7 +1,7 @@
 XPTemplate priority=lang mark=~^ keyword=$([{
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
@@ -11,41 +11,40 @@ XPTvar $VOID_LINE     # void
 XPTvar $CURSOR_PH     # cursor
 
 
-XPTvar $BRif     \ 
-XPTvar $BRel   \n
-XPTvar $BRfor    \ 
-XPTvar $BRwhl  \ 
-XPTvar $BRstc \ 
-XPTvar $BRfun   \ 
+XPTvar $BRif          ' '
+XPTvar $BRel          \n
+XPTvar $BRloop        ' '
+XPTvar $BRstc         ' '
+XPTvar $BRfun         ' '
 
-XPTinclude 
+XPTinclude
       \ _common/common
 
 XPTvar $CS    #
-XPTinclude 
+XPTinclude
       \ _comment/singleSign
 
 
 " ========================= Function and Variables =============================
 
 let s:braceMap = {
-            \   '`' : '`', 
-            \   '{' : '}', 
-            \   '[' : ']', 
-            \   '(' : ')', 
-            \  '{{' : '}}', 
-            \  '[[' : ']]', 
-            \  '((' : '))', 
-            \  '{ ' : ' }', 
-            \  '[ ' : ' ]', 
-            \  '( ' : ' )', 
-            \ '{{ ' : ' }}', 
-            \ '[[ ' : ' ]]', 
-            \ '(( ' : ' ))', 
+            \   '`' : '`',
+            \   '{' : '}',
+            \   '[' : ']',
+            \   '(' : ')',
+            \  '{{' : '}}',
+            \  '[[' : ']]',
+            \  '((' : '))',
+            \  '{ ' : ' }',
+            \  '[ ' : ' ]',
+            \  '( ' : ' )',
+            \ '{{ ' : ' }}',
+            \ '[[ ' : ' ]]',
+            \ '(( ' : ' ))',
             \}
 
 fun! s:f.sh_complete_brace()
-    if !g:xptemplate_brace_complete 
+    if !g:xptemplate_brace_complete
         return ''
     endif
     let v = self.V()
@@ -98,7 +97,7 @@ echo `date +~fmt^`
 
 
 XPT forin
-for ~i^ in ~list^;~$BRfor^do
+for ~i^ in ~list^;~$BRloop^do
     ~cursor^
 done
 
@@ -107,18 +106,18 @@ XPT foreach alias=forin
 
 
 XPT for
-for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$BRfor^do
+for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$BRloop^do
     ~cursor^
 done
 
 XPT forr
-for ((~i^ = ~n^; ~i^ >~=^ ~start^; ~i^--));~$BRfor^do
+for ((~i^ = ~n^; ~i^ >~=^ ~start^; ~i^--));~$BRloop^do
     ~cursor^
 done
 
 
 XPT while
-while ~condition^;~$BRwhl^do
+while ~condition^;~$BRloop^do
     ~cursor^
 done
 

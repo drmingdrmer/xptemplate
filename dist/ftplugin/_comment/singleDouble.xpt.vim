@@ -1,7 +1,7 @@
 XPTemplate priority=all-
 
 
-XPTinclude 
+XPTinclude
       \ _comment/common
 
 
@@ -17,13 +17,13 @@ XPT comment hint=$CL\ $CR
 
 
 XPT commentBlock hint=$CL\ ...
-`$CL^ 
+`$CL^
  `$CM^ `cursor^
  `$CR^
 
 
 XPT commentDoc hint=$CL$CM\ ...
-`$CL^`$CM^ 
+`$CL^`$CM^
  `$CM^ `cursor^
  `$CR^
 
@@ -42,13 +42,13 @@ XPT comment_ hint=$CL\ $CR
 
 
 XPT commentBlock_ hint=$CL\ ...
-`$CL^ 
+`$CL^
  `$CM^ `wrapped^
  `$CR^
 
 
 XPT commentDoc_ hint=$CL$CM\ ...
-`$CL^`$CM^ 
+`$CL^`$CM^
  `$CM^ `wrapped^
  `$CR^
 

@@ -1,6 +1,6 @@
 XPTemplate priority=lang-
 
-XPTinclude 
+XPTinclude
     \ html/html
 
 

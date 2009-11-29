@@ -1,13 +1,11 @@
+" NOTE: You can include this file into which uses C comment format.  But It is
+"       recommended to include _comment/doubleSign (or singleSign,
+"       singleDouble) directly.
 XPTemplate priority=like
 
 XPTvar $CL  /*
-XPTvar $CM  *
-XPTvar $CR  */
+XPTvar $CM   *
+XPTvar $CR   */
 
-" commonly c language does not support '//'
-" XPTvar $CS  //
-
-echom "_comment/c.like is deprecated"
-
-XPTinclude 
-      \ _comment/pattern
+XPTinclude
+      \ _comment/doubleSign

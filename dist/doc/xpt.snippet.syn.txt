@@ -204,11 +204,9 @@
 	|g:xptemplate_vars|. Variables defined with |g:xptemplate_vars|
 	override variables defined in any snippet files.
 
-	NOTE	Conventionally the name of |xpt-snippet-variable| supplied by
-		XPTemplate is upper-case letter started.
-		User defined variable name should starts with lower-case
-		letter.
-	
+	NOTE	By convention the names of |xpt-snippet-variable| supplied by
+		XPTemplate start with an upper-case letter. User defined
+		variable name should start with a lower-case letter.
 
 	NOTE	Override control of |xpt-snippet-variable| is affected by
 		|xpt-snippet-priority|.
@@ -231,10 +229,9 @@
 		XSET elts=c_printfElts( R( 'pattern' ) )
 		printf( "`pattern^"`elts^ )
 <
-	NOTE	Conventionally the name of |xpt-snippet-function| supplied by
-		XPTemplate is upper-case letter started.
-		User defined function name should starts with lower-case
-		letter.
+	NOTE	By convention the names of |xpt-snippet-function|s supplied by
+		XPTemplate start with an upper-case letter. User defined
+		function names should starts with a lower-case letter.
 
 								  *XPTinclude*
 						      *xpt-snippet-XPTinclude*
@@ -272,7 +269,9 @@
 							    *xpt-snippet-name*
 	<snippetName> is the name the user has to type to trigger this
 	snippet. It can only contain characters defined in 'iskeyword' and
-	|xpt-snippet-keyword|.
+	|xpt-snippet-keyword|. Custom snippets (not provided by XPTemplate)
+	should not start with "_" by convention as these snippets are used by
+	XPTemplate internally, see also |xpt-snippet-include|.
 
 							 *xpt-snippet-setting*
 	The 'name=value' defines snippet settings, including
@@ -354,6 +353,7 @@
 		printf( "`pattern^"`elts^ )
 <	NOTE XSET/XSETm commands can be placed anywhere inside a snippet.
 
+
 				       *`::^* *Include:* *xpt-snippet-include*
 	Snippet can include another snippet, by using inclusion place holder : >
 		`Include:snippetNmae^
@@ -363,10 +363,26 @@
 
 	You can also use the short format : >
 		`:snippetName:^
-<	Only two ":" around snippet name are needed.
+<	Only two ":" around the snippet name are needed. Take the "if" snippet
+	in "_condition/c.like.xpt.vim" for example: >
+		
+		XPT _if hidden=1
+		if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
+		    `job^
+		}
+
+		XPT if hint=if\ (..)\ {..}\ else...
+		`Include:_if^` `else...{{^`$BRel^`Include:else^`}}^
+
+<	The real "if" includes the "_if" and "else" snippets.
 	
-	NOTE "Include" is literal, so that snippets with different
-	|xpt-snippet-mark| can not include each other.
+	NOTE	"Include" is literal, so that snippets with different
+		|xpt-snippet-mark| can not include each other.
+
+	NOTE	By convention snippet names starting with "_" are supplied by
+		XPTemplate and shouldn't be used for custom snippets. Normally
+		these snippets are set with |xpt-snippet-hidden| on and for
+		inclusion only.
 
 							    *xpt-snippet-XSET*
 	In |xpt-snippet-body| XSET commands can be used anywhere to set : 
@@ -401,6 +417,7 @@
 		}
 		XSETm END
 <
+
 							*xpt-snippet-ComeFist*
 							*xpt-snippet-ComeLast*
 	Special XSET keys "ComeFirst" and "ComeLast" specify the item render
@@ -408,7 +425,7 @@
 	For example : >
 		XPT for hint=for\ (..;..;++)
 		XSET ComeFirst=0 len
-		for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRfor^{
+		for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRloop^{
 		    `cursor^
 		}
 <	So that "0" is focused first, then "len" and then "i".

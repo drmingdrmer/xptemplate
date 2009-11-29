@@ -1,50 +1,55 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
+" Set your python version with this variable in .vimrc or your own python
+" snippet:
+" XPTvar $PYTHON_EXC    /usr/bin/python
+" XPTvar $PYTHON_EXC    /usr/bin/env python2.6
+XPTvar $PYTHON_EXC    /usr/bin/env python
+
+XPTvar $PYTHON_DOC_MARK '''''
+
+
 XPTvar $TRUE          True
 XPTvar $FALSE         False
 XPTvar $NULL          None
 XPTvar $UNDEFINED     None
 
+
 XPTvar $VOID_LINE     # nothing
 XPTvar $CURSOR_PH     CURSOR
 
-XPTvar $BRif \n
 
 " int fun ** (
+" class name ** (
 XPTvar $SPfun      ''
 
 " int fun( ** arg ** )
+" if ( ** condition ** )
+" for ( ** statement ** )
+" [ ** a, b ** ]
+" { ** 'k' : 'v' ** }
 XPTvar $SParg      ' '
 
-" if ** ( 
-XPTvar $SPif       ' '
-
-" if ( ** condition ** )
-XPTvar $SPcnd      ' '
+" if ** (
+" while ** (
+" for ** (
+XPTvar $SPcmd      ' '
 
 " a ** = ** b
-XPTvar $SPeq       ' '
-
 " a = a ** + ** 1
+" (a, ** b, ** )
 XPTvar $SPop       ' '
 
-" (a, ** b, ** )
-XPTvar $SPcm       ' '
 
-" class name ** (
-XPTvar $SPcls      ''
 
-" [ ** a, b ** ], { ** 'k' : 'v' ** }
-XPTvar $SPar       ' '
-
-XPTinclude 
+XPTinclude
       \ _common/common
 
 
 XPTvar $CS    #
-XPTinclude 
+XPTinclude
     \ _comment/singleSign
 
 
@@ -69,12 +74,82 @@ fun! s:f.python_genexpr_cmpl( itemName )
     endif
 endfunction
 
+let s:rangePattern = '\V\^r\%[ange(]\$'
+
+fun! s:f.python_seq_cmpl()
+    let v = self.V()
+
+    if v == ''
+        return ''
+    endif
+
+
+    if v =~ s:rangePattern
+        if self.Phase() == 'post'
+            return ''
+        endif
+
+        let ends = matchstr( v, s:rangePattern )
+        let rv = printf( 'range(%s0?,%send%s)'
+              \ , self[ '$SParg' ], self[ '$SPop' ], self[ '$SParg' ] )
+        return rv[ len( ends ) : ]
+    endif
+
+
+    let ends = matchstr( v, '\V.\w\+\$' )
+    if ends =~ '\V.\%[keys]\$'
+        return ".keys()"[ len( ends ) : ]
+
+    elseif ends =~ '\V.\%[values]\$'
+        return ".values()"[ len( ends ) : ]
+
+    elseif ends =~ '\V.\%[items]\$'
+        return ".items()"[ len( ends ) : ]
+
+    endif
+
+    return ''
+endfunction
+
+fun! s:f.python_sp_arg()
+    let sp = self[ '$SParg' ]
+
+    if self.Phase() == 'rendering'
+        return sp
+    elseif self.Phase() == 'post'
+        return self.V() == '' || self.V() == 'arg*' ? '' : sp
+    endif
+
+    return sp
+endfunction
+
 " ================================= Snippets ===================================
 XPTemplateDef
 
 
-XPT python hint=#!/usr/bin/env\ python\ #\ coding:\ ..
-XSET encoding|pre=Echo(&fenc ? &fenc : &enc)
+XPT _if hidden
+if `cond^:
+    `pass^
+
+
+XPT _generator hidden " generator
+XSET ComeFirst=elem seq func
+`func^`func^python_genexpr_cmpl('elem')^ for `elem^ in `seq^` if `condition?^
+
+
+XPT _args hidden " expandable arguments
+XSET arg*|post=ExpandInsideEdge( ',$SPop', '' )
+`$SParg`arg*`$SParg^
+
+XPT _args2 hidden " expandable arguments
+XSET arg*|post=ExpandInsideEdge( ',$SPop', '' )
+`,$SPop`arg*^
+
+
+
+
+XPT python hint=#!$PYTHON_EXC
+XSET encoding=Echo(&fenc != '' ? &fenc : &enc)
 #!/usr/bin/env python
 # coding: `encoding^
 
@@ -85,15 +160,28 @@ XPT shebang alias=python
 XPT sb alias=python
 
 
-XPT if hint=if\ ..:\ ..\ else...
-if `cond^:
-    `pass^
+XPT p " pass
+pass
+
+
+XPT s " self.
+self.
+
+
+XPT filehead " file description
+`$PYTHON_DOC_MARK^
+File    : `file()^
+Author  : `$author^
+Contact : `$email^
+Date    : `date()^
+
+Description: `cursor^
+`$PYTHON_DOC_MARK^
+
+
+XPT if " if\ ..:\ ..\ else...
+`:_if:^
 `else...{{^`:else:^`}}^
-
-
-XPT elif hint=else:
-elif `cond^:
-    `cursor^
 
 
 XPT else hint=else:
@@ -101,23 +189,40 @@ else:
     `cursor^
 
 
-XPT for hint=for\ ..\ in\ range\(\ ..\ )
-for `var^ in range(`$SParg^``0?`,$SPcm^`end^`$SParg^):
+XPT elif hint=else:
+elif `cond^:
     `cursor^
 
 
-XPT forin hint=for\ ..\ in\ ..:\ ...
-for `vars^ in `seq^:
+XPT range " range\( .. )
+range(`$SParg^``0?`,$SPop^`end^`$SParg^)
+
+
+XPT forrange " for var in range\( .. )
+for `i^ in `:range:^:
+    `cursor^
+
+
+XPT for hint=for\ ..\ in\ ..:\ ..
+XSET seq|post=Build( V() =~ '\V\^r\%[ange(]\$' ? '`:range:^' : ItemValueStripped() )
+for `var^ in `seq^`seq^python_seq_cmpl()^:
+    `cursor^
+
+
+XPT while " while ..:
+while `condition^:
     `cursor^
 
 
 XPT def hint=def\ ..(\ ..\ ):\ ...
-def `func_name^`$SPfun^(`:args:^):
+XSET a=arg*
+XSET a|post=Build( V() == 'arg*' ? '' : VS() . AutoCmpl( 1, 'self' ) . '`:_args2:^' )
+def `name^`$SPfun^(`a^python_sp_arg()^``a^`a^AutoCmpl(0,'self')^`a^python_sp_arg()^):
     `cursor^
 
 
 XPT lambda hint=(lambda\ ..\ :\ ..)
-XSET arg*|post=ExpandInsideEdge( ',$SPcm', '' )
+XSET arg*|post=ExpandInsideEdge( ',$SPop', '' )
 lambda `arg*^: `expr^
 
 
@@ -128,24 +233,24 @@ try:
 `finally...{{^`:finally:^`}}^
 
 
-XPT except " except *
-except `Exception^:
+XPT except " except ..
+except `Exception^` as `e^:
     `pass^
 
 
 XPT finally " finally:
 finally:
-    `cursor^
+    pass`^
 
 
 XPT class hint=class\ ..\ :\ def\ __init__\ ...
-class `ClassName^`$SPcls^(`$SParg`parent?`$SParg^):
+class `ClassName^`$SPfun^(`$SParg`parent?`$SParg^):
     `__init__...{{^`:init:^`}}^
 
 
 XPT init " def __init__
-XSET arg*|post=ExpandInsideEdge( ',$SPcm', '' )
-def __init__`$SPfun^(`$SParg^self`,$SPcm`arg*^`$SParg^):
+XSET arg*|post=ExpandInsideEdge( ',$SPop', '' )
+def __init__`$SPfun^(`$SParg^self`,$SPop`arg*^`$SParg^):
     `cursor^
 
 
@@ -171,23 +276,15 @@ from __future__ import `name^
 
 
 XPT genExp hint=\(func\(x)\ for\ x\ in\ seq)
-(`$SPar^`:generator:^`$SPar^)
+(`$SParg^`:_generator:^`$SParg^)
 
 
 XPT listComp hint=\[func\(x)\ for\ x\ in\ seq]
-[`$SPar^`:generator:^`$SPar^]
+[`$SParg^`:_generator:^`$SParg^]
 
 
 
 
-XPT generator hidden " generator
-XSET ComeFirst=elem seq func
-`func^`func^python_genexpr_cmpl('elem')^ for `elem^ in `seq^` if `condition?^
-
-
-XPT args hidden " expandable arguments
-XSET arg*|post=ExpandInsideEdge( ',$SPcm', '' )
-`$SParg`arg*`$SParg^
 
 
 " ================================= Wrapper ===================================
@@ -196,23 +293,5 @@ XSET arg*|post=ExpandInsideEdge( ',$SPcm', '' )
 XPT try_ hint=try:\ ..\ except:\ ...
 try:
     `wrapped^
-except `Exception^:
-    `pass^
-``more_except...`
-^``else...`
-^`finally...^
-XSETm more_except...|post
-except `Exception^:
-    `pass^
-``more_except...`
-^
-XSETm END
-XSETm else...|post
-else:
-    ``pass`
-^
-XSETm END
-XSETm finally...|post
-finally:
-    `cursor^
-XSETm END
+`:except:^
+`finally...{{^`:finally:^`}}^

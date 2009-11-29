@@ -20,7 +20,6 @@ let g:XPM_RET = {
             \}
 let s:emptyHistoryElt = {'list':[], 'dict' :{}, 'likely' : { 'start' : '', 'end' : '' }}
 let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
 let g:XPMpreferLeft = 'l'
 let g:XPMpreferRight = 'r'
 augroup XPM
@@ -650,7 +649,4 @@ fun! PrintDebug()
     let debugString .= " " . mode() . string( [line( "." ), col( "." )] ) . ' last:' .string( d.lastPositionAndLength )
     return substitute( debugString, '\s', '' , 'g' )
 endfunction
-nnoremap ,m :call XPMhere('c', 'l')<cr>
-nnoremap ,M :call XPMhere('c', 'r')<cr>
-nnoremap ,g :call XPMgoto('c')<cr>
 let &cpo = s:oldcpo

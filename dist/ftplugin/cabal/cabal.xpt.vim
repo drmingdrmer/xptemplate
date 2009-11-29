@@ -1,7 +1,7 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
@@ -9,7 +9,7 @@ XPTvar $UNDEFINED     NULL
 XPTvar $VOID_LINE /* void */;
 XPTvar $BRif \n
 
-XPTinclude 
+XPTinclude
       \ _common/common
 
 
@@ -26,7 +26,7 @@ XSET Author...|post=\nAuthor: `_^
 XSET Maintainer...|post=\nMaintainer: `_^
 Name:       `name^
 Version:    `version^
-Synopsis:   `synop^ 
+Synopsis:   `synop^
 Build-Type: `Simple^
 Cabal-Version: >= `ver^1.2^`
 `Description...^`

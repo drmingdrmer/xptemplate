@@ -6,14 +6,14 @@ XPTemplate priority=lang
 " XPTvar $UNDEFINED     NULL
 
 
-XPTinclude 
+XPTinclude
     \ _common/common
 
 XPTvar $CL    /*
 XPTvar $CM    *
 XPTvar $CR    */
 XPTvar $CS    //
-XPTinclude 
+XPTinclude
     \ _comment/singleDouble
 
 XPTinclude

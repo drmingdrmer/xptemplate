@@ -5,11 +5,9 @@ let g:__XPOPUP_VIM__ = 1
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 runtime plugin/debug.vim
-runtime plugin/xpreplace.vim
-runtime plugin/mapstack.vim
-com! XPPgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
-XPPgetSID
-delc XPPgetSID
+runtime plugin/SettingSwitch.class.vim
+runtime plugin/MapSaver.class.vim
+exe XPT#let_sid
 let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )
 fun! s:SetIfNotExist(k, v) 
@@ -82,12 +80,13 @@ fun! s:popup(start_col, opt) dict
         let sess.matchedCallback = 'onEmpty'
         let actionList += ['callback']
     elseif len(sess.currentList) == 1
+          \&& doCallback
         let sess.matched = type(sess.currentList[0]) == type({}) ? sess.currentList[0].word : sess.currentList[0]
         let sess.matchedCallback = 'onOneMatch'
         let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
     elseif sess.prefix != "" 
-                \&& sess.longest ==? sess.prefix 
-                \&& doCallback
+          \&& sess.longest ==? sess.prefix 
+          \&& doCallback
         let sess.matched = ''
         for item in sess.currentList
             let key = type(item) == type({}) ? item.word : item
@@ -129,6 +128,29 @@ fun! s:sessionPrototype.updatePrefixIndex(list)
         endif
     endfor
 endfunction 
+fun! s:_InitBuffer() 
+    if exists( 'b:__xpp_buffer_init' )
+        return
+    endif
+    let b:_xpp_map_saver = g:MapSaver.New( 1 )
+    call b:_xpp_map_saver.AddList( 
+          \ 'i_<UP>', 
+          \ 'i_<DOWN>', 
+          \
+          \ 'i_<BS>', 
+          \ 'i_<TAB>', 
+          \ 'i_<CR>', 
+          \
+          \ 'i_<C-e>', 
+          \ 'i_<C-y>', 
+          \)
+    let b:_xpp_setting_switch = g:SettingSwitch.New()
+    call b:_xpp_setting_switch.AddList( 
+          \ [ '&l:cinkeys', '' ], 
+          \ [ '&l:indentkeys', '' ], 
+          \)
+    let b:__xpp_buffer_init = 1
+endfunction 
 fun! XPPprocess(list) 
     if !exists("b:__xpp_current_session")
         call s:log.Error("session does not exist!")
@@ -136,7 +158,7 @@ fun! XPPprocess(list)
     endif
     let sess = b:__xpp_current_session
     if len(a:list) == 0
-        return ''
+        return "\<C-n>\<C-p>"
     endif
     let actionName = a:list[ 0 ]
     let nextList = a:list[ 1 : ]
@@ -190,6 +212,11 @@ fun! XPPprocess(list)
         let postAction .= g:xpt_post_action
     endif
     return postAction
+endfunction 
+fun! XPPcomplete(col, list) 
+    let oldcfu = &completefunc
+    set completefunc=XPPcompleteFunc
+    return "\<C-x>\<C-u>"
 endfunction 
 fun! XPPcr() 
     if !s:PopupCheck(1)
@@ -286,17 +313,8 @@ fun! XPPcorrectPos()
     endif
 endfunction 
 fun! s:ApplyMapAndSetting() 
-    if exists("b:__xpp_mapped")
-        return
-    endif
-    let b:__xpp_mapped = {}
-    let b:__xpp_mapped.i_up     =  g:MapPush('<up>', 'i', 1)
-    let b:__xpp_mapped.i_down   =  g:MapPush('<down>', 'i', 1)
-    let b:__xpp_mapped.i_bs     =  g:MapPush('<bs>', 'i', 1)
-    let b:__xpp_mapped.i_tab    =  g:MapPush('<tab>', 'i', 1)
-    let b:__xpp_mapped.i_cr     =  g:MapPush('<cr>', 'i', 1)
-    let b:__xpp_mapped.i_c_e    =  g:MapPush('<C-e>', 'i', 1)
-    let b:__xpp_mapped.i_c_y    =  g:MapPush('<C-y>', 'i', 1)
+    call s:_InitBuffer()
+    call b:_xpp_map_saver.Save()
     exe 'inoremap <silent> <buffer> <UP>'   '<C-r>=XPPup()<CR>'
     exe 'inoremap <silent> <buffer> <DOWN>' '<C-r>=XPPdown()<CR>'
     exe 'inoremap <silent> <buffer> <bs>'  '<C-r>=XPPshorten()<cr>'
@@ -304,23 +322,28 @@ fun! s:ApplyMapAndSetting()
     exe 'inoremap <silent> <buffer> <cr>'  '<C-r>=XPPcr()<cr>'
     exe 'inoremap <silent> <buffer> <C-e>' '<C-r>=XPPcancel()<cr>'
     exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
-    call SettingPush( '&l:cinkeys', '' )
-    call SettingPush( '&l:indentkeys', '' )
+    call b:_xpp_setting_switch.Switch()
+    if exists( ':AcpLock' )
+        AcpLock
+    endif
 endfunction 
-fun! s:ClearMapAndSetting() 
-    if !exists("b:__xpp_mapped")
+fun! s:CheckAndRepop() 
+    if !exists( 'b:__xpp_buffer_init' )
         return
     endif
-    call g:MapPop(b:__xpp_mapped.i_c_y)
-    call g:MapPop(b:__xpp_mapped.i_c_e)
-    call g:MapPop(b:__xpp_mapped.i_cr)
-    call g:MapPop(b:__xpp_mapped.i_tab)
-    call g:MapPop(b:__xpp_mapped.i_bs)
-    call g:MapPop(b:__xpp_mapped.i_down)
-    call g:MapPop(b:__xpp_mapped.i_up)
-    call SettingPop() " indentkeys 
-    call SettingPop() " cinkeys 
-    unlet b:__xpp_mapped
+    if !pumvisible()
+          \ && len(b:__xpp_current_session.currentList) > 1
+        call feedkeys( "\<C-r>=XPPrepopup(0, 'noenlarge')\<cr>" )
+    endif
+endfunction 
+fun! s:ClearMapAndSetting() 
+    call s:_InitBuffer()
+    call b:_xpp_map_saver.Restore()
+    call b:_xpp_setting_switch.Restore()
+    if exists( ':AcpUnlock' )
+        AcpLock
+        AcpUnlock
+    endif
 endfunction 
 fun! XPPend() 
     call s:End()

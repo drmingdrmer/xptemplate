@@ -1,7 +1,7 @@
 XPTemplate priority=lang keyword=:%#
 
 " containers
-let s:f = g:XPTfuncs() 
+let s:f = g:XPTfuncs()
 
 " inclusion
 XPTinclude
@@ -126,7 +126,7 @@ fun! s:f.RepeatInsideEdges(sep) "{{{
 
   let newName = 'n' . n
   let res  = edgeLeft . v
-  let res .= markLeft . a:sep .  markLeft . newName . markRight 
+  let res .= markLeft . a:sep .  markLeft . newName . markRight
   let res .= 'ExpandIfNotEmpty("' . a:sep . '", "' . newName . '")' . markRight . markRight
   let res .=  edgeRight
 

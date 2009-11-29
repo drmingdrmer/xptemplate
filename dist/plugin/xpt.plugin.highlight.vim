@@ -6,7 +6,6 @@ runtime plugin/xptemplate.vim
 if '' == g:xptemplate_highlight 
     finish
 endif
-exe g:XPTsid
 if !hlID( 'XPTcurrentPH' )
     hi def link XPTcurrentPH    DiffChange
 endif
@@ -54,6 +53,9 @@ fun! s:UpdateHL(x, ctx)
 endfunction 
 fun! s:MarkRange( marks ) 
     let pos = XPMposList( a:marks.start, a:marks.end )
+    if pos[0] == pos[1]
+        let pos[1][1] += 1
+    endif
     return XPTgetStaticRange( pos[0], pos[1] )
 endfunction 
 fun! XPTgetStaticRange(p, q) 
@@ -113,6 +115,7 @@ else
         endif
     endfunction 
 endif
+exe XPT#let_sid
 call g:XPTaddPlugin("start", 'after', function( '<SNR>' . s:sid . "UpdateHL" ) )
 call g:XPTaddPlugin("update", 'after', function( '<SNR>' . s:sid . "UpdateHL" ) )
 call g:XPTaddPlugin("ph_pum", 'before', function( '<SNR>' . s:sid . "ClearHL" ) )

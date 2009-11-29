@@ -1,7 +1,7 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          true
 XPTvar $FALSE         false
 XPTvar $NULL          null
@@ -10,22 +10,21 @@ XPTvar $UNDEFINED     null
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
-XPTvar $BRif     \ 
-XPTvar $BRfor    \ 
-XPTvar $BRwhl  \ 
-XPTvar $BRstc \ 
-XPTvar $BRfun   \ 
+XPTvar $BRif          ' '
+XPTvar $BRloop        ' '
+XPTvar $BRstc         ' '
+XPTvar $BRfun         ' '
 
-XPTinclude 
+XPTinclude
       \ _common/common
 
 XPTvar $CL    /*
 XPTvar $CM    *
 XPTvar $CR    */
-XPTinclude 
+XPTinclude
       \ _comment/doubleSign
 
-XPTinclude 
+XPTinclude
       \ _condition/c.like
       \ _loops/java.for.like
       \ _loops/c.while.like
@@ -40,7 +39,7 @@ XPTemplateDef
 
 
 XPT foreach hint=for\ \(\ ..\ :\ ..\ \)
-for ( `type^ `var^ : `inWhat^ )`$BRfor^{
+for ( `type^ `var^ : `inWhat^ )`$BRloop^{
     `cursor^
 }
 

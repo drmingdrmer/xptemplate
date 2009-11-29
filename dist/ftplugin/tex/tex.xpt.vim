@@ -1,7 +1,7 @@
 XPTemplate priority=lang mark=`~
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
@@ -9,7 +9,7 @@ XPTvar $UNDEFINED     NULL
 XPTvar $VOID_LINE     /* void */;
 XPTvar $BRif \n
 
-XPTinclude 
+XPTinclude
       \ _common/common
       \ _common/personal
 
@@ -139,6 +139,17 @@ XPT beg hint=begin{..}\ ..\ end{..}
 \begin{`something~}
 `cursor~
 \end{`something~}
+..XPT
+
+XPT columns hint=\begin{columns}...
+\begin{columns}
+    \begin{column}[l]{`size~5cm~}
+    \end{column}`...~
+
+    \begin{column}[l]{`size~5cm~}
+    \end{column}`...~
+    `cursor~
+\end{columns}
 ..XPT
 
 XPT enclose_ hint=\begin{..}\ SEL\ \end{..}

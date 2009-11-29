@@ -28,7 +28,7 @@ let s:pattern = {
             \       'start' : '\V\c<style\_[^>]\*>',
             \       'mid'   : '',
             \       'end'   : '\V\c</style>',
-            \       'skip'  : s:skipPattern, 
+            \       'skip'  : s:skipPattern,
             \   },
             \}
 
@@ -44,7 +44,7 @@ fun! XPT_phpFiletypeDetect() "{{{
     let synName = g:xptutil.XPTgetCurrentOrPreviousSynName()
 
     if synName == ''
-        " top level ft is html 
+        " top level ft is html
         return s:topFT
 
     else

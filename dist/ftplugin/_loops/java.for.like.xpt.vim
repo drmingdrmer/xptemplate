@@ -1,12 +1,12 @@
 XPTemplate priority=like-
 
 " containers
-let s:f = g:XPTfuncs() 
+let s:f = g:XPTfuncs()
 
 XPTvar $TRUE          true
 XPTvar $FALSE         false
 XPTvar $NULL          null
-XPTvar $BRif  
+XPTvar $BRif
 XPTvar $VOID_LINE /* void */;
 
 " ================================= Snippets ===================================

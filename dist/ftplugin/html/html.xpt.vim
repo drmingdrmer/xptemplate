@@ -1,18 +1,20 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
-XPTinclude 
+let s:f = g:XPTfuncs()
+
+XPTinclude
       \ _common/common
+      \ xml/xml
+
+
+
+XPTvar $CURSOR_PH 
 
 XPTvar $CL    <!--
-XPTvar $CM    
+XPTvar $CM
 XPTvar $CR    -->
-XPTinclude 
+XPTinclude
       \ _comment/doubleSign
-
-XPTinclude 
-      \ xml/xml
 
 XPTembed
       \ javascript/javascript
@@ -28,7 +30,6 @@ fun! s:f.createTable(...) "{{{
 
   let ncol_str = inputdialog("num of column:")
   let ncol = ncol_str + 0
-  
 
   let l = ""
   let i = 0 | while i < nrow | let i += 1
@@ -60,11 +61,11 @@ let s:doctypes = {
       \}
 
 
-fun! s:f.html_doctypeList()
-  return keys( s:doctypes )
+fun! s:f.html_doctype_list()
+    return keys( s:doctypes )
 endfunction
 
-fun! s:f.html_doctypePosta(v)
+fun! s:f.html_doctype_post(v)
   if has_key( s:doctypes, a:v )
     return s:doctypes[ a:v ]
   else
@@ -72,11 +73,11 @@ fun! s:f.html_doctypePosta(v)
   endif
 endfunction
 
-" TODO do not apply to following place holder 
+" TODO do not apply to following place holder
 fun! s:f.html_tagAttr()
   let tagName = self.V()
   if tagName ==? 'a'
-    return tagName . ' href="' . self.ItemCreate( '#', {}, {} ) . '"'
+      return tagName . ' href="' . self.ItemCreate( '#', {}, {} ) . '"'
   " elseif tagName ==? 'div'
   " elseif tagName ==? 'table'
   else
@@ -139,8 +140,8 @@ XPT html hint=<html><head>..<head><body>...
 </html>
 
 XPT doctype hint=<!DOCTYPE\ ***
-XSET doctype=html_doctypeList()
-XSET doctype|post=html_doctypePosta( V() )
+XSET doctype=html_doctype_list()
+XSET doctype|post=html_doctype_post( V() )
 <!DOCTYPE html PUBLIC `doctype^>
 
 
@@ -154,7 +155,6 @@ XPT div hint=<div>\ ..\ </div>
 
 
 XPT p hint=<p>\ ..\ </p>
-XSET attr?|post=EchoIfNoChange('')
 <p` `attr?^>`cursor^</p>
 
 

@@ -2,7 +2,7 @@
 XPTemplate priority=all
 
 " containers
-let s:f = g:XPTfuncs() 
+let s:f = g:XPTfuncs()
 
 XPTvar $author $author is not set, you need to set g:xptemplate_vars="$author=your_name"
 XPTvar $email  $email is not set, you need to set g:xptemplate_vars="$email=your_email@com"
@@ -10,66 +10,53 @@ XPTvar $email  $email is not set, you need to set g:xptemplate_vars="$email=your
 XPTvar $VOID
 
 " if () ** {
+" else ** {
 XPTvar $BRif     ' '
 
 " } ** else {
 XPTvar $BRel     \n
 
 " for () ** {
-XPTvar $BRfor    ' '
-
 " while () ** {
-XPTvar $BRwhl    ' '
+" do ** {
+XPTvar $BRloop   ' '
 
 " struct name ** {
 XPTvar $BRstc    ' '
 
 " int fun() ** {
-XPTvar $BRfun    ' '
-
 " class name ** {
-XPTvar $BRcls    ' '
+XPTvar $BRfun    ' '
 
 
 " int fun ** (
+" class name ** (
 XPTvar $SPfun      ''
 
 " int fun( ** arg ** )
+" if ( ** condition ** )
+" for ( ** statement ** )
+" [ ** a, b ** ]
+" { ** 'k' : 'v' ** }
 XPTvar $SParg      ' '
 
 " if ** (
-XPTvar $SPif       ' '
-
-" if ( ** condition ** )
-XPTvar $SPcnd      ' '
-
 " while ** (
-XPTvar $SPwhl      ' '
-
 " for ** (
-XPTvar $SPfor      ' '
-
-" for ( ** statement ** )
-XPTvar $SPfstm     ' '
+XPTvar $SPcmd      ' '
 
 " a ** = ** b
-XPTvar $SPeq       ' '
-
 " a = a ** + ** 1
+" (a, ** b, ** )
 XPTvar $SPop       ' '
 
-" (a, ** b, ** )
-XPTvar $SPcm       ' '
-
-" class name ** (
-XPTvar $SPcls      ' '
 
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          0
 XPTvar $UNDEFINED     0
 
-XPTvar $VOID_LINE  
+XPTvar $VOID_LINE
 XPTvar $CURSOR_PH      CURSOR
 
 
@@ -108,6 +95,17 @@ fun! s:f.ItemInitValue()
 endfunction
 let s:f.IV = s:f.ItemInitValue
 
+fun! s:f.ItemValueStripped( ... )
+    let ptn = a:0 == 0 || a:1 =~ 'lr'
+          \ ? '\V\^\s\*\|\s\*\$'
+          \ : ( a:1 == 'l'
+          \     ? '\V\^\s\*'
+          \     : '\V\s\*\$' )
+    return substitute( self.ItemValue(), ptn, '', 'g' )
+endfunction
+let s:f.VS = s:f.ItemValueStripped
+
+
 fun! s:f.ItemInitValueWithEdge()
     let [ l, r ] = self.ItemEdges()
     return l . self.IV() . r
@@ -115,7 +113,7 @@ endfunction
 let s:f.IVE = s:f.ItemInitValueWithEdge
 
 " if value match one of the regexps
-fun! s:f.Vmatch( ... ) 
+fun! s:f.Vmatch( ... )
     let v = self.V()
     for reg in a:000
         if match(v, reg) != -1
@@ -124,12 +122,12 @@ fun! s:f.Vmatch( ... )
     endfor
 
     return 0
-endfunction 
+endfunction
 
 " value matchstr
-fun! s:f.VMS( reg ) 
+fun! s:f.VMS( reg )
     return matchstr(self.V(), a:reg)
-endfunction 
+endfunction
 
 " edge stripped value
 fun! s:f.ItemStrippedValue()
@@ -183,6 +181,10 @@ fun! s:f.Reference(name) "{{{
 endfunction "}}}
 let s:f.R = s:f.Reference
 
+fun! s:f.Snippet( name )
+    return get( self._ctx.ftScope.normalTemplates, a:name, { 'tmpl' : '' } )[ 'tmpl' ]
+endfunction
+
 " black hole
 fun! s:f.Void(...) "{{{
   return ""
@@ -192,31 +194,31 @@ let s:f.VOID = s:f.Void
 " Echo several expression and concat them.
 " That's the way to use normal vim script expression instead of mixed string
 fun! s:f.Echo(...)
-  return join( a:000, '' )
+    return join( a:000, '' )
 endfunction
 
 fun! s:f.EchoIf( isTrue, ... )
-  if a:isTrue
-    return join( a:000, '' )
-  else
-    return self.V()
-  endif
+    if a:isTrue
+        return join( a:000, '' )
+    else
+        return self.V()
+    endif
 endfunction
 
 fun! s:f.EchoIfEq( expected, ... )
-  if self.V() ==# a:expected
-    return join( a:000, '' )
-  else
-    return self.V()
-  endif
+    if self.V() ==# a:expected
+        return join( a:000, '' )
+    else
+        return self.V()
+    endif
 endfunction
 
 fun! s:f.EchoIfNoChange( ... )
-  if self.V0() ==# self.ItemName()
-    return join( a:000, '' )
-  else
-    return self.V()
-  endif
+    if self.V0() ==# self.ItemName()
+        return join( a:000, '' )
+    else
+        return self.V()
+    endif
 endfunction
 
 fun! s:f.Commentize( text )
@@ -304,13 +306,13 @@ fun! s:f.ChooseStr(...) "{{{
 endfunction "}}}
 
 " XXX
-" Fill in postType, and finish template rendering at once. 
+" Fill in postType, and finish template rendering at once.
 " This make nested template rendering go back to upper level, top-level
 " template rendering quit.
 fun! s:f.xptFinishTemplateWith(postType) dict
 endfunction
 
-" XXX  
+" XXX
 " Fill in postType, jump to next item. For creating item being able to be
 " automatically filled in
 fun! s:f.xptFinishItemWith(postType) dict
@@ -390,9 +392,9 @@ fun! s:f.ItemCreate( name, edges, filters )
 
 
   let item = ml . a:name
-  
+
   if has_key( a:edges, 'left' )
-    let item = ml . a:edges.left . item 
+    let item = ml . a:edges.left . item
   endif
 
   if has_key( a:edges, 'right' )
@@ -428,7 +430,7 @@ fun! s:f.ExpandIfNotEmpty( sep, item, ... ) "{{{
   else
     let r = ''
   endif
-  
+
   " let t = ( v == '' || v == a:item || v == ( a:sep . a:item . r ) )
   let t = ( v == '' || v =~ '\V' . a:item )
         \ ? ''
@@ -441,19 +443,19 @@ fun! s:f.ExpandInsideEdge( newLeftEdge, newRightEdge )
     let v = self.V()
     let fullname = self.ItemFullname()
 
-    let [ ll, er ] = self.ItemEdges()
+    let [ el, er ] = self.ItemEdges()
 
     if v ==# fullname || v == ''
         return ''
     endif
 
     return substitute( v, '\V' . er . '\$' , '' , '' )
-                \. self.ItemCreate( self.ItemName(), { 'left' : a:newLeftEdge, 'right' : a:newRightEdge }, {} ) 
+                \. self.ItemCreate( self.ItemName(), { 'left' : a:newLeftEdge, 'right' : a:newRightEdge }, {} )
                 \. er
 endfunction
 
 
-let s:xptCompleteMap = [ 
+let s:xptCompleteMap = [
             \"''",
             \'""',
             \'()',
@@ -462,13 +464,13 @@ let s:xptCompleteMap = [
             \'<>',
             \'||',
             \'**',
-            \'``', 
+            \'``',
             \]
 let s:xptCompleteLeft = join( map( deepcopy( s:xptCompleteMap ), 'v:val[0:0]' ), '' )
 let s:xptCompleteRight = join( map( deepcopy( s:xptCompleteMap ), 'v:val[1:1]' ), '' )
 
 fun! s:f.CompleteRightPart( left ) dict
-    if !g:xptemplate_brace_complete 
+    if !g:xptemplate_brace_complete
         return ''
     endif
 
@@ -476,7 +478,7 @@ fun! s:f.CompleteRightPart( left ) dict
     " let left = substitute( a:left, '[', '[[]', 'g' )
     let left = escape( a:left, '[\' )
     let v = matchstr( v, '^\V\[' . left . ']\+' )
-    if v == '' 
+    if v == ''
         return ''
     endif
 
@@ -487,7 +489,7 @@ fun! s:f.CompleteRightPart( left ) dict
 endfunction
 
 fun! s:f.CmplQuoter_pre() dict
-    if !g:xptemplate_brace_complete 
+    if !g:xptemplate_brace_complete
         return ''
     endif
 
@@ -508,20 +510,27 @@ fun! s:f.CmplQuoter_pre() dict
 endfunction
 
 
-fun! s:f.AutoCmpl( list, ... )
+fun! s:f.AutoCmpl( keepInPost, list, ... )
+
+    if !a:keepInPost && self.Phase() == 'post'
+        return ''
+    endif
+
     if type( a:list ) == type( [] )
         let list = a:list
     else
         let list = [ a:list ] + a:000
     endif
-
+    
+    
     let v = self.V0()
     if v == ''
         return ''
     endif
-
+    
+    
     for word in list
-        if word =~ '\V' . v
+        if word =~ '\V\^' . v
             return word[ len( v ) : ]
         endif
     endfor
@@ -533,7 +542,7 @@ endfunction
 
 " Short names are normally not good. Some alias to those short name functions are
 " made, with meaningful names.
-" 
+"
 " They all start with prefix 'xpt'.
 "
 

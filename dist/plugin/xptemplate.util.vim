@@ -5,10 +5,7 @@ let g:__XPTEMPLATE_UTIL_VIM__ = 1
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 runtime plugin/debug.vim
-runtime plugin/xpclass.vim
 let s:log = CreateLogger( 'warn' )
-let g:XPTsid = 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
-exe g:XPTsid
 let s:unescapeHead          = '\v(\\*)\1\\?\V'
 fun! g:XPclassPrototype( sid, ...) 
     let p = {}
@@ -57,7 +54,7 @@ fun! s:XPTgetCurrentOrPreviousSynName()
     endif
     return synName
 endfunction 
-fun! s:RemoveDuplicate( list )
+fun! s:RemoveDuplicate( list ) 
     let dict = {}
     let newList = []
     for e in a:list
@@ -67,6 +64,7 @@ fun! s:RemoveDuplicate( list )
         let dict[ e ] = 1
     endfor
     return newList
-endfunction
-let g:xptutil = g:XPclass( s:sid, {} )
+endfunction 
+exe XPT#let_sid
+let g:xptutil = XPT#class( s:sid, {} )
 let &cpo = s:oldcpo

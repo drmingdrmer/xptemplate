@@ -1,7 +1,7 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
@@ -9,7 +9,7 @@ XPTvar $CL  /*
 XPTvar $CM   *
 XPTvar $CR   */
 
-XPTinclude 
+XPTinclude
       \ _common/common
       \ _comment/doubleSign
 
@@ -33,13 +33,13 @@ XPTemplateDef
 
 
 XPT padding " padding:
-padding: `v^`v^AutoCmpl( 'auto', '0px' )^;
+padding: `v^`v^AutoCmpl( 1, 'auto', '0px' )^;
 
-XPT width " width : 
+XPT width " width :
 width: `^;
 
 
-XPT height " height : 
+XPT height " height :
 height: `^;
 
 
@@ -359,20 +359,20 @@ XSET selec=Choose(['auto', 'fixed'])
 table-layout: `selec^;
 
 
-XPT tidt " text-indent
+XPT textindent " text-indent
 text-indent: `^;`cursor^
 
-XPT tal hint=text-align
+XPT textalign hint=text-align
 XSET selec=Choose(['left', 'right', 'center', 'justify'])
 text-align: `selec^;
 
 
-XPT tdec hint=text-decoration
+XPT textdecoration hint=text-decoration
 XSET selec=Choose(['none', 'underline', 'overline', 'line-through', 'blink'])
 text-decoration: `selec^;
 
 
-XPT ttr hint=text-transform
+XPT texttransform hint=text-transform
 XSET selec=Choose(['capitalize', 'uppercase', 'lowercase', 'none'])
 text-transform: `selec^;
 

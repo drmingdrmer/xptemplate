@@ -2,7 +2,7 @@ XPTemplate priority=lang
 
 
 " containers
-let s:f = g:XPTfuncs() 
+let s:f = g:XPTfuncs()
 
 " inclusion
 XPTinclude

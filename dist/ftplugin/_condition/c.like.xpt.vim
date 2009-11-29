@@ -14,13 +14,11 @@ XPTvar $BRel     \n
 
 
 " int fun( ** arg ** )
+" if ( ** condition ** )
 XPTvar $SParg      ' '
 
 " if ** (
-XPTvar $SPif       ' '
-
-" if ( ** condition ** )
-XPTvar $SPcnd      ' '
+XPTvar $SPcmd       ' '
 
 " a = a ** + ** 1
 XPTvar $SPop       ' '
@@ -37,18 +35,17 @@ XPTvar $CURSOR_PH      /* cursor */
 XPTemplateDef
 
 XPT _if hidden=1
-if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{
+XSET job=$VOID_LINE
+if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
     `job^
 }
 
 
 XPT if hint=if\ (..)\ {..}\ else...
-XSET job=$VOID_LINE
 `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^
 
 
 XPT elif hint=else\ if\ \(\ ...\ )\ {\ ...\ }
-XSET job=$VOID_LINE
 else `Include:_if^
 
 
@@ -75,14 +72,7 @@ XSET condition=Embed('0`$SPop^!=`$SPop^`var^')
 
 
 XPT ifee	hint=if\ (..)\ {..}\ else\ if...
-XSET job=$VOID_LINE
-XSET another_cond=R('condition')
-`Include:_if^` `else_if...^
-XSETm else_if...|post
-`$BRel^else if`$SPif^(`$SPcnd^`another_cond^`$SPcnd^)`$BRif^{
-    `job^
-}` `else_if...^
-XSETm END
+`Include:_if^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^
 
 
 XPT switch	hint=switch\ (..)\ {case..}
@@ -102,7 +92,7 @@ switch (`$SParg^`var^`$SParg^)`$BRif^{
 
 XPT case " case ..:
 XSET job=$VOID_LINE
-case `constant^`$SPif^:
+case `constant^`$SPcmd^:
     `job^
     break;
 
@@ -116,7 +106,7 @@ default:
 
 
 XPT if_ hint=if\ (..)\ {\ SEL\ }
-if`$SPif^(`$SPcnd^`condition^`$SPcnd^)`$BRif^{
+if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
     `wrapped^
 }
 

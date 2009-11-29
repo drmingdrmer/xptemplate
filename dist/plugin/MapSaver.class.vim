@@ -4,10 +4,65 @@ endif
 let g:__MAPSAVER_CLASS_VIM__ = 1
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
-runtime plugin/xptemplate.util.vim
-runtime plugin/xpclass.vim
-runtime plugin/mapstack.vim
-exe g:XPTsid
+runtime plugin/debug.vim
+let s:log = CreateLogger( 'warn' )
+snoremap <Plug>selectToInsert d<BS>
+fun! s:_GetAlighWidth() 
+    nmap <buffer> 1 2
+    let line = XPT#getCmdOutput("silent nmap <buffer> 1")
+    nunmap <buffer> 1
+    let line = split(line, "\n")[0]
+    return len(matchstr(line, '^n.*\ze2$'))
+endfunction 
+let s:alignWidth = s:_GetAlighWidth()
+delfunction s:_GetAlighWidth
+fun! s:_GetMapLine(key, mode, isbuffer) 
+    let mcmd = "silent ".a:mode."map ".(a:isbuffer ? "<buffer> " : "").a:key
+    let str = XPT#getCmdOutput(mcmd)
+    let lines = split(str, "\n")
+    let localmark = a:isbuffer ? '@' : ' '
+    let ptn = '\V\c' . a:mode . '  ' . escape(a:key, '\') . '\s\{-}' . '\zs\[* ]' 
+          \. localmark . '\%>' . s:alignWidth . 'c\S\.\{-}\$'
+    for line in lines
+        if line =~? ptn
+            return matchstr(line, ptn)
+        endif
+    endfor
+    return ""
+endfunction 
+fun! s:_GetMapInfo(key, mode, isbuffer) 
+    let line = s:_GetMapLine(a:key, a:mode, a:isbuffer)
+    if line == ''
+        return {'mode' : a:mode,
+              \'key'   : a:key,
+              \'nore'  : '',
+              \'isbuf' : a:isbuffer ? ' <buffer> ' : ' ',
+              \'cont'  : ''}
+    endif
+    let item = line[0:1] " the first 2 characters
+    return {'mode' : a:mode,
+          \'key'   : a:key,
+          \'nore'  : item =~ '*' ? 'nore' : '',
+          \'isbuf' : a:isbuffer ? ' <buffer> ' : ' ',
+          \'cont'  : line[2:]}
+endfunction 
+fun! s:_MapPop( info ) 
+    Assert !empty( a:info )
+    let exprMap = ''
+    if a:info.mode == 'i' && a:info.cont =~ '\V\w(\.\*)' && a:info.cont !~? '\V<c-r>'
+          \ || a:info.mode != 'i' && a:info.cont =~ '\V\w(\.\*)' 
+        let exprMap = '<expr> '
+    endif
+    if a:info.cont == ''
+        let cmd = "silent! " . a:info.mode . 'unmap ' . a:info.isbuf . a:info.key 
+    else
+        let cmd = "silent! " . a:info.mode . a:info.nore . 'map '. exprMap . a:info.isbuf . a:info.key . ' ' . a:info.cont
+    endif
+    try
+        exe cmd
+    catch /.*/
+    endtry
+endfunction 
 fun! s:New( isLocal ) dict 
     let self.isLocal = !!a:isLocal
     let self.keys = []
@@ -40,13 +95,12 @@ fun! s:UnmapAll() dict
 endfunction 
 fun! s:Save() dict 
     if self.saved != []
-        throw "keys are already saved and can not be save again"
+        return
     endif
     for [ mode, key ] in self.keys
-        call insert( self.saved, g:MapPush( key, mode, self.isLocal ) )
+        call insert( self.saved, s:_GetMapInfo( key, mode, self.isLocal ) )
     endfor
 endfunction 
-snoremap <Plug>selectToInsert d<BS>
 fun! s:Literalize( ... ) dict 
     if self.saved == []
         throw "keys are not saved yet, can not literalize"
@@ -64,12 +118,13 @@ fun! s:Literalize( ... ) dict
 endfunction 
 fun! s:Restore() dict 
     if self.saved == []
-        throw "keys are not saved yet"
+        return
     endif
     for info in self.saved
-        call g:MapPop( info )
+        call s:_MapPop( info )
     endfor
     let self.saved = []
 endfunction 
-let g:MapSaver = g:XPclass( s:sid, {} )
+exe XPT#let_sid
+let g:MapSaver = XPT#class( s:sid, {} )
 let &cpo = s:oldcpo

@@ -4,10 +4,6 @@ endif
 let g:__FILETYPESCOPE_CLASS_VIM__ = 1
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
-com! GetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
-GetSID
-delc GetSID
-runtime plugin/xpclass.vim
 let s:proto = {
             \}
 fun! s:New() dict 
@@ -31,5 +27,6 @@ fun! s:CheckAndSetSnippetLoaded( filename ) dict
     call self.SetSnippetLoaded(a:filename)
     return loaded
 endfunction 
-let g:FiletypeScope = g:XPclass( s:sid, s:proto )
+exe XPT#let_sid
+let g:FiletypeScope = XPT#class( s:sid, s:proto )
 let &cpo = s:oldcpo

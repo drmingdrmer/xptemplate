@@ -10,8 +10,8 @@ XPTvar $FALSE         false
 XPTvar $NULL          NULL
 
 XPTvar $BRif     \n
-XPTvar $BRfor    \n
-XPTvar $BRwhl  \n
+XPTvar $BRloop    \n
+XPTvar $BRloop  \n
 XPTvar $BRstc \n
 XPTvar $BRfun   \n
 
@@ -39,7 +39,7 @@ XPTinclude
             \ c/c
 
 " ========================= Function and Variables =============================
-let s:f = g:XPTfuncs() 
+let s:f = g:XPTfuncs()
 
 function! s:f.cleanTempl( ctx, ... )
   let notypename = substitute( a:ctx,"\\s*typename\\s*","","g" )
@@ -53,7 +53,7 @@ XPTemplateDef
 
 XPT all  hint=...begin,\ ...end,
 `v^.begin(), `v^.end(), `cursor^
- 
+
 
 XPT vector hint=std::vector<..>\ ..;
 std::vector<`type^> `var^;
@@ -110,17 +110,17 @@ public:
     `cursor^
 private:
 };
- 
+
 template <`templateParam^>
 `className^<`_^cleanTempl(R('templateParam'))^^>::`className^( `ctorParam^ )
 {
 }
- 
+
 template <`templateParam^>
 `className^<`_^cleanTempl(R('templateParam'))^^>::~`className^()
 {
 }
- 
+
 template <`templateParam^>
 `className^<`_^cleanTempl(R('templateParam'))^^>::`className^( const `className^ &cpy )
 {

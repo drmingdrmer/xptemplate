@@ -1,35 +1,34 @@
 XPTemplate priority=lang
 
-let s:f = g:XPTfuncs() 
- 
+let s:f = g:XPTfuncs()
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
-XPTvar $NULL          
-XPTvar $UNDEFINED     
+XPTvar $NULL
+XPTvar $UNDEFINED
 
 XPTvar $VOID_LINE     # void;
 XPTvar $CURSOR_PH     # cursor
 
-XPTvar $BRif     \ 
+XPTvar $BRif          ' '
 XPTvar $BRel   \n
-XPTvar $BRfor    \ 
-XPTvar $BRwhl  \ 
-XPTvar $BRstc \ 
-XPTvar $BRfun   \ 
+XPTvar $BRloop        ' '
+XPTvar $BRstc         ' '
+XPTvar $BRfun         ' '
 
-XPTinclude 
+XPTinclude
       \ _common/common
 
 XPTvar $CS #
-XPTinclude 
+XPTinclude
       \ _comment/singleSign
 
 XPTvar $VAR_PRE    $
-XPTvar $FOR_SCOPE  my\ 
-XPTinclude 
+XPTvar $FOR_SCOPE  'my '
+XPTinclude
       \ _loops/for
 
-XPTinclude 
+XPTinclude
       \ _loops/c.while.like
 
 
@@ -75,7 +74,7 @@ sub `fun_name^`$BRfun^{
 
 
 XPT unless hint=unless\ (\ ..\ )\ {\ ..\ }
-unless`$SPif^(`$SPcnd^`cond^`$SPcnd^)`$BRif^{
+unless`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
     `cursor^
 }
 
@@ -84,7 +83,7 @@ XPT eval hint=eval\ {\ ..\ };if...
 eval`$BRif^{
     `risky^
 };
-if`$SPif^(`$SPcnd^$@`$SPcnd^)`$BRif^{
+if`$SPcmd^(`$SParg^$@`$SParg^)`$BRif^{
     `handle^
 }
 
@@ -92,40 +91,40 @@ XPT try alias=eval hint=eval\ {\ ..\ };\ if\ ...
 
 
 XPT whileeach hint=while\ \(\ \(\ key,\ val\ )\ =\ each\(\ %**\ )\ )
-while`$SPwhl^(`$SPcnd^(`$SParg^$`key^,`$SPcm^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SPcnd^)`$BRwhl^{
+while`$SPcmd^(`$SParg^(`$SParg^$`key^,`$SPop^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRloop^{
     `cursor^
 }
 
 XPT whileline hint=while\ \(\ defined\(\ \$line\ =\ <FILE>\ )\ )
-while`$SPwhl^(`$SPcnd^defined(`$SParg^$`line^`$SPeq^=`$SPeq^<`STDIN^>`$SParg^)`$SPcnd^)`$BRwhl^{
+while`$SPcmd^(`$SParg^defined(`$SParg^$`line^`$SPop^=`$SPop^<`STDIN^>`$SParg^)`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
 XPT foreach hint=foreach\ my\ ..\ (..){}
-foreach`$SPfor^my $`var^ (`$SPfstm^@`array^`$SPfstm^)`$BRfor^{
+foreach`$SPcmd^my $`var^ (`$SParg^@`array^`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
 XPT forkeys hint=foreach\ my\ var\ \(\ keys\ %**\ )
-foreach`$SPfor^my $`var^ (`$SPfstm^keys @`array^`$SPfstm^)`$BRfor^{
+foreach`$SPcmd^my $`var^ (`$SParg^keys @`array^`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
 XPT forvalues hint=foreach\ my\ var\ \(\ keys\ %**\ )
-foreach`$SPfor^my $`var^ (`$SPfstm^values @`array^`$SPfstm^)`$BRfor^{
+foreach`$SPcmd^my $`var^ (`$SParg^values @`array^`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
 XPT if hint=if\ (\ ..\ )\ {\ ..\ }\ ...
 XSET job=$CS job
-if`$SPif^(`$SPcnd^`cond^`$SPcnd^)`$BRif^{
+if`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
     `job^
 }`
-`elsif...^`$BRel^elsif`$SPif^(`$SPcnd^`cond2^`$SPcnd^)`$BRif^{
+`elsif...^`$BRel^elsif`$SPcmd^(`$SParg^`cond2^`$SParg^)`$BRif^{
     `job^
 }`
 `elsif...^`
@@ -154,10 +153,10 @@ sub new`$BRfun^{
 
 XPT if_ hint=if\ (..)\ {\ SEL\ }\ ...
 XSET job=$CS job
-if`$SPif^(`$SPcnd^`cond^`$SPcnd^)`$BRif^{
+if`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
     `wrapped^
 }`
-`elsif...^`$BRel^elsif`$SPif^(`$SPcnd^`cond2^`$SPcnd^)`$BRif^{
+`elsif...^`$BRel^elsif`$SPcmd^(`$SParg^`cond2^`$SParg^)`$BRif^{
     `job^
 }`
 `elsif...^`
@@ -170,7 +169,7 @@ XPT eval_ hint=eval\ {\ ..\ };if...
 eval`$BRif^{
     `wrapped^
 };
-if`$SPif^(`$SPcnd^$@`$SPcnd^)`$BRif^{
+if`$SPcmd^(`$SParg^$@`$SParg^)`$BRif^{
     `handle^
 }
 
