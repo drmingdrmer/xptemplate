@@ -140,7 +140,6 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
 
         if key =~ 'prio\%[rity]'
             call XPTemplatePriority(val)
-            " echom 'snipFileScope.priority=' . x.snipFileScope.priority
 
         elseif key =~ 'mark'
             call XPTemplateMark( val[ 0 : 0 ], val[ 1 : 1 ] )

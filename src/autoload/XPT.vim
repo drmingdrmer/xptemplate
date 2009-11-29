@@ -21,6 +21,24 @@ fun! XPT#getCmdOutput( cmd ) "{{{
     return l:a
 endfunction "}}}
 
+fun! XPT#getIndentNr( ln, col ) "{{{
+    let line = matchstr( getline(a:ln), '\V\^\s\*' )
+    let line = a:col == 1 ? '' : line[ : a:col - 1 ]
+
+    let sts = &l:softtabstop
+    let ts  = &l:tabstop
+
+    if 0 == sts 
+        let sts = ts
+    endif
+
+    let tabspaces = repeat( ' ', ts )
+
+    return len( substitute( line, '	', tabspaces, 'g' ) )
+
+
+endfunction "}}}
+
 
 
 fun! XPT#class( sid, proto ) "{{{

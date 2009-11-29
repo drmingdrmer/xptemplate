@@ -614,8 +614,8 @@ fun! s:ApplyMapAndSetting() "{{{
 
     call b:_xpp_setting_switch.Switch()
 
-    if exists( ':AcpDisable' )
-        AcpDisable
+    if exists( ':AcpLock' )
+        AcpLock
     endif
 
 endfunction "}}}
@@ -645,8 +645,9 @@ fun! s:ClearMapAndSetting() "{{{
 
     call b:_xpp_map_saver.Restore()
     call b:_xpp_setting_switch.Restore()
-    if exists( ':AcpEnable' )
-        AcpEnable
+    if exists( ':AcpUnlock' )
+        AcpLock
+        AcpUnlock
     endif
 
 endfunction "}}}

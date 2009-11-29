@@ -1262,9 +1262,9 @@ fun! PrintDebug()
     return substitute( debugString, '\s', '' , 'g' )
 endfunction
 
-nnoremap ,m :call XPMhere('c', 'l')<cr>
-nnoremap ,M :call XPMhere('c', 'r')<cr>
-nnoremap ,g :call XPMgoto('c')<cr>
+" nnoremap ,m :call XPMhere('c', 'l')<cr>
+" nnoremap ,M :call XPMhere('c', 'r')<cr>
+" nnoremap ,g :call XPMgoto('c')<cr>
 " test range
 "
 " 000000000000000000000000000000000000000

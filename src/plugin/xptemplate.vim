@@ -69,12 +69,13 @@
 "
 "
 " Log of This version:
-"   add : personal folder for personal snippets :h xpt-personal-folder
 "   fix : simplify variables
 "   fix : autocomplpop compatible
-"   add : inclusion( `:snippet_name:^ and `Include:snippet_name^ ) is supported in XSET[m]
 "   fix : non-built post filter will not break ship-back
 "   fix : disable autocomplpop when pum shown.
+"   fix : wrapper indent problem with tab.
+"   add : personal folder for personal snippets :h xpt-personal-folder
+"   add : inclusion( `:snippet_name:^ and `Include:snippet_name^ ) is supported in XSET[m]
 "
 "
 "
@@ -675,15 +676,39 @@ fun! XPTemplatePreWrap(wrap) "{{{
     let x = b:xptemplateData
     let x.wrap = a:wrap
 
+    " TODO simplify me
+    " TODO move to autoload
+    let sts = &l:softtabstop
+    let ts  = &l:tabstop
+    let usingTab = !&l:expandtab
+
+    if 0 == sts 
+        let sts = ts
+    endif
+
+    let tabspaces = repeat( ' ', ts )
+
     " TODO is that ok?
     let x.wrap = substitute( x.wrap, '\n$', '', '' )
 
-    let x.wrapStartPos = col(".")
+
+    let x.wrap = "\n" . x.wrap
+    let last = '-'
+    while x.wrap != last
+        let last = x.wrap
+        let x.wrap = substitute( x.wrap, '\n	*\zs	', tabspaces, 'g' )
+    endwhile
+    let x.wrap = x.wrap[ 1: ]
+
 
 
     if ( g:xptemplate_strip_left || x.wrap =~ '\n' ) && visualmode() ==# 'V'
+        let x.wrapStartPos = virtcol(".")
+
         let indent = matchstr( x.wrap, '^\s*' )
         let x.wrap = x.wrap[ len( indent ) : ]
+
+        let indent = substitute( indent, '	', tabspaces, 'g' )
 
 
         let x.wrap = 'Echo(' . string( x.wrap ) . ')'
@@ -692,14 +717,21 @@ fun! XPTemplatePreWrap(wrap) "{{{
         call s:log.Log( 'wrapped=' . x.wrap )
 
     else
+        let x.wrapStartPos = col(".")
+
+        " NOTE: indent before 'S' command or current indent
+        let indentNr = min( [ indent( line( "." ) ), virtcol('.') - 1 ] )
+
+
         let x.wrap = 'Echo(' . string( x.wrap ) . ')'
-        let x.wrap = s:BuildFilterIndent( x.wrap, indent( line( "." ) ) )
+        let x.wrap = s:BuildFilterIndent( x.wrap, indentNr )
 
 
     endif
 
 
     if getline( line( "." ) ) =~ '^\s*$'
+	let x.wrapStartPos = virtcol( '.' )
         normal! d0
 
         let leftSpaces = repeat( ' ', x.wrapStartPos - 1 )
@@ -1924,7 +1956,9 @@ fun! s:ApplyPreValues( placeHolder ) "{{{
 
     let [ filterIndent, filterText ] = s:GetFilterIndentAndText( preValue )
 
+
     let obj = s:Eval( filterText )
+
 
     if type( obj ) == type( '' )
         call s:SetPreValue( a:placeHolder, filterIndent, obj )
@@ -1936,6 +1970,7 @@ fun! s:SetPreValue( placeHolder, indent, text ) "{{{
 
     let marks = a:placeHolder.isKey ? a:placeHolder.editMark : a:placeHolder.mark
     let text = s:AdjustIndentAccordingToLine( a:text, a:indent, XPMpos( marks.start )[0], a:placeHolder )
+
 
 
     call s:log.Log( 'preValue=' . text )
@@ -2292,11 +2327,13 @@ fun! s:AdjustIndentAccordingToLine( snip, indent, lineNr, ... ) "{{{
         let leftMostMark = ph.mark.start
         let pos = XPMpos( leftMostMark )
 
+	let leftMostIndent = XPT#getIndentNr( pos[0], pos[1] )
+
 
         " Note: left edge may be spaces, that expected indent is actually space
         "       before left mark
-        if pos[0] == a:lineNr && pos[1] - 1 < indent
-            let indent = pos[1] - 1
+        if pos[0] == a:lineNr && leftMostIndent < indent
+            let indent = leftMostIndent
         endif
     endif
 
@@ -3336,7 +3373,6 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
             call s:log.Debug( 'after update 1 place holder:', s:TextBetween( XPMpos( renderContext.marks.tmpl.start ), XPMpos( renderContext.marks.tmpl.end ) ) )
         endfor
     catch /.*/
-        " echom v:exception
     finally
         call XPRendSession()
     endtry
