@@ -36,9 +36,9 @@ fun! s:InitBuffer() "{{{
     let b:__xpr_init = { 'settingSwitch' : g:SettingSwitch.New() }
     call b:__xpr_init.settingSwitch.AddList( 
           \ [ '&l:virtualedit', 'all' ],
-          \ [ '&l:whichwrap',   'b,s,h,l,<,>,~,[,]' ],
-          \ [ '&l:selection',   'exclusive' ],
-          \ [ '&l:selectmode',  '' ],
+          \ [ '&l:whichwrap'  , 'b,s,h,l,<,>,~,[,]' ],
+          \ [ '&l:selection'  , 'exclusive' ],
+          \ [ '&l:selectmode' , '' ],
           \)
 
 endfunction "}}}
