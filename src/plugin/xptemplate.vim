@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.3.9.96
+" VERSION: 0.3.9.97
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
@@ -69,14 +69,6 @@
 "
 "
 " Log of This version:
-"   fix : simplify variables
-"   fix : autocomplpop compatible
-"   fix : non-built post filter will not break ship-back
-"   fix : disable autocomplpop when pum shown.
-"   fix : wrapper indent problem with tab.
-"   improve : python snippets
-"   add : personal folder for personal snippets :h xpt-personal-folder
-"   add : inclusion( `:snippet_name:^ and `Include:snippet_name^ ) is supported in XSET[m]
 "
 "
 "
