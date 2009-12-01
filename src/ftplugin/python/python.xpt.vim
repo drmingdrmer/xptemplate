@@ -37,8 +37,7 @@ XPTvar $SParg      ' '
 " for ** (
 XPTvar $SPcmd      ' '
 
-" a ** = ** b
-" a = a ** + ** 1
+" a ** = ** a ** + ** 1
 " (a, ** b, ** )
 XPTvar $SPop       ' '
 
@@ -175,7 +174,7 @@ Author  : `$author^
 Contact : `$email^
 Date    : `date()^
 
-Description: `cursor^
+Description : `cursor^
 `$PYTHON_DOC_MARK^
 
 

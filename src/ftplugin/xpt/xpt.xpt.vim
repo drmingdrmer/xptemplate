@@ -119,8 +119,7 @@ XPTvar $SParg      ' '
 " for ** (
 XPTvar $SPcmd      ' '
 
-" a ** = ** b
-" a = a ** + ** 1
+" a ** = ** a ** + ** 1
 " (a, ** b, ** )
 XPTvar $SPop       ' '
 
