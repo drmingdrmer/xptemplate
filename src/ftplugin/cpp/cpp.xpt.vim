@@ -42,8 +42,7 @@ XPTinclude
 let s:f = g:XPTfuncs()
 
 function! s:f.cleanTempl( ctx, ... )
-  let notypename = substitute( a:ctx,"\\s*typename\\s*","","g" )
-  let cleaned = substitute( notypename, "\\s*class\\s*", "", "g" )
+  let cleaned = substitute( a:ctx, '\s*\(class\|typename\|int\|long\)\s*', '', 'g' )
   return cleaned
 endfunction
 
@@ -89,6 +88,18 @@ private:
 }
 ..XPT
 
+XPT functor hint=class\ operator\ ...
+struct `className^
+{
+    `closure...{{^`type^  `what^;
+    `_^R('className')^( `type^ n`what^ ) : `what^( n`what^ ) {}
+
+    `}}^`outType^   operator() ( `params^ )
+    {
+        `cursor^
+    }
+};
+..XPT
 
 XPT namespace hint=namespace\ {}
 namespace `name^
@@ -97,6 +108,33 @@ namespace `name^
 }
 ..XPT
 
+XPT icastop hint=operator\ type\ ...
+operator `typename^ ()
+    { return `cursor^; }
+..XPT
+
+XPT castop hint=operator\ type\ ...
+operator `typename^ ();
+
+
+`className^::operator `typename^ ();
+    { return `cursor^; }
+..XPT
+
+XPT iop hint=t\ operator\ ...\ ()
+`type^ operator `opName^ ( `args^ )
+{
+    `cursor^
+}
+..XPT
+
+XPT op hint=t\ operator\ ...\ ()
+`type^ operator `opName^ ( `args^ );
+
+`type^ `className^::operator `opName^ ( `args^ )
+{
+}
+..XPT
 
 XPT templateclass   hint=template\ <>\ class
 template
