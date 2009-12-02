@@ -70,6 +70,7 @@
 "
 "
 " Log of This version:
+"   fix : add _common/common to unsupported language.
 "
 "
 "
@@ -661,6 +662,8 @@ fun! XPTreload() "{{{
 endfunction "}}}
 
 fun! XPTgetAllTemplates() "{{{
+    call s:GetContextFTObj() " force initializing
+
     return copy( XPTbufData().filetypes[ &filetype ].normalTemplates )
 endfunction "}}}
 
@@ -3675,6 +3678,12 @@ fun! s:GetContextFTObj() "{{{
     let ft = s:GetContextFT()
     if ft == 'unknown' && !has_key(x.filetypes, ft)
         call s:LoadSnippetFile( 'unknown/unknown' )
+
+    elseif !has_key(x.filetypes, ft)
+        call XPTsnippetFileInit( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
+        call XPTinclude( '_common/common' )
+        call XPTfiletypeInit()
+
     endif
     let ftScope = get( x.filetypes, ft, {} )
     return ftScope
