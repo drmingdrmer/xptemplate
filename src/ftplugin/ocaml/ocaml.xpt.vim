@@ -35,27 +35,28 @@ XPTemplateDef
 
 XPT if hint=if\ ..\ then\ ..\ else\ ..
 if `cond^
-then `cursor^
+    then `cursor^`else...{{^
+    else`}}^
 
 
-XPT match hint=match\ ..\ with\ [..\ ->\ ..\ |\ ..]
+
+XPT match hint=match\ ..\ with\ ..\ ->\ ..\ |\ ..
 match `expr^ with
-  [ `what0^ -> `with0^`...^
+    `what0^ -> `with0^`...^
   | `what^ -> `with^`...^
-  ]
 
 
 XPT moduletype hint=module\ type\ ..\ =\ sig\ ..\ end
 module type `name^ `^ = sig
     `cursor^
-end;
+end
 
 
 XPT module hint=module\ ..\ =\ struct\ ..\ end
 XSET name|post=SV( '^\w', '\u&' )
 module `name^ `^ = struct
     `cursor^
-end;
+end
 
 XPT while hint=while\ ..\ do\ ..\ done
 while `cond^ do
@@ -72,7 +73,7 @@ XPT class hint=class\ ..\ =\ object\ ..\ end
 class `_^^ `name^ =
 object (self)
     `cursor^
-end;
+end
 
 
 XPT classtype hint=class\ type\ ..\ =\ object\ ..\ end
@@ -80,7 +81,7 @@ class type `name^ =
 object
    method `field^ : `type^` `...^
    method `field^ : `type^` `...^
-end;
+end
 
 
 XPT classtypecom hint=(**\ ..\ *)\ class\ type\ ..\ =\ object\ ..\ end
@@ -91,24 +92,22 @@ object
    method `field^ : `type^` `...^
    (** `method_descr^^ *)
    method `field^ : `type^` `...^
-end;
+end
 
 
 XPT typesum hint=type\ ..\ =\ ..\ |\ ..
 XSET typeParams?|post=EchoIfNoChange( '' )
 type `typename^` `typeParams?^ =
-  [ `constructor^`...^
+    `constructor^`...^
   | `constructor^`...^
-  ];
 
 
 XPT typesumcom hint=(**\ ..\ *)\ type\ ..\ =\ ..\ |\ ..
 XSET typeParams?|post=EchoIfNoChange( '' )
 (** `typeDescr^ *)
 type `typename^` `typeParams?^ =
-  [ `constructor^ (** `ctordescr^ *)`...^
+    `constructor^ (** `ctordescr^ *)`...^
   | `constructor^ (** `ctordescr^ *)`...^
-  ];
 
 
 XPT typerecord hint=type\ ..\ =\ {\ ..\ }
@@ -116,7 +115,7 @@ XSET typeParams?|post=EchoIfNoChange( '' )
 type `typename^` `typeParams?^ =
     { `recordField^ : `fType^` `...^
     ; `recordField^ : `fType^` `...^
-    };
+    }
 
 
 XPT typerecordcom hint=(**\ ..\ *)type\ ..\ =\ {\ ..\ }
@@ -124,16 +123,16 @@ XPT typerecordcom hint=(**\ ..\ *)type\ ..\ =\ {\ ..\ }
 type `typename^ `_^^=
     { `recordField^ : `fType^ (** `desc^ *)`...^
     ; `otherfield^ : `othertype^ (** `desc^ *)`...^
-    };
+    }
 
 
 XPT try hint=try\ ..\ with\ ..\ ->\ ..
 try `expr^
-with [ `exc^ -> `rez^
+with  `exc^ -> `rez^
 `     `...`
 {{^     | `exc2^ -> `rez2^
 `     `...`
-^`}}^     ]
+^`}}^
 
 XPT val hint=value\ ..\ :\ ..
 value `thing^ : `cursor^
@@ -155,9 +154,9 @@ XPT fun hint=(fun\ ..\ ->\ ..)
 (fun `args^ -> `^)
 
 XPT func hint=value\ ..\ :\ ..\ =\ fun\ ..\ ->
-value `funName^ : `ty^ =
+let `funName^ : `ty^ =
 fun `args^ ->
-    `cursor^;
+    `cursor^
 
 
 XPT letin hint=let\ ..\ =\ ..\ in
@@ -181,9 +180,9 @@ in
 XPT try_ hint=try\ SEL\ with\ ..\ ->\ ..
 try
     `wrapped^
-with [ `exc^ -> `rez^
+with  `exc^ -> `rez^
 `     `...`
 {{^     | `exc2^ -> `rez2^
 `     `...`
-^`}}^     ]
+^`}}^
 
