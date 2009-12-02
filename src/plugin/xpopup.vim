@@ -596,6 +596,14 @@ endfunction "}}}
 " TODO using g:xptemplate_nav_next for enlarge ?
 fun! s:ApplyMapAndSetting() "{{{
     call s:_InitBuffer()
+
+    if exists( 'b:__xpp_pushed' )
+        return
+    endif
+
+    let b:__xpp_pushed = 1
+
+
     call b:_xpp_map_saver.Save()
 
     exe 'inoremap <silent> <buffer> <UP>'   '<C-r>=XPPup()<CR>'
@@ -634,6 +642,12 @@ endfunction "}}}
 
 fun! s:ClearMapAndSetting() "{{{
     call s:_InitBuffer()
+    if !exists( 'b:__xpp_pushed' )
+        return
+    endif
+
+    unlet b:__xpp_pushed
+
 
     " augroup XPP
         " au!
@@ -646,7 +660,6 @@ fun! s:ClearMapAndSetting() "{{{
     call b:_xpp_map_saver.Restore()
     call b:_xpp_setting_switch.Restore()
     if exists( ':AcpUnlock' )
-        AcpLock
         AcpUnlock
     endif
 
