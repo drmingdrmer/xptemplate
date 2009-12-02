@@ -596,19 +596,19 @@ WRAPPED_TEXT_line2 */
 
 
 
-/* 
+/*
  * 
  */
 
-/* 
+/*
  * 
  */ b
 
-a /* 
+a /*
  * 
  */ b
 
-a /* 
+a /*
  * 
  */
 
@@ -620,22 +620,22 @@ a /*
 
 
 
-/* 
+/*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
 
-/* 
+/*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /* 
+a /*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /* 
+a /*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
@@ -648,19 +648,19 @@ a /*
 
 
 
-/** 
+/**
  * 
  */
 
-/** 
+/**
  * 
  */ b
 
-a /** 
+a /**
  * 
  */ b
 
-a /** 
+a /**
  * 
  */
 
@@ -672,22 +672,22 @@ a /**
 
 
 
-/** 
+/**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
 
-/** 
+/**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /** 
+a /**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /** 
+a /**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
@@ -944,9 +944,9 @@ height: ;
 
 height: _TYPED; b
 
-a height: ;  b
+a height: ; b
 
-a height: ; 
+a height: ;
 
 
     /*  -------------letterspacing--------------- */
@@ -1159,8 +1159,8 @@ a overflow: visible; b
 a overflow: visible;
 
 
-    /*  -------------padding---------------       */
-    /* padding: `v^`v^AutoCmpl( 'auto', '0px' )^; */
+    /*  -------------padding---------------          */
+    /* padding: `v^`v^AutoCmpl( 1, 'auto', '0px' )^; */
 
 
 
@@ -1500,13 +1500,13 @@ a white-space: normal;
 
 
 
-width: ; 
+width: ;
 
 width: _TYPED; b
 
-a width: ;  b
+a width: ; b
 
-a width: ; 
+a width: ;
 
 
     /*  -------------wordspacing--------------- */

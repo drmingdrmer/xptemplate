@@ -175,6 +175,10 @@ fun! s:XPTtest(ft) "{{{
         au CursorMovedI * call TestProcess()
     augroup END
 
+    if exists( ':AcpLock' )
+        AcpLock
+    endif
+
     call s:NewTestFile(a:ft)
 
     let b:currentTmpl    = {}
