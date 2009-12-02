@@ -349,7 +349,10 @@ fun! s:ClearMapAndSetting()
     call b:_xpp_map_saver.Restore()
     call b:_xpp_setting_switch.Restore()
     if exists( ':AcpUnlock' )
-        AcpUnlock
+        try
+            AcpUnlock
+        catch /.*/
+        endtry
     endif
 endfunction 
 fun! XPPend() 
