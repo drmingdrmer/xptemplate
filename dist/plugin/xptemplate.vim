@@ -365,6 +365,7 @@ fun! XPTreload()
   e
 endfunction 
 fun! XPTgetAllTemplates() 
+    call s:GetContextFTObj() " force initializing
     return copy( XPTbufData().filetypes[ &filetype ].normalTemplates )
 endfunction 
 fun! XPTemplatePreWrap(wrap) 
@@ -986,8 +987,11 @@ fun! s:EvaluateEdge( xp, item, ph )
     if a:ph.leftEdge =~ '\V' . a:xp.item_var . '\|' . a:xp.item_func
         let ledge = s:Eval( a:ph.leftEdge )
         call XPRstartSession()
-        call XPreplaceByMarkInternal( a:ph.mark.start, a:ph.editMark.start, ledge )
-        call XPRendSession()
+        try
+            call XPreplaceByMarkInternal( a:ph.mark.start, a:ph.editMark.start, ledge )
+        finally
+            call XPRendSession()
+        endtry
         let a:ph.leftEdge = ledge
         let a:ph.fullname   = a:ph.leftEdge . a:item.name . a:ph.rightEdge
         let a:item.fullname = a:ph.fullname
@@ -995,8 +999,11 @@ fun! s:EvaluateEdge( xp, item, ph )
     if a:ph.rightEdge =~ '\V' . a:xp.item_var . '\|' . a:xp.item_func
         let redge = s:Eval( a:ph.rightEdge )
         call XPRstartSession()
-        call XPreplaceByMarkInternal( a:ph.editMark.end, a:ph.mark.end, redge )
-        call XPRendSession()
+        try
+            call XPreplaceByMarkInternal( a:ph.editMark.end, a:ph.mark.end, redge )
+        finally
+            call XPRendSession()
+        endtry
         let a:ph.rightEdge = redge
         let a:ph.fullname   = a:ph.leftEdge . a:item.name . a:ph.rightEdge
         let a:item.fullname = a:ph.fullname
@@ -2066,6 +2073,10 @@ fun! s:GetContextFTObj()
     let ft = s:GetContextFT()
     if ft == 'unknown' && !has_key(x.filetypes, ft)
         call s:LoadSnippetFile( 'unknown/unknown' )
+    elseif !has_key(x.filetypes, ft)
+        call XPTsnippetFileInit( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
+        call XPTinclude( '_common/common' )
+        call XPTfiletypeInit()
     endif
     let ftScope = get( x.filetypes, ft, {} )
     return ftScope
