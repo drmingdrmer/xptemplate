@@ -71,6 +71,8 @@
 "
 " Log of This version:
 "   fix : add _common/common to unsupported language.
+"   fix : fix bug of statusline started with %!
+"   fix : php snippets complains error of '$CM' can not be found
 "
 "
 "
