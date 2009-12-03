@@ -172,7 +172,7 @@ fun! XPTsetVar( nameSpaceValue ) "{{{
     let ftScope = g:GetSnipFileFtScope()
 
     call s:log.Debug( 'xpt var raw data=' . string( a:nameSpaceValue ) )
-    let name = matchstr(a:nameSpaceValue, '^\S\+\ze\s')
+    let name = matchstr(a:nameSpaceValue, '^\S\+\ze')
     if name == ''
         return
     endif
