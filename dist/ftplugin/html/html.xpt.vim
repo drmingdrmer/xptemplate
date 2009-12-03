@@ -1,3 +1,5 @@
+" TODO entity char
+" TODO back at 'base'
 XPTemplate priority=lang
 
 let s:f = g:XPTfuncs()
@@ -81,10 +83,21 @@ fun! s:f.html_tagAttr()
   " elseif tagName ==? 'div'
   " elseif tagName ==? 'table'
   else
-
     return tagName
   endif
+endfunction
 
+fun! s:f.html_enc()
+    return &fenc == '' ? &encoding : &fenc
+endfunction
+
+fun! s:f.html_cr_cmpl()
+    let v = self.V()
+    if v =~ '\V\^\n'
+        return "\n"
+    else
+        return ''
+    endif
 endfunction
 " ================================= Snippets ===================================
 
@@ -125,19 +138,52 @@ XPT table0 hidden=1
 XPT html hint=<html><head>..<head><body>...
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=`encoding^Echo(&fenc == '' ? 'utf-8' : &fenc)^"/>
-        <link rel="stylesheet" type="text/css" href="" />
-        <style></style>
-        <title>`title^E('%:r')^</title>
-        <script language="javascript" type="text/javascript">
-            <!-- -->
-        </script>
-    </head>
+    `:head:^
     <body>
         `cursor^
     </body>
 </html>
+
+
+XPT head " <head>..</head>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=`encoding^html_enc()^"/>
+    <link rel="stylesheet" type="text/css" href="" />
+    `:title:^
+    <script language="javascript" type="text/javascript">
+        <!-- -->
+    </script>
+</head>
+
+
+
+XPT title " <title>..</title>
+<title>`title^E('%:t:r')^</title>
+
+
+XPT style " <style>..</style>
+<style type="text/css" media="screen">
+    `cursor^
+</style>
+
+
+XPT meta " <meta ..>
+<meta name="`meta_name^" content="`meta_content^" />
+
+
+XPT link " <link ..>
+<link rel="`stylesheet^" type="`type^text/css^" href="`url^" />
+
+
+XPT script hint=<script\ language="javascript"...
+<script language="javascript" type="text/javascript">
+    `cursor^
+</script>
+..XPT
+
+
+XPT scriptsrc hint=<script\ ..\ src=...
+<script language="javascript" type="text/javascript" src="`js^"></script>
 
 XPT doctype hint=<!DOCTYPE\ ***
 XSET doctype=html_doctype_list()
@@ -150,8 +196,10 @@ XPT a hint=<a\ href...
 ..XPT
 
 
+" TODO auto cr complete
 XPT div hint=<div>\ ..\ </div>
-<div`^>`cursor^</div>
+XSET what=Echo('')
+<div` `attr?^>`what^</div>
 
 
 XPT p hint=<p>\ ..\ </p>
@@ -181,15 +229,28 @@ XPT h hint=<h?>\ ..\ <h?>
 XSET n=1
 <h`n^>`cursor^</h`n^>
 
-
-XPT script hint=<script\ language="javascript"...
-<script language="javascript" type="text/javascript">
-    `cursor^
-</script>
+XPT h1 alias=h " <h1>..</h1>
+XSET n=Next('1')
+XPT h2 alias=h " <h2>..</h2>
+XSET n=Next('2')
+XPT h3 alias=h " <h3>..</h3>
+XSET n=Next('3')
+XPT h4 alias=h " <h4>..</h4>
+XSET n=Next('4')
+XPT h5 alias=h " <h5>..</h5>
+XSET n=Next('5')
+XPT h6 alias=h " <h6>..</h6>
+XSET n=Next('6')
 ..XPT
 
-XPT scrlink hint=<script\ ..\ src=...
-<script language="javascript" type="text/javascript" src="`cursor^"></script>
+" TODO auto complete method
+" TODO inputs
+" TODO label
+XPT form " <form ..>..</form>
+<form action="`action^" method="`method^POST^" accept-charset="`html_enc()^">
+    `cursor^
+</form>
+
 
 
 XPT <_ hint=

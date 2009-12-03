@@ -39,7 +39,11 @@ fun! XPMcheckStatusline()
         endif 
     endif
     if &l:statusline !~ 'XPMautoUpdate' 
-        let &l:statusline  .= '%{XPMautoUpdate("statusline")}' 
+        if &l:statusline =~ '\V\^%!'
+            let &l:statusline  .= '.XPMautoUpdate("statusline")' 
+        else
+            let &l:statusline  .= '%{XPMautoUpdate("statusline")}' 
+        endif
     endif 
 endfunction  
 fun! XPMadd( name, pos, prefer ) 
