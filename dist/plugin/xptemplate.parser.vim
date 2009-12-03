@@ -91,7 +91,7 @@ endfunction
 fun! XPTsetVar( nameSpaceValue ) 
     let x = XPTbufData()
     let ftScope = g:GetSnipFileFtScope()
-    let name = matchstr(a:nameSpaceValue, '^\S\+\ze\s')
+    let name = matchstr(a:nameSpaceValue, '^\S\+\ze')
     if name == ''
         return
     endif
