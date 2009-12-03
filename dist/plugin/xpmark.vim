@@ -181,7 +181,9 @@ fun! XPMupdateCursorStat(...)
     call d.saveCurrentCursorStat()
 endfunction 
 fun! XPMsetBufSortFunction( funcRef ) 
-    let b:_xpm_compare = a:funcRef
+    if !exists('b:_xpm_compare')
+        let b:_xpm_compare = a:funcRef
+    endif
 endfunction 
 fun! XPMallMark() 
     let d = s:bufData()
