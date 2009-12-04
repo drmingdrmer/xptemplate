@@ -25,6 +25,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO handle 'cursor' place holder correctly in inclusion
 " TODO highlight when entering insert mode
 " TODO test in windows: g:xptemplate_snippet_folders
 " TODO xpreplace use SettingSwitch, 
