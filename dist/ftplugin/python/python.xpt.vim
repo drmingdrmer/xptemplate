@@ -8,7 +8,13 @@ let s:f = g:XPTfuncs()
 " XPTvar $PYTHON_EXC    /usr/bin/env python2.6
 XPTvar $PYTHON_EXC    /usr/bin/env python
 
+" 3 single quotes quoted by single quote
 XPTvar $PYTHON_DOC_MARK '''''
+
+" for python 2.5 and older
+XPTvar $PYTHON_EXP_SYM ', '
+" " for python 2.6 and newer
+" XPTvar $PYTHON_EXP_SYM ' as '
 
 
 XPTvar $TRUE          True
@@ -233,7 +239,7 @@ try:
 
 
 XPT except " except ..
-except `Exception^` as `e^:
+except `Exception^`$PYTHON_EXP_SYM`e^:
     `pass^
 
 
