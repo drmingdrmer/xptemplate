@@ -128,6 +128,24 @@ fun! s:f.python_sp_arg()
     return sp
 endfunction
 
+
+fun! s:f.python_find_class( default )
+    " TODO simplify and do more strict search
+    let indentNr = indent( line( "." ) )
+    let defIndent = searchpos( '\V\^\s\*def\>', 'bWcn' )
+    if defIndent == [0, 0]
+        return a:default
+    endif
+
+    let clsPos = searchpos( '\V\^\s\*class\s\+\zs\w\+', 'bWcn' )
+    if clsPos == [0, 0]
+        return a:default
+    endif
+
+    return matchstr( getline( clsPos[0] ), '\Vclass\s\+\zs\w\+' )
+
+endfunction
+
 " ================================= Snippets ===================================
 XPTemplateDef
 
@@ -257,6 +275,10 @@ XPT init " def __init__
 XSET arg*|post=ExpandInsideEdge( ',$SPop', '' )
 def __init__`$SPfun^(`$SParg^self`,$SPop`arg*^`$SParg^):
     `cursor^
+
+
+XPT super " super\( Clz, self ).
+super(`$SParg^`clz^python_find_class('Me')^,`$SPop^self`$SParg^).`method^(`:_args:^)
 
 
 XPT ifmain hint=if\ __name__\ ==\ __main__
