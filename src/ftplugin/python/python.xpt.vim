@@ -173,7 +173,7 @@ XSET arg*|post=ExpandInsideEdge( ',$SPop', '' )
 
 XPT python hint=#!$PYTHON_EXC
 XSET encoding=Echo(&fenc != '' ? &fenc : &enc)
-#!/usr/bin/env python
+#!`$PYTHON_EXC^
 # coding: `encoding^
 
 ..XPT
