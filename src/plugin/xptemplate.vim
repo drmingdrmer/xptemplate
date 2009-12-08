@@ -74,6 +74,7 @@
 "   fix : add _common/common to unsupported language.
 "   fix : fix bug of statusline started with %!
 "   fix : php snippets complains error of '$CM' can not be found
+"   improve : html snippets
 "
 "
 "
@@ -217,6 +218,7 @@ let s:anonymouseIndex = 0
 let s:pumCB = {}
 
 fun! s:pumCB.onEmpty(sess) "{{{
+    echom "XPT: nothing matched"
     return ""
 endfunction "}}}
 
