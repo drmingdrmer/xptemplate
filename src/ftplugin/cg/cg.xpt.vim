@@ -77,7 +77,7 @@ XSET vout=Choose(['COLOR0', 'COLOR1', 'TEXCOORD0', 'TEXCOORD1', 'PSIZE'])
 XSET vin=Choose(['POSITION', 'NORMAL', 'DIFFUSE', 'SPECULAR', 'TEXCOORD0', 'TEXCOORD1', 'TANGENT', 'BINORMAL', 'FOGCOORD'])
 void main( `inputs...^ float`n^ `name^ : `vin^,
         `inputs...^float4 `position^ : POSITION`outputs...^,
-        float4 `name^ : `vout^`outputs...^ )
+        out float4 `name^ : `vout^`outputs...^ )
 {
     `cursor^
 }
@@ -87,7 +87,7 @@ XPT fragProg hint=main\ vertex\ programm
 XSET vin=Choose(['COLOR0', 'COLOR1', 'TEXCOORD0', 'TEXCOORD1', 'WPOS'])
 void main( `inputs...^ float`n^ `name^ : `vin^,
         `inputs...^float4 `color^ : COLOR`depth...{{^,
-        float4 `name^ : DEPTH`}}^ )
+        out float4 `name^ : DEPTH`}}^ )
 {
     `cursor^
 }
