@@ -169,6 +169,30 @@ WRAPPED_TEXT_line2</a>
     a drdr.xp
 
 
+    <!--  -------------body--------------- -->
+    <!-- <body>                            -->
+    <!--     `curosr^                      -->
+    <!-- </body>                           -->
+
+
+
+<body>
+    curosr
+</body>
+
+<body>
+    curosr_TYPED
+</body> b
+
+a <body>
+    curosr
+</body> b
+
+a <body>
+    curosr
+</body>
+
+
     <!--  -------------br--------------- -->
     <!-- <br />                          -->
 
@@ -441,6 +465,35 @@ WRAPPED_TEXT_line2</div>
     a drdr.xp@gmail.com b
 
     a drdr.xp@gmail.com
+
+
+    <!--  -------------fieldset--------------- -->
+    <!-- <fieldset>                            -->
+    <!--     <legend></legend>                 -->
+    <!--     `cursor^                          -->
+    <!-- </fieldset>                           -->
+
+
+
+<fieldset>
+    <legend></legend>
+    
+</fieldset>
+
+<fieldset>
+    <legend></legend>
+    
+</fieldset> b
+
+a <fieldset>
+    <legend></legend>
+    
+</fieldset> b
+
+a <fieldset>
+    <legend></legend>
+    
+</fieldset>
 
 
     <!--  -------------File--------------- -->
@@ -718,6 +771,34 @@ a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.
 </html>
 
 
+    <!--  -------------input---------------                    -->
+    <!-- <input type="`type^" name="`name^" value="`value^" /> -->
+
+
+
+    <input type="text" name="name" value="value" />
+
+    <input type="text" name="name_TYPED" value="value_TYPED" /> b
+
+    a <input type="text" name="name" value="value" /> b
+
+    a <input type="text" name="name" value="value" />
+
+
+    <!--  -------------label---------------  -->
+    <!-- <label for="`which^">`what^</label> -->
+
+
+
+    <label for="which">what</label>
+
+    <label for="which_TYPED">what_TYPED</label> b
+
+    a <label for="which">what</label> b
+
+    a <label for="which">what</label>
+
+
     <!--  -------------link---------------                               -->
     <!-- <link rel="`stylesheet^" type="`type^text/css^" href="`url^" /> -->
 
@@ -778,6 +859,20 @@ a <ol>
     <li>val</li>
     <li>val</li>
 </ol>
+
+
+    <!--  -------------option---------------     -->
+    <!-- <option value="`value^">`what^</option> -->
+
+
+
+    <option value="value">what</option>
+
+    <option value="value_TYPED">what_TYPED</option> b
+
+    a <option value="value">what</option> b
+
+    a <option value="value">what</option>
 
 
     <!--  -------------p--------------- -->
@@ -848,6 +943,30 @@ a <script language="javascript" type="text/javascript">
     a <script language="javascript" type="text/javascript" src="js"></script> b
 
     a <script language="javascript" type="text/javascript" src="js"></script>
+
+
+    <!--  -------------select--------------- -->
+    <!-- <select name="`name^">              -->
+    <!--     `:option:^                      -->
+    <!-- </select>                           -->
+
+
+
+<select name="name">
+    <option value="value">what</option>
+</select>
+
+<select name="name_TYPED">
+    <option value="value_TYPED">what_TYPED</option>
+</select> b
+
+a <select name="name">
+    <option value="value">what</option>
+</select> b
+
+a <select name="name">
+    <option value="value">what</option>
+</select>
 
 
     <!--  -------------style---------------     -->
@@ -935,6 +1054,20 @@ a <table>
     a <td></td> b
 
     a <td></td>
+
+
+    <!--  -------------textarea---------------                       -->
+    <!-- <textarea name="`name^" rows="" cols="">`cursor^</textarea> -->
+
+
+
+    <textarea name="name" rows="" cols=""></textarea>
+
+    <textarea name="name_TYPED" rows="" cols=""></textarea> b
+
+    a <textarea name="name" rows="" cols=""></textarea> b
+
+    a <textarea name="name" rows="" cols=""></textarea>
 
 
     <!--  -------------th--------------- -->

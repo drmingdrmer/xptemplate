@@ -185,6 +185,11 @@ XPT script hint=<script\ language="javascript"...
 XPT scriptsrc hint=<script\ ..\ src=...
 <script language="javascript" type="text/javascript" src="`js^"></script>
 
+XPT body " <body>..</body>
+<body>
+    `curosr^
+</body>
+
 XPT doctype hint=<!DOCTYPE\ ***
 XSET doctype=html_doctype_list()
 XSET doctype|post=html_doctype_post( V() )
@@ -243,19 +248,49 @@ XPT h6 alias=h " <h6>..</h6>
 XSET n=Next('6')
 ..XPT
 
+
+
 " TODO auto complete method
-" TODO inputs
-" TODO label
 XPT form " <form ..>..</form>
 <form action="`action^" method="`method^POST^" accept-charset="`html_enc()^">
     `cursor^
 </form>
 
+XPT textarea " <textarea></textarea>
+<textarea name="`name^" rows="" cols="">`cursor^</textarea>
+
+
+" TODO for different type of input generate attributes
+XPT input " <input ..
+XSET type=ChooseStr( 'text', 'password', 'checkbox', 'radio', 'submit', 'reset', 'file', 'hidden', 'image', 'button' )
+<input type="`type^" name="`name^" value="`value^" />
+
+
+XPT label " <lable for=".." ..
+<label for="`which^">`what^</label>
+
+
+XPT select " <select ..
+<select name="`name^">
+    `:option:^
+</select>
+
+
+XPT option " <option value=..
+<option value="`value^">`what^</option>
+
+
+XPT fieldset " <fieldset ..
+<fieldset>
+    <legend></legend>
+    `cursor^
+</fieldset>
 
 
 XPT <_ hint=
 XSET span_disable|post=html_tagAttr()
 <`span^>`wrapped^</`span^>
+
 
 XPT p_ hint=
 <p>`wrapped^</p>
