@@ -240,9 +240,9 @@ fun! s:ItemPumCB.onOneMatch(sess) "{{{
 
     " TODO  next item is better?
     if 0 == s:XPTupdate()
-	return s:FinishCurrentAndGotoNextItem( '' )
+        return s:FinishCurrentAndGotoNextItem( '' )
     else
-	return ""
+        return ""
     endif
 endfunction "}}}
 
@@ -733,7 +733,7 @@ fun! XPTemplatePreWrap(wrap) "{{{
 
 
     if getline( line( "." ) ) =~ '^\s*$'
-	let x.wrapStartPos = virtcol( '.' )
+        let x.wrapStartPos = virtcol( '.' )
         normal! d0
 
         let leftSpaces = repeat( ' ', x.wrapStartPos - 1 )
@@ -2027,9 +2027,9 @@ endfunction "}}}
 
 fun! s:XPTvisual() "{{{
     if &l:slm =~ 'cmd'
-	normal! v\<C-g>
+        normal! v\<C-g>
     else
-	normal! v
+        normal! v
     endif
 endfunction "}}}
 
@@ -2335,7 +2335,7 @@ fun! s:AdjustIndentAccordingToLine( snip, indent, lineNr, ... ) "{{{
         let leftMostMark = ph.mark.start
         let pos = XPMpos( leftMostMark )
 
-	let leftMostIndent = XPT#getIndentNr( pos[0], pos[1] )
+        let leftMostIndent = XPT#getIndentNr( pos[0], pos[1] )
 
 
         " Note: left edge may be spaces, that expected indent is actually space
@@ -3642,7 +3642,7 @@ fun! s:XPTcheck() "{{{
 endfunction "}}}
 
 fun! s:XPTtrackFollowingSpace() "{{{
-    
+
     let renderContext = s:getRenderContext()
     if !renderContext.processing
         return
@@ -3651,7 +3651,7 @@ fun! s:XPTtrackFollowingSpace() "{{{
     let leader =  renderContext.leadingPlaceHolder
     let leaderMark = leader.mark
     let [ start, end ] = XPMposList(leaderMark.start, leaderMark.end)
-    
+
     let pos = line( '.' ) * 10000 + col( '.' )
     let nStart = start[0] * 10000 + start[1]
     let nEnd = end[0] * 10000 + end[1]
