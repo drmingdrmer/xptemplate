@@ -25,10 +25,12 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO ontime filter of leader PH.
 " TODO handle 'cursor' place holder correctly in inclusion
 " TODO highlight when entering insert mode
 " TODO test in windows: g:xptemplate_snippet_folders
 " TODO xpreplace use SettingSwitch, 
+" TODO xpreplace with gp
 " TODO global synonym 
 " TODO default synonym
 " TODO super cancel : clear/default all and finish
@@ -151,6 +153,7 @@ let s:repetitionPattern     = '\w\*...\w\*'
 let g:XPTemplateSettingPrototype  = { 
       \    'preValues'        : { 'cursor' : "\n" . '$CURSOR_PH' }, 
       \    'defaultValues'    : {}, 
+      \    'ontimeFilters'    : {}, 
       \    'postFilters'      : {}, 
       \    'comeFirst'        : [], 
       \    'comeLast'         : [], 
@@ -3474,7 +3477,7 @@ fun! s:XPTupdate(...) "{{{
     endif
 
 
-    call s:log.Log("XPTupdate called, mode:".mode())
+    call s:log.Log( "XPTupdate called, mode:".mode() )
     call s:log.Log( "marks before XPTupdate:\n" . XPMallMark() )
 
     call s:fixCrCausedIndentProblem()
@@ -3492,6 +3495,8 @@ fun! s:XPTupdate(...) "{{{
     endif
 
 
+
+
     call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
 
     let rc = XPMupdate()
@@ -3507,6 +3512,8 @@ fun! s:XPTupdate(...) "{{{
     if g:xptemplate_strict == 1
                 \&& renderContext.phase == 'fillin'
                 \&& rc is g:XPM_RET.updated
+        " g:XPM_RET.updated means update made but not in likely range
+
         undo
         call XPMupdate()
 
@@ -3519,10 +3526,8 @@ fun! s:XPTupdate(...) "{{{
         return 0
     endif
 
+
     let [ start, end ] = [ XPMpos( leaderMark.start ), XPMpos( leaderMark.end ) ]
-
-
-
     let contentTyped = s:TextBetween( start, end )
 
 
@@ -3588,7 +3593,18 @@ fun! s:XPTupdate(...) "{{{
 
     call XPMupdateStat()
 
+    if has_key( renderContext.tmpl.setting.ontimeFilters, renderContext.leadingPlaceHolder.name )
+        call s:HandleOntimeFilter()
+    endif
+
+    return 0
+
 endfunction "}}}
+
+fun! s:HandleOntimeFilter() "{{{
+    
+endfunction "}}}
+
 
 fun! s:DoBreakUndo() "{{{
     if pumvisible()

@@ -123,6 +123,25 @@ WRAPPED_TEXT_line2`
     a drdr.xp
 
 
+    "  -------------catch--------------- 
+    " catch /`exception^/                
+    "     `cursor^                       
+
+
+
+catch /.*/
+    
+
+    catch /exception_TYPED/
+         b
+
+         a catch /.*/
+              b
+
+              a catch /.*/
+                  
+
+
     "  -------------comment--------------- 
     " `$CS^ `cursor^                       
 
@@ -230,6 +249,25 @@ a " WRAPPED_TEXT
 WRAPPED_TEXT_line2
 
 
+    "  -------------else--------------- 
+    " else                              
+    "     `cursor^                      
+
+
+
+else
+    
+
+    else
+         b
+
+         a else
+              b
+
+              a else
+                  
+
+
     "  -------------Email--------------- 
     " `$email^                           
 
@@ -244,7 +282,21 @@ WRAPPED_TEXT_line2
     a drdr.xp@gmail.com
 
 
-    "  -------------fdesc---------------                                              
+    "  -------------File--------------- 
+    " `file()^                          
+
+
+
+    test.page
+
+    test.page b
+
+    a test.page b
+
+    a test.page
+
+
+    "  -------------filehead---------------                                           
     " _CMT_ File Description {{{                                                      
     " _CMT_ ============================================================================= 
     " _CMT_ `cursor^                                                                  
@@ -298,40 +350,45 @@ WRAPPED_TEXT_line2
     " }}}
     "
 
-    "  -------------File--------------- 
-    " `file()^                          
-
-
-
-    test.page
-
-    test.page b
-
-    a test.page b
-
-    a test.page
-
-
-    "  -------------fordic---------------  
-    " for [`key^, `value^] in items(`dic^) 
+    "  -------------finally--------------- 
+    " finally                              
     "     `cursor^                         
-    " endfor                               
 
 
 
-    for [key, value] in items(dic)
+finally
+    
+
+    finally
+         b
+
+         a finally
+              b
+
+              a finally
+                  
+
+
+    "  -------------fordic---------------                                        
+    " for [`$SParg^`key^,`$SPop^`value^`$SParg^] in items(`$SParg^`dic^`$SParg^) 
+    "     `cursor^                                                               
+    " endfor                                                                     
+
+
+
+    for [ key, value ] in items( dic )
         
     endfor
 
-    for [key_TYPED, value_TYPED] in items(dic_TYPED)
+    for [ key_TYPED, value_TYPED ] in items( dic_TYPED )
         
     endfor b
 
-    a for [key, value] in items(dic)
+    a for [ key, value ] in items( dic )
         
     endfor b
 
-    a for [key, value] in items(dic)
+    a for [ key, value ] in items( dic )
         
     endfor
 
@@ -384,10 +441,10 @@ WRAPPED_TEXT_line2
     endfor
 
 
-    "  -------------fun--------------- 
-    " fun! `name^(`arg*^) _CMT_{{{     
-    "     `cursor^                     
-    " endfunction _CMT_}}}             
+    "  -------------fun---------------    
+    " fun! `name^`$SPfun^(`:_args:^) _CMT_{{{ 
+    "     `cursor^                        
+    " endfunction _CMT_}}}                
 
 
 
@@ -395,7 +452,7 @@ WRAPPED_TEXT_line2
         
     endfunction "}}}
 
-    fun! name_TYPED(arg_TYPED, arg_TYPED, arg_TYPED) "{{{
+    fun! name_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ) "{{{
         
     endfunction "}}} b
 
@@ -411,41 +468,31 @@ WRAPPED_TEXT_line2
     "  -------------if--------------- 
     " if `cond^                       
     "     `job^Echo()^                
-    " ``else...`                      
-    " {{^else                         
-    "     `cursor^                    
-    " `}}^endif                       
+    " endif                           
 
 
 
     if cond
         
-    else
-        
     endif
 
     if cond_TYPED
         job_TYPED
-    else_TYPED
     endif b
 
     a if cond
         
-    else
-        
     endif b
 
     a if cond
-        
-    else
         
     endif
 
 
-    "  -------------member--------------- 
-    " fun! `name^(`arg*^) dict _CMT_{{{   
-    "     `cursor^                        
-    " endfunction _CMT_}}}                
+    "  -------------member---------------      
+    " fun! `name^`$SPfun^(`:_args:^) dict _CMT_{{{ 
+    "     `cursor^                             
+    " endfunction _CMT_}}}                     
 
 
 
@@ -453,7 +500,7 @@ WRAPPED_TEXT_line2
         
     endfunction "}}}
 
-    fun! name_TYPED(arg_TYPED, arg_TYPED, arg_TYPED) dict "{{{
+    fun! name_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ) dict "{{{
         
     endfunction "}}} b
 
@@ -466,122 +513,105 @@ WRAPPED_TEXT_line2
     endfunction "}}}
 
 
-    "  -------------once--------------- 
-    " if exists(_CMT_`g^:`i^_CMT_)      
-    "     finish                        
-    " endif                             
-    " let `g^:`i^ = 1                   
-    " `cursor^                          
+    "  -------------once---------------    
+    " if exists(`$SParg^_CMT_`g^:`i^_CMT_`$SParg^) 
+    "     finish                           
+    " endif                                
+    " let `g^:`i^`$SPop^=`$SPop^1          
+    " `cursor^                             
 
 
 
-    if exists("g:__TEST_PAGE__")
+    if exists( "g:__TEST_PAGE__" )
         finish
     endif
     let g:__TEST_PAGE__ = 1
     
 
-    if exists("g_TYPED:i_TYPED")
+    if exists( "g_TYPED:i_TYPED" )
         finish
     endif
     let g_TYPED:i_TYPED = 1
      b
 
-     a if exists("g:__TEST_PAGE__")
+     a if exists( "g:__TEST_PAGE__" )
          finish
      endif
      let g:__TEST_PAGE__ = 1
       b
 
-      a if exists("g:__TEST_PAGE__")
+      a if exists( "g:__TEST_PAGE__" )
           finish
       endif
       let g:__TEST_PAGE__ = 1
       
 
 
-    "  -------------sid---------------                                          
-    " `Echo('com')^! `name^GetSID let s:sid =  matchstr(_CMT_<SID>_CMT_, '\zs\d\+_\ze') 
-    " `name^GetSID                                                              
-    " delc `name^GetSID                                                         
+    "  -------------sid---------------                                                                
+    " exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg(_CMT_<Plug>xsid_CMT_), _CMT_\\d\\+__CMT_)|unmap <Plug>xsid' 
 
 
 
-    com! nameGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
-    nameGetSID
-    delc nameGetSID
+    exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
+    
 
-    com! name_TYPEDGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
-    name_TYPEDGetSID
-    delc name_TYPEDGetSID b
+    exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
+     b
 
-    a com! nameGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
-    nameGetSID
-    delc nameGetSID b
+     a exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
+      b
 
-    a com! nameGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
-    nameGetSID
-    delc nameGetSID
+      a exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
+      
 
 
     "  -------------str_--------------- 
-    " string(`wrapped^)                 
+    " string(`$SParg^`wrapped^`$SParg^) 
 
 
 
-string(WRAPPED_TEXT
-WRAPPED_TEXT_line2)
+string( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )
 
-string(WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+string( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )b
 
-a string(WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+a string( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )b
 
-a string(WRAPPED_TEXT
-WRAPPED_TEXT_line2)
+a string( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )
 
 
     "  -------------try--------------- 
     " try                              
-    "                                  
-    " catch /`exception^/              
-    " `                                
-    " `finally...{{^                   
-    " finally                          
-    "     `cursor^`}}^                 
+    "     `job^                        
+    " `:catch:^                        
     " endtry                           
 
 
 
     try
-        
+        job
     catch /.*/
-    
-    finally
         
     endtry
 
     try
-        
+        job_TYPED
     catch /exception_TYPED/
-    
-    finally_TYPED
-    endtry b
-
-    a try
-        
-    catch /.*/
-    
-    finally
         
     endtry b
 
     a try
-        
+        job
     catch /.*/
-    
-    finally
+        
+    endtry b
+
+    a try
+        job
+    catch /.*/
         
     endtry
 
@@ -589,11 +619,7 @@ WRAPPED_TEXT_line2)
     "  -------------try_--------------- 
     " try                               
     "     `wrapped^                     
-    " catch /`exception^/               
-    " `                                 
-    " `finally...{{^                    
-    " finally                           
-    "     `cursor^`}}^                  
+    " `:catch:^                         
     " endtry                            
 
 
@@ -602,8 +628,6 @@ try
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 catch /.*/
-
-finally
     
 endtry
 
@@ -611,16 +635,6 @@ try
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 catch /exception_TYPED/
-
-finally_TYPED
-endtryb
-
-a try
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-catch /.*/
-
-finally
     
 endtryb
 
@@ -628,32 +642,37 @@ a try
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 catch /.*/
+    
+endtryb
 
-finally
+a try
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+catch /.*/
     
 endtry
 
 
-    "  -------------varconf--------------- 
-    " if !exists(_CMT_`access^g^:`varname^_CMT_) 
-    "     let `access^:`varname^ = `val^   
-    " endif                                
+    "  -------------varconf---------------        
+    " if !exists(`$SParg^_CMT_`g^:`varname^_CMT_`$SParg^) 
+    "     let `g^:`varname^`$SPop^=`$SPop^`val^   
+    " endif                                       
 
 
 
-    if !exists("g:varname")
+    if !exists( "g:varname" )
         let g:varname = val
     endif
 
-    if !exists("access_TYPED:varname_TYPED")
-        let access_TYPED:varname_TYPED = val_TYPED
+    if !exists( "g_TYPED:varname_TYPED" )
+        let g_TYPED:varname_TYPED = val_TYPED
     endif b
 
-    a if !exists("g:varname")
+    a if !exists( "g:varname" )
         let g:varname = val
     endif b
 
-    a if !exists("g:varname")
+    a if !exists( "g:varname" )
         let g:varname = val
     endif
 
@@ -696,11 +715,11 @@ endtry
     endwhile
 
 
-    "  -------------whilei---------------              
-    " let [ `i^, `len^ ] = [ `0^ - 1, `len_expr^ - 1 ] 
-    " while `i^ < `len^ | let `i^ += 1                 
-    "     `cursor^                                     
-    " endwhile                                         
+    "  -------------whilei---------------                                                                              
+    " let [`$SParg^`i^,`$SPop^`len^`$SParg^] = [`$SParg^`0^`$SPop^-`$SPop^1,`$SPop^`len_expr^`$SPop^-`$SPop^1`$SParg^] 
+    " while `i^`$SPop^<`$SPop^`len^ | let `i^`$SPop^+=`$SPop^1                                                         
+    "     `cursor^                                                                                                     
+    " endwhile                                                                                                         
 
 
 
