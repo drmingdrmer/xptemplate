@@ -93,6 +93,7 @@ let s:buildingSeqNr = 0
 let s:anonymouseIndex = 0
 let s:pumCB = {}
 fun! s:pumCB.onEmpty(sess) 
+    echom "XPT: nothing matched"
     return ""
 endfunction 
 fun! s:pumCB.onOneMatch(sess) 

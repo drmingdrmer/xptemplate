@@ -1,7 +1,3 @@
-" =========================================
-" XPTemplate command to define snippet file 
-" =========================================
-
 fun! s:GetMark()
 
     let cur = [ line( '.' ), col( '.' ) ]
@@ -89,10 +85,12 @@ syntax region XPTfunction start=/\w\+(/ end=/)/ containedin=XPTmeta_value,XPTmet
 let s:m = s:GetMark()
 
 exe 'syntax match XPTitemPost /\V\%(\[^' . s:m[2] . ']\|\(\\\*\)\1\\\[' . s:m[2] . ']\)\*\[^\\' . s:m[2] . ']' . s:m[1] . '\{1,2}/ contains=XPTmark contained containedin=XPTsnippetBody'
+" XPTitemB for distinguish coherent item
 exe 'syntax match XPTitemB /\V' . s:m[0] . '\%(\_[^' . s:m[1] . ']\)\{-}' . s:m[1] . '/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost,XPTitem'
 exe 'syntax match XPTitem /\V' . s:m[0] . '\%(\_[^' . s:m[1] . ']\)\{-}' . s:m[1] . '/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost,XPTitemB'
-exe 'syntax match XPTinclusion /\VInclude:\zs\.\{-}\ze' . s:m[1] . '/ contained containedin=XPTitem,XPTitemB'
-exe 'syntax match XPTinclusion /\V:\zs\.\{-}\ze:' . s:m[1] . '/ contained containedin=XPTitem,XPTitemB'
+exe 'syntax match XPTinclusion /\VInclude:\zs\.\{-}\ze' . s:m[1] . '/	contained containedin=XPTitem,XPTitemB'
+exe 'syntax match XPTinclusion /\V:\zs\.\{-}\ze:' . s:m[1] . '/		contained containedin=XPTitem,XPTitemB'
+exe 'syntax match XPTcursor /\V' . s:m[0] . 'cursor' . s:m[1] . '/		contained containedin=XPTitem,XPTitemB'
 exe 'syntax match XPTmark /\V' . s:m[1] .  '/ contains=XPTmark containedin=XPTitem,XPTitemB'
 
 " the end pattern is weird.
@@ -193,8 +191,14 @@ hi def link XPTxset_eq            Operator
 hi def link XPTxset_value         Normal
 hi def link XPTregion             SpecialKey
 hi def link XPTitem               CursorLine
-hi def link XPTitemB              CursorColumn
+if has('gui_running')
+    hi def link XPTitemB              CursorColumn
+else
+    hi def link XPTitemB              XPTitem
+endif
 hi def link XPTinclusion          XPTsnippetName
+" hi def link XPTcursor             TabLineSel
+hi def link XPTcursor             StatusLine
 hi def link XPTitemPost           WildMenu
 hi def link XPTvariable           Constant
 hi def link XPTvariable_quote     Constant
