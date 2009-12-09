@@ -187,7 +187,7 @@ XPT scriptsrc hint=<script\ ..\ src=...
 
 XPT body " <body>..</body>
 <body>
-    `curosr^
+    `cursor^
 </body>
 
 XPT doctype hint=<!DOCTYPE\ ***

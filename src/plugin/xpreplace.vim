@@ -11,6 +11,7 @@ runtime plugin/xpmark.vim
 runtime plugin/SettingSwitch.class.vim
 
 " TODO xpreplace line start with <tab> leaving a ';', ada:beg snippet
+" TODO use gp to paste and leave cursor after pasted content
 "
 " test range
     " s
