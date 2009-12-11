@@ -39,6 +39,7 @@ let s:repetitionPattern     = '\w\*...\w\*'
 let g:XPTemplateSettingPrototype  = { 
       \    'preValues'        : { 'cursor' : "\n" . '$CURSOR_PH' }, 
       \    'defaultValues'    : {}, 
+      \    'ontimeFilters'    : {}, 
       \    'postFilters'      : {}, 
       \    'comeFirst'        : [], 
       \    'comeLast'         : [], 
@@ -107,9 +108,9 @@ endfunction
 let s:ItemPumCB = {}
 fun! s:ItemPumCB.onOneMatch(sess) 
     if 0 == s:XPTupdate()
-	return s:FinishCurrentAndGotoNextItem( '' )
+        return s:FinishCurrentAndGotoNextItem( '' )
     else
-	return ""
+        return ""
     endif
 endfunction 
 fun! XPTemplateKeyword(val) 
@@ -401,7 +402,7 @@ fun! XPTemplatePreWrap(wrap)
         let x.wrap = s:BuildFilterIndent( x.wrap, indentNr )
     endif
     if getline( line( "." ) ) =~ '^\s*$'
-	let x.wrapStartPos = virtcol( '.' )
+        let x.wrapStartPos = virtcol( '.' )
         normal! d0
         let leftSpaces = repeat( ' ', x.wrapStartPos - 1 )
     else
@@ -438,9 +439,11 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
         elseif x.wrapStartPos
             let startColumn = x.wrapStartPos
         else
-            let [startLineNr, startColumn] = searchpos('\V\%(\w\|'. x.keyword .'\)\+\%#', "bn", startLineNr )
-            if startLineNr == 0
-                    let [startLineNr, startColumn] = [line("."), col(".")]
+            let lineToCursor = getline( startLineNr )[ 0 : col( "." ) - 2 ]
+            let matched = matchstr( lineToCursor, '\V\%(\w\|'. x.keyword .'\)\+\$' )
+            let startColumn = col( "." ) - len( matched )
+            if matched == ''
+                let [startLineNr, startColumn] = [line("."), col(".")]
             endif
         endif
         let templateName = strpart( getline(startLineNr), startColumn - 1, cursorColumn - startColumn )
@@ -1103,9 +1106,9 @@ fun! s:BuildItemForPlaceHolder( ctx, placeHolder )
 endfunction 
 fun! s:XPTvisual() 
     if &l:slm =~ 'cmd'
-	normal! v\<C-g>
+        normal! v\<C-g>
     else
-	normal! v
+        normal! v
     endif
 endfunction 
 fun! s:CleanupCurrentItem() 
@@ -1266,7 +1269,7 @@ fun! s:AdjustIndentAccordingToLine( snip, indent, lineNr, ... )
         let ph = a:1
         let leftMostMark = ph.mark.start
         let pos = XPMpos( leftMostMark )
-	let leftMostIndent = XPT#getIndentNr( pos[0], pos[1] )
+        let leftMostIndent = XPT#getIndentNr( pos[0], pos[1] )
         if pos[0] == a:lineNr && leftMostIndent < indent
             let indent = leftMostIndent
         endif
@@ -2001,6 +2004,12 @@ fun! s:XPTupdate(...)
     let renderContext.lastContent = contentTyped
     let renderContext.lastTotalLine = line( '$' )
     call XPMupdateStat()
+    if has_key( renderContext.tmpl.setting.ontimeFilters, renderContext.leadingPlaceHolder.name )
+        call s:HandleOntimeFilter()
+    endif
+    return 0
+endfunction 
+fun! s:HandleOntimeFilter() 
 endfunction 
 fun! s:DoBreakUndo() 
     if pumvisible()
