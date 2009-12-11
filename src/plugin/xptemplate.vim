@@ -804,10 +804,16 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
             call s:log.Log("x.keyword=" . x.keyword)
 
             " TODO test escaping
-            let [startLineNr, startColumn] = searchpos('\V\%(\w\|'. x.keyword .'\)\+\%#', "bn", startLineNr )
+            "
+            " NOTE: The following statement hangs VIM if x.keyword == '\w'
+            " let [startLineNr, startColumn] = searchpos('\V\%(\w\|'. x.keyword .'\)\+\%#', "bn", startLineNr )
 
-            if startLineNr == 0
-                    let [startLineNr, startColumn] = [line("."), col(".")]
+            let lineToCursor = getline( startLineNr )[ 0 : col( "." ) - 2 ]
+            let matched = matchstr( lineToCursor, '\V\%(\w\|'. x.keyword .'\)\+\$' )
+            let startColumn = col( "." ) - len( matched )
+
+            if matched == ''
+                let [startLineNr, startColumn] = [line("."), col(".")]
 
             endif
 
