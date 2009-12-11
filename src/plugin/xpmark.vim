@@ -636,7 +636,7 @@ fun! s:normalModeUpdate() dict "{{{
             endif
 
         elseif stat.positionOfMarkP[0] == line( "'" . g:xpm_mark_nextline ) 
-                    \&& stat.totalLine < self.lastTotalLine
+                    \ && stat.totalLine < self.lastTotalLine
             " join single line
             " TODO join multi lines
 
@@ -659,14 +659,14 @@ fun! s:normalModeUpdate() dict "{{{
             " end of the change is at least 1 space after line end
             let ce = [ self.lastPositionAndLength[0], self.lastPositionAndLength[2] + 2 ]
 
-            call s:log.Error( 'any chance going here?' )
+            " call s:log.Error( 'any chance going here?' )
 
             return self.updateWithNewChangeRange( cs, ce )
 
 
         elseif cs == [1, 1] && ce == [ stat.totalLine, 1 ] 
                     \|| diffOfLine < -1
-            " joining multi line is not supported.
+            " TODO joining multi line is not supported.
 
             " TODO to test if it is OK with buffer of only 1 line
             " substitute or other globally-affected command
@@ -1235,7 +1235,6 @@ endfunction "}}}
 
 if &ruler && &rulerformat == ""
     " ruler set but rulerformat is set to be default 
-    " set rulerformat=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
     set rulerformat=%-14.(%l,%c%V%)%=%P
 
 elseif !&ruler
@@ -1266,6 +1265,7 @@ fun! PrintDebug()
     let debugString .= ' p:' . string( getpos( "'" . g:xpm_mark )[ 1 : 2 ] )
     let debugString .= ' ' . string( [[ line( "'[" ), col( "'[" ) ], [ line( "']" ), col( "']" ) ]] ) . " "
     let debugString .= " " . mode() . string( [line( "." ), col( "." )] ) . ' last:' .string( d.lastPositionAndLength )
+    let debugString .= " ll:" . d.lastTotalLine
 
     return substitute( debugString, '\s', '' , 'g' )
 endfunction
