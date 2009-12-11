@@ -322,14 +322,13 @@ fun! s:normalModeUpdate() dict
             else
             endif
         elseif stat.positionOfMarkP[0] == line( "'" . g:xpm_mark_nextline ) 
-                    \&& stat.totalLine < self.lastTotalLine
+                    \ && stat.totalLine < self.lastTotalLine
             let endPos = [ self.lastPositionAndLength[0], self.lastPositionAndLength[2] ]
             return self.updateWithNewChangeRange( endPos, endPos )
         elseif self.lastMode =~ '[vVsS]'
         elseif diffOfLine == -1
             let cs = [ self.lastPositionAndLength[0], self.lastPositionAndLength[2] + 1 ]
             let ce = [ self.lastPositionAndLength[0], self.lastPositionAndLength[2] + 2 ]
-            call s:log.Error( 'any chance going here?' )
             return self.updateWithNewChangeRange( cs, ce )
         elseif cs == [1, 1] && ce == [ stat.totalLine, 1 ] 
                     \|| diffOfLine < -1
@@ -653,6 +652,7 @@ fun! PrintDebug()
     let debugString .= ' p:' . string( getpos( "'" . g:xpm_mark )[ 1 : 2 ] )
     let debugString .= ' ' . string( [[ line( "'[" ), col( "'[" ) ], [ line( "']" ), col( "']" ) ]] ) . " "
     let debugString .= " " . mode() . string( [line( "." ), col( "." )] ) . ' last:' .string( d.lastPositionAndLength )
+    let debugString .= " ll:" . d.lastTotalLine
     return substitute( debugString, '\s', '' , 'g' )
 endfunction
 let &cpo = s:oldcpo
