@@ -199,28 +199,28 @@ a test.page b
 a test.page
 
 
-    #  -------------for---------------                
-    # for {set ~i^ ~x^} {$~i^ <= ~len^} {incr ~i^} {  
-    #     ~cursor^                                    
-    # }                                               
+    #  -------------for---------------               
+    # for {set ~i^ ~x^} {$~i^ <= ~len^} {incr ~i^} { 
+    #     ~cursor^                                   
+    # }                                              
 
 
 
 for {set i x} {$i <= len} {incr i} {
     
-}                                              
+}
 
 for {set i_TYPED x_TYPED} {$i_TYPED <= len_TYPED} {incr i_TYPED} {
     
-}                                               b
+} b
 
 a for {set i x} {$i <= len} {incr i} {
     
-}                                               b
+} b
 
 a for {set i x} {$i <= len} {incr i} {
     
-}                                              
+}
 
 
     #  -------------foreach--------------- 

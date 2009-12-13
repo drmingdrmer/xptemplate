@@ -244,6 +244,70 @@ WRAPPED_TEXT_line2{}
     \end{block}
 
 
+    %  -------------columns--------------- 
+    % \begin{columns}                      
+    %     \begin{column}[l]{`size~5cm~}    
+    %     \end{column}`...~                
+    %                                      
+    %     \begin{column}[l]{`size~5cm~}    
+    %     \end{column}`...~                
+    %     `cursor~                         
+    % \end{columns}                        
+
+
+
+    \begin{columns}
+        \begin{column}[l]{5cm}
+        \end{column}
+        
+        \begin{column}[l]{5cm}
+        \end{column}
+        
+        \begin{column}[l]{5cm}
+        \end{column}
+        
+        \begin{column}[l]{5cm}
+        \end{column}
+        
+    \end{columns}
+
+    \begin{columns}
+        \begin{column}[l]{size_TYPED}
+        \end{column}_TYPED
+        
+    \end{columns} b
+
+    a \begin{columns}
+        \begin{column}[l]{5cm}
+        \end{column}
+        
+        \begin{column}[l]{5cm}
+        \end{column}
+        
+        \begin{column}[l]{5cm}
+        \end{column}
+        
+        \begin{column}[l]{5cm}
+        \end{column}
+        
+    \end{columns} b
+
+    a \begin{columns}
+        \begin{column}[l]{5cm}
+        \end{column}
+        
+        \begin{column}[l]{5cm}
+        \end{column}
+        
+        \begin{column}[l]{5cm}
+        \end{column}
+        
+        \begin{column}[l]{5cm}
+        \end{column}
+        
+    \end{columns}
+
+
     %  -------------doc--------------- 
     % \begin{document}                 
     %     `cursor~                     

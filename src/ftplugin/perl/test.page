@@ -231,9 +231,9 @@ WRAPPED_TEXT_line2
 
 
     #  -------------do--------------- 
-    # do`$BRloop^{                     
+    # do`$BRloop^{                    
     #     `cursor^                    
-    # }`$BRloop^while (`condition^);   
+    # }`$BRloop^while (`condition^);  
 
 
 
@@ -268,13 +268,13 @@ WRAPPED_TEXT_line2
     a drdr.xp@gmail.com
 
 
-    #  -------------eval---------------     
-    # eval`$BRif^{                          
-    #     `risky^                           
-    # };                                    
+    #  -------------eval---------------      
+    # eval`$BRif^{                           
+    #     `risky^                            
+    # };                                     
     # if`$SPcmd^(`$SParg^$@`$SParg^)`$BRif^{ 
-    #     `handle^                          
-    # }                                     
+    #     `handle^                           
+    # }                                      
 
 
 
@@ -307,13 +307,13 @@ WRAPPED_TEXT_line2
     }
 
 
-    #  -------------eval_---------------    
-    # eval`$BRif^{                          
-    #     `wrapped^                         
-    # };                                    
+    #  -------------eval_---------------     
+    # eval`$BRif^{                           
+    #     `wrapped^                          
+    # };                                     
     # if`$SPcmd^(`$SParg^$@`$SParg^)`$BRif^{ 
-    #     `handle^                          
-    # }                                     
+    #     `handle^                           
+    # }                                      
 
 
 
@@ -364,10 +364,10 @@ if ( $@ ) {
     a test.page
 
 
-    #  -------------for---------------                                                         
+    #  -------------for---------------                                                          
     # for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRloop^{ 
-    #     `cursor^                                                                             
-    # }                                                                                        
+    #     `cursor^                                                                              
+    # }                                                                                         
 
 
 
@@ -388,10 +388,10 @@ if ( $@ ) {
     }
 
 
-    #  -------------foreach---------------                           
+    #  -------------foreach---------------                          
     # foreach`$SPcmd^my $`var^ (`$SParg^@`array^`$SParg^)`$BRloop^{ 
-    #     `cursor^                                                   
-    # }                                                              
+    #     `cursor^                                                  
+    # }                                                             
 
 
 
@@ -426,10 +426,10 @@ if ( $@ ) {
     a for (;;) # void
 
 
-    #  -------------forkeys---------------                                
+    #  -------------forkeys---------------                               
     # foreach`$SPcmd^my $`var^ (`$SParg^keys @`array^`$SParg^)`$BRloop^{ 
-    #     `cursor^                                                        
-    # }                                                                   
+    #     `cursor^                                                       
+    # }                                                                  
 
 
 
@@ -450,10 +450,10 @@ if ( $@ ) {
     }
 
 
-    #  -------------forr---------------                                                           
+    #  -------------forr---------------                                                            
     # for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRloop^{ 
-    #     `cursor^                                                                                
-    # }                                                                                           
+    #     `cursor^                                                                                 
+    # }                                                                                            
 
 
 
@@ -474,10 +474,10 @@ if ( $@ ) {
     }
 
 
-    #  -------------forvalues---------------                                
+    #  -------------forvalues---------------                               
     # foreach`$SPcmd^my $`var^ (`$SParg^values @`array^`$SParg^)`$BRloop^{ 
-    #     `cursor^                                                          
-    # }                                                                     
+    #     `cursor^                                                         
+    # }                                                                    
 
 
 
@@ -498,17 +498,17 @@ if ( $@ ) {
     }
 
 
-    #  -------------if---------------                                
+    #  -------------if---------------                                 
     # if`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{                      
-    #     `job^                                                      
-    # }`                                                             
+    #     `job^                                                       
+    # }`                                                              
     # `elsif...^`$BRel^elsif`$SPcmd^(`$SParg^`cond2^`$SParg^)`$BRif^{ 
-    #     `job^                                                      
-    # }`                                                             
-    # `elsif...^`                                                    
-    # `else...{{^`$BRel^else`$BRif^{                                 
-    #     `cursor^                                                   
-    # }`}}^                                                          
+    #     `job^                                                       
+    # }`                                                              
+    # `elsif...^`                                                     
+    # `else...{{^`$BRel^else`$BRif^{                                  
+    #     `cursor^                                                    
+    # }`}}^                                                           
 
 
 
@@ -567,17 +567,17 @@ if ( $@ ) {
     }
 
 
-    #  -------------if_---------------                               
+    #  -------------if_---------------                                
     # if`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{                      
-    #     `wrapped^                                                  
-    # }`                                                             
+    #     `wrapped^                                                   
+    # }`                                                              
     # `elsif...^`$BRel^elsif`$SPcmd^(`$SParg^`cond2^`$SParg^)`$BRif^{ 
-    #     `job^                                                      
-    # }`                                                             
-    # `elsif...^`                                                    
-    # `else...{{^`$BRel^else`$BRif^{                                 
-    #     `cursor^                                                   
-    # }`}}^                                                          
+    #     `job^                                                       
+    # }`                                                              
+    # `elsif...^`                                                     
+    # `else...{{^`$BRel^else`$BRif^{                                  
+    #     `cursor^                                                    
+    # }`}}^                                                           
 
 
 
@@ -755,13 +755,13 @@ else {
     }
 
 
-    #  -------------try---------------      
-    # eval`$BRif^{                          
-    #     `risky^                           
-    # };                                    
+    #  -------------try---------------       
+    # eval`$BRif^{                           
+    #     `risky^                            
+    # };                                     
     # if`$SPcmd^(`$SParg^$@`$SParg^)`$BRif^{ 
-    #     `handle^                          
-    # }                                     
+    #     `handle^                           
+    # }                                      
 
 
 
@@ -794,13 +794,13 @@ else {
     }
 
 
-    #  -------------try_---------------     
-    # eval`$BRif^{                          
-    #     `wrapped^                         
-    # };                                    
+    #  -------------try_---------------      
+    # eval`$BRif^{                           
+    #     `wrapped^                          
+    # };                                     
     # if`$SPcmd^(`$SParg^$@`$SParg^)`$BRif^{ 
-    #     `handle^                          
-    # }                                     
+    #     `handle^                           
+    # }                                      
 
 
 
@@ -837,10 +837,10 @@ if ( $@ ) {
 }
 
 
-    #  -------------unless---------------           
+    #  -------------unless---------------            
     # unless`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{ 
-    #     `cursor^                                  
-    # }                                             
+    #     `cursor^                                   
+    # }                                              
 
 
 
@@ -862,7 +862,7 @@ if ( $@ ) {
 
 
     #  -------------while--------------- 
-    # while (`condition^)`$BRloop^{       
+    # while (`condition^)`$BRloop^{      
     #     `cursor^                       
     # }                                  
 
@@ -886,9 +886,9 @@ if ( $@ ) {
 
 
     #  -------------while0--------------- 
-    # do`$BRloop^{                         
+    # do`$BRloop^{                        
     #     `cursor^                        
-    # }`$BRloop^while (`condition^);       
+    # }`$BRloop^while (`condition^);      
 
 
 
@@ -910,7 +910,7 @@ if ( $@ ) {
 
 
     #  -------------while1--------------- 
-    # while (`condition^)`$BRloop^{        
+    # while (`condition^)`$BRloop^{       
     #     `cursor^                        
     # }                                   
 
@@ -933,10 +933,10 @@ if ( $@ ) {
     }
 
 
-    #  -------------whileeach---------------                                                                          
+    #  -------------whileeach---------------                                                                           
     # while`$SPcmd^(`$SParg^(`$SParg^$`key^,`$SPop^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRloop^{ 
-    #     `cursor^                                                                                                    
-    # }                                                                                                               
+    #     `cursor^                                                                                                     
+    # }                                                                                                                
 
 
 
@@ -957,10 +957,10 @@ if ( $@ ) {
     }
 
 
-    #  -------------whileline---------------                                                           
+    #  -------------whileline---------------                                                            
     # while`$SPcmd^(`$SParg^defined(`$SParg^$`line^`$SPop^=`$SPop^<`STDIN^>`$SParg^)`$SParg^)`$BRloop^{ 
-    #     `cursor^                                                                                     
-    # }                                                                                                
+    #     `cursor^                                                                                      
+    # }                                                                                                 
 
 
 

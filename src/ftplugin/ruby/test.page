@@ -991,7 +991,7 @@ end
 
 
     #   -------------deft--------------- 
-    #  def test_`name^`(`arg*`)^         
+    #  def test_`name^                   
     #      `cursor^                      
     #  end                               
 
@@ -1001,7 +1001,7 @@ end
         
     end
 
-    def test_name_TYPED(arg_TYPED, narg_TYPED, narg_TYPED)
+    def test_name_TYPED
         
     end b
 
@@ -2120,13 +2120,21 @@ end
         def test_name
             
         end
+        
+        def test_name
+            
+        end
+        
+        def test_name
+            
+        end
     end
 
     require "test/unit"
     require "module_TYPED"
     
     class TestClassNameTYPED < Test::Unit::TestCase
-        def test_name_TYPED(arg_TYPED, narg_TYPED, narg_TYPED)
+        def test_name_TYPED
             cursor_TYPED
         end 
     
@@ -2144,12 +2152,28 @@ end
         def test_name
             
         end
+        
+        def test_name
+            
+        end
+        
+        def test_name
+            
+        end
     end b
 
     a require "test/unit"
     require "module"
     
     class TestModule < Test::Unit::TestCase
+        def test_name
+            
+        end
+        
+        def test_name
+            
+        end
+        
         def test_name
             
         end
@@ -2304,7 +2328,7 @@ end
     end b
 
     a if ARGV 
-        abort "Usage: #{$PROGRAM_NAME} [options] "
+        abort "Usage: #{$PROGRAM_NAME} [options]"
     end b
 
     a if ARGV
@@ -2328,7 +2352,7 @@ end
     end b
 
     a unless ARGV 
-        abort "Usage: #{$PROGRAM_NAME} [options] "
+        abort "Usage: #{$PROGRAM_NAME} [options]"
     end b
 
     a unless ARGV

@@ -6,17 +6,17 @@
 
 
 
-"WRAPPED_TEXT
-WRAPPED_TEXT_line2"
+"    WRAPPED_TEXT
+    WRAPPED_TEXT_line2"
 
-"WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+    "WRAPPED_TEXT
+    WRAPPED_TEXT_line2"b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+    a "WRAPPED_TEXT
+    WRAPPED_TEXT_line2"b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"
+    a "WRAPPED_TEXT
+    WRAPPED_TEXT_line2"
 
 
     <%#  -------------'_--------------- %>
@@ -24,17 +24,17 @@ WRAPPED_TEXT_line2"
 
 
 
-'WRAPPED_TEXT
-WRAPPED_TEXT_line2'
+'    WRAPPED_TEXT
+    WRAPPED_TEXT_line2'
 
-'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+    'WRAPPED_TEXT
+    WRAPPED_TEXT_line2'b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+    a 'WRAPPED_TEXT
+    WRAPPED_TEXT_line2'b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'
+    a 'WRAPPED_TEXT
+    WRAPPED_TEXT_line2'
 
 
     <%#  -------------(_--------------- %>
@@ -42,8 +42,8 @@ WRAPPED_TEXT_line2'
 
 
 
-(WRAPPED_TEXT
-WRAPPED_TEXT_line2)
+(    WRAPPED_TEXT
+    WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
 WRAPPED_TEXT_line2)b
@@ -55,18 +55,18 @@ a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
-    <%#  -------------<---------------                     %>
-    <%# <`tag^` `att*^`att*^xml_attVal()^>`cursor^</`tag^> %>
+    <%#  -------------<--------------- %>
+    <%# <`tag^`att*^>`content^</`tag^> %>
 
 
 
-    <tag></tag>
+    <tag>content</tag>
 
-    <tag_TYPED att_TYPED="val_TYPED" att_TYPED="val_TYPED" att_TYPED="val_TYPED"></tag_TYPED> b
+    <tag_TYPED x_TYPED>content_TYPED</tag_TYPED> b
 
-    a <tag></tag> b
+    a <tag>content</tag> b
 
-    a <tag></tag>
+    a <tag>content</tag>
 
 
     <%#  -------------<_--------------- %>
@@ -74,17 +74,17 @@ WRAPPED_TEXT_line2)
 
 
 
-<span>WRAPPED_TEXT
-WRAPPED_TEXT_line2</span>
+<span>    WRAPPED_TEXT
+    WRAPPED_TEXT_line2</span>
 
-<span_TYPED>WRAPPED_TEXT
-WRAPPED_TEXT_line2</span_TYPED>b
+    <span_TYPED>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</span_TYPED>b
 
-a <span>WRAPPED_TEXT
-WRAPPED_TEXT_line2</span>b
+    a <span>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</span>b
 
-a <span>WRAPPED_TEXT
-WRAPPED_TEXT_line2</span>
+    a <span>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</span>
 
 
     <%#  -------------[_--------------- %>
@@ -92,17 +92,17 @@ WRAPPED_TEXT_line2</span>
 
 
 
-[WRAPPED_TEXT
-WRAPPED_TEXT_line2]
+[    WRAPPED_TEXT
+    WRAPPED_TEXT_line2]
 
-[WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+    [WRAPPED_TEXT
+    WRAPPED_TEXT_line2]b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+    a [WRAPPED_TEXT
+    WRAPPED_TEXT_line2]b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]
+    a [WRAPPED_TEXT
+    WRAPPED_TEXT_line2]
 
 
     <%#  -------------`_--------------- %>
@@ -110,17 +110,17 @@ WRAPPED_TEXT_line2]
 
 
 
-`WRAPPED_TEXT
-WRAPPED_TEXT_line2`
+`    WRAPPED_TEXT
+    WRAPPED_TEXT_line2`
 
-`WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+    `WRAPPED_TEXT
+    WRAPPED_TEXT_line2`b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+    a `WRAPPED_TEXT
+    WRAPPED_TEXT_line2`b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`
+    a `WRAPPED_TEXT
+    WRAPPED_TEXT_line2`
 
 
     <%#  -------------a--------------- %>
@@ -142,17 +142,17 @@ WRAPPED_TEXT_line2`
 
 
 
-<a href="">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a>
+<a href="">    WRAPPED_TEXT
+    WRAPPED_TEXT_line2</a>
 
-<a href="_TYPED">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a>b
+    <a href="_TYPED">WRAPPED_TEXT
+    WRAPPED_TEXT_line2</a>b
 
-a <a href="">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a>b
+    a <a href="">WRAPPED_TEXT
+    WRAPPED_TEXT_line2</a>b
 
-a <a href="">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a>
+    a <a href="">WRAPPED_TEXT
+    WRAPPED_TEXT_line2</a>
 
 
     <%#  -------------Author--------------- %>
@@ -169,6 +169,30 @@ WRAPPED_TEXT_line2</a>
     a drdr.xp
 
 
+    <%#  -------------body--------------- %>
+    <%# <body>                            %>
+    <%#     `cursor^                      %>
+    <%# </body>                           %>
+
+
+
+    <body>
+        
+    </body>
+
+    <body>
+        
+    </body> b
+
+    a <body>
+        
+    </body> b
+
+    a <body>
+        
+    </body>
+
+
     <%#  -------------br--------------- %>
     <%# <br />                          %>
 
@@ -183,7 +207,7 @@ WRAPPED_TEXT_line2</a>
     a <br />
 
 
-    <%#  -------------CDATA--------------- %>
+    <%#  -------------cdata--------------- %>
     <%# <![CDATA[`cursor^]]>               %>
 
 
@@ -197,22 +221,22 @@ WRAPPED_TEXT_line2</a>
     a <![CDATA[]]>
 
 
-    <%#  -------------CDATA_--------------- %>
+    <%#  -------------cdata_--------------- %>
     <%# <![CDATA[`wrapped^]]>               %>
 
 
 
-<![CDATA[WRAPPED_TEXT
-WRAPPED_TEXT_line2]]>
+<![CDATA[    WRAPPED_TEXT
+    WRAPPED_TEXT_line2]]>
 
-<![CDATA[WRAPPED_TEXT
-WRAPPED_TEXT_line2]]>b
+    <![CDATA[WRAPPED_TEXT
+    WRAPPED_TEXT_line2]]>b
 
-a <![CDATA[WRAPPED_TEXT
-WRAPPED_TEXT_line2]]>b
+    a <![CDATA[WRAPPED_TEXT
+    WRAPPED_TEXT_line2]]>b
 
-a <![CDATA[WRAPPED_TEXT
-WRAPPED_TEXT_line2]]>
+    a <![CDATA[WRAPPED_TEXT
+    WRAPPED_TEXT_line2]]>
 
 
     <%#  -------------comment--------------- %>
@@ -234,17 +258,17 @@ WRAPPED_TEXT_line2]]>
 
 
 
-<!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->
+<!--     WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->
 
-<!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->b
+    <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->b
 
-a <!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->b
+    a <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->b
 
-a <!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->
+    a <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->
 
 
     <%#  -------------commentBlock--------------- %>
@@ -254,19 +278,19 @@ WRAPPED_TEXT_line2 -->
 
 
 
-    <!-- 
+    <!--
       
      -->
 
-     <!-- 
+     <!--
        
       --> b
 
-      a <!-- 
+      a <!--
         
        --> b
 
-       a <!-- 
+       a <!--
          
         -->
 
@@ -278,24 +302,24 @@ WRAPPED_TEXT_line2 -->
 
 
 
-<!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
+<!--
+      WRAPPED_TEXT
+      WRAPPED_TEXT_line2
  -->
 
- <!-- 
+ <!--
    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
+   WRAPPED_TEXT_line2
   -->b
 
-  a <!-- 
+  a <!--
     WRAPPED_TEXT
-      WRAPPED_TEXT_line2
+    WRAPPED_TEXT_line2
    -->b
 
-   a <!-- 
+   a <!--
      WRAPPED_TEXT
-        WRAPPED_TEXT_line2
+     WRAPPED_TEXT_line2
     -->
 
 
@@ -306,19 +330,19 @@ WRAPPED_TEXT_line2 -->
 
 
 
-    <!-- 
+    <!--
       
      -->
 
-     <!-- 
+     <!--
        
       --> b
 
-      a <!-- 
+      a <!--
         
        --> b
 
-       a <!-- 
+       a <!--
          
         -->
 
@@ -330,24 +354,24 @@ WRAPPED_TEXT_line2 -->
 
 
 
-<!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
+<!--
+      WRAPPED_TEXT
+      WRAPPED_TEXT_line2
  -->
 
- <!-- 
+ <!--
    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
+   WRAPPED_TEXT_line2
   -->b
 
-  a <!-- 
+  a <!--
     WRAPPED_TEXT
-      WRAPPED_TEXT_line2
+    WRAPPED_TEXT_line2
    -->b
 
-   a <!-- 
+   a <!--
      WRAPPED_TEXT
-        WRAPPED_TEXT_line2
+     WRAPPED_TEXT_line2
     -->
 
 
@@ -370,27 +394,27 @@ WRAPPED_TEXT_line2 -->
 
 
 
-<!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->
+<!--     WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->
 
-<!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->b
+    <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->b
 
-a <!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->b
+    a <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->b
 
-a <!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->
+    a <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->
 
 
     <%#  -------------div--------------- %>
-    <%# <div`^>`cursor^</div>            %>
+    <%# <div` `attr?^>`what^</div>       %>
 
 
 
     <div></div>
 
-    <div_TYPED></div> b
+    <div attr_TYPED>what_TYPED</div> b
 
     a <div></div> b
 
@@ -402,17 +426,17 @@ WRAPPED_TEXT_line2 -->
 
 
 
-<div>WRAPPED_TEXT
-WRAPPED_TEXT_line2</div>
+<div>    WRAPPED_TEXT
+    WRAPPED_TEXT_line2</div>
 
-<div>WRAPPED_TEXT
-WRAPPED_TEXT_line2</div>b
+    <div>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</div>b
 
-a <div>WRAPPED_TEXT
-WRAPPED_TEXT_line2</div>b
+    a <div>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</div>b
 
-a <div>WRAPPED_TEXT
-WRAPPED_TEXT_line2</div>
+    a <div>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</div>
 
 
     <%#  -------------doctype--------------- %>
@@ -443,6 +467,35 @@ WRAPPED_TEXT_line2</div>
     a drdr.xp@gmail.com
 
 
+    <%#  -------------fieldset--------------- %>
+    <%# <fieldset>                            %>
+    <%#     <legend></legend>                 %>
+    <%#     `cursor^                          %>
+    <%# </fieldset>                           %>
+
+
+
+    <fieldset>
+        <legend></legend>
+        
+    </fieldset>
+
+    <fieldset>
+        <legend></legend>
+        
+    </fieldset> b
+
+    a <fieldset>
+        <legend></legend>
+        
+    </fieldset> b
+
+    a <fieldset>
+        <legend></legend>
+        
+    </fieldset>
+
+
     <%#  -------------File--------------- %>
     <%# `file()^                          %>
 
@@ -455,6 +508,30 @@ WRAPPED_TEXT_line2</div>
     a test.page b
 
     a test.page
+
+
+    <%#  -------------form---------------                                             %>
+    <%# <form action="`action^" method="`method^POST^" accept-charset="`html_enc()^"> %>
+    <%#     `cursor^                                                                  %>
+    <%# </form>                                                                       %>
+
+
+
+    <form action="action" method="POST" accept-charset="utf-8">
+        
+    </form>
+
+    <form action="action_TYPED" method="method_TYPED" accept-charset="utf-8">
+        
+    </form> b
+
+    a <form action="action" method="POST" accept-charset="utf-8">
+        
+    </form> b
+
+    a <form action="action" method="POST" accept-charset="utf-8">
+        
+    </form>
 
 
     <%#  -------------h--------------- %>
@@ -471,36 +548,161 @@ WRAPPED_TEXT_line2</div>
     a <h1></h1>
 
 
+    <%#  -------------h1--------------- %>
+    <%# <h`n^>`cursor^</h`n^>           %>
+
+
+
+    <h1></h1>
+
+    <h1></h1> b
+
+    a <h1></h1> b
+
+    a <h1></h1>
+
+
+    <%#  -------------h2--------------- %>
+    <%# <h`n^>`cursor^</h`n^>           %>
+
+
+
+    <h2></h2>
+
+    <h2></h2> b
+
+    a <h2></h2> b
+
+    a <h2></h2>
+
+
+    <%#  -------------h3--------------- %>
+    <%# <h`n^>`cursor^</h`n^>           %>
+
+
+
+    <h3></h3>
+
+    <h3></h3> b
+
+    a <h3></h3> b
+
+    a <h3></h3>
+
+
+    <%#  -------------h4--------------- %>
+    <%# <h`n^>`cursor^</h`n^>           %>
+
+
+
+    <h4></h4>
+
+    <h4></h4> b
+
+    a <h4></h4> b
+
+    a <h4></h4>
+
+
+    <%#  -------------h5--------------- %>
+    <%# <h`n^>`cursor^</h`n^>           %>
+
+
+
+    <h5></h5>
+
+    <h5></h5> b
+
+    a <h5></h5> b
+
+    a <h5></h5>
+
+
+    <%#  -------------h6--------------- %>
+    <%# <h`n^>`cursor^</h`n^>           %>
+
+
+
+    <h6></h6>
+
+    <h6></h6> b
+
+    a <h6></h6> b
+
+    a <h6></h6>
+
+
     <%#  -------------h_--------------- %>
     <%# <h`n^>`wrapped^</h`n^>          %>
 
 
 
-<h1>WRAPPED_TEXT
-WRAPPED_TEXT_line2</h1>
+<h1>    WRAPPED_TEXT
+    WRAPPED_TEXT_line2</h1>
 
-<hn_TYPED>WRAPPED_TEXT
-WRAPPED_TEXT_line2</hn_TYPED>b
+    <hn_TYPED>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</hn_TYPED>b
 
-a <h1>WRAPPED_TEXT
-WRAPPED_TEXT_line2</h1>b
+    a <h1>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</h1>b
 
-a <h1>WRAPPED_TEXT
-WRAPPED_TEXT_line2</h1>
+    a <h1>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</h1>
+
+
+    <%#  -------------head---------------                                                        %>
+    <%# <head>                                                                                   %>
+    <%#     <meta http-equiv="Content-Type" content="text/html; charset=`encoding^html_enc()^"/> %>
+    <%#     <link rel="stylesheet" type="text/css" href="" />                                    %>
+    <%#     `:title:^                                                                            %>
+    <%#     <script language="javascript" type="text/javascript">                                %>
+    <%#         <!-- -->                                                                         %>
+    <%#     </script>                                                                            %>
+    <%# </head>                                                                                  %>
+
+
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <link rel="stylesheet" type="text/css" href="" />
+        <title>test</title>
+        <script language="javascript" type="text/javascript">
+            <!-- -->
+        </script>
+    </head>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=encoding_TYPED"/>
+        <link rel="stylesheet" type="text/css" href="" />
+        <title>title_TYPED</title>
+        <script language="javascript" type="text/javascript">
+            <!-- -->
+        </script>
+    </head> b
+
+    a <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <link rel="stylesheet" type="text/css" href="" />
+        <title>test</title>
+        <script language="javascript" type="text/javascript">
+            <!-- -->
+        </script>
+    </head> b
+
+    a <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <link rel="stylesheet" type="text/css" href="" />
+        <title>test</title>
+        <script language="javascript" type="text/javascript">
+            <!-- -->
+        </script>
+    </head>
 
 
     <%#  -------------html---------------                                                                                         %>
     <%# <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> %>
     <%# <html>                                                                                                                    %>
-    <%#     <head>                                                                                                                %>
-    <%#         <meta http-equiv="Content-Type" content="text/html; charset=`encoding^Echo(&fenc == '' ? 'utf-8' : &fenc)^"/>     %>
-    <%#         <link rel="stylesheet" type="text/css" href="" />                                                                 %>
-    <%#         <style></style>                                                                                                   %>
-    <%#         <title>`title^E('%:r')^</title>                                                                                   %>
-    <%#         <script language="javascript" type="text/javascript">                                                             %>
-    <%#             <!-- -->                                                                                                      %>
-    <%#         </script>                                                                                                         %>
-    <%#     </head>                                                                                                               %>
+    <%#     `:head:^                                                                                                              %>
     <%#     <body>                                                                                                                %>
     <%#         `cursor^                                                                                                          %>
     <%#     </body>                                                                                                               %>
@@ -513,8 +715,7 @@ WRAPPED_TEXT_line2</h1>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
             <link rel="stylesheet" type="text/css" href="" />
-            <style></style>
-            <title>/media/ext2/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/eruby/.test/test</title>
+            <title>test</title>
             <script language="javascript" type="text/javascript">
                 <!-- -->
             </script>
@@ -529,7 +730,6 @@ WRAPPED_TEXT_line2</h1>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=encoding_TYPED"/>
             <link rel="stylesheet" type="text/css" href="" />
-            <style></style>
             <title>title_TYPED</title>
             <script language="javascript" type="text/javascript">
                 <!-- -->
@@ -545,8 +745,7 @@ WRAPPED_TEXT_line2</h1>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
             <link rel="stylesheet" type="text/css" href="" />
-            <style></style>
-            <title>/media/ext2/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/eruby/.test/test</title>
+            <title>test</title>
             <script language="javascript" type="text/javascript">
                 <!-- -->
             </script>
@@ -561,8 +760,7 @@ WRAPPED_TEXT_line2</h1>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
             <link rel="stylesheet" type="text/css" href="" />
-            <style></style>
-            <title>/media/ext2/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/eruby/.test/test</title>
+            <title>test</title>
             <script language="javascript" type="text/javascript">
                 <!-- -->
             </script>
@@ -571,6 +769,62 @@ WRAPPED_TEXT_line2</h1>
             
         </body>
     </html>
+
+
+    <%#  -------------input---------------                    %>
+    <%# <input type="`type^" name="`name^" value="`value^" /> %>
+
+
+
+    <input type="text" name="name" value="value" />
+
+    <input type="text" name="name_TYPED" value="value_TYPED" /> b
+
+    a <input type="text" name="name" value="value" /> b
+
+    a <input type="text" name="name" value="value" />
+
+
+    <%#  -------------label---------------  %>
+    <%# <label for="`which^">`what^</label> %>
+
+
+
+    <label for="which">what</label>
+
+    <label for="which_TYPED">what_TYPED</label> b
+
+    a <label for="which">what</label> b
+
+    a <label for="which">what</label>
+
+
+    <%#  -------------link---------------                               %>
+    <%# <link rel="`stylesheet^" type="`type^text/css^" href="`url^" /> %>
+
+
+
+    <link rel="stylesheet" type="text/css" href="url" />
+
+    <link rel="stylesheet_TYPED" type="type_TYPED" href="url_TYPED" /> b
+
+    a <link rel="stylesheet" type="text/css" href="url" /> b
+
+    a <link rel="stylesheet" type="text/css" href="url" />
+
+
+    <%#  -------------meta---------------                    %>
+    <%# <meta name="`meta_name^" content="`meta_content^" /> %>
+
+
+
+    <meta name="meta_name" content="meta_content" />
+
+    <meta name="meta_name_TYPED" content="meta_content_TYPED" /> b
+
+    a <meta name="meta_name" content="meta_content" /> b
+
+    a <meta name="meta_name" content="meta_content" />
 
 
     <%#  -------------ol--------------- %>
@@ -607,6 +861,20 @@ WRAPPED_TEXT_line2</h1>
     </ol>
 
 
+    <%#  -------------option---------------     %>
+    <%# <option value="`value^">`what^</option> %>
+
+
+
+    <option value="value">what</option>
+
+    <option value="value_TYPED">what_TYPED</option> b
+
+    a <option value="value">what</option> b
+
+    a <option value="value">what</option>
+
+
     <%#  -------------p--------------- %>
     <%# <p` `attr?^>`cursor^</p>       %>
 
@@ -626,17 +894,17 @@ WRAPPED_TEXT_line2</h1>
 
 
 
-<p>WRAPPED_TEXT
-WRAPPED_TEXT_line2</p>
+<p>    WRAPPED_TEXT
+    WRAPPED_TEXT_line2</p>
 
-<p>WRAPPED_TEXT
-WRAPPED_TEXT_line2</p>b
+    <p>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</p>b
 
-a <p>WRAPPED_TEXT
-WRAPPED_TEXT_line2</p>b
+    a <p>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</p>b
 
-a <p>WRAPPED_TEXT
-WRAPPED_TEXT_line2</p>
+    a <p>WRAPPED_TEXT
+    WRAPPED_TEXT_line2</p>
 
 
     <%#  -------------r--------------- %>
@@ -729,32 +997,66 @@ WRAPPED_TEXT_line2</p>
     </script>
 
 
-    <%#  -------------scrlink---------------                                          %>
-    <%# <script language="javascript" type="text/javascript" src="`cursor^"></script> %>
+    <%#  -------------scriptsrc---------------                                    %>
+    <%# <script language="javascript" type="text/javascript" src="`js^"></script> %>
 
 
 
-    <script language="javascript" type="text/javascript" src=""></script>
+    <script language="javascript" type="text/javascript" src="js"></script>
 
-    <script language="javascript" type="text/javascript" src=""></script> b
+    <script language="javascript" type="text/javascript" src="js_TYPED"></script> b
 
-    a <script language="javascript" type="text/javascript" src=""></script> b
+    a <script language="javascript" type="text/javascript" src="js"></script> b
 
-    a <script language="javascript" type="text/javascript" src=""></script>
-
-
-    <%#  -------------style---------------                      %>
-    <%# <?xml-stylesheet type="`style^text/css^" href="`from^"> %>
+    a <script language="javascript" type="text/javascript" src="js"></script>
 
 
+    <%#  -------------select--------------- %>
+    <%# <select name="`name^">              %>
+    <%#     `:option:^                      %>
+    <%# </select>                           %>
 
-    <?xml-stylesheet type="text/css" href="from">
 
-    <?xml-stylesheet type="style_TYPED" href="from_TYPED"> b
 
-    a <?xml-stylesheet type="text/css" href="from"> b
+    <select name="name">
+        <option value="value">what</option>
+    </select>
 
-    a <?xml-stylesheet type="text/css" href="from">
+    <select name="name_TYPED">
+        <option value="value_TYPED">what_TYPED</option>
+    </select> b
+
+    a <select name="name">
+        <option value="value">what</option>
+    </select> b
+
+    a <select name="name">
+        <option value="value">what</option>
+    </select>
+
+
+    <%#  -------------style---------------     %>
+    <%# <style type="text/css" media="screen"> %>
+    <%#     `cursor^                           %>
+    <%# </style>                               %>
+
+
+
+    <style type="text/css" media="screen">
+        
+    </style>
+
+    <style type="text/css" media="screen">
+        
+    </style> b
+
+    a <style type="text/css" media="screen">
+        
+    </style> b
+
+    a <style type="text/css" media="screen">
+        
+    </style>
 
 
     <%#  -------------table--------------- %>
@@ -779,13 +1081,13 @@ WRAPPED_TEXT_line2</p>
 
     <table>
         <tr>
-            <td>_TYPED</td> td_TYPED
+            <td>_TYPED </td> td_TYPED
         </tr> tr_TYPED
     </table> b
 
     a <table>
         <tr>
-            <td></td>
+            <td> </td>
             <td></td>
             <td></td>
             <td></td>
@@ -822,6 +1124,20 @@ WRAPPED_TEXT_line2</p>
     a <td></td>
 
 
+    <%#  -------------textarea---------------                       %>
+    <%# <textarea name="`name^" rows="" cols="">`cursor^</textarea> %>
+
+
+
+    <textarea name="name" rows="" cols=""></textarea>
+
+    <textarea name="name_TYPED" rows="" cols=""></textarea> b
+
+    a <textarea name="name" rows="" cols=""></textarea> b
+
+    a <textarea name="name" rows="" cols=""></textarea>
+
+
     <%#  -------------th--------------- %>
     <%# <th>`^</th>                     %>
 
@@ -834,6 +1150,20 @@ WRAPPED_TEXT_line2</p>
     a <th></th> b
 
     a <th></th>
+
+
+    <%#  -------------title--------------- %>
+    <%# <title>`title^E('%:t:r')^</title>  %>
+
+
+
+    <title>test</title>
+
+    <title>title_TYPED</title> b
+
+    a <title>test</title> b
+
+    a <title>test</title>
 
 
     <%#  -------------tr--------------- %>
@@ -852,11 +1182,11 @@ WRAPPED_TEXT_line2</p>
     </tr>
 
     <tr>
-        <td>_TYPED</td> td_TYPED
+        <td>_TYPED </td> td_TYPED
     </tr> b
 
     a <tr>
-        <td></td>
+        <td> </td>
         <td></td>
         <td></td>
         <td></td>
@@ -923,15 +1253,15 @@ WRAPPED_TEXT_line2</p>
 
 
 
-{WRAPPED_TEXT
-WRAPPED_TEXT_line2}
+{        WRAPPED_TEXT
+        WRAPPED_TEXT_line2}
 
-{WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+        {WRAPPED_TEXT
+        WRAPPED_TEXT_line2}b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+        a {WRAPPED_TEXT
+        WRAPPED_TEXT_line2}b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}
+        a {WRAPPED_TEXT
+        WRAPPED_TEXT_line2}
 

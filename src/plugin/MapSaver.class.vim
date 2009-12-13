@@ -12,7 +12,7 @@ runtime plugin/debug.vim
 
 
 let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'debug' )
 
 
 
@@ -163,6 +163,7 @@ fun! s:Save() dict "{{{
         " throw "keys are already saved and can not be save again"
         return
     endif
+    call s:log.Debug( 'MapSaved' )
     for [ mode, key ] in self.keys
         call insert( self.saved, s:_GetMapInfo( key, mode, self.isLocal ) )
     endfor

@@ -12,6 +12,8 @@ XPMgetSID
 delc XPMgetSID
 
 runtime plugin/debug.vim
+let s:log = CreateLogger( 'warn' )
+" let s:log = CreateLogger( 'debug' )
 
 
 " probe mark
@@ -41,8 +43,6 @@ let s:emptyHistoryElt = {'list':[], 'dict' :{}, 'likely' : { 'start' : '', 'end'
 " TODO joining lines cause marks lost
 
 
-let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
 
 
 let g:XPMpreferLeft = 'l'
@@ -164,6 +164,12 @@ fun! XPMpos( name ) "{{{
         return d.marks[ a:name ][ : 1 ]
     endif
     return [0, 0]
+endfunction "}}}
+
+fun! XPMposStartEnd( dict ) "{{{
+    let d = s:bufData()
+    return [ has_key( d.marks, a:dict.start ) ? d.marks[ a:dict.start ][0:1] : [0, 0],
+          \  has_key( d.marks, a:dict.end   ) ? d.marks[ a:dict.end   ][0:1] : [0, 0], ]
 endfunction "}}}
 
 fun! XPMposList( ... )
@@ -329,7 +335,9 @@ fun! XPMallMark() "{{{
     " for name in sort( keys( d.marks ) )
     let i = 0
     for name in d.orderedMarks
-        let msg .= i . ' ' . name . repeat( '-', 30-len( name ) ) . " : " . substitute( string( d.marks[ name ] ), '\<\d\>', ' &', 'g' ) . "\n"
+        let msg .= printf( '%3d', i ) 
+              \ . ' ' . name . repeat( '-', 30-len( name ) ) 
+              \ . substitute( string( d.marks[ name ] ), '\<\d\>', ' &', 'g' ) . "\n"
         let i += 1
     endfor
     return msg
@@ -781,7 +789,7 @@ fun! s:updateMarksBefore( indexRange, changeStart, changeEnd ) dict "{{{
             let self.marks[ name ] = [ mark[0], mark[1], lineLengthCS, mark[3] ]
 
         else
-            call s:log.Error( 'mark should be before, but it is after start of change' )
+            call s:log.Error( 'mark should be before, but it is after start of change:' . string( [ mark, a:changeStart ] ) )
 
         endif
 
@@ -806,6 +814,7 @@ fun! s:updateMarksAfter( indexRange, changeStart, changeEnd ) dict "{{{
 
     let lineNrOfChangeEndInLastStat = a:changeEnd[0] - diffOfLine
     call s:log.Debug( "lineNrOfChangeEndInLastStat :" . lineNrOfChangeEndInLastStat )
+    call s:log.Debug( 'All mark:' . XPMallMark() )
 
     let [ iStart, iEnd ] = [ a:indexRange[0] - 1, a:indexRange[1] - 1 ]
 
@@ -836,7 +845,7 @@ fun! s:updateMarksAfter( indexRange, changeStart, changeEnd ) dict "{{{
             let self.marks[ name ] = [ a:changeEnd[0], bMark[1] + lineLengthCE, lineLengthCE, mark[3] ]
 
         else
-            call s:log.Error( 'mark should be After changes, but it is before them.' )
+            call s:log.Error( 'mark should be After changes, but it is before them:' . string( [ bMark, bChangeEnd ] ))
 
         endif
 
@@ -991,11 +1000,13 @@ endfunction "}}}
 fun! s:findLikelyRange(changeStart, bChangeEnd) dict "{{{
     if self.changeLikelyBetween.start == ''
           \ || self.changeLikelyBetween.end == ''
+        call s:log.Log( 'no likely marks set' )
         return [ -1, -1 ]
 
     elseif !has_key( self.marks, self.changeLikelyBetween.start )
           \ || !has_key( self.marks, self.changeLikelyBetween.end )
 
+        call s:log.Log( 'likely mark are lost' )
         return [ -1, -1 ]
 
     endif

@@ -145,25 +145,25 @@ WRAPPED_TEXT_line2
 #ifndef TEST
 #     define TEST
 
- 
+
 #endif  TEST 
 
     #ifndef SYMBOL_TYPED
     #     define SYMBOL_TYPED
     
-     
+    
     #endif  SYMBOL_TYPED  b
 
     a #ifndef TEST
     #     define TEST
     
-     
+    
     #endif  TEST  b
 
     a #ifndef TEST
     #     define TEST
     
-     
+    
     #endif  TEST 
 
 
@@ -519,8 +519,8 @@ WRAPPED_TEXT_line2
     -- | typeDescr
     data (ctxt) => typename =
         Constructor {
-            field :: type -- ^ fieldDescr, 
-            fieldn :: typen -- ^ fielddescr, 
+            field :: type -- ^ fieldDescr,
+            fieldn :: typen -- ^ fielddescr,
             fieldn :: typen -- ^ fielddescr
         }
         deriving (Eq,Show)
@@ -538,8 +538,8 @@ WRAPPED_TEXT_line2
      a -- | typeDescr
      data (ctxt) => typename =
          Constructor {
-             field :: type -- ^ fieldDescr, 
-             fieldn :: typen -- ^ fielddescr, 
+             field :: type -- ^ fieldDescr,
+             fieldn :: typen -- ^ fielddescr,
              fieldn :: typen -- ^ fielddescr
          }
          deriving (Eq,Show)
@@ -548,8 +548,8 @@ WRAPPED_TEXT_line2
       a -- | typeDescr
       data (ctxt) => typename =
           Constructor {
-              field :: type -- ^ fieldDescr, 
-              fieldn :: typen -- ^ fielddescr, 
+              field :: type -- ^ fieldDescr,
+              fieldn :: typen -- ^ fielddescr,
               fieldn :: typen -- ^ fielddescr
           }
           deriving (Eq,Show)
@@ -678,7 +678,7 @@ WRAPPED_TEXT_line2
 
     deriving instance ctxt => class type
 
-    deriving instance context_TYPEDclass_TYPED type_TYPED b
+    deriving instance context_TYPEDclass_TYPED type b
 
     a deriving instance ctxt => class type b
 
@@ -921,15 +921,15 @@ WRAPPED_TEXT_line2
 
 
 
-    module .Home.Drdrxp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
+    module .Media.Ext2.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
         ) where
 
     module moduleName_TYPED exports_TYPEDwhere b
 
-    a module .Home.Drdrxp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
+    a module .Media.Ext2.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
         ) where b
 
-    a module .Home.Drdrxp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
+    a module .Media.Ext2.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
         ) where
 
 
@@ -1093,11 +1093,11 @@ WRAPPED_TEXT_line2"
     WRAPPED_TEXT_line2}
 
     {WRAPPED_TEXT
-        WRAPPED_TEXT_line2}b
+    WRAPPED_TEXT_line2}b
 
-        a {WRAPPED_TEXT
-                WRAPPED_TEXT_line2}b
+    a {WRAPPED_TEXT
+    WRAPPED_TEXT_line2}b
 
-                a {WRAPPED_TEXT
-                                WRAPPED_TEXT_line2}
+    a {WRAPPED_TEXT
+    WRAPPED_TEXT_line2}
 

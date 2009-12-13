@@ -55,14 +55,14 @@
     WRAPPED_TEXT_line2)
 
 
-    <!--  -------------<---------------                      -->
-    <!-- <`tag^` `att*^`att*^xml_attVal()^>`content^</`tag^> -->
+    <!--  -------------<--------------- -->
+    <!-- <`tag^`att*^>`content^</`tag^> -->
 
 
 
 <tag>content</tag>
 
-<tag_TYPED att_TYPED="val_TYPED" att_TYPED="val_TYPED" att_TYPED="val_TYPED">content_TYPED</tag_TYPED> b
+<tag_TYPED x_TYPED>content_TYPED</tag_TYPED> b
 
 a <tag>content</tag> b
 
@@ -137,7 +137,7 @@ WRAPPED_TEXT_line2</tag>
     a drdr.xp
 
 
-    <!--  -------------CDATA--------------- -->
+    <!--  -------------cdata--------------- -->
     <!-- <![CDATA[`cursor^]]>               -->
 
 
@@ -151,7 +151,7 @@ WRAPPED_TEXT_line2</tag>
     a <![CDATA[]]>
 
 
-    <!--  -------------CDATA_--------------- -->
+    <!--  -------------cdata_--------------- -->
     <!-- <![CDATA[`wrapped^]]>               -->
 
 
@@ -191,14 +191,14 @@ WRAPPED_TEXT_line2</tag>
 <!--     WRAPPED_TEXT
     WRAPPED_TEXT_line2 -->
 
-<!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->b
+    <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->b
 
-a <!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->b
+    a <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->b
 
-a <!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->
+    a <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->
 
 
     <!--  -------------commentBlock--------------- -->
@@ -208,21 +208,21 @@ WRAPPED_TEXT_line2 -->
 
 
 
-    <!-- 
+    <!--
       
      -->
 
-<!-- 
-  
- --> b
+     <!--
+       
+      --> b
 
- a <!-- 
-   
-  --> b
+      a <!--
+        
+       --> b
 
-  a <!-- 
-    
-   -->
+       a <!--
+         
+        -->
 
 
     <!--  -------------commentBlock_--------------- -->
@@ -232,25 +232,25 @@ WRAPPED_TEXT_line2 -->
 
 
 
-<!-- 
+<!--
       WRAPPED_TEXT
       WRAPPED_TEXT_line2
  -->
 
-<!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- -->b
+ <!--
+   WRAPPED_TEXT
+   WRAPPED_TEXT_line2
+  -->b
 
-a <!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- -->b
+  a <!--
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+   -->b
 
-a <!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- -->
+   a <!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
 
 
     <!--  -------------commentDoc--------------- -->
@@ -260,21 +260,21 @@ a <!--
 
 
 
-    <!-- 
+    <!--
       
      -->
 
-<!-- 
-  
- --> b
+     <!--
+       
+      --> b
 
- a <!-- 
-   
-  --> b
+      a <!--
+        
+       --> b
 
-  a <!-- 
-    
-   -->
+       a <!--
+         
+        -->
 
 
     <!--  -------------commentDoc_--------------- -->
@@ -284,25 +284,25 @@ a <!--
 
 
 
-<!-- 
+<!--
       WRAPPED_TEXT
       WRAPPED_TEXT_line2
  -->
 
-<!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- -->b
+ <!--
+   WRAPPED_TEXT
+   WRAPPED_TEXT_line2
+  -->b
 
-a <!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- -->b
+  a <!--
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+   -->b
 
-a <!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- -->
+   a <!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
 
 
     <!--  -------------commentLine--------------- -->
@@ -327,14 +327,14 @@ a <!--
 <!--     WRAPPED_TEXT
     WRAPPED_TEXT_line2 -->
 
-<!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->b
+    <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->b
 
-a <!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->b
+    a <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->b
 
-a <!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->
+    a <!-- WRAPPED_TEXT
+    WRAPPED_TEXT_line2 -->
 
 
     <!--  -------------Email--------------- -->

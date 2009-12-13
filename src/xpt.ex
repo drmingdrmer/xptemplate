@@ -72,7 +72,9 @@ svn ci -m "dist"
 cd $ParentDir
 rm -rf xpt
 svn export dist xpt
-tar -czf xpt-$v.tgz xpt
+cd xpt
+tar -czf ../xpt-$v.tgz *
+cd -
 
 ls xpt-*.tgz
 

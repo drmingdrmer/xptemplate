@@ -200,13 +200,13 @@ node_TYPED [shape=box label_TYPED]
 WRAPPED_TEXT_line2 */
 
       /* WRAPPED_TEXT
-            WRAPPED_TEXT_line2 */b
+      WRAPPED_TEXT_line2 */b
 
       a /* WRAPPED_TEXT
-            WRAPPED_TEXT_line2 */b
+      WRAPPED_TEXT_line2 */b
 
       a /* WRAPPED_TEXT
-            WRAPPED_TEXT_line2 */
+      WRAPPED_TEXT_line2 */
 
 
     /*  -------------commentBlock--------------- */
@@ -216,19 +216,19 @@ WRAPPED_TEXT_line2 */
 
 
 
-      /* 
+      /*
         
        */
 
-      /* 
+      /*
         
        */ b
 
-      a /* 
+      a /*
         
        */ b
 
-      a /* 
+      a /*
         
        */
 
@@ -240,24 +240,24 @@ WRAPPED_TEXT_line2 */
 
 
 
-/* 
+/*
   WRAPPED_TEXT
   WRAPPED_TEXT_line2
  */
 
-      /* 
+      /*
         WRAPPED_TEXT
-              WRAPPED_TEXT_line2
+        WRAPPED_TEXT_line2
        */b
 
-      a /* 
+      a /*
         WRAPPED_TEXT
-              WRAPPED_TEXT_line2
+        WRAPPED_TEXT_line2
        */b
 
-      a /* 
+      a /*
         WRAPPED_TEXT
-              WRAPPED_TEXT_line2
+        WRAPPED_TEXT_line2
        */
 
 
@@ -268,19 +268,19 @@ WRAPPED_TEXT_line2 */
 
 
 
-      /* 
+      /*
         
        */
 
-      /* 
+      /*
         
        */ b
 
-      a /* 
+      a /*
         
        */ b
 
-      a /* 
+      a /*
         
        */
 
@@ -292,24 +292,24 @@ WRAPPED_TEXT_line2 */
 
 
 
-/* 
+/*
   WRAPPED_TEXT
   WRAPPED_TEXT_line2
  */
 
-      /* 
+      /*
         WRAPPED_TEXT
-              WRAPPED_TEXT_line2
+        WRAPPED_TEXT_line2
        */b
 
-      a /* 
+      a /*
         WRAPPED_TEXT
-              WRAPPED_TEXT_line2
+        WRAPPED_TEXT_line2
        */b
 
-      a /* 
+      a /*
         WRAPPED_TEXT
-              WRAPPED_TEXT_line2
+        WRAPPED_TEXT_line2
        */
 
 
@@ -336,13 +336,13 @@ WRAPPED_TEXT_line2 */
 WRAPPED_TEXT_line2 */
 
       /* WRAPPED_TEXT
-            WRAPPED_TEXT_line2 */b
+      WRAPPED_TEXT_line2 */b
 
       a /* WRAPPED_TEXT
-            WRAPPED_TEXT_line2 */b
+      WRAPPED_TEXT_line2 */b
 
       a /* WRAPPED_TEXT
-            WRAPPED_TEXT_line2 */
+      WRAPPED_TEXT_line2 */
 
 
     /*  -------------diamond---------------                    */

@@ -124,7 +124,7 @@ a drdr.xp
 
 
     //  -------------case--------------- 
-    // case `constant^`$SPcmd^:           
+    // case `constant^`$SPcmd^:          
     //     `job^                         
     //     break;                        
 
@@ -220,19 +220,19 @@ WRAPPED_TEXT_line2 */
 
 
 
-/* 
+/*
  * 
  */
 
-/* 
+/*
  * 
  */ b
 
-a /* 
+a /*
  * 
  */ b
 
-a /* 
+a /*
  * 
  */
 
@@ -244,22 +244,22 @@ a /*
 
 
 
-/* 
+/*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
 
-/* 
+/*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /* 
+a /*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /* 
+a /*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
@@ -272,19 +272,19 @@ a /*
 
 
 
-/** 
+/**
  * 
  */
 
-/** 
+/**
  * 
  */ b
 
-a /** 
+a /**
  * 
  */ b
 
-a /** 
+a /**
  * 
  */
 
@@ -296,22 +296,22 @@ a /**
 
 
 
-/** 
+/**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
 
-/** 
+/**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /** 
+a /**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /** 
+a /**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
@@ -369,9 +369,9 @@ default:
 
 
     //  -------------do--------------- 
-    // do`$BRloop^{                     
+    // do`$BRloop^{                    
     //     `cursor^                    
-    // }`$BRloop^while (`condition^);   
+    // }`$BRloop^while (`condition^);  
 
 
 
@@ -562,10 +562,10 @@ a for (int i = 0; i < len; ++i)  {
 }
 
 
-    //  -------------foreach---------------     
+    //  -------------foreach---------------      
     // for ( `type^ `var^ : `inWhat^ )`$BRloop^{ 
-    //     `cursor^                             
-    // }                                        
+    //     `cursor^                              
+    // }                                         
 
 
 
@@ -672,10 +672,10 @@ else {
 }
 
 
-    //  -------------if_---------------               
+    //  -------------if_---------------                
     // if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{ 
-    //     `wrapped^                                  
-    // }                                              
+    //     `wrapped^                                   
+    // }                                               
 
 
 
@@ -700,8 +700,8 @@ a if ( condition ) {
 }
 
 
-    //  -------------ifee--------------- 
-    // `Include:_if^` `else_if...^       
+    //  -------------ifee---------------                                    
+    // `Include:_if^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ 
 
 
 
@@ -1208,7 +1208,7 @@ finally
 
 
     //  -------------while--------------- 
-    // while (`condition^)`$BRloop^{       
+    // while (`condition^)`$BRloop^{      
     //     `cursor^                       
     // }                                  
 
@@ -1232,9 +1232,9 @@ a while (condition) {
 
 
     //  -------------while0--------------- 
-    // do`$BRloop^{                         
+    // do`$BRloop^{                        
     //     `cursor^                        
-    // }`$BRloop^while (`condition^);       
+    // }`$BRloop^while (`condition^);      
 
 
 
@@ -1256,7 +1256,7 @@ a do {
 
 
     //  -------------while1--------------- 
-    // while (`condition^)`$BRloop^{        
+    // while (`condition^)`$BRloop^{       
     //     `cursor^                        
     // }                                   
 
@@ -1280,7 +1280,7 @@ a while (true) {
 
 
     //  -------------whilenn--------------- 
-    // while (`condition^)`$BRloop^{         
+    // while (`condition^)`$BRloop^{        
     //     `cursor^                         
     // }                                    
 

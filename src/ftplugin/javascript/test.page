@@ -590,7 +590,7 @@ console.log(t1-t0);
 
 
     //  -------------case--------------- 
-    // case `constant^`$SPcmd^:           
+    // case `constant^`$SPcmd^:          
     //     `job^                         
     //     break;                        
 
@@ -761,19 +761,19 @@ WRAPPED_TEXT_line2 */
 
 
 
-    /* 
+    /*
      * 
      */
 
-    /* 
+    /*
      * 
      */ b
 
-    a /* 
+    a /*
      * 
      */ b
 
-    a /* 
+    a /*
      * 
      */
 
@@ -785,22 +785,22 @@ WRAPPED_TEXT_line2 */
 
 
 
-/* 
+/*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
 
-/* 
+/*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /* 
+a /*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /* 
+a /*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
@@ -813,19 +813,19 @@ a /*
 
 
 
-    /** 
+    /**
      * 
      */
 
-    /** 
+    /**
      * 
      */ b
 
-    a /** 
+    a /**
      * 
      */ b
 
-    a /** 
+    a /**
      * 
      */
 
@@ -837,22 +837,22 @@ a /*
 
 
 
-/** 
+/**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
 
-/** 
+/**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /** 
+a /**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /** 
+a /**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
@@ -1189,15 +1189,15 @@ a else {
      * <b>function</b>
      * @version : 1.0
      * @since : date
-     * 
+     *
      * @description :
      *   
-     * @usage : 
-     * 
+     * @usage :
+     *
      * @author : drdr.xp | drdr.xp@gmail.com
-     * @copyright : 
-     * @TODO : 
-     * 
+     * @copyright :
+     * @TODO :
+     *
      *--------------------------\\\ sum ///---------------------------*/
 
     /**-------------------------/// sum_TYPED \\\---------------------------
@@ -1205,15 +1205,15 @@ a else {
      * <b>function_TYPED</b>
      * @version : 10_TYPED
      * @since : date_TYPED
-     * 
+     *
      * @description :
      *   
-     * @usage : 
-     * 
+     * @usage :
+     *
      * @author : drdr.xp | drdr.xp@gmail.com
-     * @copyright : 
-     * @TODO : 
-     * 
+     * @copyright :
+     * @TODO :
+     *
      *--------------------------\\\ sum_TYPED ///---------------------------*/ b
 
     a /**-------------------------/// sum \\\---------------------------
@@ -1221,15 +1221,15 @@ a else {
      * <b>function</b>
      * @version : 1.0
      * @since : date
-     * 
+     *
      * @description :
      *   
-     * @usage : 
-     * 
+     * @usage :
+     *
      * @author : drdr.xp | drdr.xp@gmail.com
-     * @copyright : 
-     * @TODO : 
-     * 
+     * @copyright :
+     * @TODO :
+     *
      *--------------------------\\\ sum ///---------------------------*/ b
 
     a /**-------------------------/// sum \\\---------------------------
@@ -1237,15 +1237,15 @@ a else {
      * <b>function</b>
      * @version : 1.0
      * @since : date
-     * 
+     *
      * @description :
      *   
-     * @usage : 
-     * 
+     * @usage :
+     *
      * @author : drdr.xp | drdr.xp@gmail.com
-     * @copyright : 
-     * @TODO : 
-     * 
+     * @copyright :
+     * @TODO :
+     *
      *--------------------------\\\ sum ///---------------------------*/
 
 
@@ -1333,10 +1333,10 @@ a else {
     a focus( function ( ev ) {  } )
 
 
-    //  -------------for---------------                                                         
+    //  -------------for---------------                                                          
     // for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRloop^{ 
-    //     `cursor^                                                                             
-    // }                                                                                        
+    //     `cursor^                                                                              
+    // }                                                                                         
 
 
 
@@ -1371,11 +1371,11 @@ a else {
     a for (;;) /* void */
 
 
-    //  -------------forin---------------  
+    //  -------------forin---------------   
     // for ( var `i^ in `array^ )`$BRloop^{ 
-    //     var `e^ = `array^[`i^];         
-    //     `cursor^                        
-    // }                                   
+    //     var `e^ = `array^[`i^];          
+    //     `cursor^                         
+    // }                                    
 
 
 
@@ -1400,10 +1400,10 @@ a else {
     }
 
 
-    //  -------------fornn---------------                                                                   
+    //  -------------fornn---------------                                                                    
     // for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRloop^{ 
-    //     `cursor^                                                                                         
-    // }                                                                                                    
+    //     `cursor^                                                                                          
+    // }                                                                                                     
 
 
 
@@ -1424,10 +1424,10 @@ a else {
     }
 
 
-    //  -------------forr---------------                                                           
+    //  -------------forr---------------                                                            
     // for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRloop^{ 
-    //     `cursor^                                                                                
-    // }                                                                                           
+    //     `cursor^                                                                                 
+    // }                                                                                            
 
 
 
@@ -1665,10 +1665,10 @@ a function name (param) {
     }
 
 
-    //  -------------if_---------------               
+    //  -------------if_---------------                
     // if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{ 
-    //     `wrapped^                                  
-    // }                                              
+    //     `wrapped^                                   
+    // }                                               
 
 
 
@@ -1693,8 +1693,8 @@ a if ( condition ) {
 }
 
 
-    //  -------------ifee--------------- 
-    // `Include:_if^` `else_if...^       
+    //  -------------ifee---------------                                    
+    // `Include:_if^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ 
 
 
 

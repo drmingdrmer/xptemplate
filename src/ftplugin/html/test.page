@@ -55,14 +55,14 @@
     WRAPPED_TEXT_line2)
 
 
-    <!--  -------------<---------------                       -->
-    <!-- <`tag^` `att*^`att*^xml_att_val()^>`content^</`tag^> -->
+    <!--  -------------<--------------- -->
+    <!-- <`tag^`att*^>`content^</`tag^> -->
 
 
 
     <tag>content</tag>
 
-    <tag_TYPED att_TYPED="val_TYPED" att_TYPED="val_TYPED" att_TYPED="val_TYPED">content_TYPED</tag_TYPED> b
+    <tag_TYPED x_TYPED>content_TYPED</tag_TYPED> b
 
     a <tag>content</tag> b
 
@@ -171,25 +171,25 @@ WRAPPED_TEXT_line2</a>
 
     <!--  -------------body--------------- -->
     <!-- <body>                            -->
-    <!--     `curosr^                      -->
+    <!--     `cursor^                      -->
     <!-- </body>                           -->
 
 
 
 <body>
-    curosr
+    
 </body>
 
 <body>
-    curosr_TYPED
+    
 </body> b
 
 a <body>
-    curosr
+    
 </body> b
 
 a <body>
-    curosr
+    
 </body>
 
 
@@ -1021,10 +1021,12 @@ a <style type="text/css" media="screen">
 
 a <table>
     <tr>
-        <td> </td> td...
+        <td> </td>
+        <td></td>
+        <td></td>
+        <td></td>
     </tr>
     <tr>
-        <td></td>
         <td></td>
     </tr>
 </table> b
@@ -1118,7 +1120,10 @@ a <table>
 </tr> b
 
 a <tr>
-    <td> </td> td...
+    <td> </td>
+    <td></td>
+    <td></td>
+    <td></td>
 </tr> b
 
 a <tr>

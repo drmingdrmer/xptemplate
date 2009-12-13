@@ -29,8 +29,7 @@ exe XPT#let_sid
 
 
 let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
-" let s:log = CreateLogger( 'log' )
+" let s:log = CreateLogger( 'debug' )
 
 fun! s:SetIfNotExist(k, v) "{{{
   if !exists(a:k)
@@ -208,6 +207,8 @@ fun! s:popup(start_col, opt) dict "{{{
 
     call s:log.Debug("actionList=".string(actionList))
 
+    call s:ApplyMapAndSetting()
+
     return "\<C-r>=XPPprocess(" . string(actionList) . ")\<cr>"
 
 endfunction "}}}
@@ -327,7 +328,7 @@ fun! XPPprocess(list) "{{{
         let postAction = remove( nextList, 0 )
 
     elseif actionName == 'popup'
-        call s:ApplyMapAndSetting()
+        " call s:ApplyMapAndSetting()
         call complete( sess.col, sess.currentList )
         " let postAction =  XPpum#complete( sess.col, sess.currentList
               " \ , function( '<SNR>' . s:sid . 'ApplyMapAndSetting' ) )
@@ -531,7 +532,6 @@ fun! XPPenlarge() "{{{
     "
     " if pumvisible
 
-    " call s:ClearMapAndSetting()
     return "\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
 endfunction "}}}
 
@@ -603,6 +603,7 @@ fun! s:ApplyMapAndSetting() "{{{
 
     let b:__xpp_pushed = 1
 
+    call s:log.Debug( 'ApplyMapAndSetting' )
 
     call b:_xpp_map_saver.Save()
 
@@ -648,6 +649,7 @@ fun! s:ClearMapAndSetting() "{{{
 
     unlet b:__xpp_pushed
 
+    call s:log.Debug( 'ClearMapAndSetting' )
 
     " augroup XPP
         " au!

@@ -12,7 +12,7 @@ set cpo-=< cpo+=B
 
 runtime plugin/debug.vim
 let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
+" let s:log = CreateLogger( 'debug' )
 
 
 " TODO indent test 

@@ -151,29 +151,29 @@ end
     (* class `_^^ `name^ =                *)
     (* object (self)                      *)
     (*     `cursor^                       *)
-    (* end;                               *)
+    (* end                                *)
 
 
 
 class  name =
 object (self)
     
-end;
+end
 
 class __TYPED name_TYPED =
 object (self)
     
-end; b
+end b
 
 a class  name =
 object (self)
     
-end; b
+end b
 
 a class  name =
 object (self)
     
-end;
+end
 
 
     (*  -------------classtype--------------- *)
@@ -181,7 +181,7 @@ end;
     (* object                                 *)
     (*    method `field^ : `type^` `...^      *)
     (*    method `field^ : `type^` `...^      *)
-    (* end;                                   *)
+    (* end                                    *)
 
 
 
@@ -191,12 +191,12 @@ object
    method field : type
    method field : type
    method field : type
-end;
+end
 
 class type name_TYPED =
 object
    method field_TYPED : type_TYPED _TYPED
-end; b
+end b
 
 a class type name =
 object
@@ -204,7 +204,7 @@ object
    method field : type
    method field : type
    method field : type
-end; b
+end b
 
 a class type name =
 object
@@ -212,7 +212,7 @@ object
    method field : type
    method field : type
    method field : type
-end;
+end
 
 
     (*  -------------classtypecom--------------- *)
@@ -223,7 +223,7 @@ end;
     (*    method `field^ : `type^` `...^         *)
     (*    _CMT_* `method_descr^^ _cmt_           *)
     (*    method `field^ : `type^` `...^         *)
-    (* end;                                      *)
+    (* end                                       *)
 
 
 
@@ -238,14 +238,14 @@ object
    method field : type
    (**  *)
    method field : type
-end;
+end
 
 (** class_descr_TYPED *)
 class type name_TYPED =
 object
    (** method_descr_TYPED *)
    method field_TYPED : type_TYPED _TYPED
-end; b
+end b
 
 a (**  *)
 class type name =
@@ -258,7 +258,7 @@ object
    method field : type
    (**  *)
    method field : type
-end; b
+end b
 
 a (**  *)
 class type name =
@@ -271,7 +271,7 @@ object
    method field : type
    (**  *)
    method field : type
-end;
+end
 
 
     (*  -------------comment--------------- *)
@@ -313,19 +313,19 @@ WRAPPED_TEXT_line2 *)
 
 
 
-    (* 
+    (*
      * 
      *)
 
-    (* 
+    (*
      * 
      *) b
 
-     a (* 
+     a (*
       * 
       *) b
 
-      a (* 
+      a (*
        * 
        *)
 
@@ -337,22 +337,22 @@ WRAPPED_TEXT_line2 *)
 
 
 
-(* 
+(*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  *)
 
-(* 
+(*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  *)b
 
- a (* 
+ a (*
   * WRAPPED_TEXT
   WRAPPED_TEXT_line2
   *)b
 
-  a (* 
+  a (*
    * WRAPPED_TEXT
    WRAPPED_TEXT_line2
    *)
@@ -365,19 +365,19 @@ WRAPPED_TEXT_line2 *)
 
 
 
-    (** 
+    (**
      * 
      *)
 
-    (** 
+    (**
      * 
      *) b
 
-     a (** 
+     a (**
       * 
       *) b
 
-      a (** 
+      a (**
        * 
        *)
 
@@ -389,22 +389,22 @@ WRAPPED_TEXT_line2 *)
 
 
 
-(** 
+(**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  *)
 
-(** 
+(**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  *)b
 
- a (** 
+ a (**
   * WRAPPED_TEXT
   WRAPPED_TEXT_line2
   *)b
 
-  a (** 
+  a (**
    * WRAPPED_TEXT
    WRAPPED_TEXT_line2
    *)
@@ -533,299 +533,299 @@ WRAPPED_TEXT_line2 *)
 
 
     (*  -------------func--------------- *)
-    (* value `funName^ : `ty^ =          *)
+    (* let `funName^ : `ty^ =            *)
     (* fun `args^ ->                     *)
-    (*     `cursor^;                     *)
+    (*     `cursor^                      *)
 
 
 
-value funName : ty =
+let funName : ty =
 fun args ->
-    ;
+    
 
-    value funName_TYPED : ty_TYPED =
+    let funName_TYPED : ty_TYPED =
     fun args_TYPED ->
-        ; b
+         b
 
-        a value funName : ty =
-        fun args ->
-            ; b
+         a let funName : ty =
+         fun args ->
+              b
 
-            a value funName : ty =
-            fun args ->
-                ;
+              a let funName : ty =
+              fun args ->
+                  
 
 
     (*  -------------if--------------- *)
     (* if `cond^                       *)
-    (* then `cursor^                   *)
+    (*     then `cursor^`else...{{^    *)
+    (*     else`}}^                    *)
 
 
 
-                if cond
-                then 
+                  if cond
+                      then 
+                      else
 
-                    if cond_TYPED
-                    then  b
+                          if cond_TYPED
+                              then else_TYPED b
 
-                    a if cond
-                    then  b
+                              a if cond
+                                  then 
+                                  else b
 
-                    a if cond
-                    then 
+                                  a if cond
+                                      then 
+                                      else
 
 
     (*  -------------letin--------------- *)
     (* let `name^ `_^^ =                  *)
-    (*     `what^ `...^                   *)
+    (*     `what^` `...^                  *)
     (* and `subname^ `_^^ =               *)
-    (*     `subwhat^`...^                 *)
+    (*     `subwhat^` `...^               *)
     (* in                                 *)
 
 
 
-                        let name  =
-                            what 
-                        and subname  =
-                            subwhat
-                        and subname  =
-                            subwhat
-                        and subname  =
-                            subwhat
-                        in
+                                          let name  =
+                                              what
+                                          and subname  =
+                                              subwhat
+                                          and subname  =
+                                              subwhat
+                                          and subname  =
+                                              subwhat
+                                          in
 
-                        let name_TYPED __TYPED =
-                            what_TYPED _TYPED
-                        in b
+                                          let name_TYPED __TYPED =
+                                              what_TYPED _TYPED
+                                          in b
 
-                        a let name  =
-                            what 
-                        and subname  =
-                            subwhat
-                        and subname  =
-                            subwhat
-                        and subname  =
-                            subwhat
-                        in b
+                                          a let name  =
+                                              what
+                                          and subname  =
+                                              subwhat
+                                          and subname  =
+                                              subwhat
+                                          and subname  =
+                                              subwhat
+                                          in b
 
-                        a let name  =
-                            what 
-                        and subname  =
-                            subwhat
-                        and subname  =
-                            subwhat
-                        and subname  =
-                            subwhat
-                        in
+                                          a let name  =
+                                              what
+                                          and subname  =
+                                              subwhat
+                                          and subname  =
+                                              subwhat
+                                          and subname  =
+                                              subwhat
+                                          in
 
 
     (*  -------------letrecin--------------- *)
     (* let rec `name^ `_^^ =                 *)
-    (*     `what^ `...^                      *)
+    (*     `what^` `...^                     *)
     (* and `subname^ `_^^ =                  *)
-    (*     `subwhat^`...^                    *)
+    (*     `subwhat^` `...^                  *)
     (* in                                    *)
 
 
 
-                        let rec name  =
-                            what 
-                        and subname  =
-                            subwhat
-                        and subname  =
-                            subwhat
-                        and subname  =
-                            subwhat
-                        in
+                                          let rec name  =
+                                              what
+                                          and subname  =
+                                              subwhat
+                                          and subname  =
+                                              subwhat
+                                          and subname  =
+                                              subwhat
+                                          in
 
-                        let rec name_TYPED __TYPED =
-                            what_TYPED _TYPED
-                        in b
+                                          let rec name_TYPED __TYPED =
+                                              what_TYPED _TYPED
+                                          in b
 
-                        a let rec name  =
-                            what 
-                        and subname  =
-                            subwhat
-                        and subname  =
-                            subwhat
-                        and subname  =
-                            subwhat
-                        in b
+                                          a let rec name  =
+                                              what
+                                          and subname  =
+                                              subwhat
+                                          and subname  =
+                                              subwhat
+                                          and subname  =
+                                              subwhat
+                                          in b
 
-                        a let rec name  =
-                            what 
-                        and subname  =
-                            subwhat
-                        and subname  =
-                            subwhat
-                        and subname  =
-                            subwhat
-                        in
-
-
-    (*  -------------match--------------- *)
-    (* match `expr^ with                  *)
-    (*   [ `what0^ -> `with0^`...^        *)
-    (*   | `what^ -> `with^`...^          *)
-    (*   ]                                *)
+                                          a let rec name  =
+                                              what
+                                          and subname  =
+                                              subwhat
+                                          and subname  =
+                                              subwhat
+                                          and subname  =
+                                              subwhat
+                                          in
 
 
+    (*  -------------match---------------      *)
+    (* match `expr^ with                       *)
+    (*     `what^ -> `with^` `...{{^           *)
+    (*   | `what^ -> `with^` `more...{{^       *)
+    (*   | `what^ -> `with^` `more...^`}}^`}}^ *)
 
-                        match expr with
-                          [ what0 -> with0
-                          | what -> with
-                          | what -> with
-                          | what -> with
-                          ]
 
-                          match expr_TYPED with
-                            [ what0_TYPED -> with0_TYPED_TYPED
-                            ] b
 
-                            a match expr with
-                              [ what0 -> with0
-                              | what -> with
-                              | what -> with
-                              | what -> with
-                              ] b
+                                          match expr with
+                                              what -> with
+                                            | what -> with
+                                            | what -> with
+                                            | what -> with
 
-                              a match expr with
-                                [ what0 -> with0
-                                | what -> with
-                                | what -> with
-                                | what -> with
-                                ]
+                                            match expr_TYPED with
+                                                what_TYPED -> with_TYPED _TYPED b
+
+                                                a match expr with
+                                                    what -> with
+                                                  | what -> with
+                                                  | what -> with
+                                                  | what -> with b
+
+                                                  a match expr with
+                                                      what -> with
+                                                    | what -> with
+                                                    | what -> with
+                                                    | what -> with
 
 
     (*  -------------module--------------- *)
     (* module `name^ `^ = struct           *)
     (*     `cursor^                        *)
-    (* end;                                *)
+    (* end                                 *)
 
 
 
-                                module Name  = struct
-                                    
-                                end;
+                                                    module Name  = struct
+                                                        
+                                                    end
 
-                                module Name_TYPED _TYPED = struct
-                                    
-                                end; b
+                                                    module Name_TYPED _TYPED = struct
+                                                        
+                                                    end b
 
-                                a module Name  = struct
-                                    
-                                end; b
+                                                    a module Name  = struct
+                                                        
+                                                    end b
 
-                                a module Name  = struct
-                                    
-                                end;
+                                                    a module Name  = struct
+                                                        
+                                                    end
 
 
     (*  -------------moduletype--------------- *)
     (* module type `name^ `^ = sig             *)
     (*     `cursor^                            *)
-    (* end;                                    *)
+    (* end                                     *)
 
 
 
-                                module type name  = sig
-                                    
-                                end;
+module type name  = sig
+    
+end
 
-                                module type name_TYPED _TYPED = sig
-                                    
-                                end; b
+module type name_TYPED _TYPED = sig
+    
+end b
 
-                                a module type name  = sig
-                                    
-                                end; b
+a module type name  = sig
+    
+end b
 
-                                a module type name  = sig
-                                    
-                                end;
+a module type name  = sig
+    
+end
 
 
     (*  -------------try--------------- *)
     (* try `expr^                       *)
-    (* with [ `exc^ -> `rez^            *)
+    (* with  `exc^ -> `rez^             *)
     (* `     `...`                      *)
     (* {{^     | `exc2^ -> `rez2^       *)
     (* `     `...`                      *)
-    (* ^`}}^     ]                      *)
+    (* ^`}}^                            *)
 
 
 
-                                try expr
-                                with [ exc -> rez
-                                     | exc2 -> rez2
-                                     | exc2 -> rez2
-                                     | exc2 -> rez2
-                                     ]
+try expr
+with  exc -> rez
+     | exc2 -> rez2
+     | exc2 -> rez2
+     | exc2 -> rez2
 
-                                try expr_TYPED
-                                with [ exc_TYPED -> rez_TYPED
-                                     _TYPED
-                                     ] b
 
-                                     a try expr
-                                     with [ exc -> rez
-                                          | exc2 -> rez2
-                                          | exc2 -> rez2
-                                          | exc2 -> rez2
-                                          ] b
+     try expr_TYPED
+     with  exc_TYPED -> rez_TYPED
+          _TYPED
+      b
 
-                                          a try expr
-                                          with [ exc -> rez
-                                               | exc2 -> rez2
-                                               | exc2 -> rez2
-                                               | exc2 -> rez2
-                                               ]
+      a try expr
+      with  exc -> rez
+           | exc2 -> rez2
+           | exc2 -> rez2
+           | exc2 -> rez2
+       b
+
+       a try expr
+       with  exc -> rez
+            | exc2 -> rez2
+            | exc2 -> rez2
+            | exc2 -> rez2
+       
 
 
     (*  -------------try_--------------- *)
     (* try                               *)
     (*     `wrapped^                     *)
-    (* with [ `exc^ -> `rez^             *)
+    (* with  `exc^ -> `rez^              *)
     (* `     `...`                       *)
     (* {{^     | `exc2^ -> `rez2^        *)
     (* `     `...`                       *)
-    (* ^`}}^     ]                       *)
+    (* ^`}}^                             *)
 
 
 
-try 
+try
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-with [ exc -> rez
+with  exc -> rez
      | exc2 -> rez2
      | exc2 -> rez2
      | exc2 -> rez2
-     ]
 
-try 
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-with [ exc_TYPED -> rez_TYPED
-     _TYPED
-     ]b
 
-     a try 
+     try
          WRAPPED_TEXT
          WRAPPED_TEXT_line2
-     with [ exc -> rez
-          | exc2 -> rez2
-          | exc2 -> rez2
-          | exc2 -> rez2
-          ]b
+     with  exc_TYPED -> rez_TYPED
+          _TYPED
+     b
 
-          a try 
-              WRAPPED_TEXT
-              WRAPPED_TEXT_line2
-          with [ exc -> rez
-               | exc2 -> rez2
-               | exc2 -> rez2
-               | exc2 -> rez2
-               ]
+     a try
+         WRAPPED_TEXT
+         WRAPPED_TEXT_line2
+     with  exc -> rez
+          | exc2 -> rez2
+          | exc2 -> rez2
+          | exc2 -> rez2
+     b
+
+     a try
+         WRAPPED_TEXT
+         WRAPPED_TEXT_line2
+     with  exc -> rez
+          | exc2 -> rez2
+          | exc2 -> rez2
+          | exc2 -> rez2
+     
 
 
     (*  -------------ty--------------- *)
@@ -846,137 +846,135 @@ with [ exc_TYPED -> rez_TYPED
     (* type `typename^` `typeParams?^ =        *)
     (*     { `recordField^ : `fType^` `...^    *)
     (*     ; `recordField^ : `fType^` `...^    *)
-    (*     };                                  *)
+    (*     }                                   *)
 
 
 
-                        type typename =
-                            { recordField : fType
-                            ; recordField : fType
-                            ; recordField : fType
-                            };
+                                          type typename =
+                                              { recordField : fType
+                                              ; recordField : fType
+                                              ; recordField : fType
+                                              }
 
-                            type typename_TYPED typeParams_TYPED =
-                                { recordField_TYPED : fType_TYPED _TYPED
-                                }; b
+                                              type typename_TYPED typeParams_TYPED =
+                                                  { recordField_TYPED : fType_TYPED _TYPED
+                                                  } b
 
-                                a type typename =
-                                    { recordField : fType
-                                    ; recordField : fType
-                                    ; recordField : fType
-                                    }; b
+                                                  a type typename =
+                                                      { recordField : fType
+                                                      ; recordField : fType
+                                                      ; recordField : fType
+                                                      } b
 
-                                    a type typename =
-                                        { recordField : fType
-                                        ; recordField : fType
-                                        ; recordField : fType
-                                        };
-
-
-    (*  -------------typerecordcom---------------          *)
-    (* _CMT_* `type_descr^ _cmt_                           *)
-    (* type `typename^ `_^^=                               *)
-    (*     { `recordField^ : `fType^ _CMT_* `desc^ _cmt_`...^ *)
-    (*     ; `otherfield^ : `othertype^ _CMT_* `desc^ _cmt_`...^ *)
-    (*     };                                              *)
+                                                      a type typename =
+                                                          { recordField : fType
+                                                          ; recordField : fType
+                                                          ; recordField : fType
+                                                          }
 
 
+    (*  -------------typerecordcom---------------            *)
+    (* _CMT_* `type_descr^ _cmt_                             *)
+    (* type `typename^ `_^^=                                 *)
+    (*     { `recordField^ : `fType^ _CMT_* `desc^ _cmt_` `...^ *)
+    (*     ; `otherfield^ : `othertype^ _CMT_* `desc^ _cmt_` `...^ *)
+    (*     }                                                 *)
 
-                            (** type_descr *)
-                            type typename =
-                                { recordField : fType (** desc *)
-                                ; otherfield : othertype (** desc *)
-                                ; otherfield : othertype (** desc *)
-                                ; otherfield : othertype (** desc *)
-                                };
 
-                                (** type_descr_TYPED *)
-                                type typename_TYPED __TYPED=
-                                    { recordField_TYPED : fType_TYPED (** desc_TYPED *)_TYPED
-                                    }; b
 
-                                    a (** type_descr *)
-                                    type typename =
-                                        { recordField : fType (** desc *)
-                                        ; otherfield : othertype (** desc *)
-                                        ; otherfield : othertype (** desc *)
-                                        ; otherfield : othertype (** desc *)
-                                        }; b
+                                              (** type_descr *)
+                                              type typename =
+                                                  { recordField : fType (** desc *)
+                                                  ; otherfield : othertype (** desc *)
+                                                  ; otherfield : othertype (** desc *)
+                                                  ; otherfield : othertype (** desc *)
+                                                  }
 
-                                        a (** type_descr *)
-                                        type typename =
-                                            { recordField : fType (** desc *)
-                                            ; otherfield : othertype (** desc *)
-                                            ; otherfield : othertype (** desc *)
-                                            ; otherfield : othertype (** desc *)
-                                            };
+                                                  (** type_descr_TYPED *)
+                                                  type typename_TYPED __TYPED=
+                                                      { recordField_TYPED : fType_TYPED (** desc_TYPED *) _TYPED
+                                                      } b
+
+                                                      a (** type_descr *)
+                                                      type typename =
+                                                          { recordField : fType (** desc *)
+                                                          ; otherfield : othertype (** desc *)
+                                                          ; otherfield : othertype (** desc *)
+                                                          ; otherfield : othertype (** desc *)
+                                                          } b
+
+                                                          a (** type_descr *)
+                                                          type typename =
+                                                              { recordField : fType (** desc *)
+                                                              ; otherfield : othertype (** desc *)
+                                                              ; otherfield : othertype (** desc *)
+                                                              ; otherfield : othertype (** desc *)
+                                                              }
 
 
     (*  -------------typesum--------------- *)
     (* type `typename^` `typeParams?^ =     *)
-    (*   [ `constructor^`...^               *)
-    (*   | `constructor^`...^               *)
-    (*   ];                                 *)
+    (*     `constructor^` `...{{^           *)
+    (*   | `constructor^` `more...{{^       *)
+    (*   | `constructor^` `more...^`}}^`}}^ *)
 
 
 
-                                        type typename =
-                                          [ constructor
-                                          | constructor
-                                          | constructor
-                                          ];
+                                                          type typename =
+                                                              constructor
+                                                            | constructor
+                                                            | constructor
+                                                            | constructor
 
-                                          type typename_TYPED typeParams_TYPED =
-                                            [ constructor_TYPED_TYPED
-                                            ]; b
+                                                            type typename_TYPED typeParams_TYPED =
+                                                                constructor_TYPED _TYPED b
 
-                                            a type typename =
-                                              [ constructor
-                                              | constructor
-                                              | constructor
-                                              ]; b
+                                                                a type typename =
+                                                                    constructor
+                                                                  | constructor
+                                                                  | constructor
+                                                                  | constructor b
 
-                                              a type typename =
-                                                [ constructor
-                                                | constructor
-                                                | constructor
-                                                ];
-
-
-    (*  -------------typesumcom---------------   *)
-    (* _CMT_* `typeDescr^ _cmt_                  *)
-    (* type `typename^` `typeParams?^ =          *)
-    (*   [ `constructor^ _CMT_* `ctordescr^ _cmt_`...^ *)
-    (*   | `constructor^ _CMT_* `ctordescr^ _cmt_`...^ *)
-    (*   ];                                      *)
+                                                                  a type typename =
+                                                                      constructor
+                                                                    | constructor
+                                                                    | constructor
+                                                                    | constructor
 
 
+    (*  -------------typesumcom---------------                 *)
+    (* _CMT_* `typeDescr^ _cmt_                                *)
+    (* type `typename^` `typeParams?^ =                        *)
+    (*     `constructor^ _CMT_* `ctordescr^ _cmt_` `...{{^     *)
+    (*   | `constructor^ _CMT_* `ctordescr^ _cmt_` `more...{{^ *)
+    (*   | `constructor^ _CMT_* `ctordescr^ _cmt_` `more...^`}}^`}}^ *)
 
-                                          (** typeDescr *)
-                                          type typename =
-                                            [ constructor (** ctordescr *)
-                                            | constructor (** ctordescr *)
-                                            | constructor (** ctordescr *)
-                                            ];
 
-                                            (** typeDescr_TYPED *)
-                                            type typename_TYPED typeParams_TYPED =
-                                              [ constructor_TYPED (** ctordescr_TYPED *)_TYPED
-                                              ]; b
 
-                                              a (** typeDescr *)
-                                              type typename =
-                                                [ constructor (** ctordescr *)
-                                                | constructor (** ctordescr *)
-                                                | constructor (** ctordescr *)
-                                                ]; b
+                                                            (** typeDescr *)
+                                                            type typename =
+                                                                constructor (** ctordescr *)
+                                                              | constructor (** ctordescr *)
+                                                              | constructor (** ctordescr *)
+                                                              | constructor (** ctordescr *)
 
-                                                a (** typeDescr *)
-                                                type typename =
-                                                  [ constructor (** ctordescr *)
-                                                  | constructor (** ctordescr *)
-                                                  | constructor (** ctordescr *)
-                                                  ];
+                                                              (** typeDescr_TYPED *)
+                                                              type typename_TYPED typeParams_TYPED =
+                                                                  constructor_TYPED (** ctordescr_TYPED *) _TYPED b
+
+                                                                  a (** typeDescr *)
+                                                                  type typename =
+                                                                      constructor (** ctordescr *)
+                                                                    | constructor (** ctordescr *)
+                                                                    | constructor (** ctordescr *)
+                                                                    | constructor (** ctordescr *) b
+
+                                                                    a (** typeDescr *)
+                                                                    type typename =
+                                                                        constructor (** ctordescr *)
+                                                                      | constructor (** ctordescr *)
+                                                                      | constructor (** ctordescr *)
+                                                                      | constructor (** ctordescr *)
 
 
     (*  -------------val--------------- *)
@@ -984,13 +982,13 @@ with [ exc_TYPED -> rez_TYPED
 
 
 
-                                                  value thing : 
+                                                                      value thing : 
 
-                                                      value thing_TYPED :  b
+                                                                          value thing_TYPED :  b
 
-                                                      a value thing :  b
+                                                                          a value thing :  b
 
-                                                      a value thing : 
+                                                                          a value thing : 
 
 
     (*  -------------while--------------- *)
@@ -1000,21 +998,23 @@ with [ exc_TYPED -> rez_TYPED
 
 
 
-                                                          while cond do
-                                                              
-                                                          done
+                                                                              while cond do
+                                                                                  
+                                                                              done
 
-                                                          while cond_TYPED do
-                                                              
-                                                          done b
+                                                                              while cond_TYPED do
+                                                                                  
+                                                                              done b
 
-                                                          a while cond do
-                                                              
-                                                          done b
+                                                                              a
+                                                                             while cond do
+                                                                                 
+                                                                             done b
 
-                                                          a while cond do
-                                                              
-                                                          done
+                                                                             a
+                                                                             while cond do
+                                                                                 
+                                                                             done
 
 
     (*  -------------{_--------------- *)

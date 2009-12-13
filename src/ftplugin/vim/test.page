@@ -489,6 +489,20 @@ finally
     endif
 
 
+    "  -------------let--------------- 
+    " let `^`$SPop^=`$SPop^`cursor^    
+
+
+
+    let  = 
+
+    let _TYPED =  b
+
+    a let  =  b
+
+    a let  = 
+
+
     "  -------------member---------------      
     " fun! `name^`$SPfun^(`:_args:^) dict _CMT_{{{ 
     "     `cursor^                             
@@ -545,6 +559,20 @@ finally
       endif
       let g:__TEST_PAGE__ = 1
       
+
+
+    "  -------------self--------------- 
+    " self.                             
+
+
+
+    self.
+
+    self. b
+
+    a self. b
+
+    a self.
 
 
     "  -------------sid---------------                                                                

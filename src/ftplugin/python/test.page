@@ -323,22 +323,22 @@ a drdr.xp@gmail.com b
 a drdr.xp@gmail.com
 
 
-    #  -------------except--------------- 
-    # except `Exception^` as `e^:         
-    #     `pass^                          
+    #  -------------except---------------    
+    # except `Exception^`$PYTHON_EXP_SYM`e^: 
+    #     `pass^                             
 
 
 
-except Exception as e:
+except Exception, e:
     pass
 
-except Exception_TYPED as e_TYPED:
+except Exception_TYPED, e_TYPED:
     pass b
 
-a except Exception as e:
+a except Exception, e:
     pass b
 
-a except Exception as e:
+a except Exception, e:
     pass
 
 
@@ -363,7 +363,7 @@ a test.page
     # Contact : `$email^                    
     # Date    : `date()^                    
     #                                       
-    # Description: `cursor^                 
+    # Description : `cursor^                
     # `$PYTHON_DOC_MARK^                    
 
 
@@ -374,7 +374,7 @@ Author  : drdr.xp
 Contact : drdr.xp@gmail.com
 Date    : 2009 Oct 08
 
-Description: 
+Description : 
 '''
 
 '''
@@ -383,7 +383,7 @@ Author  : drdr.xp
 Contact : drdr.xp@gmail.com
 Date    : 2009 Oct 08
 
-Description: 
+Description : 
 ''' b
 
 a '''
@@ -392,7 +392,7 @@ Author  : drdr.xp
 Contact : drdr.xp@gmail.com
 Date    : 2009 Oct 08
 
-Description: 
+Description : 
 ''' b
 
 a '''
@@ -401,7 +401,7 @@ Author  : drdr.xp
 Contact : drdr.xp@gmail.com
 Date    : 2009 Oct 08
 
-Description: 
+Description : 
 '''
 
 
@@ -625,7 +625,7 @@ a pass
 
 
     #  -------------python--------------- 
-    # _CMT_!/usr/bin/env python           
+    # _CMT_!`$PYTHON_EXC^                 
     # _CMT_ coding: `encoding^            
 
 
@@ -676,7 +676,7 @@ a self.
 
 
     #  -------------sb--------------- 
-    # _CMT_!/usr/bin/env python       
+    # _CMT_!`$PYTHON_EXC^             
     # _CMT_ coding: `encoding^        
 
 
@@ -699,7 +699,7 @@ a #!/usr/bin/env python
 
 
     #  -------------shebang--------------- 
-    # _CMT_!/usr/bin/env python            
+    # _CMT_!`$PYTHON_EXC^                  
     # _CMT_ coding: `encoding^             
 
 
@@ -721,6 +721,20 @@ a #!/usr/bin/env python
 
 
 
+    #  -------------super---------------                                                   
+    # super(`$SParg^`clz^python_find_class('Me')^,`$SPop^self`$SParg^).`method^(`:_args:^) 
+
+
+
+super( ClassName_TYPED, self ).method()
+
+super( clz_TYPED, self ).method_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ) b
+
+a super( ClassName_TYPED, self ).method() b
+
+a super( ClassName_TYPED, self ).method()
+
+
     #  -------------try--------------- 
     # try:                             
     #     `job^                        
@@ -731,27 +745,27 @@ a #!/usr/bin/env python
 
 try:
     job
-except Exception as e:
+except Exception, e:
     pass
 finally:
     pass
 
 try:
     job_TYPED
-except Exception_TYPED as e_TYPED:
+except Exception_TYPED, e_TYPED:
     pass_TYPED
 finally_TYPED b
 
 a try:
     job
-except Exception as e:
+except Exception, e:
     pass
 finally:
     pass b
 
 a try:
     job
-except Exception as e:
+except Exception, e:
     pass
 finally:
     pass
@@ -768,7 +782,7 @@ finally:
 try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-except Exception as e:
+except Exception, e:
     pass
 finally:
     pass
@@ -776,14 +790,14 @@ finally:
 try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-except Exception_TYPED as e_TYPED:
+except Exception_TYPED, e_TYPED:
     pass_TYPED
 finally_TYPEDb
 
 a try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-except Exception as e:
+except Exception, e:
     pass
 finally:
     passb
@@ -791,7 +805,7 @@ finally:
 a try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-except Exception as e:
+except Exception, e:
     pass
 finally:
     pass

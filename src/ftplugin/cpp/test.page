@@ -145,25 +145,25 @@ WRAPPED_TEXT_line2
 #ifndef TEST
 #     define TEST
 
- 
+
 #endif /* TEST */
 
 #ifndef SYMBOL_TYPED
 #     define SYMBOL_TYPED
 
- 
+
 #endif /* SYMBOL_TYPED */ b
 
 a #ifndef TEST
 #     define TEST
 
- 
+
 #endif /* TEST */ b
 
 a #ifndef TEST
 #     define TEST
 
- 
+
 #endif /* TEST */
 
 
@@ -434,7 +434,7 @@ WRAPPED_TEXT_line2)
 
 
     /*  -------------case--------------- */
-    /* case `constant^`$SPcmd^:           */
+    /* case `constant^`$SPcmd^:          */
     /*     `job^                         */
     /*     break;                        */
 
@@ -455,6 +455,40 @@ case constant :
             a case constant :
                 /* void */;
                 break;
+
+
+    /*  -------------castop---------------  */
+    /* operator `typename^ ();              */
+    /*                                      */
+    /*                                      */
+    /* `className^::operator `typename^ (); */
+    /*     { return `cursor^; }             */
+
+
+
+                operator typename ();
+                
+                
+                className::operator typename ();
+                    { return ; }
+
+                    operator typename_TYPED ();
+                    
+                    
+                    className_TYPED::operator typename_TYPED ();
+                        { return ; } b
+
+                        a operator typename ();
+                        
+                        
+                        className::operator typename ();
+                            { return ; } b
+
+                            a operator typename ();
+                            
+                            
+                            className::operator typename ();
+                                { return ; }
 
 
     /*  -------------class---------------                 */
@@ -482,27 +516,27 @@ case constant :
 
 
 
-                class className
-                {
-                public:
-                    className( ctorParam );
-                    ~className();
-                    className( const className &cpy );
-                    
-                private:
-                };
-                
-                className::className( ctorParam )
-                {
-                }
-                
-                className::~className()
-                {
-                }
-                
-                className::className( const className &cpy )
-                {
-                }
+                                class className
+                                {
+                                public:
+                                    className( ctorParam );
+                                    ~className();
+                                    className( const className &cpy );
+                                    
+                                private:
+                                };
+                                
+                                className::className( ctorParam )
+                                {
+                                }
+                                
+                                className::~className()
+                                {
+                                }
+                                
+                                className::className( const className &cpy )
+                                {
+                                }
 
 class className_TYPED
 {
@@ -610,19 +644,19 @@ WRAPPED_TEXT_line2 */
 
 
 
-/* 
+/*
  * 
  */
 
-/* 
+/*
  * 
  */ b
 
-a /* 
+a /*
  * 
  */ b
 
-a /* 
+a /*
  * 
  */
 
@@ -634,22 +668,22 @@ a /*
 
 
 
-/* 
+/*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
 
-/* 
+/*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /* 
+a /*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /* 
+a /*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
@@ -662,19 +696,19 @@ a /*
 
 
 
-/** 
+/**
  * 
  */
 
-/** 
+/**
  * 
  */ b
 
-a /** 
+a /**
  * 
  */ b
 
-a /** 
+a /**
  * 
  */
 
@@ -686,22 +720,22 @@ a /**
 
 
 
-/** 
+/**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
 
-/** 
+/**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /** 
+a /**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /** 
+a /**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
@@ -791,9 +825,9 @@ default:
 
 
     /*  -------------do--------------- */
-    /* do`$BRloop^{                     */
+    /* do`$BRloop^{                    */
     /*     `cursor^                    */
-    /* }`$BRloop^while (`condition^);   */
+    /* }`$BRloop^while (`condition^);  */
 
 
 
@@ -1040,15 +1074,15 @@ a test.page
  * <b>function</b>
  * @version : 1.0
  * @since : 2009 Oct 08
- * 
+ *
  * @description :
  *     
- * @usage : 
- * 
+ * @usage :
+ *
  * @author : drdr.xp | drdr.xp@gmail.com
- * @copyright .com.cn 
- * @TODO : 
- * 
+ * @copyright .com.cn
+ * @TODO :
+ *
  *--------------------------\\\ sum ///---------------------------*/
 
 
@@ -1057,15 +1091,15 @@ a test.page
  * <b>function_TYPED</b>
  * @version : 10_TYPED
  * @since : 2009 Oct 08
- * 
+ *
  * @description :
  *     
- * @usage : 
- * 
+ * @usage :
+ *
  * @author : drdr.xp | drdr.xp@gmail.com
- * @copyright comcn_TYPED 
- * @TODO : 
- * 
+ * @copyright comcn_TYPED
+ * @TODO :
+ *
  *--------------------------\\\ sum_TYPED ///---------------------------*/
  b
 
@@ -1074,15 +1108,15 @@ a test.page
   * <b>function</b>
   * @version : 1.0
   * @since : 2009 Oct 08
-  * 
+  *
   * @description :
   *     
-  * @usage : 
-  * 
+  * @usage :
+  *
   * @author : drdr.xp | drdr.xp@gmail.com
-  * @copyright .com.cn 
-  * @TODO : 
-  * 
+  * @copyright .com.cn
+  * @TODO :
+  *
   *--------------------------\\\ sum ///---------------------------*/
   b
 
@@ -1091,15 +1125,15 @@ a test.page
    * <b>function</b>
    * @version : 1.0
    * @since : 2009 Oct 08
-   * 
+   *
    * @description :
    *     
-   * @usage : 
-   * 
+   * @usage :
+   *
    * @author : drdr.xp | drdr.xp@gmail.com
-   * @copyright .com.cn 
-   * @TODO : 
-   * 
+   * @copyright .com.cn
+   * @TODO :
+   *
    *--------------------------\\\ sum ///---------------------------*/
   
 
@@ -1146,10 +1180,10 @@ a for (;;) /* void */ b
 a for (;;) /* void */
 
 
-    /*  -------------fornn---------------                                                                   */
+    /*  -------------fornn---------------                                                                    */
     /* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRloop^{ */
-    /*     `cursor^                                                                                         */
-    /* }                                                                                                    */
+    /*     `cursor^                                                                                          */
+    /* }                                                                                                     */
 
 
 
@@ -1289,19 +1323,94 @@ name()
 }
 
 
+    /*  -------------functor---------------                            */
+    /* struct `className^                                              */
+    /* {                                                               */
+    /*     `closure...{{^`type^  `what^;                               */
+    /*     `_^R('className')^( `type^ n`what^ ) : `what^( n`what^ ) {} */
+    /*                                                                 */
+    /*     `}}^`outType^   operator() ( `params^ )                     */
+    /*     {                                                           */
+    /*         `cursor^                                                */
+    /*     }                                                           */
+    /* };                                                              */
+
+
+
+struct className
+{
+    type  what;
+    className( type nwhat ) : what( nwhat ) {}
+    
+    outType   operator() ( params )
+    {
+        
+    }
+};
+
+struct className_TYPED
+{
+    closure_TYPEDoutType_TYPED   operator() ( params_TYPED )
+    {
+        
+    }
+}; b
+
+a struct className
+{
+    type  what;
+    className( type nwhat ) : what( nwhat ) {}
+    
+    outType   operator() ( params )
+    {
+        
+    }
+}; b
+
+a struct className
+{
+    type  what;
+    className( type nwhat ) : what( nwhat ) {}
+    
+    outType   operator() ( params )
+    {
+        
+    }
+};
+
+
+    /*  -------------icastop--------------- */
+    /* operator `typename^ ()               */
+    /*     { return `cursor^; }             */
+
+
+
+operator typename ()
+    { return ; }
+
+    operator typename_TYPED ()
+        { return ; } b
+
+        a operator typename ()
+            { return ; } b
+
+            a operator typename ()
+                { return ; }
+
+
     /*  -------------if---------------                     */
     /* `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ */
 
 
 
-if ( condition )
-{
-    /* void */;
-}
-else
-{
-    
-}
+                if ( condition )
+                {
+                    /* void */;
+                }
+                else
+                {
+                    
+                }
 
 if ( condition_TYPED )
 {
@@ -1365,10 +1474,10 @@ else
 }
 
 
-    /*  -------------if_---------------               */
+    /*  -------------if_---------------                */
     /* if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{ */
-    /*     `wrapped^                                  */
-    /* }                                              */
+    /*     `wrapped^                                   */
+    /* }                                               */
 
 
 
@@ -1397,8 +1506,8 @@ a if ( condition )
 }
 
 
-    /*  -------------ifee--------------- */
-    /* `Include:_if^` `else_if...^       */
+    /*  -------------ifee---------------                                    */
+    /* `Include:_if^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ */
 
 
 
@@ -1573,6 +1682,35 @@ else
 }
 
 
+    /*  -------------iop---------------    */
+    /* `type^ operator `opName^ ( `args^ ) */
+    /* {                                   */
+    /*     `cursor^                        */
+    /* }                                   */
+
+
+
+type operator opName ( args )
+{
+    
+}
+
+type_TYPED operator opName_TYPED ( args_TYPED )
+{
+    
+} b
+
+a type operator opName ( args )
+{
+    
+} b
+
+a type operator opName ( args )
+{
+    
+}
+
+
     /*  -------------main---------------                                                 */
     /* `c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv)`$BRfun^{ */
     /*     `cursor^                                                                      */
@@ -1690,6 +1828,40 @@ a #ifndef __TEST_PAGE__
 
 
 #endif /* __TEST_PAGE__ */
+
+
+    /*  -------------op---------------                  */
+    /* `type^ operator `opName^ ( `args^ );             */
+    /*                                                  */
+    /* `type^ `className^::operator `opName^ ( `args^ ) */
+    /* {                                                */
+    /* }                                                */
+
+
+
+type operator opName ( args );
+
+type className::operator opName ( args )
+{
+}
+
+type_TYPED operator opName_TYPED ( args_TYPED );
+
+type_TYPED className_TYPED::operator opName_TYPED ( args_TYPED )
+{
+} b
+
+a type operator opName ( args );
+
+type className::operator opName ( args )
+{
+} b
+
+a type operator opName ( args );
+
+type className::operator opName ( args )
+{
+}
 
 
     /*  -------------printf--------------- */
@@ -1910,17 +2082,17 @@ public:
     
 private:
 };
- 
+
 template <templateParam>
 className<templateParam>::className( ctorParam )
 {
 }
- 
+
 template <templateParam>
 className<templateParam>::~className()
 {
 }
- 
+
 template <templateParam>
 className<templateParam>::className( const className &cpy )
 {
@@ -1937,17 +2109,17 @@ public:
     
 private:
 };
- 
+
 template <templateParam_TYPED>
 className_TYPED<templateParam_TYPED>::className_TYPED( ctorParam_TYPED )
 {
 }
- 
+
 template <templateParam_TYPED>
 className_TYPED<templateParam_TYPED>::~className_TYPED()
 {
 }
- 
+
 template <templateParam_TYPED>
 className_TYPED<templateParam_TYPED>::className_TYPED( const className_TYPED &cpy )
 {
@@ -1964,17 +2136,17 @@ public:
     
 private:
 };
- 
+
 template <templateParam>
 className<templateParam>::className( ctorParam )
 {
 }
- 
+
 template <templateParam>
 className<templateParam>::~className()
 {
 }
- 
+
 template <templateParam>
 className<templateParam>::className( const className &cpy )
 {
@@ -1991,17 +2163,17 @@ public:
     
 private:
 };
- 
+
 template <templateParam>
 className<templateParam>::className( ctorParam )
 {
 }
- 
+
 template <templateParam>
 className<templateParam>::~className()
 {
 }
- 
+
 template <templateParam>
 className<templateParam>::className( const className &cpy )
 {
@@ -2179,7 +2351,7 @@ std::vector<type_TYPED> var_TYPED;
 
 
     /*  -------------while--------------- */
-    /* while (`condition^)`$BRloop^{       */
+    /* while (`condition^)`$BRloop^{      */
     /*     `cursor^                       */
     /* }                                  */
 
@@ -2207,9 +2379,9 @@ a while (condition)
 
 
     /*  -------------while0--------------- */
-    /* do`$BRloop^{                         */
+    /* do`$BRloop^{                        */
     /*     `cursor^                        */
-    /* }`$BRloop^while (`condition^);       */
+    /* }`$BRloop^while (`condition^);      */
 
 
 
@@ -2239,7 +2411,7 @@ while (false);
 
 
     /*  -------------while1--------------- */
-    /* while (`condition^)`$BRloop^{        */
+    /* while (`condition^)`$BRloop^{       */
     /*     `cursor^                        */
     /* }                                   */
 
@@ -2267,7 +2439,7 @@ a while (true)
 
 
     /*  -------------whilenn--------------- */
-    /* while (`condition^)`$BRloop^{         */
+    /* while (`condition^)`$BRloop^{        */
     /*     `cursor^                         */
     /* }                                    */
 

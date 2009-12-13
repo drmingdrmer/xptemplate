@@ -145,25 +145,25 @@ WRAPPED_TEXT_line2
 #ifndef TEST
 #     define TEST
 
- 
+
 #endif /* TEST */
 
 #ifndef SYMBOL_TYPED
 #     define SYMBOL_TYPED
 
- 
+
 #endif /* SYMBOL_TYPED */ b
 
 a #ifndef TEST
 #     define TEST
 
- 
+
 #endif /* TEST */ b
 
 a #ifndef TEST
 #     define TEST
 
- 
+
 #endif /* TEST */
 
 
@@ -416,7 +416,7 @@ WRAPPED_TEXT_line2)
 
 
     /*  -------------case--------------- */
-    /* case `constant^`$SPcmd^:           */
+    /* case `constant^`$SPcmd^:          */
     /*     `job^                         */
     /*     break;                        */
 
@@ -478,19 +478,19 @@ WRAPPED_TEXT_line2 */
 
 
 
-/* 
+/*
  * 
  */
 
-/* 
+/*
  * 
  */ b
 
-a /* 
+a /*
  * 
  */ b
 
-a /* 
+a /*
  * 
  */
 
@@ -502,22 +502,22 @@ a /*
 
 
 
-/* 
+/*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
 
-/* 
+/*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /* 
+a /*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /* 
+a /*
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
@@ -530,19 +530,19 @@ a /*
 
 
 
-/** 
+/**
  * 
  */
 
-/** 
+/**
  * 
  */ b
 
-a /** 
+a /**
  * 
  */ b
 
-a /** 
+a /**
  * 
  */
 
@@ -554,22 +554,22 @@ a /**
 
 
 
-/** 
+/**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
 
-/** 
+/**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /** 
+a /**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */b
 
-a /** 
+a /**
  * WRAPPED_TEXT
  WRAPPED_TEXT_line2
  */
@@ -627,9 +627,9 @@ a default:
 
 
     /*  -------------do--------------- */
-    /* do`$BRloop^{                     */
+    /* do`$BRloop^{                    */
     /*     `cursor^                    */
-    /* }`$BRloop^while (`condition^);   */
+    /* }`$BRloop^while (`condition^);  */
 
 
 
@@ -852,15 +852,15 @@ a test.page
  * <b>function</b>
  * @version : 1.0
  * @since : 2009 Oct 08
- * 
+ *
  * @description :
  *     
- * @usage : 
- * 
+ * @usage :
+ *
  * @author : drdr.xp | drdr.xp@gmail.com
- * @copyright .com.cn 
- * @TODO : 
- * 
+ * @copyright .com.cn
+ * @TODO :
+ *
  *--------------------------\\\ sum ///---------------------------*/
 
 
@@ -869,15 +869,15 @@ a test.page
  * <b>function_TYPED</b>
  * @version : 10_TYPED
  * @since : 2009 Oct 08
- * 
+ *
  * @description :
  *     
- * @usage : 
- * 
+ * @usage :
+ *
  * @author : drdr.xp | drdr.xp@gmail.com
- * @copyright comcn_TYPED 
- * @TODO : 
- * 
+ * @copyright comcn_TYPED
+ * @TODO :
+ *
  *--------------------------\\\ sum_TYPED ///---------------------------*/
  b
 
@@ -886,15 +886,15 @@ a /**-------------------------/// sum \\\---------------------------
  * <b>function</b>
  * @version : 1.0
  * @since : 2009 Oct 08
- * 
+ *
  * @description :
  *     
- * @usage : 
- * 
+ * @usage :
+ *
  * @author : drdr.xp | drdr.xp@gmail.com
- * @copyright .com.cn 
- * @TODO : 
- * 
+ * @copyright .com.cn
+ * @TODO :
+ *
  *--------------------------\\\ sum ///---------------------------*/
  b
 
@@ -903,23 +903,23 @@ a /**-------------------------/// sum \\\---------------------------
  * <b>function</b>
  * @version : 1.0
  * @since : 2009 Oct 08
- * 
+ *
  * @description :
  *     
- * @usage : 
- * 
+ * @usage :
+ *
  * @author : drdr.xp | drdr.xp@gmail.com
- * @copyright .com.cn 
- * @TODO : 
- * 
+ * @copyright .com.cn
+ * @TODO :
+ *
  *--------------------------\\\ sum ///---------------------------*/
 
 
 
-    /*  -------------for---------------                                                         */
+    /*  -------------for---------------                                                          */
     /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRloop^{ */
-    /*     `cursor^                                                                             */
-    /* }                                                                                        */
+    /*     `cursor^                                                                              */
+    /* }                                                                                         */
 
 
 
@@ -954,10 +954,10 @@ a for (;;) /* void */ b
 a for (;;) /* void */
 
 
-    /*  -------------fornn---------------                                                                   */
+    /*  -------------fornn---------------                                                                    */
     /* for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRloop^{ */
-    /*     `cursor^                                                                                         */
-    /* }                                                                                                    */
+    /*     `cursor^                                                                                          */
+    /* }                                                                                                     */
 
 
 
@@ -978,10 +978,10 @@ a for ( ptr = init; NULL != ptr; ptr ) {
 }
 
 
-    /*  -------------forr---------------                                                           */
+    /*  -------------forr---------------                                                            */
     /* for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRloop^{ */
-    /*     `cursor^                                                                                */
-    /* }                                                                                           */
+    /*     `cursor^                                                                                 */
+    /* }                                                                                            */
 
 
 
@@ -1135,10 +1135,10 @@ else {
 }
 
 
-    /*  -------------if_---------------               */
+    /*  -------------if_---------------                */
     /* if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{ */
-    /*     `wrapped^                                  */
-    /* }                                              */
+    /*     `wrapped^                                   */
+    /* }                                               */
 
 
 
@@ -1163,8 +1163,8 @@ a if ( condition ) {
 }
 
 
-    /*  -------------ifee--------------- */
-    /* `Include:_if^` `else_if...^       */
+    /*  -------------ifee---------------                                    */
+    /* `Include:_if^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ */
 
 
 
@@ -1602,7 +1602,7 @@ a %token
 
 
     /*  -------------while--------------- */
-    /* while (`condition^)`$BRloop^{       */
+    /* while (`condition^)`$BRloop^{      */
     /*     `cursor^                       */
     /* }                                  */
 
@@ -1626,9 +1626,9 @@ a while (condition) {
 
 
     /*  -------------while0--------------- */
-    /* do`$BRloop^{                         */
+    /* do`$BRloop^{                        */
     /*     `cursor^                        */
-    /* }`$BRloop^while (`condition^);       */
+    /* }`$BRloop^while (`condition^);      */
 
 
 
@@ -1650,7 +1650,7 @@ a do {
 
 
     /*  -------------while1--------------- */
-    /* while (`condition^)`$BRloop^{        */
+    /* while (`condition^)`$BRloop^{       */
     /*     `cursor^                        */
     /* }                                   */
 
@@ -1674,7 +1674,7 @@ a while (1) {
 
 
     /*  -------------whilenn--------------- */
-    /* while (`condition^)`$BRloop^{         */
+    /* while (`condition^)`$BRloop^{        */
     /*     `cursor^                         */
     /* }                                    */
 

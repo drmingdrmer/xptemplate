@@ -11,6 +11,7 @@ set cpo-=< cpo+=B
 let XPT#let_sid = 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
 
 
+
 fun! XPT#getCmdOutput( cmd ) "{{{
     let l:a = ""
 

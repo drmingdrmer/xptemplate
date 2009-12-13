@@ -21,7 +21,7 @@ runtime plugin/SettingSwitch.class.vim
 " 333333333333333333333333333333333333333
 " 444444444444444444444444444444444444444
 " 555555555555555555555555555555555555555
-" 
+"
 
 
 let s:log = CreateLogger( 'warn' )
@@ -108,10 +108,10 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
 
     Assert exists( 'b:_xpr_session' )
 
-    Assert &l:virtualedit == 'all' 
-    Assert &l:whichwrap == 'b,s,h,l,<,>,~,[,]' 
-    Assert &l:selection == 'exclusive' 
-    Assert &l:selectmode == '' 
+    Assert &l:virtualedit == 'all'
+    Assert &l:whichwrap == 'b,s,h,l,<,>,~,[,]'
+    Assert &l:selection == 'exclusive'
+    Assert &l:selectmode == ''
 
     " Note: In one session, invoking this function multiple times causes the
     " following assertion fail.
@@ -154,10 +154,9 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     endif
 
 
+
     " add new 
     let bStart = [a:start[0] - line( '$' ), a:start[1] - len(getline(a:start[0]))]
-
-
 
 
     call cursor( a:start )
@@ -165,14 +164,13 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     call s:log.Debug( 'current cursor:'.string( [ line( "." ), col( "." ), mode() ] ) . 'expect at:' . string( a:start ) )
 
     call s:log.Log( 'before append' )
-    " force non-linewise paste
 
     " TODO use this only when entering insert mode from select mode
     " example snipppet: 
     " `aa^`aa^fff()^
     " fun! s:f.fff()
     "   let v = self.V()
-    "   if v == 'aa' 
+    "   if v == 'aa'
     "     return ''
     "   else
     "     return ', another'
@@ -180,81 +178,90 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     " endfunction
     let ifPasteAtEnd = ( col( [ a:start[0], '$' ] ) == a:start[1] && a:start[1] > 1 ) 
                 " \ && 0
-    let isAtStart = ( a:start[1] == 1 )
 
     call s:log.Log( 'ifPasteAtEnd=' . ifPasteAtEnd )
 
 
+    " force non-linewise paste
     let @" = a:replacement . ';'
 
     call s:log.Log( 'before append content, line=' . string( getline( a:start[0] ) ) )
     call s:log.Log( 'to append=' . @" )
 
 
-    " call cursor( a:start[0], a:start[1] - 1 )
-    " normal! v""ypp
+
+    if 1 "{{{
+
+        " NOTE: When just entering insert mode from select mode, it is impossible to paste at line end.
+        " May be bug of vim
+        if ifPasteAtEnd
+            " " paste before last char 
+            " call cursor( a:start[0], a:start[1] - 1 )
+            " normal! ""p
+
+
+            " *) if paste at end of line, paste before last char may not be possible.
+            " *) and if previous char is <tab>, pasting after <tab> may break tab
+            " to spaces
+            call cursor( a:start[0], a:start[1] - 1 )
+            let char = getline( "." )[ -1:-1 ]
+            let @" = char . a:replacement . ';'
+            call s:log.Debug( 'at last , to append=' . @" )
+            silent! normal! ""P
+
+        else
+            silent! normal! ""P
+
+        endif
 
 
 
 
-    " NOTE: When just entering insert mode from select mode, it is impossible to paste at line end.
-    " May be bug of vim
-    if ifPasteAtEnd
-        " " paste before last char 
-        " call cursor( a:start[0], a:start[1] - 1 )
-        " normal! ""p
+        call s:log.Log( 'after append content, line=' . string( getline( a:start[0] ) ) )
+
+        let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
+        let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
+
+        call s:log.Log( 'positionAfterReplacement='.string( positionAfterReplacement ) )
+
+        call cursor( a:start )
+        k'
+
+        call cursor(positionAfterReplacement)
+        " open fold from mark ' to current line.
+        silent! '',.foldopen!
+
+        " remove ';'
+        if ifPasteAtEnd
+            " last char of line start replacing, and ';'
+            call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - 1 )
+
+            " if appending is occur at end of line, delete all following.
+            " 'x' command expands tab and delete only 1 char
+            silent! normal! DzO
+
+        else
+            call cursor( positionAfterReplacement )
+            call s:log.Log( 'before remove ";" positionAfterReplacement='.string( positionAfterReplacement ) )
+            silent! normal! XzO
+        endif
 
 
+        let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
+        let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
 
-        " *) if paste at end of line, paste before last char may not be possible.
-        " *) and if previous char is <tab>, pasting after <tab> may break tab
-        " to spaces
-        call cursor( a:start[0], a:start[1] - 1 )
-        let char = getline( "." )[ -1:-1 ]
-        let @" = char . a:replacement . ';'
-        call s:log.Debug( 'at last , to append=' . @" )
-        silent! normal! ""P
-
+        "}}}
     else
-        silent! normal! ""P
+
+        " NOTE: command 'gp' leaves cursor after pasted content. but it still has
+        " select-mode -> insert-mode problem
+        call cursor( a:start )
+        silent! normal! ""gPX
+
+
+        let positionAfterReplacement = [ line( "." ), col( "." ) ]
+
     endif
-
-
-
-
-    call s:log.Log( 'after append content, line=' . string( getline( a:start[0] ) ) )
-
-    let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
-    let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
-
-    call s:log.Log( 'positionAfterReplacement='.string( positionAfterReplacement ) )
-
-    call cursor( a:start )
-    k'
-
-    call cursor(positionAfterReplacement)
-    " open fold from mark ' to current line.
-    silent! '',.foldopen!
-
-    " remove ';'
-    if ifPasteAtEnd
-        " last char of line start replacing, and ';'
-        call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - 1 )
-
-        " if appending is occur at end of line, delete all following.
-        " 'x' command expands tab and delete only 1 char
-        silent! normal! DzO
-
-    else
-        call cursor( positionAfterReplacement )
-        call s:log.Log( 'before remove ";" positionAfterReplacement='.string( positionAfterReplacement ) )
-        silent! normal! XzO
-    endif
-
-
-    let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
-    let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
-
 
     call s:log.Log( 'to do post?=' . option.doJobs )
     if option.doJobs
@@ -281,6 +288,7 @@ fun! XPreplace(start, end, replacement, ...) "{{{
     try
         let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, option )
     catch /.*/
+        echom v:exception
     finally
         call XPRendSession()
     endtry

@@ -161,7 +161,7 @@ CC := gcc
 CFLAGS := -Wall -Wextra
 
 lang_TYPEDC := compiler_TYPED
-CFLAGS := switches_TYPED b
+CFLAGS := -Wall -Wextra b
 
 a CC := gcc
 CFLAGS := -Wall -Wextra b

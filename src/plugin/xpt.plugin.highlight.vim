@@ -81,6 +81,7 @@ endfunction "}}}
 
 fun! s:MarkRange( marks ) "{{{
     let pos = XPMposList( a:marks.start, a:marks.end )
+    " echom string( a:marks ) . '=' . string( pos )
     if pos[0] == pos[1]
         let pos[1][1] += 1
     endif
@@ -91,6 +92,9 @@ fun! XPTgetStaticRange(p, q) "{{{
     let tl = a:p
     let br = a:q
 
+    if tl[0] == br[0] && tl[1] + 1 == br[0]
+        return '\%' . br[0] . 'l' . '\%' . br[1] . 'c'
+    endif
 
     let r = ''
     if tl[0] == br[0]
@@ -101,7 +105,11 @@ fun! XPTgetStaticRange(p, q) "{{{
 
         let r = r . '\%<' . br[1] . 'c'
     else
-        let r = r . '\%>' . tl[0] .'l' . '\%<' . br[0] . 'l'
+        if tl[0] < br[0] - 1
+            let r = r . '\%>' . tl[0] .'l' . '\%<' . br[0] . 'l'
+        else
+            let r = r . '\%' . ( tl[0] + 1 ) .'l'
+        endif
         let r = r
                     \. '\|' .'\%('.'\%'.tl[0].'l\%>'.(tl[1]-1) .'c\)'
                     \. '\|' .'\%('.'\%'.br[0].'l\%<'.(br[1]+0) .'c\)'

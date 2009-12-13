@@ -6,7 +6,10 @@ let g:__SETTINGSAVER_CLASS_VIM__ = 1
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
+runtime plugin/debug.vim
 
+let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
 
 fun! s:New() dict "{{{
     let self.settings = []
@@ -31,6 +34,7 @@ fun! s:Switch() dict "{{{
     if self.saved != []
         " throw "settings are already saved and can not be save again"
     endif
+    call s:log.Debug( 'SettingSwitched' )
     for [ key, value ] in self.settings
         call insert( self.saved, [ key, eval( key ) ] )
         exe 'let ' . key . '=' . string( value )
