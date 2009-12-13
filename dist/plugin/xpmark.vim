@@ -8,6 +8,7 @@ com! XPMgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPMgetSID
 delc XPMgetSID
 runtime plugin/debug.vim
+let s:log = CreateLogger( 'warn' )
 let g:xpm_mark = 'p'
 let g:xpm_mark_nextline = 'l'
 let g:xpm_changenr_level = 1000
@@ -19,7 +20,6 @@ let g:XPM_RET = {
             \   'updated'         : {'updated'         : 1},
             \}
 let s:emptyHistoryElt = {'list':[], 'dict' :{}, 'likely' : { 'start' : '', 'end' : '' }}
-let s:log = CreateLogger( 'warn' )
 let g:XPMpreferLeft = 'l'
 let g:XPMpreferRight = 'r'
 augroup XPM
@@ -96,6 +96,11 @@ fun! XPMpos( name )
         return d.marks[ a:name ][ : 1 ]
     endif
     return [0, 0]
+endfunction 
+fun! XPMposStartEnd( dict ) 
+    let d = s:bufData()
+    return [ has_key( d.marks, a:dict.start ) ? d.marks[ a:dict.start ][0:1] : [0, 0],
+          \  has_key( d.marks, a:dict.end   ) ? d.marks[ a:dict.end   ][0:1] : [0, 0], ]
 endfunction 
 fun! XPMposList( ... )
     let d = s:bufData()
@@ -190,7 +195,9 @@ fun! XPMallMark()
     let msg = ''
     let i = 0
     for name in d.orderedMarks
-        let msg .= i . ' ' . name . repeat( '-', 30-len( name ) ) . " : " . substitute( string( d.marks[ name ] ), '\<\d\>', ' &', 'g' ) . "\n"
+        let msg .= printf( '%3d', i ) 
+              \ . ' ' . name . repeat( '-', 30-len( name ) ) 
+              \ . substitute( string( d.marks[ name ] ), '\<\d\>', ' &', 'g' ) . "\n"
         let i += 1
     endfor
     return msg
@@ -389,7 +396,7 @@ fun! s:updateMarksBefore( indexRange, changeStart, changeEnd ) dict
         elseif mark[0] == a:changeStart[0] && mark[1] - 1 < a:changeStart[1]
             let self.marks[ name ] = [ mark[0], mark[1], lineLengthCS, mark[3] ]
         else
-            call s:log.Error( 'mark should be before, but it is after start of change' )
+            call s:log.Error( 'mark should be before, but it is after start of change:' . string( [ mark, a:changeStart ] ) )
         endif
     endwhile
 endfunction 
@@ -414,7 +421,7 @@ fun! s:updateMarksAfter( indexRange, changeStart, changeEnd ) dict
         elseif bMark[0] == bChangeEnd[0] && bMark[1] >= bChangeEnd[1]
             let self.marks[ name ] = [ a:changeEnd[0], bMark[1] + lineLengthCE, lineLengthCE, mark[3] ]
         else
-            call s:log.Error( 'mark should be After changes, but it is before them.' )
+            call s:log.Error( 'mark should be After changes, but it is before them:' . string( [ bMark, bChangeEnd ] ))
         endif
     endwhile
 endfunction 

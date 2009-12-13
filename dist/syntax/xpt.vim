@@ -99,13 +99,13 @@ syntax region XPTsnippetBody  start=/^/ end=/\ze\%(^$\n\)*\%$\|\ze\%(^$\n\)*XPT\
 " syntax region XPTsnippetBody  start=/^/ end=/\%$/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
 " syntax region XPTsnippetBody  start=/^/ end=/$\n^\zeXPT\s/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
 " syntax region XPTsnippetBody  start=/^/ end=/\ze\.\.XPT/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
-syntax match XPTxset /^XSET\s\+\%(\w\|[.?*]\)\+\([|.]\%(pre\|def\|post\)\)\?=.*/ containedin=XPTsnippetBody
+syntax match XPTxset /^XSET\s\+\%(\w\|[.?*]\)\+\([|.]\%(pre\|def\|post\|ontype\)\)\?=.*/ containedin=XPTsnippetBody
 syntax region XPTxsetm start=/^XSETm\s\+/ end=/XSETm END$/ containedin=XPTsnippetBody fold
 syntax keyword XPTkeyword_XSET XSET containedin=XPTxset nextgroup=XPTxset_name1,XPTxset_name2,XPTxset_name3 skipwhite transparent
 " priorities are low to high
 syntax match XPTxset_value /.*/ containedin=XPTxset transparent
 syntax match XPTxset_eq /=/ containedin=XPTxset nextgroup=XPTxset_value transparent
-syntax match XPTxset_type /[|.]\%(pre\|def\|post\)\|\ze=/ containedin=XPTxset nextgroup=XPTxset_eq transparent
+syntax match XPTxset_type /[|.]\%(pre\|def\|post\|ontype\)\|\ze=/ containedin=XPTxset nextgroup=XPTxset_eq transparent
 syntax match XPTxset_name3 /\%(\w\|\.\)*/ containedin=XPTxset nextgroup=XPTxset_type transparent
 syntax match XPTxset_name2 /\%(\w\|\.\)*\ze\./ containedin=XPTxset nextgroup=XPTxset_type transparent
 syntax match XPTxset_name1 /\%(\w\|\.\)*\ze|/ containedin=XPTxset nextgroup=XPTxset_type transparent
@@ -220,4 +220,4 @@ hi def link XPTkeyword_XPT        Statement
 hi def link XPTkeyword_hint       Statement
 
 
-" vim: set ts=8 sw=4 sts=4 noexpandtab:
+" vim: set ts=8 sw=4 sts=4:

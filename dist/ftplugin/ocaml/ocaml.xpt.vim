@@ -39,11 +39,13 @@ if `cond^
     else`}}^
 
 
-
+" NOTE: the first repetition indent is different from the second one. Thus we
+" need two part repetition
 XPT match hint=match\ ..\ with\ ..\ ->\ ..\ |\ ..
 match `expr^ with
-    `what0^ -> `with0^`...^
-  | `what^ -> `with^`...^
+    `what^ -> `with^` `...{{^
+  | `what^ -> `with^` `more...{{^
+  | `what^ -> `with^` `more...^`}}^`}}^
 
 
 XPT moduletype hint=module\ type\ ..\ =\ sig\ ..\ end
@@ -95,19 +97,23 @@ object
 end
 
 
+" NOTE: the first repetition indent is different from the second one. Thus we
+" need two part repetition
 XPT typesum hint=type\ ..\ =\ ..\ |\ ..
 XSET typeParams?|post=EchoIfNoChange( '' )
 type `typename^` `typeParams?^ =
-    `constructor^`...^
-  | `constructor^`...^
+    `constructor^` `...{{^
+  | `constructor^` `more...{{^
+  | `constructor^` `more...^`}}^`}}^
 
 
 XPT typesumcom hint=(**\ ..\ *)\ type\ ..\ =\ ..\ |\ ..
 XSET typeParams?|post=EchoIfNoChange( '' )
 (** `typeDescr^ *)
 type `typename^` `typeParams?^ =
-    `constructor^ (** `ctordescr^ *)`...^
-  | `constructor^ (** `ctordescr^ *)`...^
+    `constructor^ (** `ctordescr^ *)` `...{{^
+  | `constructor^ (** `ctordescr^ *)` `more...{{^
+  | `constructor^ (** `ctordescr^ *)` `more...^`}}^`}}^
 
 
 XPT typerecord hint=type\ ..\ =\ {\ ..\ }
@@ -121,8 +127,8 @@ type `typename^` `typeParams?^ =
 XPT typerecordcom hint=(**\ ..\ *)type\ ..\ =\ {\ ..\ }
 (** `type_descr^ *)
 type `typename^ `_^^=
-    { `recordField^ : `fType^ (** `desc^ *)`...^
-    ; `otherfield^ : `othertype^ (** `desc^ *)`...^
+    { `recordField^ : `fType^ (** `desc^ *)` `...^
+    ; `otherfield^ : `othertype^ (** `desc^ *)` `...^
     }
 
 
@@ -161,17 +167,17 @@ fun `args^ ->
 
 XPT letin hint=let\ ..\ =\ ..\ in
 let `name^ `_^^ =
-    `what^ `...^
+    `what^` `...^
 and `subname^ `_^^ =
-    `subwhat^`...^
+    `subwhat^` `...^
 in
 
 
 XPT letrecin hint=let\ rec\ ..\ =\ ..\ in
 let rec `name^ `_^^ =
-    `what^ `...^
+    `what^` `...^
 and `subname^ `_^^ =
-    `subwhat^`...^
+    `subwhat^` `...^
 in
 
 " ================================= Wrapper ===================================

@@ -9,7 +9,6 @@ runtime plugin/SettingSwitch.class.vim
 runtime plugin/MapSaver.class.vim
 exe XPT#let_sid
 let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
 fun! s:SetIfNotExist(k, v) 
   if !exists(a:k)
     exe "let ".a:k."=".string(a:v)
@@ -104,6 +103,7 @@ fun! s:popup(start_col, opt) dict
         let actionList += [ 'popup', 'fixPopup' ]
     endif
     let b:__xpp_current_session = sess
+    call s:ApplyMapAndSetting()
     return "\<C-r>=XPPprocess(" . string(actionList) . ")\<cr>"
 endfunction 
 fun! s:sessionPrototype.addList(list) 
@@ -175,7 +175,6 @@ fun! XPPprocess(list)
     elseif actionName == 'type'
         let postAction = remove( nextList, 0 )
     elseif actionName == 'popup'
-        call s:ApplyMapAndSetting()
         call complete( sess.col, sess.currentList )
     elseif actionName == 'fixPopup'
         let beforeCursor = col( "." ) - 2

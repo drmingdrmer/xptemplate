@@ -45,6 +45,15 @@ XSET arg*|post=ExpandInsideEdge( ',$SPop', '' )
 `$SParg`arg*`$SParg^
 
 
+
+XPT let " let var = **
+let `^`$SPop^=`$SPop^`cursor^
+
+
+XPT self " self.
+self.
+
+
 XPT once hint=if\ exists..\ finish\ ..\ let
 XSET i|pre=headerSymbol()
 if exists(`$SParg^"`g^:`i^"`$SParg^)

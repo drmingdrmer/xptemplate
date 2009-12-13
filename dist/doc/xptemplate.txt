@@ -578,6 +578,11 @@
 
 						*g:xptemplate_snippet_folders*
 								  {default:[]}
+	NOTE:	This setting is actually changes 'runtimepath' and less
+		recommended to use than 'runtimepath'. As you may already know
+		well about 'runtimepath' and 'ftplugin', it is better for you
+		to organize snippet files yourself, by using 'runtimepath'.
+
 	A list to specify which other folders are used as snippet folders.
 	For example: >
 		let g:xptemplate_snippet_folders = [

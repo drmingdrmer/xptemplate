@@ -9,7 +9,6 @@ runtime plugin/FiletypeScope.class.vim
 runtime plugin/xptemplate.util.vim
 runtime plugin/xptemplate.vim
 let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
 com! -nargs=* XPTemplate
             \   if XPTsnippetFileInit( expand( "<sfile>" ), <f-args> ) == 'finish'
             \ |     finish
@@ -308,7 +307,7 @@ fun! s:GetKeyType(rawKey)
     if keytype == ""
         let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'.\zs\.\{-}\$')
     endif
-    let keyname = keytype == "" ? a:rawKey :  a:rawKey[ : - len(keytype) - 2 ]
+    let keyname = keytype == "" ? a:rawKey :  a:rawKey[ 0 : - len(keytype) - 2 ]
     let keyname = substitute(keyname, '\V\\\(\[.|\\]\)', '\1', 'g')
     return [ keyname, keytype ]
 endfunction 
@@ -323,6 +322,8 @@ fun! s:handleXSETcommand(setting, command, keyname, keytype, value)
         let a:setting.defaultValues[a:keyname] = "\n" . a:value
     elseif a:keytype ==# 'pre'
         let a:setting.preValues[a:keyname] = "\n" . a:value
+    elseif a:keytype ==# 'ontype'
+        let a:setting.ontypeFilters[a:keyname] = "\n" . a:value
     elseif a:keytype ==# 'post'
         if a:keyname =~ '\V...'
             let a:setting.postFilters[a:keyname] = "\n" . 'BuildIfNoChange(' . string(a:value) . ')'

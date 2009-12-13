@@ -90,6 +90,11 @@ fun! s:f.ItemValue() dict "{{{
 endfunction "}}}
 let s:f.V = s:f.ItemValue
 
+fun! s:f.PrevItem( n )
+    let hist = get( self._ctx, 'history', [] )
+    return get( hist, n, {} )
+endfunction
+
 fun! s:f.ItemInitValue()
     return get( self.Item(), 'initValue', '' )
 endfunction
@@ -174,6 +179,12 @@ fun! s:f.SubstituteWithValue(ptn, rep, ...) "{{{
 endfunction "}}}
 let s:f.SV = s:f.SubstituteWithValue
 
+
+fun! s:f.HasStep( name )
+    let namedStep = get( self._ctx, 'namedStep', {} )
+    return has_key( namedStep, a:name )
+endfunction
+
 " reference to another finished item value
 fun! s:f.Reference(name) "{{{
     let namedStep = get( self._ctx, 'namedStep', {} )
@@ -193,8 +204,13 @@ let s:f.VOID = s:f.Void
 
 " Echo several expression and concat them.
 " That's the way to use normal vim script expression instead of mixed string
-fun! s:f.Echo(...)
-    return join( a:000, '' )
+fun! s:f.Echo( ... )
+    if a:0 > 0
+        return a:1
+    else
+        return ''
+    endif
+    " return join( a:000, '' )
 endfunction
 
 fun! s:f.EchoIf( isTrue, ... )
@@ -293,6 +309,10 @@ fun! s:f.Next( ... )
   else
     return { 'action' : 'next', 'text' : join( a:000, '' ) }
   endif
+endfunction
+
+fun! s:f.Remove()
+    return { 'action' : 'remove' }
 endfunction
 
 " This function is intended to be used for popup selection :

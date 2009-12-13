@@ -4,6 +4,9 @@ endif
 let g:__SETTINGSAVER_CLASS_VIM__ = 1
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
+runtime plugin/debug.vim
+let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
 fun! s:New() dict 
     let self.settings = []
     let self.saved = []

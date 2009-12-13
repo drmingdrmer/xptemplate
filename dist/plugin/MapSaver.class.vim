@@ -6,6 +6,7 @@ let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 runtime plugin/debug.vim
 let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
 snoremap <Plug>selectToInsert d<BS>
 fun! s:_GetAlighWidth() 
     nmap <buffer> 1 2

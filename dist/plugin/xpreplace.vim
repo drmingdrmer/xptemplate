@@ -53,10 +53,10 @@ fun! XPreplaceInternal(start, end, replacement, option)
     let option = { 'doJobs' : 1 }
     call extend( option, a:option, 'force' )
     Assert exists( 'b:_xpr_session' )
-    Assert &l:virtualedit == 'all' 
-    Assert &l:whichwrap == 'b,s,h,l,<,>,~,[,]' 
-    Assert &l:selection == 'exclusive' 
-    Assert &l:selectmode == '' 
+    Assert &l:virtualedit == 'all'
+    Assert &l:whichwrap == 'b,s,h,l,<,>,~,[,]'
+    Assert &l:selection == 'exclusive'
+    Assert &l:selectmode == ''
     if option.doJobs
         call s:doPreJob(a:start, a:end, a:replacement)
     endif
@@ -76,31 +76,36 @@ fun! XPreplaceInternal(start, end, replacement, option)
     let bStart = [a:start[0] - line( '$' ), a:start[1] - len(getline(a:start[0]))]
     call cursor( a:start )
     let ifPasteAtEnd = ( col( [ a:start[0], '$' ] ) == a:start[1] && a:start[1] > 1 ) 
-    let isAtStart = ( a:start[1] == 1 )
     let @" = a:replacement . ';'
-    if ifPasteAtEnd
-        call cursor( a:start[0], a:start[1] - 1 )
-        let char = getline( "." )[ -1:-1 ]
-        let @" = char . a:replacement . ';'
-        silent! normal! ""P
+    if 1 
+        if ifPasteAtEnd
+            call cursor( a:start[0], a:start[1] - 1 )
+            let char = getline( "." )[ -1:-1 ]
+            let @" = char . a:replacement . ';'
+            silent! normal! ""P
+        else
+            silent! normal! ""P
+        endif
+        let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
+        let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
+        call cursor( a:start )
+        k'
+        call cursor(positionAfterReplacement)
+        silent! '',.foldopen!
+        if ifPasteAtEnd
+            call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - 1 )
+            silent! normal! DzO
+        else
+            call cursor( positionAfterReplacement )
+            silent! normal! XzO
+        endif
+        let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
+        let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
     else
-        silent! normal! ""P
+        call cursor( a:start )
+        silent! normal! ""gPX
+        let positionAfterReplacement = [ line( "." ), col( "." ) ]
     endif
-    let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
-    let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
-    call cursor( a:start )
-    k'
-    call cursor(positionAfterReplacement)
-    silent! '',.foldopen!
-    if ifPasteAtEnd
-        call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - 1 )
-        silent! normal! DzO
-    else
-        call cursor( positionAfterReplacement )
-        silent! normal! XzO
-    endif
-    let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
-    let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
     if option.doJobs
         call s:doPostJob( a:start, positionAfterReplacement, a:replacement )
     endif
@@ -116,6 +121,7 @@ fun! XPreplace(start, end, replacement, ...)
     try
         let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, option )
     catch /.*/
+        echom v:exception
     finally
         call XPRendSession()
     endtry

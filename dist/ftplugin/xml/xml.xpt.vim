@@ -27,14 +27,69 @@ fun! s:f.xml_att_val()
           \ : '="val" ' . name
 endfunction
 
+fun! s:f.xml_tag_ontype()
+    let v = self.V()
+    if v =~ '\V\s\$'
+        let v = substitute( v, '\V\s\*\$', '', 'g' )
+        return self.Next( v )
+    endif
+    return v
+endfunction
+
+fun! s:f.xml_attr_ontype()
+    let v = self.V()
+    if v =~ '\V=\$'
+        return self.Next()
+    elseif len( v ) > 2 && v =~ '\V""\$'
+        return self.Next( v[ 0 : -2 ] )
+    else
+        return v
+    endif
+
+endfunction
+
+fun! s:f.xml_create_attr_ph()
+    " let prev = self.PrevItem( -1 )
+    if !self.HasStep( 'x' )
+        return self.Embed('` `x^' . '`att*^')
+    endif
+
+    let prev = self.Reference( 'x' )
+
+    if prev =~ '=$' 
+        return self.Embed('`"`x`"^' . '`att*^')
+    elseif prev =~ '"$'
+        return self.Embed('` `x^' . '`att*^')
+    else
+        return self.Next( '' )
+    endif
+endfunction
+
+
 " ================================= Snippets ===================================
 XPTemplateDef
 
 
+" NOTE: use Embed in default value phase to prevent post filter ruin place
+" holder
 XPT < hint=<Tag>..</Tag>
-XSET att*|post=BuildIfChanged(V().'="`val^"` `att*^`att*^xml_att_val()^')
-<`tag^` `att*^`att*^xml_att_val()^>`content^</`tag^>
+XSET tag|ontype=xml_tag_ontype()
+XSET att*|pre=Echo('')
+XSET att*|def=Embed( '` `^' )
+<`tag^`att*^>`content^</`tag^>
 ..XPT
+
+
+" " auto attributes completion
+" XPT < hint=<Tag>..</Tag>
+" XSET tag|ontype=xml_tag_ontype()
+" XSET att*|pre=Echo('')
+" XSET att*|def=xml_create_attr_ph()
+" XSET x|def=Echo( '' )
+" XSET x|ontype=xml_attr_ontype()
+" XSET x|post=SV( '\v^\s*$', '' )
+" <`tag^`att*^>`content^</`tag^>
+" ..XPT
 
 
 XPT ver hint=<?xml\ version=...
