@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.3.9.97
+" VERSION: 0.3.9.98
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
@@ -25,9 +25,8 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO doc of ontype filters
 " TODO file listing snippet in _common
-" TODO do not use xpt/ topmost directory
-" TODO g:XPTaddBundle use only the last ftScope!!
 " TODO ontime filter of leader PH.
 " TODO handle 'cursor' place holder correctly in inclusion
 " TODO highlight when entering insert mode
@@ -76,13 +75,6 @@
 "
 "
 " Log of This version:
-"   fix : add _common/common to unsupported language.
-"   fix : fix bug of statusline started with %!
-"   fix : php snippets complains error of '$CM' can not be found
-"   fix : 'indentkeys' causes vim:catch snippet moving to a incorrect place
-"   fix : XPT crashes if the last placeholder has pum.
-"   fix : ocaml snippets indent problem.
-"   improve : html snippets
 "
 "
 "
