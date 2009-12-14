@@ -122,7 +122,7 @@ fun! XPTemplateKeyword(val)
     let keyFilter = 'v:val !~ ''\V\[' . escape(val, '\]') . ']'' '
     call filter( x.keywordList, keyFilter )
     let x.keywordList += split( val, '\s*' )
-    let x.keyword = '\[' . escape( join( x.keywordList, '' ), '\]' ) . ']'
+    let x.keyword = '\w\|\[' . escape( join( x.keywordList, '' ), '\]' ) . ']'
 endfunction 
 fun! XPTemplatePriority(...) 
     let x = b:xptemplateData
@@ -443,8 +443,9 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
             let startColumn = x.wrapStartPos
         else
             let lineToCursor = getline( startLineNr )[ 0 : col( "." ) - 2 ]
-            let matched = matchstr( lineToCursor, '\V\%(\w\|'. x.keyword .'\)\+\$' )
+            let matched = matchstr( lineToCursor, '\V\%('. x.keyword . '\)\+\$' )
             let startColumn = col( "." ) - len( matched )
+            echom 'matched=' . string(matched)
             if matched == ''
                 let [startLineNr, startColumn] = [line("."), col(".")]
             endif
