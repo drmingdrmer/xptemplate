@@ -445,7 +445,6 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
             let lineToCursor = getline( startLineNr )[ 0 : col( "." ) - 2 ]
             let matched = matchstr( lineToCursor, '\V\%('. x.keyword . '\)\+\$' )
             let startColumn = col( "." ) - len( matched )
-            echom 'matched=' . string(matched)
             if matched == ''
                 let [startLineNr, startColumn] = [line("."), col(".")]
             endif
