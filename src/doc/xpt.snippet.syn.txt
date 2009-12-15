@@ -38,8 +38,8 @@
 
 	|xpt-snippet-item|
 	|xpt-snippet-placeholder|
-	|xpt-placeholder-mark|   
-		|xpt-placeholder-left-mark|   |`|  
+	|xpt-placeholder-mark|
+		|xpt-placeholder-left-mark|   |`|
 		|xpt-placeholder-right-mark|  |^|
 	|xpt-placeholder-edge|
 	|xpt-snippet-leading-placeholder|
@@ -253,6 +253,8 @@
 	NOTE TODO differences between XPTinclude by example.
 
 
+
+
 						 *XPTemplateDef* *xpt-snippet*
 	The snippet part starts with the command "XPTemplateDef". Any content
 	after this command is no longer Vim script, but a XPTemplate snippet.
@@ -285,18 +287,27 @@
 		| #if           #if ...           |
 		| #ifdef        #if ...           |
 		| #ifndef       #ifndef ..        |
-<	Syntax : >
+<	
+	Syntax to set up hints: >
 		XPT for hint=for\ (..;..;++)
 <	Or : >
 		XPT for " for (..;..;++)
-<	With the 'hint=' way:
-	" " needs to be escaped.
+<	The quote-hint must be at the end of |xpt-snippet| declaration.
 
-	With both these 2 ways :
-	"(" needs to be escaped if you do NOT want it to be evaluated as a
-	function call.
-	"$" needs to be escaped if you do NOT want it to be evaluated as
-	variable.
+	Some characters( space, left quote and "$" ) need to be escaped in
+	hint text: >
+				<space>	(	$
+		hint=		yes	yes	yes
+		"		no	yes	yes
+<
+	With only the 'hint=' way:
+		space needs to be escaped.
+
+	With both these two ways :
+		"(" needs to be escaped if you do NOT want it to be evaluated
+		as a function call.
+		"$" needs to be escaped if you do NOT want it to be evaluated
+		as variable.
 
 
 							  *xpt-snippet-hidden*

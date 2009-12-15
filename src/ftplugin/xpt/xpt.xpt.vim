@@ -173,6 +173,26 @@ fun! s:f.`name^(`$SParg`parameters`$SParg^)
 endfunction
 
 
+XPT skeleton " very simple snippet file skeleton
+" Save this file as ~/.vim/ftplugin/c/hello.xpt.vim(or
+" ~/vimfiles/ftplugin/c/hello.xpt.vim). 
+" Then you can use it in C language file:
+"     vim xpt.c
+" And type:
+"     helloxpt<C-\>
+"
+XPTemplate priority=personal+
+XPTemplateDef
+
+
+
+\XPT helloxpt " tips about what this snippet do
+Say hello to \`xpt^.
+\`xpt^ says hello.
+
+
+
+
 
 XPT xpt hint=start\ template\ to\ write\ template
 XPTemplate priority=`prio^` `mark...^

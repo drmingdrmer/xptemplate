@@ -134,7 +134,8 @@ xpt-snippet-syntax	xpt.snippet.syn.txt	/*xpt-snippet-syntax*
 xpt-snippet-tutorial	xpt.snippet.tutor.txt	/*xpt-snippet-tutorial*
 xpt-snippet-variable	xpt.snippet.syn.txt	/*xpt-snippet-variable*
 xpt-substitute	xpt-function.txt	/*xpt-substitute*
-xpt-tutor-hello	xpt.snippet.tutor.txt	/*xpt-tutor-hello*
+xpt-tutor-define-snippet	xpt.snippet.tutor.txt	/*xpt-tutor-define-snippet*
+xpt-tutor-snippet-file	xpt.snippet.tutor.txt	/*xpt-tutor-snippet-file*
 xpt-usage	xptemplate.txt	/*xpt-usage*
 xpt-wrapped	xptemplate.txt	/*xpt-wrapped*
 xpt-write-common-snippet	xptemplate.txt	/*xpt-write-common-snippet*
