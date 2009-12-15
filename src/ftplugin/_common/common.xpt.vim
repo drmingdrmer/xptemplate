@@ -62,7 +62,9 @@ XPTvar $CURSOR_PH      CURSOR
 
 XPTinclude
       \ _common/personal
-      \ _common/cmn.counter
+
+" XPTinclude
+      " \ _common/cmn.counter
 
 " ========================= Function and Variables =============================
 
@@ -560,6 +562,17 @@ endfunction
 
 
 
+
+
+fun! s:f.PathFrom( where, isfull )
+    let paths = split( globpath( a:where, '*' ), "\n" )
+    if !a:isfull
+        let paths = map( paths, 'v:val[len(' . string( a:where ) . '):]' )
+    endif
+
+    return paths
+endfunction
+
 " Short names are normally not good. Some alias to those short name functions are
 " made, with meaningful names.
 "
@@ -575,6 +588,7 @@ call XPTdefineSnippet("Date", {}, "`date()^")
 call XPTdefineSnippet("File", {}, "`file()^")
 call XPTdefineSnippet("Path", {}, "`path()^")
 
+
 " wrapping snippets do not need using \w as name
 call XPTdefineSnippet('"_', {'hint' : '" ... "'}, '"`wrapped^"')
 call XPTdefineSnippet("'_", {'hint' : "' ... '"}, "'`wrapped^'")
@@ -583,3 +597,8 @@ call XPTdefineSnippet("(_", {'hint' : '( ... )'}, '(`wrapped^)')
 call XPTdefineSnippet("[_", {'hint' : '[ ... ]'}, '[`wrapped^]')
 call XPTdefineSnippet("{_", {'hint' : '{ ... }'}, '{`wrapped^}')
 call XPTdefineSnippet("`_", {'hint' : '` ... `'}, '\``wrapped^\`')
+
+XPTemplateDef
+XPT FromHome " path starts from $HOME
+XSET p|post=Echo(R( "p" ) == '' ? '' : Build( R( "p" ) . '`p^Choose( PathFrom( $HOME . R( "p" ), 0 ) )^' ) )
+`p^Choose(PathFrom($HOME, 0))^

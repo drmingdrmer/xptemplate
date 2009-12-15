@@ -2262,6 +2262,7 @@ fun! s:ApplyPostFilter() "{{{
         let [ text, ifToBuild, rc ] = s:EvalPostFilter( filterText, typed, leader )
 
 
+
         call s:log.Log( 'text=' . text )
 
 
@@ -2313,7 +2314,11 @@ fun! s:ApplyPostFilter() "{{{
         return [ typed, ifToBuild ]
     else
         call s:UpdateFollowingPlaceHoldersWith( typed, { 'indent' : filterIndent, 'post' : text } )
-        return [ text, ifToBuild ]
+        if ifToBuild
+            return [ typed, ifToBuild ]
+        else
+            return [ text, ifToBuild ]
+        endif
     endif
 
 endfunction "}}}
@@ -2939,6 +2944,7 @@ fun! s:CompileExpr(s, xfunc) "{{{
 
     " TODO bug:() can not be evaluated
     " TODO how to add '$' ?
+    " TODO \$ inside func or ( ) can not be parsed correctly
     let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . nonEscaped . '{\w\+(\[^($]\{-})}'
     let vptn = '\V' . nonEscaped . '$\w\+' . '\|' . nonEscaped . '{$\w\+}'
     let sptn = '\V' . nonEscaped . '(\[^($]\{-})'
