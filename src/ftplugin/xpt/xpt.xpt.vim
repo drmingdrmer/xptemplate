@@ -57,7 +57,7 @@ XPTinclude
     `...^`}}^
 
 
-XPT container hint=let\ [s:f,\ s:v]\ =...
+XPT container " let s:f = ..
 let s:f = g:XPTfuncs()
 
 
