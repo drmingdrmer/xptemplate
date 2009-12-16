@@ -69,14 +69,23 @@ let s:sessionPrototype = {
 
 " Additional argument can be a list
 fun! XPPopupNew(callback, data, ...) "{{{
-    let list = ( a:0 == 0 ) ? [] : a:1
 
     let sess = deepcopy(s:sessionPrototype)
     let sess.callback = a:callback
     let sess.data = a:data
 
     call sess.createPrefixIndex([])
-    call sess.addList(list)
+
+    if a:0 > 0
+        let data = a:1
+        if type( data ) == type( '' )
+            " XXX
+            " call sess.setTriggerKey( data )
+        elseif type( data ) == type( [] )
+            call sess.addList( data )
+        endif
+    endif
+
     return sess
 endfunction "}}}
 
@@ -274,6 +283,7 @@ fun! s:_InitBuffer() "{{{
     call b:_xpp_setting_switch.AddList( 
           \ [ '&l:cinkeys', '' ], 
           \ [ '&l:indentkeys', '' ], 
+          \ [ '&completeopt', 'menu,longest' ], 
           \)
           " \ [ '&iskeyword', '33-127,128-255' ], 
     " TODO  '&l:ignorecase', '1'???

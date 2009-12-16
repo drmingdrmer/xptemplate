@@ -25,6 +25,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO c lang: <C-\>#<tab>f<tab> highlight is incorrect
 " TODO doc of ontype filters
 " TODO file listing snippet in _common
 " TODO ontime filter of leader PH.
