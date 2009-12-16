@@ -63,7 +63,7 @@
 <	After pressing <Tab> twice the snippet ends up with cursor staying at
 	line 2, column 8 (or the value of 'softtabstop'): >
 		for ( abc = 0; abc < len; ++abc ) {
-			
+
 		}       \\___________________________| cursor stays here
 
 <	The usage is described in more detail below.
@@ -161,7 +161,7 @@
 		          `^             |
 		          break;         |
 		        `...^            |
-		      
+
 		        default:
 		          `^
 		      }
@@ -502,7 +502,7 @@
 	Each snippet has some variable defined to configure language format.
 	This is useful when some snippet are shared between languages, like
 	for loops in C and CPP or to accommodate different user preferences.
-	
+
 	Brackets style variables may be defined as below: >
 		" if () ** {
 		" else ** {
@@ -578,6 +578,7 @@
 
 						*g:xptemplate_snippet_folders*
 								  {default:[]}
+	Deprecated
 	NOTE:	This setting is actually changes 'runtimepath' and less
 		recommended to use than 'runtimepath'. As you may already know
 		well about 'runtimepath' and 'ftplugin', it is better for you
@@ -594,7 +595,6 @@
 	to HTML files.
 
 
-
 				   *xpt-personal-folder*   *xpt-write-snippet*
 	Snippet file is actually |ftplugin| and with file extension
 	".xpt.vim", like "c.xpt.vim". So you can manage snippet files just
@@ -602,14 +602,14 @@
 
 	You have THREE place to put your own snippets:
 
-	Path_to_xpt/personal				
+	Path_to_xpt/personal
 		Recommended.  Enough for most users. What you need to do is
 		putting snippet files into this folder.
 
-	Folders in |g:xptemplate_snippet_folders|	
-		Recommended for multiple snippet libraries owner.
-	
-	Other 'runtimepath'				
+	Folders in |g:xptemplate_snippet_folders|
+		Deprecated, use 'runtimepath'.
+
+	Other 'runtimepath'
 		Need to manage 'runtimepath' yourself.
 
 	Details are discussed in following section.
