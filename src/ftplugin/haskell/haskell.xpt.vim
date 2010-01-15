@@ -154,3 +154,12 @@ XSET moduleName=S(S(E('%:r'),'^.','\u&', ''), '[\\/]\(.\)', '.\u\1', 'g')
 module `moduleName~ `exports...{{~( `cursor~
     ) `}}~where
 
+XPT foldr hint=foldr\ (\\....\ ->\ ...)
+foldr (\ `e~ `acc~ -> `expr~) `init~ `lst~
+
+XPT foldl hint=foldl'\ (\\....\ ->\ ...)
+foldl' (\ `acc~ `elem~ -> `expr~) `init~ `lst~
+
+XPT map hint=map\ (\\...\ ->\ ...)
+map (`elem~ -> `expr~) `list~
+

@@ -44,6 +44,12 @@ else
 }`}}^
 
 
+XPT filter hint=filter\ ..\ {\ ..\ }
+filter `filterName^
+{
+    `cursor^
+}
+
 XPT fun hint=function\ ..(..)\ {\ ..\ }
 function `funName^( `params^ )
 {
