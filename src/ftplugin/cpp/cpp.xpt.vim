@@ -165,6 +165,11 @@ template <`templateParam^>
 }
 ..XPT
 
+XPT head    hint=/////////////////\ ...
+///////////////////////////////////////////////////////////
+////                `headerText^
+///////////////////////////////////////////////////////////
+
 XPT try hint=try\ ...\ catch...
 XSET handler=$CL void $CR
 try
@@ -175,8 +180,6 @@ catch ( `except^ )
 {
     `handler^
 }`...^
-
-
 
 XPT try_ hint=try\ {\ SEL\ }\ catch...
 XSET handler=$CL void $CR
