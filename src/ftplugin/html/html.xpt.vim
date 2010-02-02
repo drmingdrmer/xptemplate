@@ -111,22 +111,22 @@ XPTemplateDef
 
 
 
-XPT table
+XPT table " <table> ...<tr><td> ... </table>
 <table>
     `Include:tr^` `tr...{{^
     `Include:tr^` `tr...^`}}^
 </table>
 
-XPT tr hint=<tr>\ ...
+XPT tr " <tr>\ ...
 <tr>
     `Include:td^` `td...{{^
     `Include:td^` `td...^`}}^
 </tr>
 
-XPT td hint=<td>\ ...
+XPT td " <td>\ ...
 <td>`^</td>
 
-XPT th hint=<th>\ ...
+XPT th " <th>\ ...
 <th>`^</th>
 
 
@@ -135,7 +135,7 @@ XPT table0 hidden=1
 `createTable()^
 
 
-XPT html hint=<html><head>..<head><body>...
+XPT html " <html><head>..<head><body>...
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     `:head:^
@@ -175,14 +175,14 @@ XPT link " <link ..>
 <link rel="`stylesheet^" type="`type^text/css^" href="`url^" />
 
 
-XPT script hint=<script\ language="javascript"...
+XPT script " <script language="javascript"...
 <script language="javascript" type="text/javascript">
     `cursor^
 </script>
 ..XPT
 
 
-XPT scriptsrc hint=<script\ ..\ src=...
+XPT scriptsrc " <script .. src=...
 <script language="javascript" type="text/javascript" src="`js^"></script>
 
 XPT body " <body>..</body>
@@ -190,47 +190,47 @@ XPT body " <body>..</body>
     `cursor^
 </body>
 
-XPT doctype hint=<!DOCTYPE\ ***
+XPT doctype " <!DOCTYPE ***
 XSET doctype=html_doctype_list()
 XSET doctype|post=html_doctype_post( V() )
 <!DOCTYPE html PUBLIC `doctype^>
 
 
-XPT a hint=<a\ href...
+XPT a " <a href...
 <a href="`href^">`cursor^</a>
 ..XPT
 
 
 " TODO auto cr complete
-XPT div hint=<div>\ ..\ </div>
+XPT div " <div> .. </div>
 XSET what=Echo('')
 <div` `attr?^>`what^</div>
 
 
-XPT p hint=<p>\ ..\ </p>
+XPT p " <p> .. </p>
 <p` `attr?^>`cursor^</p>
 
 
-XPT ul hint=<ul>\ <li>...
+XPT ul " <ul> <li>...
 <ul>
     <li>`val^</li>`...^
     <li>`val^</li>`...^
 </ul>
 
 
-XPT ol hint=<ol>\ <li>...
+XPT ol " <ol> <li>...
 <ol>
     <li>`val^</li>`...^
     <li>`val^</li>`...^
 </ol>
 
 
-XPT br hint=<br\ />
+XPT br " <br />
 <br />
 
 
 " <h1>`cr^^`cursor^`cr^^</h1>
-XPT h hint=<h?>\ ..\ <h?>
+XPT h " <h?>\ ..\ <h?>
 XSET n=1
 <h`n^>`cursor^</h`n^>
 
@@ -287,24 +287,24 @@ XPT fieldset " <fieldset ..
 </fieldset>
 
 
-XPT <_ hint=
+XPT <_ " <..>SEL</..>
 XSET span_disable|post=html_tagAttr()
 <`span^>`wrapped^</`span^>
 
 
-XPT p_ hint=
+XPT p_ " <p>SEL</p>
 <p>`wrapped^</p>
 
-XPT div_ hint=
+XPT div_ " <div>SEL</div>
 <div>`wrapped^</div>
 
-XPT h_ hint=<h?>\ ..\ </h?>
+XPT h_ " <h?>SEL</h?>
 XSET n=1
 <h`n^>`wrapped^</h`n^>
 
 
 
-XPT a_ hint=<a\ href="">\ SEL\ </a>
+XPT a_ " <a href="">SEL</a>
 <a href="`^">`wrapped^</a>
 
 

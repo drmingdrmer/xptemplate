@@ -23,7 +23,7 @@ XPTinclude
 XPTemplateDef
 
 
-XPT shebang hint=#!/bin/sh\ ..\ exec\ tclsh..
+XPT shebang " #!/bin/sh .. exec tclsh..
 #!/bin/sh
 #\
 exec tclsh "$0" "$@""
@@ -33,43 +33,43 @@ exec tclsh "$0" "$@""
 XPT sb alias=shebang
 
 
-XPT for hint=for\ {...}
+XPT for " for {...}
 for {set ~i^ ~x^} {$~i^ <= ~len^} {incr ~i^} {
     ~cursor^
 }
 
 
-XPT foreach hint=foreach\ i\ var\ {...
+XPT foreach " foreach i var {...
 foreach ~i^ ~var^ {
     ~cursor^
 }
 
 
-XPT while hint=while\ {i\ <=\ ?}\ {...
+XPT while " while {i <= ?} {...
 while {~i^ <= ~len^} {
     ~cursor^
 }
 
 
-XPT if hint=if\ {\ ...\ }\ {\ ...
+XPT if " if { ... } { ...
 if {~a^} {
      ~cursor^
 }
 
 
-XPT elseif hint=elseif\ {...
+XPT elseif " elseif {...
 elseif {~a^} {
      ~cursor^
 }
 
 
-XPT else hint=else\ {...
+XPT else " else {...
 else {
      ~cursor^
 }
 
 
-XPT switch hint=switch\ ...\ {...
+XPT switch " switch ... {...
 switch ~var^ {
     ~1^     { ~body1^ }
     ~2^     { ~body2^ }
@@ -78,17 +78,17 @@ switch ~var^ {
 }
 
 
-XPT proc hint=proc\ ***\ {...
+XPT proc " proc *** {...
 proc ~name^ {~args^} {
      ~cursor^
 }
 
 
-XPT regexp hint=regexp\ ...\ match
+XPT regexp " regexp ... match
 regexp ~r^ ~str^ match ~vars^
 
 
-XPT regsub hint=regsub\ ...
+XPT regsub " regsub ...
 regsub ~in^ ~str^ ~out^
 
 

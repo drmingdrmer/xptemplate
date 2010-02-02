@@ -54,7 +54,7 @@ XPT self " self.
 self.
 
 
-XPT once hint=if\ exists..\ finish\ ..\ let
+XPT once " if exists.. finish .. let
 XSET i|pre=headerSymbol()
 if exists(`$SParg^"`g^:`i^"`$SParg^)
     finish
@@ -63,52 +63,52 @@ let `g^:`i^`$SPop^=`$SPop^1
 `cursor^
 
 
-XPT varconf hint=if\ !exists\ ".."\ let\ ..\ =\ ..\ endif
+XPT varconf " if !exists ".." let .. = .. endif
 if !exists(`$SParg^"`g^:`varname^"`$SParg^)
     let `g^:`varname^`$SPop^=`$SPop^`val^
 endif
 
 
-XPT fun hint=fun!\ ..(..)\ ..\ endfunction
+XPT fun " fun! ..(..) .. endfunction
 fun! `name^`$SPfun^(`:_args:^) "{{{
     `cursor^
 endfunction "}}}
 
-XPT member hint=tips
+XPT member " tips
 fun! `name^`$SPfun^(`:_args:^) dict "{{{
     `cursor^
 endfunction "}}}
 
 
 
-XPT while hint=while\ ..\ ..\ endwhile
+XPT while " while .. .. endwhile
 while `cond^
     `cursor^
 endwhile
 
 
-XPT whilei hint=while\ i\ |\ let\ i\ +=\ 1
+XPT whilei " while i | let i += 1
 let [`$SParg^`i^,`$SPop^`len^`$SParg^] = [`$SParg^`0^`$SPop^-`$SPop^1,`$SPop^`len_expr^`$SPop^-`$SPop^1`$SParg^]
 while `i^`$SPop^<`$SPop^`len^ | let `i^`$SPop^+=`$SPop^1
     `cursor^
 endwhile
 
 
-XPT fordic hint=for\ [..,..]\ in\ ..\ ..\ endfor
+XPT fordic " for [..,..] in .. .. endfor
 for [`$SParg^`key^,`$SPop^`value^`$SParg^] in items(`$SParg^`dic^`$SParg^)
     `cursor^
 endfor
 
 
-XPT forin hint=for\ ..\ in\ ..\ ..\ endfor
+XPT forin " for .. in .. .. endfor
 for `value^ in `list^
     `cursor^
 endfor
 
-XPT foreach alias=forin hint=for\ ..\ in\ ..\ ..\ endfor
+XPT foreach alias=forin " for .. in .. .. endfor
 
 
-XPT try hint=try\ ..\ catch\ ..\ finally...
+XPT try " try .. catch .. finally...
 try
     `job^
 `:catch:^
@@ -126,7 +126,7 @@ finally
     `cursor^
 
 
-XPT if hint=if\ ..\ else\ ..
+XPT if " if .. else ..
 if `cond^
     `job^Echo()^
 endif
@@ -137,7 +137,7 @@ else
     `cursor^
 
 
-XPT filehead hint=description\ of\ file
+XPT filehead " description of file
 " File Description {{{
 " =============================================================================
 " `cursor^
@@ -150,16 +150,16 @@ XPT filehead hint=description\ of\ file
 ..XPT
 
 " The first placeholder wrapping 'com' keyword that causes ctags halt
-XPT sid hint=//\ generate\ s:sid\ variable
+XPT sid " // generate s:sid variable
 exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
 
 ..XPT
 
 
-XPT str_ hint=transform\ SEL\ to\ string
+XPT str_ " transform SEL to string
 string(`$SParg^`wrapped^`$SParg^)
 
-XPT try_ hint=try\ ..\ catch\ ..\ finally...
+XPT try_ " try .. catch .. finally...
 XSET exception=.*
 try
     `wrapped^

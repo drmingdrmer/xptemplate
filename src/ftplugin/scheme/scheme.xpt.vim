@@ -17,13 +17,13 @@ XPTinclude
 
 " ================================= Snippets ===================================
 XPTemplateDef
-XPT begin hint=(begin\ ..\ )
+XPT begin " (begin .. )
 (begin
    (`todo0^) `...^
    (`todon^)`...^)
 
 
-XPT case hint=(case\ (of)\ ((match)\ (expr))\ ..)
+XPT case " (case (of) ((match) (expr)) ..)
 (case (`of^)
       ({`match^} `expr1^) `...^
       ({`matchn^} `exprn^)`...^
@@ -31,41 +31,41 @@ XPT case hint=(case\ (of)\ ((match)\ (expr))\ ..)
 
 
 
-XPT cond hint=(cond\ ([condi]\ (expr))\ ..)
+XPT cond " (cond ([condi] (expr)) ..)
 (cond ([`condition^] `expr1^) `...^
       ([`condition^] `exprn^)`...^
       `else...^\(else \`cursor\^\)^^)
 
 
-XPT let hint=(let\ [(var\ (val))\ ..]\ (body))
+XPT let " (let [(var (val)) ..] (body))
 (let [(`newVar^ `value^ `...^)
       (`newVarn^ `valuen^`...^)]
      (`cursor^))
 
 
-XPT letrec hint=(letrec\ [(var\ (val))\ ..]\ (body))
+XPT letrec " (letrec [(var (val)) ..] (body))
 (letrec [(`newVar^ `value^ `...^)
          (`newVarn^ `valuen^`...^)]
      (`cursor^))
 
 
-XPT lambda hint=(lambda\ [params]\ (body))
+XPT lambda " (lambda [params] (body))
 (lambda [`params^]
         (`cursor^))
 
 
-XPT defun hint=(define\ var\ (lambda\ ..))
+XPT defun " (define var (lambda ..))
 (define `funName^
     (lambda [`params^]
         (`cursor^))
  )
 
 
-XPT def hint=(define\ var\ (ex))
+XPT def " (define var (ex))
 (define `varName^ `cursor^)
 
 
-XPT do hint=(do\ ..)
+XPT do " (do ..)
 (do {(`var1^ `init1^ `step1^) `...0^
      (`varn^ `initn^ `stepn^)`...0^}
    ([`test^] `exprs^ `...1^ `exprs^`...1^^)

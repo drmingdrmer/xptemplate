@@ -92,26 +92,26 @@ XSET att*|def=Embed( '` `^' )
 " ..XPT
 
 
-XPT ver hint=<?xml\ version=...
+XPT ver " <?xml version=...
 <?xml version="`ver^1.0^" encoding="`enc^utf-8^" ?>
 
 
-XPT style hint=<?xml-stylesheet...
+XPT style " <?xml-stylesheet...
 <?xml-stylesheet type="`style^text/css^" href="`from^">
 
 
-XPT cdata hint=<![CDATA[...
+XPT cdata " <![CDATA[...
 <![CDATA[`cursor^]]>
 
 
 
 " ================================= Wrapper ===================================
 
-XPT <_ hint=<Tag>\ SEL\ </Tag>
+XPT <_ " <Tag>\ SEL\ </Tag>
 <`tag^` `...{{^ `name^="`val^"` `...^`}}^>`wrapped^</`tag^>
 
 
-XPT cdata_ hint=<![CDATA[\ SEL\ ]]>
+XPT cdata_ " <![CDATA[\ SEL\ ]]>
 <![CDATA[`wrapped^]]>
 
 

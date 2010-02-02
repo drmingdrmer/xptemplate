@@ -50,21 +50,19 @@ endfunction
 " ================================= Snippets ===================================
 XPTemplateDef
 
-XPT all  hint=...begin,\ ...end,
+XPT all " ...begin, ...end,
 `v^.begin(), `v^.end(), `cursor^
+..XPT
 
-
-XPT vector hint=std::vector<..>\ ..;
+XPT vector " std::vector<..> ..;
 std::vector<`type^> `var^;
-`cursor^
+..XPT
 
-
-XPT map hint=std::map<..,..>\ ..;
+XPT map " std::map<.., ..> ..;
 std::map<`typeKey^,`val^>   `name^;
-`cursor^
+..XPT
 
-
-XPT class   hint=class\ ..
+XPT class " class\ { public: ... };
 class `className^
 {
 public:
@@ -88,7 +86,7 @@ private:
 }
 ..XPT
 
-XPT functor hint=class\ operator\ ...
+XPT functor " class ... { operator () ... };
 struct `className^
 {
     `closure...{{^`type^  `what^;
@@ -101,34 +99,33 @@ struct `className^
 };
 ..XPT
 
-XPT namespace hint=namespace\ {}
+XPT namespace " namespace { ... }
 namespace `name^
 {
     `cursor^
 }
 ..XPT
 
-XPT icastop hint=operator\ type\ ...
+XPT icastop " operator type ...
 operator `typename^ ()
     { return `cursor^; }
 ..XPT
 
-XPT castop hint=operator\ type\ ...
+XPT castop " operator type ...
 operator `typename^ ();
-
 
 `className^::operator `typename^ ();
     { return `cursor^; }
 ..XPT
 
-XPT iop hint=t\ operator\ ...\ ()
+XPT iop "t operator ... ()
 `type^ operator `opName^ ( `args^ )
 {
     `cursor^
 }
 ..XPT
 
-XPT op hint=t\ operator\ ...\ ()
+XPT op " t operator ... ()
 `type^ operator `opName^ ( `args^ );
 
 `type^ `className^::operator `opName^ ( `args^ )
@@ -136,7 +133,7 @@ XPT op hint=t\ operator\ ...\ ()
 }
 ..XPT
 
-XPT templateclass   hint=template\ <>\ class
+XPT templateclass " template <...> class { ... }; ...
 template
     <`templateParam^>
 class `className^
@@ -165,12 +162,13 @@ template <`templateParam^>
 }
 ..XPT
 
-XPT head    hint=/////////////////\ ...
+XPT head  " /////////////////\ ...
 ///////////////////////////////////////////////////////////
 ////                `headerText^
 ///////////////////////////////////////////////////////////
+..XPT
 
-XPT try hint=try\ ...\ catch...
+XPT try " try ... catch...
 XSET handler=$CL void $CR
 try
 {
@@ -180,8 +178,9 @@ catch ( `except^ )
 {
     `handler^
 }`...^
+..XPT
 
-XPT try_ hint=try\ {\ SEL\ }\ catch...
+XPT try_ " try { SEL } catch...
 XSET handler=$CL void $CR
 try
 {

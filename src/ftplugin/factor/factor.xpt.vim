@@ -16,29 +16,30 @@ XPTinclude
 " ================================= Snippets ===================================
 XPTemplateDef
 
-XPT alias hint=ALIAS:\ ...\ ...
+XPT alias "ALIAS: ... ...
 ALIAS: `newword^ `oldword^
 
-XPT const hint=CONSTANT:\ ...\ ...
+XPT const "CONSTANT: ... ...
 CONSTANT: `word^ `constantValue^
 
-XPT word hint=:\ ...\ (\... --\ ...)
+XPT word ": ... (... -- ...)
 : `wordName^ ( `stackBefore^ -- `stackafter^ )
     `cursor^
     ;
 
-XPT if hint=...\ [\ ...\ ]\ \[\ ...\ ]\ if
+XPT if "... [ ... ] [ ... ] if
 `cond^ [ `then^ ] [ `else^ ] if
 
-XPT times hint=...\ [\ ...\ ]\ times
+XPT times "... [ ... ] times
 `count^ [ `what^ ] times
 
-XPT test hint=[\ ...\ ]\ [\ ...\ ]\ unit-test
+XPT test "[ ... ] [ ... ] unit-test
 [ `ret^ ] [ `test^ ] unit-test
 
-XPT header hint=USING\ ...\ IN\ ...
+XPT header "USING ... IN ...
 USING: `imports^ ;
 IN: 
+..XPT
 
 " ================================= Wrapper ===================================
 

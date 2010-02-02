@@ -13,20 +13,20 @@ XPTinclude
 " ================================= Snippets ===================================
 XPTemplateDef
 
-XPT ln hint=\ ========...
+XPT ln "  ========...
 ==============================================================================
 
 
-XPT fmt hint=vim:\ options...
+XPT fmt " vim: options...
 vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:
 
 
-XPT q hint=:\ >\ ...\ <
+XPT q " : > ... <
 : >
 	`cursor^
 <
 
 
-XPT r hint=|...|
+XPT r " |...|
 |`content^|
 
