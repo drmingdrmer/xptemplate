@@ -30,9 +30,36 @@ XPT line " Create an svg line
 XSET style...|post= style="`cursor^"
 ..XPT
 
+XPT circle " Create an svg circle
+<circle cx="`xCenter^" cy="`yCenter^" r="`radius^" `style...^ />
+XSET style...|post= style="`cursor^"
+..XPT
+
+XPT ellipse " Create an svg ellipse
+<ellipse cx="`xCenter^" cy="`yCenter^" rx="`horizontalRadius^" ry="`verticalRadius^" `style...^ />
+XSET style...|post= style="`cursor^"
+..XPT
+
 XPT rect " Create an svg rectangle
 <rect x="`xStart^" y="`yStart^" width="`width^" height="`height^" `style...^ />
 XSET style...|post= style="`cursor^"
+..XPT
+
+XPT polygon " Create an svg polygon
+<polygon points="`x^,`y^`...^ `x^,`y^`...^" `style...^ />
+XSET style...|post= style="`cursor^"
+..XPT
+
+XPT polyline " Create an svg polyline
+<polyline points="`x^,`y^`...^ `x^,`y^`...^" `style...^ />
+XSET style...|post= style="`cursor^"
+..XPT
+
+XPT line " Create an svg line
+<text x="`xStart^" y="`yStart^" x2="`xEnd^" y2="`yEnd^" `style...^>
+    `cursor^
+</text>
+XSET style...|post= style="`style^"
 ..XPT
 
 " ================================= Wrapper ===================================
