@@ -15,6 +15,8 @@ XPTvar $BRloop  \n
 XPTvar $BRstc \n
 XPTvar $BRfun   \n
 
+XPTvar $TypeAbove 0
+
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 

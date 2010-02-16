@@ -11,6 +11,10 @@ XPTvar $BRloop         ' '
 XPTvar $BRstc          ' '
 XPTvar $BRfun          \n
 
+" Preference variable to get return type above
+" declaration, mainly for convenience with C++
+XPTvar $TypeAbove      1
+
 XPTvar $VOID_LINE      /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
@@ -24,7 +28,7 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 fun! s:f.c_fun_type_indent()
-    if self[ '$BRfun' ] == "\n"
+    if self[ '$TypeAbove' ]
         return repeat( ' ', &softtabstop == 0 ? &tabstop : &softtabstop )
     else
         return ""
@@ -32,7 +36,7 @@ fun! s:f.c_fun_type_indent()
 endfunction
 
 fun! s:f.c_fun_body_indent()
-    if self[ '$BRfun' ] == "\n"
+    if self[ '$TypeAbove' ]
         return repeat( ' ', &softtabstop == 0 ? &tabstop : &softtabstop ). "\n\n"
         return "\n"
     else
