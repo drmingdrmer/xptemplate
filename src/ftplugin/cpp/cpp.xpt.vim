@@ -48,7 +48,86 @@ function! s:f.cleanTempl( ctx, ... )
   return cleaned
 endfunction
 
+fun! s:GetImplementationFile() "{{{
+    let name = expand('%:p')
+    
+    if name =~ '\.h$'
+        let name = substitute( name, 'h$', '[cC]*', '' )
+    elseif name =~ '\.hpp$'
+        let name = substitute( name, 'hpp$', '[cC]*', '' )
+    endif
 
+    return glob( name )
+endfunction "}}}
+
+" Count the number of blanck character before anything interesting
+" has happened
+fun! s:CalculateIndentation( ln ) "{{{
+    let i = 0
+    let spacecount = 0
+    let maxi = len( a:ln )
+
+    while i < maxi
+        let c = (a:ln)[i]
+        if c == ' '
+            let spacecount = spacecount + 1
+        elseif c == '\t'
+            let spacecount = spacecount + &tabstop
+        else
+            break
+        endif
+
+        let i = i + 1
+    endwhile
+
+    return i
+endfunction "}}}
+
+fun! s:GetLastStructClassDeclaration() "{{{
+    let lineNum = line('.')
+    let ourIndentation = s:CalculateIndentation( getline( lineNum ))
+
+    let lineNum = lineNum - 1
+
+    while lineNum > 0
+        let txt = getline( lineNum )
+
+        if txt =~ '\(struct\)\|\(class\)'
+            if s:CalculateIndentation( txt ) < ourIndentation
+                return substitute( txt, '\s*\(\(struct\)\|\(class\)\)\s\+\(\S\+\).*', '\4', '' )
+            endif
+        endif
+
+        let lineNum = lineNum - 1
+    endwhile
+
+    return ""
+endfunction "}}}
+
+fun! s:f.WriteMethodToCpp() "{{{
+
+    let imple = s:GetImplementationFile()
+    if imple == ''
+        return
+    endif
+
+    let englobingClass = s:GetLastStructClassDeclaration()
+    if englobingClass == ''
+        return
+    endif
+
+    let args = self.R( 'args' )
+    let methodBody = [ self.R('retType') . ' ' . englobingClass . '::' . self.R('funcName')
+                                \ . '(' . args . ')'
+                   \ , '{'
+                   \ , '}'
+                   \ , '' ]
+
+    let txt = extend( readfile( imple ), methodBody )
+    call writefile( txt, imple )
+
+    return args
+endfunction "}}}
 " ================================= Snippets ===================================
 XPTemplateDef
 
@@ -86,6 +165,11 @@ private:
 `className^::`className^( const `className^ &cpy )
 {
 }
+..XPT
+
+XPT hmethod " class method + implementation
+XSET args|post=WriteMethodToCpp()
+`retType^   `funcName^( `args^ );
 ..XPT
 
 XPT functor " class ... { operator () ... };
@@ -180,6 +264,13 @@ catch ( `except^ )
 {
     `handler^
 }`...^
+..XPT
+
+XPT namespace_ " namespace ... { SEL }
+namespace `namspaceName^
+{
+    `wrapped^
+}
 ..XPT
 
 XPT try_ " try { SEL } catch...
