@@ -89,7 +89,7 @@ fun! s:GetLastStructClassDeclaration() "{{{
 
     let lineNum = lineNum - 1
 
-    while lineNum > 0
+    while lineNum >= 0
         let txt = getline( lineNum )
 
         if txt =~ '\(struct\)\|\(class\)'
