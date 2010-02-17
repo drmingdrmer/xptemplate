@@ -104,6 +104,84 @@ fun! s:GetLastStructClassDeclaration() "{{{
     return ""
 endfunction "}}}
 
+fun! s:f.WriteCtorToCpp() " {{{
+    let imple = s:GetImplementationFile()
+    if imple == ''
+        return
+    endif
+
+    let englobingClass = self.R('className')
+
+    let args = self.R( 'ctorArgs' )
+    let methodBody = [ englobingClass . '::' . englobingClass . '(' . args . ')'
+                   \ , '{'
+                   \ , '}'
+                   \ , '' ]
+
+    let txt = extend( readfile( imple ), methodBody )
+    call writefile( txt, imple )
+
+    return args
+endfunction " }}}
+
+fun! s:f.WriteDtorToCpp() " {{{
+    let imple = s:GetImplementationFile()
+    if imple == ''
+        return
+    endif
+
+    let englobingClass = self.R('className')
+
+    let methodBody = [ englobingClass . '::~' . englobingClass . '()'
+                   \ , '{'
+                   \ , '}'
+                   \ , '' ]
+
+    let txt = extend( readfile( imple ), methodBody )
+    call writefile( txt, imple )
+
+    return ''
+endfunction " }}}
+
+fun! s:f.WriteStaticToCpp()
+    let imple = s:GetImplementationFile()
+    if imple == ''
+        return
+    endif
+
+    let englobingClass = s:GetLastStructClassDeclaration()
+    if englobingClass == ''
+        return
+    endif
+
+    let methodBody = [ self.R('fieldType') . '    ' . englobingClass . '::' . self.R('name') . ';' ]
+
+    let txt = extend( readfile( imple ), methodBody )
+    call writefile( txt, imple )
+
+    return self.R('name')
+endfunction
+
+fun! s:f.WriteCopyCtorToCpp() " {{{
+    let imple = s:GetImplementationFile()
+    if imple == ''
+        return
+    endif
+
+    let englobingClass = self.R('className')
+    let cpy = self.R('cpy')
+
+    let methodBody = [ englobingClass . '::' . englobingClass . '( const ' . englobingClass . ' &' . cpy . ' )'
+                   \ , '{'
+                   \ , '}'
+                   \ , '' ]
+
+    let txt = extend( readfile( imple ), methodBody )
+    call writefile( txt, imple )
+
+    return cpy
+endfunction " }}}
+
 fun! s:f.WriteMethodToCpp() "{{{
 
     let imple = s:GetImplementationFile()
@@ -143,6 +221,30 @@ XPT map " std::map<.., ..> ..;
 std::map<`typeKey^,`val^>   `name^;
 ..XPT
 
+XPT hstruct " struct with skeletons written into .cpp
+struct `className^
+{
+    `constructor...{{^`^R('className')^( `ctorArgs^WriteCtorToCpp()^^ );`}}^
+    `destructor...{{^~`^R('className')^(`^WriteDtorToCpp()^^);`}}^
+    `copy constructor...{{^`^R('className')^( const `^R('className')^ &`cpy^WriteCopyCtorToCpp()^^ );`}}^
+
+    `cursor^
+};
+..XPT
+
+XPT hclass " class with skeletons written into .cpp
+class `className^
+{
+public:
+    `constructor...{{^`^R('className')^( `ctorArgs^WriteCtorToCpp()^^ );`}}^
+    `destructor...{{^~`^R('className')^(`^WriteDtorToCpp()^^);`}}^
+    `copy constructor...{{^`^R('className')^( const `^R('className')^ &`cpy^WriteCopyCtorToCpp()^^ );`}}^
+
+    `cursor^
+private:
+};
+..XPT
+
 XPT class " class\ { public: ... };
 class `className^
 {
@@ -165,6 +267,11 @@ private:
 `className^::`className^( const `className^ &cpy )
 {
 }
+..XPT
+
+XPT hstatic " Static field + implementation
+XSET name|post=WriteStaticToCpp()
+static `fieldType^     `name^;
 ..XPT
 
 XPT hmethod " class method + implementation
