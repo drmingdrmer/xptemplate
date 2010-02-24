@@ -459,7 +459,7 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
 
     if !has_key( a:tmplObj.setting.defaultValues, 'cursor' )
-                \ || a:tmplObj.setting.defaultValues.cursor !~ 'Finish'
+                " \ || a:tmplObj.setting.defaultValues.cursor !~ 'Finish'
         let a:tmplObj.setting.defaultValues.cursor = "\n" . 'Finish()'
     endif
 
