@@ -144,32 +144,35 @@ fun! s:f.WriteDtorToCpp() " {{{
 endfunction " }}}
 
 fun! s:f.WriteStaticToCpp()
+    let name = self.R('name')
+
     let imple = s:GetImplementationFile()
     if imple == ''
-        return
+        return name
     endif
 
     let englobingClass = s:GetLastStructClassDeclaration()
     if englobingClass == ''
-        return
+        return name
     endif
 
-    let methodBody = [ self.R('fieldType') . '    ' . englobingClass . '::' . self.R('name') . ';' ]
+    let methodBody = [ self.R('fieldType') . '    ' . englobingClass . '::' . name . ';' ]
 
     let txt = extend( readfile( imple ), methodBody )
     call writefile( txt, imple )
 
-    return self.R('name')
+    return name
 endfunction
 
 fun! s:f.WriteCopyCtorToCpp() " {{{
+    let cpy = self.R('cpy')
+
     let imple = s:GetImplementationFile()
     if imple == ''
-        return
+        return cpy
     endif
 
     let englobingClass = self.R('className')
-    let cpy = self.R('cpy')
 
     let methodBody = [ englobingClass . '::' . englobingClass . '( const ' . englobingClass . ' &' . cpy . ' )'
                    \ , '{'
@@ -186,17 +189,18 @@ fun! s:f.WriteMethodToCpp() "{{{
 
     let imple = s:GetImplementationFile()
     if imple == ''
-        return
+        return ''
     endif
 
     let englobingClass = s:GetLastStructClassDeclaration()
     if englobingClass == ''
-        return
+        return ''
     endif
 
     let args = self.R( 'args' )
+    let constness = self.R( 'const?...' )
     let methodBody = [ self.R('retType') . ' ' . englobingClass . '::' . self.R('funcName')
-                                \ . '(' . args . ')'
+                                \ . '(' . args . ')' . constness
                    \ , '{'
                    \ , '}'
                    \ , '' ]
@@ -204,7 +208,7 @@ fun! s:f.WriteMethodToCpp() "{{{
     let txt = extend( readfile( imple ), methodBody )
     call writefile( txt, imple )
 
-    return args
+    return ''
 endfunction "}}}
 " ================================= Snippets ===================================
 XPTemplateDef
@@ -275,8 +279,8 @@ static `fieldType^     `name^;
 ..XPT
 
 XPT hmethod " class method + implementation
-XSET args|post=WriteMethodToCpp()
-`retType^   `funcName^( `args^ );
+XSET cursor=WriteMethodToCpp()
+`retType^   `funcName^( `args^ )`const?...{{^ const`}}^;`cursor^
 ..XPT
 
 XPT functor " class ... { operator () ... };
