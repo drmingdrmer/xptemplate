@@ -48,6 +48,33 @@ function! s:f.cleanTempl( ctx, ... )
   return cleaned
 endfunction
 
+let s:defaultImpl = { 'void'  : ''
+                   \, 'int'   : "\treturn 0;"
+                   \, 'unsigned int'   : "\treturn 0;"
+                   \, 'short' : "\treturn 0;"
+                   \, 'unsigned short' : "\treturn 0;"
+                   \, 'char'  : "\treturn '\0';"
+                   \, 'unsigned char'  : "\treturn '\0';"
+                   \, 'double': "\treturn 0.0;"
+                   \, 'float' : "\treturn 0.0f;"
+                   \, 'bool'  : "\treturn false;"
+                   \}
+
+let s:todo = "\t/* TODO : implement here */"
+
+fun! s:GetDefaultImplementation( type )
+
+    if has_key( s:defaultImpl, a:type )
+        return s:defaultImpl[ a:type ]
+    endif
+
+    if a:type =~ '.*\*$'
+        return "return NULL;"
+    endif
+
+    return ''
+endfunction
+
 fun! s:GetImplementationFile() "{{{
     let name = expand('%:p')
     
@@ -83,7 +110,7 @@ fun! s:CalculateIndentation( ln ) "{{{
     return i
 endfunction "}}}
 
-fun! s:GetLastStructClassDeclaration() "{{{
+fun! s:f.GetLastStructClassDeclaration() "{{{
     let lineNum = line('.')
     let ourIndentation = s:CalculateIndentation( getline( lineNum ))
 
@@ -151,7 +178,7 @@ fun! s:f.WriteStaticToCpp()
         return name
     endif
 
-    let englobingClass = s:GetLastStructClassDeclaration()
+    let englobingClass = self.GetLastStructClassDeclaration()
     if englobingClass == ''
         return name
     endif
@@ -186,22 +213,24 @@ fun! s:f.WriteCopyCtorToCpp() " {{{
 endfunction " }}}
 
 fun! s:f.WriteMethodToCpp() "{{{
-
     let imple = s:GetImplementationFile()
     if imple == ''
         return ''
     endif
 
-    let englobingClass = s:GetLastStructClassDeclaration()
+    let englobingClass = self.GetLastStructClassDeclaration()
     if englobingClass == ''
         return ''
     endif
 
     let args = self.R( 'args' )
     let constness = self.R( 'const?...' )
-    let methodBody = [ self.R('retType') . ' ' . englobingClass . '::' . self.R('funcName')
+    let retType = self.R( 'retType' )
+    let methodBody = [ retType . ' ' . englobingClass . '::' . self.R('funcName')
                                 \ . '(' . args . ')' . constness
                    \ , '{'
+                   \ , s:todo
+                   \ , s:GetDefaultImplementation( retType )
                    \ , '}'
                    \ , '' ]
 
@@ -210,6 +239,37 @@ fun! s:f.WriteMethodToCpp() "{{{
 
     return ''
 endfunction "}}}
+
+fun! s:f.WriteOpOverloadToCpp()
+    let imple = s:GetImplementationFile()
+    if imple == ''
+        return ''
+    endif
+
+    let englobingClass = self.GetLastStructClassDeclaration()
+    if englobingClass == ''
+        return ''
+    endif
+
+    let inputType = self.R( 'inputType' )
+    let argName = self.R('inName' )
+    let constness = self.R( 'const?...' )
+    let retType = self.R( 'retType' )
+    let methodBody = [ retType . ' ' . englobingClass . '::operator ' . self.R('opName')
+                                \ . '( const ' . inputType . ' ' . argName . ' )' . constness
+                   \ , '{'
+                   \ , s:todo
+                   \ , s:GetDefaultImplementation( retType )
+                   \ , '}'
+                   \ , '' ]
+
+    let txt = extend( readfile( imple ), methodBody )
+    call writefile( txt, imple )
+
+    return ''
+    
+endfunction
+
 " ================================= Snippets ===================================
 XPTemplateDef
 
@@ -228,11 +288,10 @@ std::map<`typeKey^,`val^>   `name^;
 XPT hstruct " struct with skeletons written into .cpp
 struct `className^
 {
-    `constructor...{{^`^R('className')^( `ctorArgs^WriteCtorToCpp()^^ );`}}^
-    `destructor...{{^~`^R('className')^(`^WriteDtorToCpp()^^);`}}^
-    `copy constructor...{{^`^R('className')^( const `^R('className')^ &`cpy^WriteCopyCtorToCpp()^^ );`}}^
-
-    `cursor^
+    `constructor...{{^`^R('className')^( `ctorArgs^WriteCtorToCpp()^^ );
+    `}}^`destructor...{{^~`^R('className')^(`^WriteDtorToCpp()^^);
+    `}}^`copy constructor...{{^`^R('className')^( const `^R('className')^ &`cpy^WriteCopyCtorToCpp()^^ );
+    `}}^`cursor^
 };
 ..XPT
 
@@ -240,13 +299,30 @@ XPT hclass " class with skeletons written into .cpp
 class `className^
 {
 public:
-    `constructor...{{^`^R('className')^( `ctorArgs^WriteCtorToCpp()^^ );`}}^
-    `destructor...{{^~`^R('className')^(`^WriteDtorToCpp()^^);`}}^
-    `copy constructor...{{^`^R('className')^( const `^R('className')^ &`cpy^WriteCopyCtorToCpp()^^ );`}}^
-
-    `cursor^
+    `constructor...{{^`^R('className')^( `ctorArgs^WriteCtorToCpp()^^ );
+    `}}^`destructor...{{^~`^R('className')^(`^WriteDtorToCpp()^^);
+    `}}^`copy constructor...{{^`^R('className')^( const `^R('className')^ &`cpy^WriteCopyCtorToCpp()^^ );
+    `}}^`cursor^
 private:
 };
+..XPT
+
+XPT hctor " Class constructor writing skeleton to cpp
+`className^GetLastStructClassDeclaration()^( `ctorArgs^WriteCtorToCpp()^^ );
+..XPT
+
+XPT hdtor " Class destructor writing skeleton to cpp
+XSET cursor=WriteDtorToCpp()
+~`className^GetLastStructClassDeclaration()^();`cursor^
+..XPT
+
+XPT hcopyctor " Class copy constructor writing skeleton to cpp
+`className^GetLastStructClassDeclaration()^( const `className^ `cpy^WriteCopyCtorToCpp()^^ );
+..XPT
+
+XPT hoperator " operator overloading writing skeleton to cpp
+XSET cursor=WriteOpOverloadToCpp()
+`retType^GetLastStructClassDeclaration()&^  operator `opName^( const `inputType^GetLastStructClassDeclaration()&^ `inName^ )`const?...{{^ const`}}^;`cursor^
 ..XPT
 
 XPT class " class\ { public: ... };
