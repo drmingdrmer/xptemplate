@@ -296,7 +296,8 @@ struct `className^
 ..XPT
 
 XPT hclass " class with skeletons written into .cpp
-class `className^
+XSET heritageQualifier=Choose(['public', 'private', 'protected'])
+class `className^`inherit?...{{^ : `heritageQualifier^ `fatherName^`}}^
 {
 public:
     `constructor...{{^`^R('className')^( `ctorArgs^WriteCtorToCpp()^^ );
@@ -326,7 +327,8 @@ XSET cursor=WriteOpOverloadToCpp()
 ..XPT
 
 XPT class " class\ { public: ... };
-class `className^
+XSET heritageQualifier=Choose(['public', 'private', 'protected'])
+class `className^`inherit?...{{^ : `heritageQualifier^ `fatherName^`}}^
 {
 public:
     `className^( `ctorParam^ );
@@ -458,6 +460,14 @@ namespace `namspaceName^
 {
     `wrapped^
 }
+..XPT
+
+XPT staticcast_ " static_cast<TYPE>{ SEL }
+static_cast<`type^>( `wrapped^ )
+..XPT
+
+XPT reinterpretcast_ " reinterpret_cast<TYPE>{ SEL }
+reinterpret_cast<`type^>( `wrapped^ )
 ..XPT
 
 XPT try_ " try { SEL } catch...
