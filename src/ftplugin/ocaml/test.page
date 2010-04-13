@@ -686,23 +686,23 @@ with  exc -> rez
      WRAPPED_TEXT_line2
      with  exc_TYPED -> rez_TYPED
           _TYPED
-            b
+           b
 
-            `try WRAPPED_TEXT
-            WRAPPED_TEXT_line2
-            with  exc -> rez
-                 | exc2 -> rez2
-                  | exc2 -> rez2
-                   | exc2 -> rez2
-               ^
+           `try WRAPPED_TEXT
+           WRAPPED_TEXT_line2
+           with  exc -> rez
+                | exc2 -> rez2
+                | exc2 -> rez2
+                | exc2 -> rez2
+           ^
 
-               a try WRAPPED_TEXT
-               WRAPPED_TEXT_line2
-               with  exc -> rez
-                    | exc2 -> rez2
-                     | exc2 -> rez2
-                      | exc2 -> rez2
-                  
+           a try WRAPPED_TEXT
+           WRAPPED_TEXT_line2
+           with  exc -> rez
+                | exc2 -> rez2
+                | exc2 -> rez2
+                | exc2 -> rez2
+           
 
 
     (*  -------------ty--------------- *)
@@ -710,13 +710,13 @@ with  exc -> rez
 
 
 
-                      t -> t2 -> t2 -> t2
+                t -> t2 -> t2 -> t2
 
-                      t_TYPED_TYPED b
+                t_TYPED_TYPED b
 
-                      `t -> t2 -> t2 -> t2^
+                `t -> t2 -> t2 -> t2^
 
-                      a t -> t2 -> t2 -> t2
+                a t -> t2 -> t2 -> t2
 
 
     (*  -------------typerecord--------------- *)
@@ -769,7 +769,8 @@ with  exc -> rez
 
                                                  (** type_descr_TYPED *)
                                                  type typename_TYPED __TYPED=
-                                                     { recordField_TYPED : fType_TYPED (** desc_TYPED *) _TYPED
+                                                     { recordField_TYPED : fType_TYPED (**
+                                                     desc_TYPED *) _TYPED
                                                      } b
 
                                                      `(** type_descr *)
@@ -803,7 +804,8 @@ with  exc -> rez
                                                            | constructor
                                                            | constructor
 
-                                                           type typename_TYPED typeParams_TYPED =
+                                                           type typename_TYPED
+                                                                                                                      typeParams_TYPED =
                                                                constructor_TYPED _TYPED b
 
                                                                `type typename =
@@ -828,30 +830,32 @@ with  exc -> rez
 
 
 
-                                                           (** typeDescr *)
-                                                           type typename =
-                                                               constructor (** ctordescr *)
-                                                             | constructor (** ctordescr *)
-                                                             | constructor (** ctordescr *)
-                                                             | constructor (** ctordescr *)
+                                                         (** typeDescr *)
+                                                         type typename =
+                                                             constructor (** ctordescr *)
+                                                           | constructor (** ctordescr *)
+                                                           | constructor (** ctordescr *)
+                                                           | constructor (** ctordescr *)
 
-                                                             (** typeDescr_TYPED *)
-                                                             type typename_TYPED typeParams_TYPED =
-                                                                 constructor_TYPED (** ctordescr_TYPED *) _TYPED b
+                                                           (** typeDescr_TYPED *)
+                                                           type typename_TYPED
+                                                                                                                      typeParams_TYPED =
+                                                               constructor_TYPED (**
+                                                               ctordescr_TYPED *) _TYPED b
 
-                                                                 `(** typeDescr *)
+                                                               `(** typeDescr *)
+                                                               type typename =
+                                                                   constructor (** ctordescr *)
+                                                                 | constructor (** ctordescr *)
+                                                                 | constructor (** ctordescr *)
+                                                                 | constructor (** ctordescr *)^
+
+                                                                 a (** typeDescr *)
                                                                  type typename =
                                                                      constructor (** ctordescr *)
                                                                    | constructor (** ctordescr *)
                                                                    | constructor (** ctordescr *)
-                                                                   | constructor (** ctordescr *)^
-
-                                                                   a (** typeDescr *)
-                                                                   type typename =
-                                                                       constructor (** ctordescr *)
-                                                                     | constructor (** ctordescr *)
-                                                                     | constructor (** ctordescr *)
-                                                                     | constructor (** ctordescr *)
+                                                                   | constructor (** ctordescr *)
 
 
     (*  -------------val--------------- *)
@@ -859,13 +863,13 @@ with  exc -> rez
 
 
 
-                                                                     value thing : 
+                                                                   value thing : 
 
-                                                                         value thing_TYPED :  b
+                                                                       value thing_TYPED :  b
 
-                                                                         `value thing : ^
+                                                                       `value thing : ^
 
-                                                                         a value thing : 
+                                                                       a value thing : 
 
 
     (*  -------------while--------------- *)
@@ -875,22 +879,22 @@ with  exc -> rez
 
 
 
-                                                                             while cond do
-                                                                                 
-                                                                             done
+                                                                           while cond do
+                                                                               
+                                                                           done
 
-                                                                             while cond_TYPED do
-                                                                                 
-                                                                             done b
+                                                                           while cond_TYPED do
+                                                                               
+                                                                           done b
 
-                                                                             `while cond do
-                                                                                 
-                                                                             done^
+                                                                           `while cond do
+                                                                               
+                                                                           done^
 
-                                                                             a
-                                                                             while cond do
-                                                                                 
-                                                                             done
+                                                                           a
+                                                                           while cond do
+                                                                               
+                                                                           done
 
 
     (*  -------------{_--------------- *)
@@ -909,4 +913,3 @@ WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}
-

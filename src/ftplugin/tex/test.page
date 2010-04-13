@@ -691,8 +691,8 @@ a \begin{something}
     \begin{tabular}{|r|c|l|}
     \hline
      \\
-     \hline
-      \\
+    \hline
+     \\
     \end{tabular}
     
 
@@ -705,16 +705,16 @@ a \begin{something}
      `\begin{tabular}{|r|c|l|}
      \hline
       \\
-      \hline
-       \\
+     \hline
+      \\
      \end{tabular}
      ^
 
      a \begin{tabular}{|r|c|l|}
      \hline
       \\
-      \hline
-       \\
+     \hline
+      \\
      \end{tabular}
      
 
@@ -767,4 +767,3 @@ WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}
-

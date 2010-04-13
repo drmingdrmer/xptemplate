@@ -588,6 +588,34 @@ WRAPPED_TEXT_line2`
     a test.page
 
 
+    --   -------------foldl---------------             
+    --  foldl' (\ `acc~ `elem~ -> `expr~) `init~ `lst~ 
+
+
+
+    foldl' (\ acc elem -> expr) init lst
+
+    foldl' (\ acc_TYPED elem_TYPED -> expr_TYPED) init_TYPED lst b
+
+    `foldl' (\ acc elem -> expr) init lst^
+
+    a foldl' (\ acc elem -> expr) init lst
+
+
+    --   -------------foldr---------------         
+    --  foldr (\ `e~ `acc~ -> `expr~) `init~ `lst~ 
+
+
+
+    foldr (\ e acc -> expr) init lst
+
+    foldr (\ e_TYPED acc_TYPED -> expr_TYPED) init_TYPED lst b
+
+    `foldr (\ e acc -> expr) init lst^
+
+    a foldr (\ e acc -> expr) init lst
+
+
     --   -------------fun---------------       
     --  `funName~ `pattern~ = `def~`           
     --  `...{{~                                
@@ -790,21 +818,35 @@ WRAPPED_TEXT_line2`
     a {-# LANGUAGE langName #-}
 
 
+    --   -------------map--------------- 
+    --  map (`elem~ -> `expr~) `list~    
+
+
+
+    map (elem -> expr) list
+
+    map (elem_TYPED -> expr_TYPED) list b
+
+    `map (elem -> expr) list^
+
+    a map (elem -> expr) list
+
+
     --   -------------module---------------          
     --  module `moduleName~ `exports...{{~( `cursor~ 
     --      ) `}}~where                              
 
 
 
-    module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Branches.FilterValue.Src.Ftplugin.Haskell..test.Test ( 
+    module .Home.Drdrxp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
         ) where
 
     module moduleName_TYPED exports_TYPEDwhere b
 
-    `module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Branches.FilterValue.Src.Ftplugin.Haskell..test.Test ( 
+    `module .Home.Drdrxp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
         ) where^
 
-    a module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Branches.FilterValue.Src.Ftplugin.Haskell..test.Test ( 
+    a module .Home.Drdrxp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
         ) where
 
 
@@ -943,4 +985,3 @@ WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}
-
