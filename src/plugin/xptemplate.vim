@@ -25,6 +25,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO add: visual mode trigger.
 " TODO fix: after undo, highlight is not cleared.
 " TODO add: global shortcuts
 " TODO add: context detect

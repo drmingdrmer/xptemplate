@@ -24,11 +24,13 @@ let XPT#nonEscaped =
 
 fun! XPT#warn( msg ) "{{{
     echohl WarningMsg
-    echom msg
+    echom a:msg
     echohl
 endfunction "}}}
 fun! XPT#error( msg ) "{{{
-    
+    echohl ErrorMsg
+    echom a:msg
+    echohl
 endfunction "}}}
 
 fun! XPT#softTabStop() "{{{
