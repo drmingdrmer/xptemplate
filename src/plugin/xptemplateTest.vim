@@ -62,6 +62,19 @@ fun s:XPTtype(...) "{{{
         call s:Feedkeys("\<tab>", 'mt')
     endfor
 endfunction "}}}
+
+fun! s:XPTchoosePum( ... ) "{{{
+
+    for v in a:000
+        call s:Feedkeys(v, 'nt')
+        if g:xptemplate_pum_tab_nav
+            call s:Feedkeys("\<CR>", 'mt')
+        else
+            call s:Feedkeys("\<TAB>", 'mt')
+        endif
+    endfor
+    
+endfunction "}}}
 fun s:XPTcancel(...) "{{{
     call s:Feedkeys("\<cr>", 'mt')
 endfunction "}}}
@@ -257,7 +270,23 @@ fun s:TestFinish() "{{{
         au!
     augroup END
 
-    let fn = split(globpath(&rtp, 'ftplugin/'.&ft.'/test.page'), "\n")
+
+    exe 'w %:h/../test.page'
+    exe 'qa'
+
+    try
+        if has('win32')
+            exe 'silent! !rd /s/q "'.s:tempPath.'"'
+        else
+            exe 'silent! !rm -rf "'.s:tempPath.'"'
+        end
+    catch /.*/
+    endtry
+
+    return
+
+
+    fn = split(globpath(&rtp, 'ftplugin/'.&ft.'/test.page'), "\n")
 
     if len(fn) > 0
         exe "vertical diffsplit ".fn[0]
@@ -430,7 +459,7 @@ fun! s:FillinTemplate() "{{{
 
         if pumvisible()
             call s:log.Log( "has pum, select the first" )
-            call s:XPTtype( "\<C-n>" )
+            call s:XPTchoosePum( "\<C-n>" )
 
 
         elseif len( b:itemSteps ) >= 4 
