@@ -8,8 +8,8 @@ XPTinclude
       \ _common/common
 
 
-let s:pairs = { 'left' : "'" . '"([{<|*`+',
-      \         'right': "'" . '")]}>|*`+', }
+let s:pairs = { 'left' : "'" . '"([{<|*`+ ',
+      \         'right': "'" . '")]}>|*`+ ', }
 
 
 " TODO not perfect: hide right part if found right is already in input area.
@@ -86,7 +86,7 @@ fun! s:f.bkt_init( followingChar )
 
     let r.char = self.GetVar( '$_xSnipName' )
     let r.followingChar = a:followingChar
-    let r.leftReg = '\V\^' . r.char . r.followingChar
+    let r.leftReg = '\V\^' . r.char . r.followingChar . '\?'
 
 
     let i = stridx( s:pairs.left, r.char )

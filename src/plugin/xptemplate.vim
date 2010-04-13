@@ -25,6 +25,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO fix: if XSET cursor=123 present, cursor stops at incorrect position. xptest:bb
 " TODO add: visual mode trigger.
 " TODO fix: after undo, highlight is not cleared.
 " TODO add: global shortcuts
@@ -118,11 +119,9 @@
 "   fix: nested cursor PH can not occupy input focus
 "
 "
-"   add: use XPTemplateTrigger() to trigger a snippet in insert-mode.
-"   add: pop up menu supports omni-complete.
+"   add: use XPTtgr() to trigger a snippet in insert-mode.
 "   add: option of pum's accepting empty input.
 "   add: brackets complete support.
-"   add: option: g:xptemplate_silent.
 "   add: supertab support
 "
 "

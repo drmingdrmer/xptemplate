@@ -268,6 +268,7 @@
 		|g:xptemplate_goback|
 		|g:xptemplate_to_right|
 		|g:xptemplate_fallback|
+		|g:xptemplate_brace_complete|
 
 	Options:
 		|g:xptemplate_minimal_prefix|
@@ -350,6 +351,14 @@
 	matched, you can have this line added into your |.vimrc|: >
 		let g:xptemplate_fallback = '<C-n>'
 <
+
+						 *g:xptemplate_brace_complete*
+								   {default:1}
+	If set to 1, bracket characters are automatically expanded to bracket
+	pairs. For example typing "(" results in: >
+		(  )
+	          \______| cursor stops in mid of pairs of bracket
+<	"(", "[", "{", "'" and '"' are affected by this setting.
 
 
 		    *n_<C-g>* *i_<C-g>* *xpt-key-goback* *g:xptemplate_goback*
