@@ -262,7 +262,7 @@ XPT td    alias=_tag
 XPT th    alias=_tag
 
 
-XPT fulltable " create a full table
+XPT fulltable hidden " create a full table
 `createTable()^
 
 
