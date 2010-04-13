@@ -1,59 +1,20 @@
-XPTemplate priority=all-
+XPTemplate priority=all-2
 
 
 XPTinclude
       \ _comment/common
+      \ _comment/singleSign
+      \ _comment/doubleSign
 
 
-" ========================= Function and Variables =============================
-
-
-" ================================= Snippets ===================================
 XPTemplateDef
 
 
-XPT comment hint=$CL\ $CR
-`$CL^ `what^ `$CR^
+XPT comment      alias=_s_comment
+XPT commentBlock alias=_s_commentBlock
+XPT commentDoc   alias=_d_commentDoc
+XPT commentLine  alias=_s_commentLine
+XPT commentLine2 alias=_d_commentLine
 
 
-XPT commentBlock hint=$CL\ ...
-`$CL^
- `$CM^ `cursor^
- `$CR^
 
-
-XPT commentDoc hint=$CL$CM\ ...
-`$CL^`$CM^
- `$CM^ `cursor^
- `$CR^
-
-XPT commentLine hint=$CS\ ...
-`$CS^ `cursor^
-
-
-XPT commentLine2 hint=$CL\ ...\ $CR
-`$CL^ `what^ `$CR^
-
-
-" ================================= Wrapper ===================================
-
-XPT comment_ hint=$CL\ $CR
-`$CL^ `wrapped^ `$CR^
-
-
-XPT commentBlock_ hint=$CL\ ...
-`$CL^
- `$CM^ `wrapped^
- `$CR^
-
-
-XPT commentDoc_ hint=$CL$CM\ ...
-`$CL^`$CM^
- `$CM^ `wrapped^
- `$CR^
-
-XPT commentLine_ hint=$CS\ ...
-`$CS^ `wrapped^
-
-XPT commentLine2_ hint=$CL\ ...\ $CR
-`$CL^ `wrapped^ `$CR^

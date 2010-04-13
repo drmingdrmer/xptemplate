@@ -25,7 +25,8 @@ XPTinclude
 
 fun! s:f.c_fun_type_indent()
     if self[ '$BRfun' ] == "\n"
-        return repeat( ' ', &softtabstop == 0 ? &tabstop : &softtabstop )
+        " let sts = &softtabstop == 0 ? &tabstop : &softtabstop
+        return repeat( ' ', &shiftwidth )
     else
         return ""
     endif
@@ -33,8 +34,8 @@ endfunction
 
 fun! s:f.c_fun_body_indent()
     if self[ '$BRfun' ] == "\n"
-        return repeat( ' ', &softtabstop == 0 ? &tabstop : &softtabstop ). "\n\n"
-        return "\n"
+        " let sts = &softtabstop == 0 ? &tabstop : &softtabstop
+        return self.ResetIndent( -&shiftwidth, "\n" )
     else
         return " "
     endif
@@ -52,21 +53,10 @@ XPT main hint=main\ (argc,\ argv)
 }
 ..XPT
 
-XPT fun 	hint=func..\ (\ ..\ )\ {...
+XPT fun wrap=curosr	hint=func..\ (\ ..\ )\ {...
 XSET param|def=$CL no parameters $CR
 XSET param|post=Echo( V() == $CL . " no parameters " . $CR ? '' : V() )
 `c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`param^)`$BRfun^{
     `cursor^
 }
 
-
-
-" ================================= Wrapper ===================================
-
-XPT fun_ 	hint=func..\ (\ SEL\ )\ {...
-XSET param|def=$CL no parameters $CR
-XSET param|post=Echo( V() == $CL . " no parameters " . $CR ? '' : V() )
-`c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`param^)`$BRfun^{
-    `wrapped^
-    `cursor^
-}

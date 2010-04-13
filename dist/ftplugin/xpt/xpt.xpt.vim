@@ -7,17 +7,16 @@ XPTinclude
       \ vim/vim
 
 
-" ========================= Function and Variables =============================
-
 fun! s:f.xpt_vim_hint_escape()
-  " let v = substitute( self.V(), '\(\\*\)\([( ]\)', '\1\1\\\2', 'g' )
   let v = substitute( self.V(), '\(\\*\)\([(]\)', '\1\1\\\2', 'g' )
   return v
 endfunction
 
+
 let s:xpt_snip = split( globpath( &rtp, "**/*.xpt.vim" ), "\n" )
 call map( s:xpt_snip, 'substitute(v:val, ''\V\'', ''/'', ''g'')' )
 call map( s:xpt_snip, 'matchstr(v:val, ''\Vftplugin/\zs\.\*\ze.xpt.vim'')' )
+
 
 let s:xpts = {}
 for v in s:xpt_snip
@@ -43,45 +42,45 @@ fun! s:f.xpt_vim_name(path)
   endif
 endfunction
 
-" ================================= Snippets ===================================
+
 XPTemplateDef
 
-" TODO detect path to generate popup list
-XPT incf hint=XPTinclude\ ...
+
+XPT ftpfile " xpt ftplugin snippet file
 XSET path=xpt_vim_path()
 XSET name=xpt_vim_name( R( 'path' ) )
+`path^/`name^
+
+
+XPT incfile " XPTinclude ...
 XPTinclude
-    \ _common/common`
-    `...{{^`
-    \ `path^/`name^`
-    `...^`}}^
+      \ _common/common
+      \ `:ftpfile:^
 
 
-XPT container hint=let\ [s:f,\ s:v]\ =...
+XPT container " let s:f = ..
 let s:f = g:XPTfuncs()
 
 
-XPT tmpl hint=XPT\ name\ ...
+XPT tmpl " XPT name ...
 XSET tips|post=xpt_vim_hint_escape()
-\XPT `name^ " `tips^
+\XPT `name^` " `tips^
 `cursor^
 
 
 XPT snip alias=tmpl
 
 
-XPT var hint=XPTvar\ $***\ ***
-XSET name|post=UpperCase(V())
-XSET value|post=escape(V(), ' ')
+XPT var " XPTvar $*** ***
 XPTvar $`name^ `cursor^
 
 
-XPT varLang hint=variables\ to\ define\ language\ properties
+XPT varLang " variables to define language properties
 " variable prefix
 XPTvar $VAR_PRE            
 
 
-XPT varFormat hint=variables\ to\ define\ format
+XPT varFormat " variables to define format
 " if () ** {
 " else ** {
 XPTvar $BRif     ' '
@@ -102,7 +101,7 @@ XPTvar $BRstc    ' '
 XPTvar $BRfun    ' '
 
 
-XPT varSpaces hint=variable\ to\ define\ spacing
+XPT varSpaces " variable to define spacing
 " int fun ** (
 " class name ** (
 XPTvar $SPfun      ''
@@ -124,23 +123,23 @@ XPTvar $SPcmd      ' '
 XPTvar $SPop       ' '
 
 
-XPT varConst hint=variables\ to\ define\ constants
+XPT varConst " variables to define constants
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
 
 
-XPT varHelper hint=variables\ to\ define\ helper\ place\ holders
+XPT varHelper " variables to define helper place holders
 XPTvar $VOID_LINE      
 XPTvar $CURSOR_PH      
 
 
-XPT varComment1 hint=variables\ to\ define\ single\ sign\ comments
+XPT varComment1 " variables to define single sign comments
 XPTvar $CS    `cursor^
 
 
-XPT varComment2 hint=variables\ to\ define\ double\ sign\ comments
+XPT varComment2 " variables to define double sign comments
 XPTvar $CL    `left sign^
 XPTvar $CM    `cursor^
 XPTvar $CR    `right sign^
@@ -154,30 +153,50 @@ XPT sparg " `\$SParg^
 XPT spcmd " `\$SPcmd^
 \`$SPcmd\^
 
-XPT spop hint=`\$SPop^
+XPT spop " `\$SPop^
 \`$SPop\^
 
 
-XPT buildifeq hint={{}}
+XPT buildifeq " {{}}
 \``name^{{\^`cursor^\`}}\^
 
-XPT inc hint=`::^
+XPT inc " `::^
 \`:`name^:\^
 
+XPT include " `Include:^
+\`Include:`name^\^
 
-XPT fun hint=fun!\ s:f.**
-XSET parameters|def=
-XSET parameters|post=Echo( V() =~ '^\s*$' ? '' : V() )
-fun! s:f.`name^(`$SParg`parameters`$SParg^)
+
+XPT fun wrap=param " fun! s:f.**
+fun! `s:f.`name^(`$SParg`param?`$SParg^)
     `cursor^
 endfunction
 
 
+XPT skeleton " very simple snippet file skeleton
+" Save this file as ~/.vim/ftplugin/c/hello.xpt.vim(or
+" ~/vimfiles/ftplugin/c/hello.xpt.vim).
+" Then you can use it in C language file:
+"     vim xpt.c
+" And type:
+"     helloxpt<C-\>
+"
+XPTemplate priority=personal+
+XPTemplateDef
 
-XPT xpt hint=start\ template\ to\ write\ template
-XPTemplate priority=`prio^` `mark...^
+
+
+\XPT helloxpt " tips about what this snippet do
+Say hello to \`xpt^.
+\`xpt^ says hello.
+
+
+
+
+
+XPT xpt " start template to write template
+XPTemplate priority=`prio^
 XSET prio=ChooseStr( 'all', 'spec', 'like', 'lang', 'sub', 'personal' )
-XSET mark...|post= mark=`char^
 
 let s:f = g:XPTfuncs()
 
@@ -185,18 +204,12 @@ let s:f = g:XPTfuncs()
 
 `Include:varFormat^
 
-`XPTinclude...{{^`Include:incf^`}}^
+`XPTinclude...{{^`Include:incfile^`}}^
 
 
-" ========================= Function and Variables =============================
-
-" ================================= Snippets ===================================
 XPTemplateDef
 
-
 `cursor^
-
-" ================================= Wrapper ===================================
 
 ..XPT
 

@@ -27,7 +27,7 @@ XPTinclude
 XPTemplateDef
 
 
-XPT lex hint=Basic\ lex\ file
+XPT lex " Basic lex file
 %{
 /* includes */
 %}
@@ -38,14 +38,9 @@ XPT lex hint=Basic\ lex\ file
 /* C code */
 
 
-XPT ruleList hint=..\ \ {..}\ ...
+XPT ruleList " ..  {..} ...
 `reg^           { `return^ }`...^
 `reg^           { `return^ }`...^
 
 
-
-" ================================= Wrapper ===================================
-
-XPT rule_ hint=SEL\ \ {\ ...\ }
-`wrapped^       { `cursor^ }
 

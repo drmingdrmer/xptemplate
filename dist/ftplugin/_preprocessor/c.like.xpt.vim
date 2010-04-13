@@ -2,32 +2,19 @@ XPTemplate priority=like
 
 let s:f = g:XPTfuncs()
 
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $UNDEFINED     NULL
-XPTvar $VOID_LINE /* void */;
-XPTvar $BRif \n
-
 
 XPTinclude
       \ _common/common
 
 
-" ========================= Function and Variables =============================
-
-
-" ================================= Snippets ===================================
-call XPTemplateMark('`', '^')
-
 XPTemplateDef
 
 
-XPT #inc		hint=include\ <>
+XPT #inc		" include <>
 #include <`^.h>
 
 
-XPT #include_user	hint=include\ ""
+XPT #include_user	" include ""
 XSET me=fileRoot()
 #include "`me^.h"
 
@@ -35,56 +22,31 @@ XSET me=fileRoot()
 XPT #ind alias=#include_user
 
 
-XPT #if hint=#if\ ...
+XPT #if wrap=cursor " #if ..
 #if `0^
 `cursor^
 #endif
 
 
-XPT #ifdef hint=#if\ ...
-#ifdef `identifier^
+XPT #ifdef wrap=cursor " #ifdef ..
+XSET symbol|post=UpperCase(V())
+#ifdef `symbol^
 `cursor^
-#endif
+#endif `$CL^ `symbol^ `$CR^
 
 
-XPT #ifndef	hint=#ifndef\ ..
-XSET symbol=S(fileRoot(),'\.','_','g')
+XPT #ifndef wrap=cursor	" #ifndef ..
+XSET symbol|post=UpperCase(V())
+#ifndef `symbol^
+`cursor^
+#endif `$CL^ `symbol^ `$CR^
+
+
+XPT once wrap=cursor	" #ifndef .. #define ..
+XSET symbol=headerSymbol()
 XSET symbol|post=UpperCase(V())
 #ifndef `symbol^
 #     define `symbol^
 
 `cursor^
 #endif `$CL^ `symbol^ `$CR^
-..XPT
-
-
-XPT once	hint=#ifndef\ ..\ #define\ ..
-XSET symbol=headerSymbol()
-#ifndef `symbol^
-#     define `symbol^
-
-`cursor^
-#endif `$CL^ `symbol^ `$CR^
-
-
-
-
-" ================================= Wrapper ===================================
-
-XPT #if_ hint=#if\ ..\ SEL\ #endif
-#if `0^
-`wrapped^
-`cursor^
-#endif
-
-XPT #ifdef_ hint=#if\ ..\ SEL\ #endif
-#ifdef `identifier^
-`wrapped^
-`cursor^
-#endif
-
-XPT #ifndef_ hint=#if\ ..\ SEL\ #endif
-#ifndef `identifier^
-`wrapped^
-`cursor^
-#endif

@@ -21,7 +21,7 @@ XPTinclude
 XPTemplateDef
 
 
-XPT digraph hint=digraph\ ..\ {\ ..\ }
+XPT digraph " digraph .. { .. }
 digraph `graphName^
 {
     `cursor^
@@ -29,74 +29,74 @@ digraph `graphName^
 ..XPT
 
 
-XPT graph hint=graph\ ..\ {\ ..\ }
+XPT graph " graph .. { .. }
 graph `graphName^
 {
     `cursor^
 }
 ..XPT
 
-XPT subgraph hint=subgraph\ ..\ {\ ..\ }
+XPT subgraph " subgraph .. { .. }
 subgraph `clusterName^
 {
     `cursor^
 }
 ..XPT
 
-XPT node hint=..\ [...]
+XPT node " .. [...]
 XSET shape=Choose(['box',  'polygon',  'ellipse',  'circle',  'point',  'egg',  'triangle',  'plaintext',  'diamond',  'trapezium',  'parallelogram',  'house',  'pentagon',  'hexagon',  'septagon',  'octagon',  'doublecircle',  'doubleoctagon',  'tripleoctagon',  'invtriangle',  'invtrapezium',  'invhouse',  'Mdiamond',  'Msquare',  'Mcircle',  'rect',  'rectangle',  'none',  'note',  'tab',  'folder',  'box3d',  'component'])
 `node^` `details...{{^ [shape=`shape^, label="`^"]`}}^
 ..XPT
 
-XPT lbl hint=[label=".."]
+XPT lbl " [label=".."]
 [label="`cursor^"]
 
 
-XPT shapeNode hint=
+XPT shapeNode " 
 `node^ [shape=`shape^` `label...{{^, label="`lbl^"`}}^]
 
 ..XPT
 
-XPT circle alias=shapeNode hint=..\[shape="circle"..]
+XPT circle alias=shapeNode " ..\[shape="circle"..]
 XSET shape|pre=circle
 XSET shape=Next()
 
 
-XPT diamond alias=shapeNode hint=..\[shape="diamond"..]
+XPT diamond alias=shapeNode " ..\[shape="diamond"..]
 XSET shape|pre=diamond
 XSET shape=Next()
 
 
-XPT box alias=shapeNode hint=..\[shape="box"..]
+XPT box alias=shapeNode " ..\[shape="box"..]
 XSET shape|pre=box
 XSET shape=Next()
 
 
-XPT ellipse alias=shapeNode hint=..\[shape="ellipse"..]
+XPT ellipse alias=shapeNode " ..\[shape="ellipse"..]
 XSET shape|pre=ellipse
 XSET shape=Next()
 
 
-XPT record hint=..\[shape="record",\ label=".."]
+XPT record " ..\[shape="record", label=".."]
 `node^ [shape=record, label="`<`id`>^ `lbl^`...^| `<`id`>^ `lbl^`...^"]
 
 ..XPT
 
 
-XPT triangle hint=..\[shape="triangle",\ label=".."]
+XPT triangle " ..\[shape="triangle", label=".."]
 `node^ [shape=triangle, label="`<`id`>^ `lbl^`...^| `<`id`>^ `lbl^`...^"]
 
 ..XPT
 
 
-XPT row hint={..|...\ }
+XPT row " {..|... }
 {`<`id`>^ `lbl^`...^| `<`id`>^ `lbl^`...^}
 
 ..XPT
 
 
 
-XPT col hint={..|...\ }
+XPT col " {..|... }
 {`<`id`>^ `lbl^`...^| `<`id`>^ `lbl^`...^}
 
 ..XPT
@@ -108,7 +108,7 @@ XPT col hint={..|...\ }
 
 
 
-XPT subgraph_ hint=subgraph\ ..\ {\ SEL\ }
+XPT subgraph_ wraponly=wrapped " subgraph .. { SEL }
 subgraph `clusterName^
 {
     `wrapped^

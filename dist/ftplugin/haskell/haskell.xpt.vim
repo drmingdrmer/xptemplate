@@ -21,18 +21,18 @@ XPTinclude
 XPTemplateDef
 
 
-XPT head hint=-----------------------------
+XPT head " -----------------------------
 --------------------------------------------------
 ----            `headName~
 --------------------------------------------------
 
-XPT class hint=class\ ..\ where..
+XPT class " class .. where..
 class `context...{{~(`ctxt~) => `}}~`className~ `types~a~ where
     `ar~ :: `type~ `...~
     `methodName~ :: `methodType~`...~
 `cursor~
 
-XPT classcom hint=--\ |\ class..
+XPT classcom " -- | class..
 -- | `classDescr~
 class `context...{{~(`ctxt~) => `}}~`className~ `types~a~ where
     -- | `methodDescr~
@@ -41,7 +41,7 @@ class `context...{{~(`ctxt~) => `}}~`className~ `types~a~ where
     `methodName~ :: `methodType~`...~
 `cursor~
 
-XPT datasum hint=data\ ..\ =\ ..|..|..
+XPT datasum " data .. = ..|..|..
 data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
     `Constructor~ `ctorParams~VOID()~`
   `...~
@@ -51,7 +51,7 @@ data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
 `cursor~
 
 
-XPT datasumcom hint=--\ |\ data\ ..\ =\ ..|..|..
+XPT datasumcom " -- | data .. = ..|..|..
 -- | `typeDescr~VOID()~
 data `context...{{~(`ctxt~) => `}}~`typename~` `typeParams~ ~=
     -- | `ConstructorDescr~
@@ -63,7 +63,7 @@ data `context...{{~(`ctxt~) => `}}~`typename~` `typeParams~ ~=
     `deriving...{{~deriving (`Eq,Show~)`}}~
 `cursor~
 
-XPT parser hint=..\ =\ ..\ <|>\ ..\ <|>\ ..\ <?>
+XPT parser " .. = .. <|> .. <|> .. <?>
 `funName~ = `rule~`
         `another_rule...{{~
         <|> `rule~`
@@ -73,7 +73,7 @@ XPT parser hint=..\ =\ ..\ <|>\ ..\ <|>\ ..\ <?>
         `err...{{~<?> "`descr~"`}}~
 `cursor~
 
-XPT datarecord hint=data\ ..\ ={}
+XPT datarecord " data .. ={}
 data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
     `Constructor~ {
         `field~ :: `type~`
@@ -84,7 +84,7 @@ data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
     `deriving...{{~deriving (`Eq, Show~)`}}~
 `cursor~
 
-XPT datarecordcom hint=--\ |\ data\ ..\ ={}
+XPT datarecordcom " -- | data .. ={}
 -- | `typeDescr~
 data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
     `Constructor~ {
@@ -96,24 +96,24 @@ data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~=
     `deriving...{{~deriving (`Eq,Show~)`}}~
 `cursor~
 
-XPT instance hint=instance\ ..\ ..\ where
+XPT instance " instance .. .. where
 instance `className~ `instanceTypes~ where
     `methodName~ `~ = `decl~ `...~
     `method~ `~ = `declaration~`...~
 `cursor~
 
-XPT if hint=if\ ..\ then\ ..\ else
+XPT if " if .. then .. else
 if `expr~
     then `thenCode~
     else `cursor~
 
-XPT fun hint=fun\ pat\ =\ ..
+XPT fun " fun pat = ..
 `funName~ `pattern~ = `def~`
 `...{{~
 `name~R("funName")~ `pattern~ = `def~`
 `...~`}}~
 
-XPT funcom hint=--\ |\ fun\ pat\ =\ ..
+XPT funcom " -- | fun pat = ..
 -- | `function_description~
 `funName~ :: `type~
 `name~R("funName")~ `pattern~ = `def~`
@@ -121,36 +121,45 @@ XPT funcom hint=--\ |\ fun\ pat\ =\ ..
 `name~R("funName")~ `pattern~ = `def~`
 `...~`}}~
 
-XPT funtype hint=..\ ::\ ..\ =>\ ..\ ->\ .. ->
+XPT funtype " .. :: .. => .. -> .. ->
 `funName~ :: `context...{{~(`ctxt~)
         =>`}}~ `type~ -- ^ `is~`
         `...{{~
         -> `type~ -- ^ `is~`
         `...~`}}~
 
-XPT options hint={-#\ OPTIONS_GHC\ ..\ #-}
+XPT options " {-# OPTIONS_GHC .. #-}
 {-# OPTIONS_GHC `options~ #-}
 
-XPT lang hint={-#\ LANGUAGE\ ..\ #-}
+XPT lang " {-# LANGUAGE .. #-}
 {-# LANGUAGE `langName~ #-}
 
-XPT inline hint={-#\ INLINE\ ..\ #-}
+XPT inline " {-# INLINE .. #-}
 {-# INLINE `phase...{{~[`2~] `}}~`funName~ #-}
 
-XPT noninline hint={-#\ NOINLINE\ ..\ #-}
+XPT noninline " {-# NOINLINE .. #-}
 {-# NOINLINE `funName~ #-}
 
-XPT type hint=..\ ->\ ..\ ->....
+XPT type " .. -> .. ->....
 `context...{{~(`ctxt~) => `}}~`t1~ -> `t2~`...~ -> `t3~`...~
 
-XPT deriving hint=deriving\ (...)
+XPT deriving " deriving (...)
 deriving (`classname~`...~,`classname~`...~)
 
-XPT derivingstand hint=deriving\ instance\ ...
+XPT derivingstand " deriving instance ...
 deriving instance `context...{{~`ctxt~ => `}}~`class~ `type~
 
-XPT module hint=module\ ..\ ()\ where ...
+XPT module " module .. () where ...
 XSET moduleName=S(S(E('%:r'),'^.','\u&', ''), '[\\/]\(.\)', '.\u\1', 'g')
 module `moduleName~ `exports...{{~( `cursor~
     ) `}}~where
+
+XPT foldr " foldr (.... -> ...)
+foldr (\ `e~ `acc~ -> `expr~) `init~ `lst~
+
+XPT foldl " foldl' (.... -> ...)
+foldl' (\ `acc~ `elem~ -> `expr~) `init~ `lst~
+
+XPT map " map (... -> ...)
+map (`elem~ -> `expr~) `list~
 

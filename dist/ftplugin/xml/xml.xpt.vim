@@ -72,7 +72,7 @@ XPTemplateDef
 
 " NOTE: use Embed in default value phase to prevent post filter ruin place
 " holder
-XPT < hint=<Tag>..</Tag>
+XPT < " <Tag>..</Tag>
 XSET tag|ontype=xml_tag_ontype()
 XSET att*|pre=Echo('')
 XSET att*|def=Embed( '` `^' )
@@ -81,7 +81,7 @@ XSET att*|def=Embed( '` `^' )
 
 
 " " auto attributes completion
-" XPT < hint=<Tag>..</Tag>
+" XPT < " <Tag>..</Tag>
 " XSET tag|ontype=xml_tag_ontype()
 " XSET att*|pre=Echo('')
 " XSET att*|def=xml_create_attr_ph()
@@ -92,26 +92,13 @@ XSET att*|def=Embed( '` `^' )
 " ..XPT
 
 
-XPT ver hint=<?xml\ version=...
+XPT ver " <?xml version=...
 <?xml version="`ver^1.0^" encoding="`enc^utf-8^" ?>
 
 
-XPT style hint=<?xml-stylesheet...
+XPT style " <?xml-stylesheet...
 <?xml-stylesheet type="`style^text/css^" href="`from^">
 
 
-XPT cdata hint=<![CDATA[...
+XPT cdata wrap=cursor " <![CDATA[...
 <![CDATA[`cursor^]]>
-
-
-
-" ================================= Wrapper ===================================
-
-XPT <_ hint=<Tag>\ SEL\ </Tag>
-<`tag^` `...{{^ `name^="`val^"` `...^`}}^>`wrapped^</`tag^>
-
-
-XPT cdata_ hint=<![CDATA[\ SEL\ ]]>
-<![CDATA[`wrapped^]]>
-
-

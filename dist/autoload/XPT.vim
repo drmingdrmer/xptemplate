@@ -8,9 +8,46 @@ let g:__XPT_VIM__ = 1
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
+let XPT#ver = 2
+
 let XPT#let_sid = 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
 
+let XPT#nullDict = {}
+let XPT#nullList = []
+let XPT#nonEscaped =
+      \   '\%('
+      \ .     '\%(\[^\\]\|\^\)'
+      \ .     '\%(\\\\\)\*'
+      \ . '\)'
+      \ . '\@<='
 
+
+fun! XPT#warn( msg ) "{{{
+    echohl WarningMsg
+    echom a:msg
+    echohl
+endfunction "}}}
+fun! XPT#error( msg ) "{{{
+    echohl ErrorMsg
+    echom a:msg
+    echohl
+endfunction "}}}
+
+fun! XPT#softTabStop() "{{{
+    let ts  = &l:tabstop
+    return &l:softtabstop == 0 ? ts : &l:softtabstop
+endfunction "}}}
+
+fun! XPT#getIndentNr( ln, col ) "{{{
+
+    let line = matchstr( getline(a:ln), '\V\^\s\*' )
+    let line = ( a:col == 1 ) ? '' : line[ 0 : a:col - 1 - 1 ]
+
+    let tabspaces = repeat( ' ', &l:tabstop )
+
+    return len( substitute( line, '	', tabspaces, 'g' ) )
+
+endfunction "}}}
 
 fun! XPT#getCmdOutput( cmd ) "{{{
     let l:a = ""
@@ -22,26 +59,29 @@ fun! XPT#getCmdOutput( cmd ) "{{{
     return l:a
 endfunction "}}}
 
-fun! XPT#getIndentNr( ln, col ) "{{{
-    let line = matchstr( getline(a:ln), '\V\^\s\*' )
-    let line = a:col == 1 ? '' : line[ : a:col - 1 ]
 
-    let sts = &l:softtabstop
-    let ts  = &l:tabstop
+fun! XPT#convertSpaceToTab( text ) "{{{
+    " NOTE: line-break followed by space
 
-    if 0 == sts 
-        let sts = ts
+    if ( "\n" . a:text ) !~ '\V\n ' || &expandtab
+        return a:text
+    else
+
+        let tabspaces = repeat( ' ',  &tabstop )
+        let lines = split( a:text, '\V\n', 1 )
+        let newlines = []
+        for line in lines
+            let newline = join( split( line, '\V\^\%(' . tabspaces . '\)', 1 ), '	' )
+            let newlines += [ newline ]
+        endfor
+
+        return join( newlines, "\n" )
+
     endif
-
-    let tabspaces = repeat( ' ', ts )
-
-    return len( substitute( line, '	', tabspaces, 'g' ) )
-
-
 endfunction "}}}
 
 
-
+" OO support 
 fun! XPT#class( sid, proto ) "{{{
     let clz = deepcopy( a:proto )
 

@@ -10,7 +10,7 @@ endif
 
 
 
-let s:skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\|comment"'
+let s:skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "\\vstring|comment"'
 let s:pattern = {
             \   'ruby'    : {
             \       'start' : '\V\c<%',
@@ -64,5 +64,8 @@ fun! XPT_erubyFiletypeDetect() "{{{
 
 endfunction "}}}
 
+if exists( 'b:XPTfiletypeDetect' )
+    unlet b:XPTfiletypeDetect
+endif
 let b:XPTfiletypeDetect = function( 'XPT_erubyFiletypeDetect' )
 

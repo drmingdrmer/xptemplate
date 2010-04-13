@@ -1,7 +1,7 @@
-if exists("g:__XPTEMPLATE_UTIL_VIM__")
-  finish
+if exists( "g:__XPTEMPLATE_UTIL_VIM__" ) && g:__XPTEMPLATE_UTIL_VIM__ >= XPT#ver
+    finish
 endif
-let g:__XPTEMPLATE_UTIL_VIM__ = 1
+let g:__XPTEMPLATE_UTIL_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 runtime plugin/debug.vim

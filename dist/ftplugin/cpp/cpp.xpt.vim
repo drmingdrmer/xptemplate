@@ -50,21 +50,21 @@ endfunction
 " ================================= Snippets ===================================
 XPTemplateDef
 
-XPT all  hint=...begin,\ ...end,
+XPT all  " ..begin, ..end,
 `v^.begin(), `v^.end(), `cursor^
 
 
-XPT vector hint=std::vector<..>\ ..;
+XPT vector " std::vector<..> ..;
 std::vector<`type^> `var^;
 `cursor^
 
 
-XPT map hint=std::map<..,..>\ ..;
+XPT map " std::map<..,..> ..;
 std::map<`typeKey^,`val^>   `name^;
 `cursor^
 
 
-XPT class   hint=class\ ..
+XPT class   " class ..
 class `className^
 {
 public:
@@ -88,7 +88,7 @@ private:
 }
 ..XPT
 
-XPT functor hint=class\ operator\ ...
+XPT functor " class operator..
 struct `className^
 {
     `closure...{{^`type^  `what^;
@@ -101,19 +101,19 @@ struct `className^
 };
 ..XPT
 
-XPT namespace hint=namespace\ {}
+XPT namespace " namespace {}
 namespace `name^
 {
     `cursor^
 }
 ..XPT
 
-XPT icastop hint=operator\ type\ ...
+XPT icastop " operator type ..
 operator `typename^ ()
     { return `cursor^; }
 ..XPT
 
-XPT castop hint=operator\ type\ ...
+XPT castop " operator type ..
 operator `typename^ ();
 
 
@@ -121,14 +121,14 @@ operator `typename^ ();
     { return `cursor^; }
 ..XPT
 
-XPT iop hint=t\ operator\ ...\ ()
+XPT iop " t operator .. ()
 `type^ operator `opName^ ( `args^ )
 {
     `cursor^
 }
 ..XPT
 
-XPT op hint=t\ operator\ ...\ ()
+XPT op " t operator .. ()
 `type^ operator `opName^ ( `args^ );
 
 `type^ `className^::operator `opName^ ( `args^ )
@@ -136,7 +136,7 @@ XPT op hint=t\ operator\ ...\ ()
 }
 ..XPT
 
-XPT templateclass   hint=template\ <>\ class
+XPT templateclass   " template <> class
 template
     <`templateParam^>
 class `className^
@@ -165,29 +165,15 @@ template <`templateParam^>
 }
 ..XPT
 
-XPT try hint=try\ ...\ catch...
-XSET handler=$CL void $CR
+XPT try wrap=what " try .. catch..
 try
 {
     `what^
-}`...^
+}`$BRel^`Include:catch^
+
+XPT catch " catch\( .. )
 catch ( `except^ )
 {
-    `handler^
-}`...^
-
-
-
-XPT try_ hint=try\ {\ SEL\ }\ catch...
-XSET handler=$CL void $CR
-try
-{
-    `wrapped^
+    `cursor^
 }
-`...^catch ( `except^ )
-{
-    `handler^
-}
-`...^
 
-..XPT

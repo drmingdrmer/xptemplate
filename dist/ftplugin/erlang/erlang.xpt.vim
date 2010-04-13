@@ -26,15 +26,15 @@ XPTinclude
 XPTemplateDef
 
 
-XPT inc hint=-include\ ..
+XPT inc " -include ..
 -include( "`cursor^.hrl").
 
 
-XPT def hint=-define\ ..
+XPT def " -define ..
 -define( `what^, `def^ ).
 
 
-XPT ifdef hint=-ifdef\ ..\-endif..
+XPT ifdef " -ifdef ..\-endif..
 -ifdef( `what^ ).
     `thenmacro^
 ``else...`
@@ -43,7 +43,7 @@ XPT ifdef hint=-ifdef\ ..\-endif..
 `}}^-endif().
 
 
-XPT ifndef hint=-ifndef\ ..\-endif
+XPT ifndef " -ifndef ..\-endif
 -ifndef( `what^ ).
     `thenmacro^
 ``else...`
@@ -52,14 +52,14 @@ XPT ifndef hint=-ifndef\ ..\-endif
 `}}^-endif().
 
 
-XPT record hint=-record\ ..,{..}
+XPT record " -record ..,{..}
 -record( `recordName^
         ,{ `field1^`...^
         ,  `fieldn^`...^
         }).
 
 
-XPT if hint=if\ ..\ ->\ ..\ end
+XPT if " if .. -> .. end
 if
     `cond^ ->
         `body^` `...^;
@@ -68,7 +68,7 @@ if
 end `cursor^
 
 
-XPT case hint=case\ ..\ of\ ..\ ->\ ..\ end
+XPT case " case .. of .. -> .. end
 case `matched^ of
     `pattern^ ->
         `body^`...^;
@@ -77,7 +77,7 @@ case `matched^ of
 end `cursor^
 
 
-XPT receive hint=receive\ ..\ ->\ ..\ end
+XPT receive " receive .. -> .. end
 receive
     `pattern^ ->
         `body^` `...^;
@@ -90,7 +90,7 @@ end
 
 
 
-XPT fun hint=fun\ ..\ ->\ ..\ end
+XPT fun " fun .. -> .. end
 fun (`params^) `_^ -> `body^`
     `more...{{^;
     (`params^) `_^ -> `body^`
@@ -100,7 +100,7 @@ fun (`params^) `_^ -> `body^`
 end `cursor^
 
 
-XPT try hint=try\ ..\ catch\ ..\ end
+XPT try wrap=what " try .. catch .. end
 try `what^
 catch
     `except^ -> `toRet^`
@@ -113,7 +113,7 @@ after
 end `cursor^
 
 
-XPT tryof hint=try\ ..\ of\ ..
+XPT tryof " try .. of ..
 try `what^ of
     `pattern^ ->
         `body^` `more...^;
@@ -128,24 +128,9 @@ after
 end `cursor^
 
 
-XPT function hint=f\ \(\ ..\ \)\ ->\ ..
+XPT function " f \( .. \) -> ..
 `funName^ ( `args0^ ) `_^ ->
     `body0^ `...^;
 `name^R('funName')^ ( `argsn^ ) `_^ ->
     `bodyn^`...^
 .
-
-
-" ================================= Wrapper ===================================
-
-XPT try_ hint=try\ SEL\ catch...
-try
-    `wrapped^
-catch
-    `excep^ -> `toRet^` `...0^;
-    `except^ -> `toRet^` `...0^
-`after...{{^after
-    `afterBody^`}}^
-end
-
-

@@ -15,7 +15,10 @@
 
 	|xpt-feature|
 	|xpt-option|
-	|xpt-key-bind|  |xpt-mapping|
+	|xpt-key-bind|
+	|xpt-tips|
+		|xpt-with-supertab|
+
 	|xpt-customize|
 		|xpt-write-snippet|
 
@@ -63,7 +66,7 @@
 <	After pressing <Tab> twice the snippet ends up with cursor staying at
 	line 2, column 8 (or the value of 'softtabstop'): >
 		for ( abc = 0; abc < len; ++abc ) {
-			
+
 		}       \\___________________________| cursor stays here
 
 <	The usage is described in more detail below.
@@ -80,7 +83,7 @@
 	Embedded functions and variables	|xpt-snippet-function|
 	Repeatable snippet generation		|xpt-repetition|
 	Nested snippets				|xpt-nested|
-	Wrapping snippets			|xpt-wrapped|
+	Wrapper snippets			|xpt-wrapper-snippet|
 	Inclusion on snippet level or file level|xpt-snippet-include|
 						|xpt-snippet-XPTinclude|
 
@@ -161,7 +164,7 @@
 		          `^             |
 		          break;         |
 		        `...^            |
-		      
+
 		        default:
 		          `^
 		      }
@@ -208,21 +211,37 @@
 	See also |xpt-snippet-repetition|.
 
 
-								 *xpt-wrapped*
-	Wrapper snippets can only be triggered in visual mode, the place
-	holder `wrapped^ is replaced with the text selected in visual mode.
-	For instance the following snippet: >
-		XPT call_ hint=..(\ SEL\ )
+							 *xpt-wrapper-snippet*
+	Wrapper snippets can be triggered in visual mode, place holder marked
+	as "wrap" is replaced with the text selected in visual mode.
+
+	Definition of wrapper snippet has no differences from normal
+	snippet except it declaring a place holder as wrapping holder. For
+	example: >
+		       ________/---------------------| wrapper declaration
+		XPT if wrap=job
+		if (`condition^){
+		    `job^
+		}
+<	
+	For example the following snippet: >
+		XPT call_ wrap=wrapped
 		`name^(`wrapped^`, `^)`cursor^
-<	Use |V| to select some text, press <C-\> |v_CTRL-\|. The selected text
-	is yanked and removed and a popup menu appears for selecting snippet
-	name.
-	With this example line: >
+<	Use command |V| to select some text and press <C-\>. The selected text
+	is yanked and popup menu shows.
+
+	For example we have one line of text as below: >
 		a, b
-<	Press V to select the line, press <C-\>, select call_" in the popup
-	and the result is: >
+<	Select this line with command |V|.
+	And then press <C-\>, choose "call_" in the popup menu.
+	And finally it results in : >
 		name(a, b)
 <
+	NOTE	Wrapper snippet declared with "wraponly" can only be triggered
+		in visual mode, not in insert mode
+
+
+
 								 *xpt-context*
 	You can define snippets that can only be triggered in certain
 	circumstances, for example in certain syntax items. Defining context
@@ -235,10 +254,12 @@
 
 ==============================================================================
 
-				    *xpt-mapping*  *xpt-key-bind* *xpt-option*
+						   *xpt-key-bind* *xpt-option*
 	Options can be set in |.vimrc| to modify XPTemplate's behaviors.
 
 	Key mappings:
+		|<Plug>XPTrawKey|
+
 		|g:xptemplate_key|
 		|g:xptemplate_key_pum_only|
 		|g:xptemplate_nav_next|
@@ -246,8 +267,11 @@
 		|g:xptemplate_nav_cancel|
 		|g:xptemplate_goback|
 		|g:xptemplate_to_right|
+		|g:xptemplate_fallback|
 
 	Options:
+		|g:xptemplate_minimal_prefix|
+		|g:xptemplate_pum_tab_nav|
 		|g:xptemplate_strict|
 		|g:xptemplate_highlight|
 		|g:xptemplate_brace_complete|
@@ -256,6 +280,11 @@
 		|g:xptemplate_vars|
 		|g:xptemplate_bundle|
 		|g:xptemplate_snippet_folders|
+
+							     *<Plug>XPTrawKey*
+	Key mapping defined as: >
+		exe "inoremap <silent> <Plug>XPTrawKey " g:xptemplate_key
+<
 
 	    *i_<C-\>* *s_<C-\>* *v_<C-\>* *xpt-key-trigger* *g:xptemplate_key*
 							       {default:<C-\>}
@@ -305,6 +334,23 @@
 	Use |g:xptemplate_to_right| to change this mapping. Example: >
 		let g:xptemplate_to_right = '<C-;>'
 <
+						       *g:xptemplate_fallback*
+						     {default:<Plug>XPTrawKey}
+	If a try to trigger snippet( by pressing |g:xptemplate_key| ) does not
+	produce any match( full or partial ), contents of this setting is
+	output instead.
+
+	NOTE:	Contents output is similar to user typing. And they CAN be
+		remapped. This may produce a invoke loop.
+
+	The default value of this setting is the literal text of
+	|g:xptemplate_key|, which is defined by |<Plug>XPTrawKey|.
+
+	For example, if you want a completion-popup menu to show when no snippet
+	matched, you can have this line added into your |.vimrc|: >
+		let g:xptemplate_fallback = '<C-n>'
+<
+
 
 		    *n_<C-g>* *i_<C-g>* *xpt-key-goback* *g:xptemplate_goback*
 							       {default:<C-g>}
@@ -315,6 +361,33 @@
 	Use |g:xptemplate_goback| to change this mapping. Example: >
 		let g:xptemplate_goback = '<C-g>'
 <
+						 *g:xptemplate_minimal_prefix*
+								   {default:0}
+	Posssible values: number or "full".
+
+	If set it to a number( N ), it means snippet is triggered( or pum
+	shows ) only when there are at least N |word| letters before cursor.
+
+	If set to "full", |g:xptemplate_key| searches for a snippet of name
+	matching exactly the word before cursor.
+
+	For example, you have only one snippet defined with name "xpt". The
+	following input will trigger "xpt" snippet, if
+	|g:xptemplate_minimal_prefix| set to 0 ( it also works with value 1 and
+	2, but not with 3 ): >
+		xp<C-\>
+<	"<C-\>" is the default trigger key.
+
+	If |g:xptemplate_minimal_prefix| set to "full", the above input can not
+	trigger "xpt" snippet.
+
+
+						    *g:xptemplate_pum_tab_nav*
+								   {default:0}
+	Set to 1 to use <tab>/<S-tab>( shift + tab ) to navigate through pop
+	up menu. <tab> behaves like <C-n> and <S-tab> behaves like <C-p>. And
+	<CR> expands snippet.
+
 
 							 *g:xptemplate_strict*
 								   {default:2}
@@ -416,8 +489,8 @@
 
 						     *g:xptemplate_strip_left*
 								   {default:1}
-	When set to 1 wrapping snippets |xpt-wrapped| remove space before the
-	line.
+	When set to 1 wrapper snippets |xpt-wrapper-snippet| remove space
+	before the first line.
 
 
 				      *xpt-personal-var*   *g:xptemplate_vars*
@@ -470,6 +543,20 @@
 
 ==============================================================================
 
+								    *xpt-tips*
+	Want to use XPTemplate with ... together?
+		|xpt-with-supertab|
+
+
+							   *xpt-with-supertab*
+	If you want to use supertab's <TAB> but you have also set XPT to use
+	<TAB>.
+==============================================================================
+	NOTE: TODO 
+==============================================================================
+
+==============================================================================
+
 							       *xpt-customize*
 
 	Global customization can be done with |xpt-option|.
@@ -488,21 +575,26 @@
 
 						      *xpt-customize-variable*
 	|xpt-snippet-variable| are used to configure the snippet format.
-	Customization variables should be defined in a snippet file with
-	"personal" priority, See |xpt-priority-value|.
+
+	Customization variables should be defined in a snippet file( like a
+	file in |xpt-personal-folder|) with "personal" priority, to guarantee
+	it will not be overrided by other snippet with lower priority. See
+	|xpt-priority-value|.
+
 	To create a snippet file to define your variables, see
 	|xpt-write-lang-snippet|.
 
 
 	See also: |xpt-customize-variable-format|
 		  |xpt-customize-variable-space|
+		  |xpt-customize-variable-datetime|
 
 
 					       *xpt-customize-variable-format*
 	Each snippet has some variable defined to configure language format.
 	This is useful when some snippet are shared between languages, like
 	for loops in C and CPP or to accommodate different user preferences.
-	
+
 	Brackets style variables may be defined as below: >
 		" if () ** {
 		" else ** {
@@ -576,12 +668,31 @@
 		int fun(args)
 <
 
+					     *xpt-customize-variable-datetime*
+	Variables discussed in this section defines how "date" and "time"
+	snippet displayed.
+
+	"$DATE_FMT" defines "date" snippet format. Default format is: >
+		XPTvar $DATE_FMT     '%Y %b %d'
+<
+	"$TIME_FMT" defines "time snippet format. Default format is: >
+		XPTvar $TIME_FMT     '"%H:%M:%S"'
+<
+	"$DATETIME_FMT" defines "datetime()" function format. Default format is: >
+		XPTvar $DATETIME_FMT '%c'
+<	
+	"datetime()" has no default snippet using it.
+
+
+	
+
 						*g:xptemplate_snippet_folders*
 								  {default:[]}
-	NOTE:	This setting is actually changes 'runtimepath' and less
-		recommended to use than 'runtimepath'. As you may already know
-		well about 'runtimepath' and 'ftplugin', it is better for you
-		to organize snippet files yourself, by using 'runtimepath'.
+	Deprecated
+	NOTE:	This setting changes 'runtimepath' and is less recommended to
+		use than 'runtimepath'. As you may already know well about
+		'runtimepath' and 'ftplugin', it is better for you to organize
+		snippet files yourself, with 'runtimepath'.
 
 	A list to specify which other folders are used as snippet folders.
 	For example: >
@@ -594,7 +705,6 @@
 	to HTML files.
 
 
-
 				   *xpt-personal-folder*   *xpt-write-snippet*
 	Snippet file is actually |ftplugin| and with file extension
 	".xpt.vim", like "c.xpt.vim". So you can manage snippet files just
@@ -602,14 +712,14 @@
 
 	You have THREE place to put your own snippets:
 
-	Path_to_xpt/personal				
+	Path_to_xpt/personal
 		Recommended.  Enough for most users. What you need to do is
 		putting snippet files into this folder.
 
-	Folders in |g:xptemplate_snippet_folders|	
-		Recommended for multiple snippet libraries owner.
-	
-	Other 'runtimepath'				
+	Folders in |g:xptemplate_snippet_folders|
+		Deprecated, use 'runtimepath'.
+
+	Other 'runtimepath'
 		Need to manage 'runtimepath' yourself.
 
 	Details are discussed in following section.

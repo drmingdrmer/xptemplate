@@ -1,39 +1,38 @@
 XPTemplate priority=like
 
 
+XPTvar $TRUE       1
+XPTvar $FALSE      0
+XPTvar $NULL       NULL
 
-XPTvar $TRUE           1
-XPTvar $FALSE          0
-XPTvar $NULL           NULL
+XPTvar $BRloop     ' '
 
-XPTvar $BRloop         ' '
+XPTvar $SParg      ' '
+XPTvar $SPcmd      ' '
+XPTvar $SPop       ' '
 
 
-" ================================= Snippets ===================================
 XPTemplateDef
 
 
-XPT while hint=while\ \(\ ...\ )
-while (`condition^)`$BRloop^{
+XPT while wrap=cursor " while ( .. )
+while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{
     `cursor^
 }
 
-XPT do hint=do\ {\ ..\ }\ while\ (..)
+XPT do wrap=cursor " do { .. } while ( .. )
 do`$BRloop^{
     `cursor^
-}`$BRloop^while (`condition^);
+}`$BRloop^while`$SPcmd^(`$SParg^`condition^`$SParg^);
 
 
-XPT while0 alias=do hint=do\ {\ ..\ }\ while\ ($FALSE)
-XSET condition|def=Embed( $FALSE )
+XPT while0 alias=do " do { .. } while ( $FALSE )
+XSET condition=Embed( $FALSE )
 
 
-XPT while1 alias=while hint=while\ ($TRUE)\ {\ ..\ }
-XSET condition|def=Embed( $TRUE )
+XPT while1 alias=while " while ( $TRUE ) { .. }
+XSET condition=Embed( $TRUE )
 
 
-XPT whilenn alias=while hint=while\ \(\ $NULL\ !=\ var\ )\ {\ ..\ }
-XSET condition|def=Embed( $NULL . ' != `var^' )
-
-
-
+XPT whilenn alias=while " while ( $NULL != .. ) { .. }
+XSET condition=Embed( $NULL . $SPop . '!=' . $SPop . '`x^' )

@@ -1,7 +1,7 @@
-if exists("g:__XPMARK_VIM__")
+if exists( "g:__XPMARK_VIM__" ) && g:__XPMARK_VIM__ >= XPT#ver
     finish
 endif
-let g:__XPMARK_VIM__ = 1
+let g:__XPMARK_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 com! XPMgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
@@ -24,6 +24,7 @@ let g:XPMpreferLeft = 'l'
 let g:XPMpreferRight = 'r'
 augroup XPM
     au!
+    au BufEnter * call <SID>InitBuf()
     au BufEnter * call XPMcheckStatusline()
 augroup END
 fun! XPMcheckStatusline() 
@@ -44,27 +45,32 @@ fun! XPMcheckStatusline()
         else
             let &l:statusline  .= '%{XPMautoUpdate("statusline")}' 
         endif
-    endif 
+    endif
 endfunction  
-fun! XPMadd( name, pos, prefer ) 
+fun! XPMadd( name, pos, prefer, ... ) 
     call XPMcheckStatusline()
-    let d = s:bufData()
+    let d = s:BufData()
     let prefer = a:prefer == 'l' ? 0 : 1
     if has_key( d.marks, a:name )
         call d.removeMark( a:name )
     endif
     let d.marks[ a:name ] = a:pos + [ len( getline( a:pos[0] ) ), prefer ]
-    call d.addMarkOrder( a:name )
+    call d.addMarkOrder( a:name, get( a:000, 0, 0 ) )
 endfunction 
 fun! XPMhere( name, prefer ) 
     call XPMadd( a:name, [ line( "." ), col( "." ) ], a:prefer )
 endfunction 
 fun! XPMremove( name ) 
-    let d = s:bufData()
+    let d = s:BufData()
     call d.removeMark( a:name )
 endfunction 
+fun! XPMremoveStartEnd( dict ) 
+    let d = s:BufData()
+    call d.removeMark( a:dict.start )
+    call d.removeMark( a:dict.end )
+endfunction 
 fun! XPMremoveMarkStartWith(prefix) 
-    let d = s:bufData()
+    let d = s:BufData()
     for key in keys( d.marks )
         if key =~# '^\V' . a:prefix
             call d.removeMark( key )
@@ -72,7 +78,7 @@ fun! XPMremoveMarkStartWith(prefix)
     endfor
 endfunction 
 fun! XPMflush() 
-    let d = s:bufData()
+    let d = s:BufData()
     let d.marks = {}
     let d.orderedMarks = []
     let d.changeLikelyBetween  = { 'start' : '', 'end' : '' }
@@ -80,48 +86,60 @@ fun! XPMflush()
 endfunction 
 fun! XPMflushWithHistory() 
     call XPMflush()
-    let d = s:bufData()
+    let d = s:BufData()
     let d.markHistory = {}
 endfunction 
 fun! XPMgoto( name ) 
-    let d = s:bufData()
+    let d = s:BufData()
     if has_key( d.marks, a:name )
         let pos = d.marks[ a:name ][ : 1 ]
         call cursor( pos )
     endif
 endfunction 
 fun! XPMpos( name ) 
-    let d = s:bufData()
+    let d = s:BufData()
     if has_key( d.marks, a:name )
         return d.marks[ a:name ][ : 1 ]
     endif
     return [0, 0]
 endfunction 
+fun! XPMhas( ... ) 
+    let d = s:BufData()
+    for name in a:000
+        if !has_key( d.marks, name )
+            return 0
+        endif
+    endfor
+    return 1
+endfunction 
 fun! XPMposStartEnd( dict ) 
-    let d = s:bufData()
+    let d = s:BufData()
     return [ has_key( d.marks, a:dict.start ) ? d.marks[ a:dict.start ][0:1] : [0, 0],
           \  has_key( d.marks, a:dict.end   ) ? d.marks[ a:dict.end   ][0:1] : [0, 0], ]
 endfunction 
-fun! XPMposList( ... )
-    let d = s:bufData()
+fun! XPMposList( ... ) 
+    let d = b:_xpmark
     let list = []
     for name in a:000
-        if has_key( d.marks, name )
-            call add( list, d.marks[ name ][ : 1 ] )
-        else
-            call add( list, [0, 0] )
-        endif
+        call add( list, get( d.marks, name, [0, 0] )[ 0:1 ] )
     endfor
     return list
-endfunction
+endfunction 
+fun! XPMmarkAfter( pos ) 
+    let d = b:_xpmark
+    for name in d.orderedMarks
+        if d.marks[ name ][ 0 ] >= a:pos[ 0 ] && d.marks[ name ][ 1 ] >= a:pos[ 1 ]
+            return { 'name' : name, 'pos' : copy( d.marks[ name ] ) }
+        endif
+    endfor
+    return 0
+endfunction 
 fun! XPMsetLikelyBetween( start, end ) 
-    let d = s:bufData()
-    Assert has_key( d.marks, a:start )
-    Assert has_key( d.marks, a:end )
+    let d = s:BufData()
     let d.changeLikelyBetween = { 'start' : a:start, 'end' : a:end }
 endfunction 
 fun! XPMsetUpdateStrategy( mode ) 
-    let d = s:bufData()
+    let d = s:BufData()
     if a:mode == 'manual'
         let d.updateStrategy = a:mode
     elseif a:mode == 'normalMode'
@@ -133,7 +151,7 @@ fun! XPMsetUpdateStrategy( mode )
     endif
 endfunction 
 fun! XPMupdateSpecificChangedRange(start, end) 
-    let d = s:bufData()
+    let d = s:BufData()
     let nr = changenr()
     if nr != d.lastChangenr
         call d.snapshot()
@@ -147,7 +165,7 @@ fun! XPMautoUpdate(msg)
     if !exists( 'b:_xpmark' )
         return ''
     endif
-    let d = s:bufData()
+    let d = s:BufData()
     let isInsertMode = (d.lastMode == 'i' && mode() == 'i')
     if d.updateStrategy == 'manual' 
                 \ || d.updateStrategy == 'normalMode' && isInsertMode
@@ -161,7 +179,7 @@ fun! XPMupdate(...)
     if !exists( 'b:_xpmark' )
         return ''
     endif
-    let d = s:bufData()
+    let d = s:BufData()
     let needUpdate = d.isUpdateNeeded()
     if !needUpdate
         call d.snapshot()
@@ -178,11 +196,11 @@ fun! XPMupdate(...)
     return rc
 endfunction 
 fun! XPMupdateStat() 
-    let d = s:bufData()
+    let d = s:BufData()
     call d.saveCurrentStat()
 endfunction 
 fun! XPMupdateCursorStat(...) 
-    let d = s:bufData()
+    let d = s:BufData()
     call d.saveCurrentCursorStat()
 endfunction 
 fun! XPMsetBufSortFunction( funcRef ) 
@@ -191,7 +209,7 @@ fun! XPMsetBufSortFunction( funcRef )
     endif
 endfunction 
 fun! XPMallMark() 
-    let d = s:bufData()
+    let d = s:BufData()
     let msg = ''
     let i = 0
     for name in d.orderedMarks
@@ -230,7 +248,6 @@ fun! s:snapshot() dict
             let self.markHistory[ n-1 ] = deepcopy( s:emptyHistoryElt )
         endif
     endif
-    Assert has_key( self.markHistory, n-1 )
     while n < nr
         let self.markHistory[ n ] = self.markHistory[ n - 1 ]
         if has_key( self.markHistory,  n - g:xpm_changenr_level )
@@ -380,7 +397,7 @@ fun! s:updateWithNewChangeRange( changeStart, changeEnd ) dict
         let len2 = len( self.orderedMarks )
         let j += len2 - len
         call self.updateMarksAfter( [j, len2], a:changeStart, a:changeEnd )
-        return g:XPM_RET.likely_matched
+        return [ self.orderedMarks[ likelyIndexes[ 0 ] ], self.orderedMarks[ likelyIndexes[ 1 ] ] ]
     endif
 endfunction 
 fun! s:updateMarksBefore( indexRange, changeStart, changeEnd ) dict 
@@ -421,7 +438,7 @@ fun! s:updateMarksAfter( indexRange, changeStart, changeEnd ) dict
         elseif bMark[0] == bChangeEnd[0] && bMark[1] >= bChangeEnd[1]
             let self.marks[ name ] = [ a:changeEnd[0], bMark[1] + lineLengthCE, lineLengthCE, mark[3] ]
         else
-            call s:log.Error( 'mark should be After changes, but it is before them:' . string( [ bMark, bChangeEnd ] ))
+            call s:log.Error( 'mark should be after changes, but it is before them:' . string( [ bMark, bChangeEnd ] ))
         endif
     endwhile
 endfunction 
@@ -460,15 +477,13 @@ fun! s:updateMarks( indexRange, changeStart, changeEnd ) dict
     endwhile
 endfunction 
 fun! XPMupdateWithMarkRangeChanging( startMark, endMark, changeStart, changeEnd ) 
-    let d = s:bufData()
+    let d = s:BufData()
     call d.initCurrentStat()
     if changenr() != d.lastChangenr
         call d.snapshot()
     endif
     let startIndex = index( d.orderedMarks, a:startMark )
-    Assert startIndex >= 0
     let endIndex = index( d.orderedMarks, a:endMark, startIndex + 1 )
-    Assert endIndex >= 0
     call d.updateMarksAfter( [ endIndex, len( d.orderedMarks ) ], a:changeStart, a:changeEnd )
     let [ i, len ] = [ startIndex + 1 , endIndex  ]
     while i < len
@@ -488,7 +503,7 @@ fun! XPMupdateWithMarkRangeChanging( startMark, endMark, changeStart, changeEnd 
     endwhile
     call d.saveCurrentStat()
 endfunction 
-fun! s:findLikelyRange(changeStart, bChangeEnd) dict 
+fun! s:findLikelyRange2(changeStart, bChangeEnd) dict 
     if self.changeLikelyBetween.start == ''
           \ || self.changeLikelyBetween.end == ''
         return [ -1, -1 ]
@@ -521,6 +536,57 @@ fun! s:findLikelyRange(changeStart, bChangeEnd) dict
         return [ -1, -1 ]
     endif
 endfunction 
+fun! s:findLikelyRange(changeStart, bChangeEnd) dict 
+    if self.changeLikelyBetween.start == ''
+          \ || self.changeLikelyBetween.end == ''
+        return [ -1, -1 ]
+    elseif !has_key( self.marks, self.changeLikelyBetween.start )
+          \ || !has_key( self.marks, self.changeLikelyBetween.end )
+        return [ -1, -1 ]
+    endif
+    let nChangeStart = a:changeStart[0] * 10000 + a:changeStart[1]
+    let nbChangeEnd = a:bChangeEnd[0] * 10000 + a:bChangeEnd[1]
+    let iLikelyStart = -1
+    let iLikelyEnd   = -1
+    let [i, len] = [0, len( self.orderedMarks )]
+    while i < len
+        if self.orderedMarks[ i ] == self.changeLikelyBetween.start
+            let iLikelyStart = i
+        elseif self.orderedMarks[ i ] == self.changeLikelyBetween.end
+            let iLikelyEnd = i
+            break
+        endif
+        let i += 1
+    endwhile
+    if iLikelyStart == -1 || iLikelyEnd == -1
+        return [ -1, -1 ]
+    endif
+    while iLikelyStart >= 0
+        let likelyStart = self.marks[ self.orderedMarks[ iLikelyStart ] ]
+        let nLikelyStart = likelyStart[0] * 10000 + likelyStart[1]
+        if nChangeStart >= nLikelyStart
+            break
+        endif
+        let iLikelyStart -= 1
+    endwhile
+    if iLikelyStart == -1
+        return [ -1, -1 ]
+    endif
+    while iLikelyEnd < len( self.orderedMarks )
+        let likelyEnd = self.marks[ self.orderedMarks[ iLikelyEnd ] ]
+        let bLikelyEnd = [ likelyEnd[0] - self.lastTotalLine,
+              \ likelyEnd[1] - likelyEnd[2] ]
+        let nbLikelyEnd = bLikelyEnd[0] * 10000 + bLikelyEnd[1]
+        if nbChangeEnd <= nbLikelyEnd
+            break
+        endif
+        let iLikelyEnd += 1
+    endwhile
+    if iLikelyEnd == len( self.orderedMarks )
+        return [ -1, -1 ]
+    endif
+    return [ iLikelyStart, iLikelyEnd ]
+endfunction 
 fun! s:saveCurrentCursorStat() dict 
     let p = [ line( '.' ), col( '.' ) ]
         exe 'k'.g:xpm_mark
@@ -550,7 +616,7 @@ fun! s:removeMark(name) dict
     call filter( self.orderedMarks, 'v:val != ' . string( a:name ) )
     call remove( self.marks, a:name )
 endfunction 
-fun! s:addMarkOrder( name ) dict 
+fun! s:addMarkOrder( name, beforeWhich ) dict 
     let markToAdd = self.marks[ a:name ]
     let nPos = markToAdd[0] * 10000 + markToAdd[1]
     let i = -1
@@ -559,14 +625,19 @@ fun! s:addMarkOrder( name ) dict
         let mark = self.marks[ n ]
         let nMark = mark[0] * 10000 + mark[1]
         if nMark == nPos
-            let cmp = self.compare( a:name, n )
-            if cmp == 0
-                throw 'XPM : overlapped mark:' . a:name . '=' . string(markToAdd) . ' and ' . n . '=' . string( mark ) 
-            elseif cmp > 0
-                continue
-            else
+            if a:beforeWhich isnot 0 && n =~ a:beforeWhich
                 call insert( self.orderedMarks, a:name, i )
                 return
+            else
+                let cmp = self.compare( a:name, n )
+                if cmp == 0
+                    throw 'XPM : overlapped mark:' . a:name . '=' . string(markToAdd) . ' and ' . n . '=' . string( mark ) 
+                elseif cmp > 0
+                    continue
+                else
+                    call insert( self.orderedMarks, a:name, i )
+                    return
+                endif
             endif
         elseif nPos < nMark
             call insert( self.orderedMarks, a:name, i )
@@ -613,17 +684,17 @@ let s:prototype =  s:ClassPrototype(
 fun! s:initBufData() 
     let nr = changenr()
     let b:_xpmark = { 
-                \ 'updateStrategy'       : 'auto', 
+                \ 'updateStrategy'       : 'auto',
                 \ 'stat'                 : {},
                 \ 'orderedMarks'         : [],
                 \ 'marks'                : {},
-                \ 'markHistory'          : {}, 
+                \ 'markHistory'          : {},
                 \ 'changeLikelyBetween'  : { 'start' : '', 'end' : '' }, 
                 \ 'lastMode'             : 'n',
                 \ 'lastPositionAndLength': [ line( '.' ), col( '.' ), len( getline( '.' ) ) ],
                 \ 'lastTotalLine'        : line( '$' ),
                 \ 'lastChangenr'         : nr,
-                \ 'changenrRange'        : [nr, nr], 
+                \ 'changenrRange'        : [nr, nr],
                 \ }
     let b:_xpmark.markHistory[ nr ] = { 'dict' : b:_xpmark.marks, 'list' : b:_xpmark.orderedMarks, 'likely' : b:_xpmark.changeLikelyBetween }
     call extend( b:_xpmark, s:prototype, 'force' )
@@ -634,11 +705,22 @@ fun! s:initBufData()
         exe 'delmarks ' . g:xpm_mark_nextline
     endif
 endfunction 
-fun! s:bufData() 
+fun! s:BufData() 
     if !exists('b:_xpmark')
         call s:initBufData()
     endif
     return b:_xpmark
+endfunction 
+fun! s:InitBuf() 
+    if !exists('b:_xpmark')
+        call s:initBufData()
+    endif
+    if !exists( 'b:_xpm_redefined' )
+        fun! s:BufData() 
+            return b:_xpmark
+        endfunction 
+        let b:_xpm_redefined = 1
+    endif
 endfunction 
 fun! s:defaultCompare(d, markA, markB) 
     let [ ma, mb ] = [ a:d.marks[ a:markA ], a:d.marks[ a:markB ] ]
@@ -654,7 +736,7 @@ endif
 set ruler
 let &rulerformat .= '%{XPMautoUpdate("ruler")}'
 fun! PrintDebug()
-    let d = s:bufData()
+    let d = s:BufData()
     let debugString  = changenr()
     let debugString .= ' p:' . string( getpos( "'" . g:xpm_mark )[ 1 : 2 ] )
     let debugString .= ' ' . string( [[ line( "'[" ), col( "'[" ) ], [ line( "']" ), col( "']" ) ]] ) . " "

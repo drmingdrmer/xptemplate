@@ -51,17 +51,17 @@ endif
 " ================================= Snippets ===================================
 XPTemplateDef
 
-XPT html hint=<?$PHP_TAG\ ...\ ?>
+XPT html " <?$PHP_TAG ... ?>
 ?>`html^<?`$PHP_TAG^
 
 
-XPT foreach hint=foreach\ (..\ as\ ..)\ {..}
+XPT foreach " foreach (.. as ..) {..}
 foreach ($`var^ as `container^)`$BRloop^{
     `cursor^
 }
 
 
-XPT fun hint=function\ ..(\ ..\ )\ {..}
+XPT fun " function ..( .. ) {..}
 XSET params=Void()
 XSET params|post=EchoIfEq('  ', '')
 function `funName^(` `params` ^)`$BRfun^{
@@ -69,7 +69,7 @@ function `funName^(` `params` ^)`$BRfun^{
 }
 
 
-XPT class hint=class\ ..\ {\ ..\ }
+XPT class " class .. { .. }
 class `className^`$BRfun^{
     function __construct( `args^ )`$BRfun^{
         `cursor^
@@ -77,7 +77,7 @@ class `className^`$BRfun^{
 }
 
 
-XPT interface hint=interface\ ..\ {\ ..\ }
+XPT interface " interface .. { .. }
 interface `interfaceName^`$BRfun^{
     `cursor^
 }

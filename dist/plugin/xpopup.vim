@@ -1,114 +1,204 @@
-if exists("g:__XPOPUP_VIM__")
+if exists( "g:__XPOPUP_VIM__" ) && g:__XPOPUP_VIM__ >= XPT#ver
     finish
 endif
-let g:__XPOPUP_VIM__ = 1
+let g:__XPOPUP_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 runtime plugin/debug.vim
-runtime plugin/SettingSwitch.class.vim
-runtime plugin/MapSaver.class.vim
+runtime plugin/classes/SettingSwitch.vim
+runtime plugin/classes/MapSaver.vim
 exe XPT#let_sid
 let s:log = CreateLogger( 'warn' )
+let s:log = CreateLogger( 'debug' )
 fun! s:SetIfNotExist(k, v) 
-  if !exists(a:k)
-    exe "let ".a:k."=".string(a:v)
-  endif
+    if !exists(a:k)
+        exe "let ".a:k."=".string(a:v)
+    endif
 endfunction 
 let s:opt = {
-            \'doCallback'   : 'doCallback', 
-            \'enlarge'      : 'enlarge', 
-            \'acceptEmpty'  : 'acceptEmpty', 
+            \ 'doCallback'   : 'doCallback', 
+            \ 'enlarge'      : 'enlarge', 
+            \ 'acceptEmpty'  : 'acceptEmpty', 
             \}
+let s:CHECK_PUM = 1
+let s:errorTolerance = 3
 let s:sessionPrototype = {
             \ 'callback'    : {},
             \ 'list'        : [],
+            \ 'key'         : '',
             \ 'prefixIndex' : {},
             \ 'popupCount'  : 0,
+            \ 'sessCount'   : 0,
+            \ 'errorInputCount' : 0,
             \
-            \ 'line'        : 0,
-            \ 'col'         : 0,
-            \ 'prefix'      : '',
-            \ 'ignoreCase'  : 0,
-            \ 'acceptEmpty' : 0,
-            \ 'last'        : '',
-            \ 'longest'     : '',
-            \ 'matched'     : '',
-            \ 'matchedCallback' : '', 
-            \ 'currentList' : [],
+            \ 'line'            : 0,
+            \ 'col'             : 0,
+            \ 'prefix'          : '',
+            \
+            \ 'ignoreCase'      : 0,
+            \ 'acceptEmpty'     : 0,
+            \ 'matchWholeName'  : 0,
+            \ 'strictInput'     : 0,
+            \ 'tabNav'          : 0,
+            \
+            \ 'last'            : '',
+            \ 'currentText'     : '',
+            \ 'longest'         : '',
+            \ 'matched'         : '',
+            \ 'matchedCallback' : '',
+            \ 'currentList'     : [],
             \ }
-fun! XPPopupNew(callback, data, ...) 
-    let list = ( a:0 == 0 ) ? [] : a:1
+fun! XPPopupNew( callback, data, ... ) 
     let sess = deepcopy(s:sessionPrototype)
     let sess.callback = a:callback
     let sess.data = a:data
     call sess.createPrefixIndex([])
-    call sess.addList(list)
+    if a:0 > 0
+        let items = a:1
+        if type( items ) == type( '' )
+            call sess.SetTriggerKey( items )
+        elseif type( items ) == type( [] )
+            call sess.addList( items )
+        else
+            call s:log.Error( 'unsupported items type as pum items:' . str( items ) )
+        endif
+    endif
     return sess
+endfunction 
+fun! s:popup( start_col, opt ) dict 
+    let doCallback  = get( a:opt, s:opt.doCallback, 1 )
+    let ifEnlarge   = get( a:opt, s:opt.enlarge, 1 )
+    let self.popupCount += 1
+    let cursorIndex = col(".") - 1 - 1
+    let self.line        = line(".")
+    let self.col         = a:start_col
+    let self.prefix      = s:GetTextBeforeCursor( self )
+    let self.ignoreCase  = self.prefix !~# '\u'
+    if self.key != ''
+        let self.longest = self.prefix
+        let actions = self.KeyPopup( doCallback, ifEnlarge )
+    else
+        let self.currentList = s:filterCompleteList(self)
+        if ifEnlarge
+            let self.longest = s:LongestPrefix(self)
+        else
+            let self.longest = self.prefix
+        endif
+        let actions = self.ListPopup( doCallback, ifEnlarge )
+    endif
+    let actions = s:CreateSession( self ) . actions
+    call s:ApplyMapAndSetting()
+    return actions
+endfunction 
+fun PUMclear()
+    let savedIndentKeys = &l:indentkeys
+    let &l:indentkeys = ""
+    call complete( col( "." ), [] )
+    let &l:indentkeys = savedIndentKeys
+    return ''
+endfunction
+fun! s:CreateSession( sess ) 
+    if !exists( 'b:__xpp_sess_count' )
+        let b:__xpp_sess_count = 0
+    endif
+    let b:__xpp_sess_count += 1
+    let a:sess.sessCount = b:__xpp_sess_count
+    let action = ''
+    if exists( 'b:__xpp_current_session' )
+        call s:End()
+        if pumvisible()
+            call PUMclear()
+        endif
+    endif
+    let b:__xpp_current_session = a:sess
+    return action
 endfunction 
 fun! s:SetAcceptEmpty( acc ) dict 
     let self.acceptEmpty = !!a:acc
     return self
 endfunction 
-fun! s:popup(start_col, opt) dict 
-    let doCallback  = get( a:opt, s:opt.doCallback, 1 )
-    let ifEnlarge   = get( a:opt, s:opt.enlarge, 1 )
-    let sess = self
-    let sess.popupCount += 1
-    let cursorIndex = col(".") - 1 - 1
-    let sess.line        = line(".")
-    let sess.col         = a:start_col
-    let sess.prefix      = cursorIndex >= 0 ? getline( sess.line )[ sess.col - 1 : cursorIndex ] : ''
-    let sess.ignoreCase  = sess.prefix !~# '\u'
-    let sess.currentList = s:filterCompleteList(sess)
-    if ifEnlarge
-        let sess.longest     = s:LongestPrefix(sess)
-    else
-        let sess.longest     = sess.prefix
+fun! s:SetMatchWholeName( mwn ) dict 
+    let self.matchWholeName = !!a:mwn
+    return self
+endfunction 
+fun! s:SetOption( opt ) dict 
+    if type( a:opt ) == type( [] )
+        for optname in a:opt
+            let self[ optname ] = 1
+        endfor
+    elseif type( a:opt ) == type( {} )
+        for [ key, value ] in items( a:opt )
+            let self[ key ] = value
+        endfor
     endif
+endfunction 
+fun! s:KeyPopup( doCallback, ifEnlarge ) dict 
     let actionList = []
-    if sess.longest !=# sess.prefix
+    if a:ifEnlarge
+        let actionList = [ 'clearPum', 'clearPrefix', 'typeLongest', 'triggerKey', 'setLongest' ]
+        if a:doCallback
+            let actionList += [ 'checkAndCallback' ]
+        endif
+    else
+        let actionList = [ 'clearPum', 'clearPrefix', 'typeLongest', 'triggerKey', 'removeTrailing', 'forcePumShow' ]
+    endif
+    return "\<C-r>=XPPprocess(" . string( actionList ) . ")\<CR>"
+endfunction 
+fun! s:ListPopup( doCallback, ifEnlarge ) dict 
+    let actionList = []
+    if self.longest !=# self.prefix
         let actionList += ['clearPum',  'clearPrefix', 'clearPum', 'typeLongest' ]
     endif
-    if sess.popupCount > 1 && ifEnlarge && sess.acceptEmpty && sess.prefix == ''
-        let sess.matched = ''
-        let sess.matchedCallback = 'onOneMatch'
+    if self.popupCount > 1 && a:ifEnlarge && self.acceptEmpty && self.prefix == ''
+        let self.matched = ''
+        let self.matchedCallback = 'onOneMatch'
         let actionList = []
         let actionList += [ 'clearPum',  'clearPrefix', 'clearPum', 'callback' ]
-    elseif len(sess.currentList) == 0
-        let sess.matched = ''
-        let sess.matchedCallback = 'onEmpty'
+    elseif len(self.currentList) == 0
+        let self.matched = ''
+        let self.matchedCallback = 'onEmpty'
         let actionList += ['callback']
-    elseif len(sess.currentList) == 1
-          \&& doCallback
-        let sess.matched = type(sess.currentList[0]) == type({}) ? sess.currentList[0].word : sess.currentList[0]
-        let sess.matchedCallback = 'onOneMatch'
-        let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
-    elseif sess.prefix != "" 
-          \&& sess.longest ==? sess.prefix 
-          \&& doCallback
-        let sess.matched = ''
-        for item in sess.currentList
+    elseif len(self.currentList) == 1
+          \ && a:doCallback
+        let self.matched = type(self.currentList[0]) == type({}) ? self.currentList[0].word : self.currentList[0]
+        let self.matchedCallback = 'onOneMatch'
+        let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
+    elseif self.prefix != "" 
+          \&& self.longest ==? self.prefix 
+          \&& a:doCallback
+        let self.matched = ''
+        for item in self.currentList
             let key = type(item) == type({}) ? item.word : item
-            if key ==? sess.prefix
-                let sess.matched = key
-                let sess.matchedCallback = 'onOneMatch'
+            if key ==? self.prefix
+                let self.matched = key
+                let self.matchedCallback = 'onOneMatch'
                 let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
                 break
             endif
         endfor
-        if sess.matched == ''
+        if self.matched == ''
             let actionList += [ 'popup', 'fixPopup' ]
         endif
     else
         let actionList += [ 'popup', 'fixPopup' ]
     endif
-    let b:__xpp_current_session = sess
-    call s:ApplyMapAndSetting()
-    return "\<C-r>=XPPprocess(" . string(actionList) . ")\<cr>"
+    return "\<C-r>=XPPprocess(" . string( actionList ) . ")\<CR>"
 endfunction 
-fun! s:sessionPrototype.addList(list) 
-    let self.list += a:list
-    call self.updatePrefixIndex(a:list)
+fun! s:SetTriggerKey( key ) dict 
+    let self.key = a:key
+endfunction 
+fun! s:sessionPrototype.addList( list ) 
+    let list = a:list
+    if list == []
+        return
+    endif
+    if type( list[0] ) == type( '' )
+        call map( list, '{"word" : v:val, "icase" : 1 }' )
+    else
+        call map( list, '{"word" : v:val["word"], "menu" : get( v:val, "menu", "" ), "icase" : 1 }' )
+    endif
+    let self.list += list
+    call self.updatePrefixIndex( list )
 endfunction 
 fun! s:sessionPrototype.createPrefixIndex(list) 
     let self.prefixIndex = { 'keys' : {}, 'lowerkeys' : {}, 'ori' : {}, 'lower' : {} }
@@ -139,6 +229,7 @@ fun! s:_InitBuffer()
           \
           \ 'i_<BS>', 
           \ 'i_<TAB>', 
+          \ 'i_<S-TAB>', 
           \ 'i_<CR>', 
           \
           \ 'i_<C-e>', 
@@ -148,10 +239,11 @@ fun! s:_InitBuffer()
     call b:_xpp_setting_switch.AddList( 
           \ [ '&l:cinkeys', '' ], 
           \ [ '&l:indentkeys', '' ], 
+          \ [ '&completeopt', 'menu,longest' ], 
           \)
     let b:__xpp_buffer_init = 1
 endfunction 
-fun! XPPprocess(list) 
+fun! XPPprocess( list ) 
     if !exists("b:__xpp_current_session")
         call s:log.Error("session does not exist!")
         return ""
@@ -170,6 +262,74 @@ fun! XPPprocess(list)
         if pumvisible()
             let postAction = "\<C-e>"
         endif
+    elseif actionName == 'triggerKey'
+        let postAction = sess.key
+    elseif actionName == 'setLongest'
+        let current = s:GetTextBeforeCursor( sess )
+        if len( current ) > len( sess.longest )
+            let postAction = repeat( "\<BS>", len( current ) - len( sess.longest ) ) 
+                  \ . current[ len( sess.longest ) : ]
+            let sess.longest = s:GetTextBeforeCursor( sess )
+            if pumvisible()
+                let nextList = [ 'clearPum', 'clearPrefix', 'typeLongest', 'triggerKey' ] + nextList
+            else
+                let nextList = [ 'clearPrefix', 'clearPum', 'typeLongest' ] + nextList
+            endif
+        endif
+    elseif actionName == 'removeTrailing'
+        let current = s:GetTextBeforeCursor( sess )
+        if len( current ) > len( sess.longest )
+            let postAction = repeat( "\<BS>", len( current ) - len( sess.longest ) )
+        endif
+    elseif actionName == 'forcePumShow'
+        let postAction = "\<C-n>\<C-p>"
+    elseif actionName == 'checkAndCallback'
+        if pumvisible()
+            return "\<C-n>\<C-p>"
+        else
+            let current = s:GetTextBeforeCursor( sess )
+            let sess.matched = current
+            let sess.matchedCallback = 'onOneMatch'
+            call s:End()
+            let postAction = ""
+            if has_key( sess.callback, sess.matchedCallback )
+                let postAction = sess.callback[ sess.matchedCallback ]( sess )
+                return postAction
+            else
+                return ''
+            endif
+        endif
+    elseif actionName == 'keymodeEnlarge'
+        let current = s:GetTextBeforeCursor( sess )
+        if sess.acceptEmpty && current == ''
+            let sess.longest = ''
+            let sess.matched = ''
+            let sess.matchedCallback = 'onOneMatch'
+            let nextList = [ 'callback' ]
+        elseif current !=# sess.currentText
+            let sess.longest = sess.currentText
+            let sess.matched = sess.currentText
+            let sess.matchedCallback = 'onOneMatch'
+            let nextList = [ 'clearPrefix', 'typeLongest', 'callback' ]
+        else
+            return sess.popup( sess.col,
+                  \ { 'doCallback' : 1,
+                  \   'enlarge'    : 1 } )
+        endif
+    elseif actionName == 'enlarge'
+        let current = s:GetTextBeforeCursor( sess )
+        if current !=# sess.currentText
+            let sess.longest = sess.currentText
+            let sess.matched = sess.currentText
+            let sess.matchedCallback = 'onOneMatch'
+            let nextList = [ 'clearPrefix', 'typeLongest', 'callback' ]
+        else
+            return sess.popup( sess.col,
+                  \ { 'doCallback' : 1,
+                  \   'enlarge'    : 1 } )
+        endif
+    elseif actionName == 'typeMatched'
+        let postAction = sess.matched
     elseif actionName == 'typeLongest'
         let postAction = sess.longest
     elseif actionName == 'type'
@@ -177,9 +337,7 @@ fun! XPPprocess(list)
     elseif actionName == 'popup'
         call complete( sess.col, sess.currentList )
     elseif actionName == 'fixPopup'
-        let beforeCursor = col( "." ) - 2
-        let beforeCursor = beforeCursor == -1 ? 0 : beforeCursor
-        let current = getline(".")[ sess.col - 1 : beforeCursor ]
+        let current = s:GetTextBeforeCursor( sess )
         let i = 0
         let j = -1
         for v in sess.currentList
@@ -206,11 +364,18 @@ fun! XPPprocess(list)
     else
     endif
     if !empty(nextList)
-        let  postAction .= "\<C-r>=XPPprocess(" . string( nextList ) . ")\<cr>"
+        let  postAction .= "\<C-r>=XPPprocess(" . string( nextList ) . ")\<CR>"
     else
         let postAction .= g:xpt_post_action
     endif
     return postAction
+endfunction 
+fun! s:GetTextBeforeCursor( sess ) 
+    let c = col( "." )
+    if c == 1
+        return ''
+    endif
+    return getline(".")[ a:sess.col - 1 : c - 2 ]
 endfunction 
 fun! XPPcomplete(col, list) 
     let oldcfu = &completefunc
@@ -218,21 +383,21 @@ fun! XPPcomplete(col, list)
     return "\<C-x>\<C-u>"
 endfunction 
 fun! XPPcr() 
-    if !s:PopupCheck(1)
+    if !s:PopupCheck( s:CHECK_PUM )
         call feedkeys("\<CR>", 'mt')
         return ""
     endif
     return "\<C-r>=XPPaccept()\<CR>"
 endfunction 
 fun! XPPup() 
-    if !s:PopupCheck(1)
+    if !s:PopupCheck( s:CHECK_PUM )
         call feedkeys("\<UP>", 'mt')
         return ""
     endif
     return "\<C-p>"
 endfunction 
 fun! XPPdown() 
-    if !s:PopupCheck(1)
+    if !s:PopupCheck( s:CHECK_PUM )
         call feedkeys("\<DOWN>", 'mt')
         return ""
     endif
@@ -252,12 +417,18 @@ fun! XPPcallback()
     return post
 endfunction 
 fun! XPPshorten() 
-    if !s:PopupCheck()
+    if !s:PopupCheck( ! s:CHECK_PUM )
         let s:pos = getpos(".")[ 1 : 2 ]
         return "\<C-e>\<C-r>=XPPcorrectPos()\<cr>\<bs>"
     endif
+    if !pumvisible()
+        return "\<BS>"
+    endif
     let sess = b:__xpp_current_session
-    let current = getline(".")[ sess.col - 1 : col(".") - 2 ]
+    let current = s:GetTextBeforeCursor( sess )
+    if sess.key != ''
+        return "\<BS>"
+    endif
     if current == ''
         call s:End()
         return "\<bs>"
@@ -270,8 +441,8 @@ fun! XPPshorten()
     return action
 endfunction 
 fun! XPPenlarge() 
-    if !s:PopupCheck()
-        call feedkeys("\<tab>", 'mt')
+    if !s:PopupCheck( s:CHECK_PUM )
+        call feedkeys("\<tab>", 'm')
         return ""
     endif
     return "\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
@@ -294,12 +465,21 @@ fun! XPPaccept()
     let toType = getline( sess.line )[ sess.col - 1 : beforeCursor ]
     return "\<C-r>=XPPprocess(" . string( [ 'clearPum', 'clearPrefix', 'type', toType, 'end' ] ) . ")\<cr>"
 endfunction 
-fun! XPPrepopup(doCallback, ifEnlarge) 
+fun! XPPrepopup( doCallback, ifEnlarge ) 
     if !exists("b:__xpp_current_session")
         return ""
     endif
     let sess = b:__xpp_current_session
-    return sess.popup(sess.col, { 'doCallback' : a:doCallback, 'enlarge' : a:ifEnlarge == 'enlarge' } )
+    if sess.key != ''
+        let sess.currentText = s:GetTextBeforeCursor( sess )
+        let action = "\<C-e>" . "\<C-r>=XPPprocess(" . string( [ 'keymodeEnlarge' ] ) . ")\<CR>"
+        return action
+    else
+        let action =  sess.popup(sess.col,
+              \ { 'doCallback' : a:doCallback,
+              \   'enlarge'    : a:ifEnlarge == 'enlarge' } )
+        return action
+    endif
 endfunction 
 fun! XPPcorrectPos() 
     let p = getpos(".")[1:2]
@@ -318,25 +498,29 @@ fun! s:ApplyMapAndSetting()
     endif
     let b:__xpp_pushed = 1
     call b:_xpp_map_saver.Save()
+    let sess = b:__xpp_current_session
     exe 'inoremap <silent> <buffer> <UP>'   '<C-r>=XPPup()<CR>'
     exe 'inoremap <silent> <buffer> <DOWN>' '<C-r>=XPPdown()<CR>'
     exe 'inoremap <silent> <buffer> <bs>'  '<C-r>=XPPshorten()<cr>'
-    exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
-    exe 'inoremap <silent> <buffer> <cr>'  '<C-r>=XPPcr()<cr>'
     exe 'inoremap <silent> <buffer> <C-e>' '<C-r>=XPPcancel()<cr>'
     exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
+    if sess.tabNav
+        exe 'inoremap <silent> <buffer> <S-tab>' '<C-r>=XPPup()<cr>'
+        exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPdown()<cr>'
+        exe 'inoremap <silent> <buffer> <cr>'  '<C-r>=XPPenlarge()<cr>'
+        exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPenlarge()<cr>'
+    else
+        exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
+        exe 'inoremap <silent> <buffer> <cr>'  '<C-r>=XPPcr()<cr>'
+        exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
+    endif
+    augroup XPpopup
+        au!
+        au CursorMovedI * call s:CheckAndFinish()
+    augroup END
     call b:_xpp_setting_switch.Switch()
     if exists( ':AcpLock' )
         AcpLock
-    endif
-endfunction 
-fun! s:CheckAndRepop() 
-    if !exists( 'b:__xpp_buffer_init' )
-        return
-    endif
-    if !pumvisible()
-          \ && len(b:__xpp_current_session.currentList) > 1
-        call feedkeys( "\<C-r>=XPPrepopup(0, 'noenlarge')\<cr>" )
     endif
 endfunction 
 fun! s:ClearMapAndSetting() 
@@ -345,6 +529,9 @@ fun! s:ClearMapAndSetting()
         return
     endif
     unlet b:__xpp_pushed
+    augroup XPpopup
+        au!
+    augroup END
     call b:_xpp_map_saver.Restore()
     call b:_xpp_setting_switch.Restore()
     if exists( ':AcpUnlock' )
@@ -354,8 +541,41 @@ fun! s:ClearMapAndSetting()
         endtry
     endif
 endfunction 
+fun! s:CheckAndFinish() 
+    if !exists( 'b:__xpp_current_session' )
+        call s:End()
+        return ''
+    endif
+    let sess = b:__xpp_current_session
+    if !pumvisible()
+        if line( "." ) == sess.line
+            if sess.strictInput
+                if col(".") > sess.col
+                    call feedkeys( "\<BS>", 'n' )
+                endif
+            else
+                return s:MistakeTypeEnd()
+            endif
+        else
+            return s:MistakeTypeEnd()
+        endif
+    endif
+    return ''
+endfunction 
+fun! s:MistakeTypeEnd() 
+    call s:End()
+    call PUMclear()
+    return ''
+endfunction 
+fun! XPPhasSession() 
+    return exists("b:__xpp_current_session")
+endfunction 
 fun! XPPend() 
     call s:End()
+    if pumvisible()
+        return ".\<BS>"
+    endif
+    return ''
 endfunction 
 fun! s:End() 
     call s:ClearMapAndSetting()
@@ -406,9 +626,14 @@ fun! s:LongestPrefix(sess)
     endif
     return longest
 endfunction 
-fun! s:filterCompleteList(sess) 
+fun! s:filterCompleteList( sess ) 
     let list = []
-    let pattern = '^\V' . ( a:sess.ignoreCase ? '\c' : '\C' ) . a:sess.prefix
+    let caseOption = a:sess.ignoreCase ? '\c' : '\C'
+    if a:sess.matchWholeName
+        let pattern = '\V\^' . caseOption . a:sess.prefix . '\$'
+    else
+        let pattern = '\V\^' . caseOption . a:sess.prefix
+    endif
     for item in a:sess.list
         let key = ( type(item) == type({}) ) ? item.word : item
         if key =~ pattern
@@ -440,8 +665,13 @@ fun! s:ClassPrototype(...)
     return p
 endfunction 
 let s:sessionPrototype2 =  s:ClassPrototype(
-            \    'popup',
-            \   'SetAcceptEmpty', 
-            \)
+            \   'popup',
+            \   'SetAcceptEmpty',
+            \   'SetMatchWholeName',
+            \   'SetTriggerKey',
+            \   'SetOption',
+            \   'KeyPopup',
+            \   'ListPopup',
+            \ )
 call extend( s:sessionPrototype, s:sessionPrototype2, 'force' )
 let &cpo = s:oldcpo

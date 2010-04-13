@@ -1,7 +1,7 @@
-if exists("g:__XPTEMPLATE_CONF_VIM__")
-  finish
+if exists( "g:__XPTEMPLATE_CONF_VIM__" ) && g:__XPTEMPLATE_CONF_VIM__ >= XPT#ver
+    finish
 endif
-let g:__XPTEMPLATE_CONF_VIM__ = 1
+let g:__XPTEMPLATE_CONF_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 runtime plugin/debug.vim
@@ -9,9 +9,9 @@ let s:escapeHead   = '\v(\\*)\V'
 let s:unescapeHead = '\v(\\*)\1\\?\V'
 let s:ep           = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 fun! s:SetIfNotExist(k, v) 
-  if !exists(a:k)
-    exe "let ".a:k."=".string(a:v)
-  endif
+    if !exists( a:k )
+        exe "let" a:k "=" string( a:v )
+    endif
 endfunction 
 call s:SetIfNotExist('g:xptemplate_key'                 , '<C-\>'	)
 call s:SetIfNotExist('g:xptemplate_key_pum_only'        , '<C-r>' . g:xptemplate_key	)
@@ -19,10 +19,13 @@ call s:SetIfNotExist('g:xptemplate_nav_next'            , '<Tab>'	)
 call s:SetIfNotExist('g:xptemplate_nav_prev'            , '<S-Tab>'	)
 call s:SetIfNotExist('g:xptemplate_nav_cancel'          , '<cr>'	)
 call s:SetIfNotExist('g:xptemplate_goback'              , '<C-g>'	)
-call s:SetIfNotExist('g:xptemplate_to_right'            , "<C-l>"	)
+call s:SetIfNotExist('g:xptemplate_to_right'            , '<C-l>'	)
+call s:SetIfNotExist('g:xptemplate_fallback'            , '<Plug>XPTrawKey'	)
+call s:SetIfNotExist('g:xptemplate_minimal_prefix'      , 1	)
+call s:SetIfNotExist('g:xptemplate_pum_tab_nav'         , 0	)
 call s:SetIfNotExist('g:xptemplate_strict'              , 2	)
 call s:SetIfNotExist('g:xptemplate_highlight'           , 'next'	)
-call s:SetIfNotExist('g:xptemplate_brace_complete'      , 0	)
+call s:SetIfNotExist('g:xptemplate_brace_complete'      , 1	)
 call s:SetIfNotExist('g:xptemplate_strip_left'          , 1	)
 call s:SetIfNotExist('g:xptemplate_fix'                 , 1	)
 call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 1	)
@@ -30,6 +33,9 @@ call s:SetIfNotExist('g:xptemplate_vars'                , ''	)
 call s:SetIfNotExist('g:xptemplate_bundle'              , ''	)
 call s:SetIfNotExist('g:xptemplate_snippet_folders'     , []	)
 call s:SetIfNotExist('g:xpt_post_action', '')
+if g:xptemplate_fallback == ''
+    let g:xptemplate_fallback = '<NOP>'
+endif
 let s:path = expand( "<sfile>" )
 let s:filename = 'xptemplate.conf.vim'
 let s:path = substitute( s:path, '\', '/', 'g' )
@@ -51,10 +57,12 @@ let g:XPTmappings = {
       \                       "<C-c>`>a<C-r>=XPTemplateStart(0)<cr>" 
       \                     : "<C-c>`>i<C-r>=XPTemplateStart(0)<cr>", 
       \ }
-exe "inoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.trigger
-exe "xnoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.wrapTrigger
-exe "snoremap <silent> " . g:xptemplate_key . " " . g:XPTmappings.selTrigger
-exe "inoremap <silent> " . g:xptemplate_key_pum_only . " " . g:XPTmappings.popup
+exe "imap     <silent> <Plug>XPTfallback"          g:xptemplate_fallback
+exe "inoremap <silent> <Plug>XPTrawKey"            g:xptemplate_key
+exe "inoremap <silent>" g:xptemplate_key           g:XPTmappings.trigger
+exe "xnoremap <silent>" g:xptemplate_key           g:XPTmappings.wrapTrigger
+exe "snoremap <silent>" g:xptemplate_key           g:XPTmappings.selTrigger
+exe "inoremap <silent>" g:xptemplate_key_pum_only  g:XPTmappings.popup
 let s:pvs = split(g:xptemplate_vars, '\V'.s:ep.'&')
 for s:v in s:pvs
   let s:key = matchstr(s:v, '\V\^\[^=]\*\ze=')
@@ -95,7 +103,10 @@ fun! g:XPTloadBundle(ft, bundle)
     endif
 endfunction 
 fun! XPTfiletypeInit() 
-    let x = g:XPTobject()
+    if !exists( 'b:xptemplateData' )
+        call XPTemplateInit()
+    endif
+    let x = b:xptemplateData
     let fts = x.filetypes
     for [ ft, ftScope ] in items( fts )
         let f = ftScope.funcs
@@ -118,19 +129,26 @@ augroup XPTftInit
   au!
   au FileType * call XPTfiletypeInit()
 augroup END
+if g:xptemplate_brace_complete
+    inoremap <silent> ( <C-r>=XPTtgr('(',{'noliteral':1,'k':'('})<cr>
+    inoremap <silent> [ <C-r>=XPTtgr('[',{'noliteral':1,'k':'['})<cr>
+    inoremap <silent> { <C-r>=XPTtgr('{',{'noliteral':1,'k':'{'})<cr>
+    inoremap <silent> ' <C-r>=XPTtgr('''',{'noliteral':1,'k':''''})<cr>
+    inoremap <silent> " <C-r>=XPTtgr('"',{'noliteral':1,'k':'"'})<cr>
+endif
 let bs=&bs
 if bs != 2 && bs !~ "start" 
-  if g:xptemplate_fix 
-    set bs=2
-  else
-    echom "'backspace' option must be set with 'start'. set bs=2 or let g:xptemplate_fix=1 to fix it"
-  endif
+    if g:xptemplate_fix
+        set bs=2
+    else
+        echom "'backspace' option must be set with 'start'. set bs=2 or let g:xptemplate_fix=1 to fix it"
+    endif
 endif
 if &compatible == 1 
-  if g:xptemplate_fix 
-    set nocompatible
-  else
-    echom "'compatible' option must be set. set compatible or let g:xptemplate_fix=1 to fix it"
-  endif
+    if g:xptemplate_fix
+        set nocompatible
+    else
+        echom "'compatible' option must be set. set compatible or let g:xptemplate_fix=1 to fix it"
+    endif
 endif
 let &cpo = s:oldcpo

@@ -38,7 +38,7 @@ XPTinclude
 
 " ================================= Snippets ===================================
 XPTemplateDef
-XPT fun hint=fun\ (\ ...\ )
+XPT fun " fun ( .. )
 `type^ `name^(
              )
 {
@@ -46,14 +46,14 @@ XPT fun hint=fun\ (\ ...\ )
 }
 
 
-XPT tech hint=technique\ ...
+XPT tech " technique ..
 technique `techName^
 {
     `cursor^
 };
 
 
-XPT pass hint=pass\ ...
+XPT pass " pass ..
 XSET vtarget=Choose(['arbvp1', 'vs_2_x', 'vs_3_0', 'vs_4_0', 'vp20', 'vp30', 'vp40', 'gp4vp', 'hlslv', 'glslv'])
 XSET ftarget=Choose(['arbfp1', 'ps_2_x', 'ps_3_0', 'ps_4_0', 'fp20', 'fp30', 'fp40', 'gp4fp', 'hlslf', 'glslf'])
 XSET gtarget=Choos(['gp4gp', 'gs_4_0', 'glslg'])
@@ -65,14 +65,14 @@ pass `passName^ {`common...{{^
 };
 
 
-XPT interface hint=interface\ ...\ {\ ...\ }
+XPT interface " interface .. { .. }
 interface `interfaceName^
 {
     `cursor^
 };
 
 
-XPT vertexProg hint=main\ vertex\ programm
+XPT vertexProg " main vertex programm
 XSET vout=Choose(['COLOR0', 'COLOR1', 'TEXCOORD0', 'TEXCOORD1', 'PSIZE'])
 XSET vin=Choose(['POSITION', 'NORMAL', 'DIFFUSE', 'SPECULAR', 'TEXCOORD0', 'TEXCOORD1', 'TANGENT', 'BINORMAL', 'FOGCOORD'])
 void main( `inputs...^ float`n^ `name^ : `vin^,
@@ -83,7 +83,7 @@ void main( `inputs...^ float`n^ `name^ : `vin^,
 }
 
 
-XPT fragProg hint=main\ vertex\ programm
+XPT fragProg " main vertex programm
 XSET vin=Choose(['COLOR0', 'COLOR1', 'TEXCOORD0', 'TEXCOORD1', 'WPOS'])
 void main( `inputs...^ float`n^ `name^ : `vin^,
         `inputs...^float4 `color^ : COLOR`depth...{{^,
@@ -94,7 +94,7 @@ void main( `inputs...^ float`n^ `name^ : `vin^,
 
 
 
-XPT struct hint=struct\ ...\ {\ ...\ }
+XPT struct " struct .. { .. }
 struct `structName^`inherit...{{^ : `interfaceName^`}}^
 {
     `cursor^

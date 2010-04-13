@@ -1,12 +1,12 @@
-if exists("g:__XPREPLACE_VIM__")
-  finish
+if exists( "g:__XPREPLACE_VIM__" ) && g:__XPREPLACE_VIM__ >= XPT#ver
+    finish
 endif
-let g:__XPREPLACE_VIM__ = 1
+let g:__XPREPLACE_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 runtime plugin/debug.vim
 runtime plugin/xpmark.vim
-runtime plugin/SettingSwitch.class.vim
+runtime plugin/classes/SettingSwitch.vim
 let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )
 fun! s:InitBuffer() 
@@ -15,7 +15,7 @@ fun! s:InitBuffer()
     endif
     let b:__xpr_init = { 'settingSwitch' : g:SettingSwitch.New() }
     call b:__xpr_init.settingSwitch.AddList( 
-          \ [ '&l:virtualedit', 'all' ],
+          \ [ '&l:virtualedit', 'onemore' ],
           \ [ '&l:whichwrap'  , 'b,s,h,l,<,>,~,[,]' ],
           \ [ '&l:selection'  , 'exclusive' ],
           \ [ '&l:selectmode' , '' ],
@@ -24,6 +24,7 @@ endfunction
 fun! XPRstartSession() 
     call s:InitBuffer()
     if exists( 'b:_xpr_session' )
+        throw "xpreplace session already pushed"
         return
     endif
     let b:_xpr_session = {}
@@ -49,16 +50,17 @@ fun! XPreplaceByMarkInternal( startMark, endMark, replacement )
     call XPMupdateWithMarkRangeChanging( a:startMark, a:endMark, start, pos )
     return pos
 endfunction 
-fun! XPreplaceInternal(start, end, replacement, option) 
-    let option = { 'doJobs' : 1 }
-    call extend( option, a:option, 'force' )
-    Assert exists( 'b:_xpr_session' )
-    Assert &l:virtualedit == 'all'
-    Assert &l:whichwrap == 'b,s,h,l,<,>,~,[,]'
-    Assert &l:selection == 'exclusive'
-    Assert &l:selectmode == ''
+fun! s:ConvertSpaceToTab( text ) 
+    return XPT#convertSpaceToTab( a:text )
+endfunction 
+fun! XPreplaceInternal(start, end, replacement, ...) 
+    let option = { 'doJobs' : 1, 'saveHoriScroll' : 0 }
+    if a:0 == 1
+        call extend( option, a:1, 'force' )
+    endif
+    let replacement = s:ConvertSpaceToTab( a:replacement )
     if option.doJobs
-        call s:doPreJob(a:start, a:end, a:replacement)
+        call s:doPreJob(a:start, a:end, replacement)
     endif
     call cursor( a:start )
     if a:start != a:end
@@ -67,48 +69,66 @@ fun! XPreplaceInternal(start, end, replacement, option)
         silent! normal! dzO
         call cursor( a:start )
     endif
-    if a:replacement == ''
-        if option.doJobs
-            call s:doPostJob( a:start, a:start, a:replacement )
-        endif
-        return copy( a:start )
+    if replacement != ''
+        let positionAfterReplacement = s:Replace_standard( a:start, a:end, replacement )
+    else
+        let positionAfterReplacement = [ line("."), col(".") ]
     endif
+    if option.doJobs
+        call s:doPostJob( a:start, positionAfterReplacement, replacement )
+    endif
+    return positionAfterReplacement
+endfunction 
+fun! s:Replace_standard( start, end, replacement ) 
+    let replacement = a:replacement
     let bStart = [a:start[0] - line( '$' ), a:start[1] - len(getline(a:start[0]))]
     call cursor( a:start )
     let ifPasteAtEnd = ( col( [ a:start[0], '$' ] ) == a:start[1] && a:start[1] > 1 ) 
-    let @" = a:replacement . ';'
-    if 1 
-        if ifPasteAtEnd
-            call cursor( a:start[0], a:start[1] - 1 )
-            let char = getline( "." )[ -1:-1 ]
-            let @" = char . a:replacement . ';'
-            silent! normal! ""P
+    let @" = replacement . ';'
+    if ifPasteAtEnd
+        call cursor( a:start[0], a:start[1] - 1 )
+        let char = getline( "." )[ -1:-1 ]
+        let @" = char . replacement . ';'
+        silent! normal! ""P
+    else
+        if col( "." ) == len( getline( line( "." ) ) ) + 1
+            silent! normal! ""p
         else
             silent! normal! ""P
         endif
-        let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
-        let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
-        call cursor( a:start )
-        k'
-        call cursor(positionAfterReplacement)
-        silent! '',.foldopen!
-        if ifPasteAtEnd
-            call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - 1 )
-            silent! normal! DzO
+    endif
+    let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
+    let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
+    call cursor( a:start )
+    k'
+    call cursor(positionAfterReplacement)
+    silent! '',.foldopen!
+    if ifPasteAtEnd
+        call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - 1 )
+        silent! normal! DzO
+    else
+        call cursor( positionAfterReplacement )
+        if positionAfterReplacement[ 1 ] == len( getline( positionAfterReplacement[ 0 ] ) ) + 1 
+              \ && positionAfterReplacement[ 1 ] > 1
+            call cursor( positionAfterReplacement[ 0 ], positionAfterReplacement[ 1 ] - 1 )
+            silent! normal! xzO
         else
-            call cursor( positionAfterReplacement )
             silent! normal! XzO
         endif
-        let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
-        let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
-    else
-        call cursor( a:start )
-        silent! normal! ""gPX
-        let positionAfterReplacement = [ line( "." ), col( "." ) ]
     endif
-    if option.doJobs
-        call s:doPostJob( a:start, positionAfterReplacement, a:replacement )
-    endif
+    let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
+    let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
+    return positionAfterReplacement
+endfunction 
+fun! s:Replace_gp( start, end, replacement ) 
+    let replacement = a:replacement
+    let bStart = [a:start[0] - line( '$' ), a:start[1] - len(getline(a:start[0]))]
+    call cursor( a:start )
+    let ifPasteAtEnd = ( col( [ a:start[0], '$' ] ) == a:start[1] && a:start[1] > 1 ) 
+    let @" = replacement . ';'
+    call cursor( a:start )
+    silent! normal! ""gPzOXzO
+    let positionAfterReplacement = [ line( "." ), col( "." ) ]
     return positionAfterReplacement
 endfunction 
 fun! XPreplace(start, end, replacement, ...) 

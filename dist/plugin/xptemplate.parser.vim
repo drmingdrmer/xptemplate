@@ -1,18 +1,19 @@
-if exists("g:__XPTEMPLATE_PARSER_VIM__")
-  finish
+if exists( "g:__XPTEMPLATE_PARSER_VIM__" ) && g:__XPTEMPLATE_PARSER_VIM__ >= XPT#ver
+    finish
 endif
-let g:__XPTEMPLATE_PARSER_VIM__ = 1
+let g:__XPTEMPLATE_PARSER_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 runtime plugin/debug.vim
-runtime plugin/FiletypeScope.class.vim
+runtime plugin/classes/FiletypeScope.vim
+runtime plugin/classes/FilterValue.vim
 runtime plugin/xptemplate.util.vim
 runtime plugin/xptemplate.vim
 let s:log = CreateLogger( 'warn' )
 com! -nargs=* XPTemplate
-            \   if XPTsnippetFileInit( expand( "<sfile>" ), <f-args> ) == 'finish'
-            \ |     finish
-            \ | endif
+      \   if XPTsnippetFileInit( expand( "<sfile>" ), <f-args> ) == 'finish'
+      \ |     finish
+      \ | endif
 com!          XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | finish
 com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
 com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
@@ -45,13 +46,22 @@ fun! s:AssignSnipFT( filename )
     endif
     return ft
 endfunction 
+fun! s:LoadOtherFTPlugins( ft ) 
+    call XPTsnipScopePush()
+    for subft in split( a:ft, '\V.' )
+        exe 'runtime! ftplugin/' . subft . '.vim'
+        exe 'runtime! ftplugin/' . subft . '_*.vim'
+        exe 'runtime! ftplugin/' . subft . '/*.vim'
+    endfor
+    call XPTsnipScopePop()
+endfunction 
 fun! XPTsnippetFileInit( filename, ... ) 
     if !exists("b:xptemplateData")
         call XPTemplateInit()
     endif
     let x = b:xptemplateData
     let filetypes = x.filetypes
-    let snipScope = XPTnewSnipScope(a:filename)
+    let snipScope = XPTnewSnipScope( a:filename )
     let snipScope.filetype = s:AssignSnipFT( a:filename )
     if snipScope.filetype == 'not allowed'
         call s:log.Info(  "not allowed:" . a:filename )
@@ -80,7 +90,7 @@ fun! XPTsnippetFileInit( filename, ... )
     return 'doit'
 endfunction 
 fun! XPTsnipSet( dictNameValue ) 
-    let x = XPTbufData()
+    let x = b:xptemplateData
     let snipScope = x.snipFileScope
     let [ dict, nameValue ] = split( a:dictNameValue, '\V.', 1 )
     let name = matchstr( nameValue, '^.\{-}\ze=' )
@@ -88,7 +98,7 @@ fun! XPTsnipSet( dictNameValue )
     let snipScope[ dict ][ name ] = value
 endfunction 
 fun! XPTsetVar( nameSpaceValue ) 
-    let x = XPTbufData()
+    let x = b:xptemplateData
     let ftScope = g:GetSnipFileFtScope()
     let name = matchstr(a:nameSpaceValue, '^\S\+\ze')
     if name == ''
@@ -115,7 +125,7 @@ fun! XPTinclude(...)
                 call XPTinclude(s)
             endfor
         elseif type(v) == type('') 
-            if XPTbufData().filetypes[ scope.filetype ].IsSnippetLoaded( v )
+            if b:xptemplateData.filetypes[ scope.filetype ].IsSnippetLoaded( v )
                 continue
             endif
             call XPTsnipScopePush()
@@ -143,6 +153,15 @@ fun! s:XPTstartSnippetPart(fn)
     let lines = readfile(a:fn)
     let i = match( lines, '^XPTemplateDef' )
     let lines = lines[ i : ]
+    let x = b:xptemplateData
+    let x.snippetToParse += [ { 'snipFileScope' : x.snipFileScope, 'lines' : lines } ]
+    return
+endfunction 
+fun! DoParseSnippet( p ) 
+    call XPTsnipScopePush()
+    let x = b:xptemplateData
+    let x.snipFileScope = a:p.snipFileScope
+    let lines = a:p.lines
     let [i, len] = [0, len(lines)]
     call s:ConvertIndent( lines )
     let [s, e, blk] = [-1, -1, 10000]
@@ -174,6 +193,7 @@ fun! s:XPTstartSnippetPart(fn)
     if s != -1
         call s:XPTemplateParseSnippet(lines[s : min([blk, i])])
     endif
+    call XPTsnipScopePop()
 endfunction 
 fun! s:XPTemplateParseSnippet(lines) 
     let lines = a:lines
@@ -183,7 +203,7 @@ fun! s:XPTemplateParseSnippet(lines)
     let setting = deepcopy( g:XPTemplateSettingPrototype )
     let [hint, lines[0]] = s:GetSnipCommentHint( lines[0] )
     if hint != ''
-        let setting.hint = hint
+        let setting.rawHint = hint
     endif
     let snippetParameters = split(lines[0], '\V'.s:nonEscaped.'\s\+')
     let snippetName = snippetParameters[1]
@@ -192,10 +212,12 @@ fun! s:XPTemplateParseSnippet(lines)
         let name = matchstr(pair, '\V\^\[^=]\*')
         let value = pair[ len(name) : ]
         let value = value[0:0] == '=' ? g:xptutil.UnescapeChar(value[1:], ' ') : 1
-        if !has_key( setting, name )
-            let setting[name] = value
-        endif
+        let setting[name] = value
     endfor
+    if type( get( setting, 'wraponly', 0 ) ) == type( '' )
+        let setting.wrap = setting.wraponly
+        let setting.wraponly = 1
+    endif
     let start = 1
     let len = len( lines )
     while start < len
@@ -207,7 +229,7 @@ fun! s:XPTemplateParseSnippet(lines)
                 continue
             endif
             let [ keyname, keytype ] = s:GetKeyType( key )
-            call s:handleXSETcommand(setting, command, keyname, keytype, val)
+            call s:HandleXSETcommand(setting, command, keyname, keytype, val)
         elseif lines[start] =~# '^\\XSET' " escaped XSET or XSETm
             let snippetLines += [ lines[ start ][1:] ]
         else
@@ -237,10 +259,11 @@ fun! s:XPTemplateParseSnippet(lines)
     endif
 endfunction 
 fun! s:GetSnipCommentHint(str) 
-    if match(a:str, '\V' . s:nonEscaped . '\shint=') != -1
-        return ['', a:str]
+    let pos = match(a:str, '\V' . s:nonEscaped . '\shint=')
+    if pos != -1
+        return [ a:str[ pos + 6 : ], a:str[ : pos - 1 ] ]
     endif
-    let pos = match( a:str, '\V\s' . s:nonEscaped . '"' )
+    let pos = match( a:str, '\VXPT\s\+\S\+\.\{-}\zs\s' . s:nonEscaped . '"' )
     if pos == -1
         return [ '', a:str ]
     else
@@ -248,39 +271,29 @@ fun! s:GetSnipCommentHint(str)
     endif
 endfunction 
 fun! s:ConvertIndent( snipLines ) 
-    let sts = &l:softtabstop
-    let ts  = &l:tabstop
-    let usingTab = !&l:expandtab
-    if 0 == sts 
-        let sts = ts
-    endif
-    let tabspaces = repeat( ' ', ts )
-    let indentRep = repeat( '\1', sts )
+    let tabspaces = repeat( ' ', &l:tabstop )
+    let indentRep = repeat( '\1', &l:shiftwidth )
     let cmdExpand = 'substitute(v:val, ''^\( *\)\1\1\1'', ''' . indentRep . ''', "g" )'
     call map( a:snipLines, cmdExpand )
-    if usingTab 
-        let cmdReplaceTab = 'v:val !~ ''^ '' ? v:val : join(split( v:val, ' . string( '^\%(' . tabspaces . '\)' ) . ', 1), ''	'')' 
-        call map( a:snipLines, cmdReplaceTab )
-    endif
 endfunction 
 fun! s:getXSETkeyAndValue(lines, start) 
     let start = a:start
-    let XSETparam = matchstr(a:lines[start], '^XSET\%[m]\s\+\zs.*')
-    let isMultiLine = a:lines[ start ] =~# '^XSETm'
+    let XSETparam = matchstr(a:lines[start], '\V\^XSET\%[m]\s\+\zs\.\*')
+    let isMultiLine = a:lines[ start ] =~# '\V\^XSETm'
     if isMultiLine
         let key = XSETparam
-        let [ start, val ] = s:parseMultiLineValues(a:lines, start)
+        let [ start, val ] = s:ParseMultiLineValues(a:lines, start)
     else
-        let key = matchstr(XSETparam, '[^=]*\ze=')
+        let key = matchstr(XSETparam, '\V\[^=]\*\ze=')
         if key == ''
             return [ '', '', start + 1 ]
         endif
-        let val = matchstr(XSETparam, '=\zs.*')
+        let val = matchstr(XSETparam, '\V=\s\*\zs\.\*')
         let val = substitute(val, '\\n', "\n", 'g')
     endif
     return [ key, val, start ]
 endfunction 
-fun! s:parseMultiLineValues(lines, start) 
+fun! s:ParseMultiLineValues(lines, start) 
     let lines = a:lines
     let start = a:start
     let endPattern = '\V\^XSETm\s\+END\$'
@@ -311,30 +324,42 @@ fun! s:GetKeyType(rawKey)
     let keyname = substitute(keyname, '\V\\\(\[.|\\]\)', '\1', 'g')
     return [ keyname, keytype ]
 endfunction 
-fun! s:handleXSETcommand(setting, command, keyname, keytype, value) 
+fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) 
     if a:keyname ==# 'ComeFirst'
-        let a:setting.comeFirst = s:splitWith( a:value, ' ' )
+        let a:setting.comeFirst = s:SplitWith( a:value, ' ' )
     elseif a:keyname ==# 'ComeLast'
-        let a:setting.comeLast = s:splitWith( a:value, ' ' )
+        let a:setting.comeLast = s:SplitWith( a:value, ' ' )
     elseif a:keyname ==# 'postQuoter'
         let a:setting.postQuoter = a:value
+    elseif a:keyname =~ '\V\^$'
+        let a:setting.variables[ a:keyname ] = a:value
     elseif a:keytype == "" || a:keytype ==# 'def'
-        let a:setting.defaultValues[a:keyname] = "\n" . a:value
+        let a:setting.defaultValues[a:keyname] = g:FilterValue.New( 0, a:value )
+    elseif a:keytype ==# 'map'
+        let a:setting.mappings[ a:keyname ] = get(
+              \ a:setting.mappings,
+              \ a:keyname,
+              \ { 'saver' : g:MapSaver.New( 1 ), 'keys' : {} } )
+        let key = matchstr( a:value, '\V\^\S\+\ze\s' )
+        let mapping = matchstr( a:value, '\V\s\+\zs\.\*' )
+        call a:setting.mappings[ a:keyname ].saver.Add( 'i', key )
+        let a:setting.mappings[ a:keyname ].keys[ key ] = g:FilterValue.New( 0, mapping )
     elseif a:keytype ==# 'pre'
-        let a:setting.preValues[a:keyname] = "\n" . a:value
+        let a:setting.preValues[a:keyname] = g:FilterValue.New( 0, a:value )
     elseif a:keytype ==# 'ontype'
-        let a:setting.ontypeFilters[a:keyname] = "\n" . a:value
+        let a:setting.ontypeFilters[a:keyname] = g:FilterValue.New( 0, a:value )
     elseif a:keytype ==# 'post'
         if a:keyname =~ '\V...'
-            let a:setting.postFilters[a:keyname] = "\n" . 'BuildIfNoChange(' . string(a:value) . ')'
+            let a:setting.postFilters[a:keyname] = 
+                  \ g:FilterValue.New( 0, 'BuildIfNoChange(' . string(a:value) . ')' )
         else
-            let a:setting.postFilters[a:keyname] = "\n" . a:value
+            let a:setting.postFilters[a:keyname] = g:FilterValue.New( 0, a:value )
         endif
     else
         throw "unknown key name or type:" . a:keyname . ' ' . a:keytype
     endif
 endfunction 
-fun! s:splitWith( str, char ) 
+fun! s:SplitWith( str, char ) 
   let s = split( a:str, '\V' . s:nonEscaped . a:char, 1 )
   return s
 endfunction 

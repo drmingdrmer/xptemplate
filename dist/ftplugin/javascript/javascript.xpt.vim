@@ -2,6 +2,7 @@ XPTemplate priority=lang
 
 let s:f = g:XPTfuncs()
 
+
 XPTvar $TRUE          true
 XPTvar $FALSE         false
 XPTvar $NULL          null
@@ -16,15 +17,16 @@ XPTvar $BRfun   ' '
 XPTvar $VOID_LINE  /* void */;
 XPTvar $CURSOR_PH      /* cursor */
 
+
 XPTvar $CL  /*
 XPTvar $CM   *
 XPTvar $CR   */
 
-
 XPTinclude
       \ _common/common
       \ _comment/doubleSign
-      \ _condition/c.like
+      \ _condition/ecma
+
 
 XPTvar $VAR_PRE
 XPTvar $FOR_SCOPE 'var '
@@ -42,7 +44,7 @@ XPTemplateDef
 
 
 
-XPT bench hint=Benchmark
+XPT bench " Benchmark
 XSET log=console.log
 XSET job=$VOID_LINE
 XSET jobn=$VOID_LINE
@@ -59,13 +61,13 @@ var t2 = new Date().getTime();
 
 ..XPT
 
-XPT asoe hint=assertObjectEquals
+XPT asoe " assertObjectEquals
 assertObjectEquals(`mess^
                   , `arr^
                   , `expr^)
 
 
-XPT cmt hint=/**\ @auth...\ */
+XPT cmt " /** @auth... */
 XSET author=$author
 XSET email=$email
 /**
@@ -76,13 +78,13 @@ XSET email=$email
 */
 
 
-XPT cpr hint=@param
+XPT cpr " @param
 @param {`Object^} `name^ `desc^
 
 
 " file comment
 " 4 back slash represent 1 after rendering.
-XPT fcmt hint=full\ doxygen\ comment
+XPT fcmt " full doxygen comment
 /**-------------------------/// `sum^ \\\---------------------------
  *
  * <b>`function^</b>
@@ -100,38 +102,38 @@ XPT fcmt hint=full\ doxygen\ comment
  *--------------------------\\\ `sum^ ///---------------------------*/
 
 
-XPT fun hint=function\ ..(\ ..\ )\ {..}
+XPT fun " function ..( .. ) {..}
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 function` `name^ (`arg*^) {
     `cursor^
 }
 
 
-XPT forin hint=for\ (var\ ..\ in\ ..)\ {..}
+XPT forin " for (var .. in ..) {..}
 for ( var `i^ in `array^ )`$BRloop^{
     var `e^ = `array^[`i^];
     `cursor^
 }
 
 
-XPT new hint=var\ ..\ =\ new\ ..\(..)
+XPT new " var .. = new ..\(..)
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 var `instant^ = new `Constructor^(`arg*^)
 
 
-XPT proto hint=...prototype...\ =\ function\(..)\ {\ ..\ }
+XPT proto " ...prototype... = function\(..) { .. }
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 `Class^.prototype.`method^ = function(`arg*^)`$BRfun^{
 `cursor^
 }
 
 
-XPT setTimeout hint=setTimeout\(function\()\ {\ ..\ },\ ..)
+XPT setTimeout " setTimeout\(function\() { .. }, ..)
 XSET job=$VOID_LINE
 setTimeout(function() { `job^ }, `milliseconds^)
 
 
-XPT try hint=try\ {..}\ catch\ {..}\ finally
+XPT try wrap=job " try {..} catch {..} finally
 XSET dealError=/* error handling */
 XSET job=$VOID_LINE
 try`$BRif^{
@@ -148,9 +150,8 @@ finally`$BRif^{
     `cursor^
 }`}}^
 
-" ================================= Wrapper ===================================
 
-XPT bench_ hint=Benchmark
+XPT bench_ wraponly=wrapped " Benchmark
 XSET log=console.log
 var t0 = new Date().getTime();
 for (var i = 0; i < `times^; ++i){
@@ -160,26 +161,4 @@ var t1 = new Date().getTime();
 `log^(t1-t0);
 
 
-XPT fun_ hint=function\ ..(\ ..\ )\ {..}
-function` `name^ (`param^) {
-    `wrapped^
-    return;
-}
 
-
-XPT try_ hint=try\ {..}\ catch\ {..}\ finally
-XSET dealError=/* error handling */
-XSET job=$VOID_LINE
-try`$BRif^{
-    `wrapped^
-}
-catch (`err^)`$BRif^{
-    `dealError^
-}`...^
-catch (`err^)`$BRif^{
-    `dealError^
-}`...^`
-`finally...{{^
-finally`$BRif^{
-    `cursor^
-}`}}^

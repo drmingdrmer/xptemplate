@@ -23,35 +23,35 @@ XPTinclude
 " ================================= Snippets ===================================
 XPTemplateDef
 
-XPT addprefix hint=$(addprefix\ ...)
+XPT addprefix " $(addprefix ...)
 $(addprefix `prefix^, `elemList^)
 
 
-XPT addsuffix hint=$(addsuffix\ ...)
+XPT addsuffix " $(addsuffix ...)
 $(addsuffix `suffix^, `elemList^)
 
 
-XPT filterout hint=$(filter-out\ ...)
+XPT filterout " $(filter-out ...)
 $(filter-out `toRemove^, `elemList^)
 
 
-XPT patsubst hint=$(patsubst\ ...)
+XPT patsubst " $(patsubst ...)
 $(patsubst `sourcePattern^%.c^,  `destPattern^%.o^, `list^)
 
 
-XPT shell hint=$(shell\ ...)
+XPT shell " $(shell ...)
 $(shell `command^)
 
 
-XPT subst hint=$(subst\ ...)
+XPT subst " $(subst ...)
 $(subst `sourceString^, `destString^, `string^)
 
 
-XPT wildcard hint=$(wildcard\ ...)
+XPT wildcard " $(wildcard ...)
 $(wildcard `globpattern^)
 
 
-XPT ifneq hint=ifneq\ ...\ else\ ...\ endif
+XPT ifneq " ifneq ... else ... endif
 ifneq (`what^, `with^)
     `job^
 ``else...`
@@ -60,7 +60,7 @@ ifneq (`what^, `with^)
 `}}^endif
 
 
-XPT ifeq hint=ifneq\ ...\ else\ ...\ endif
+XPT ifeq " ifneq ... else ... endif
 XSET job=$CS job
 ifeq (`what^, `with^)
     `job^
@@ -70,12 +70,8 @@ ifeq (`what^, `with^)
 `}}^endif
 
 
-XPT basevar hint=CC\ ...\ CFLAG\ ..
+XPT basevar " CC ... CFLAG ..
 `lang^C^C := `compiler^gcc^
 `lang^C^FLAGS := `switches^-Wall -Wextra^
 
 
-" ================================= Wrapper ===================================
-
-XPT var_ hint=$(SEL)
-$(`wrapped^)

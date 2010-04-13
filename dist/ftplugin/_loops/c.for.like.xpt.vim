@@ -1,44 +1,38 @@
 XPTemplate priority=like
 
-let s:f = g:XPTfuncs()
 
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $UNDEFINED     NULL
-
-XPTvar $VOID_LINE  /* void */;
-XPTvar $CURSOR_PH      /* cursor */
-
-XPTvar $BRif          ' '
 XPTvar $BRloop        ' '
-XPTvar $BRloop        ' '
-XPTvar $BRstc         ' '
 
+" int fun( ** arg ** )
+" if ( ** condition ** )
+" for ( ** statement ** )
+" [ ** a, b ** ]
+" { ** 'k' : 'v' ** }
+XPTvar $SParg      ' '
 
+" if ** (
+" while ** (
+" for ** (
+XPTvar $SPcmd      ' '
 
+" a ** = ** a ** + ** 1
+" (a, ** b, ** )
+XPTvar $SPop       ' '
 
-" ========================= Function and Variables =============================
-
-
-" ================================= Snippets ===================================
 XPTemplateDef
 
 
-XPT for hint=for\ (..;..;++)
-for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRloop^{
+XPT for wrap=cursor " for (..;..;++)
+for`$SPcmd^(`$SParg^`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
-XPT forr hint=for\ (..;..;--)
-for (`i^ = `n^; `i^ >`=^ `end^; --`i^)`$BRloop^{
+XPT forr wrap=cursor " for (..;..;--)
+for`$SPcmd^(`$SParg^`i^`$SPop^=`$SPop^`n^; `i^`$SPop^>`=$SPop`0^; `i^--`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
-XPT forever hint=for\ (;;)\ ..
-XSET body=$CL void $CR;
-for (;;) `body^
-
-
+XPT forever " for (;;) ..
+for`$SPcmd^(;;) `cursor^

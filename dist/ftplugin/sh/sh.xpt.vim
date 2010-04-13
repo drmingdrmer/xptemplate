@@ -1,4 +1,4 @@
-XPTemplate priority=lang mark=~^ keyword=$([{
+XPTemplate priority=lang mark=~^
 
 let s:f = g:XPTfuncs()
 
@@ -17,8 +17,11 @@ XPTvar $BRloop        ' '
 XPTvar $BRstc         ' '
 XPTvar $BRfun         ' '
 
+XPTvar $SPop          ''
+
 XPTinclude
       \ _common/common
+      \ _printf/c.like
 
 XPTvar $CS    #
 XPTinclude
@@ -44,9 +47,7 @@ let s:braceMap = {
             \}
 
 fun! s:f.sh_complete_brace()
-    if !g:xptemplate_brace_complete
-        return ''
-    endif
+
     let v = self.V()
     let br = matchstr( v, '\V\^\[\[({`]\{1,2} \?' )
     if br == ''
@@ -66,6 +67,7 @@ fun! s:f.sh_complete_brace()
             echom v:exception
         endtry
     endif
+
 endfunction
 
 " ================================= Snippets ===================================
@@ -74,109 +76,104 @@ endfunction
 XPTemplateDef
 
 
-XPT shebang hint=#!/bin/[ba|z]sh
-XSET sh=ChooseStr( 'sh', 'bash', 'zsh' )
+XPT shebang " #!/bin/[ba|z|c]sh
+XSET sh=ChooseStr( 'sh', 'bash', 'zsh', 'csh' )
 #!/bin/~sh^
 
 ..XPT
 
 XPT sb alias=shebang
 
-XPT sh alias=shebang hint=#!/bin/sh
-XSET sh=Next( 'sh' )
+XPT _shebang hidden " #!/bin/$_xSnipName
+#!/bin/~$_xSnipName^
 
-XPT bash alias=shebang hint=#!/bin/bash
-XSET sh=Next( 'bash' )
-
-XPT zsh alias=shebang hint=#!/bin/zsh
-XSET sh=Next( 'zsh' )
-
-XPT echodate hint=echo\ `date\ +%...`
-echo `date +~fmt^`
+..XPT
 
 
+XPT sh   alias=_shebang
+XPT bash alias=_shebang
+XPT zsh  alias=_shebang
+XPT csh  alias=_shebang
 
-XPT forin
+
+XPT echodate " echo `date +%...`
+echo `date~ +~fmt^`
+
+XPT _cond hidden
+XSET condition|map=[ [
+XSET condition|map=( (
+~condition^~condition^sh_complete_brace()^
+
+
+XPT printf	" printf\(...)
+XSET elts|pre=Echo('')
+XSET elts=c_printf_elts( R( 'pattern' ), ' '[ len( $SPop ) : ] )
+printf "~pattern^"~elts^
+
+
+
+XPT forin wrap=cursor " for .. in ..; do
 for ~i^ in ~list^;~$BRloop^do
     ~cursor^
 done
 
-
-XPT foreach alias=forin
-
-
-XPT for
+XPT for wrap=cursor " for (( i=0; i<len; i++ )); do
 for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$BRloop^do
     ~cursor^
 done
 
-XPT forr
-for ((~i^ = ~n^; ~i^ >~=^ ~start^; ~i^--));~$BRloop^do
+XPT forr wrap=cursor " for (( i=n; i>=start; i++ )); do
+for ((~i^ = ~n^; ~i^ >~=^ ~start^0^; ~i^--));~$BRloop^do
     ~cursor^
 done
 
+XPT here wrap=cursor " << END ..
+<<~-~END^
+~cursor^
+~END^substitute( V(), '\v\^-', '', '' )^
 
-XPT while
-while ~condition^;~$BRloop^do
+XPT until wrap=cursor " until ..; do
+until ~:_cond:^;~$BRloop^;do
     ~cursor^
 done
 
+XPT while wrap=cursor " while ..; do
+while ~:_cond:^;~$BRloop^do
+    ~cursor^
+done
 
-XPT while1 alias=while
-XSET condition=Next( '[ 1 ]' )
+XPT while1 alias=while " while [ 1 ]; do
+XSET condition=Next( '[ ~$TRUE^ ]' )
 
-
-XPT case
-case $~var^ in
+XPT case wrap=cursor " case .. in ..
+case ~$~var^ in
     ~pattern^)
     ~cursor^
     ;;
 
-    *)
-    ;;
 esac
 
-
-XPT if
-if ~condition^~condition^sh_complete_brace()^;~$BRif^then
+XPT if wrap=cursor " if ..; then
+if ~:_cond:^;~$BRif^then
     ~cursor^
 fi
 
-XPT el hint=else\ ...
+XPT else wrap=cursor " else ..
 else
     ~cursor^
 
-
-
-XPT ife
-if ~condition^~condition^sh_complete_brace()^;~$BRif^then
+XPT ife wrap=job " if ..; then .. else ..
+if ~:_cond:^;~$BRif^then
     ~job^
 else
     ~cursor^
 fi
 
-
-XPT elif
-elif ~condition^~condition^sh_complete_brace()^;~$BRif^then
+XPT elif wrap=cursor " elif .. ; then
+elif ~:_cond:^;~$BRif^then
     ~cursor^
 
-
-XPT (
-( ~cursor^ )
-
-
-XPT {
-{ ~cursor^ }
-
-
-XPT [
-[ ~test^ ]
-
-XPT [[
-[[ ~test^ ]]
-
-
-XPT fun
+XPT fun wrap=cursor " .. () { .. }
 ~name^ ()~$BRfun^{
     ~cursor^
 }

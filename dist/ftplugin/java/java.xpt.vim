@@ -38,22 +38,22 @@ XPTemplateDef
 
 
 
-XPT foreach hint=for\ \(\ ..\ :\ ..\ \)
+XPT foreach " for \( .. : .. \)
 for ( `type^ `var^ : `inWhat^ )`$BRloop^{
     `cursor^
 }
 
 
-XPT private hint=private\ ..\ ..
+XPT private " private .. ..
 private `type^ `varName^;
 
-XPT public hint=private\ ..\ ..
+XPT public " private .. ..
 public `type^ `varName^;
 
-XPT protected hint=private\ ..\ ..
+XPT protected " private .. ..
 protected `type^ `varName^;
 
-XPT class hint=class\ ..\ ctor
+XPT class " class .. ctor
 public class `className^ {
     public `className^(` `ctorParam` ^)`$BRfun^{
         `cursor^
@@ -61,13 +61,13 @@ public class `className^ {
 }
 
 
-XPT main hint=main\ (\ String\ )
+XPT main " main ( String )
 public static void main( String[] args )`$BRfun^{
     `cursor^
 }
 
 
-XPT enum hint=public\ enum\ {\ ..\ }
+XPT enum " public enum { .. }
 `public^ enum `enumName^
 {
     `elem^` `...^,
@@ -75,7 +75,7 @@ XPT enum hint=public\ enum\ {\ ..\ }
 };
 `cursor^
 
-XPT prop hint=var\ getVar\ ()\ setVar\ ()
+XPT prop " var getVar () setVar ()
 `type^ `varName^;
 
 `get...^
@@ -92,7 +92,7 @@ public `R("type")^ set`S(R("varName"),'.','\u&',"")^( `R('type')^ val )
 XSETm END
 
 
-XPT try hint=try\ ..\ catch\ (..)\ ..\ finally
+XPT try wrap=what " try .. catch (..) .. finally
 XSET handler=$CL handling $CR
 try
 {
@@ -112,23 +112,3 @@ XSETm END
 
 
 
-" ================================= Wrapper ===================================
-
-
-XPT try_ hint=try\ {\ SEL\ }\ catch...
-XSET handler=$CL handling $CR
-try
-{
-    `wrapped^
-}` `catch...^
-XSETm catch...|post
-
-catch (`Exception^ `e^)
-{
-    `handler^
-}` `catch...^
-XSETm END
-`finally...{{^finally
-{
-    `cursor^
-}`}}^

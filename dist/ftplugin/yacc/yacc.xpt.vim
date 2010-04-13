@@ -28,7 +28,7 @@ XPTinclude
 XPTemplateDef
 
 
-XPT yacc hint=Basic\ yacc\ file
+XPT yacc " Basic yacc file
 %{
 /* includes */
 %}
@@ -38,17 +38,17 @@ XPT yacc hint=Basic\ yacc\ file
 %%
 /* C code */
 
-XPT rule hint=..:\ ..\ |\ ..\ |\ ...
+XPT rule " ..: .. | .. | ...
 `ruleName^: `pattern^   { `action^ }
 `        `...`
 {{^        | `pattern^   { `action^ }
 `        `...`
 ^`}}^        ;
 
-XPT tok hint=%token\ ...
+XPT tok " %token ...
 %token 
 
-XPT prio hint=%left\ ...\ %right\ ...
+XPT prio " %left ... %right ...
 XSET op*|post=ExpandIfNotEmpty( "' '", 'op*', "" )
 %left   '`op*^'` `...^
 %left   '`op*^'` `...^

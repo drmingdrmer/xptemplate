@@ -8,7 +8,7 @@ XPTinclude
 
 " ================================= Snippets ===================================
 XPTemplateDef
-XPT cmdlet hint=cmdlet\ ..-..\ {}
+XPT cmdlet " cmdlet ..-.. {}
 Cmdlet `verb^-`noun^
 {
     `Param...{{^Param(
@@ -26,7 +26,7 @@ Cmdlet `verb^-`noun^
 }
 
 
-XPT if hint=if\ (\ ..\ )\ {\ ..\ }\ ...
+XPT if wrap=code " if ( .. ) { .. } ...
 if ( `cond^ )
 {
     `code^
@@ -44,14 +44,14 @@ else
 }`}}^
 
 
-XPT fun hint=function\ ..(..)\ {\ ..\ }
+XPT fun " function ..(..) { .. }
 function `funName^( `params^ )
 {
    `cursor^
 }
 
 
-XPT function hint=function\ {\ BEGIN\ PROCESS\ END\ }
+XPT function " function { BEGIN PROCESS END }
 function `funName^( `params^ )
 {
     `Begin...{{^Begin
@@ -69,12 +69,12 @@ function `funName^( `params^ )
 }
 
 
-XPT foreach hint=foreach\ (..\ in\ ..)
+XPT foreach " foreach (.. in ..)
 foreach ($`var^ in `other^)
     { `cursor^ }
 
 
-XPT switch hint=switch\ (){\ ..\ {..}\ }
+XPT switch " switch (){ .. {..} }
 switch `option^^ (`what^)
 {
  `pattern^ { `action^ }`...^
@@ -83,39 +83,23 @@ switch `option^^ (`what^)
 }
 
 
-XPT trap hint=trap\ [..]\ {\ ..\ }
+XPT trap " trap [..] { .. }
 trap [`Exception^]
 {
     `body^
 }
 
 
-XPT for hint=for\ (..;..;++)
+XPT for " for (..;..;++)
 for ($`var^ = `init^; $`var^ -ge `val^; $`var^--)
 {
     `cursor^
 }
 
 
-XPT forr hint=for\ (..;..;--)
+XPT forr " for (..;..;--)
 for ($`var^ = `init^; $`var^ -ge `val^; $`var^--)
 {
     `cursor^
 }
 
-
-" ================================= Wrapper ===================================
-
-XPT if_ hint=if\ (..)\ {\ SEL\ }\ ...
-if ( `cond^ )
-{
-    `wrapped^
-}`...^
-elseif ( `cond2^ )
-{
-    `body^
-}`...^`else...{{^
-else
-{
-    `body^
-}`}}^

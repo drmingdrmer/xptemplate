@@ -61,19 +61,19 @@ XPTemplateDef
 " Snippet Pieces
 " ===============
 
-XPT optionalExpr hidden=1
+XPT optionalExpr hidden
 (`$SParg^`expr?^`expr?^CmplQuoter_pre()^`$SParg^)
 
-XPT expr hidden=1
+XPT expr hidden
 (`$SParg^`expr^`expr^CmplQuoter_pre()^`$SParg^)
 
-XPT maybeFunction hidden=1
+XPT maybeFunction hidden
 (`$SParg^`function...{{^function(`i^`, `e?^) { `cursor^ }`}}^`$SParg^)
 
-XPT optionalVal hidden=1
-(`$SParg^`val?^`$SParg^)
+XPT optionalVal hidden
+(`$SParg`val?`$SParg^)
 
-XPT _funExp hidden=1
+XPT _funExp hidden
 `function...{{^function(`i^`, `e?^) { `cursor^ }`}}^
 ..XPT
 
@@ -102,13 +102,13 @@ get(`$SParg^`^`$SParg^)
 XPT ind " index\(...)
 index(`$SParg^`^`$SParg^)
 
-XPT da " data\(..,\ ..)
+XPT da " data\(.., ..)
 data(`$SParg^`name^`, `value?^`$SParg^)
 
 XPT rmd " removeData\(..)
 removeData(`$SParg^`name^`$SParg^)
 
-XPT qu " queue\(..,\ ..)
+XPT qu " queue\(.., ..)
 queue(`$SParg^`name^`, `toAdd?^`$SParg^)
 
 XPT dq " dequeue\(...)
@@ -211,7 +211,7 @@ map`:maybeFunction:^
 XPT not " not\(..)
 not`:expr:^
 
-XPT slc " slice\(start,\ end)
+XPT slc " slice\(start, end)
 slice(`$SParg^`start^`, `end?^`$SParg^)
 
 XPT add " add\(..)
@@ -318,14 +318,14 @@ cloen`:optionalExpr:^
 " TODO ajax option
 " TODO universial behavior for clearing optional argument
 
-XPT _ld_callback hidden=1
+XPT _ld_callback hidden
 function(`$SParg^`resText^`, `textStatus^`, `xhr^`$SParg^) { `cursor^ }
 
-XPT _aj_type hidden=1
+XPT _aj_type hidden
 XSET type=ChooseStr( '"xml"', '"html"', '"script"', '"json"', '"jsonp"', '"text"' )
 `, `type^
 
-XPT _fun0 hidden=1
+XPT _fun0 hidden
 function() { `cursor^ }
 
 
@@ -333,19 +333,19 @@ function() { `cursor^ }
 XPT aj " $JQ.ajax\(..)
 `$JQ^.ajax(`$SParg^`opt^`$SParg^)
 
-XPT load " load\(url,\ ...)
+XPT load " load\(url, ...)
 load(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `function...{{^, `:_ld_callback:^`}}^`$SParg^)
 
-XPT ag " $JQ.get\(url,\ ...)
+XPT ag " $JQ.get\(url, ...)
 `$JQ^.get(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SParg^)
 
-XPT agj " $JQ.getJSON\(url,\ ...)
+XPT agj " $JQ.getJSON\(url, ...)
 `$JQ^.getJSON(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`, `callback^`$SParg^)
 
-XPT ags " $JQ.getScript\(url,\ ...)
+XPT ags " $JQ.getScript\(url, ...)
 `$JQ^.getScript(`$SParg^`url^`url^CmplQuoter_pre()^`, `callback^`$SParg^)
 
-XPT apost " $JQ.post\(url,\ ...)
+XPT apost " $JQ.post\(url, ...)
 `$JQ^.post(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SParg^)
 
 
@@ -384,20 +384,20 @@ serializeArray()
 " ===================
 " Events
 " ===================
-XPT _ev_fun_a hidden=1
+XPT _ev_fun_a hidden
 XSET job=VoidLine()
 function (`$SParg^`ev^`$SParg^) { `job^ }
 
-XPT _ev_fun hidden=1
+XPT _ev_fun hidden
 function (`$SParg^`ev^`$SParg^) { `cursor^ }
 
-XPT _ev_arg hidden=1
+XPT _ev_arg hidden
 (`$SParg^`type^`type^CmplQuoter_pre()^`, `data^`, `fun...{{^, `:_ev_fun:^`}}^`$SParg^)
 
-XPT _ev_tr_arg hidden=1
+XPT _ev_tr_arg hidden
 (`$SParg^`ev^`ev^CmplQuoter_pre()^`, `data^`$SParg^)
 
-XPT _ev_arg_fun hidden=1
+XPT _ev_arg_fun hidden
 (`$SParg^`fun...{{^`:_ev_fun:^`}}^`$SParg^)
 
 
@@ -405,31 +405,31 @@ XPT _ev_arg_fun hidden=1
 XPT rd " ready\(fun)
 ready(`$SParg^`fun...{{^`:_fun0:^`}}^`$SParg^)
 
-XPT bd " bind\(type,\ data,\ fun)
+XPT bd " bind\(type, data, fun)
 bind`:_ev_arg:^
 
-XPT one " one\(type,\ data,\ fun)
+XPT one " one\(type, data, fun)
 one`:_ev_arg:^
 
-XPT tr " trigger\(ev,\ data)
+XPT tr " trigger\(ev, data)
 trigger`:_ev_tr_arg:^
 
-XPT trh " triggerHandler\(ev,\ data)
+XPT trh " triggerHandler\(ev, data)
 triggerHandler`:_ev_tr_arg:^
 
-XPT ub " unbind\(type,\ fun)
+XPT ub " unbind\(type, fun)
 unbind(`$SParg^`type^`type^CmplQuoter_pre()^`, `fun^`$SParg^)
 
-XPT lv " live\(type,\ fun)
+XPT lv " live\(type, fun)
 live`:_ev_arg:^
 
-XPT die " die\(type,\ fun)
+XPT die " die\(type, fun)
 die(`$SParg^`type^`type^CmplQuoter_pre()^`, `fun^`$SParg^)
 
-XPT ho " hover\(over,\ out)
+XPT ho " hover\(over, out)
 hover(`$SParg^`over...{{^, `:_ev_fun_a:^`}}^`, `out..{{^, `:_ev_fun:^`}}^`$SParg^)
 
-XPT tg " toggle\(fn1,\ fn2,\ ...)
+XPT tg " toggle\(fn1, fn2, ...)
 toggle(`$SParg^`fn1...{{^, `:_ev_fun_a:^`}}^`, `fn2...{{^, `:_ev_fun:^`}}^`$SParg^)
 
 
@@ -513,36 +513,36 @@ change`:_ev_arg_fun:^
 " Effects
 " ===================
 
-XPT _ef_arg hidden=1
+XPT _ef_arg hidden
 (`$SParg^`speed^`speed^CmplQuoter_pre()^`, `fun...{{^, `:_fun0:^`}}^`$SParg^)
 
-XPT sh " show\(speed,\ callback)
+XPT sh " show\(speed, callback)
 show`:_ef_arg:^
 
-XPT hd " hide\(speed,\ callback)
+XPT hd " hide\(speed, callback)
 hide`:_ef_arg:^
 
-XPT sld " slideDown\(speed,\ callback)
+XPT sld " slideDown\(speed, callback)
 slideDown`:_ef_arg:^
 
-XPT slu " slideUp\(speed,\ callback)
+XPT slu " slideUp\(speed, callback)
 slideUp`:_ef_arg:^
 
-XPT slt " slideToggle\(speed,\ callback)
+XPT slt " slideToggle\(speed, callback)
 slideToggle`:_ef_arg:^
 
 
 
-XPT fi " fadeIn\(speed,\ callback)
+XPT fi " fadeIn\(speed, callback)
 fadeIn`:_ef_arg:^
 
-XPT fo " fadeOut\(speed,\ callback)
+XPT fo " fadeOut\(speed, callback)
 fadeOut`:_ef_arg:^
 
-XPT ft " fadeTo\(speed,\ callback)
+XPT ft " fadeTo\(speed, callback)
 fadeTo(`$SParg^`speed^`speed^CmplQuoter_pre()^`, `opacity^`opacity^CmplQuoter_pre()^`, `fun...{{^, `:_fun0:^`}}^`$SParg^)
 
-XPT ani " animate\(params,\ ...)
+XPT ani " animate\(params, ...)
 animate(`$SParg^`params^`, `param^`$SParg^)
 
 XPT stop " stop\()

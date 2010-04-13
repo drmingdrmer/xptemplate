@@ -37,13 +37,13 @@ XPTinclude
 XPTemplateDef
 
 
-XPT foreach hint=foreach\ (..\ in\ ..)\ {..}
+XPT foreach " foreach (.. in ..) {..}
 foreach ( `var^ `e^ in `what^ )`$BRloop^{
     `cursor^
 }
 
 
-XPT struct hint=struct\ {\ ..\ }
+XPT struct " struct { .. }
 `public^ struct `structName^
 {
     `fieldAccess^public^ `type^ `name^;`...^
@@ -51,7 +51,7 @@ XPT struct hint=struct\ {\ ..\ }
 }
 
 
-XPT class hint=class\ +ctor
+XPT class " class +ctor
 class `className^
 {
     public `className^(` `ctorParam` ^)
@@ -61,14 +61,14 @@ class `className^
 }
 
 
-XPT main hint=static\ main\ string[]
+XPT main " static main string[]
 public static void Main( string[] args )
 {
     `cursor^
 }
 
 
-XPT prop hint=..\ ..\ {get\ set}
+XPT prop " .. .. {get set}
 public `type^ `Name^
 {`
     `get...{{^
@@ -78,14 +78,14 @@ public `type^ `Name^
 }
 
 
-XPT namespace hint=namespace\ {}
+XPT namespace " namespace {}
 namespace `name^
 {
     `cursor^
 }
 
 
-XPT try hint=try\ ..\ catch\ ..\ finally
+XPT try wrap=what " try .. catch .. finally
 XSET handler=$CL handler $CR
 try
 {
@@ -106,26 +106,9 @@ finally
 
 
 " ================================= Wrapper ===================================
-XPT region_ hint=#region\ #endregion
+XPT region_ wraponly=wrapped " #region #endregion
 #region `regionText^
 `wrapped^
 `cursor^
 #endregion /* `regionText^ */
 
-XPT try_ hint=try\ ..\ catch\ ..\ finally
-XSET handler=$CL handler $CR
-try
-{
-    `wrapped^
-}`
-`...^
-catch (`except^ e)
-{
-    `handler^
-}`
-`...^`
-`finally...{{^
-finally
-{
-    `cursor^
-}`}}^
