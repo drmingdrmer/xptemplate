@@ -2,7 +2,7 @@
 
 
     /*  -------------"_--------------- */
-    /* "`wrapped^"                     */
+    /* "`w^"                           */
 
 
 
@@ -10,17 +10,17 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
     /*  -------------'_--------------- */
-    /* '`wrapped^'                     */
+    /* '`w^'                           */
 
 
 
@@ -28,17 +28,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     /*  -------------(_--------------- */
-    /* (`wrapped^)                     */
+    /* (`w^)                           */
 
 
 
@@ -46,17 +46,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     /*  -------------<_--------------- */
-    /* <`wrapped^>                     */
+    /* <`w^>                           */
 
 
 
@@ -64,17 +64,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     /*  -------------[_--------------- */
-    /* [`wrapped^]                     */
+    /* [`w^]                           */
 
 
 
@@ -82,17 +82,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     /*  -------------`_--------------- */
-    /* \``wrapped^\`                   */
+    /* \``w^\`                         */
 
 
 
@@ -100,10 +100,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -118,7 +118,7 @@ drdr.xp
 
 drdr.xp b
 
-a drdr.xp b
+`drdr.xp^
 
 a drdr.xp
 
@@ -168,7 +168,7 @@ Cmdlet verb_TYPED-noun_TYPED
     End_TYPED
 } b
 
-a Cmdlet verb-noun
+`Cmdlet verb-noun
 {
     Param(
        
@@ -182,7 +182,7 @@ a Cmdlet verb-noun
     End
     {
     }
-} b
+}^
 
 a Cmdlet verb-noun
 {
@@ -210,7 +210,7 @@ drdr.xp@gmail.com
 
 drdr.xp@gmail.com b
 
-a drdr.xp@gmail.com b
+`drdr.xp@gmail.com^
 
 a drdr.xp@gmail.com
 
@@ -224,7 +224,7 @@ test.page
 
 test.page b
 
-a test.page b
+`test.page^
 
 a test.page
 
@@ -247,10 +247,10 @@ for ($var_TYPED = init_TYPED; $var_TYPED -ge val_TYPED; $var_TYPED--)
     
 } b
 
-a for ($var = init; $var -ge val; $var--)
+`for ($var = init; $var -ge val; $var--)
 {
     
-} b
+}^
 
 a for ($var = init; $var -ge val; $var--)
 {
@@ -270,8 +270,8 @@ foreach ($var in other)
     foreach ($var_TYPED in other_TYPED)
         {  } b
 
-        a foreach ($var in other)
-            {  } b
+        `foreach ($var in other)
+            {  }^
 
             a foreach ($var in other)
                 {  }
@@ -295,10 +295,10 @@ for ($var_TYPED = init_TYPED; $var_TYPED -ge val_TYPED; $var_TYPED--)
     
 } b
 
-a for ($var = init; $var -ge val; $var--)
+`for ($var = init; $var -ge val; $var--)
 {
     
-} b
+}^
 
 a for ($var = init; $var -ge val; $var--)
 {
@@ -324,10 +324,10 @@ function funName_TYPED( params_TYPED )
    
 } b
 
-a function funName( params )
+`function funName( params )
 {
    
-} b
+}^
 
 a function funName( params )
 {
@@ -377,7 +377,7 @@ function funName_TYPED( params_TYPED )
     End_TYPED
 } b
 
-a function funName( params )
+`function funName( params )
 {
     Begin
     {
@@ -391,7 +391,7 @@ a function funName( params )
     {
         
     }
-} b
+}^
 
 a function funName( params )
 {
@@ -431,7 +431,8 @@ a function funName( params )
 
 if ( cond )
 {
-    code
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
 elseif ( cond2 )
 {
@@ -452,71 +453,13 @@ else
 
 if ( cond_TYPED )
 {
-    code_TYPED
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 }
 _TYPED
 else_TYPED b
 
-a if ( cond )
-{
-    code
-}
-elseif ( cond2 )
-{
-    body
-}
-elseif ( cond2 )
-{
-    body
-}
-elseif ( cond2 )
-{
-    body
-}
-else
-{
-    body
-} b
-
-a if ( cond )
-{
-    code
-}
-elseif ( cond2 )
-{
-    body
-}
-elseif ( cond2 )
-{
-    body
-}
-elseif ( cond2 )
-{
-    body
-}
-else
-{
-    body
-}
-
-
-    /*  -------------if_--------------- */
-    /* if ( `cond^ )                    */
-    /* {                                */
-    /*     `wrapped^                    */
-    /* }`...^                           */
-    /* elseif ( `cond2^ )               */
-    /* {                                */
-    /*     `body^                       */
-    /* }`...^`else...{{^                */
-    /* else                             */
-    /* {                                */
-    /*     `body^                       */
-    /* }`}}^                            */
-
-
-
-if ( cond )
+`if ( cond )
 {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
@@ -536,35 +479,7 @@ elseif ( cond2 )
 else
 {
     body
-}
-
-if ( cond_TYPED )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}_TYPEDelse_TYPEDb
-
-a if ( cond )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-elseif ( cond2 )
-{
-    body
-}
-elseif ( cond2 )
-{
-    body
-}
-elseif ( cond2 )
-{
-    body
-}
-else
-{
-    body
-}b
+}^
 
 a if ( cond )
 {
@@ -614,14 +529,14 @@ switch option_TYPED (what_TYPED)
  Default_TYPED
 } b
 
-a switch  (what)
+`switch  (what)
 {
  pattern { action }
  pattern { action }
  pattern { action }
  pattern { action }
  Default { action }
-} b
+}^
 
 a switch  (what)
 {
@@ -651,10 +566,10 @@ trap [Exception_TYPED]
     body_TYPED
 } b
 
-a trap [Exception]
+`trap [Exception]
 {
     body
-} b
+}^
 
 a trap [Exception]
 {
@@ -663,7 +578,7 @@ a trap [Exception]
 
 
     /*  -------------{_--------------- */
-    /* {`wrapped^}                     */
+    /* {`w^}                           */
 
 
 
@@ -671,10 +586,10 @@ a trap [Exception]
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

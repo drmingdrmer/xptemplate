@@ -91,6 +91,8 @@ exe 'syntax match XPTitem /\V' . s:m[0] . '\%(\_[^' . s:m[1] . ']\)\{-}' . s:m[1
 exe 'syntax match XPTinclusion /\VInclude:\zs\.\{-}\ze' . s:m[1] . '/	contained containedin=XPTitem,XPTitemB'
 exe 'syntax match XPTinclusion /\V:\zs\.\{-}\ze:' . s:m[1] . '/		contained containedin=XPTitem,XPTitemB'
 exe 'syntax match XPTcursor /\V' . s:m[0] . 'cursor' . s:m[1] . '/		contained containedin=XPTitem,XPTitemB'
+exe 'syntax match XPTvariable /\V' . '$\w\+' . '/		contained containedin=XPTitem,XPTitemB'
+exe 'syntax match XPTvariable_quote /\V{' . '$\w\+' . '}/		contained containedin=XPTitem,XPTitemB'
 exe 'syntax match XPTmark /\V' . s:m[1] .  '/ contains=XPTmark containedin=XPTitem,XPTitemB'
 
 " the end pattern is weird.
@@ -110,7 +112,7 @@ syntax match XPTxset_name3 /\%(\w\|\.\)*/ containedin=XPTxset nextgroup=XPTxset_
 syntax match XPTxset_name2 /\%(\w\|\.\)*\ze\./ containedin=XPTxset nextgroup=XPTxset_type transparent
 syntax match XPTxset_name1 /\%(\w\|\.\)*\ze|/ containedin=XPTxset nextgroup=XPTxset_type transparent
 
-syntax match    XPTsnippetTitle /^XPT\s\+.*$/ containedin=XPTregion nextgroup=XPTsnippetBody skipnl skipempty
+syntax match    XPTsnippetTitle /^XPT\s\+.*$/ containedin=XPTregion nextgroup=XPTsnippetTitle,XPTsnippetBody skipnl skipempty
 syntax keyword  XPTkeyword_XPT XPT containedin=XPTsnippetTitle nextgroup=XPTsnippetName skipwhite
 syntax match    XPTsnippetName /\S\+/ contained containedin=XPTsnippetTitle nextgroup=XPTmeta,XPTmetaAlias skipwhite
 
@@ -127,7 +129,7 @@ syntax match XPTmetaAlias_name /\S\+\ze=/ contained containedin=XPTmetaAlias
 syntax match XPTmetaAlias_value /=\zs\S\+/ contained containedin=XPTmetaAlias
 
 syntax match XPTmeta_name /\w\+\ze=\?/ containedin=XPTmeta nextgroup=XPTmeta_value
-syntax keyword XPTmeta_name_key hint alias synonym hidden contained containedin=XPTmeta_name
+syntax keyword XPTmeta_name_key hint alias synonym hidden wrap wraponly abbr contained containedin=XPTmeta_name
 syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
 " syntax match XPTcomment /^"\%(\s\|"\)*[^"]*$/ containedin=XPTregion
 " syntax match XPTcomment /^".*$/ containedin=XPTregion
@@ -177,7 +179,7 @@ hi def link XPTmeta_name_key      Identifier
 hi def link XPTmeta_value         String
 hi def link XPTmetaAlias_name     XPTmeta_name_key
 hi def link XPTmetaAlias_value    XPTsnippetName
-hi def link XPTmeta_simpleHint    String
+hi def link XPTmeta_simpleHint    Comment
 hi def link XPTsnippetBody        Normal
 hi def link XPTcomment            Comment
 hi def link XPT_END               Folded

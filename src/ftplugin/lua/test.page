@@ -2,7 +2,7 @@
 
 
     --  _CMT__CMT__CMT__CMT__CMT__CMT_-"__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
-    -- "`wrapped^"                     
+    -- "`w^"                           
 
 
 
@@ -10,17 +10,17 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
     --  _CMT__CMT__CMT__CMT__CMT__CMT_-'__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
-    -- '`wrapped^'                     
+    -- '`w^'                           
 
 
 
@@ -28,17 +28,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     --  _CMT__CMT__CMT__CMT__CMT__CMT_-(__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
-    -- (`wrapped^)                     
+    -- (`w^)                           
 
 
 
@@ -46,17 +46,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     --  _CMT__CMT__CMT__CMT__CMT__CMT_-<__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
-    -- <`wrapped^>                     
+    -- <`w^>                           
 
 
 
@@ -64,17 +64,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     --  _CMT__CMT__CMT__CMT__CMT__CMT_-[__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
-    -- [`wrapped^]                     
+    -- [`w^]                           
 
 
 
@@ -82,17 +82,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     --  _CMT__CMT__CMT__CMT__CMT__CMT_-`__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
-    -- \``wrapped^\`                   
+    -- \``w^\`                         
 
 
 
@@ -100,10 +100,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -118,117 +118,92 @@ WRAPPED_TEXT_line2`
 
     drdr.xp b
 
-    a drdr.xp b
+    `drdr.xp^
 
     a drdr.xp
 
 
     --  _CMT__CMT__CMT__CMT__CMT__CMT_-comment_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
-    -- `$CS^ `cursor^                       
-
-
-
-    -- 
-    --
-    --  b
-    --
-    a --  b
-
-    a -- 
-
-
-    --  _CMT__CMT__CMT__CMT__CMT__CMT_-comment__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
-    -- `$CS^ `wrapped^                       
+    -- `$CS `cursor^                        
 
 
 
 -- WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+-- WRAPPED_TEXT_line2
+--
 -- WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a -- WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a -- WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+-- WRAPPED_TEXT_line2 b
+--
+`-- WRAPPED_TEXT
+ -- WRAPPED_TEXT_line2^
+ --
+ a -- WRAPPED_TEXT
+   -- WRAPPED_TEXT_line2
+   --
 
     --  _CMT__CMT__CMT__CMT__CMT__CMT_-commentBlock_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
-    -- `$CS^ `cursor^                            
-    -- `$CS^                                     
+    -- `$CS `cursor^                             
 
 
 
-    -- 
-    --
-    --
-    -- 
-    -- b
-    --
-    a -- 
-    -- b
-    --
-    a -- 
-    --
-    --
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2
+--
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2 b
+--
+`-- WRAPPED_TEXT
+ -- WRAPPED_TEXT_line2^
+ --
+ a -- WRAPPED_TEXT
+   -- WRAPPED_TEXT_line2
+   --
 
     --  _CMT__CMT__CMT__CMT__CMT__CMT_-commentDoc_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
     -- `$CS^                                   
-    -- `$CS^ `cursor^                          
+    -- `$CS `cursor^                           
     -- `$CS^                                   
 
 
 
-    --
-    -- 
-    --
-    --
-    --
-    -- 
-    -- b
-    --
-    a --
-    -- 
-    -- b
-    --
-    a --
-    -- 
-    --
-    --
+--
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2
+--
+--
+--
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2
+-- b
+--
+`--
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2
+--^
+--
+a --
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2
+--
+--
 
     --  _CMT__CMT__CMT__CMT__CMT__CMT_-commentLine_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
-    -- `$CS^ `cursor^                           
-
-
-
-    -- 
-    --
-    --  b
-    --
-    a --  b
-
-    a -- 
-
-
-    --  _CMT__CMT__CMT__CMT__CMT__CMT_-commentLine__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
-    -- `$CS^ `wrapped^                           
+    -- `$CS `cursor^                            
 
 
 
 -- WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+-- WRAPPED_TEXT_line2
+--
 -- WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a -- WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a -- WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+-- WRAPPED_TEXT_line2 b
+--
+`-- WRAPPED_TEXT
+ -- WRAPPED_TEXT_line2^
+ --
+ a -- WRAPPED_TEXT
+   -- WRAPPED_TEXT_line2
+   --
 
     --  _CMT__CMT__CMT__CMT__CMT__CMT_-do_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
     -- do                              
@@ -245,9 +220,9 @@ WRAPPED_TEXT_line2
         
     end b
 
-    a do
+    `do
         
-    end b
+    end^
 
     a do
         
@@ -263,7 +238,7 @@ WRAPPED_TEXT_line2
 
     drdr.xp@gmail.com b
 
-    a drdr.xp@gmail.com b
+    `drdr.xp@gmail.com^
 
     a drdr.xp@gmail.com
 
@@ -277,7 +252,7 @@ WRAPPED_TEXT_line2
 
     test.page b
 
-    a test.page b
+    `test.page^
 
     a test.page
 
@@ -291,7 +266,7 @@ WRAPPED_TEXT_line2
 
     function (arg_TYPED, arg_TYPED, arg_TYPED)  end b
 
-    a function ()  end b
+    `function ()  end^
 
     a function ()  end
 
@@ -311,9 +286,9 @@ WRAPPED_TEXT_line2
         
     end b
 
-    a for var = 0, 10 do
+    `for var = 0, 10 do
         
-    end b
+    end^
 
     a for var = 0, 10 do
         
@@ -335,9 +310,9 @@ WRAPPED_TEXT_line2
         
     end b
 
-    a for  in expr do
+    `for  in expr do
         
-    end b
+    end^
 
     a for  in expr do
         
@@ -359,9 +334,9 @@ WRAPPED_TEXT_line2
         
     end b
 
-    a for key, value in ipairs(table) do
+    `for key, value in ipairs(table) do
         
-    end b
+    end^
 
     a for key, value in ipairs(table) do
         
@@ -383,9 +358,9 @@ WRAPPED_TEXT_line2
         
     end b
 
-    a for key, value in pairs(table) do
+    `for key, value in pairs(table) do
         
-    end b
+    end^
 
     a for key, value in pairs(table) do
         
@@ -407,9 +382,9 @@ WRAPPED_TEXT_line2
         
     end b
 
-    a function name()
+    `function name()
         
-    end b
+    end^
 
     a function name()
         
@@ -431,9 +406,9 @@ WRAPPED_TEXT_line2
         
     end b
 
-    a if cond then
+    `if cond then
         
-    end b
+    end^
 
     a if cond then
         
@@ -461,11 +436,11 @@ WRAPPED_TEXT_line2
         
     end b
 
-    a if cond then
+    `if cond then
         -- job
     else
         
-    end b
+    end^
 
     a if cond then
         -- job
@@ -506,7 +481,7 @@ WRAPPED_TEXT_line2
 else_TYPED
     end b
 
-    a if cond then
+    `if cond then
         -- job
     elseif comparison then
         -- job
@@ -516,7 +491,7 @@ else_TYPED
         -- job
     else
         
-    end b
+    end^
 
     a if cond then
         -- job
@@ -529,24 +504,6 @@ else_TYPED
     else
         
     end
-
-
-    --  _CMT__CMT__CMT__CMT__CMT__CMT_-invoke__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
-    -- `name^(`wrapped^)                    
-
-
-
-name(WRAPPED_TEXT
-WRAPPED_TEXT_line2)
-
-name_TYPED(WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
-
-a name(WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
-
-a name(WRAPPED_TEXT
-WRAPPED_TEXT_line2)
 
 
     --  _CMT__CMT__CMT__CMT__CMT__CMT_-locf_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
@@ -564,9 +521,9 @@ WRAPPED_TEXT_line2)
         
     end b
 
-    a local function name()
+    `local function name()
         
-    end b
+    end^
 
     a local function name()
         
@@ -582,7 +539,7 @@ WRAPPED_TEXT_line2)
 
     local var_TYPED =  b
 
-    a local var =  b
+    `local var = ^
 
     a local var = 
 
@@ -596,7 +553,7 @@ WRAPPED_TEXT_line2)
 
     print() b
 
-    a print() b
+    `print()^
 
     a print()
 
@@ -616,9 +573,9 @@ WRAPPED_TEXT_line2)
         
     until b
 
-    a repeat
+    `repeat
         
-    until b
+    until^
 
     a repeat
         
@@ -640,9 +597,9 @@ WRAPPED_TEXT_line2)
         
     end b
 
-    a while cond do
+    `while cond do
         
-    end b
+    end^
 
     a while cond do
         
@@ -650,7 +607,7 @@ WRAPPED_TEXT_line2)
 
 
     --  _CMT__CMT__CMT__CMT__CMT__CMT_-{__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
-    -- {`wrapped^}                     
+    -- {`w^}                           
 
 
 
@@ -658,10 +615,10 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

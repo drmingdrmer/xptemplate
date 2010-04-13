@@ -21,7 +21,7 @@ XPTinclude
 XPTemplateDef
 
 
-XPT digraph "digraph .. { .. }
+XPT digraph " digraph .. { .. }
 digraph `graphName^
 {
     `cursor^
@@ -29,76 +29,86 @@ digraph `graphName^
 ..XPT
 
 
-XPT graph "graph .. { .. }
+XPT graph " graph .. { .. }
 graph `graphName^
 {
     `cursor^
 }
 ..XPT
 
-XPT subgraph "subgraph .. { .. }
+XPT subgraph " subgraph .. { .. }
 subgraph `clusterName^
 {
     `cursor^
 }
 ..XPT
 
-XPT node ".. [...]
+XPT node " .. [...]
 XSET shape=Choose(['box',  'polygon',  'ellipse',  'circle',  'point',  'egg',  'triangle',  'plaintext',  'diamond',  'trapezium',  'parallelogram',  'house',  'pentagon',  'hexagon',  'septagon',  'octagon',  'doublecircle',  'doubleoctagon',  'tripleoctagon',  'invtriangle',  'invtrapezium',  'invhouse',  'Mdiamond',  'Msquare',  'Mcircle',  'rect',  'rectangle',  'none',  'note',  'tab',  'folder',  'box3d',  'component'])
 `node^` `details...{{^ [shape=`shape^, label="`^"]`}}^
 ..XPT
 
-XPT lbl "[label=".."]
+XPT lbl " [label=".."]
 [label="`cursor^"]
 
 
-XPT shapeNode " Full node & shape
+XPT shapeNode " 
 `node^ [shape=`shape^` `label...{{^, label="`lbl^"`}}^]
 
 ..XPT
 
-XPT circle alias=shapeNode "..[shape="circle"..]
+XPT circle alias=shapeNode " ..\[shape="circle"..]
 XSET shape|pre=circle
 XSET shape=Next()
 
 
-XPT diamond alias=shapeNode "..[shape="diamond"..]
+XPT diamond alias=shapeNode " ..\[shape="diamond"..]
 XSET shape|pre=diamond
 XSET shape=Next()
 
 
-XPT box alias=shapeNode "..[shape="box"..]
+XPT box alias=shapeNode " ..\[shape="box"..]
 XSET shape|pre=box
 XSET shape=Next()
 
 
-XPT ellipse alias=shapeNode "..[shape="ellipse"..]
+XPT ellipse alias=shapeNode " ..\[shape="ellipse"..]
 XSET shape|pre=ellipse
 XSET shape=Next()
 
 
-XPT record "..[shape="record", label=".."]
+XPT record " ..\[shape="record", label=".."]
 `node^ [shape=record, label="`<`id`>^ `lbl^`...^| `<`id`>^ `lbl^`...^"]
 
 ..XPT
 
 
-XPT triangle "..[shape="triangle", label=".."]
+XPT triangle " ..\[shape="triangle", label=".."]
 `node^ [shape=triangle, label="`<`id`>^ `lbl^`...^| `<`id`>^ `lbl^`...^"]
 
 ..XPT
 
-XPT row "{..|... }
+
+XPT row " {..|... }
 {`<`id`>^ `lbl^`...^| `<`id`>^ `lbl^`...^}
 
 ..XPT
 
-XPT col "{..|... }
+
+
+XPT col " {..|... }
 {`<`id`>^ `lbl^`...^| `<`id`>^ `lbl^`...^}
 
 ..XPT
 
-XPT subgraph_ "subgraph .. { SEL }
+
+
+
+
+
+
+
+XPT subgraph_ wraponly=wrapped " subgraph .. { SEL }
 subgraph `clusterName^
 {
     `wrapped^

@@ -2,7 +2,7 @@
 
 
     /*  -------------"_--------------- */
-    /* "`wrapped^"                     */
+    /* "`w^"                           */
 
 
 
@@ -10,17 +10,17 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
     /*  -------------'_--------------- */
-    /* '`wrapped^'                     */
+    /* '`w^'                           */
 
 
 
@@ -28,17 +28,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     /*  -------------(_--------------- */
-    /* (`wrapped^)                     */
+    /* (`w^)                           */
 
 
 
@@ -46,17 +46,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     /*  -------------<_--------------- */
-    /* <`wrapped^>                     */
+    /* <`w^>                           */
 
 
 
@@ -64,17 +64,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     /*  -------------[_--------------- */
-    /* [`wrapped^]                     */
+    /* [`w^]                           */
 
 
 
@@ -82,17 +82,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     /*  -------------`_--------------- */
-    /* \``wrapped^\`                   */
+    /* \``w^\`                         */
 
 
 
@@ -100,10 +100,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -118,7 +118,7 @@ drdr.xp
 
 drdr.xp b
 
-a drdr.xp b
+`drdr.xp^
 
 a drdr.xp
 
@@ -134,11 +134,11 @@ node [shape=box, label="lbl"]
 node_TYPED [shape=box label_TYPED]
  b
 
- a node [shape=box, label="lbl"]
-  b
+ `node [shape=box, label="lbl"]
+ ^
 
-  a node [shape=box, label="lbl"]
-  
+ a node [shape=box, label="lbl"]
+ 
 
 
     /*  -------------circle---------------                     */
@@ -146,17 +146,17 @@ node_TYPED [shape=box label_TYPED]
 
 
 
-  node [shape=circle, label="lbl"]
+ node [shape=circle, label="lbl"]
+ 
+
+ node_TYPED [shape=circle label_TYPED]
+  b
+
+  `node [shape=circle, label="lbl"]
+  ^
+
+  a node [shape=circle, label="lbl"]
   
-
-  node_TYPED [shape=circle label_TYPED]
-   b
-
-   a node [shape=circle, label="lbl"]
-    b
-
-    a node [shape=circle, label="lbl"]
-    
 
 
     /*  -------------col---------------           */
@@ -164,185 +164,104 @@ node_TYPED [shape=box label_TYPED]
 
 
 
-    {<id> lbl| <id> lbl| <id> lbl| <id> lbl}
-    
+  {<id> lbl| <id> lbl| <id> lbl| <id> lbl}
+  
 
-    {<id_TYPED> lbl_TYPED_TYPED}
-     b
+  {<id_TYPED> lbl_TYPED_TYPED}
+   b
 
-     a {<id> lbl| <id> lbl| <id> lbl| <id> lbl}
-      b
+   `{<id> lbl| <id> lbl| <id> lbl| <id> lbl}
+   ^
 
-      a {<id> lbl| <id> lbl| <id> lbl| <id> lbl}
-      
+   a {<id> lbl| <id> lbl| <id> lbl| <id> lbl}
+   
 
 
     /*  -------------comment--------------- */
-    /* `$CL^ `what^ `$CR^                   */
-
-
-
-      /* what */
-
-      /* what_TYPED */ b
-
-      a /* what */ b
-
-      a /* what */
-
-
-    /*  -------------comment_--------------- */
-    /* `$CL^ `wrapped^ `$CR^                 */
+    /* `$CL^ `what^^ `$CR^`^                */
 
 
 
 /* WRAPPED_TEXT
 WRAPPED_TEXT_line2 */
 
-      /* WRAPPED_TEXT
-      WRAPPED_TEXT_line2 */b
+   /* WRAPPED_TEXT
+   WRAPPED_TEXT_line2 */ b
 
-      a /* WRAPPED_TEXT
-      WRAPPED_TEXT_line2 */b
+   `/* WRAPPED_TEXT
+   WRAPPED_TEXT_line2 */^
 
-      a /* WRAPPED_TEXT
-      WRAPPED_TEXT_line2 */
+   a /* WRAPPED_TEXT
+   WRAPPED_TEXT_line2 */
 
 
     /*  -------------commentBlock--------------- */
-    /* `$CL^                                     */
-    /*  `$CM^ `cursor^                           */
-    /*  `$CR^                                    */
+    /* `_cmt_no_mid_left()^`$CM `cursor^         */
+    /* `_cmt_mid_ind()$CR^                       */
 
 
 
-      /*
-        
-       */
+/* WRAPPED_TEXT
+   WRAPPED_TEXT_line2
+  */
 
-      /*
-        
-       */ b
+   /* WRAPPED_TEXT
+      WRAPPED_TEXT_line2
+     */ b
 
-      a /*
-        
-       */ b
+   `/* WRAPPED_TEXT
+       WRAPPED_TEXT_line2
+     */^
 
-      a /*
-        
-       */
-
-
-    /*  -------------commentBlock_--------------- */
-    /* `$CL^                                      */
-    /*  `$CM^ `wrapped^                           */
-    /*  `$CR^                                     */
-
-
-
-/*
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- */
-
-      /*
-        WRAPPED_TEXT
+   a /* WRAPPED_TEXT
         WRAPPED_TEXT_line2
-       */b
-
-      a /*
-        WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-       */b
-
-      a /*
-        WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-       */
+     */
 
 
     /*  -------------commentDoc--------------- */
     /* `$CL^`$CM^                              */
-    /*  `$CM^ `cursor^                         */
-    /*  `$CR^                                  */
-
-
-
-      /*
-        
-       */
-
-      /*
-        
-       */ b
-
-      a /*
-        
-       */ b
-
-      a /*
-        
-       */
-
-
-    /*  -------------commentDoc_--------------- */
-    /* `$CL^`$CM^                               */
-    /*  `$CM^ `wrapped^                         */
-    /*  `$CR^                                   */
+    /* `_cmt_mid_ind()$CM `cursor^             */
+    /* `_cmt_mid_ind()$CR^                     */
 
 
 
 /*
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- */
+   WRAPPED_TEXT
+   WRAPPED_TEXT_line2
+  */
 
-      /*
-        WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-       */b
+   /*
+      WRAPPED_TEXT
+      WRAPPED_TEXT_line2
+     */ b
 
-      a /*
-        WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-       */b
+   `/*
+      WRAPPED_TEXT
+      WRAPPED_TEXT_line2
+     */^
 
-      a /*
-        WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-       */
+   a /*
+      WRAPPED_TEXT
+      WRAPPED_TEXT_line2
+     */
 
 
     /*  -------------commentLine--------------- */
-    /* `$CL^ `what^ `$CR^                       */
+    /* `$CL `what` $CR^`^                       */
 
 
 
-      /* what */
+/* WRAPPED_TEXT */
+/* WRAPPED_TEXT_line2 */
 
-      /* what_TYPED */ b
+   /* WRAPPED_TEXT */
+   /* WRAPPED_TEXT_line2 */ b
 
-      a /* what */ b
+   `/* WRAPPED_TEXT */
+    /* WRAPPED_TEXT_line2 */^
 
-      a /* what */
-
-
-    /*  -------------commentLine_--------------- */
-    /* `$CL^ `wrapped^ `$CR^                     */
-
-
-
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
-
-      /* WRAPPED_TEXT
-      WRAPPED_TEXT_line2 */b
-
-      a /* WRAPPED_TEXT
-      WRAPPED_TEXT_line2 */b
-
-      a /* WRAPPED_TEXT
-      WRAPPED_TEXT_line2 */
+    a /* WRAPPED_TEXT */
+      /* WRAPPED_TEXT_line2 */
 
 
     /*  -------------diamond---------------                    */
@@ -350,17 +269,17 @@ WRAPPED_TEXT_line2 */
 
 
 
-      node [shape=diamond, label="lbl"]
-      
+    node [shape=diamond, label="lbl"]
+    
 
-      node_TYPED [shape=diamond label_TYPED]
-       b
+    node_TYPED [shape=diamond label_TYPED]
+     b
 
-       a node [shape=diamond, label="lbl"]
-        b
+     `node [shape=diamond, label="lbl"]
+     ^
 
-        a node [shape=diamond, label="lbl"]
-        
+     a node [shape=diamond, label="lbl"]
+     
 
 
     /*  -------------digraph--------------- */
@@ -371,20 +290,20 @@ WRAPPED_TEXT_line2 */
 
 
 
-        digraph graphName
-        {
-            
-        }
+     digraph graphName
+     {
+         
+     }
 
 digraph graphName_TYPED
 {
     
 } b
 
-a digraph graphName
+`digraph graphName
 {
     
-} b
+}^
 
 a digraph graphName
 {
@@ -403,11 +322,11 @@ node [shape=ellipse, label="lbl"]
 node_TYPED [shape=ellipse label_TYPED]
  b
 
- a node [shape=ellipse, label="lbl"]
-  b
+ `node [shape=ellipse, label="lbl"]
+ ^
 
-  a node [shape=ellipse, label="lbl"]
-  
+ a node [shape=ellipse, label="lbl"]
+ 
 
 
     /*  -------------Email--------------- */
@@ -415,13 +334,13 @@ node_TYPED [shape=ellipse label_TYPED]
 
 
 
-  drdr.xp@gmail.com
+ drdr.xp@gmail.com
 
-  drdr.xp@gmail.com b
+ drdr.xp@gmail.com b
 
-  a drdr.xp@gmail.com b
+ `drdr.xp@gmail.com^
 
-  a drdr.xp@gmail.com
+ a drdr.xp@gmail.com
 
 
     /*  -------------File--------------- */
@@ -429,13 +348,13 @@ node_TYPED [shape=ellipse label_TYPED]
 
 
 
-  test.page
+ test.page
 
-  test.page b
+ test.page b
 
-  a test.page b
+ `test.page^
 
-  a test.page
+ a test.page
 
 
     /*  -------------graph--------------- */
@@ -446,20 +365,20 @@ node_TYPED [shape=ellipse label_TYPED]
 
 
 
-  graph graphName
-  {
-      
-  }
+ graph graphName
+ {
+     
+ }
 
 graph graphName_TYPED
 {
     
 } b
 
-a graph graphName
+`graph graphName
 {
     
-} b
+}^
 
 a graph graphName
 {
@@ -476,7 +395,7 @@ a graph graphName
 
 [label=""] b
 
-a [label=""] b
+`[label=""]^
 
 a [label=""]
 
@@ -490,7 +409,7 @@ node [shape=box, label=""]
 
 node_TYPED details_TYPED b
 
-a node [shape=box, label=""] b
+`node [shape=box, label=""]^
 
 a node [shape=box, label=""]
 
@@ -506,11 +425,11 @@ node [shape=record, label="<id> lbl| <id> lbl| <id> lbl| <id> lbl"]
 node_TYPED [shape=record, label="<id_TYPED> lbl_TYPED_TYPED"]
  b
 
- a node [shape=record, label="<id> lbl| <id> lbl| <id> lbl| <id> lbl"]
-  b
+ `node [shape=record, label="<id> lbl| <id> lbl| <id> lbl| <id> lbl"]
+ ^
 
-  a node [shape=record, label="<id> lbl| <id> lbl| <id> lbl| <id> lbl"]
-  
+ a node [shape=record, label="<id> lbl| <id> lbl| <id> lbl| <id> lbl"]
+ 
 
 
     /*  -------------row---------------           */
@@ -518,17 +437,17 @@ node_TYPED [shape=record, label="<id_TYPED> lbl_TYPED_TYPED"]
 
 
 
-  {<id> lbl| <id> lbl| <id> lbl| <id> lbl}
+ {<id> lbl| <id> lbl| <id> lbl| <id> lbl}
+ 
+
+ {<id_TYPED> lbl_TYPED_TYPED}
+  b
+
+  `{<id> lbl| <id> lbl| <id> lbl| <id> lbl}
+  ^
+
+  a {<id> lbl| <id> lbl| <id> lbl| <id> lbl}
   
-
-  {<id_TYPED> lbl_TYPED_TYPED}
-   b
-
-   a {<id> lbl| <id> lbl| <id> lbl| <id> lbl}
-    b
-
-    a {<id> lbl| <id> lbl| <id> lbl| <id> lbl}
-    
 
 
     /*  -------------shapeNode---------------                  */
@@ -536,17 +455,17 @@ node_TYPED [shape=record, label="<id_TYPED> lbl_TYPED_TYPED"]
 
 
 
-    node [shape=shape, label="lbl"]
-    
+  node [shape=shape, label="lbl"]
+  
 
-    node_TYPED [shape=shape_TYPED label_TYPED]
-     b
+  node_TYPED [shape=shape_TYPED label_TYPED]
+   b
 
-     a node [shape=shape, label="lbl"]
-      b
+   `node [shape=shape, label="lbl"]
+   ^
 
-      a node [shape=shape, label="lbl"]
-      
+   a node [shape=shape, label="lbl"]
+   
 
 
     /*  -------------subgraph--------------- */
@@ -557,20 +476,20 @@ node_TYPED [shape=record, label="<id_TYPED> lbl_TYPED_TYPED"]
 
 
 
-      subgraph clusterName
-      {
-          
-      }
+   subgraph clusterName
+   {
+       
+   }
 
 subgraph clusterName_TYPED
 {
     
 } b
 
-a subgraph clusterName
+`subgraph clusterName
 {
     
-} b
+}^
 
 a subgraph clusterName
 {
@@ -596,13 +515,13 @@ subgraph clusterName_TYPED
 {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-}b
+} b
 
-a subgraph clusterName
+`subgraph clusterName
 {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-}b
+}^
 
 a subgraph clusterName
 {
@@ -622,15 +541,15 @@ node [shape=triangle, label="<id> lbl| <id> lbl| <id> lbl| <id> lbl"]
 node_TYPED [shape=triangle, label="<id_TYPED> lbl_TYPED_TYPED"]
  b
 
- a node [shape=triangle, label="<id> lbl| <id> lbl| <id> lbl| <id> lbl"]
-  b
+ `node [shape=triangle, label="<id> lbl| <id> lbl| <id> lbl| <id> lbl"]
+ ^
 
-  a node [shape=triangle, label="<id> lbl| <id> lbl| <id> lbl| <id> lbl"]
-  
+ a node [shape=triangle, label="<id> lbl| <id> lbl| <id> lbl| <id> lbl"]
+ 
 
 
     /*  -------------{_--------------- */
-    /* {`wrapped^}                     */
+    /* {`w^}                           */
 
 
 
@@ -638,10 +557,10 @@ node_TYPED [shape=triangle, label="<id_TYPED> lbl_TYPED_TYPED"]
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

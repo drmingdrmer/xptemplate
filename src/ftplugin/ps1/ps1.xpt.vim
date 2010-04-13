@@ -26,7 +26,7 @@ Cmdlet `verb^-`noun^
 }
 
 
-XPT if " if ( .. ) { .. } ...
+XPT if wrap=code " if ( .. ) { .. } ...
 if ( `cond^ )
 {
     `code^
@@ -43,12 +43,6 @@ else
     `body^
 }`}}^
 
-
-XPT filter " filter .. { .. }
-filter `filterName^
-{
-    `cursor^
-}
 
 XPT fun " function ..(..) { .. }
 function `funName^( `params^ )
@@ -109,19 +103,3 @@ for ($`var^ = `init^; $`var^ -ge `val^; $`var^--)
     `cursor^
 }
 
-
-" ================================= Wrapper ===================================
-
-XPT if_ " if (..) { SEL } ...
-if ( `cond^ )
-{
-    `wrapped^
-}`...^
-elseif ( `cond2^ )
-{
-    `body^
-}`...^`else...{{^
-else
-{
-    `body^
-}`}}^

@@ -2,3 +2,4 @@ vim: else<cr> results in elseif
 
 TODO use completefunc instead of complete()
 TODO longest setting test.
+

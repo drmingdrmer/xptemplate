@@ -10,7 +10,7 @@ endif
 
 
 
-let s:skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\|comment"'
+let s:skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "\\vstring|comment"'
 let s:pattern = {
             \   'php'    : {
             \       'start' : '\V\c<?\%(php\>\)\?',
@@ -68,5 +68,8 @@ fun! XPT_phpFiletypeDetect() "{{{
 
 endfunction "}}}
 
+if exists( 'b:XPTfiletypeDetect' )
+    unlet b:XPTfiletypeDetect
+endif
 let b:XPTfiletypeDetect = function( 'XPT_phpFiletypeDetect' )
 

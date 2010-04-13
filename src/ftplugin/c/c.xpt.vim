@@ -1,4 +1,4 @@
-XPTemplate priority=lang indent=auto
+XPTemplate priority=lang
 
 
 XPTvar $TRUE           1
@@ -28,109 +28,41 @@ XPTinclude
       \ _loops/c.while.like
       \ _preprocessor/c.like
       \ _structures/c.like
+      \ _printf/c.like
 
 XPTinclude
       \ _loops/for
 
 
-" ========================= Function and Variables =============================
-
 let s:f = g:XPTfuncs()
 
-let s:printfElts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-"  %[flags][width][.precision][length]specifier
-let s:printfItemPattern = '\V\C' . '%' . '\[+\- 0#]\*' . '\%(*\|\d\+\)\?' . '\(.*\|.\d\+\)\?' . '\[hlL]\?' . '\(\[cdieEfgGosuxXpn]\)'
-
-let s:printfSpecifierMap = {
-      \'c' : 'char',
-      \'d' : 'int',
-      \'i' : 'int',
-      \'e' : 'scientific',
-      \'E' : 'scientific',
-      \'f' : 'float',
-      \'g' : 'float',
-      \'G' : 'float',
-      \'o' : 'octal',
-      \'s' : 'str',
-      \'u' : 'unsigned',
-      \'x' : 'decimal',
-      \'X' : 'Decimal',
-      \'p' : 'pointer',
-      \'n' : 'numWritten',
-      \}
-
-fun! s:f.c_printfElts( v )
-  " remove '%%' representing a single '%'
-  let v = substitute( a:v, '\V%%', '', 'g' )
-
-
-  if v =~ '\V%'
-
-    let start = 0
-    let post = ''
-    let i = -1
-    while 1
-      let i += 1
-
-      let start = match( v, s:printfItemPattern, start )
-      if start < 0
-        break
-      endif
-
-      let eltList = matchlist( v, s:printfItemPattern, start )
-
-      if eltList[1] == '.*'
-        " need to specifying string length before string pointer
-        let post .= ', `' . s:printfElts[ i ] . '_len^'
-      endif
-
-      let post .= ', `' . s:printfElts[ i ] . '_' . s:printfSpecifierMap[ eltList[2] ] . '^'
-
-      let start += len( eltList[0] )
-
-    endwhile
-    return post
-
-  else
-    return self.Next( '' )
-
-  endif
-endfunction
-
-
-
-" ================================= Snippets ===================================
 XPTemplateDef
 
-
-
-XPT printf	hint=printf\(...)
+XPT _printfElts hidden 
 XSET elts|pre=Echo('')
-XSET elts=c_printfElts( R( 'pattern' ) )
-printf( "`pattern^"`elts^ )
+XSET elts=c_printf_elts( R( 'pattern' ), ',' )
+"`pattern^"`elts^
 
 
-XPT sprintf	hint=sprintf\(...)
-XSET elts|pre=Echo('')
-XSET elts=c_printfElts( R( 'pattern' ) )
-sprintf( `str^, "`pattern^"`elts^ )
+XPT printf	" printf\(...)
+printf(`$SPop^`:_printfElts:^`$SPop^)
 
 
-XPT snprintf	hint=snprintf\(...)
-XSET elts|pre=Echo('')
-XSET elts=c_printfElts( R( 'pattern' ) )
-snprintf( `str^, `size^, "`pattern^"`elts^ )
+XPT sprintf	" sprintf\(...)
+sprintf(`$SPop^`str^,`$SPop^`:_printfElts:^`$SPop^)
 
 
-XPT fprintf	hint=fprintf\(...)
-XSET elts|pre=Echo('')
-XSET elts=c_printfElts( R( 'pattern' ) )
-fprintf( `stream^, "`pattern^"`elts^ )
+XPT snprintf	" snprintf\(...)
+snprintf(`$SPop^`str^,`$SPop^`size^,`$SPop^`:_printfElts:^`$SPop^)
 
 
-XPT assert	hint=assert\ (..,\ msg)
-assert(`isTrue^, "`text^")
+XPT fprintf	" fprintf\(...)
+fprintf(`$SPop^`stream^,`$SPop^`:_printfElts:^`$SPop^)
+
+
+XPT assert	" assert (.., msg)
+assert(`$SPop^`isTrue^,`$SPop^"`text^"`$SPop^)
 
 
 XPT fcomment
@@ -142,7 +74,7 @@ XPT fcomment
  */
 
 
-XPT para syn=comment	hint=comment\ parameter
+XPT para syn=comment	" comment parameter
 @param {`Object^} `name^ `desc^
 
 
@@ -167,12 +99,5 @@ XSET cursor|pre=CURSOR
 ..XPT
 
 
-
-" ================================= Wrapper ===================================
-
-
-XPT call_ hint=..(\ SEL\ )
-XSET p*|post=ExpandIfNotEmpty(', ', 'p*')
-`name^(`wrapped^`, `p*^)`cursor^
-
-
+XPT call wraponly=param " ..( .. )
+`name^(`$SPop^`param^`$SPop^)

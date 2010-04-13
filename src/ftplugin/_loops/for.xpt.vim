@@ -1,52 +1,60 @@
 "
-" standard for( i = 0; i < 10; ++i ) snippets
+" standard for( i = 0; i < 10; i++ ) snippets
 "
-
 XPTemplate priority=all-
 
 let s:f = g:XPTfuncs()
 
 XPTvar $NULL            NULL
-XPTvar $CURSOR_PH       CURSOR
-XPTvar $BRloop ' '
+XPTvar $BRloop          ' '
 
-XPTvar $VAR_PRE
-XPTvar $FOR_SCOPE
+
+XPTvar $SParg      ' '
+XPTvar $SPcmd      ' '
+XPTvar $SPop       ' '
+
+XPTvar $VAR_PRE         ''
+XPTvar $FOR_SCOPE       ''
 
 XPTinclude
       \ _common/common
 
 
-" ========================= Function and Variables =============================
-
-" ================================= Snippets ===================================
 XPTemplateDef
 
 
 
-XPT for hint=for\ (..;..;++)
-for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRloop^{
+XPT for wrap=cursor " for (..;..;++)
+for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
-XPT forr hint=for\ (..;..;--)
-for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRloop^{
+XPT forr wrap=cursor " for (..;..;--)
+for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^++`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
-XPT fornn hint=for\ \(\ ;\ $NULL\ !=\ var;\ )
-XSET ptrOp=R( 'ptr' )
-for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRloop^{
+XPT fornn wrap=cursor " for (..; $NULL != var; .. )
+for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`ptr^`$SPop^=`$SPop^`init^; `$NULL^`$SPop^!=`$SPop^`ptr^; `^R('ptr')^`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
-XPT forever hint=for\ (;;)\ ..
-XSET body|pre=VoidLine()
-for (;;) `body^
+XPT forever " for (;;) ..
+for`$SPcmd^(;;) `cursor^
+..XPT
 
-" ================================= Wrapper ===================================
+" Simplify
+" XSET i|edgeLeft=$VAR_PRE
+" XSET i|edgeRight=$VAR_PRE
+" XSET $(=  ($SParg
+" XSET $)=  $SParg)
+" XSET $==  $SPop=$SPop
+" XSET $>=  $SPop>
+" XSET $e=  =$SPop
 
-
+" for`$SPcmd`$(`$FOR_SCOPE``i`$=`0; `i`$>`$e`end; `i++`$)`$BRloop{
+" ^
+" ..XPT

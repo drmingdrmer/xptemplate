@@ -11,7 +11,7 @@ if &filetype !~ 'html'
 endif
 
 
-let s:skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\|comment"'
+let s:skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "\\vstring|comment"'
 let s:pattern = {
             \   'javascript'    : {
             \       'start' : '\V\c<script\_[^>]\*>',
@@ -56,5 +56,8 @@ fun! XPT_htmlFiletypeDetect() "{{{
 
 endfunction "}}}
 
+if exists( 'b:XPTfiletypeDetect' )
+    unlet b:XPTfiletypeDetect
+endif
 let b:XPTfiletypeDetect = function( 'XPT_htmlFiletypeDetect' )
 

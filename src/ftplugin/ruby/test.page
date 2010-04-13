@@ -2,7 +2,7 @@
 
 
     #   -------------"_--------------- 
-    #  "`wrapped^"                     
+    #  "`w^"                           
 
 
 
@@ -10,13 +10,27 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
+
+
+    #   -------------#--------------- 
+    #  #{`^}                          
+
+
+
+    #{}
+    #
+    #{_TYPED} b
+    #
+    `#{}^
+
+    a #{}
 
 
     #   -------------%--------------- 
@@ -28,13 +42,13 @@ WRAPPED_TEXT_line2"
 
     %w[_TYPED] b
 
-    a %w[] b
+    `%w[]^
 
     a %w[]
 
 
     #   -------------'_--------------- 
-    #  '`wrapped^'                     
+    #  '`w^'                           
 
 
 
@@ -42,17 +56,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     #   -------------(_--------------- 
-    #  (`wrapped^)                     
+    #  (`w^)                           
 
 
 
@@ -60,10 +74,10 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
@@ -78,13 +92,13 @@ WRAPPED_TEXT_line2)
 
     :key_TYPED => value b
 
-    a :key => value b
+    `:key => value^
 
     a :key => value
 
 
     #   -------------<_--------------- 
-    #  <`wrapped^>                     
+    #  <`w^>                           
 
 
 
@@ -92,17 +106,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     #   -------------[_--------------- 
-    #  [`wrapped^]                     
+    #  [`w^]                           
 
 
 
@@ -110,10 +124,10 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
@@ -128,7 +142,7 @@ WRAPPED_TEXT_line2]
 
     __DATA__ b
 
-    a __DATA__ b
+    `__DATA__^
 
     a __DATA__
 
@@ -142,7 +156,7 @@ WRAPPED_TEXT_line2]
 
     __END__ b
 
-    a __END__ b
+    `__END__^
 
     a __END__
 
@@ -156,13 +170,13 @@ WRAPPED_TEXT_line2]
 
     __FILE__ b
 
-    a __FILE__ b
+    `__FILE__^
 
     a __FILE__
 
 
     #   -------------`_--------------- 
-    #  \``wrapped^\`                   
+    #  \``w^\`                         
 
 
 
@@ -170,10 +184,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -188,7 +202,7 @@ WRAPPED_TEXT_line2`
 
     alias :new_TYPED :old_TYPED b
 
-    a alias :new :old_new b
+    `alias :new :old_new^
 
     a alias :new :old_new
 
@@ -202,7 +216,7 @@ WRAPPED_TEXT_line2`
 
     all? { |element_TYPED|  } b
 
-    a all? { |element|  } b
+    `all? { |element|  }^
 
     a all? { |element|  }
 
@@ -216,7 +230,7 @@ WRAPPED_TEXT_line2`
 
     alias_method :new_TYPED, :old_TYPED b
 
-    a alias_method :new, :old_new b
+    `alias_method :new, :old_new^
 
     a alias_method :new, :old_new
 
@@ -230,7 +244,7 @@ WRAPPED_TEXT_line2`
 
     any? { |element_TYPED|  } b
 
-    a any? { |element|  } b
+    `any? { |element|  }^
 
     a any? { |element|  }
 
@@ -250,9 +264,9 @@ WRAPPED_TEXT_line2`
         
     end b
 
-    a if __FILE__ == $PROGRAM_NAME
+    `if __FILE__ == $PROGRAM_NAME
         
-    end b
+    end^
 
     a if __FILE__ == $PROGRAM_NAME
         
@@ -268,7 +282,7 @@ WRAPPED_TEXT_line2`
 
     Array.new(size_TYPED) { |i_TYPED|  } b
 
-    a Array.new(size) { |i|  } b
+    `Array.new(size) { |i|  }^
 
     a Array.new(size) { |i|  }
 
@@ -282,7 +296,7 @@ WRAPPED_TEXT_line2`
 
     assert_block {  } b
 
-    a assert_block {  } b
+    `assert_block {  }^
 
     a assert_block {  }
 
@@ -294,9 +308,9 @@ WRAPPED_TEXT_line2`
 
     attr_accessor :
 
-        attr_accessor :attr_TYPED, :attr_TYPED, :attr_TYPED b
+    attr_accessor :attr_TYPED, :attr_TYPED, :attr_TYPED b
 
-    a attr_accessor : b
+    `attr_accessor :^
 
     a attr_accessor :
 
@@ -310,7 +324,7 @@ WRAPPED_TEXT_line2`
 
     drdr.xp b
 
-    a drdr.xp b
+    `drdr.xp^
 
     a drdr.xp
 
@@ -330,9 +344,9 @@ WRAPPED_TEXT_line2`
         
     } b
 
-    a BEGIN {
+    `BEGIN {
         
-    } b
+    }^
 
     a BEGIN {
         
@@ -373,37 +387,37 @@ WRAPPED_TEXT_line2`
     begin
         expr_TYPED
     rescue_TYPED
-    else_TYPED
-    ensure_TYPED
-    end b
+        else_TYPED
+            ensure_TYPED
+                end b
 
-    a begin
-        expr
-    rescue Exception => e
-        # block
-    rescue Exception => e
-        # block
-    rescue Exception => e
-        # block
-    else
-        # block
-    ensure
-        
-    end b
+                `begin
+                    expr
+                rescue Exception => e
+                    # block
+                rescue Exception => e
+                    # block
+                rescue Exception => e
+                    # block
+                else
+                    # block
+                ensure
+                    
+                end^
 
-    a begin
-        expr
-    rescue Exception => e
-        # block
-    rescue Exception => e
-        # block
-    rescue Exception => e
-        # block
-    else
-        # block
-    ensure
-        
-    end
+                a begin
+                    expr
+                rescue Exception => e
+                    # block
+                rescue Exception => e
+                    # block
+                rescue Exception => e
+                    # block
+                else
+                    # block
+                ensure
+                    
+                end
 
 
     #   -------------begin_--------------- 
@@ -444,9 +458,9 @@ begin
 rescue_TYPED
 else_TYPED
 ensure_TYPED
-endb
+end b
 
-a begin
+`begin
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 rescue Exception => e
@@ -459,7 +473,7 @@ else
     # block
 ensure
     
-endb
+end^
 
 a begin
     WRAPPED_TEXT
@@ -498,11 +512,11 @@ end
         
     end b
 
-    a TESTS = 10_000
+    `TESTS = 10_000
     
     Benchmark.bmbm do |result|
         
-    end b
+    end^
 
     a TESTS = 10_000
     
@@ -543,34 +557,34 @@ end
     when comparison_TYPED
         block_TYPED
     when_TYPED
-    else_TYPED
-    end b
+        else_TYPED
+            end b
 
-    a case target
-    when comparison
-        # block
-    when comparison
-        # block
-    when comparison
-        # block
-    when comparison
-        # block
-    else
-        
-    end b
+            `case target
+            when comparison
+                # block
+            when comparison
+                # block
+            when comparison
+                # block
+            when comparison
+                # block
+            else
+                
+            end^
 
-    a case target
-    when comparison
-        # block
-    when comparison
-        # block
-    when comparison
-        # block
-    when comparison
-        # block
-    else
-        
-    end
+            a case target
+            when comparison
+                # block
+            when comparison
+                # block
+            when comparison
+                # block
+            when comparison
+                # block
+            else
+                
+            end
 
 
     #   -------------cfy---------------  
@@ -582,7 +596,7 @@ end
 
     classify { |element_TYPED|  } b
 
-    a classify { |element|  } b
+    `classify { |element|  }^
 
     a classify { |element|  }
 
@@ -602,9 +616,9 @@ end
         
     end b
 
-    a class ClassName
+    `class ClassName
         
-    end b
+    end^
 
     a class ClassName
         
@@ -626,12 +640,12 @@ end
 class TYPED
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-endb
+end b
 
-a class 
+`class 
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-endb
+end^
 
 a class 
     WRAPPED_TEXT
@@ -666,13 +680,13 @@ end
         end
     end b
 
-    a class ClassName < DelegateClass(ParentClass)
+    `class ClassName < DelegateClass(ParentClass)
         def initialize
             super(delegate object)
     
             
         end
-    end b
+    end^
 
     a class ClassName < DelegateClass(ParentClass)
         def initialize
@@ -698,7 +712,7 @@ end
         def initialize
             
         end
-        
+    
         def method
             
         end
@@ -706,26 +720,26 @@ end
 
     class ClassNameTYPED
         def initialize(arg_TYPED, narg_TYPED, narg_TYPED)
-            cursor_TYPED
+            init_TYPED
         end
-        def_TYPED
+            def_TYPED
     end b
 
-    a class ClassName
+    `class ClassName
         def initialize
             
         end
-        
+    
         def method
             
         end
-    end b
+    end^
 
     a class ClassName
         def initialize
             
         end
-        
+    
         def method
             
         end
@@ -747,9 +761,9 @@ end
         
     end b
 
-    a class << self
+    `class << self
         
-    end b
+    end^
 
     a class << self
         
@@ -767,9 +781,9 @@ end
 
     ClassNameTYPED = Struct.new(:attr_TYPED, :nattr_TYPED, :nattr_TYPED) do_TYPED b
 
-    a ClassName = Struct.new do
+    `ClassName = Struct.new do
         
-    end b
+    end^
 
     a ClassName = Struct.new do
         
@@ -785,7 +799,7 @@ end
 
     collect { |obj_TYPED|  } b
 
-    a collect { |obj|  } b
+    `collect { |obj|  }^
 
     a collect { |obj|  }
 
@@ -811,11 +825,11 @@ end
         
     end b
 
-    a include Comparable
+    `include Comparable
     
     def <=>(other)
         
-    end b
+    end^
 
     a include Comparable
     
@@ -833,7 +847,7 @@ end
 
     Marshal.load(Marshal.dump(obj_TYPED)) b
 
-    a Marshal.load(Marshal.dump(obj)) b
+    `Marshal.load(Marshal.dump(obj))^
 
     a Marshal.load(Marshal.dump(obj))
 
@@ -853,9 +867,9 @@ end
         
     end b
 
-    a def method
+    `def method
         
-    end b
+    end^
 
     a def method
         
@@ -877,12 +891,12 @@ end
 def method_name_TYPED(arg_TYPED, narg_TYPED, narg_TYPED)
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-endb
+end b
 
-a def method_name
+`def method_name
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-endb
+end^
 
 a def method_name
     WRAPPED_TEXT
@@ -899,7 +913,7 @@ end
 
     def_delegator :delobj_TYPED, :delmeth_TYPED, :new name b
 
-    a def_delegator :del obj, :del meth, :new name b
+    `def_delegator :del obj, :del meth, :new name^
 
     a def_delegator :del obj, :del meth, :new name
 
@@ -913,7 +927,7 @@ end
 
     def_delegators :delobj_TYPED, :del methods b
 
-    a def_delegators :del obj, :del methods b
+    `def_delegators :del obj, :del methods^
 
     a def_delegators :del obj, :del methods
 
@@ -933,9 +947,9 @@ end
         
     end b
 
-    a def initialize
+    `def initialize
         
-    end b
+    end^
 
     a def initialize
         
@@ -957,9 +971,9 @@ end
         
     end b
 
-    a def method_missing(meth, *args, &block)
+    `def method_missing(meth, *args, &block)
         
-    end b
+    end^
 
     a def method_missing(meth, *args, &block)
         
@@ -981,9 +995,9 @@ end
         
     end b
 
-    a def self.method
+    `def self.method
         
-    end b
+    end^
 
     a def self.method
         
@@ -1005,9 +1019,9 @@ end
         
     end b
 
-    a def test_name
+    `def test_name
         
-    end b
+    end^
 
     a def test_name
         
@@ -1023,7 +1037,7 @@ end
 
     delete_if { |arg_TYPED|  } b
 
-    a delete_if { |arg|  } b
+    `delete_if { |arg|  }^
 
     a delete_if { |arg|  }
 
@@ -1037,7 +1051,7 @@ end
 
     detect { |obj_TYPED|  } b
 
-    a detect { |obj|  } b
+    `detect { |obj|  }^
 
     a detect { |obj|  }
 
@@ -1051,7 +1065,7 @@ end
 
     Dir[__TYPED] b
 
-    a Dir['/**/*'] b
+    `Dir['/**/*']^
 
     a Dir['/**/*']
 
@@ -1065,7 +1079,7 @@ end
 
     Dir.glob(dir_TYPED) { |file_TYPED|  } b
 
-    a Dir.glob(dir) { |file|  } b
+    `Dir.glob(dir) { |file|  }^
 
     a Dir.glob(dir) { |file|  }
 
@@ -1085,9 +1099,9 @@ end
         
     end b
 
-    a do
+    `do
         
-    end b
+    end^
 
     a do
         
@@ -1103,7 +1117,7 @@ end
 
     downto(lbound_TYPED) { |arg_TYPED|  } b
 
-    a downto(0) { |i|  } b
+    `downto(0) { |i|  }^
 
     a downto(0) { |i|  }
 
@@ -1117,7 +1131,7 @@ end
 
     each_byte { |byte_TYPED|  } b
 
-    a each_byte { |byte|  } b
+    `each_byte { |byte|  }^
 
     a each_byte { |byte|  }
 
@@ -1131,7 +1145,7 @@ end
 
     drdr.xp@gmail.com b
 
-    a drdr.xp@gmail.com b
+    `drdr.xp@gmail.com^
 
     a drdr.xp@gmail.com
 
@@ -1151,9 +1165,9 @@ end
         
     } b
 
-    a END {
+    `END {
         
-    } b
+    }^
 
     a END {
         
@@ -1181,11 +1195,11 @@ end
         
     end b
 
-    a include Enumerable
+    `include Enumerable
     
     def each(&block)
         
-    end b
+    end^
 
     a include Enumerable
     
@@ -1203,7 +1217,7 @@ end
 
     File.dirname(_TYPED) b
 
-    a File.dirname() b
+    `File.dirname()^
 
     a File.dirname()
 
@@ -1217,7 +1231,7 @@ end
 
     fetch(name_TYPED) { |key_TYPED|  } b
 
-    a fetch(name) { |key|  } b
+    `fetch(name) { |key|  }^
 
     a fetch(name) { |key|  }
 
@@ -1231,7 +1245,7 @@ end
 
     File.foreach('filename_TYPED') { |line_TYPED|  } b
 
-    a File.foreach('filename') { |line|  } b
+    `File.foreach('filename') { |line|  }^
 
     a File.foreach('filename') { |line|  }
 
@@ -1245,7 +1259,7 @@ end
 
     test.page b
 
-    a test.page b
+    `test.page^
 
     a test.page
 
@@ -1259,7 +1273,7 @@ end
 
     find { |element_TYPED|  } b
 
-    a find { |element|  } b
+    `find { |element|  }^
 
     a find { |element|  }
 
@@ -1273,7 +1287,7 @@ end
 
     find_all { |element_TYPED|  } b
 
-    a find_all { |element|  } b
+    `find_all { |element|  }^
 
     a find_all { |element|  }
 
@@ -1287,7 +1301,7 @@ end
 
     File.join(dir_TYPED, path_TYPED) b
 
-    a File.join(dir, path) b
+    `File.join(dir, path)^
 
     a File.join(dir, path)
 
@@ -1301,7 +1315,7 @@ end
 
     inject(Array.new) { |arr_TYPED, a_TYPED| arr_TYPED.push(*a_TYPED) } b
 
-    a inject(Array.new) { |arr, a| arr.push(*a) } b
+    `inject(Array.new) { |arr, a| arr.push(*a) }^
 
     a inject(Array.new) { |arr, a| arr.push(*a) }
 
@@ -1315,7 +1329,7 @@ end
 
     extend Forwardable b
 
-    a extend Forwardable b
+    `extend Forwardable^
 
     a extend Forwardable
 
@@ -1329,7 +1343,7 @@ end
 
     File.read(filename_TYPED) b
 
-    a File.read(filename) b
+    `File.read(filename)^
 
     a File.read(filename)
 
@@ -1343,7 +1357,7 @@ end
 
     grep(/pattern_TYPED/) { |match_TYPED|  } b
 
-    a grep(/pattern/) { |match|  } b
+    `grep(/pattern/) { |match|  }^
 
     a grep(/pattern/) { |match|  }
 
@@ -1357,7 +1371,7 @@ end
 
     gsub(/pattern_TYPED/) { |match_TYPED|  } b
 
-    a gsub(/pattern/) { |match|  } b
+    `gsub(/pattern/) { |match|  }^
 
     a gsub(/pattern/) { |match|  }
 
@@ -1371,7 +1385,7 @@ end
 
     Hash.new { |hash_TYPED,key_TYPED| hash_TYPED[key_TYPED] =  } b
 
-    a Hash.new { |hash,key| hash[key] =  } b
+    `Hash.new { |hash,key| hash[key] =  }^
 
     a Hash.new { |hash,key| hash[key] =  }
 
@@ -1391,9 +1405,9 @@ end
         
     end b
 
-    a if boolean exp
+    `if boolean exp
         
-    end b
+    end^
 
     a if boolean exp
         
@@ -1421,11 +1435,11 @@ end
         
     end b
 
-    a if boolean exp
+    `if boolean exp
         # block
     else
         
-    end b
+    end^
 
     a if boolean exp
         # block
@@ -1464,31 +1478,31 @@ end
         block_TYPED
     elsif_TYPED
     else_TYPED
-    end b
+        end b
 
-    a if boolean exp
-        # block
-    elsif comparison
-        # block
-    elsif comparison
-        # block
-    elsif comparison
-        # block
-    else
-        
-    end b
+        `if boolean exp
+            # block
+        elsif comparison
+            # block
+        elsif comparison
+            # block
+        elsif comparison
+            # block
+        else
+            
+        end^
 
-    a if boolean exp
-        # block
-    elsif comparison
-        # block
-    elsif comparison
-        # block
-    elsif comparison
-        # block
-    else
-        
-    end
+        a if boolean exp
+            # block
+        elsif comparison
+            # block
+        elsif comparison
+            # block
+        elsif comparison
+            # block
+        else
+            
+        end
 
 
     #   -------------inj---------------                        
@@ -1500,7 +1514,7 @@ end
 
     inject(arg_TYPED) { |accumulator_TYPED, element_TYPED|  } b
 
-    a inject(arg) { |accumulator, element|  } b
+    `inject(arg) { |accumulator, element|  }^
 
     a inject(arg) { |accumulator, element|  }
 
@@ -1514,10 +1528,10 @@ name(WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 name_TYPED(WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a name(WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`name(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a name(WRAPPED_TEXT
 WRAPPED_TEXT_line2)
@@ -1532,7 +1546,7 @@ WRAPPED_TEXT_line2)
 
     lambda { |arg_TYPED, narg_TYPED, narg_TYPED|  } b
 
-    a lambda {  } b
+    `lambda {  }^
 
     a lambda {  }
 
@@ -1552,9 +1566,9 @@ WRAPPED_TEXT_line2)
         
     end b
 
-    a loop do
+    `loop do
         
-    end b
+    end^
 
     a loop do
         
@@ -1570,7 +1584,7 @@ WRAPPED_TEXT_line2)
 
     map { |arg_TYPED|  } b
 
-    a map { |arg|  } b
+    `map { |arg|  }^
 
     a map { |arg|  }
 
@@ -1584,7 +1598,7 @@ WRAPPED_TEXT_line2)
 
     max { |element1_TYPED, element2_TYPED|  } b
 
-    a max { |element1, element2|  } b
+    `max { |element1, element2|  }^
 
     a max { |element1, element2|  }
 
@@ -1598,7 +1612,7 @@ WRAPPED_TEXT_line2)
 
     File.open(filename_TYPED, "wb") { |file_TYPED| Marshal.dump(obj_TYPED, file_TYPED) } b
 
-    a File.open(filename, "wb") { |file| Marshal.dump(obj, file) } b
+    `File.open(filename, "wb") { |file| Marshal.dump(obj, file) }^
 
     a File.open(filename, "wb") { |file| Marshal.dump(obj, file) }
 
@@ -1612,7 +1626,7 @@ WRAPPED_TEXT_line2)
 
     min { |element1_TYPED, element2_TYPED|  } b
 
-    a min { |element1, element2|  } b
+    `min { |element1, element2|  }^
 
     a min { |element1, element2|  }
 
@@ -1626,7 +1640,7 @@ WRAPPED_TEXT_line2)
 
     File.open(filename_TYPED, "rb") { |file_TYPED| Marshal.load(file_TYPED) } b
 
-    a File.open(filename, "rb") { |file| Marshal.load(file) } b
+    `File.open(filename, "rb") { |file| Marshal.load(file) }^
 
     a File.open(filename, "rb") { |file| Marshal.load(file) }
 
@@ -1646,9 +1660,9 @@ WRAPPED_TEXT_line2)
         
     end b
 
-    a module ModuleName
+    `module ModuleName
         
-    end b
+    end^
 
     a module ModuleName
         
@@ -1676,11 +1690,11 @@ WRAPPED_TEXT_line2)
         
     end b
 
-    a module ModuleName
+    `module ModuleName
         module_function
     
         
-    end b
+    end^
 
     a module ModuleName
         module_function
@@ -1701,20 +1715,20 @@ module
     WRAPPED_TEXT_line2
 end
 
-module TYPED
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endb
+    module TYPED
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+    end b
 
-a module 
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endb
+    `module 
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+    end^
 
-a module 
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-end
+    a module 
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+    end
 
 
     #   -------------nam--------------- 
@@ -1732,9 +1746,9 @@ end
         
     end b
 
-    a namespace :test do
+    `namespace :test do
         
-    end b
+    end^
 
     a namespace :test do
         
@@ -1750,7 +1764,7 @@ end
 
     var_TYPED = ObjectTYPED.new(arg_TYPED, narg_TYPED, narg_TYPED) b
 
-    a var = Object.new b
+    `var = Object.new^
 
     a var = Object.new
 
@@ -1764,7 +1778,7 @@ end
 
     open(filename_TYPED, mode_TYPED) { |io_TYPED|  } b
 
-    a open(filename, 'wb') { |io|  } b
+    `open(filename, 'wb') { |io|  }^
 
     a open(filename, 'wb') { |io|  }
 
@@ -1778,7 +1792,7 @@ end
 
     partition { |element_TYPED|  } b
 
-    a partition { |element|  } b
+    `partition { |element|  }^
 
     a partition { |element|  }
 
@@ -1792,7 +1806,7 @@ end
 
     File.join(File.dirname(__FILE__), "path_TYPED") b
 
-    a File.join(File.dirname(__FILE__), "../lib") b
+    `File.join(File.dirname(__FILE__), "../lib")^
 
     a File.join(File.dirname(__FILE__), "../lib")
 
@@ -1806,7 +1820,7 @@ end
 
     PStore.new(filename_TYPED) b
 
-    a PStore.new(filename) b
+    `PStore.new(filename)^
 
     a PStore.new(filename)
 
@@ -1820,7 +1834,7 @@ end
 
     reject { |element_TYPED|  } b
 
-    a reject { |element|  } b
+    `reject { |element|  }^
 
     a reject { |element|  }
 
@@ -1834,7 +1848,7 @@ end
 
     result.report("name_TYPED: ") { TESTS.times {  } } b
 
-    a result.report("name: ") { TESTS.times {  } } b
+    `result.report("name: ") { TESTS.times {  } }^
 
     a result.report("name: ") { TESTS.times {  } }
 
@@ -1848,7 +1862,7 @@ end
 
     require 'lib_TYPED' b
 
-    a require 'lib' b
+    `require 'lib'^
 
     a require 'lib'
 
@@ -1864,11 +1878,11 @@ end
     %w[lib_TYPED lib_TYPED lib_TYPED].map { |lib| require lib }
      b
 
-     a %w[].map { |lib| require lib }
-      b
+     `%w[].map { |lib| require lib }
+     ^
 
-      a %w[].map { |lib| require lib }
-      
+     a %w[].map { |lib| require lib }
+     
 
 
     #   -------------reve---------------     
@@ -1880,7 +1894,7 @@ end
 
     reverse_each { |element_TYPED|  } b
 
-    a reverse_each { |element|  } b
+    `reverse_each { |element|  }^
 
     a reverse_each { |element|  }
 
@@ -1897,8 +1911,8 @@ end
     #!/usr/bin/env ruby
     # -*- encoding: enc_TYPED -*- b
     #
-    a #!/usr/bin/env ruby
-    # -*- encoding: utf-8 -*- b
+    `#!/usr/bin/env ruby
+    # -*- encoding: utf-8 -*-^
     #
     a #!/usr/bin/env ruby
     # -*- encoding: utf-8 -*-
@@ -1916,8 +1930,8 @@ end
     #!/usr/bin/env ruby
     # -*- encoding: enc_TYPED -*- b
     #
-    a #!/usr/bin/env ruby
-    # -*- encoding: utf-8 -*- b
+    `#!/usr/bin/env ruby
+    # -*- encoding: utf-8 -*-^
     #
     a #!/usr/bin/env ruby
     # -*- encoding: utf-8 -*-
@@ -1932,7 +1946,7 @@ end
 
     scan(/pattern_TYPED/) { |match_TYPED|  } b
 
-    a scan(/pattern/) { |match|  } b
+    `scan(/pattern/) { |match|  }^
 
     a scan(/pattern/) { |match|  }
 
@@ -1946,7 +1960,7 @@ end
 
     select { |element_TYPED|  } b
 
-    a select { |element|  } b
+    `select { |element|  }^
 
     a select { |element|  }
 
@@ -1963,8 +1977,8 @@ end
     #!/usr/bin/env ruby
     # -*- encoding: enc_TYPED -*- b
     #
-    a #!/usr/bin/env ruby
-    # -*- encoding: utf-8 -*- b
+    `#!/usr/bin/env ruby
+    # -*- encoding: utf-8 -*-^
     #
     a #!/usr/bin/env ruby
     # -*- encoding: utf-8 -*-
@@ -1979,7 +1993,7 @@ end
 
     class << self; self; end b
 
-    a class << self; self; end b
+    `class << self; self; end^
 
     a class << self; self; end
 
@@ -1993,7 +2007,7 @@ end
 
     sort { |element1_TYPED, element2_TYPED| element1_TYPED <=> element2_TYPED } b
 
-    a sort { |element1, element2| element1 <=> element2 } b
+    `sort { |element1, element2| element1 <=> element2 }^
 
     a sort { |element1, element2| element1 <=> element2 }
 
@@ -2007,7 +2021,7 @@ end
 
     sort_by { |arg_TYPED|  } b
 
-    a sort_by { |arg|  } b
+    `sort_by { |arg|  }^
 
     a sort_by { |arg|  }
 
@@ -2021,7 +2035,7 @@ end
 
     step(count_TYPED, step_TYPED) { |i_TYPED|  } b
 
-    a step(count, step) { |i|  } b
+    `step(count, step) { |i|  }^
 
     a step(count, step) { |i|  }
 
@@ -2035,7 +2049,7 @@ end
 
     sub(/pattern_TYPED/) { |match_TYPED|  } b
 
-    a sub(/pattern/) { |match|  } b
+    `sub(/pattern/) { |match|  }^
 
     a sub(/pattern/) { |match|  }
 
@@ -2055,9 +2069,9 @@ end
         
     end b
 
-    a class ClassName < Parent
+    `class ClassName < Parent
         
-    end b
+    end^
 
     a class ClassName < Parent
         
@@ -2082,10 +2096,10 @@ end
         
     end b
 
-    a desc "task description"
+    `desc "task description"
     task :task_name do
         
-    end b
+    end^
 
     a desc "task description"
     task :task_name do
@@ -2116,15 +2130,15 @@ end
         def test_name
             
         end
-        
+    
         def test_name
             
         end
-        
+    
         def test_name
             
         end
-        
+    
         def test_name
             
         end
@@ -2135,11 +2149,32 @@ end
     
     class TestClassNameTYPED < Test::Unit::TestCase
         def test_name_TYPED
-            cursor_TYPED
-        end 
-    
-        deft_TYPED
+            deft_TYPED
+        end
+        
+            deft_TYPED
     end b
+
+    `require "test/unit"
+    require "module"
+    
+    class TestModule < Test::Unit::TestCase
+        def test_name
+            
+        end
+    
+        def test_name
+            
+        end
+    
+        def test_name
+            
+        end
+    
+        def test_name
+            
+        end
+    end^
 
     a require "test/unit"
     require "module"
@@ -2148,36 +2183,15 @@ end
         def test_name
             
         end
-        
-        def test_name
-            
-        end
-        
-        def test_name
-            
-        end
-        
-        def test_name
-            
-        end
-    end b
-
-    a require "test/unit"
-    require "module"
     
-    class TestModule < Test::Unit::TestCase
         def test_name
             
         end
-        
+    
         def test_name
             
         end
-        
-        def test_name
-            
-        end
-        
+    
         def test_name
             
         end
@@ -2193,7 +2207,7 @@ end
 
     (booleanexp_TYPED) ? expiftrue_TYPED : exp if false b
 
-    a (boolean exp) ? exp if true : exp if false b
+    `(boolean exp) ? exp if true : exp if false^
 
     a (boolean exp) ? exp if true : exp if false
 
@@ -2207,7 +2221,7 @@ end
 
     times { |i_TYPED|  } b
 
-    a times { |i|  } b
+    `times { |i|  }^
 
     a times { |i|  }
 
@@ -2221,7 +2235,7 @@ end
 
     transaction(true_TYPED) {  } b
 
-    a transaction(true) {  } b
+    `transaction(true) {  }^
 
     a transaction(true) {  }
 
@@ -2241,9 +2255,9 @@ end
         
     end b
 
-    a ARGF.each_line do |line|
+    `ARGF.each_line do |line|
         
-    end b
+    end^
 
     a ARGF.each_line do |line|
         
@@ -2265,9 +2279,9 @@ end
         
     end b
 
-    a unless boolean cond
+    `unless boolean cond
         
-    end b
+    end^
 
     a unless boolean cond
         
@@ -2289,9 +2303,9 @@ end
         
     end b
 
-    a until boolean cond
+    `until boolean cond
         
-    end b
+    end^
 
     a until boolean cond
         
@@ -2307,7 +2321,7 @@ end
 
     upto(ubound_TYPED) { |i_TYPED|  } b
 
-    a upto(ubound) { |i|  } b
+    `upto(ubound) { |i|  }^
 
     a upto(ubound) { |i|  }
 
@@ -2323,13 +2337,13 @@ end
         abort "Usage: #{$PROGRAM_NAME} [options]"
     end
 
-    if ARGV_TYPED 
+    if ARGV_TYPED
         abort "Usage: #{$PROGRAM_NAME} args_TYPED"
     end b
 
-    a if ARGV 
+    `if ARGV
         abort "Usage: #{$PROGRAM_NAME} [options]"
-    end b
+    end^
 
     a if ARGV
         abort "Usage: #{$PROGRAM_NAME} [options]"
@@ -2347,13 +2361,13 @@ end
         abort "Usage: #{$PROGRAM_NAME} [options]"
     end
 
-    unless ARGV_TYPED 
+    unless ARGV_TYPED
         abort "Usage: #{$PROGRAM_NAME} args_TYPED"
     end b
 
-    a unless ARGV 
+    `unless ARGV
         abort "Usage: #{$PROGRAM_NAME} [options]"
-    end b
+    end^
 
     a unless ARGV
         abort "Usage: #{$PROGRAM_NAME} [options]"
@@ -2375,9 +2389,9 @@ end
         
     end b
 
-    a while boolean cond
+    `while boolean cond
         
-    end b
+    end^
 
     a while boolean cond
         
@@ -2393,7 +2407,7 @@ end
 
     with_index { |element_TYPED, index_TYPED|  } b
 
-    a with_index { |element, index|  } b
+    `with_index { |element, index|  }^
 
     a with_index { |element, index|  }
 
@@ -2407,7 +2421,7 @@ end
 
     REXML::Document.new(File.read(filename_TYPED)) b
 
-    a REXML::Document.new(File.read(filename)) b
+    `REXML::Document.new(File.read(filename))^
 
     a REXML::Document.new(File.read(filename))
 
@@ -2421,7 +2435,7 @@ end
 
     File.open("filename_TYPED.yaml", "wb") { |file_TYPED| YAML.dump(obj_TYPED,file_TYPED) } b
 
-    a File.open("filename.yaml", "wb") { |file| YAML.dump(obj,file) } b
+    `File.open("filename.yaml", "wb") { |file| YAML.dump(obj,file) }^
 
     a File.open("filename.yaml", "wb") { |file| YAML.dump(obj,file) }
 
@@ -2435,7 +2449,7 @@ end
 
     File.open("filename_TYPED.yaml") { |file_TYPED| YAML.load(file_TYPED) } b
 
-    a File.open("filename.yaml") { |file| YAML.load(file) } b
+    `File.open("filename.yaml") { |file| YAML.load(file) }^
 
     a File.open("filename.yaml") { |file| YAML.load(file) }
 
@@ -2449,13 +2463,13 @@ end
 
     zip(enum_TYPED) { |row_TYPED|  } b
 
-    a zip(enum) { |row|  } b
+    `zip(enum) { |row|  }^
 
     a zip(enum) { |row|  }
 
 
     #   -------------{_--------------- 
-    #  {`wrapped^}                     
+    #  {`w^}                           
 
 
 
@@ -2463,10 +2477,10 @@ end
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

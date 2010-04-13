@@ -1,7 +1,7 @@
-if exists("g:__DEBUG_VIM__")
-  finish
+if exists( "g:__DEBUG_VIM__" ) && g:__DEBUG_VIM__ >= XPT#ver
+    finish
 endif
-let g:__DEBUG_VIM__ = 1
+let g:__DEBUG_VIM__ = XPT#ver
 
 let s:oldcpo = &cpo
 set cpo-=<
@@ -32,9 +32,9 @@ fun! CreateLogger( level ) "{{{
 endfunction "}}}
 
 fun! Assert( shouldBeTrue, msg ) "{{{
-  if !a:shouldBeTrue 
-    throw a:msg  
-  end 
+    if !a:shouldBeTrue
+        throw a:msg
+    end 
 endfunction "}}}
 
 com! -nargs=+ Assert call Assert( <args>, <q-args> )
@@ -89,9 +89,9 @@ let s:loggerPrototype.LogNothing  = function( "<SNR>" . s:sid . "LogNothing" )
 
 
 if len( finddir( '~/tmp' ) ) > 0
-  let s:logLocation = finddir( '~/tmp' )
+    let s:logLocation = finddir( '~/tmp' )
 else
-  let s:logLocation = '~'
+    let s:logLocation = '~'
 endif
 
 let s:logLocation .= '/vim.log'
@@ -100,35 +100,33 @@ let s:logLocation .= '/vim.log'
 call delete(s:logLocation)
 
 fun! Log_core(level, ...) "{{{
-  " call stack printing 
-  try
-    throw ''
-  catch /.*/
-    let stack = matchstr( v:throwpoint, 'function\s\+\zs.\{-}\ze\.\.\%(Fatal\|Error\|Warn\|Info\|Log\|Debug\).*' )
-    let stack = substitute( stack, '<SNR>\d\+_', '', 'g' )
-  endtry
+    " call stack printing 
+    try
+        throw ''
+    catch /.*/
+        let stack = matchstr( v:throwpoint, 'function\s\+\zs.\{-}\ze\.\.\%(Fatal\|Error\|Warn\|Info\|Log\|Debug\).*' )
+        let stack = substitute( stack, '<SNR>\d\+_', '', 'g' )
+    endtry
 
 
-  exe 'redir! >> '.s:logLocation
-  
+    exe 'redir! >> '.s:logLocation
 
-  silent echom a:level . ':::' . stack . ' cursor at=' . string( [ line("."), col(".") ] )
 
-  for msg in a:000
-    let l = split(';' . msg . ';', "\n")
-    let l[0] = l[0][1:]
-    let l[ -1 ] = l[ -1 ][ :-2 ]
-    for v in l
-      silent! echom v
+    silent echom a:level . ':::' . stack . ' cursor at=' . string( [ line("."), col(".") ] )
+
+    for msg in a:000
+        let l = split(';' . msg . ';', "\n")
+        let l[0] = l[0][1:]
+        let l[ -1 ] = l[ -1 ][ :-2 ]
+        for v in l
+            silent! echom v
+        endfor
     endfor
-  endfor
-  redir END
+    redir END
 
-  if a:level =~ 'Fatal\|Error\|Warn'
-    echoerr string( a:000 )
-  " elseif a:level =~ 'Info'
-    " echom string( a:000 )
-  endif
+    if a:level =~ 'Fatal\|Error\|Warn'
+        echoerr string( a:000 )
+    endif
 endfunction "}}}
 
 

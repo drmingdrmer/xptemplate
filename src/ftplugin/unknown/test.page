@@ -2,7 +2,7 @@
 
 
     /*  -------------"_--------------- */
-    /* "`wrapped^"                     */
+    /* "`w^"                           */
 
 
 
@@ -10,17 +10,17 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
     /*  -------------'_--------------- */
-    /* '`wrapped^'                     */
+    /* '`w^'                           */
 
 
 
@@ -28,17 +28,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     /*  -------------(_--------------- */
-    /* (`wrapped^)                     */
+    /* (`w^)                           */
 
 
 
@@ -46,17 +46,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     /*  -------------<_--------------- */
-    /* <`wrapped^>                     */
+    /* <`w^>                           */
 
 
 
@@ -64,17 +64,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     /*  -------------[_--------------- */
-    /* [`wrapped^]                     */
+    /* [`w^]                           */
 
 
 
@@ -82,17 +82,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     /*  -------------`_--------------- */
-    /* \``wrapped^\`                   */
+    /* \``w^\`                         */
 
 
 
@@ -100,10 +100,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -118,7 +118,7 @@ drdr.xp
 
 drdr.xp b
 
-a drdr.xp b
+`drdr.xp^
 
 a drdr.xp
 
@@ -132,7 +132,7 @@ drdr.xp@gmail.com
 
 drdr.xp@gmail.com b
 
-a drdr.xp@gmail.com b
+`drdr.xp@gmail.com^
 
 a drdr.xp@gmail.com
 
@@ -146,13 +146,13 @@ test.page
 
 test.page b
 
-a test.page b
+`test.page^
 
 a test.page
 
 
     /*  -------------{_--------------- */
-    /* {`wrapped^}                     */
+    /* {`w^}                           */
 
 
 
@@ -160,10 +160,10 @@ a test.page
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

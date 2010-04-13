@@ -1,8 +1,9 @@
 finish
-if exists("g:__XPTEMPLATE_IMPORTER_VIM__")
+if exists( "g:__XPTEMPLATE_IMPORTER_VIM__" ) && g:__XPTEMPLATE_IMPORTER_VIM__ >= XPT#ver
     finish
 endif
-let g:__XPTEMPLATE_IMPORTER_VIM__ = 1
+let g:__XPTEMPLATE_IMPORTER_VIM__ = XPT#ver
+
 
 
 let fn = argv(0)

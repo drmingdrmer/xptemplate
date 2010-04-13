@@ -29,49 +29,49 @@ XPTinclude
 " ================================= Snippets ===================================
 XPTemplateDef
 
-XPT if hint=if\ ..\ then\ ..\ else\ ..
+XPT if " if .. then .. else ..
 if `cond^
 then `cursor^
 
 
-XPT match hint=match\ ..\ with\ [..\ ->\ ..\ |\ ..]
+XPT match " match .. with [.. -> .. | ..]
 match `expr^ with
   [ `what0^ -> `with0^`...^
   | `what^ -> `with^`...^
   ]
 
 
-XPT moduletype hint=module\ type\ ..\ =\ sig\ ..\ end
+XPT moduletype " module type .. = sig .. end
 module type `name^ `^ = sig
     `cursor^
 end;
 
 
-XPT module hint=module\ ..\ =\ struct\ ..\ end
+XPT module " module .. = struct .. end
 XSET name|post=SV( '^\w', '\u&' )
 module `name^ `^ = struct
     `cursor^
 end;
 
-XPT while hint=while\ ..\ do\ ..\ done
+XPT while " while .. do .. done
 while `cond^ do
     `cursor^
 done
 
-XPT for hint=for\ ..\ to\ ..\ do\ ..\ done
+XPT for " for .. to .. do .. done
 XSET side=Choose(['to', 'downto'])
 for `var^ = `val^ `side^ `expr^ do
     `cursor^
 done
 
-XPT class hint=class\ ..\ =\ object\ ..\ end
+XPT class " class .. = object .. end
 class `_^^ `name^ =
 object (self)
     `cursor^
 end;
 
 
-XPT classtype hint=class\ type\ ..\ =\ object\ ..\ end
+XPT classtype " class type .. = object .. end
 class type `name^ =
 object
    method `field^ : `type^` `...^
@@ -79,7 +79,7 @@ object
 end;
 
 
-XPT classtypecom hint=(**\ ..\ *)\ class\ type\ ..\ =\ object\ ..\ end
+XPT classtypecom " (** .. *) class type .. = object .. end
 (** `class_descr^^ *)
 class type `name^ =
 object
@@ -90,7 +90,7 @@ object
 end;
 
 
-XPT typesum hint=type\ ..\ =\ ..\ |\ ..
+XPT typesum " type .. = .. | ..
 XSET typeParams?|post=EchoIfNoChange( '' )
 type `typename^` `typeParams?^ =
   [ `constructor^`...^
@@ -98,7 +98,7 @@ type `typename^` `typeParams?^ =
   ];
 
 
-XPT typesumcom hint=(**\ ..\ *)\ type\ ..\ =\ ..\ |\ ..
+XPT typesumcom " (** .. *) type .. = .. | ..
 XSET typeParams?|post=EchoIfNoChange( '' )
 (** `typeDescr^ *)
 type `typename^` `typeParams?^ =
@@ -107,7 +107,7 @@ type `typename^` `typeParams?^ =
   ];
 
 
-XPT typerecord hint=type\ ..\ =\ {\ ..\ }
+XPT typerecord " type .. = { .. }
 XSET typeParams?|post=EchoIfNoChange( '' )
 type `typename^` `typeParams?^ =
     { `recordField^ : `fType^` `...^
@@ -115,7 +115,7 @@ type `typename^` `typeParams?^ =
     };
 
 
-XPT typerecordcom hint=(**\ ..\ *)type\ ..\ =\ {\ ..\ }
+XPT typerecordcom " (** .. *)type .. = { .. }
 (** `type_descr^ *)
 type `typename^ `_^^=
     { `recordField^ : `fType^ (** `desc^ *)`...^
@@ -123,7 +123,7 @@ type `typename^ `_^^=
     };
 
 
-XPT try hint=try\ ..\ with\ ..\ ->\ ..
+XPT try wrap=expr " try .. with .. -> ..
 try `expr^
 with [ `exc^ -> `rez^
 `     `...`
@@ -131,32 +131,32 @@ with [ `exc^ -> `rez^
 `     `...`
 ^`}}^     ]
 
-XPT val hint=value\ ..\ :\ ..
+XPT val " value .. : ..
 value `thing^ : `cursor^
 
-XPT ty hint=..\ ->\ ..
+XPT ty " .. -> ..
 `t^`...^ -> `t2^`...^
 
-XPT do hint=do\ {\ ..\ }
+XPT do " do { .. }
 do {
     `cursor^
 }
 
-XPT begin hint=begin\ ..\ end
+XPT begin " begin .. end
 begin
     `cursor^
 end
 
-XPT fun hint=(fun\ ..\ ->\ ..)
+XPT fun " (fun .. -> ..)
 (fun `args^ -> `^)
 
-XPT func hint=value\ ..\ :\ ..\ =\ fun\ ..\ ->
+XPT func " value .. : .. = fun .. ->
 value `funName^ : `ty^ =
 fun `args^ ->
     `cursor^;
 
 
-XPT letin hint=let\ ..\ =\ ..\ in
+XPT letin " let .. = .. in
 let `name^ `_^^ =
     `what^ `...^
 and `subname^ `_^^ =
@@ -164,22 +164,10 @@ and `subname^ `_^^ =
 in
 
 
-XPT letrecin hint=let\ rec\ ..\ =\ ..\ in
+XPT letrecin " let rec .. = .. in
 let rec `name^ `_^^ =
     `what^ `...^
 and `subname^ `_^^ =
     `subwhat^`...^
 in
-
-" ================================= Wrapper ===================================
-
-
-XPT try_ hint=try\ SEL\ with\ ..\ ->\ ..
-try
-    `wrapped^
-with [ `exc^ -> `rez^
-`     `...`
-{{^     | `exc2^ -> `rez2^
-`     `...`
-^`}}^     ]
 

@@ -13,39 +13,37 @@ XPTinclude
       \ _common/common
       \ _condition/lisp.like
 
-" ========================= Function and Variables =============================
 
-" ================================= Snippets ===================================
 XPTemplateDef
 XPT begin " (begin .. )
 (begin
-   (`todo0^) `...^
-   (`todon^)`...^)
+   (`todo0^)` `...^
+   (`todon^)` `...^)
 
 
 XPT case " (case (of) ((match) (expr)) ..)
 (case (`of^)
-      ({`match^} `expr1^) `...^
-      ({`matchn^} `exprn^)`...^
+      ({`match^} `expr1^)` `...^
+      ({`matchn^} `exprn^)` `...^
       `else...^\(else \`cursor\^\)^^)
 
 
 
 XPT cond " (cond ([condi] (expr)) ..)
-(cond ([`condition^] `expr1^) `...^
-      ([`condition^] `exprn^)`...^
+(cond ([`condition^] `expr1^)` `...^
+`      ([`condition^] `exprn^)` `...^
       `else...^\(else \`cursor\^\)^^)
 
 
 XPT let " (let [(var (val)) ..] (body))
-(let [(`newVar^ `value^ `...^)
-      (`newVarn^ `valuen^`...^)]
+(let [(`newVar^ `value^` `...^)
+`      (`newVarn^ `valuen^` `...^)]
      (`cursor^))
 
 
 XPT letrec " (letrec [(var (val)) ..] (body))
-(letrec [(`newVar^ `value^ `...^)
-         (`newVarn^ `valuen^`...^)]
+(letrec [(`newVar^ `value^` `...^)
+`         (`newVarn^ `valuen^` `...^)]
      (`cursor^))
 
 
@@ -66,10 +64,10 @@ XPT def " (define var (ex))
 
 
 XPT do " (do ..)
-(do {(`var1^ `init1^ `step1^) `...0^
-     (`varn^ `initn^ `stepn^)`...0^}
-   ([`test^] `exprs^ `...1^ `exprs^`...1^^)
-   (`command0^) `...2^^
-   (`command1^)`...2^)
+(do {(`var^ `init^ `step^)` `...0^
+`     (`var^ `init^ `step^)` `...0^}
+   ([`test^] `exprs^)
+   (`command^)` `...2^
+   (`command^)` `...2^)
 
 

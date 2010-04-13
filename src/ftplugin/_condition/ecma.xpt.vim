@@ -6,7 +6,7 @@ XPTvar $TRUE          true
 XPTvar $FALSE         false
 XPTvar $NULL          null
 XPTvar $UNDEFINED     undefined
-XPTvar $VOID_LINE /* void */;
+XPTvar $VOID_LINE     /* void */;
 XPTvar $BRif \n
 
 XPTinclude
@@ -21,24 +21,9 @@ XPTinclude
 XPTemplateDef
 
 
-XPT ifu		hint=if\ (undefined\ ===\ ..)\ {..} ..
-XSET job=$VOID_LINE
-if (`$UNDEFINED^ === `var^) {
-    `job^
-}`
-`else...{{^
-else {
-    `cursor^
-}`}}^
+XPT ifu  alias=if	" if ($UNDEFINED == ..) {..} else...
+XSET condition=Embed('`$UNDEFINED^`$SPop^==`$SPop^`var^')
 
 
-XPT ifnu 	hint=if\ (undefined\ !==\ ..)\ {..} ..
-XSET job=$VOID_LINE
-if (`$UNDEFINED^ !== `var^) {
-    `job^
-}`
-`else...{{^
-else {
-    `cursor^
-}`}}^
-
+XPT ifnu  alias=if	" if ($UNDEFINED == ..) {..} else...
+XSET condition=Embed('`$UNDEFINED^`$SPop^!=`$SPop^`var^')

@@ -1,5 +1,6 @@
 XPTemplate priority=lang
 
+
 let s:f = g:XPTfuncs()
 
 " Set your python version with this variable in .vimrc or your own python
@@ -10,6 +11,7 @@ XPTvar $PYTHON_EXC    /usr/bin/env python
 
 " 3 single quotes quoted by single quote
 XPTvar $PYTHON_DOC_MARK '''''
+" XPTvar $PYTHON_DOC_MARK '"""'
 
 " for python 2.5 and older
 XPTvar $PYTHON_EXP_SYM ', '
@@ -54,8 +56,12 @@ XPTinclude
 
 
 XPTvar $CS    #
+XPTvar $CL    '''''
+XPTvar $CM    ''
+XPTvar $CR    '''''
+
 XPTinclude
-    \ _comment/singleSign
+    \ _comment/singleDouble
 
 
 " ========================= Function and Variables =============================
@@ -132,18 +138,31 @@ endfunction
 fun! s:f.python_find_class( default )
     " TODO simplify and do more strict search
     let indentNr = indent( line( "." ) )
-    let defIndent = searchpos( '\V\^\s\*def\>', 'bWcn' )
+    let defIndent = searchpos( '\V\^\s\*\%<' . indentNr . 'vdef\>', 'bWcn' )
     if defIndent == [0, 0]
         return a:default
     endif
 
-    let clsPos = searchpos( '\V\^\s\*class\s\+\zs\w\+', 'bWcn' )
+    let di = indent( defIndent[ 0 ] )
+
+    let clsPos = searchpos( '\V\^\s\*\%<' . di . 'vclass\s\+\zs\w\+', 'bWcn' )
     if clsPos == [0, 0]
         return a:default
     endif
 
     return matchstr( getline( clsPos[0] ), '\Vclass\s\+\zs\w\+' )
 
+endfunction
+
+fun! s:f.python_find_func( default )
+    let indentNr = indent( line( "." ) )
+    let defIndent = searchpos( '\V\^\s\*\%<' . indentNr . 'vdef\>', 'bWcn' )
+    if defIndent == [0, 0]
+        return a:default
+    endif
+
+    return matchstr( getline( defIndent[0] ), '\Vdef\s\+\zs\w\+' )
+    
 endfunction
 
 " ================================= Snippets ===================================
@@ -171,7 +190,7 @@ XSET arg*|post=ExpandInsideEdge( ',$SPop', '' )
 
 
 
-XPT python hint=#!$PYTHON_EXC
+XPT python " #!$PYTHON_EXC
 XSET encoding=Echo(&fenc != '' ? &fenc : &enc)
 #!`$PYTHON_EXC^
 # coding: `encoding^
@@ -202,17 +221,17 @@ Description : `cursor^
 `$PYTHON_DOC_MARK^
 
 
-XPT if " if\ ..:\ ..\ else...
+XPT if " if ..: .. else...
 `:_if:^
 `else...{{^`:else:^`}}^
 
 
-XPT else hint=else:
+XPT else " else:
 else:
     `cursor^
 
 
-XPT elif hint=else:
+XPT elif " else:
 elif `cond^:
     `cursor^
 
@@ -226,7 +245,7 @@ for `i^ in `:range:^:
     `cursor^
 
 
-XPT for hint=for\ ..\ in\ ..:\ ..
+XPT for " for .. in ..: ..
 XSET seq|post=Build( V() =~ '\V\^r\%[ange(]\$' ? '`:range:^' : ItemValueStripped() )
 for `var^ in `seq^`seq^python_seq_cmpl()^:
     `cursor^
@@ -237,38 +256,38 @@ while `condition^:
     `cursor^
 
 
-XPT def hint=def\ ..(\ ..\ ):\ ...
+XPT def " def ..( .. ): ...
 XSET a=arg*
 XSET a|post=Build( V() == 'arg*' ? '' : VS() . AutoCmpl( 1, 'self' ) . '`:_args2:^' )
 def `name^`$SPfun^(`a^python_sp_arg()^``a^`a^AutoCmpl(0,'self')^`a^python_sp_arg()^):
     `cursor^
 
 
-XPT lambda hint=(lambda\ ..\ :\ ..)
+" TODO use ontype/map instead
+XPT lambda " (lambda .. : ..)
 XSET arg*|post=ExpandInsideEdge( ',$SPop', '' )
 lambda `arg*^: `expr^
 
 
-XPT try hint=try:\ ..\ except:\ ...
+XPT try wrap=job " try: .. except: ...
 try:
     `job^
 `:except:^
-`finally...{{^`:finally:^`}}^
 
 
 XPT except " except ..
 except `Exception^`$PYTHON_EXP_SYM`e^:
-    `pass^
+    `cursor^
 
 
 XPT finally " finally:
 finally:
-    pass`^
+    `cursor^
 
 
-XPT class hint=class\ ..\ :\ def\ __init__\ ...
-class `ClassName^`$SPfun^(`$SParg`parent?`$SParg^):
-    `__init__...{{^`:init:^`}}^
+XPT class " class .. : def __init__ ...
+class `ClassName^`$SPfun^(`$SParg`object`$SParg^):
+    `pass^
 
 
 XPT init " def __init__
@@ -277,48 +296,35 @@ def __init__`$SPfun^(`$SParg^self`,$SPop`arg*^`$SParg^):
     `cursor^
 
 
+" TODO guess method name for example __init__
 XPT super " super\( Clz, self ).
-super(`$SParg^`clz^python_find_class('Me')^,`$SPop^self`$SParg^).`method^(`:_args:^)
+super(`$SParg^`clz^python_find_class('Me')^,`$SPop^self`$SParg^).`method^python_find_func('what')^(`:_args:^)
 
 
-XPT ifmain hint=if\ __name__\ ==\ __main__
+XPT ifmain " if __name__ == __main__
 if __name__`$SPop^==`$SPop^"__main__":
     `cursor^
 
-XPT with hint=with\ ..\ as\ ..\ :
-with `opener^ as `name^:
+XPT with " with .. as .. :
+with `opener^` as `name?^:
     `cursor^
 
 
-XPT import hint=import\ ..
+XPT import " import ..
 import `mod^` as `name?^
 
 
-XPT from hint=from\ ..\ import\ ..
+XPT from " from .. import ..
 from `module^ import `item^` as `name?^
 
 
-XPT fromfuture hint=from\ __future__\ import\ ..
+XPT fromfuture " from __future__ import ..
 from __future__ import `name^
 
 
-XPT genExp hint=\(func\(x)\ for\ x\ in\ seq)
+XPT genExp " \(func\(x) for x in seq)
 (`$SParg^`:_generator:^`$SParg^)
 
 
-XPT listComp hint=\[func\(x)\ for\ x\ in\ seq]
+XPT listComp " \[func\(x) for x in seq]
 [`$SParg^`:_generator:^`$SParg^]
-
-
-
-
-
-
-" ================================= Wrapper ===================================
-
-
-XPT try_ hint=try:\ ..\ except:\ ...
-try:
-    `wrapped^
-`:except:^
-`finally...{{^`:finally:^`}}^

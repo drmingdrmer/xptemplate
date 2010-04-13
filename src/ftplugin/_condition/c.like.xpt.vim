@@ -34,84 +34,59 @@ XPTvar $CURSOR_PH      /* cursor */
 " ================================= Snippets ===================================
 XPTemplateDef
 
-XPT _if hidden=1
-XSET job=$VOID_LINE
+
+XPT _if hidden
 if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
-    `job^
+    `cursor^
 }
 
 
-XPT if hint=if\ (..)\ {..}\ else...
-`Include:_if^` `else...{{^`$BRel^`Include:else^`}}^
+XPT if wrap=cursor " if ( .. ) { .. }
+`Include:_if^
 
 
-XPT elif hint=else\ if\ \(\ ...\ )\ {\ ...\ }
+XPT elif wrap=cursor " else if ( .. ) { .. }
 else `Include:_if^
 
 
-XPT else hint=else\ {\ ...\ }
+XPT else wrap=cursor " else { ... }
 else`$BRif^{
     `cursor^
 }
 
 
-XPT ifn  alias=if	hint=if\ ($NULL\ ==\ ..)\ {..}\ else...
+XPT ifn  alias=if	" if ($NULL == ..) {..} else...
 XSET condition=Embed('`$NULL^`$SPop^==`$SPop^`var^')
 
 
-XPT ifnn alias=if	hint=if\ ($NULL\ !=\ ..)\ {..}\ else...
+XPT ifnn alias=if	" if ($NULL != ..) {..} else...
 XSET condition=Embed('`$NULL^`$SPop^!=`$SPop^`var^')
 
 
-XPT if0  alias=if	hint=if\ (0\ ==\ ..)\ {..}\ else...
+XPT if0  alias=if	" if (0 == ..) {..} else...
 XSET condition=Embed('0`$SPop^==`$SPop^`var^')
 
 
-XPT ifn0 alias=if	hint=if\ (0\ !=\ ..)\ {..}\ else...
+XPT ifn0 alias=if	" if (0 != ..) {..} else...
 XSET condition=Embed('0`$SPop^!=`$SPop^`var^')
 
 
-XPT ifee	hint=if\ (..)\ {..}\ else\ if...
-`Include:_if^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^
+XPT ifee		" if (..) {..} else if...
+`:_if:^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^
 
 
-XPT switch	hint=switch\ (..)\ {case..}
+XPT switch wrap=cursor	" switch (..) {case..}
 switch (`$SParg^`var^`$SParg^)`$BRif^{
-    `:case:^
-`
-    `case...`
-    {{^
-    `:case:^
-`
-    `case...`
-^`}}^`
-    `default...`{{^
-    `:default:^`}}^
+    `Include:case^
 }
 ..XPT
 
-XPT case " case ..:
-XSET job=$VOID_LINE
+XPT case wrap=cursor	" case ..:
 case `constant^`$SPcmd^:
-    `job^
+    `cursor^
     break;
 
 XPT default " default ..:
 default:
     `cursor^
 
-
-
-" ================================= Wrapper ===================================
-
-
-XPT if_ hint=if\ (..)\ {\ SEL\ }
-if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
-    `wrapped^
-}
-
-
-XPT else_ hint=else\ {\ SEL\ }
-else`$BRif^{
-    `wrapped^
-}

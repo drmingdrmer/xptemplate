@@ -2,7 +2,7 @@
 
 
     #  -------------"_--------------- 
-    # "`wrapped^"                     
+    # "`w^"                           
 
 
 
@@ -10,17 +10,17 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
     #  -------------'_--------------- 
-    # '`wrapped^'                     
+    # '`w^'                           
 
 
 
@@ -28,17 +28,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     #  -------------(_--------------- 
-    # (`wrapped^)                     
+    # (`w^)                           
 
 
 
@@ -46,17 +46,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     #  -------------<_--------------- 
-    # <`wrapped^>                     
+    # <`w^>                           
 
 
 
@@ -64,17 +64,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     #  -------------[_--------------- 
-    # [`wrapped^]                     
+    # [`w^]                           
 
 
 
@@ -82,17 +82,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     #  -------------`_--------------- 
-    # \``wrapped^\`                   
+    # \``w^\`                         
 
 
 
@@ -100,10 +100,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -118,7 +118,7 @@ drdr.xp
 
 drdr.xp b
 
-a drdr.xp b
+`drdr.xp^
 
 a drdr.xp
 
@@ -138,9 +138,9 @@ else {
      
 } b
 
-a else {
+`else {
      
-} b
+}^
 
 a else {
      
@@ -162,9 +162,9 @@ elseif {a_TYPED} {
      
 } b
 
-a elseif {a} {
+`elseif {a} {
      
-} b
+}^
 
 a elseif {a} {
      
@@ -180,7 +180,7 @@ drdr.xp@gmail.com
 
 drdr.xp@gmail.com b
 
-a drdr.xp@gmail.com b
+`drdr.xp@gmail.com^
 
 a drdr.xp@gmail.com
 
@@ -194,7 +194,7 @@ test.page
 
 test.page b
 
-a test.page b
+`test.page^
 
 a test.page
 
@@ -214,9 +214,9 @@ for {set i_TYPED x_TYPED} {$i_TYPED <= len_TYPED} {incr i_TYPED} {
     
 } b
 
-a for {set i x} {$i <= len} {incr i} {
+`for {set i x} {$i <= len} {incr i} {
     
-} b
+}^
 
 a for {set i x} {$i <= len} {incr i} {
     
@@ -238,9 +238,9 @@ foreach i_TYPED var_TYPED {
     
 } b
 
-a foreach i var {
+`foreach i var {
     
-} b
+}^
 
 a foreach i var {
     
@@ -262,9 +262,9 @@ if {a_TYPED} {
      
 } b
 
-a if {a} {
+`if {a} {
      
-} b
+}^
 
 a if {a} {
      
@@ -286,9 +286,9 @@ proc name_TYPED {args_TYPED} {
      
 } b
 
-a proc name {args} {
+`proc name {args} {
      
-} b
+}^
 
 a proc name {args} {
      
@@ -304,7 +304,7 @@ regexp r str match vars
 
 regexp r_TYPED str_TYPED match vars b
 
-a regexp r str match vars b
+`regexp r str match vars^
 
 a regexp r str match vars
 
@@ -318,7 +318,7 @@ regsub in str out
 
 regsub in_TYPED str_TYPED out b
 
-a regsub in str out b
+`regsub in str out^
 
 a regsub in str out
 
@@ -340,15 +340,15 @@ exec tclsh "$0" "$@""
 exec tclsh "$0" "$@""
  b
 
+ `#!/bin/sh
+ #\
+ exec tclsh "$0" "$@""
+ ^
+
  a #!/bin/sh
  #\
  exec tclsh "$0" "$@""
-  b
-
-  a #!/bin/sh
-  #\
-  exec tclsh "$0" "$@""
-  
+ 
 
 
     #  -------------shebang--------------- 
@@ -358,25 +358,25 @@ exec tclsh "$0" "$@""
 
 
 
-  #!/bin/sh
+ #!/bin/sh
+ #\
+ exec tclsh "$0" "$@""
+ 
+
+ #!/bin/sh
+ #\
+ exec tclsh "$0" "$@""
+  b
+
+  `#!/bin/sh
+  #\
+  exec tclsh "$0" "$@""
+  ^
+
+  a #!/bin/sh
   #\
   exec tclsh "$0" "$@""
   
-
-  #!/bin/sh
-  #\
-  exec tclsh "$0" "$@""
-   b
-
-   a #!/bin/sh
-   #\
-   exec tclsh "$0" "$@""
-    b
-
-    a #!/bin/sh
-    #\
-    exec tclsh "$0" "$@""
-    
 
 
     #  -------------switch--------------- 
@@ -389,33 +389,33 @@ exec tclsh "$0" "$@""
 
 
 
-    switch var {
-        1     { body1 }
-        2     { body2 }
-        3     { body3 }
-        default { body4 }
-    }
+  switch var {
+      1     { body1 }
+      2     { body2 }
+      3     { body3 }
+      default { body4 }
+  }
 
-    switch var_TYPED {
-        1_TYPED     { body1_TYPED }
-        2_TYPED     { body2_TYPED }
-        3_TYPED     { body3_TYPED }
-        default { body4_TYPED }
-    } b
+  switch var_TYPED {
+      1_TYPED     { body1_TYPED }
+      2_TYPED     { body2_TYPED }
+      3_TYPED     { body3_TYPED }
+      default { body4_TYPED }
+  } b
 
-    a switch var {
-        1     { body1 }
-        2     { body2 }
-        3     { body3 }
-        default { body4 }
-    } b
+  `switch var {
+      1     { body1 }
+      2     { body2 }
+      3     { body3 }
+      default { body4 }
+  }^
 
-    a switch var {
-        1     { body1 }
-        2     { body2 }
-        3     { body3 }
-        default { body4 }
-    }
+  a switch var {
+      1     { body1 }
+      2     { body2 }
+      3     { body3 }
+      default { body4 }
+  }
 
 
     #  -------------while--------------- 
@@ -425,25 +425,25 @@ exec tclsh "$0" "$@""
 
 
 
-    while {i <= len} {
-        
-    }
+  while {i <= len} {
+      
+  }
 
-    while {i_TYPED <= len_TYPED} {
-        
-    } b
+  while {i_TYPED <= len_TYPED} {
+      
+  } b
 
-    a while {i <= len} {
-        
-    } b
+  `while {i <= len} {
+      
+  }^
 
-    a while {i <= len} {
-        
-    }
+  a while {i <= len} {
+      
+  }
 
 
     #  -------------{_--------------- 
-    # {`wrapped^}                     
+    # {`w^}                           
 
 
 
@@ -451,10 +451,10 @@ exec tclsh "$0" "$@""
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

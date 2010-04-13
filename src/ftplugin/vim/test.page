@@ -2,7 +2,7 @@
 
 
     "  -------------_CMT__--------------- 
-    " _CMT_`wrapped^_CMT_             
+    " _CMT_`w^_CMT_                   
 
 
 
@@ -10,17 +10,17 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
     "  -------------'_--------------- 
-    " '`wrapped^'                     
+    " '`w^'                           
 
 
 
@@ -28,17 +28,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     "  -------------(_--------------- 
-    " (`wrapped^)                     
+    " (`w^)                           
 
 
 
@@ -46,17 +46,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     "  -------------<_--------------- 
-    " <`wrapped^>                     
+    " <`w^>                           
 
 
 
@@ -64,17 +64,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     "  -------------[_--------------- 
-    " [`wrapped^]                     
+    " [`w^]                           
 
 
 
@@ -82,17 +82,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     "  -------------`_--------------- 
-    " \``wrapped^\`                   
+    " \``w^\`                         
 
 
 
@@ -100,10 +100,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -118,9 +118,27 @@ WRAPPED_TEXT_line2`
 
     drdr.xp b
 
-    a drdr.xp b
+    `drdr.xp^
 
     a drdr.xp
+
+
+    "  -------------call--------------- 
+    " `name^(`$SParg^`param^`$SParg^)   
+
+
+
+name( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )
+
+name_TYPED( WRAPPED_TEXT
+WRAPPED_TEXT_line2 ) b
+
+`name( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )^
+
+a name( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )
 
 
     "  -------------catch--------------- 
@@ -135,118 +153,107 @@ catch /.*/
     catch /exception_TYPED/
          b
 
-         a catch /.*/
-              b
+         `catch /.*/
+             ^
 
-              a catch /.*/
-                  
+             a catch /.*/
+                 
 
 
     "  -------------comment--------------- 
-    " `$CS^ `cursor^                       
-
-
-
-    " 
-    "
-    "  b
-    "
-    a "  b
-
-    a " 
-
-
-    "  -------------comment_--------------- 
-    " `$CS^ `wrapped^                       
+    " `$CS `cursor^                        
 
 
 
 " WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+" WRAPPED_TEXT_line2
+"
 " WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a " WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a " WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+" WRAPPED_TEXT_line2 b
+"
+`" WRAPPED_TEXT
+ " WRAPPED_TEXT_line2^
+ "
+ a " WRAPPED_TEXT
+   " WRAPPED_TEXT_line2
+   "
 
     "  -------------commentBlock--------------- 
-    " `$CS^ `cursor^                            
-    " `$CS^                                     
+    " `$CS `cursor^                             
 
 
 
-    " 
-    "
-    "
-    " 
-    " b
-    "
-    a " 
-    " b
-    "
-    a " 
-    "
-    "
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+"
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2 b
+"
+`" WRAPPED_TEXT
+ " WRAPPED_TEXT_line2^
+ "
+ a " WRAPPED_TEXT
+   " WRAPPED_TEXT_line2
+   "
 
     "  -------------commentDoc--------------- 
     " `$CS^                                   
-    " `$CS^ `cursor^                          
+    " `$CS `cursor^                           
     " `$CS^                                   
 
 
 
-    "
-    " 
-    "
-    "
-    "
-    " 
-    " b
-    "
-    a "
-    " 
-    " b
-    "
-    a "
-    " 
-    "
-    "
+"
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+"
+"
+"
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+" b
+"
+`"
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+"^
+"
+a "
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+"
+"
 
     "  -------------commentLine--------------- 
-    " `$CS^ `cursor^                           
-
-
-
-    " 
-    "
-    "  b
-    "
-    a "  b
-
-    a " 
-
-
-    "  -------------commentLine_--------------- 
-    " `$CS^ `wrapped^                           
+    " `$CS `cursor^                            
 
 
 
 " WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+" WRAPPED_TEXT_line2
+"
 " WRAPPED_TEXT
-WRAPPED_TEXT_line2b
+" WRAPPED_TEXT_line2 b
+"
+`" WRAPPED_TEXT
+ " WRAPPED_TEXT_line2^
+ "
+ a " WRAPPED_TEXT
+   " WRAPPED_TEXT_line2
+   "
 
-a " WRAPPED_TEXT
-WRAPPED_TEXT_line2b
+    "  -------------debug---------------         
+    " call s:log.Debug(`$SParg^`cursor^`$SParg^) 
 
-a " WRAPPED_TEXT
-WRAPPED_TEXT_line2
+
+
+    call s:log.Debug(  )
+
+    call s:log.Debug(  ) b
+
+    `call s:log.Debug(  )^
+
+    a call s:log.Debug(  )
 
 
     "  -------------else--------------- 
@@ -261,11 +268,11 @@ else
     else
          b
 
-         a else
-              b
+         `else
+             ^
 
-              a else
-                  
+             a else
+                 
 
 
     "  -------------Email--------------- 
@@ -277,9 +284,23 @@ else
 
     drdr.xp@gmail.com b
 
-    a drdr.xp@gmail.com b
+    `drdr.xp@gmail.com^
 
     a drdr.xp@gmail.com
+
+
+    "  -------------error---------------         
+    " call s:log.Error(`$SParg^`cursor^`$SParg^) 
+
+
+
+    call s:log.Error(  )
+
+    call s:log.Error(  ) b
+
+    `call s:log.Error(  )^
+
+    a call s:log.Error(  )
 
 
     "  -------------File--------------- 
@@ -291,7 +312,7 @@ else
 
     test.page b
 
-    a test.page b
+    `test.page^
 
     a test.page
 
@@ -329,7 +350,7 @@ else
     " =============================================================================
     " }}} b
     "
-    a " File Description {{{
+    `" File Description {{{
     " =============================================================================
     " 
     "                                                  by drdr.xp
@@ -337,7 +358,7 @@ else
     " Usage :
     "
     " =============================================================================
-    " }}} b
+    " }}}^
     "
     a " File Description {{{
     " =============================================================================
@@ -362,35 +383,11 @@ finally
     finally
          b
 
-         a finally
-              b
+         `finally
+             ^
 
-              a finally
-                  
-
-
-    "  -------------fordic---------------                                        
-    " for [`$SParg^`key^,`$SPop^`value^`$SParg^] in items(`$SParg^`dic^`$SParg^) 
-    "     `cursor^                                                               
-    " endfor                                                                     
-
-
-
-    for [ key, value ] in items( dic )
-        
-    endfor
-
-    for [ key_TYPED, value_TYPED ] in items( dic_TYPED )
-        
-    endfor b
-
-    a for [ key, value ] in items( dic )
-        
-    endfor b
-
-    a for [ key, value ] in items( dic )
-        
-    endfor
+             a finally
+                 
 
 
     "  -------------foreach--------------- 
@@ -400,21 +397,25 @@ finally
 
 
 
-    for value in list
-        
-    endfor
+for value in list
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfor
 
-    for value_TYPED in list_TYPED
-        
-    endfor b
+for value_TYPED in list_TYPED
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfor b
 
-    a for value in list
-        
-    endfor b
+`for value in list
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfor^
 
-    a for value in list
-        
-    endfor
+a for value in list
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfor
 
 
     "  -------------forin--------------- 
@@ -424,21 +425,25 @@ finally
 
 
 
-    for value in list
-        
-    endfor
+for value in list
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfor
 
-    for value_TYPED in list_TYPED
-        
-    endfor b
+for value_TYPED in list_TYPED
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfor b
 
-    a for value in list
-        
-    endfor b
+`for value in list
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfor^
 
-    a for value in list
-        
-    endfor
+a for value in list
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfor
 
 
     "  -------------fun---------------    
@@ -448,59 +453,81 @@ finally
 
 
 
-    fun! name() "{{{
-        
-    endfunction "}}}
+fun! name() "{{{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfunction "}}}
 
-    fun! name_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ) "{{{
-        
-    endfunction "}}} b
+fun! name_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ) "{{{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfunction "}}} b
 
-    a fun! name() "{{{
-        
-    endfunction "}}} b
+`fun! name() "{{{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfunction "}}}^
 
-    a fun! name() "{{{
-        
-    endfunction "}}}
+a fun! name() "{{{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfunction "}}}
 
 
     "  -------------if--------------- 
     " if `cond^                       
-    "     `job^Echo()^                
+    "     `cursor^                    
     " endif                           
 
 
 
-    if cond
-        
-    endif
+if cond
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endif
 
-    if cond_TYPED
-        job_TYPED
-    endif b
+if cond_TYPED
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endif b
 
-    a if cond
-        
-    endif b
+`if cond
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endif^
 
-    a if cond
-        
-    endif
-
-
-    "  -------------let--------------- 
-    " let `^`$SPop^=`$SPop^`cursor^    
-
+a if cond
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endif
 
 
-    let  = 
+    "  -------------info---------------         
+    " call s:log.Info(`$SParg^`cursor^`$SParg^) 
 
-    let _TYPED =  b
 
-    a let  =  b
 
-    a let  = 
+    call s:log.Info(  )
+
+    call s:log.Info(  ) b
+
+    `call s:log.Info(  )^
+
+    a call s:log.Info(  )
+
+
+    "  -------------log---------------         
+    " call s:log.Log(`$SParg^`cursor^`$SParg^) 
+
+
+
+    call s:log.Log(  )
+
+    call s:log.Log(  ) b
+
+    `call s:log.Log(  )^
+
+    a call s:log.Log(  )
 
 
     "  -------------member---------------      
@@ -510,21 +537,25 @@ finally
 
 
 
-    fun! name() dict "{{{
-        
-    endfunction "}}}
+fun! name() dict "{{{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfunction "}}}
 
-    fun! name_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ) dict "{{{
-        
-    endfunction "}}} b
+fun! name_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ) dict "{{{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfunction "}}} b
 
-    a fun! name() dict "{{{
-        
-    endfunction "}}} b
+`fun! name() dict "{{{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfunction "}}}^
 
-    a fun! name() dict "{{{
-        
-    endfunction "}}}
+a fun! name() dict "{{{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endfunction "}}}
 
 
     "  -------------once---------------    
@@ -548,17 +579,31 @@ finally
     let g_TYPED:i_TYPED = 1
      b
 
+     `if exists( "g:__TEST_PAGE__" )
+         finish
+     endif
+     let g:__TEST_PAGE__ = 1
+     ^
+
      a if exists( "g:__TEST_PAGE__" )
          finish
      endif
      let g:__TEST_PAGE__ = 1
-      b
+     
 
-      a if exists( "g:__TEST_PAGE__" )
-          finish
-      endif
-      let g:__TEST_PAGE__ = 1
-      
+
+    "  -------------printf---------------       
+    " printf(`$SParg^_CMT_`pattern^_CMT_`elts^`$SParg^) 
+
+
+
+    printf( "pattern" )
+
+    printf( "pattern_TYPED" ) b
+
+    `printf( "pattern" )^
+
+    a printf( "pattern" )
 
 
     "  -------------self--------------- 
@@ -570,7 +615,7 @@ finally
 
     self. b
 
-    a self. b
+    `self.^
 
     a self.
 
@@ -586,29 +631,29 @@ finally
     exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
      b
 
+     `exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
+     ^
+
      a exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
-      b
-
-      a exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
-      
+     
 
 
-    "  -------------str_--------------- 
-    " string(`$SParg^`wrapped^`$SParg^) 
+    "  -------------string---------------   
+    " `$_xSnipName^(`$SParg`param?`$SParg^) 
 
 
 
-string( WRAPPED_TEXT
-WRAPPED_TEXT_line2 )
+string( WRAPPED_TEXT 
+       $SPargGetWrappedText() )
 
-string( WRAPPED_TEXT
-WRAPPED_TEXT_line2 )b
+       string( WRAPPED_TEXT 
+              $SPargGetWrappedText() ) b
 
-a string( WRAPPED_TEXT
-WRAPPED_TEXT_line2 )b
+              `string( WRAPPED_TEXT 
+                      $SPargGetWrappedText() )^
 
-a string( WRAPPED_TEXT
-WRAPPED_TEXT_line2 )
+                      a string( WRAPPED_TEXT 
+                               $SPargGetWrappedText() )
 
 
     "  -------------try--------------- 
@@ -616,39 +661,6 @@ WRAPPED_TEXT_line2 )
     "     `job^                        
     " `:catch:^                        
     " endtry                           
-
-
-
-    try
-        job
-    catch /.*/
-        
-    endtry
-
-    try
-        job_TYPED
-    catch /exception_TYPED/
-        
-    endtry b
-
-    a try
-        job
-    catch /.*/
-        
-    endtry b
-
-    a try
-        job
-    catch /.*/
-        
-    endtry
-
-
-    "  -------------try_--------------- 
-    " try                               
-    "     `wrapped^                     
-    " `:catch:^                         
-    " endtry                            
 
 
 
@@ -663,15 +675,15 @@ try
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 catch /exception_TYPED/
-    
-endtryb
+    _TYPED
+endtry b
 
-a try
+`try
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 catch /.*/
     
-endtryb
+endtry^
 
 a try
     WRAPPED_TEXT
@@ -696,13 +708,47 @@ endtry
         let g_TYPED:varname_TYPED = val_TYPED
     endif b
 
-    a if !exists( "g:varname" )
+    `if !exists( "g:varname" )
         let g:varname = val
-    endif b
+    endif^
 
     a if !exists( "g:varname" )
         let g:varname = val
     endif
+
+
+    "  -------------version---------------                                 
+    " if exists(`$SParg^_CMT_`g^:`i^_CMT_`$SParg^) && `g^:`i^`$SPop^>=`$SPop^`ver^ 
+    "     finish                                                           
+    " endif                                                                
+    " let ``g^:``i^`$SPop^=`$SPop^``ver^                                   
+    " `cursor^                                                             
+
+
+
+    if exists( "g:__TEST_PAGE__" ) && g:__TEST_PAGE__ >= 1
+        finish
+    endif
+    let g:__TEST_PAGE__ = 1
+    
+
+    if exists( "g_TYPED:i_TYPED" ) && g_TYPED:i_TYPED >= ver_TYPED
+        finish
+    endif
+    let g_TYPED:i_TYPED = ver_TYPED
+     b
+
+     `if exists( "g:__TEST_PAGE__" ) && g:__TEST_PAGE__ >= 1
+         finish
+     endif
+     let g:__TEST_PAGE__ = 1
+     ^
+
+     a if exists( "g:__TEST_PAGE__" ) && g:__TEST_PAGE__ >= 1
+         finish
+     endif
+     let g:__TEST_PAGE__ = 1
+     
 
 
     "  -------------vimformat---------------                     
@@ -714,9 +760,23 @@ endtry
     "
     " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}} b
     "
-    a " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}} b
+    `" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}^
 
     a " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}
+
+
+    "  -------------warn---------------         
+    " call s:log.Warn(`$SParg^`cursor^`$SParg^) 
+
+
+
+    call s:log.Warn(  )
+
+    call s:log.Warn(  ) b
+
+    `call s:log.Warn(  )^
+
+    a call s:log.Warn(  )
 
 
     "  -------------while--------------- 
@@ -726,21 +786,53 @@ endtry
 
 
 
-    while cond
-        
-    endwhile
+while cond
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile
 
-    while cond_TYPED
-        
-    endwhile b
+while cond_TYPED
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile b
 
-    a while cond
-        
-    endwhile b
+`while cond
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile^
 
-    a while cond
-        
-    endwhile
+a while cond
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile
+
+
+    "  -------------while1--------------- 
+    " while `cond^                        
+    "     `cursor^                        
+    " endwhile                            
+
+
+
+while 1
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile
+
+while 1
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile b
+
+`while 1
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile^
+
+a while 1
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile
 
 
     "  -------------whilei---------------                                                                              
@@ -751,29 +843,33 @@ endtry
 
 
 
-    let [ i, len ] = [ 0 - 1, len_expr - 1 ]
-    while i < len | let i += 1
-        
-    endwhile
+let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+while i < len | let i += 1
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile
 
-    let [ i_TYPED, len_TYPED ] = [ 0_TYPED - 1, len_expr_TYPED - 1 ]
-    while i_TYPED < len_TYPED | let i_TYPED += 1
-        
-    endwhile b
+let [ i_TYPED, len_TYPED ] = [ 0_TYPED - 1, len_expr_TYPED - 1 ]
+while i_TYPED < len_TYPED | let i_TYPED += 1
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile b
 
-    a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
-    while i < len | let i += 1
-        
-    endwhile b
+`let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+while i < len | let i += 1
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile^
 
-    a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
-    while i < len | let i += 1
-        
-    endwhile
+a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+while i < len | let i += 1
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile
 
 
     "  -------------{_--------------- 
-    " {`wrapped^}                     
+    " {`w^}                           
 
 
 
@@ -781,10 +877,10 @@ endtry
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

@@ -38,7 +38,7 @@ XPTemplateDef
 
 
 
-XPT foreach " for ( .. : .. )
+XPT foreach " for \( .. : .. \)
 for ( `type^ `var^ : `inWhat^ )`$BRloop^{
     `cursor^
 }
@@ -92,7 +92,7 @@ public `R("type")^ set`S(R("varName"),'.','\u&',"")^( `R('type')^ val )
 XSETm END
 
 
-XPT try " try .. catch (..) .. finally
+XPT try wrap=what " try .. catch (..) .. finally
 XSET handler=$CL handling $CR
 try
 {
@@ -112,23 +112,3 @@ XSETm END
 
 
 
-" ================================= Wrapper ===================================
-
-
-XPT try_ " try { SEL } catch...
-XSET handler=$CL handling $CR
-try
-{
-    `wrapped^
-}` `catch...^
-XSETm catch...|post
-
-catch (`Exception^ `e^)
-{
-    `handler^
-}` `catch...^
-XSETm END
-`finally...{{^finally
-{
-    `cursor^
-}`}}^

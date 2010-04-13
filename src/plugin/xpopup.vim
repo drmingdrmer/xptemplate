@@ -5,70 +5,86 @@
 "                                                            drdr.xp@gmail.com
 "
 " Usage :
-"   XPPopupNew(callbacks, {}, ['a', 'b', 'c']).popup(fromColumn)
+"   XPPopupNew( callbacks,
+"   \           {'privateKey':'privateValue'},
+"   \           ['foo', 'bar', 'foobar'] ).popup( fromColumn )
 "
-" TODO trigger, XPTupdate, <bs> : makes pum shown but no session bind
+" TODO sometime key-triggered pum does not clear <tab> map.
 " =============================================================================
 " }}}
 
-if exists("g:__XPOPUP_VIM__")
+
+if exists( "g:__XPOPUP_VIM__" ) && g:__XPOPUP_VIM__ >= XPT#ver
     finish
 endif
-let g:__XPOPUP_VIM__ = 1
-
+let g:__XPOPUP_VIM__ = XPT#ver
 
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
+
 " TODO popup fix:select it if strictly matched
+
 runtime plugin/debug.vim
-runtime plugin/SettingSwitch.class.vim
-runtime plugin/MapSaver.class.vim
+runtime plugin/classes/SettingSwitch.vim
+runtime plugin/classes/MapSaver.vim
 
 
 exe XPT#let_sid
 
 
 let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'debug' )
 
 fun! s:SetIfNotExist(k, v) "{{{
-  if !exists(a:k)
-    exe "let ".a:k."=".string(a:v)
-  endif
+    if !exists(a:k)
+        exe "let ".a:k."=".string(a:v)
+    endif
 endfunction "}}}
 
 let s:opt = {
-            \'doCallback'   : 'doCallback', 
-            \'enlarge'      : 'enlarge', 
-            \'acceptEmpty'  : 'acceptEmpty', 
+            \ 'doCallback'   : 'doCallback', 
+            \ 'enlarge'      : 'enlarge', 
+            \ 'acceptEmpty'  : 'acceptEmpty', 
             \}
 
+let s:CHECK_PUM = 1
+
+let s:errorTolerance = 3
 
 
 " Script scope variables {{{
 let s:sessionPrototype = {
             \ 'callback'    : {},
             \ 'list'        : [],
+            \ 'key'         : '',
             \ 'prefixIndex' : {},
             \ 'popupCount'  : 0,
+            \ 'sessCount'   : 0,
+            \ 'errorInputCount' : 0,
             \
-            \ 'line'        : 0,
-            \ 'col'         : 0,
-            \ 'prefix'      : '',
-            \ 'ignoreCase'  : 0,
-            \ 'acceptEmpty' : 0,
-            \ 'last'        : '',
-            \ 'longest'     : '',
-            \ 'matched'     : '',
-            \ 'matchedCallback' : '', 
-            \ 'currentList' : [],
+            \ 'line'            : 0,
+            \ 'col'             : 0,
+            \ 'prefix'          : '',
+            \
+            \ 'ignoreCase'      : 0,
+            \ 'acceptEmpty'     : 0,
+            \ 'matchWholeName'  : 0,
+            \ 'strictInput'     : 0,
+            \ 'tabNav'          : 0,
+            \
+            \ 'last'            : '',
+            \ 'currentText'     : '',
+            \ 'longest'         : '',
+            \ 'matched'         : '',
+            \ 'matchedCallback' : '',
+            \ 'currentList'     : [],
             \ }
             " \ 'postAction'  : '',
 " }}}
 
 
 " Additional argument can be a list
-fun! XPPopupNew(callback, data, ...) "{{{
+fun! XPPopupNew( callback, data, ... ) "{{{
 
     let sess = deepcopy(s:sessionPrototype)
     let sess.callback = a:callback
@@ -77,29 +93,32 @@ fun! XPPopupNew(callback, data, ...) "{{{
     call sess.createPrefixIndex([])
 
     if a:0 > 0
-        let data = a:1
-        if type( data ) == type( '' )
-            " XXX
-            " call sess.setTriggerKey( data )
-        elseif type( data ) == type( [] )
-            call sess.addList( data )
+
+        let items = a:1
+
+        if type( items ) == type( '' )
+            call sess.SetTriggerKey( items )
+
+        elseif type( items ) == type( [] )
+            call sess.addList( items )
+
+        else
+            call s:log.Error( 'unsupported items type as pum items:' . str( items ) )
+
         endif
+
     endif
 
     return sess
-endfunction "}}}
 
-fun! s:SetAcceptEmpty( acc ) dict "{{{
-    let self.acceptEmpty = !!a:acc
-    return self
 endfunction "}}}
 
 " TODO on first time popup do not accept empty
-fun! s:popup(start_col, opt) dict "{{{
+fun! s:popup( start_col, opt ) dict "{{{
     " Show the popup
     " callback keys:
-    "   onEmpty(sess)
-    "   onOneMatch(sess)
+    "   onEmpty(self)
+    "   onOneMatch(self)
 
     " if multi items matched, whether to invoke call back or just show popup
     let doCallback  = get( a:opt, s:opt.doCallback, 1 )
@@ -109,39 +128,147 @@ fun! s:popup(start_col, opt) dict "{{{
 
     call s:log.Debug("doCallback=".doCallback)
 
-    let sess = self
-
-    let sess.popupCount += 1
+    let self.popupCount += 1
 
     " index of cursor position in line string
     " start from 1, without current character
     let cursorIndex = col(".") - 1 - 1
 
-    let sess.line        = line(".")
-    let sess.col         = a:start_col
-    let sess.prefix      = cursorIndex >= 0 ? getline( sess.line )[ sess.col - 1 : cursorIndex ] : ''
-    let sess.ignoreCase  = sess.prefix !~# '\u'
-    let sess.currentList = s:filterCompleteList(sess)
-    if ifEnlarge
-        let sess.longest     = s:LongestPrefix(sess)
+    let self.line        = line(".")
+    let self.col         = a:start_col
+    " let self.prefix      = cursorIndex >= 0 ? getline( self.line )[ self.col - 1 : cursorIndex ] : ''
+    let self.prefix      = s:GetTextBeforeCursor( self )
+    let self.ignoreCase  = self.prefix !~# '\u'
+
+
+    if self.key != ''
+
+        " TODO handle ifEnlarge arguments
+        let self.longest = self.prefix
+        let actions = self.KeyPopup( doCallback, ifEnlarge )
+
     else
-        let sess.longest     = sess.prefix
+        let self.currentList = s:filterCompleteList(self)
+
+        if ifEnlarge
+            let self.longest = s:LongestPrefix(self)
+        else
+            let self.longest = self.prefix
+        endif
+
+        let actions = self.ListPopup( doCallback, ifEnlarge )
+
+    endif
+    
+    let actions = s:CreateSession( self ) . actions
+
+
+
+    call s:ApplyMapAndSetting()
+
+    call s:log.Debug("actions=".string( actions ))
+
+    call s:log.Debug( '  Just after popup current line=' . getline( line("." ) ) )
+
+    return actions
+
+endfunction "}}}
+
+fun PUMclear()
+    let savedIndentKeys = &l:indentkeys
+    let &l:indentkeys = ""
+
+    call complete( col( "." ), [] )
+
+    let &l:indentkeys = savedIndentKeys
+
+    return ''
+endfunction
+
+fun! s:CreateSession( sess ) "{{{
+
+    if !exists( 'b:__xpp_sess_count' )
+        let b:__xpp_sess_count = 0
+    endif
+
+    let b:__xpp_sess_count += 1
+    let a:sess.sessCount = b:__xpp_sess_count
+
+    let action = ''
+    if exists( 'b:__xpp_current_session' )
+        call s:End()
+        if pumvisible()
+            call PUMclear()
+        endif
+    endif
+    
+    let b:__xpp_current_session = a:sess
+
+    return action
+endfunction "}}}
+
+
+fun! s:SetAcceptEmpty( acc ) dict "{{{
+    let self.acceptEmpty = !!a:acc
+    return self
+endfunction "}}}
+
+fun! s:SetMatchWholeName( mwn ) dict "{{{
+    let self.matchWholeName = !!a:mwn
+    return self
+endfunction "}}}
+
+fun! s:SetOption( opt ) dict "{{{
+    if type( a:opt ) == type( [] )
+        for optname in a:opt
+            let self[ optname ] = 1
+        endfor
+    elseif type( a:opt ) == type( {} )
+        for [ key, value ] in items( a:opt )
+            let self[ key ] = value
+        endfor
+    endif
+endfunction "}}}
+
+fun! s:KeyPopup( doCallback, ifEnlarge ) dict "{{{
+
+    let actionList = []
+
+    " TODO check one match
+
+    if a:ifEnlarge
+
+        let actionList = [ 'clearPum', 'clearPrefix', 'typeLongest', 'triggerKey', 'setLongest' ]
+
+        if a:doCallback
+            let actionList += [ 'checkAndCallback' ]
+        endif
+
+    else
+
+        let actionList = [ 'clearPum', 'clearPrefix', 'typeLongest', 'triggerKey', 'removeTrailing', 'forcePumShow' ]
+
     endif
 
 
-    " call s:log.Debug("sess=".string(sess))
+    return "\<C-r>=XPPprocess(" . string( actionList ) . ")\<CR>"
+
+endfunction "}}}
+
+fun! s:ListPopup( doCallback, ifEnlarge ) dict "{{{
+
+
+    call s:log.Debug( ' ListPopup current line=' . getline( line("." ) ) )
 
     let actionList = []
 
 
-
-
     " TODO simplify the procedure of clearing PUM. 
-    " Note: clearPum only once may still cause vim fall back to line-wise completion
+    " NOTE: Calling clearPum only once may still cause vim fall back to line-wise completion
 
     " 1) ignoreCase may cause prefix doesn't equal to longest.
     " 2) LongestPrefix may enlarge to longer string
-    if sess.longest !=# sess.prefix
+    if self.longest !=# self.prefix
         "   *) clear prefix
         "   *) check and clear pum. Because pum may not always show if
         "   user-typed does not match any on list elements.
@@ -153,50 +280,50 @@ fun! s:popup(start_col, opt) dict "{{{
 
 
     " TODO double <tab>
-    if sess.popupCount > 1 && ifEnlarge && sess.acceptEmpty && sess.prefix == ''
-        let sess.matched = ''
-        let sess.matchedCallback = 'onOneMatch'
+    if self.popupCount > 1 && a:ifEnlarge && self.acceptEmpty && self.prefix == ''
+        let self.matched = ''
+        let self.matchedCallback = 'onOneMatch'
         let actionList = []
         let actionList += [ 'clearPum',  'clearPrefix', 'clearPum', 'callback' ]
 
-    elseif len(sess.currentList) == 0
+    elseif len(self.currentList) == 0
         call s:log.Debug("no matching")
 
-        let sess.matched = ''
-        let sess.matchedCallback = 'onEmpty'
+        let self.matched = ''
+        let self.matchedCallback = 'onEmpty'
         let actionList += ['callback']
 
-    elseif len(sess.currentList) == 1
-          \&& doCallback
+    elseif len(self.currentList) == 1
+          \ && a:doCallback
         call s:log.Debug("only 1 item matched")
 
-        let sess.matched = type(sess.currentList[0]) == type({}) ? sess.currentList[0].word : sess.currentList[0]
-        let sess.matchedCallback = 'onOneMatch'
-        let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
+        let self.matched = type(self.currentList[0]) == type({}) ? self.currentList[0].word : self.currentList[0]
+        let self.matchedCallback = 'onOneMatch'
+        let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
 
-    elseif sess.prefix != "" 
-          \&& sess.longest ==? sess.prefix 
-          \&& doCallback
+    elseif self.prefix != "" 
+          \&& self.longest ==? self.prefix 
+          \&& a:doCallback
         " If the typed text matches all items with case ignored, Try to find
         " the first matched item.
 
         call s:log.Debug("try to call callback")
 
-        let sess.matched = ''
-        for item in sess.currentList
+        let self.matched = ''
+        for item in self.currentList
             let key = type(item) == type({}) ? item.word : item
 
             " the first match
-            if key ==? sess.prefix
-                let sess.matched = key
-                let sess.matchedCallback = 'onOneMatch'
+            if key ==? self.prefix
+                let self.matched = key
+                let self.matchedCallback = 'onOneMatch'
                 let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
                 " let action = 'end'
                 break
             endif
         endfor
 
-        if sess.matched == ''
+        if self.matched == ''
             let actionList += [ 'popup', 'fixPopup' ]
             " let actionList += [ 'popup' ]
         endif
@@ -210,21 +337,31 @@ fun! s:popup(start_col, opt) dict "{{{
     endif
 
 
+    call s:log.Debug( ' After ListPopup current line=' . getline( line("." ) ) )
 
-    " Both popup and callback need this session
-    let b:__xpp_current_session = sess
-
-    call s:log.Debug("actionList=".string(actionList))
-
-    call s:ApplyMapAndSetting()
-
-    return "\<C-r>=XPPprocess(" . string(actionList) . ")\<cr>"
+    return "\<C-r>=XPPprocess(" . string( actionList ) . ")\<CR>"
 
 endfunction "}}}
 
-fun! s:sessionPrototype.addList(list) "{{{
-    let self.list += a:list
-    call self.updatePrefixIndex(a:list)
+fun! s:SetTriggerKey( key ) dict "{{{
+    let self.key = a:key
+endfunction "}}}
+
+fun! s:sessionPrototype.addList( list ) "{{{
+    let list = a:list
+
+    if list == []
+        return
+    endif
+
+    if type( list[0] ) == type( '' )
+        call map( list, '{"word" : v:val, "icase" : 1 }' )
+    else
+        call map( list, '{"word" : v:val["word"], "menu" : get( v:val, "menu", "" ), "icase" : 1 }' )
+    endif
+
+    let self.list += list
+    call self.updatePrefixIndex( list )
 endfunction "}}}
 
 " the number of items with a certain prefix
@@ -265,6 +402,7 @@ fun! s:_InitBuffer() "{{{
           \
           \ 'i_<BS>', 
           \ 'i_<TAB>', 
+          \ 'i_<S-TAB>', 
           \ 'i_<CR>', 
           \
           \ 'i_<C-e>', 
@@ -292,8 +430,10 @@ fun! s:_InitBuffer() "{{{
 endfunction "}}}
 
 " Operations of <C-R>
+fun! XPPprocess( list ) "{{{
 
-fun! XPPprocess(list) "{{{
+    call s:log.Debug( '  Just before XPPprocess current line=' . getline( line("." ) ) )
+
     " Deal with action chains 
 
     " no more actions pending
@@ -303,12 +443,12 @@ fun! XPPprocess(list) "{{{
         return ""
     endif
 
+
     let sess = b:__xpp_current_session
 
     if len(a:list) == 0
         return "\<C-n>\<C-p>"
     endif
-
 
 
 
@@ -320,7 +460,7 @@ fun! XPPprocess(list) "{{{
     call s:log.Debug("postAction=".postAction)
     call s:log.Debug('current line=' . getline(line("."))  )
 
-    
+
 
     if actionName == 'clearPrefix'
         let n = col(".") - sess.col
@@ -330,6 +470,129 @@ fun! XPPprocess(list) "{{{
         if pumvisible()
             let postAction = "\<C-e>"
         endif
+
+    elseif actionName == 'triggerKey'
+        " NOTE: no need to force pum shown. pum shows unless further action
+        "       pended.
+        " let postAction = sess.key . "\<C-n>\<C-p>"
+        let postAction = sess.key
+
+    elseif actionName == 'setLongest'
+        let current = s:GetTextBeforeCursor( sess )
+
+
+
+        if len( current ) > len( sess.longest )
+            let postAction = repeat( "\<BS>", len( current ) - len( sess.longest ) ) 
+                  \ . current[ len( sess.longest ) : ]
+
+            let sess.longest = s:GetTextBeforeCursor( sess )
+            if pumvisible()
+                let nextList = [ 'clearPum', 'clearPrefix', 'typeLongest', 'triggerKey' ] + nextList
+            else
+                " NOTE: clearPum is necessary
+                let nextList = [ 'clearPrefix', 'clearPum', 'typeLongest' ] + nextList
+            endif
+        endif
+
+
+    elseif actionName == 'removeTrailing'
+        let current = s:GetTextBeforeCursor( sess )
+
+        if len( current ) > len( sess.longest )
+            let postAction = repeat( "\<BS>", len( current ) - len( sess.longest ) )
+        endif
+
+    elseif actionName == 'forcePumShow'
+        let postAction = "\<C-n>\<C-p>"
+
+    elseif actionName == 'checkAndCallback'
+        " return ""
+        if pumvisible()
+            return "\<C-n>\<C-p>"
+            " return ""
+
+        else
+            let current = s:GetTextBeforeCursor( sess )
+            let sess.matched = current
+            let sess.matchedCallback = 'onOneMatch'
+
+            " TODO use XPPcallback
+
+            call s:log.Debug( "callback is:" . sess.matchedCallback )
+            call s:End()
+
+            " Note: after s:End(), b:__xpp_current_session is not valid any more
+
+            let postAction = ""
+            if has_key( sess.callback, sess.matchedCallback )
+                let postAction = sess.callback[ sess.matchedCallback ]( sess )
+                return postAction
+            else
+                return ''
+            endif
+
+        endif
+
+    elseif actionName == 'keymodeEnlarge'
+
+        let current = s:GetTextBeforeCursor( sess )
+
+        call s:log.Debug( "current=" . string( current ) )
+        call s:log.Debug( "last pumtext=" . string( sess.currentText ) )
+        call s:log.Debug( "sess.col=" . sess.col )
+        call s:log.Debug( "col('.')=" . col(".") )
+
+        if sess.acceptEmpty && current == ''
+            " nothing typed and empty input is acceptable
+
+            let sess.longest = ''
+            let sess.matched = ''
+            let sess.matchedCallback = 'onOneMatch'
+
+            let nextList = [ 'callback' ]
+
+        elseif current !=# sess.currentText
+            " something selected before enlarge
+
+            let sess.longest = sess.currentText
+            let sess.matched = sess.currentText
+            let sess.matchedCallback = 'onOneMatch'
+
+            " TODO simplify me
+            let nextList = [ 'clearPrefix', 'typeLongest', 'callback' ]
+
+        else
+            " Something typed, and no item selected
+            " In this case, re-popup with current prefix
+            return sess.popup( sess.col,
+                  \ { 'doCallback' : 1,
+                  \   'enlarge'    : 1 } )
+        endif
+
+    elseif actionName == 'enlarge'
+
+        let current = s:GetTextBeforeCursor( sess )
+
+        if current !=# sess.currentText
+
+            let sess.longest = sess.currentText
+            let sess.matched = sess.currentText
+            let sess.matchedCallback = 'onOneMatch'
+
+            " TODO simplify me
+            let nextList = [ 'clearPrefix', 'typeLongest', 'callback' ]
+
+        else
+            return sess.popup( sess.col,
+                  \ { 'doCallback' : 1,
+                  \   'enlarge'    : 1 } )
+        endif
+
+
+
+    elseif actionName == 'typeMatched'
+        let postAction = sess.matched
 
     elseif actionName == 'typeLongest'
         let postAction = sess.longest
@@ -345,10 +608,7 @@ fun! XPPprocess(list) "{{{
 
     elseif actionName == 'fixPopup'
 
-
-        let beforeCursor = col( "." ) - 2
-        let beforeCursor = beforeCursor == -1 ? 0 : beforeCursor
-        let current = getline(".")[ sess.col - 1 : beforeCursor ]
+        let current = s:GetTextBeforeCursor( sess )
 
         " find out where we are in the popup list
         let i = 0
@@ -394,7 +654,7 @@ fun! XPPprocess(list) "{{{
 
 
     if !empty(nextList)
-        let  postAction .= "\<C-r>=XPPprocess(" . string( nextList ) . ")\<cr>"
+        let  postAction .= "\<C-r>=XPPprocess(" . string( nextList ) . ")\<CR>"
 
     else
         " test concern
@@ -407,9 +667,17 @@ fun! XPPprocess(list) "{{{
     call s:log.Log("postAction=" . postAction)
 
 
-
     return postAction
     
+endfunction "}}}
+
+fun! s:GetTextBeforeCursor( sess ) "{{{
+    let c = col( "." )
+    if c == 1
+        return ''
+    endif
+
+    return getline(".")[ a:sess.col - 1 : c - 2 ]
 endfunction "}}}
 
 
@@ -440,7 +708,7 @@ endfunction "}}}
 
 
 fun! XPPcr() "{{{
-    if !s:PopupCheck(1)
+    if !s:PopupCheck( s:CHECK_PUM )
         call feedkeys("\<CR>", 'mt')
         return ""
     endif
@@ -449,7 +717,7 @@ fun! XPPcr() "{{{
 endfunction "}}}
 
 fun! XPPup() "{{{
-    if !s:PopupCheck(1)
+    if !s:PopupCheck( s:CHECK_PUM )
         call feedkeys("\<UP>", 'mt')
         return ""
     endif
@@ -458,7 +726,7 @@ fun! XPPup() "{{{
 endfunction "}}}
 
 fun! XPPdown() "{{{
-    if !s:PopupCheck(1)
+    if !s:PopupCheck( s:CHECK_PUM )
         call feedkeys("\<DOWN>", 'mt')
         return ""
     endif
@@ -486,7 +754,8 @@ fun! XPPcallback() "{{{
 endfunction "}}}
 
 fun! XPPshorten() "{{{
-    if !s:PopupCheck()
+
+    if !s:PopupCheck( ! s:CHECK_PUM )
         " 1) pum hidden by unmatch typing, but <bs> times restores pum. need
         " <c-e>
         " 2) pum hidden by quit insert mode or other causes
@@ -495,10 +764,21 @@ fun! XPPshorten() "{{{
         return "\<C-e>\<C-r>=XPPcorrectPos()\<cr>\<bs>"
     endif
 
+
+    if !pumvisible()
+        return "\<BS>"
+    endif
+
+
     let sess = b:__xpp_current_session
 
+    let current = s:GetTextBeforeCursor( sess )
 
-    let current = getline(".")[ sess.col - 1 : col(".") - 2 ]
+
+    if sess.key != ''
+        return "\<BS>"
+    endif
+
 
     call s:log.Log("current typed=".current)
 
@@ -517,6 +797,7 @@ fun! XPPshorten() "{{{
     let prefixMap = ( sess.ignoreCase ) ? sess.prefixIndex.lower : sess.prefixIndex.ori
     call s:log.Log("prefix map:".string(prefixMap))
 
+
     let shorterKey = s:FindShorter(prefixMap, ( sess.ignoreCase ? substitute(current, '.', '\l&', 'g') : current ))
     call s:log.Log("shorterKey=".shorterKey)
 
@@ -530,18 +811,20 @@ fun! XPPshorten() "{{{
 
 endfunction "}}}
 
+" TODO when pum shown, <space> does not close session
 fun! XPPenlarge() "{{{
-    if !s:PopupCheck()
-        " use feedkeys, instead of <C-r>= for <C-r>= does not remap keys.
-        call feedkeys("\<tab>", 'mt')
+    call s:log.Log( "XPPenlarge called" )
+
+    if !s:PopupCheck( s:CHECK_PUM )
+        " use feedkeys, instead of <C-r>= because <C-r>= does not remap keys.
+        call s:log.Debug( "check failed" )
+        " TODO configureable of <Tab>
+        call feedkeys("\<tab>", 'm')
         return ""
+
     endif
 
-    " TODO here check pum
-    " if pum is visible, <C-y> removes all typed
-    "
-    " if pumvisible
-
+    call s:log.Debug('current line=' . getline(line("."))  )
     return "\<C-r>=XPPrepopup(1, 'enlarge')\<cr>"
 endfunction "}}}
 
@@ -573,7 +856,8 @@ fun! XPPaccept() "{{{
 
 endfunction "}}}
 
-fun! XPPrepopup(doCallback, ifEnlarge) "{{{
+fun! XPPrepopup( doCallback, ifEnlarge ) "{{{
+
     " If re-popup is called by XPPshorten, matched item should not trigger callback,
     " to let user see what matches. 
     "
@@ -585,8 +869,36 @@ fun! XPPrepopup(doCallback, ifEnlarge) "{{{
         " no post action
         return ""
     endif
+
+
     let sess = b:__xpp_current_session
-    return sess.popup(sess.col, { 'doCallback' : a:doCallback, 'enlarge' : a:ifEnlarge == 'enlarge' } )
+
+
+    if sess.key != ''
+        " NOTE: Check if some element is select in pum
+
+        let sess.currentText = s:GetTextBeforeCursor( sess )
+        " TODO <C-e> clears typed!!.
+        let action = "\<C-e>" . "\<C-r>=XPPprocess(" . string( [ 'keymodeEnlarge' ] ) . ")\<CR>"
+        " let action = "\<C-r>=XPPprocess(" . string( [ 'clearPum', 'keymodeEnlarge' ] ) . ")\<CR>"
+
+        return action
+
+    else
+
+        let action =  sess.popup(sess.col,
+              \ { 'doCallback' : a:doCallback,
+              \   'enlarge'    : a:ifEnlarge == 'enlarge' } )
+
+        call s:log.Debug( ' After XPPrepopup current line=' . getline( line( "." ) ) )
+        call s:log.Debug( '  action=' . action )
+
+
+        " let action = "\<C-e>"
+
+        return action
+
+    endif
 endfunction "}}}
 
 fun! XPPcorrectPos() "{{{
@@ -617,19 +929,34 @@ fun! s:ApplyMapAndSetting() "{{{
 
     call b:_xpp_map_saver.Save()
 
+
+    let sess = b:__xpp_current_session
+
     exe 'inoremap <silent> <buffer> <UP>'   '<C-r>=XPPup()<CR>'
     exe 'inoremap <silent> <buffer> <DOWN>' '<C-r>=XPPdown()<CR>'
 
     exe 'inoremap <silent> <buffer> <bs>'  '<C-r>=XPPshorten()<cr>'
-    exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
-    exe 'inoremap <silent> <buffer> <cr>'  '<C-r>=XPPcr()<cr>'
+
+
     exe 'inoremap <silent> <buffer> <C-e>' '<C-r>=XPPcancel()<cr>'
     exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
 
-    " augroup XPP
-        " au!
-        " au CursorMovedI * call s:CheckAndRepop()
-    " augroup END
+    if sess.tabNav
+        exe 'inoremap <silent> <buffer> <S-tab>' '<C-r>=XPPup()<cr>'
+        exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPdown()<cr>'
+        exe 'inoremap <silent> <buffer> <cr>'  '<C-r>=XPPenlarge()<cr>'
+        exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPenlarge()<cr>'
+    else
+        exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
+        exe 'inoremap <silent> <buffer> <cr>'  '<C-r>=XPPcr()<cr>'
+        exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
+    endif
+
+    augroup XPpopup
+        au!
+        au CursorMovedI * call s:CheckAndFinish()
+        " au InsterEnter  * call s:End()
+    augroup END
 
     call b:_xpp_setting_switch.Switch()
 
@@ -637,18 +964,6 @@ fun! s:ApplyMapAndSetting() "{{{
         AcpLock
     endif
 
-endfunction "}}}
-
-
-fun! s:CheckAndRepop() "{{{
-    if !exists( 'b:__xpp_buffer_init' )
-        return
-    endif
-
-    if !pumvisible()
-          \ && len(b:__xpp_current_session.currentList) > 1
-        call feedkeys( "\<C-r>=XPPrepopup(0, 'noenlarge')\<cr>" )
-    endif
 endfunction "}}}
 
 fun! s:ClearMapAndSetting() "{{{
@@ -661,9 +976,9 @@ fun! s:ClearMapAndSetting() "{{{
 
     call s:log.Debug( 'ClearMapAndSetting' )
 
-    " augroup XPP
-        " au!
-    " augroup END
+    augroup XPpopup
+        au!
+    augroup END
 
     " if &completefunc == 'XPPcompleteFunc'
         " let 
@@ -675,15 +990,66 @@ fun! s:ClearMapAndSetting() "{{{
         try
             AcpUnlock
         catch /.*/
-            
         endtry
     endif
 
 endfunction "}}}
 
+fun! s:CheckAndFinish() "{{{
+
+    if !exists( 'b:__xpp_current_session' )
+        call s:End()
+        return ''
+    endif
+
+    let sess = b:__xpp_current_session
+
+    if !pumvisible()
+
+        if line( "." ) == sess.line
+
+            if sess.strictInput
+                if col(".") > sess.col
+                    call feedkeys( "\<BS>", 'n' )
+                endif
+
+            else
+                return s:MistakeTypeEnd()
+            endif
+
+        else
+            return s:MistakeTypeEnd()
+        endif
+
+    endif
+
+    return ''
+
+endfunction "}}}
+
+fun! s:MistakeTypeEnd() "{{{
+    call s:End()
+
+    " NOTE: re-pop pum menu to clear last pum session.
+    "
+    "       <C-e> or <C-y> does not work in identical way in different case(
+    "       chosen something in pum or not )
+    call PUMclear()
+
+    return ''
+endfunction "}}}
+
+fun! XPPhasSession() "{{{
+    return exists("b:__xpp_current_session")
+endfunction "}}}
 
 fun! XPPend() "{{{
     call s:End()
+    if pumvisible()
+        return ".\<BS>"
+    endif
+
+    return ''
 endfunction "}}}
 
 fun! s:End() "{{{
@@ -766,17 +1132,24 @@ fun! s:LongestPrefix(sess) "{{{
     return longest
 endfunction "}}}
 
-fun! s:filterCompleteList(sess) "{{{
-    let list = []
-    let pattern = '^\V' . ( a:sess.ignoreCase ? '\c' : '\C' ) . a:sess.prefix
+fun! s:filterCompleteList( sess ) "{{{
 
-    call s:log.Log("sess.list=".string(a:sess.list))
+    let list = []
+
+    let caseOption = a:sess.ignoreCase ? '\c' : '\C'
+
+    if a:sess.matchWholeName
+        let pattern = '\V\^' . caseOption . a:sess.prefix . '\$'
+    else
+        let pattern = '\V\^' . caseOption . a:sess.prefix
+    endif
+
+    call s:log.Log( "sess.list=".string(a:sess.list) )
     call s:log.Log( "popup filter pattern=" . string( pattern ) )
 
     for item in a:sess.list
         let key = ( type(item) == type({}) ) ? item.word : item
 
-        " call s:log.Debug( 'key=' . key )
         if key =~ pattern
             let list += [ item ]
         endif
@@ -822,9 +1195,14 @@ endfunction "}}}
 
 
 let s:sessionPrototype2 =  s:ClassPrototype(
-            \    'popup',
-            \   'SetAcceptEmpty', 
-            \)
+            \   'popup',
+            \   'SetAcceptEmpty',
+            \   'SetMatchWholeName',
+            \   'SetTriggerKey',
+            \   'SetOption',
+            \   'KeyPopup',
+            \   'ListPopup',
+            \ )
 
 call extend( s:sessionPrototype, s:sessionPrototype2, 'force' )
 

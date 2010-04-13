@@ -2,7 +2,7 @@
 
 
     /*  -------------"_--------------- */
-    /* "`wrapped^"                     */
+    /* "`w^"                           */
 
 
 
@@ -10,17 +10,17 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
     /*  -------------'_--------------- */
-    /* '`wrapped^'                     */
+    /* '`w^'                           */
 
 
 
@@ -28,17 +28,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     /*  -------------(_--------------- */
-    /* (`wrapped^)                     */
+    /* (`w^)                           */
 
 
 
@@ -46,17 +46,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     /*  -------------<_--------------- */
-    /* <`wrapped^>                     */
+    /* <`w^>                           */
 
 
 
@@ -64,17 +64,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     /*  -------------[_--------------- */
-    /* [`wrapped^]                     */
+    /* [`w^]                           */
 
 
 
@@ -82,17 +82,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     /*  -------------`_--------------- */
-    /* \``wrapped^\`                   */
+    /* \``w^\`                         */
 
 
 
@@ -100,10 +100,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -118,20 +118,20 @@ WRAPPED_TEXT_line2`
 
     drdr.xp b
 
-    a drdr.xp b
+    `drdr.xp^
 
     a drdr.xp
 
 
     /*  -------------begin--------------- */
     /* (begin                             */
-    /*    (`todo0^) `...^                 */
-    /*    (`todon^)`...^)                 */
+    /*    (`todo0^)` `...^                */
+    /*    (`todon^)` `...^)               */
 
 
 
     (begin
-       (todo0) 
+       (todo0)
        (todon)
        (todon)
        (todon))
@@ -139,14 +139,14 @@ WRAPPED_TEXT_line2`
     (begin
        (todo0_TYPED) _TYPED) b
 
-    a (begin
-       (todo0) 
+    `(begin
+       (todo0)
        (todon)
        (todon)
-       (todon)) b
+       (todon))^
 
     a (begin
-       (todo0) 
+       (todo0)
        (todon)
        (todon)
        (todon))
@@ -154,14 +154,14 @@ WRAPPED_TEXT_line2`
 
     /*  -------------case---------------     */
     /* (case (`of^)                          */
-    /*       ({`match^} `expr1^) `...^       */
-    /*       ({`matchn^} `exprn^)`...^       */
+    /*       ({`match^} `expr1^)` `...^      */
+    /*       ({`matchn^} `exprn^)` `...^     */
     /*       `else...^\(else \`cursor\^\)^^) */
 
 
 
     (case (of)
-          ({match} expr1) 
+          ({match} expr1)
           ({matchn} exprn)
           ({matchn} exprn)
           ({matchn} exprn)
@@ -171,15 +171,15 @@ WRAPPED_TEXT_line2`
                 ({match_TYPED} expr1_TYPED) _TYPED
                 (else \)) b
 
-                a (case (of)
-                      ({match} expr1) 
+                `(case (of)
+                      ({match} expr1)
                       ({matchn} exprn)
                       ({matchn} exprn)
                       ({matchn} exprn)
-                      (else \)) b
+                      (else \))^
 
                       a (case (of)
-                            ({match} expr1) 
+                            ({match} expr1)
                             ({matchn} exprn)
                             ({matchn} exprn)
                             ({matchn} exprn)
@@ -187,31 +187,31 @@ WRAPPED_TEXT_line2`
 
 
     /*  -------------cond---------------     */
-    /* (cond ([`condition^] `expr1^) `...^   */
-    /*       ([`condition^] `exprn^)`...^    */
+    /* (cond ([`condition^] `expr1^)` `...^  */
+    /* `      ([`condition^] `exprn^)` `...^ */
     /*       `else...^\(else \`cursor\^\)^^) */
 
 
 
-    (cond ([condition] expr1) 
+    (cond ([condition] expr1)
           ([condition] exprn)
-                ([condition] exprn)
-                      ([condition] exprn)
+          ([condition] exprn)
+          ([condition] exprn)
           (else \))
 
           (cond ([condition_TYPED] expr1_TYPED) _TYPED
            else_(else \)) b
 
-           a (cond ([condition] expr1) 
+           `(cond ([condition] expr1)
                  ([condition] exprn)
-                       ([condition] exprn)
-                             ([condition] exprn)
-                 (else \)) b
+                 ([condition] exprn)
+                 ([condition] exprn)
+                 (else \))^
 
-                 a (cond ([condition] expr1) 
+                 a (cond ([condition] expr1)
                        ([condition] exprn)
-                             ([condition] exprn)
-                                   ([condition] exprn)
+                       ([condition] exprn)
+                       ([condition] exprn)
                        (else \))
 
 
@@ -224,7 +224,7 @@ WRAPPED_TEXT_line2`
 
     (define varName_TYPED ) b
 
-    a (define varName ) b
+    `(define varName )^
 
     a (define varName )
 
@@ -247,10 +247,10 @@ WRAPPED_TEXT_line2`
             ())
      ) b
 
-    a (define funName
+    `(define funName
         (lambda [params]
             ())
-     ) b
+     )^
 
     a (define funName
         (lambda [params]
@@ -258,45 +258,45 @@ WRAPPED_TEXT_line2`
      )
 
 
-    /*  -------------do---------------             */
-    /* (do {(`var1^ `init1^ `step1^) `...0^        */
-    /*      (`varn^ `initn^ `stepn^)`...0^}        */
-    /*    ([`test^] `exprs^ `...1^ `exprs^`...1^^) */
-    /*    (`command0^) `...2^^                     */
-    /*    (`command1^)`...2^)                      */
+    /*  -------------do---------------      */
+    /* (do {(`var^ `init^ `step^)` `...0^   */
+    /* `     (`var^ `init^ `step^)` `...0^} */
+    /*    ([`test^] `exprs^)                */
+    /*    (`command^)` `...2^               */
+    /*    (`command^)` `...2^)              */
 
 
 
-    (do {(var1 init1 step1) 
-         (varn initn stepn)
-              (varn initn stepn)
-                   (varn initn stepn)}
-       ([test] exprs  exprs exprs)
-       (command0) ^
-       (command1)^
-       (command1))
+    (do {(var init step)
+         (var init step)
+         (var init step)
+         (var init step)}
+       ([test] exprs)
+       (command)
+       (command)
+       (command))
 
-    (do {(var1_TYPED init1_TYPED step1_TYPED) 0_TYPED}
-       ([test_TYPED] exprs_TYPED 1_TYPED)
-       (command0_TYPED) 2_TYPED) b
+    (do {(var_TYPED init_TYPED step_TYPED) 0_TYPED}
+       ([test_TYPED] exprs_TYPED)
+       (command_TYPED) 2_TYPED) b
 
-    a (do {(var1 init1 step1) 
-         (varn initn stepn)
-              (varn initn stepn)
-                   (varn initn stepn)}
-       ([test] exprs  exprs exprs)
-       (command0) ^
-       (command1)^
-       (command1)) b
+    `(do {(var init step)
+         (var init step)
+         (var init step)
+         (var init step)}
+       ([test] exprs)
+       (command)
+       (command)
+       (command))^
 
-    a (do {(var1 init1 step1) 
-         (varn initn stepn)
-              (varn initn stepn)
-                   (varn initn stepn)}
-       ([test] exprs  exprs exprs)
-       (command0) ^
-       (command1)^
-       (command1))
+    a (do {(var init step)
+         (var init step)
+         (var init step)
+         (var init step)}
+       ([test] exprs)
+       (command)
+       (command)
+       (command))
 
 
     /*  -------------Email--------------- */
@@ -308,7 +308,7 @@ WRAPPED_TEXT_line2`
 
     drdr.xp@gmail.com b
 
-    a drdr.xp@gmail.com b
+    `drdr.xp@gmail.com^
 
     a drdr.xp@gmail.com
 
@@ -322,7 +322,7 @@ WRAPPED_TEXT_line2`
 
     test.page b
 
-    a test.page b
+    `test.page^
 
     a test.page
 
@@ -342,9 +342,9 @@ WRAPPED_TEXT_line2`
         (then_TYPED)
         else_TYPED) b
 
-    a (if [condition]
+    `(if [condition]
         (then)
-        ()) b
+        ())^
 
     a (if [condition]
         (then)
@@ -363,68 +363,68 @@ WRAPPED_TEXT_line2`
     (lambda [params_TYPED]
             ()) b
 
-    a (lambda [params]
-            ()) b
+    `(lambda [params]
+            ())^
 
     a (lambda [params]
             ())
 
 
-    /*  -------------let--------------- */
-    /* (let [(`newVar^ `value^ `...^)   */
-    /*       (`newVarn^ `valuen^`...^)] */
-    /*      (`cursor^))                 */
+    /*  -------------let---------------    */
+    /* (let [(`newVar^ `value^` `...^)     */
+    /* `      (`newVarn^ `valuen^` `...^)] */
+    /*      (`cursor^))                    */
 
 
 
-    (let [(newVar value )
+    (let [(newVar value)
           (newVarn valuen)
-                (newVarn valuen)
-                      (newVarn valuen)]
+          (newVarn valuen)
+          (newVarn valuen)]
          ())
 
     (let [(newVar_TYPED value_TYPED _TYPED)]
          ()) b
 
-    a (let [(newVar value )
+    `(let [(newVar value)
           (newVarn valuen)
-                (newVarn valuen)
-                      (newVarn valuen)]
-         ()) b
+          (newVarn valuen)
+          (newVarn valuen)]
+         ())^
 
-    a (let [(newVar value )
+    a (let [(newVar value)
           (newVarn valuen)
-                (newVarn valuen)
-                      (newVarn valuen)]
+          (newVarn valuen)
+          (newVarn valuen)]
          ())
 
 
-    /*  -------------letrec--------------- */
-    /* (letrec [(`newVar^ `value^ `...^)   */
-    /*          (`newVarn^ `valuen^`...^)] */
-    /*      (`cursor^))                    */
+    /*  -------------letrec---------------    */
+    /* (letrec [(`newVar^ `value^` `...^)     */
+    /* `         (`newVarn^ `valuen^` `...^)] */
+    /*      (`cursor^))                       */
 
 
 
-    (letrec [(newVar value )
+    (letrec [(newVar value)
              (newVarn valuen)
-                      (newVarn valuen)
-                               (newVarn valuen)]
+             (newVarn valuen)
+             (newVarn valuen)]
          ())
 
     (letrec [(newVar_TYPED value_TYPED _TYPED)]
          ()) b
 
-    a (letrec [(newVar value )
+    `(letrec [(newVar value)
              (newVarn valuen)
-                      (newVarn valuen)
-                               (newVarn valuen)]
-         ()) b
+             (newVarn valuen)
+             (newVarn valuen)]
+         ())^
 
-    a (letrec [(newVar value )
+    a (letrec [(newVar value)
              (newVarn valuen)
-                      (newVarn valuen)
-                               (newVarn valuen)]
+             (newVarn valuen)
+             (newVarn valuen)]
          ())
 
 
@@ -444,11 +444,11 @@ WRAPPED_TEXT_line2`
     (unless (cond_TYPED)
        (todo0_TYPED) _TYPED) b
 
-    a (unless (cond)
+    `(unless (cond)
        (todo0)
        (todon)
        (todon)
-       (todon)) b
+       (todon))^
 
     a (unless (cond)
        (todo0)
@@ -473,11 +473,11 @@ WRAPPED_TEXT_line2`
     (when (cond_TYPED)
        (todo0_TYPED) _TYPED) b
 
-    a (when (cond)
+    `(when (cond)
        (todo0)
        (todon)
        (todon)
-       (todon)) b
+       (todon))^
 
     a (when (cond)
        (todo0)
@@ -487,7 +487,7 @@ WRAPPED_TEXT_line2`
 
 
     /*  -------------{_--------------- */
-    /* {`wrapped^}                     */
+    /* {`w^}                           */
 
 
 
@@ -495,10 +495,10 @@ WRAPPED_TEXT_line2`
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

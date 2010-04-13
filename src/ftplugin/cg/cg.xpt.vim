@@ -38,24 +38,22 @@ XPTinclude
 
 " ================================= Snippets ===================================
 XPTemplateDef
-XPT fun " fun ( ... )
+XPT fun " fun ( .. )
 `type^ `name^(
              )
 {
     `cursor^
 }
-..XPT
 
 
-XPT tech " technique ...
+XPT tech " technique ..
 technique `techName^
 {
     `cursor^
 };
-..XPT
 
 
-XPT pass " pass ...
+XPT pass " pass ..
 XSET vtarget=Choose(['arbvp1', 'vs_2_x', 'vs_3_0', 'vs_4_0', 'vp20', 'vp30', 'vp40', 'gp4vp', 'hlslv', 'glslv'])
 XSET ftarget=Choose(['arbfp1', 'ps_2_x', 'ps_3_0', 'ps_4_0', 'fp20', 'fp30', 'fp40', 'gp4fp', 'hlslf', 'glslf'])
 XSET gtarget=Choos(['gp4gp', 'gs_4_0', 'glslg'])
@@ -65,15 +63,13 @@ pass `passName^ {`common...{{^
     GeometryProgram = `compilef...{{^compile `gtarget^ `main^main^`}}^;`}}^
     `}}^`cursor^
 };
-..XPT
 
 
-XPT interface " interface ... { ... }
+XPT interface " interface .. { .. }
 interface `interfaceName^
 {
     `cursor^
 };
-..XPT
 
 
 XPT vertexProg " main vertex programm
@@ -85,7 +81,6 @@ void main( `inputs...^ float`n^ `name^ : `vin^,
 {
     `cursor^
 }
-..XPT
 
 
 XPT fragProg " main vertex programm
@@ -96,15 +91,15 @@ void main( `inputs...^ float`n^ `name^ : `vin^,
 {
     `cursor^
 }
-..XPT
 
 
-XPT struct " struct ... { ... }
+
+XPT struct " struct .. { .. }
 struct `structName^`inherit...{{^ : `interfaceName^`}}^
 {
     `cursor^
 };
-..XPT
+
 
 
 " ================================= Wrapper ===================================

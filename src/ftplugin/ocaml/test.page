@@ -2,7 +2,7 @@
 
 
     (*  -------------"_--------------- *)
-    (* "`wrapped^"                     *)
+    (* "`w^"                           *)
 
 
 
@@ -10,17 +10,17 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
     (*  -------------'_--------------- *)
-    (* '`wrapped^'                     *)
+    (* '`w^'                           *)
 
 
 
@@ -28,17 +28,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     (*  -------------(_--------------- *)
-    (* (`wrapped^)                     *)
+    (* (`w^)                           *)
 
 
 
@@ -46,17 +46,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     (*  -------------<_--------------- *)
-    (* <`wrapped^>                     *)
+    (* <`w^>                           *)
 
 
 
@@ -64,17 +64,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     (*  -------------[_--------------- *)
-    (* [`wrapped^]                     *)
+    (* [`w^]                           *)
 
 
 
@@ -82,17 +82,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     (*  -------------`_--------------- *)
-    (* \``wrapped^\`                   *)
+    (* \``w^\`                         *)
 
 
 
@@ -100,10 +100,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -118,7 +118,7 @@ drdr.xp
 
 drdr.xp b
 
-a drdr.xp b
+`drdr.xp^
 
 a drdr.xp
 
@@ -138,9 +138,9 @@ begin
     
 end b
 
-a begin
+`begin
     
-end b
+end^
 
 a begin
     
@@ -165,10 +165,10 @@ object (self)
     
 end b
 
-a class  name =
+`class  name =
 object (self)
     
-end b
+end^
 
 a class  name =
 object (self)
@@ -198,13 +198,13 @@ object
    method field_TYPED : type_TYPED _TYPED
 end b
 
-a class type name =
+`class type name =
 object
    method field : type
    method field : type
    method field : type
    method field : type
-end b
+end^
 
 a class type name =
 object
@@ -247,7 +247,7 @@ object
    method field_TYPED : type_TYPED _TYPED
 end b
 
-a (**  *)
+`(**  *)
 class type name =
 object
    (**  *)
@@ -258,7 +258,7 @@ object
    method field : type
    (**  *)
    method field : type
-end b
+end^
 
 a (**  *)
 class type name =
@@ -275,21 +275,7 @@ end
 
 
     (*  -------------comment--------------- *)
-    (* `$CL^ `what^ `$CR^                   *)
-
-
-
-(* what *)
-
-(* what_TYPED *) b
-
-a (* what *) b
-
-a (* what *)
-
-
-    (*  -------------comment_--------------- *)
-    (* `$CL^ `wrapped^ `$CR^                 *)
+    (* `$CL^ `what^^ `$CR^`^                *)
 
 
 
@@ -297,149 +283,82 @@ a (* what *)
 WRAPPED_TEXT_line2 *)
 
 (* WRAPPED_TEXT
-WRAPPED_TEXT_line2 *)b
+WRAPPED_TEXT_line2 *) b
 
-a (* WRAPPED_TEXT
-WRAPPED_TEXT_line2 *)b
+`(* WRAPPED_TEXT
+WRAPPED_TEXT_line2 *)^
 
 a (* WRAPPED_TEXT
 WRAPPED_TEXT_line2 *)
 
 
     (*  -------------commentBlock--------------- *)
-    (* `$CL^                                     *)
-    (*  `$CM^ `cursor^                           *)
-    (*  `$CR^                                    *)
+    (* `_cmt_no_mid_left()^`$CM `cursor^         *)
+    (* `_cmt_mid_ind()$CR^                       *)
 
 
 
-    (*
-     * 
-     *)
-
-    (*
-     * 
-     *) b
-
-     a (*
-      * 
-      *) b
-
-      a (*
-       * 
-       *)
-
-
-    (*  -------------commentBlock_--------------- *)
-    (* `$CL^                                      *)
-    (*  `$CM^ `wrapped^                           *)
-    (*  `$CR^                                     *)
-
-
-
-(*
- * WRAPPED_TEXT
- WRAPPED_TEXT_line2
+(* WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
  *)
 
-(*
- * WRAPPED_TEXT
- WRAPPED_TEXT_line2
- *)b
+(* WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ *) b
 
- a (*
-  * WRAPPED_TEXT
-  WRAPPED_TEXT_line2
-  *)b
+ `(* WRAPPED_TEXT
+   * WRAPPED_TEXT_line2
+  *)^
 
-  a (*
-   * WRAPPED_TEXT
-   WRAPPED_TEXT_line2
+  a (* WRAPPED_TEXT
+     * WRAPPED_TEXT_line2
    *)
 
 
     (*  -------------commentDoc--------------- *)
     (* `$CL^`$CM^                              *)
-    (*  `$CM^ `cursor^                         *)
-    (*  `$CR^                                  *)
-
-
-
-    (**
-     * 
-     *)
-
-    (**
-     * 
-     *) b
-
-     a (**
-      * 
-      *) b
-
-      a (**
-       * 
-       *)
-
-
-    (*  -------------commentDoc_--------------- *)
-    (* `$CL^`$CM^                               *)
-    (*  `$CM^ `wrapped^                         *)
-    (*  `$CR^                                   *)
+    (* `_cmt_mid_ind()$CM `cursor^             *)
+    (* `_cmt_mid_ind()$CR^                     *)
 
 
 
 (**
  * WRAPPED_TEXT
- WRAPPED_TEXT_line2
+ * WRAPPED_TEXT_line2
  *)
 
 (**
  * WRAPPED_TEXT
- WRAPPED_TEXT_line2
- *)b
+ * WRAPPED_TEXT_line2
+ *) b
 
- a (**
+ `(**
   * WRAPPED_TEXT
-  WRAPPED_TEXT_line2
-  *)b
+  * WRAPPED_TEXT_line2
+  *)^
 
   a (**
    * WRAPPED_TEXT
-   WRAPPED_TEXT_line2
+   * WRAPPED_TEXT_line2
    *)
 
 
     (*  -------------commentLine--------------- *)
-    (* `$CL^ `what^ `$CR^                       *)
+    (* `$CL `what` $CR^`^                       *)
 
 
 
-    (* what *)
+(* WRAPPED_TEXT *)
+(* WRAPPED_TEXT_line2 *)
 
-    (* what_TYPED *) b
+(* WRAPPED_TEXT *)
+(* WRAPPED_TEXT_line2 *) b
 
-    a (* what *) b
+`(* WRAPPED_TEXT *)
+ (* WRAPPED_TEXT_line2 *)^
 
-    a (* what *)
-
-
-    (*  -------------commentLine_--------------- *)
-    (* `$CL^ `wrapped^ `$CR^                     *)
-
-
-
-(* WRAPPED_TEXT
-WRAPPED_TEXT_line2 *)
-
-(* WRAPPED_TEXT
-WRAPPED_TEXT_line2 *)b
-
-a (* WRAPPED_TEXT
-WRAPPED_TEXT_line2 *)b
-
-a (* WRAPPED_TEXT
-WRAPPED_TEXT_line2 *)
+ a (* WRAPPED_TEXT *)
+   (* WRAPPED_TEXT_line2 *)
 
 
     (*  -------------do--------------- *)
@@ -449,21 +368,21 @@ WRAPPED_TEXT_line2 *)
 
 
 
-    do {
-        
-    }
+ do {
+     
+ }
 
-    do {
-        
-    } b
+ do {
+     
+ } b
 
-    a do {
-        
-    } b
+ `do {
+     
+ }^
 
-    a do {
-        
-    }
+ a do {
+     
+ }
 
 
     (*  -------------Email--------------- *)
@@ -471,13 +390,13 @@ WRAPPED_TEXT_line2 *)
 
 
 
-    drdr.xp@gmail.com
+ drdr.xp@gmail.com
 
-    drdr.xp@gmail.com b
+ drdr.xp@gmail.com b
 
-    a drdr.xp@gmail.com b
+ `drdr.xp@gmail.com^
 
-    a drdr.xp@gmail.com
+ a drdr.xp@gmail.com
 
 
     (*  -------------File--------------- *)
@@ -485,13 +404,13 @@ WRAPPED_TEXT_line2 *)
 
 
 
-    test.page
+ test.page
 
-    test.page b
+ test.page b
 
-    a test.page b
+ `test.page^
 
-    a test.page
+ a test.page
 
 
     (*  -------------for---------------   *)
@@ -501,21 +420,21 @@ WRAPPED_TEXT_line2 *)
 
 
 
-    for var = val to expr do
-        
-    done
+ for var = val to expr do
+     
+ done
 
-    for var_TYPED = val_TYPED to expr_TYPED do
-        
-    done b
+ for var_TYPED = val_TYPED to expr_TYPED do
+     
+ done b
 
-    a for var = val to expr do
-        
-    done b
+ `for var = val to expr do
+     
+ done^
 
-    a for var = val to expr do
-        
-    done
+ a for var = val to expr do
+     
+ done
 
 
     (*  -------------fun--------------- *)
@@ -523,13 +442,13 @@ WRAPPED_TEXT_line2 *)
 
 
 
-    (fun args -> )
+ (fun args -> )
 
-    (fun args_TYPED -> _TYPED) b
+ (fun args_TYPED -> _TYPED) b
 
-    a (fun args -> ) b
+ `(fun args -> )^
 
-    a (fun args -> )
+ a (fun args -> )
 
 
     (*  -------------func--------------- *)
@@ -547,13 +466,13 @@ fun args ->
     fun args_TYPED ->
          b
 
-         a let funName : ty =
+         `let funName : ty =
          fun args ->
-              b
+             ^
 
-              a let funName : ty =
-              fun args ->
-                  
+             a let funName : ty =
+             fun args ->
+                 
 
 
     (*  -------------if--------------- *)
@@ -563,20 +482,20 @@ fun args ->
 
 
 
-                  if cond
-                      then 
-                      else
+                 if cond
+                     then 
+                     else
 
-                          if cond_TYPED
-                              then else_TYPED b
+                         if cond_TYPED
+                             then else_TYPED b
 
-                              a if cond
-                                  then 
-                                  else b
+                             `if cond
+                                 then 
+                                 else^
 
-                                  a if cond
-                                      then 
-                                      else
+                                 a if cond
+                                     then 
+                                     else
 
 
     (*  -------------letin--------------- *)
@@ -588,39 +507,39 @@ fun args ->
 
 
 
-                                          let name  =
-                                              what
-                                          and subname  =
-                                              subwhat
-                                          and subname  =
-                                              subwhat
-                                          and subname  =
-                                              subwhat
-                                          in
+                                         let name  =
+                                             what
+                                         and subname  =
+                                             subwhat
+                                         and subname  =
+                                             subwhat
+                                         and subname  =
+                                             subwhat
+                                         in
 
-                                          let name_TYPED __TYPED =
-                                              what_TYPED _TYPED
-                                          in b
+                                         let name_TYPED __TYPED =
+                                             what_TYPED _TYPED
+                                         in b
 
-                                          a let name  =
-                                              what
-                                          and subname  =
-                                              subwhat
-                                          and subname  =
-                                              subwhat
-                                          and subname  =
-                                              subwhat
-                                          in b
+                                         `let name  =
+                                             what
+                                         and subname  =
+                                             subwhat
+                                         and subname  =
+                                             subwhat
+                                         and subname  =
+                                             subwhat
+                                         in^
 
-                                          a let name  =
-                                              what
-                                          and subname  =
-                                              subwhat
-                                          and subname  =
-                                              subwhat
-                                          and subname  =
-                                              subwhat
-                                          in
+                                         a let name  =
+                                             what
+                                         and subname  =
+                                             subwhat
+                                         and subname  =
+                                             subwhat
+                                         and subname  =
+                                             subwhat
+                                         in
 
 
     (*  -------------letrecin--------------- *)
@@ -632,39 +551,39 @@ fun args ->
 
 
 
-                                          let rec name  =
-                                              what
-                                          and subname  =
-                                              subwhat
-                                          and subname  =
-                                              subwhat
-                                          and subname  =
-                                              subwhat
-                                          in
+                                         let rec name  =
+                                             what
+                                         and subname  =
+                                             subwhat
+                                         and subname  =
+                                             subwhat
+                                         and subname  =
+                                             subwhat
+                                         in
 
-                                          let rec name_TYPED __TYPED =
-                                              what_TYPED _TYPED
-                                          in b
+                                         let rec name_TYPED __TYPED =
+                                             what_TYPED _TYPED
+                                         in b
 
-                                          a let rec name  =
-                                              what
-                                          and subname  =
-                                              subwhat
-                                          and subname  =
-                                              subwhat
-                                          and subname  =
-                                              subwhat
-                                          in b
+                                         `let rec name  =
+                                             what
+                                         and subname  =
+                                             subwhat
+                                         and subname  =
+                                             subwhat
+                                         and subname  =
+                                             subwhat
+                                         in^
 
-                                          a let rec name  =
-                                              what
-                                          and subname  =
-                                              subwhat
-                                          and subname  =
-                                              subwhat
-                                          and subname  =
-                                              subwhat
-                                          in
+                                         a let rec name  =
+                                             what
+                                         and subname  =
+                                             subwhat
+                                         and subname  =
+                                             subwhat
+                                         and subname  =
+                                             subwhat
+                                         in
 
 
     (*  -------------match---------------      *)
@@ -675,26 +594,26 @@ fun args ->
 
 
 
-                                          match expr with
-                                              what -> with
-                                            | what -> with
-                                            | what -> with
-                                            | what -> with
+                                         match expr with
+                                             what -> with
+                                           | what -> with
+                                           | what -> with
+                                           | what -> with
 
-                                            match expr_TYPED with
-                                                what_TYPED -> with_TYPED _TYPED b
+                                           match expr_TYPED with
+                                               what_TYPED -> with_TYPED _TYPED b
 
-                                                a match expr with
-                                                    what -> with
-                                                  | what -> with
-                                                  | what -> with
-                                                  | what -> with b
+                                               `match expr with
+                                                   what -> with
+                                                 | what -> with
+                                                 | what -> with
+                                                 | what -> with^
 
-                                                  a match expr with
-                                                      what -> with
-                                                    | what -> with
-                                                    | what -> with
-                                                    | what -> with
+                                                 a match expr with
+                                                     what -> with
+                                                   | what -> with
+                                                   | what -> with
+                                                   | what -> with
 
 
     (*  -------------module--------------- *)
@@ -704,21 +623,21 @@ fun args ->
 
 
 
-                                                    module Name  = struct
-                                                        
-                                                    end
+                                                   module Name  = struct
+                                                       
+                                                   end
 
-                                                    module Name_TYPED _TYPED = struct
-                                                        
-                                                    end b
+                                                   module Name_TYPED _TYPED = struct
+                                                       
+                                                   end b
 
-                                                    a module Name  = struct
-                                                        
-                                                    end b
+                                                   `module Name  = struct
+                                                       
+                                                   end^
 
-                                                    a module Name  = struct
-                                                        
-                                                    end
+                                                   a module Name  = struct
+                                                       
+                                                   end
 
 
     (*  -------------moduletype--------------- *)
@@ -736,9 +655,9 @@ module type name_TYPED _TYPED = sig
     
 end b
 
-a module type name  = sig
+`module type name  = sig
     
-end b
+end^
 
 a module type name  = sig
     
@@ -755,77 +674,35 @@ end
 
 
 
-try expr
+try WRAPPED_TEXT
+WRAPPED_TEXT_line2
 with  exc -> rez
      | exc2 -> rez2
      | exc2 -> rez2
      | exc2 -> rez2
 
 
-     try expr_TYPED
+     try WRAPPED_TEXT
+     WRAPPED_TEXT_line2
      with  exc_TYPED -> rez_TYPED
           _TYPED
-      b
+            b
 
-      a try expr
-      with  exc -> rez
-           | exc2 -> rez2
-           | exc2 -> rez2
-           | exc2 -> rez2
-       b
+            `try WRAPPED_TEXT
+            WRAPPED_TEXT_line2
+            with  exc -> rez
+                 | exc2 -> rez2
+                  | exc2 -> rez2
+                   | exc2 -> rez2
+               ^
 
-       a try expr
-       with  exc -> rez
-            | exc2 -> rez2
-            | exc2 -> rez2
-            | exc2 -> rez2
-       
-
-
-    (*  -------------try_--------------- *)
-    (* try                               *)
-    (*     `wrapped^                     *)
-    (* with  `exc^ -> `rez^              *)
-    (* `     `...`                       *)
-    (* {{^     | `exc2^ -> `rez2^        *)
-    (* `     `...`                       *)
-    (* ^`}}^                             *)
-
-
-
-try
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-with  exc -> rez
-     | exc2 -> rez2
-     | exc2 -> rez2
-     | exc2 -> rez2
-
-
-     try
-         WRAPPED_TEXT
-         WRAPPED_TEXT_line2
-     with  exc_TYPED -> rez_TYPED
-          _TYPED
-     b
-
-     a try
-         WRAPPED_TEXT
-         WRAPPED_TEXT_line2
-     with  exc -> rez
-          | exc2 -> rez2
-          | exc2 -> rez2
-          | exc2 -> rez2
-     b
-
-     a try
-         WRAPPED_TEXT
-         WRAPPED_TEXT_line2
-     with  exc -> rez
-          | exc2 -> rez2
-          | exc2 -> rez2
-          | exc2 -> rez2
-     
+               a try WRAPPED_TEXT
+               WRAPPED_TEXT_line2
+               with  exc -> rez
+                    | exc2 -> rez2
+                     | exc2 -> rez2
+                      | exc2 -> rez2
+                  
 
 
     (*  -------------ty--------------- *)
@@ -833,13 +710,13 @@ with  exc -> rez
 
 
 
-          t -> t2 -> t2 -> t2
+                      t -> t2 -> t2 -> t2
 
-          t_TYPED_TYPED b
+                      t_TYPED_TYPED b
 
-          a t -> t2 -> t2 -> t2 b
+                      `t -> t2 -> t2 -> t2^
 
-          a t -> t2 -> t2 -> t2
+                      a t -> t2 -> t2 -> t2
 
 
     (*  -------------typerecord--------------- *)
@@ -850,27 +727,27 @@ with  exc -> rez
 
 
 
-                                          type typename =
-                                              { recordField : fType
-                                              ; recordField : fType
-                                              ; recordField : fType
-                                              }
+                                         type typename =
+                                             { recordField : fType
+                                             ; recordField : fType
+                                             ; recordField : fType
+                                             }
 
-                                              type typename_TYPED typeParams_TYPED =
-                                                  { recordField_TYPED : fType_TYPED _TYPED
-                                                  } b
+                                             type typename_TYPED typeParams_TYPED =
+                                                 { recordField_TYPED : fType_TYPED _TYPED
+                                                 } b
 
-                                                  a type typename =
-                                                      { recordField : fType
-                                                      ; recordField : fType
-                                                      ; recordField : fType
-                                                      } b
+                                                 `type typename =
+                                                     { recordField : fType
+                                                     ; recordField : fType
+                                                     ; recordField : fType
+                                                     }^
 
-                                                      a type typename =
-                                                          { recordField : fType
-                                                          ; recordField : fType
-                                                          ; recordField : fType
-                                                          }
+                                                     a type typename =
+                                                         { recordField : fType
+                                                         ; recordField : fType
+                                                         ; recordField : fType
+                                                         }
 
 
     (*  -------------typerecordcom---------------            *)
@@ -882,34 +759,34 @@ with  exc -> rez
 
 
 
-                                              (** type_descr *)
-                                              type typename =
-                                                  { recordField : fType (** desc *)
-                                                  ; otherfield : othertype (** desc *)
-                                                  ; otherfield : othertype (** desc *)
-                                                  ; otherfield : othertype (** desc *)
-                                                  }
+                                             (** type_descr *)
+                                             type typename =
+                                                 { recordField : fType (** desc *)
+                                                 ; otherfield : othertype (** desc *)
+                                                 ; otherfield : othertype (** desc *)
+                                                 ; otherfield : othertype (** desc *)
+                                                 }
 
-                                                  (** type_descr_TYPED *)
-                                                  type typename_TYPED __TYPED=
-                                                      { recordField_TYPED : fType_TYPED (** desc_TYPED *) _TYPED
-                                                      } b
+                                                 (** type_descr_TYPED *)
+                                                 type typename_TYPED __TYPED=
+                                                     { recordField_TYPED : fType_TYPED (** desc_TYPED *) _TYPED
+                                                     } b
 
-                                                      a (** type_descr *)
-                                                      type typename =
-                                                          { recordField : fType (** desc *)
-                                                          ; otherfield : othertype (** desc *)
-                                                          ; otherfield : othertype (** desc *)
-                                                          ; otherfield : othertype (** desc *)
-                                                          } b
+                                                     `(** type_descr *)
+                                                     type typename =
+                                                         { recordField : fType (** desc *)
+                                                         ; otherfield : othertype (** desc *)
+                                                         ; otherfield : othertype (** desc *)
+                                                         ; otherfield : othertype (** desc *)
+                                                         }^
 
-                                                          a (** type_descr *)
-                                                          type typename =
-                                                              { recordField : fType (** desc *)
-                                                              ; otherfield : othertype (** desc *)
-                                                              ; otherfield : othertype (** desc *)
-                                                              ; otherfield : othertype (** desc *)
-                                                              }
+                                                         a (** type_descr *)
+                                                         type typename =
+                                                             { recordField : fType (** desc *)
+                                                             ; otherfield : othertype (** desc *)
+                                                             ; otherfield : othertype (** desc *)
+                                                             ; otherfield : othertype (** desc *)
+                                                             }
 
 
     (*  -------------typesum--------------- *)
@@ -920,26 +797,26 @@ with  exc -> rez
 
 
 
-                                                          type typename =
-                                                              constructor
-                                                            | constructor
-                                                            | constructor
-                                                            | constructor
+                                                         type typename =
+                                                             constructor
+                                                           | constructor
+                                                           | constructor
+                                                           | constructor
 
-                                                            type typename_TYPED typeParams_TYPED =
-                                                                constructor_TYPED _TYPED b
+                                                           type typename_TYPED typeParams_TYPED =
+                                                               constructor_TYPED _TYPED b
 
-                                                                a type typename =
-                                                                    constructor
-                                                                  | constructor
-                                                                  | constructor
-                                                                  | constructor b
+                                                               `type typename =
+                                                                   constructor
+                                                                 | constructor
+                                                                 | constructor
+                                                                 | constructor^
 
-                                                                  a type typename =
-                                                                      constructor
-                                                                    | constructor
-                                                                    | constructor
-                                                                    | constructor
+                                                                 a type typename =
+                                                                     constructor
+                                                                   | constructor
+                                                                   | constructor
+                                                                   | constructor
 
 
     (*  -------------typesumcom---------------                 *)
@@ -951,30 +828,30 @@ with  exc -> rez
 
 
 
-                                                            (** typeDescr *)
-                                                            type typename =
-                                                                constructor (** ctordescr *)
-                                                              | constructor (** ctordescr *)
-                                                              | constructor (** ctordescr *)
-                                                              | constructor (** ctordescr *)
+                                                           (** typeDescr *)
+                                                           type typename =
+                                                               constructor (** ctordescr *)
+                                                             | constructor (** ctordescr *)
+                                                             | constructor (** ctordescr *)
+                                                             | constructor (** ctordescr *)
 
-                                                              (** typeDescr_TYPED *)
-                                                              type typename_TYPED typeParams_TYPED =
-                                                                  constructor_TYPED (** ctordescr_TYPED *) _TYPED b
+                                                             (** typeDescr_TYPED *)
+                                                             type typename_TYPED typeParams_TYPED =
+                                                                 constructor_TYPED (** ctordescr_TYPED *) _TYPED b
 
-                                                                  a (** typeDescr *)
-                                                                  type typename =
-                                                                      constructor (** ctordescr *)
-                                                                    | constructor (** ctordescr *)
-                                                                    | constructor (** ctordescr *)
-                                                                    | constructor (** ctordescr *) b
+                                                                 `(** typeDescr *)
+                                                                 type typename =
+                                                                     constructor (** ctordescr *)
+                                                                   | constructor (** ctordescr *)
+                                                                   | constructor (** ctordescr *)
+                                                                   | constructor (** ctordescr *)^
 
-                                                                    a (** typeDescr *)
-                                                                    type typename =
-                                                                        constructor (** ctordescr *)
-                                                                      | constructor (** ctordescr *)
-                                                                      | constructor (** ctordescr *)
-                                                                      | constructor (** ctordescr *)
+                                                                   a (** typeDescr *)
+                                                                   type typename =
+                                                                       constructor (** ctordescr *)
+                                                                     | constructor (** ctordescr *)
+                                                                     | constructor (** ctordescr *)
+                                                                     | constructor (** ctordescr *)
 
 
     (*  -------------val--------------- *)
@@ -982,13 +859,13 @@ with  exc -> rez
 
 
 
-                                                                      value thing : 
+                                                                     value thing : 
 
-                                                                          value thing_TYPED :  b
+                                                                         value thing_TYPED :  b
 
-                                                                          a value thing :  b
+                                                                         `value thing : ^
 
-                                                                          a value thing : 
+                                                                         a value thing : 
 
 
     (*  -------------while--------------- *)
@@ -998,18 +875,17 @@ with  exc -> rez
 
 
 
-                                                                              while cond do
-                                                                                  
-                                                                              done
-
-                                                                              while cond_TYPED do
-                                                                                  
-                                                                              done b
-
-                                                                              a
                                                                              while cond do
                                                                                  
+                                                                             done
+
+                                                                             while cond_TYPED do
+                                                                                 
                                                                              done b
+
+                                                                             `while cond do
+                                                                                 
+                                                                             done^
 
                                                                              a
                                                                              while cond do
@@ -1018,7 +894,7 @@ with  exc -> rez
 
 
     (*  -------------{_--------------- *)
-    (* {`wrapped^}                     *)
+    (* {`w^}                           *)
 
 
 
@@ -1026,10 +902,10 @@ with  exc -> rez
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

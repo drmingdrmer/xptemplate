@@ -51,6 +51,11 @@ XPTvar $SPcmd      ' '
 XPTvar $SPop       ' '
 
 
+XPTvar $DATE_FMT     '%Y %b %d'
+XPTvar $TIME_FMT     '"%H:%M:%S"'
+XPTvar $DATETIME_FMT '%c'
+
+
 XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          0
@@ -62,7 +67,8 @@ XPTvar $CURSOR_PH      CURSOR
 
 XPTinclude
       \ _common/personal
-      " \ _common/common.*
+      \ _common/inlineComplete
+      \ _common/common.*
 
 " XPTinclude
       " \ _common/cmn.counter
@@ -70,9 +76,66 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 
+" TODO bad, this function should not depends on phase of rendering
+fun! s:f.GetVar( name )
+    if a:name =~# '\V\^$_x'
+        try
+            let n = a:name[ 1 : ]
+            return self[ n ]()
+        catch /.*/
+            return a:name
+        endtry
+    endif
+
+    if self.renderContext.phase == g:xptRenderPhase.uninit
+        return get( self.renderContext.evalCtx.variables, a:name,
+              \ get( self, a:name, a:name ) )
+    else
+        return get( self.renderContext.snipSetting.variables, a:name,
+              \     get( self, a:name, a:name ) )
+    endif
+endfunction
+
+fun! s:f._xSnipName()
+    return self.renderContext.snipObject.name
+endfunction
+
+
+fun! s:f.GetWrappedText()
+    let wrap = self.renderContext.wrap
+
+    let [ l, r ] = self.ItemEdges()
+
+    if !has_key( wrap, 'text' )
+        return 0
+    endif
+
+    if l == '' && r == ''
+        return { 'nIndent'  : wrap.indent,
+              \  'text'     : wrap.text }
+    else
+
+        let wrap.curline = wrap.lines[ 0 ]
+        let wrap.lines = wrap.lines[ 1 : ]
+
+        return wrap.curline
+    endif
+endfunction
+
+fun! s:f.WrapAlignAfter( min )
+    let wrap = self.renderContext.wrap
+    let n = max( [ a:min, wrap.max ] ) - len( wrap.curline )
+    return repeat( ' ', n )
+endfunction
+
+fun! s:f.WrapAlignBefore( min )
+    let wrap = self.renderContext.wrap
+    let n = max( [ a:min, wrap.max ] ) - len( wrap.lines[ 0 ] )
+    return repeat( ' ', n )
+endfunction
 
 fun! s:f.Item()
-    return get( self._ctx, 'item', {} )
+    return get( self.renderContext, 'item', {} )
 endfunction
 
 " current name
@@ -89,13 +152,13 @@ let s:f.NN = s:f.ItemFullname
 
 " current value user typed
 fun! s:f.ItemValue() dict "{{{
-    return get( self._ctx.evalCtx, 'value', '' )
+    return get( self.renderContext.evalCtx, 'userInput', '' )
 endfunction "}}}
 let s:f.V = s:f.ItemValue
 
 fun! s:f.PrevItem( n )
-    let hist = get( self._ctx, 'history', [] )
-    return get( hist, n, {} )
+    let hist = get( self.renderContext, 'history', [] )
+    return get( hist, a:n, {} )
 endfunction
 
 fun! s:f.ItemInitValue()
@@ -113,6 +176,10 @@ fun! s:f.ItemValueStripped( ... )
 endfunction
 let s:f.VS = s:f.ItemValueStripped
 
+
+fun! s:f.ItemPos()
+    return XPMposStartEnd( self.renderContext.leadingPlaceHolder.mark )
+endfunction
 
 fun! s:f.ItemInitValueWithEdge()
     let [ l, r ] = self.ItemEdges()
@@ -151,7 +218,7 @@ endfunction
 let s:f.V0 = s:f.ItemStrippedValue
 
 fun! s:f.Phase() dict
-    return get( self._ctx, 'phase', '' )
+    return get( self.renderContext, 'phase', '' )
 endfunction
 
 " TODO this is not needed at all except as a shortcut.
@@ -163,7 +230,7 @@ endfunction "}}}
 
 " return the context
 fun! s:f.Context() "{{{
-  return self._ctx
+  return self.renderContext
 endfunction "}}}
 let s:f.C = s:f.Context
 
@@ -184,19 +251,19 @@ let s:f.SV = s:f.SubstituteWithValue
 
 
 fun! s:f.HasStep( name )
-    let namedStep = get( self._ctx, 'namedStep', {} )
+    let namedStep = get( self.renderContext, 'namedStep', {} )
     return has_key( namedStep, a:name )
 endfunction
 
 " reference to another finished item value
 fun! s:f.Reference(name) "{{{
-    let namedStep = get( self._ctx, 'namedStep', {} )
+    let namedStep = get( self.renderContext, 'namedStep', {} )
     return get( namedStep, a:name, '' )
 endfunction "}}}
 let s:f.R = s:f.Reference
 
 fun! s:f.Snippet( name )
-    return get( self._ctx.ftScope.normalTemplates, a:name, { 'tmpl' : '' } )[ 'tmpl' ]
+    return get( self.renderContext.ftScope.allTemplates, a:name, { 'tmpl' : '' } )[ 'tmpl' ]
 endfunction
 
 " black hole
@@ -289,21 +356,48 @@ fun! s:f.BuildIfNoChange( ... )
 endfunction
 
 " trigger nested template
-fun! s:f.Trigger(name) "{{{
+fun! s:f.Trigger( name ) "{{{
   return {'action' : 'expandTmpl', 'tmplName' : a:name}
 endfunction "}}}
 
 
 fun! s:f.Finish(...)
-    if empty( self._ctx.itemList )
-        return { 'action' : 'finishTemplate', 'postTyping' : join( a:000 ) }
+
+    if empty( self.renderContext.itemList )
+
+        let o = { 'action' : 'finishTemplate' }
+
+        if a:0 > 0
+            let o.text = a:1
+        endif
+
+        return o
+
     else
-        return self.ItemName()
+        return a:0 > 0 ? a:1 : 0
     endif
 endfunction
 
+fun! s:f.FinishOuter( ... )
+
+    if empty( self.renderContext.itemList )
+
+        let o = { 'action' : 'finishTemplate', 'marks' : 'mark' }
+
+        if a:0 > 0
+            let o.text = a:1
+        endif
+
+        return o
+
+    else
+        return a:0 > 0 ? a:1 : 0
+    endif
+
+endfunction
+
 fun! s:f.Embed( snippet )
-  return { 'action' : 'embed', 'snippet' : a:snippet }
+  return { 'action' : 'embed', 'text' : a:snippet }
 endfunction
 
 fun! s:f.Next( ... )
@@ -318,15 +412,34 @@ fun! s:f.Remove()
     return { 'action' : 'remove' }
 endfunction
 
+
+
 " This function is intended to be used for popup selection :
 " XSET bidule=Choose([' ','dabadi','dabada'])
-fun! s:f.Choose( lst ) "{{{
-    return a:lst
+fun! s:f.Choose( lst, ... ) "{{{
+    let val = { 'action' : 'pum', 'pum' : a:lst }
+
+    if a:0 == 1
+        let val.acceptEmpty = a:1 != 0
+    endif
+
+    return val
 endfunction "}}}
 
 fun! s:f.ChooseStr(...) "{{{
   return copy( a:000 )
 endfunction "}}}
+
+fun! s:f.Complete( key, ... )
+
+    let val = { 'action' : 'complete', 'pum' : a:key }
+
+    if a:0 == 1
+        let val.acceptEmpty = a:1 != 0
+    endif
+
+    return val
+endfunction
 
 " XXX
 " Fill in postType, and finish template rendering at once.
@@ -343,7 +456,7 @@ endfunction
 
 " TODO test me
 fun! s:f.UnescapeMarks(string) dict
-  let patterns = self._ctx.tmpl.ptn
+  let patterns = self.renderContext.snipObject.ptn
   let charToEscape = '\(\[' . patterns.l . patterns.r . ']\)'
 
   let r = substitute( a:string,  '\v(\\*)\1\\?\V' . charToEscape, '\1\2', 'g')
@@ -362,17 +475,18 @@ fun! s:f.headerSymbol(...) "{{{
   let h = substitute(h, '.', '\U\0', 'g') " make all characters upper case
 
   return '__'.h.'__'
-endfunction
- "}}}
- "
+endfunction "}}}
+
+
+
 fun! s:f.date(...) "{{{
-  return strftime("%Y %b %d")
+  return strftime( self.GetVar( '$DATE_FMT' ) )
 endfunction "}}}
 fun! s:f.datetime(...) "{{{
-  return strftime("%c")
+  return strftime( self.GetVar( '$DATETIME_FMT' ) )
 endfunction "}}}
 fun! s:f.time(...) "{{{
-  return strftime("%H:%M:%S")
+  return strftime( self.GetVar( '$TIME_FMT' ) )
 endfunction "}}}
 fun! s:f.file(...) "{{{
   return expand("%:t")
@@ -400,12 +514,12 @@ endfunction
 
 " Return Item Edges
 fun! s:f.ItemEdges() "{{{
-  let leader =  get( self._ctx, 'leadingPlaceHolder', {} )
-  if has_key( leader, 'leftEdge' )
-      return [ leader.leftEdge, leader.rightEdge ]
-  else
-      return [ '', '' ]
-  endif
+    let leader =  get( self.renderContext, 'leadingPlaceHolder', {} )
+    if has_key( leader, 'leftEdge' )
+        return [ leader.leftEdge, leader.rightEdge ]
+    else
+        return [ '', '' ]
+    endif
 endfunction "}}}
 let s:f.Edges = s:f.ItemEdges
 
@@ -457,7 +571,9 @@ fun! s:f.ExpandIfNotEmpty( sep, item, ... ) "{{{
   " let t = ( v == '' || v == a:item || v == ( a:sep . a:item . r ) )
   let t = ( v == '' || v =~ '\V' . a:item )
         \ ? ''
-        \ : ( v . ml . a:sep . ml . a:item . ml . r . mr . 'ExpandIfNotEmpty("' . a:sep . '", "' . a:item  . '")' . mr . mr )
+        \ : self.Build( v
+        \       . ml . a:sep . ml . a:item . ml . r . mr
+        \       . 'ExpandIfNotEmpty(' . string( a:sep ) . ', ' . string( a:item )  . ')' . mr . mr )
 
   return t
 endfunction "}}}
@@ -477,39 +593,15 @@ fun! s:f.ExpandInsideEdge( newLeftEdge, newRightEdge )
                 \. er
 endfunction
 
-
-let s:xptCompleteMap = [
-            \"''",
-            \'""',
-            \'()',
-            \'[]',
-            \'{}',
-            \'<>',
-            \'||',
-            \'**',
-            \'``',
-            \]
-let s:xptCompleteLeft = join( map( deepcopy( s:xptCompleteMap ), 'v:val[0:0]' ), '' )
-let s:xptCompleteRight = join( map( deepcopy( s:xptCompleteMap ), 'v:val[1:1]' ), '' )
-
-fun! s:f.CompleteRightPart( left ) dict
-    if !g:xptemplate_brace_complete
-        return ''
-    endif
-
-    let v = self.V()
-    " let left = substitute( a:left, '[', '[[]', 'g' )
-    let left = escape( a:left, '[\' )
-    let v = matchstr( v, '^\V\[' . left . ']\+' )
-    if v == ''
-        return ''
-    endif
-
-    let v = join( reverse( split( v, '\s*' ) ), '')
-    let v = tr( v, s:xptCompleteLeft, s:xptCompleteRight )
-    return v
-
+fun! s:f.NIndent()
+    return &shiftwidth
 endfunction
+
+fun! s:f.ResetIndent( nIndent, text )
+    return { 'action' : 'resetIndent', 'resetIndent' : 1, 'nIndent' : a:nIndent, 'text' : a:text }
+endfunction
+
+
 
 fun! s:f.CmplQuoter_pre() dict
     if !g:xptemplate_brace_complete
@@ -582,14 +674,13 @@ call XPTdefineSnippet("File", {}, "`file()^")
 call XPTdefineSnippet("Path", {}, "`path()^")
 
 
-" wrapping snippets do not need using \w as name
-call XPTdefineSnippet('"_', {'hint' : '" ... "'}, '"`wrapped^"')
-call XPTdefineSnippet("'_", {'hint' : "' ... '"}, "'`wrapped^'")
-call XPTdefineSnippet("<_", {'hint' : '< ... >'}, '<`wrapped^>')
-call XPTdefineSnippet("(_", {'hint' : '( ... )'}, '(`wrapped^)')
-call XPTdefineSnippet("[_", {'hint' : '[ ... ]'}, '[`wrapped^]')
-call XPTdefineSnippet("{_", {'hint' : '{ ... }'}, '{`wrapped^}')
-call XPTdefineSnippet("`_", {'hint' : '` ... `'}, '\``wrapped^\`')
+call XPTdefineSnippet('"_', {'hint' : '" .. "', 'wrap' : 'w', 'wraponly' : 1 }, '"`w^"')
+call XPTdefineSnippet("'_", {'hint' : "' .. '", 'wrap' : 'w', 'wraponly' : 1 }, "'`w^'")
+call XPTdefineSnippet("<_", {'hint' : '< .. >', 'wrap' : 'w', 'wraponly' : 1 }, '<`w^>')
+call XPTdefineSnippet("(_", {'hint' : '( .. )', 'wrap' : 'w', 'wraponly' : 1 }, '(`w^)')
+call XPTdefineSnippet("[_", {'hint' : '[ .. ]', 'wrap' : 'w', 'wraponly' : 1 }, '[`w^]')
+call XPTdefineSnippet("{_", {'hint' : '{ .. }', 'wrap' : 'w', 'wraponly' : 1 }, '{`w^}')
+call XPTdefineSnippet("`_", {'hint' : '` .. `', 'wrap' : 'w', 'wraponly' : 1 }, '\``w^\`')
 
 
 

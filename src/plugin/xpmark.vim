@@ -1,7 +1,8 @@
-if exists("g:__XPMARK_VIM__")
+if exists( "g:__XPMARK_VIM__" ) && g:__XPMARK_VIM__ >= XPT#ver
     finish
 endif
-let g:__XPMARK_VIM__ = 1
+let g:__XPMARK_VIM__ = XPT#ver
+
  
 
 let s:oldcpo = &cpo
@@ -52,6 +53,7 @@ let g:XPMpreferRight = 'r'
 
 augroup XPM
     au!
+    au BufEnter * call <SID>InitBuf()
     au BufEnter * call XPMcheckStatusline()
 augroup END
 
@@ -77,18 +79,19 @@ fun! XPMcheckStatusline() "{{{
     endif
 
     if &l:statusline !~ 'XPMautoUpdate' 
+
         if &l:statusline =~ '\V\^%!'
             let &l:statusline  .= '.XPMautoUpdate("statusline")' 
         else
             let &l:statusline  .= '%{XPMautoUpdate("statusline")}' 
         endif
 
-    endif 
- 
+    endif
+
 endfunction "}}} 
 
 
-fun! XPMadd( name, pos, prefer ) "{{{
+fun! XPMadd( name, pos, prefer, ... ) "{{{
 
     " @param name       mark name
     "
@@ -98,11 +101,13 @@ fun! XPMadd( name, pos, prefer ) "{{{
     "                   right-prefered. Typing on a left-prefered mark add text
     "                   after mark, before mark for right-prefered.
     "                   Default : 'l' left-prefered
+    "
+    " @param a:1        Mark name the mark to add Before.
 
     call XPMcheckStatusline()
 
     call s:log.Log( "add mark of name " . string( a:name ) . ' at ' . string( a:pos ) )
-    let d = s:bufData()
+    let d = s:BufData()
     let prefer = a:prefer == 'l' ? 0 : 1
 
     if has_key( d.marks, a:name )
@@ -111,7 +116,7 @@ fun! XPMadd( name, pos, prefer ) "{{{
 
     let d.marks[ a:name ] = a:pos + [ len( getline( a:pos[0] ) ), prefer ]
 
-    call d.addMarkOrder( a:name )
+    call d.addMarkOrder( a:name, get( a:000, 0, 0 ) )
 
 endfunction "}}}
 
@@ -120,13 +125,19 @@ fun! XPMhere( name, prefer ) "{{{
 endfunction "}}}
 
 fun! XPMremove( name ) "{{{
-    let d = s:bufData()
+    let d = s:BufData()
     call d.removeMark( a:name )
+endfunction "}}}
+
+fun! XPMremoveStartEnd( dict ) "{{{
+    let d = s:BufData()
+    call d.removeMark( a:dict.start )
+    call d.removeMark( a:dict.end )
 endfunction "}}}
 
 fun! XPMremoveMarkStartWith(prefix) "{{{
     call s:log.Log( "XPMremoveMarkStartWith prefix=" . a:prefix )
-    let d = s:bufData()
+    let d = s:BufData()
     for key in keys( d.marks )
         if key =~# '^\V' . a:prefix
             call d.removeMark( key )
@@ -136,7 +147,7 @@ endfunction "}}}
 
 fun! XPMflush() "{{{
     call s:log.Debug( "XPMflush" )
-    let d = s:bufData()
+    let d = s:BufData()
     let d.marks = {}
     let d.orderedMarks = []
     let d.changeLikelyBetween  = { 'start' : '', 'end' : '' }
@@ -146,12 +157,12 @@ endfunction "}}}
 
 fun! XPMflushWithHistory() "{{{
     call XPMflush()
-    let d = s:bufData()
+    let d = s:BufData()
     let d.markHistory = {}
 endfunction "}}}
 
 fun! XPMgoto( name ) "{{{
-    let d = s:bufData()
+    let d = s:BufData()
     if has_key( d.marks, a:name )
         let pos = d.marks[ a:name ][ : 1 ]
         call cursor( pos )
@@ -159,39 +170,59 @@ fun! XPMgoto( name ) "{{{
 endfunction "}}}
 
 fun! XPMpos( name ) "{{{
-    let d = s:bufData()
+    let d = s:BufData()
     if has_key( d.marks, a:name )
         return d.marks[ a:name ][ : 1 ]
     endif
     return [0, 0]
 endfunction "}}}
 
+fun! XPMhas( ... ) "{{{
+    let d = s:BufData()
+    for name in a:000
+        if !has_key( d.marks, name )
+            return 0
+        endif
+    endfor
+
+    return 1
+endfunction "}}}
+
 fun! XPMposStartEnd( dict ) "{{{
-    let d = s:bufData()
+    let d = s:BufData()
     return [ has_key( d.marks, a:dict.start ) ? d.marks[ a:dict.start ][0:1] : [0, 0],
           \  has_key( d.marks, a:dict.end   ) ? d.marks[ a:dict.end   ][0:1] : [0, 0], ]
 endfunction "}}}
 
-fun! XPMposList( ... )
-    let d = s:bufData()
+fun! XPMposList( ... ) "{{{
+    let d = b:_xpmark
     let list = []
 
     for name in a:000
-        if has_key( d.marks, name )
-            call add( list, d.marks[ name ][ : 1 ] )
-        else
-            call add( list, [0, 0] )
-        endif
+        call add( list, get( d.marks, name, [0, 0] )[ 0:1 ] )
+
     endfor
 
     return list
-endfunction
+endfunction "}}}
+
+fun! XPMmarkAfter( pos ) "{{{
+    let d = b:_xpmark
+
+    for name in d.orderedMarks
+        if d.marks[ name ][ 0 ] >= a:pos[ 0 ] && d.marks[ name ][ 1 ] >= a:pos[ 1 ]
+            return { 'name' : name, 'pos' : copy( d.marks[ name ] ) }
+        endif
+    endfor
+
+    return 0
+endfunction "}}}
 
 
 
 
 fun! XPMsetLikelyBetween( start, end ) "{{{
-    let d = s:bufData()
+    let d = s:BufData()
     call s:log.Debug( 'parameters : ' . a:start . ' ' . a:end )
     Assert has_key( d.marks, a:start )
     Assert has_key( d.marks, a:end )
@@ -204,7 +235,7 @@ fun! XPMsetUpdateStrategy( mode ) "{{{
     " 'insertMode'	: update only when action taken in insert mode
     " 'normalMode'	: update when action taken in normal mode, just leaving
     "                     normal mode, or just entering normal mode.
-    let d = s:bufData()
+    let d = s:BufData()
     if a:mode == 'manual'
         " manual mode
         let d.updateStrategy = a:mode
@@ -222,7 +253,7 @@ fun! XPMsetUpdateStrategy( mode ) "{{{
 endfunction "}}}
 
 fun! XPMupdateSpecificChangedRange(start, end) " {{{
-    let d = s:bufData()
+    let d = s:BufData()
 
     let nr = changenr()
 
@@ -248,7 +279,7 @@ fun! XPMautoUpdate(msg) "{{{
 
 
     " TODO not complete strategy
-    let d = s:bufData()
+    let d = s:BufData()
     let isInsertMode = (d.lastMode == 'i' && mode() == 'i')
     if d.updateStrategy == 'manual' 
                 \ || d.updateStrategy == 'normalMode' && isInsertMode
@@ -267,7 +298,7 @@ fun! XPMupdate(...) " {{{
         return ''
     endif
 
-    let d = s:bufData()
+    let d = s:BufData()
 
     let needUpdate = d.isUpdateNeeded()
 
@@ -306,7 +337,7 @@ endfunction "}}}
 fun! XPMupdateStat() "{{{
     call s:log.Log( " --------step--------- " )
 
-    let d = s:bufData()
+    let d = s:BufData()
 
     call d.saveCurrentStat()
 
@@ -316,7 +347,7 @@ endfunction "}}}
 fun! XPMupdateCursorStat(...) "{{{
     call s:log.Log( " --------step--------- " )
 
-    let d = s:bufData()
+    let d = s:BufData()
 
     call d.saveCurrentCursorStat()
 
@@ -329,7 +360,7 @@ fun! XPMsetBufSortFunction( funcRef ) "{{{
 endfunction "}}}
 
 fun! XPMallMark() "{{{
-    let d = s:bufData()
+    let d = s:BufData()
 
     let msg = ''
     " for name in sort( keys( d.marks ) )
@@ -450,10 +481,6 @@ fun! s:ToChangeNr( nr ) dict "{{{
         let self.orderedMarks = self.markHistory[ a:nr ].list
         let self.changeLikelyBetween = self.markHistory[ a:nr ].likely
 
-        " if !has_key( self.marks, self.changeLikelyBetween.start )
-              " \ || !has_key( self.marks, self.changeLikelyBetween.end )
-            " let self.changeLikelyBetween = { 'start' : '', 'end' : '' }
-        " endif
     else
         call s:log.Info( "No " . a:nr . ' in markHistory, create new mark set' )
         let self.marks = {}
@@ -500,6 +527,8 @@ fun! s:insertModeUpdate() dict "{{{
     call s:log.Log( 'totalLine=' . stat.totalLine )
     call s:log.Log( 'lastPos=' . string( lastPos ) )
     call s:log.Log( 'bLastPos=' . string( bLastPos ) )
+
+    " TODO deal <cr> caused re-indent
 
     " TODO deal with <C-j>, <C-k>
     if bLastPos[0] * 10000 + bLastPos[1] >= lastPos[0] * 10000 + lastPos[1]
@@ -753,7 +782,8 @@ fun! s:updateWithNewChangeRange( changeStart, changeEnd ) dict "{{{
         let j += len2 - len
         call self.updateMarksAfter( [j, len2], a:changeStart, a:changeEnd )
 
-        return g:XPM_RET.likely_matched
+        " return g:XPM_RET.likely_matched
+        return [ self.orderedMarks[ likelyIndexes[ 0 ] ], self.orderedMarks[ likelyIndexes[ 1 ] ] ]
     endif
 
 
@@ -845,7 +875,7 @@ fun! s:updateMarksAfter( indexRange, changeStart, changeEnd ) dict "{{{
             let self.marks[ name ] = [ a:changeEnd[0], bMark[1] + lineLengthCE, lineLengthCE, mark[3] ]
 
         else
-            call s:log.Error( 'mark should be After changes, but it is before them:' . string( [ bMark, bChangeEnd ] ))
+            call s:log.Error( 'mark should be after changes, but it is before them:' . string( [ bMark, bChangeEnd ] ))
 
         endif
 
@@ -947,7 +977,7 @@ endfunction "}}}
 
 " XXX 
 fun! XPMupdateWithMarkRangeChanging( startMark, endMark, changeStart, changeEnd ) "{{{
-    let d = s:bufData()
+    let d = s:BufData()
 
     call d.initCurrentStat()
     " if d.handleUndoRedo()
@@ -997,7 +1027,7 @@ fun! XPMupdateWithMarkRangeChanging( startMark, endMark, changeStart, changeEnd 
 endfunction "}}}
 
 
-fun! s:findLikelyRange(changeStart, bChangeEnd) dict "{{{
+fun! s:findLikelyRange2(changeStart, bChangeEnd) dict "{{{
     if self.changeLikelyBetween.start == ''
           \ || self.changeLikelyBetween.end == ''
         call s:log.Log( 'no likely marks set' )
@@ -1028,6 +1058,7 @@ fun! s:findLikelyRange(changeStart, bChangeEnd) dict "{{{
     call s:log.Log( 'likely range=' . string( [ likelyStart, likelyEnd, bLikelyEnd ] ) )
     call s:log.Log( 'change range=' . string( [ a:changeStart, a:bChangeEnd ] ) )
 
+
     if nChangeStart >= nLikelyStart && nbChangeEnd <= nbLikelyEnd
         call s:log.Log( 'change happened between the intent marks' )
 
@@ -1050,6 +1081,86 @@ fun! s:findLikelyRange(changeStart, bChangeEnd) dict "{{{
         return [ -1, -1 ]
 
     endif
+
+endfunction "}}}
+
+fun! s:findLikelyRange(changeStart, bChangeEnd) dict "{{{
+
+    if self.changeLikelyBetween.start == ''
+          \ || self.changeLikelyBetween.end == ''
+        call s:log.Log( 'no likely marks set' )
+        return [ -1, -1 ]
+
+    elseif !has_key( self.marks, self.changeLikelyBetween.start )
+          \ || !has_key( self.marks, self.changeLikelyBetween.end )
+
+        call s:log.Log( 'likely mark are lost' )
+        return [ -1, -1 ]
+
+    endif
+
+
+    let nChangeStart = a:changeStart[0] * 10000 + a:changeStart[1]
+    let nbChangeEnd = a:bChangeEnd[0] * 10000 + a:bChangeEnd[1]
+
+
+    let iLikelyStart = -1
+    let iLikelyEnd   = -1
+
+    let [i, len] = [0, len( self.orderedMarks )]
+
+    while i < len
+        if self.orderedMarks[ i ] == self.changeLikelyBetween.start
+            let iLikelyStart = i
+        elseif self.orderedMarks[ i ] == self.changeLikelyBetween.end
+            let iLikelyEnd = i
+            break
+        endif
+
+        let i += 1
+    endwhile
+
+    if iLikelyStart == -1 || iLikelyEnd == -1
+        return [ -1, -1 ]
+    endif
+
+
+    while iLikelyStart >= 0
+        let likelyStart = self.marks[ self.orderedMarks[ iLikelyStart ] ]
+        let nLikelyStart = likelyStart[0] * 10000 + likelyStart[1]
+
+        if nChangeStart >= nLikelyStart
+            break
+        endif
+
+        let iLikelyStart -= 1
+    endwhile
+
+    if iLikelyStart == -1
+        " TODO return one pos if found
+        return [ -1, -1 ]
+    endif
+
+    while iLikelyEnd < len( self.orderedMarks )
+        let likelyEnd = self.marks[ self.orderedMarks[ iLikelyEnd ] ]
+        let bLikelyEnd = [ likelyEnd[0] - self.lastTotalLine,
+              \ likelyEnd[1] - likelyEnd[2] ]
+
+        let nbLikelyEnd = bLikelyEnd[0] * 10000 + bLikelyEnd[1]
+
+        if nbChangeEnd <= nbLikelyEnd
+            break
+        endif
+
+        let iLikelyEnd += 1
+    endwhile
+
+    if iLikelyEnd == len( self.orderedMarks )
+        return [ -1, -1 ]
+    endif
+
+
+    return [ iLikelyStart, iLikelyEnd ]
 
 endfunction "}}}
 
@@ -1110,7 +1221,8 @@ fun! s:removeMark(name) dict "{{{
     call remove( self.marks, a:name )
 endfunction "}}}
 
-fun! s:addMarkOrder( name ) dict "{{{
+" TODO simplify
+fun! s:addMarkOrder( name, beforeWhich ) dict "{{{
 
     call s:log.Log( 'likely mark is:' . string( self.changeLikelyBetween ) )
     let markToAdd = self.marks[ a:name ]
@@ -1119,24 +1231,39 @@ fun! s:addMarkOrder( name ) dict "{{{
 
     let i = -1
     for n in self.orderedMarks
+
         let i += 1
         let mark = self.marks[ n ]
         let nMark = mark[0] * 10000 + mark[1]
+
         call s:log.Debug( 'nMark=' . nMark, 'nPos=' . nPos )
+
+
         if nMark == nPos
-            let cmp = self.compare( a:name, n )
-            if cmp == 0
-                throw 'XPM : overlapped mark:' . a:name . '=' . string(markToAdd) . ' and ' . n . '=' . string( mark ) 
 
-            elseif cmp > 0
-                continue
-
-            else
-                " cmp < 0 
+            " TODO too bad
+            if a:beforeWhich isnot 0 && n =~ a:beforeWhich
 
                 call insert( self.orderedMarks, a:name, i )
                 return
 
+            else
+
+                let cmp = self.compare( a:name, n )
+
+                if cmp == 0
+                    throw 'XPM : overlapped mark:' . a:name . '=' . string(markToAdd) . ' and ' . n . '=' . string( mark ) 
+
+                elseif cmp > 0
+                    continue
+
+                else
+                    " cmp < 0 
+
+                    call insert( self.orderedMarks, a:name, i )
+                    return
+
+                endif
             endif
 
 
@@ -1196,17 +1323,17 @@ let s:prototype =  s:ClassPrototype(
 fun! s:initBufData() "{{{
     let nr = changenr()
     let b:_xpmark = { 
-                \ 'updateStrategy'       : 'auto', 
+                \ 'updateStrategy'       : 'auto',
                 \ 'stat'                 : {},
                 \ 'orderedMarks'         : [],
                 \ 'marks'                : {},
-                \ 'markHistory'          : {}, 
+                \ 'markHistory'          : {},
                 \ 'changeLikelyBetween'  : { 'start' : '', 'end' : '' }, 
                 \ 'lastMode'             : 'n',
                 \ 'lastPositionAndLength': [ line( '.' ), col( '.' ), len( getline( '.' ) ) ],
                 \ 'lastTotalLine'        : line( '$' ),
                 \ 'lastChangenr'         : nr,
-                \ 'changenrRange'        : [nr, nr], 
+                \ 'changenrRange'        : [nr, nr],
                 \ }
 
     let b:_xpmark.markHistory[ nr ] = { 'dict' : b:_xpmark.marks, 'list' : b:_xpmark.orderedMarks, 'likely' : b:_xpmark.changeLikelyBetween }
@@ -1223,13 +1350,36 @@ fun! s:initBufData() "{{{
     endif
 endfunction "}}}
 
-fun! s:bufData() "{{{
+fun! s:BufData() "{{{
     if !exists('b:_xpmark')
         call s:initBufData()
     endif
 
     return b:_xpmark
 endfunction "}}}
+
+
+fun! s:InitBuf() "{{{
+
+    if !exists('b:_xpmark')
+        call s:initBufData()
+    endif
+
+
+    if !exists( 'b:_xpm_redefined' )
+
+        " redefine it
+        fun! s:BufData() "{{{
+            return b:_xpmark
+        endfunction "}}}
+
+        let b:_xpm_redefined = 1
+
+    endif
+
+
+endfunction "}}}
+
 
 fun! s:defaultCompare(d, markA, markB) "{{{
     let [ ma, mb ] = [ a:d.marks[ a:markA ], a:d.marks[ a:markB ] ]
@@ -1270,7 +1420,7 @@ let &rulerformat .= '%{XPMautoUpdate("ruler")}'
 
 " for test "{{{
 fun! PrintDebug()
-    let d = s:bufData()
+    let d = s:BufData()
 
     let debugString  = changenr()
     let debugString .= ' p:' . string( getpos( "'" . g:xpm_mark )[ 1 : 2 ] )

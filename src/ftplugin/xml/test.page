@@ -2,57 +2,57 @@
 
 
     <!--  -------------"_--------------- -->
-    <!-- "`wrapped^"                     -->
+    <!-- "`w^"                           -->
 
 
 
-"    WRAPPED_TEXT
-    WRAPPED_TEXT_line2"
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
-    "WRAPPED_TEXT
-    WRAPPED_TEXT_line2"b
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
 
-    a "WRAPPED_TEXT
-    WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
-    a "WRAPPED_TEXT
-    WRAPPED_TEXT_line2"
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
 
     <!--  -------------'_--------------- -->
-    <!-- '`wrapped^'                     -->
+    <!-- '`w^'                           -->
 
 
 
-'    WRAPPED_TEXT
-    WRAPPED_TEXT_line2'
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
-    'WRAPPED_TEXT
-    WRAPPED_TEXT_line2'b
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
 
-    a 'WRAPPED_TEXT
-    WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
-    a 'WRAPPED_TEXT
-    WRAPPED_TEXT_line2'
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
 
     <!--  -------------(_--------------- -->
-    <!-- (`wrapped^)                     -->
+    <!-- (`w^)                           -->
 
 
 
-(    WRAPPED_TEXT
-    WRAPPED_TEXT_line2)
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
-    (WRAPPED_TEXT
-    WRAPPED_TEXT_line2)b
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
 
-    a (WRAPPED_TEXT
-    WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
-    a (WRAPPED_TEXT
-    WRAPPED_TEXT_line2)
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
 
     <!--  -------------<--------------- -->
@@ -60,67 +60,67 @@
 
 
 
-<tag>content</tag>
+<tag >content</tag>
 
-<tag_TYPED x_TYPED>content_TYPED</tag_TYPED> b
+<tag_TYPED _TYPED>content_TYPED</tag_TYPED> b
 
-a <tag>content</tag> b
+`<tag >content</tag>^
 
-a <tag>content</tag>
-
-
-    <!--  -------------<_---------------                             -->
-    <!-- <`tag^` `...{{^ `name^="`val^"` `...^`}}^>`wrapped^</`tag^> -->
+a <tag >content</tag>
 
 
+    <!--  -------------<_--------------- -->
+    <!-- <`w^>                           -->
 
-<tag name="val" name="val" name="val">WRAPPED_TEXT
-WRAPPED_TEXT_line2</tag>
 
-<tag_TYPED _TYPED>WRAPPED_TEXT
-WRAPPED_TEXT_line2</tag_TYPED>b
 
-a <tag name="val" name="val" name="val">WRAPPED_TEXT
-WRAPPED_TEXT_line2</tag>b
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
 
-a <tag name="val" name="val" name="val">WRAPPED_TEXT
-WRAPPED_TEXT_line2</tag>
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
 
 
     <!--  -------------[_--------------- -->
-    <!-- [`wrapped^]                     -->
+    <!-- [`w^]                           -->
 
 
 
-[    WRAPPED_TEXT
-    WRAPPED_TEXT_line2]
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
 
-    [WRAPPED_TEXT
-    WRAPPED_TEXT_line2]b
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
 
-    a [WRAPPED_TEXT
-    WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
-    a [WRAPPED_TEXT
-    WRAPPED_TEXT_line2]
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
 
 
     <!--  -------------`_--------------- -->
-    <!-- \``wrapped^\`                   -->
+    <!-- \``w^\`                         -->
 
 
 
-`    WRAPPED_TEXT
-    WRAPPED_TEXT_line2`
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
-    `WRAPPED_TEXT
-    WRAPPED_TEXT_line2`b
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
 
-    a `WRAPPED_TEXT
-    WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
-    a `WRAPPED_TEXT
-    WRAPPED_TEXT_line2`
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
 
     <!--  -------------Author--------------- -->
@@ -132,7 +132,7 @@ WRAPPED_TEXT_line2</tag>
 
     drdr.xp b
 
-    a drdr.xp b
+    `drdr.xp^
 
     a drdr.xp
 
@@ -142,199 +142,104 @@ WRAPPED_TEXT_line2</tag>
 
 
 
-    <![CDATA[]]>
+<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>
 
-    <![CDATA[]]> b
+<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]> b
 
-    a <![CDATA[]]> b
+`<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>^
 
-    a <![CDATA[]]>
-
-
-    <!--  -------------cdata_--------------- -->
-    <!-- <![CDATA[`wrapped^]]>               -->
-
-
-
-<![CDATA[    WRAPPED_TEXT
-    WRAPPED_TEXT_line2]]>
-
-    <![CDATA[WRAPPED_TEXT
-    WRAPPED_TEXT_line2]]>b
-
-    a <![CDATA[WRAPPED_TEXT
-    WRAPPED_TEXT_line2]]>b
-
-    a <![CDATA[WRAPPED_TEXT
-    WRAPPED_TEXT_line2]]>
+a <![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>
 
 
     <!--  -------------comment--------------- -->
-    <!-- `$CL^ `what^ `$CR^                   -->
+    <!-- `$CL^ `what^^ `$CR^`^                -->
 
 
 
-    <!-- what -->
+<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->
 
-    <!-- what_TYPED --> b
+<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 --> b
 
-    a <!-- what --> b
+`<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->^
 
-    a <!-- what -->
-
-
-    <!--  -------------comment_--------------- -->
-    <!-- `$CL^ `wrapped^ `$CR^                 -->
-
-
-
-<!--     WRAPPED_TEXT
-    WRAPPED_TEXT_line2 -->
-
-    <!-- WRAPPED_TEXT
-    WRAPPED_TEXT_line2 -->b
-
-    a <!-- WRAPPED_TEXT
-    WRAPPED_TEXT_line2 -->b
-
-    a <!-- WRAPPED_TEXT
-    WRAPPED_TEXT_line2 -->
+a <!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->
 
 
     <!--  -------------commentBlock--------------- -->
-    <!-- `$CL^                                     -->
-    <!--  `$CM^ `cursor^                           -->
-    <!--  `$CR^                                    -->
+    <!-- `_cmt_no_mid_left()^`$CM `cursor^         -->
+    <!-- `_cmt_mid_ind()$CR^                       -->
 
 
 
-    <!--
-      
-     -->
-
-     <!--
-       
-      --> b
-
-      a <!--
-        
-       --> b
-
-       a <!--
-         
-        -->
-
-
-    <!--  -------------commentBlock_--------------- -->
-    <!-- `$CL^                                      -->
-    <!--  `$CM^ `wrapped^                           -->
-    <!--  `$CR^                                     -->
-
-
-
-<!--
-      WRAPPED_TEXT
-      WRAPPED_TEXT_line2
- -->
-
- <!--
-   WRAPPED_TEXT
-   WRAPPED_TEXT_line2
-  -->b
-
-  a <!--
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-   -->b
-
-   a <!--
-     WRAPPED_TEXT
+<!-- WRAPPED_TEXT
      WRAPPED_TEXT_line2
+    -->
+
+<!-- WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    --> b
+
+    `<!-- WRAPPED_TEXT
+          WRAPPED_TEXT_line2
+        -->^
+
+a <!-- WRAPPED_TEXT
+       WRAPPED_TEXT_line2
     -->
 
 
     <!--  -------------commentDoc--------------- -->
     <!-- `$CL^`$CM^                              -->
-    <!--  `$CM^ `cursor^                         -->
-    <!--  `$CR^                                  -->
-
-
-
-    <!--
-      
-     -->
-
-     <!--
-       
-      --> b
-
-      a <!--
-        
-       --> b
-
-       a <!--
-         
-        -->
-
-
-    <!--  -------------commentDoc_--------------- -->
-    <!-- `$CL^`$CM^                               -->
-    <!--  `$CM^ `wrapped^                         -->
-    <!--  `$CR^                                   -->
+    <!-- `_cmt_mid_ind()$CM `cursor^             -->
+    <!-- `_cmt_mid_ind()$CR^                     -->
 
 
 
 <!--
-      WRAPPED_TEXT
-      WRAPPED_TEXT_line2
- -->
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
 
- <!--
-   WRAPPED_TEXT
-   WRAPPED_TEXT_line2
-  -->b
+<!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    --> b
 
-  a <!--
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-   -->b
+    `<!--
+         WRAPPED_TEXT
+         WRAPPED_TEXT_line2
+        -->^
 
-   a <!--
+a <!--
      WRAPPED_TEXT
      WRAPPED_TEXT_line2
     -->
 
 
     <!--  -------------commentLine--------------- -->
-    <!-- `$CL^ `what^ `$CR^                       -->
+    <!-- `$CL `what` $CR^`^                       -->
 
 
 
-    <!-- what -->
+<!-- WRAPPED_TEXT -->
+<!-- WRAPPED_TEXT_line2 -->
 
-    <!-- what_TYPED --> b
+<!-- WRAPPED_TEXT -->
+<!-- WRAPPED_TEXT_line2 --> b
 
-    a <!-- what --> b
+`<!-- WRAPPED_TEXT -->
+ <!-- WRAPPED_TEXT_line2 -->^
 
-    a <!-- what -->
-
-
-    <!--  -------------commentLine_--------------- -->
-    <!-- `$CL^ `wrapped^ `$CR^                     -->
-
-
-
-<!--     WRAPPED_TEXT
-    WRAPPED_TEXT_line2 -->
-
-    <!-- WRAPPED_TEXT
-    WRAPPED_TEXT_line2 -->b
-
-    a <!-- WRAPPED_TEXT
-    WRAPPED_TEXT_line2 -->b
-
-    a <!-- WRAPPED_TEXT
-    WRAPPED_TEXT_line2 -->
+ a <!-- WRAPPED_TEXT -->
+   <!-- WRAPPED_TEXT_line2 -->
 
 
     <!--  -------------Email--------------- -->
@@ -346,7 +251,7 @@ WRAPPED_TEXT_line2</tag>
 
     drdr.xp@gmail.com b
 
-    a drdr.xp@gmail.com b
+    `drdr.xp@gmail.com^
 
     a drdr.xp@gmail.com
 
@@ -360,7 +265,7 @@ WRAPPED_TEXT_line2</tag>
 
     test.page b
 
-    a test.page b
+    `test.page^
 
     a test.page
 
@@ -374,7 +279,7 @@ WRAPPED_TEXT_line2</tag>
 
     <?xml-stylesheet type="style_TYPED" href="from_TYPED"> b
 
-    a <?xml-stylesheet type="text/css" href="from"> b
+    `<?xml-stylesheet type="text/css" href="from">^
 
     a <?xml-stylesheet type="text/css" href="from">
 
@@ -388,25 +293,25 @@ WRAPPED_TEXT_line2</tag>
 
     <?xml version="ver_TYPED" encoding="enc_TYPED" ?> b
 
-    a <?xml version="1.0" encoding="utf-8" ?> b
+    `<?xml version="1.0" encoding="utf-8" ?>^
 
     a <?xml version="1.0" encoding="utf-8" ?>
 
 
     <!--  -------------{_--------------- -->
-    <!-- {`wrapped^}                     -->
+    <!-- {`w^}                           -->
 
 
 
-{    WRAPPED_TEXT
-    WRAPPED_TEXT_line2}
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 
-    {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}b
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
 
-    a {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
-    a {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 

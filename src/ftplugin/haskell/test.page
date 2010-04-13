@@ -2,7 +2,7 @@
 
 
     --   -------------"_--------------- 
-    --  "`wrapped^"                     
+    --  "`w^"                           
 
 
 
@@ -10,10 +10,10 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
@@ -27,177 +27,80 @@ WRAPPED_TEXT_line2"
 
 
 #if 0
-
-#endif
-
-    #if 0_TYPED
-    
-    #endif b
-
-    a #if 0
-    
-    #endif b
-
-    a #if 0
-    
-    #endif
-
-
-    --   -------------#if_--------------- 
-    --  #if `0^                           
-    --  `wrapped^                         
-    --  `cursor^                          
-    --  #endif                            
-
-
-
-#if 0
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-
 #endif
 
 #if 0_TYPED
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
+#endif b
 
-#endifb
+`#if 0
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif^
 
 a #if 0
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-
-#endifb
-
-a #if 0
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
 #endif
 
 
     --   -------------#ifdef--------------- 
-    --  #ifdef `identifier^                 
+    --  #ifdef `symbol^                     
     --  `cursor^                            
-    --  #endif                              
+    --  #endif `$CL^ `symbol^ `$CR^         
 
 
 
-#ifdef identifier
-
-#endif
-
-    #ifdef identifier_TYPED
-    
-    #endif b
-
-    a #ifdef identifier
-    
-    #endif b
-
-    a #ifdef identifier
-    
-    #endif
-
-
-    --   -------------#ifdef_--------------- 
-    --  #ifdef `identifier^                  
-    --  `wrapped^                            
-    --  `cursor^                             
-    --  #endif                               
-
-
-
-#ifdef identifier
+#ifdef SYMBOL
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
+#endif $CL SYMBOL $CR
 
-#endif
-
-#ifdef identifier_TYPED
+#ifdef SYMBOL_TYPED
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
+#endif $CL SYMBOL_TYPED $CR b
 
-#endifb
-
-a #ifdef identifier
+`#ifdef SYMBOL
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
+#endif $CL SYMBOL $CR^
 
-#endifb
-
-a #ifdef identifier
+a #ifdef SYMBOL
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-
-#endif
+#endif $CL SYMBOL $CR
 
 
     --   -------------#ifndef--------------- 
     --  #ifndef `symbol^                     
-    --  #     define `symbol^                
-    --                                       
     --  `cursor^                             
     --  #endif `$CL^ `symbol^ `$CR^          
 
 
 
-#ifndef TEST
-#     define TEST
-
-
-#endif  TEST 
-
-    #ifndef SYMBOL_TYPED
-    #     define SYMBOL_TYPED
-    
-    
-    #endif  SYMBOL_TYPED  b
-
-    a #ifndef TEST
-    #     define TEST
-    
-    
-    #endif  TEST  b
-
-    a #ifndef TEST
-    #     define TEST
-    
-    
-    #endif  TEST 
-
-
-    --   -------------#ifndef_--------------- 
-    --  #ifndef `identifier^                  
-    --  `wrapped^                             
-    --  `cursor^                              
-    --  #endif                                
-
-
-
-#ifndef identifier
+#ifndef SYMBOL
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
+#endif $CL SYMBOL $CR
 
-#endif
-
-#ifndef identifier_TYPED
+#ifndef SYMBOL_TYPED
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
+#endif $CL SYMBOL_TYPED $CR b
 
-#endifb
-
-a #ifndef identifier
+`#ifndef SYMBOL
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
+#endif $CL SYMBOL $CR^
 
-#endifb
-
-a #ifndef identifier
+a #ifndef SYMBOL
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-
-#endif
+#endif $CL SYMBOL $CR
 
 
     --   -------------#inc--------------- 
@@ -209,7 +112,7 @@ WRAPPED_TEXT_line2
 
     #include <_TYPED.h> b
 
-    a #include <.h> b
+    `#include <.h>^
 
     a #include <.h>
 
@@ -223,7 +126,7 @@ WRAPPED_TEXT_line2
 
     #include "me_TYPED.h" b
 
-    a #include "test.h" b
+    `#include "test.h"^
 
     a #include "test.h"
 
@@ -237,13 +140,13 @@ WRAPPED_TEXT_line2
 
     #include "me_TYPED.h" b
 
-    a #include "test.h" b
+    `#include "test.h"^
 
     a #include "test.h"
 
 
     --   -------------'_--------------- 
-    --  '`wrapped^'                     
+    --  '`w^'                           
 
 
 
@@ -251,17 +154,17 @@ WRAPPED_TEXT_line2
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     --   -------------(_--------------- 
-    --  (`wrapped^)                     
+    --  (`w^)                           
 
 
 
@@ -269,17 +172,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     --   -------------<_--------------- 
-    --  <`wrapped^>                     
+    --  <`w^>                           
 
 
 
@@ -287,17 +190,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     --   -------------[_--------------- 
-    --  [`wrapped^]                     
+    --  [`w^]                           
 
 
 
@@ -305,17 +208,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     --   -------------`_--------------- 
-    --  \``wrapped^\`                   
+    --  \``w^\`                         
 
 
 
@@ -323,10 +226,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -341,7 +244,7 @@ WRAPPED_TEXT_line2`
 
     drdr.xp b
 
-    a drdr.xp b
+    `drdr.xp^
 
     a drdr.xp
 
@@ -364,17 +267,17 @@ WRAPPED_TEXT_line2`
             ar_TYPED :: type_TYPED _TYPED
          b
 
+         `class (ctxt) => className a where
+             ar :: type 
+             methodName :: methodType
+             methodName :: methodType
+         ^
+
          a class (ctxt) => className a where
              ar :: type 
              methodName :: methodType
              methodName :: methodType
-          b
-
-          a class (ctxt) => className a where
-              ar :: type 
-              methodName :: methodType
-              methodName :: methodType
-          
+         
 
 
     --   -------------classcom---------------                           
@@ -404,6 +307,16 @@ WRAPPED_TEXT_line2`
             ar_TYPED :: type_TYPED _TYPED
          b
 
+         `-- | classDescr
+         class (ctxt) => className a where
+             -- | methodDescr
+             ar :: type 
+             -- | method_Descr
+             methodName :: methodType
+             -- | method_Descr
+             methodName :: methodType
+         ^
+
          a -- | classDescr
          class (ctxt) => className a where
              -- | methodDescr
@@ -412,45 +325,7 @@ WRAPPED_TEXT_line2`
              methodName :: methodType
              -- | method_Descr
              methodName :: methodType
-          b
-
-          a -- | classDescr
-          class (ctxt) => className a where
-              -- | methodDescr
-              ar :: type 
-              -- | method_Descr
-              methodName :: methodType
-              -- | method_Descr
-              methodName :: methodType
-          
-
-
-    --   -------------cmt_--------------- 
-    --  {-                                
-    --  `wrapped~                         
-    --  -}                                
-
-
-
-{-
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
--}
-
-{-
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
--}b
-
-a {-
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
--}b
-
-a {-
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
--}
+         
 
 
     --   -------------datarecord---------------                      
@@ -478,10 +353,19 @@ WRAPPED_TEXT_line2
     data context_TYPEDtypename_TYPEDtypeParams_TYPED=
         Constructor_TYPED {
             field_TYPED :: type_TYPED
-            _TYPED
+                _TYPED
         }
         deriving_TYPED
      b
+
+     `data (ctxt) => typename =
+         Constructor {
+             field :: type,
+             fieldn :: typen,
+             fieldn :: typen
+         }
+         deriving (Eq, Show)
+     ^
 
      a data (ctxt) => typename =
          Constructor {
@@ -490,16 +374,7 @@ WRAPPED_TEXT_line2
              fieldn :: typen
          }
          deriving (Eq, Show)
-      b
-
-      a data (ctxt) => typename =
-          Constructor {
-              field :: type,
-              fieldn :: typen,
-              fieldn :: typen
-          }
-          deriving (Eq, Show)
-      
+     
 
 
     --   -------------datarecordcom---------------                   
@@ -530,10 +405,20 @@ WRAPPED_TEXT_line2
     data context_TYPEDtypename_TYPEDtypeParams_TYPED=
         Constructor_TYPED {
             field_TYPED :: type_TYPED -- ^ fieldDescr_TYPED
-            _TYPED
+                _TYPED
         }
         deriving_TYPED
      b
+
+     `-- | typeDescr
+     data (ctxt) => typename =
+         Constructor {
+             field :: type -- ^ fieldDescr,
+             fieldn :: typen -- ^ fielddescr,
+             fieldn :: typen -- ^ fielddescr
+         }
+         deriving (Eq,Show)
+     ^
 
      a -- | typeDescr
      data (ctxt) => typename =
@@ -543,17 +428,7 @@ WRAPPED_TEXT_line2
              fieldn :: typen -- ^ fielddescr
          }
          deriving (Eq,Show)
-      b
-
-      a -- | typeDescr
-      data (ctxt) => typename =
-          Constructor {
-              field :: type -- ^ fieldDescr,
-              fieldn :: typen -- ^ fielddescr,
-              fieldn :: typen -- ^ fielddescr
-          }
-          deriving (Eq,Show)
-      
+     
 
 
     --   -------------datasum---------------                         
@@ -578,9 +453,18 @@ WRAPPED_TEXT_line2
 
     data context_TYPEDtypename_TYPEDtypeParams_TYPED=
         Constructor_TYPED ctorParams_TYPED
-      _TYPED
+          _TYPED
         deriving_TYPED
      b
+
+     `data (ctxt) => typename =
+         Constructor 
+         | Ctor 
+         
+         | Ctor 
+         
+         deriving (Eq,Show)
+     ^
 
      a data (ctxt) => typename =
          Constructor 
@@ -589,16 +473,7 @@ WRAPPED_TEXT_line2
          | Ctor 
          
          deriving (Eq,Show)
-      b
-
-      a data (ctxt) => typename =
-          Constructor 
-          | Ctor 
-          
-          | Ctor 
-          
-          deriving (Eq,Show)
-      
+     
 
 
     --   -------------datasumcom---------------                        
@@ -630,9 +505,20 @@ WRAPPED_TEXT_line2
     data context_TYPEDtypename_TYPED typeParams_TYPED=
         -- | ConstructorDescr_TYPED
         Constructor_TYPED ctorParams_TYPED
-        _TYPED
+            _TYPED
         deriving_TYPED
      b
+
+     `-- | 
+     data (ctxt) => typename  =
+         -- | ConstructorDescr
+         Constructor 
+         -- | 
+         | Ctor 
+         -- | 
+         | Ctor 
+         deriving (Eq,Show)
+     ^
 
      a -- | 
      data (ctxt) => typename  =
@@ -643,18 +529,7 @@ WRAPPED_TEXT_line2
          -- | 
          | Ctor 
          deriving (Eq,Show)
-      b
-
-      a -- | 
-      data (ctxt) => typename  =
-          -- | ConstructorDescr
-          Constructor 
-          -- | 
-          | Ctor 
-          -- | 
-          | Ctor 
-          deriving (Eq,Show)
-      
+     
 
 
     --   -------------deriving---------------        
@@ -666,7 +541,7 @@ WRAPPED_TEXT_line2
 
     deriving (classname_TYPED_TYPED) b
 
-    a deriving (classname,classname,classname,classname) b
+    `deriving (classname,classname,classname,classname)^
 
     a deriving (classname,classname,classname,classname)
 
@@ -680,7 +555,7 @@ WRAPPED_TEXT_line2
 
     deriving instance context_TYPEDclass_TYPED type b
 
-    a deriving instance ctxt => class type b
+    `deriving instance ctxt => class type^
 
     a deriving instance ctxt => class type
 
@@ -694,7 +569,7 @@ WRAPPED_TEXT_line2
 
     drdr.xp@gmail.com b
 
-    a drdr.xp@gmail.com b
+    `drdr.xp@gmail.com^
 
     a drdr.xp@gmail.com
 
@@ -708,7 +583,7 @@ WRAPPED_TEXT_line2
 
     test.page b
 
-    a test.page b
+    `test.page^
 
     a test.page
 
@@ -727,17 +602,17 @@ WRAPPED_TEXT_line2
     funName pattern = def
 
     funName_TYPED pattern_TYPED = def_TYPED
-    _TYPED b
+        _TYPED b
 
-    a funName pattern = def
-    funName pattern = def
-    funName pattern = def
-    funName pattern = def b
+        `funName pattern = def
+        funName pattern = def
+        funName pattern = def
+        funName pattern = def^
 
-    a funName pattern = def
-    funName pattern = def
-    funName pattern = def
-    funName pattern = def
+        a funName pattern = def
+        funName pattern = def
+        funName pattern = def
+        funName pattern = def
 
 
     --   -------------funcom---------------    
@@ -760,21 +635,21 @@ WRAPPED_TEXT_line2
     -- | function_description_TYPED
     funName_TYPED :: type_TYPED
     name_TYPED pattern_TYPED = def_TYPED
-    _TYPED b
+        _TYPED b
 
-    a -- | function_description
-    funName :: type
-    funName pattern = def
-    funName pattern = def
-    funName pattern = def
-    funName pattern = def b
+        `-- | function_description
+        funName :: type
+        funName pattern = def
+        funName pattern = def
+        funName pattern = def
+        funName pattern = def^
 
-    a -- | function_description
-    funName :: type
-    funName pattern = def
-    funName pattern = def
-    funName pattern = def
-    funName pattern = def
+        a -- | function_description
+        funName :: type
+        funName pattern = def
+        funName pattern = def
+        funName pattern = def
+        funName pattern = def
 
 
     --   -------------funtype--------------- 
@@ -792,17 +667,17 @@ WRAPPED_TEXT_line2
             -> type -- ^ is
 
             funName_TYPED :: context_TYPED type_TYPED -- ^ is_TYPED
-                    _TYPED b
+                        _TYPED b
 
-                    a funName :: (ctxt)
-                            => type -- ^ is
-                            -> type -- ^ is
-                            -> type -- ^ is b
+                        `funName :: (ctxt)
+                                => type -- ^ is
+                                -> type -- ^ is
+                                -> type -- ^ is^
 
-                            a funName :: (ctxt)
-                                    => type -- ^ is
-                                    -> type -- ^ is
-                                    -> type -- ^ is
+                                a funName :: (ctxt)
+                                        => type -- ^ is
+                                        -> type -- ^ is
+                                        -> type -- ^ is
 
 
     --   -------------head---------------                  
@@ -820,9 +695,9 @@ WRAPPED_TEXT_line2
     ----            headName_TYPED
     -------------------------------------------------- b
     --
-    a --------------------------------------------------
+    `--------------------------------------------------
     ----            headName
-    -------------------------------------------------- b
+    --------------------------------------------------^
     --
     a --------------------------------------------------
     ----            headName
@@ -844,9 +719,9 @@ WRAPPED_TEXT_line2
             then thenCode_TYPED
             else  b
 
-            a if expr
+            `if expr
                 then thenCode
-                else  b
+                else ^
 
                 a if expr
                     then thenCode
@@ -862,7 +737,7 @@ WRAPPED_TEXT_line2
 
     {-# INLINE phase_TYPEDfunName_TYPED #-} b
 
-    a {-# INLINE [2] funName #-} b
+    `{-# INLINE [2] funName #-}^
 
     a {-# INLINE [2] funName #-}
 
@@ -886,19 +761,19 @@ WRAPPED_TEXT_line2
             methodName_TYPED _TYPED = decl_TYPED _TYPED
          b
 
+         `instance className instanceTypes where
+             methodName  = decl 
+             method  = declaration
+             method  = declaration
+             method  = declaration
+         ^
+
          a instance className instanceTypes where
              methodName  = decl 
              method  = declaration
              method  = declaration
              method  = declaration
-          b
-
-          a instance className instanceTypes where
-              methodName  = decl 
-              method  = declaration
-              method  = declaration
-              method  = declaration
-          
+         
 
 
     --   -------------lang--------------- 
@@ -910,7 +785,7 @@ WRAPPED_TEXT_line2
 
     {-# LANGUAGE langName_TYPED #-} b
 
-    a {-# LANGUAGE langName #-} b
+    `{-# LANGUAGE langName #-}^
 
     a {-# LANGUAGE langName #-}
 
@@ -921,15 +796,15 @@ WRAPPED_TEXT_line2
 
 
 
-    module .Media.Ext2.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
+    module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Branches.FilterValue.Src.Ftplugin.Haskell..test.Test ( 
         ) where
 
     module moduleName_TYPED exports_TYPEDwhere b
 
-    a module .Media.Ext2.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
-        ) where b
+    `module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Branches.FilterValue.Src.Ftplugin.Haskell..test.Test ( 
+        ) where^
 
-    a module .Media.Ext2.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
+    a module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Branches.FilterValue.Src.Ftplugin.Haskell..test.Test ( 
         ) where
 
 
@@ -942,7 +817,7 @@ WRAPPED_TEXT_line2
 
     {-# NOINLINE funName_TYPED #-} b
 
-    a {-# NOINLINE funName #-} b
+    `{-# NOINLINE funName #-}^
 
     a {-# NOINLINE funName #-}
 
@@ -956,29 +831,33 @@ WRAPPED_TEXT_line2
 
 
 
-    #ifndef __TEST_PAGE__
-    #     define __TEST_PAGE__
-    
-    
-    #endif  __TEST_PAGE__ 
+#ifndef __TEST_PAGE__
+#     define __TEST_PAGE__
 
-    #ifndef symbol_TYPED
-    #     define symbol_TYPED
-    
-    
-    #endif  symbol_TYPED  b
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif $CL __TEST_PAGE__ $CR
 
-    a #ifndef __TEST_PAGE__
-    #     define __TEST_PAGE__
-    
-    
-    #endif  __TEST_PAGE__  b
+#ifndef SYMBOL_TYPED
+#     define SYMBOL_TYPED
 
-    a #ifndef __TEST_PAGE__
-    #     define __TEST_PAGE__
-    
-    
-    #endif  __TEST_PAGE__ 
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif $CL SYMBOL_TYPED $CR b
+
+`#ifndef __TEST_PAGE__
+#     define __TEST_PAGE__
+
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif $CL __TEST_PAGE__ $CR^
+
+a #ifndef __TEST_PAGE__
+#     define __TEST_PAGE__
+
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif $CL __TEST_PAGE__ $CR
 
 
     --   -------------options--------------- 
@@ -990,27 +869,9 @@ WRAPPED_TEXT_line2
 
     {-# OPTIONS_GHC options_TYPED #-} b
 
-    a {-# OPTIONS_GHC options #-} b
+    `{-# OPTIONS_GHC options #-}^
 
     a {-# OPTIONS_GHC options #-}
-
-
-    --   -------------p_--------------- 
-    --  (`wrapped~)                     
-
-
-
-(WRAPPED_TEXT
-WRAPPED_TEXT_line2)
-
-(WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
-
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
-
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)
 
 
     --   -------------parser--------------- 
@@ -1033,41 +894,23 @@ WRAPPED_TEXT_line2)
     
 
             funName_TYPED = rule_TYPED
-                    another_rule_TYPED
+                                another_rule_TYPED
                     err_TYPED
              b
+
+             `funName = rule
+                     <|> rule
+                     <|> rule
+                     <|> rule
+                     <?> "descr"
+             ^
 
              a funName = rule
                      <|> rule
                      <|> rule
                      <|> rule
                      <?> "descr"
-              b
-
-              a funName = rule
-                      <|> rule
-                      <|> rule
-                      <|> rule
-                      <?> "descr"
-              
-
-
-    --   -------------str_--------------- 
-    --  "`wrapped~"                       
-
-
-
-"WRAPPED_TEXT
-WRAPPED_TEXT_line2"
-
-"WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
-
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
-
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"
+             
 
 
     --   -------------type---------------                            
@@ -1079,25 +922,25 @@ WRAPPED_TEXT_line2"
 
     context_TYPEDt1_TYPED -> t2_TYPED_TYPED b
 
-    a (ctxt) => t1 -> t2 -> t3 -> t3 b
+    `(ctxt) => t1 -> t2 -> t3 -> t3^
 
     a (ctxt) => t1 -> t2 -> t3 -> t3
 
 
     --   -------------{_--------------- 
-    --  {`wrapped^}                     
+    --  {`w^}                           
 
 
 
 {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}
+WRAPPED_TEXT_line2}
 
-    {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}b
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
 
-    a {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
-    a {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 

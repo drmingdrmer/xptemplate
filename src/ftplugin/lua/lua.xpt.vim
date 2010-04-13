@@ -41,57 +41,57 @@ XPTemplateDef
 
 
 
-XPT do hint=do\ ...\ end
+XPT do " do ... end
 do
     `cursor^
 end
 
 
-XPT fn hint=function\ \(..) .. end
+XPT fn " function \(..) .. end
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 function (`arg*^) `cursor^ end
 
 
-XPT for hint=for\ ..=..,..\ do\ ...\ end
+XPT for " for ..=..,.. do ... end
 XSET step?|post=EchoIfNoChange('')
 for `var^ = `0^, `10^`, `step?^ do
     `cursor^
 end
 
 
-XPT forin hint=for\ ..\ in\ ..\ do\ ...\ end
+XPT forin " for .. in .. do ... end
 XSET var*|post=ExpandIfNotEmpty(', ', 'var*')
 for `var*^ in `expr^ do
     `cursor^
 end
 
 
-XPT forip hint=for\ ..,..\ in\ ipairs\(..)\ do\ ...\ end
+XPT forip " for ..,.. in ipairs\(..) do ... end
 for `key^, `value^ in ipairs(`table^) do
     `cursor^
 end
 
 
-XPT forp hint=for\ ..,..\ in\ pairs\(..)\ do\ ...\ end
+XPT forp " for ..,.. in pairs\(..) do ... end
 for `key^, `value^ in pairs(`table^) do
     `cursor^
 end
 
 
-XPT fun hint=function\ ..\(..)\ ..\ end
+XPT fun " function ..\(..) .. end
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 function `name^(`arg*^)
     `cursor^
 end
 
 
-XPT if hint=if\ ..\ then\ ..\ end
+XPT if " if .. then .. end
 if `cond^ then
     `cursor^
 end
 
 
-XPT ife hint=if\ ..\ then\ ..\ else\ ..\ end
+XPT ife " if .. then .. else .. end
 XSET job=$CS job
 if `cond^ then
     `job^
@@ -100,7 +100,7 @@ else
 end
 
 
-XPT ifei hint=if\ ..\ then\ ..\ elseif\ ..\ else\ ..\ end
+XPT ifei " if .. then .. elseif .. else .. end
 XSET job=$CS job
 if `cond^ then`
     `job^
@@ -114,7 +114,7 @@ if `cond^ then`
 `}}^end
 
 
-XPT locf hint=local\ function\ ..\(..)\ ...\ end
+XPT locf " local function ..\(..) ... end
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 local function `name^(`arg*^)
     `cursor^
@@ -122,29 +122,23 @@ end
 
 
 " !!! snippet ends with a space !!!
-XPT locv hint=local\ ..\ =\ ..
+XPT locv " local .. = ..
 local `var^ = 
 
 
-XPT p hint=print\(..)
+XPT p " print\(..)
 print(`cursor^)
 
 
-XPT repeat hint=repeat\ ..\ until\ ..
+XPT repeat " repeat .. until ..
 repeat
     `cursor^
 until
 
 
-XPT while hint=while\ ..\ do\ ...\ end
+XPT while " while .. do ... end
 while `cond^ do
     `cursor^
 end
 
-
-
-" ================================= Wrapper ===================================
-
-XPT invoke_ hint=..(SEL)
-`name^(`wrapped^)
 

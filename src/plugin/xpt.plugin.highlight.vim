@@ -1,8 +1,7 @@
-if exists("g:__XPT_PLUGIN_HIGHLIGHT_VIM__")
+if exists( "g:__XPT_PLUGIN_HIGHLIGHT_VIM__" ) && g:__XPT_PLUGIN_HIGHLIGHT_VIM__ >= XPT#ver
     finish
 endif
-let g:__XPT_PLUGIN_HIGHLIGHT_VIM__ = 1
-
+let g:__XPT_PLUGIN_HIGHLIGHT_VIM__ = XPT#ver
 
 
 runtime plugin/xptemplate.vim
@@ -60,15 +59,16 @@ fun! s:UpdateHL(x, ctx) "{{{
 
         for item in a:ctx.itemList
             if item.keyPH != {}
-                let r .= '\|' . s:MarkRange( item.keyPH.editMark )
+                let r .= '\|' . s:MarkRange( item.keyPH.innerMarks )
             else
                 let r .= '\|' . s:MarkRange( item.placeHolders[0].mark )
             endif
         endfor
 
-        if a:ctx.itemList == [] || 'cursor' != item.name 
+        if a:ctx.itemList == [] || 'cursor' != item.name
             let pos = XPMposList( a:ctx.marks.tmpl.end, a:ctx.marks.tmpl.end )
             let r .= '\|' . XPTgetStaticRange( pos[0], [ pos[1][0], pos[1][1] + 1 ] )
+
         endif
 
         call s:HL( 'XPTnextItem', r[2:] )
@@ -81,7 +81,6 @@ endfunction "}}}
 
 fun! s:MarkRange( marks ) "{{{
     let pos = XPMposList( a:marks.start, a:marks.end )
-    " echom string( a:marks ) . '=' . string( pos )
     if pos[0] == pos[1]
         let pos[1][1] += 1
     endif
@@ -89,30 +88,30 @@ fun! s:MarkRange( marks ) "{{{
 endfunction "}}}
 
 fun! XPTgetStaticRange(p, q) "{{{
-    let tl = a:p
-    let br = a:q
+    let posStart = a:p
+    let posEnd = a:q
 
-    if tl[0] == br[0] && tl[1] + 1 == br[0]
-        return '\%' . br[0] . 'l' . '\%' . br[1] . 'c'
+    if posStart[0] == posEnd[0] && posStart[1] + 1 == posEnd[1]
+        return '\%' . posStart[0] . 'l' . '\%' . posStart[1] . 'c'
     endif
 
     let r = ''
-    if tl[0] == br[0]
-        let r = r . '\%' . tl[0] . 'l'
-        if tl[1] > 1
-            let r = r . '\%>' . (tl[1]-1) .'c'
+    if posStart[0] == posEnd[0]
+        let r = r . '\%' . posStart[0] . 'l'
+        if posStart[1] > 1
+            let r = r . '\%>' . (posStart[1]-1) .'c'
         endif
 
-        let r = r . '\%<' . br[1] . 'c'
+        let r = r . '\%<' . posEnd[1] . 'c'
     else
-        if tl[0] < br[0] - 1
-            let r = r . '\%>' . tl[0] .'l' . '\%<' . br[0] . 'l'
+        if posStart[0] < posEnd[0] - 1
+            let r = r . '\%>' . posStart[0] .'l' . '\%<' . posEnd[0] . 'l'
         else
-            let r = r . '\%' . ( tl[0] + 1 ) .'l'
+            let r = r . '\%' . ( posStart[0] + 1 ) .'l'
         endif
         let r = r
-                    \. '\|' .'\%('.'\%'.tl[0].'l\%>'.(tl[1]-1) .'c\)'
-                    \. '\|' .'\%('.'\%'.br[0].'l\%<'.(br[1]+0) .'c\)'
+              \ . '\|' . '\%(' . '\%' . posStart[0] . 'l\%>' . (posStart[1]-1) . 'c\)'
+              \ . '\|' . '\%(' . '\%' . posEnd[0]   . 'l\%<' . (posEnd[1]+0)   . 'c\)'
     endif
 
     let r = '\%(' . r . '\)'
@@ -169,8 +168,14 @@ endif
 
 
 exe XPT#let_sid
-call g:XPTaddPlugin("start", 'after', function( '<SNR>' . s:sid . "UpdateHL" ) )
-call g:XPTaddPlugin("update", 'after', function( '<SNR>' . s:sid . "UpdateHL" ) )
-call g:XPTaddPlugin("ph_pum", 'before', function( '<SNR>' . s:sid . "ClearHL" ) )
-call g:XPTaddPlugin("finishAll", 'after', function( '<SNR>' . s:sid . "ClearHL" ) )
+
+let s:FuncUpdate = function( '<SNR>' . s:sid . "UpdateHL" )
+let s:FuncClear  = function( '<SNR>' . s:sid . "ClearHL" )
+
+call g:XPTaddPlugin("insertenter"  , 'after' , s:FuncUpdate )
+call g:XPTaddPlugin("start"        , 'after' , s:FuncUpdate )
+call g:XPTaddPlugin("update"       , 'after' , s:FuncUpdate )
+call g:XPTaddPlugin("finishSnippet", 'after' , s:FuncUpdate )
+call g:XPTaddPlugin("ph_pum"       , 'before', s:FuncClear )
+call g:XPTaddPlugin("finishAll"    , 'after' , s:FuncClear )
 

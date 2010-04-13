@@ -1,3 +1,4 @@
+<Plug>XPTrawKey	xptemplate.txt	/*<Plug>XPTrawKey*
 C()	xpt-function.txt	/*C()*
 E({expr})	xpt-function.txt	/*E({expr})*
 Include:	xpt.snippet.syn.txt	/*Include:*
@@ -14,10 +15,12 @@ XPTemplate()	xpt.api.txt	/*XPTemplate()*
 XPTemplateDef	xpt.snippet.syn.txt	/*XPTemplateDef*
 XPTemplateMark()	xpt.api.txt	/*XPTemplateMark()*
 XPTemplatePriority()	xpt.api.txt	/*XPTemplatePriority()*
+XPTemplateTrigger()	xpt.api.txt	/*XPTemplateTrigger()*
 XPTfollowingPH	xptemplate.txt	/*XPTfollowingPH*
 XPTfuncs()	xpt.api.txt	/*XPTfuncs()*
 XPTinclude	xpt.snippet.syn.txt	/*XPTinclude*
 XPTnextItem	xptemplate.txt	/*XPTnextItem*
+XPTtgr()	xpt.api.txt	/*XPTtgr()*
 XPTvar	xpt.snippet.syn.txt	/*XPTvar*
 ^	xpt.snippet.syn.txt	/*^*
 `	xpt.snippet.syn.txt	/*`*
@@ -28,14 +31,17 @@ XPTvar	xpt.snippet.syn.txt	/*XPTvar*
 g:XPTaddBundle()	xpt.api.txt	/*g:XPTaddBundle()*
 g:xptemplate_brace_complete	xptemplate.txt	/*g:xptemplate_brace_complete*
 g:xptemplate_bundle	xptemplate.txt	/*g:xptemplate_bundle*
+g:xptemplate_fallback	xptemplate.txt	/*g:xptemplate_fallback*
 g:xptemplate_goback	xptemplate.txt	/*g:xptemplate_goback*
 g:xptemplate_highlight	xptemplate.txt	/*g:xptemplate_highlight*
 g:xptemplate_key	xptemplate.txt	/*g:xptemplate_key*
 g:xptemplate_key_pum_only	xptemplate.txt	/*g:xptemplate_key_pum_only*
+g:xptemplate_minimal_prefix	xptemplate.txt	/*g:xptemplate_minimal_prefix*
 g:xptemplate_nav_cancel	xptemplate.txt	/*g:xptemplate_nav_cancel*
 g:xptemplate_nav_next	xptemplate.txt	/*g:xptemplate_nav_next*
 g:xptemplate_nav_prev	xptemplate.txt	/*g:xptemplate_nav_prev*
 g:xptemplate_ph_pum_accept_empty	xptemplate.txt	/*g:xptemplate_ph_pum_accept_empty*
+g:xptemplate_pum_tab_nav	xptemplate.txt	/*g:xptemplate_pum_tab_nav*
 g:xptemplate_snippet_folders	xptemplate.txt	/*g:xptemplate_snippet_folders*
 g:xptemplate_strict	xptemplate.txt	/*g:xptemplate_strict*
 g:xptemplate_strip_left	xptemplate.txt	/*g:xptemplate_strip_left*
@@ -52,7 +58,7 @@ s_<C-l>	xptemplate.txt	/*s_<C-l>*
 s_<CR>	xptemplate.txt	/*s_<CR>*
 s_<S-tab>	xptemplate.txt	/*s_<S-tab>*
 s_<tab>	xptemplate.txt	/*s_<tab>*
-self._ctx	xpt.api.txt	/*self._ctx*
+self.renderContext	xpt.api.txt	/*self.renderContext*
 v_<C-\>	xptemplate.txt	/*v_<C-\\>*
 xpt	xptemplate.txt	/*xpt*
 xpt-$	xpt.snippet.syn.txt	/*xpt-$*
@@ -64,6 +70,7 @@ xpt-context	xptemplate.txt	/*xpt-context*
 xpt-customize	xptemplate.txt	/*xpt-customize*
 xpt-customize-highlight	xptemplate.txt	/*xpt-customize-highlight*
 xpt-customize-variable	xptemplate.txt	/*xpt-customize-variable*
+xpt-customize-variable-datetime	xptemplate.txt	/*xpt-customize-variable-datetime*
 xpt-customize-variable-format	xptemplate.txt	/*xpt-customize-variable-format*
 xpt-customize-variable-space	xptemplate.txt	/*xpt-customize-variable-space*
 xpt-feature	xptemplate.txt	/*xpt-feature*
@@ -75,7 +82,6 @@ xpt-key-goto-right	xptemplate.txt	/*xpt-key-goto-right*
 xpt-key-navigate	xptemplate.txt	/*xpt-key-navigate*
 xpt-key-pum	xptemplate.txt	/*xpt-key-pum*
 xpt-key-trigger	xptemplate.txt	/*xpt-key-trigger*
-xpt-mapping	xptemplate.txt	/*xpt-mapping*
 xpt-mixed	xpt.snippet.syn.txt	/*xpt-mixed*
 xpt-nested	xptemplate.txt	/*xpt-nested*
 xpt-option	xptemplate.txt	/*xpt-option*
@@ -134,10 +140,12 @@ xpt-snippet-syntax	xpt.snippet.syn.txt	/*xpt-snippet-syntax*
 xpt-snippet-tutorial	xpt.snippet.tutor.txt	/*xpt-snippet-tutorial*
 xpt-snippet-variable	xpt.snippet.syn.txt	/*xpt-snippet-variable*
 xpt-substitute	xpt-function.txt	/*xpt-substitute*
+xpt-tips	xptemplate.txt	/*xpt-tips*
 xpt-tutor-define-snippet	xpt.snippet.tutor.txt	/*xpt-tutor-define-snippet*
 xpt-tutor-snippet-file	xpt.snippet.tutor.txt	/*xpt-tutor-snippet-file*
 xpt-usage	xptemplate.txt	/*xpt-usage*
-xpt-wrapped	xptemplate.txt	/*xpt-wrapped*
+xpt-with-supertab	xptemplate.txt	/*xpt-with-supertab*
+xpt-wrapper-snippet	xptemplate.txt	/*xpt-wrapper-snippet*
 xpt-write-common-snippet	xptemplate.txt	/*xpt-write-common-snippet*
 xpt-write-lang-snippet	xptemplate.txt	/*xpt-write-lang-snippet*
 xpt-write-snippet	xptemplate.txt	/*xpt-write-snippet*

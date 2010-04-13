@@ -2,7 +2,7 @@
 
 
     //  -------------"_--------------- 
-    // "`wrapped^"                     
+    // "`w^"                           
 
 
 
@@ -10,10 +10,10 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
@@ -28,13 +28,13 @@ WRAPPED_TEXT_line2"
 
     $( e_TYPED, context_TYPED ) b
 
-    a $( e ) b
+    `$( e )^
 
     a $( e )
 
 
     //  -------------'_--------------- 
-    // '`wrapped^'                     
+    // '`w^'                           
 
 
 
@@ -42,17 +42,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     //  -------------(_--------------- 
-    // (`wrapped^)                     
+    // (`w^)                           
 
 
 
@@ -60,17 +60,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     //  -------------<_--------------- 
-    // <`wrapped^>                     
+    // <`w^>                           
 
 
 
@@ -78,17 +78,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     //  -------------[_--------------- 
-    // [`wrapped^]                     
+    // [`w^]                           
 
 
 
@@ -96,17 +96,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     //  -------------`_--------------- 
-    // \``wrapped^\`                   
+    // \``w^\`                         
 
 
 
@@ -114,10 +114,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -132,7 +132,7 @@ WRAPPED_TEXT_line2`
 
     addClass( class_TYPED ) b
 
-    a addClass( class ) b
+    `addClass( class )^
 
     a addClass( class )
 
@@ -146,7 +146,7 @@ WRAPPED_TEXT_line2`
 
     add( expr_TYPED ) b
 
-    a add( expr ) b
+    `add( expr )^
 
     a add( expr )
 
@@ -160,7 +160,7 @@ WRAPPED_TEXT_line2`
 
     after( expr_TYPED ) b
 
-    a after( expr ) b
+    `after( expr )^
 
     a after( expr )
 
@@ -174,7 +174,7 @@ WRAPPED_TEXT_line2`
 
     $.get( url_TYPED, data_TYPED, callback_TYPED, "xml" ) b
 
-    a $.get( url, data, callback, "xml" ) b
+    `$.get( url, data, callback, "xml" )^
 
     a $.get( url, data, callback, "xml" )
 
@@ -188,7 +188,7 @@ WRAPPED_TEXT_line2`
 
     $.getJSON( url_TYPED, data_TYPED, callback_TYPED ) b
 
-    a $.getJSON( url, data, callback ) b
+    `$.getJSON( url, data, callback )^
 
     a $.getJSON( url, data, callback )
 
@@ -202,7 +202,7 @@ WRAPPED_TEXT_line2`
 
     $.getScript( url_TYPED, callback_TYPED ) b
 
-    a $.getScript( url, callback ) b
+    `$.getScript( url, callback )^
 
     a $.getScript( url, callback )
 
@@ -216,7 +216,7 @@ WRAPPED_TEXT_line2`
 
     $.ajax( opt_TYPED ) b
 
-    a $.ajax( opt ) b
+    `$.ajax( opt )^
 
     a $.ajax( opt )
 
@@ -230,7 +230,7 @@ WRAPPED_TEXT_line2`
 
     ajaxComplete( fun_TYPED ) b
 
-    a ajaxComplete( function ( event, xhr, ajaxOption ){  } ) b
+    `ajaxComplete( function ( event, xhr, ajaxOption ){  } )^
 
     a ajaxComplete( function ( event, xhr, ajaxOption ){  } )
 
@@ -244,7 +244,7 @@ WRAPPED_TEXT_line2`
 
     ajaxError( fun_TYPED ) b
 
-    a ajaxError( function ( event, xhr, ajaxOption, err ){  } ) b
+    `ajaxError( function ( event, xhr, ajaxOption, err ){  } )^
 
     a ajaxError( function ( event, xhr, ajaxOption, err ){  } )
 
@@ -258,7 +258,7 @@ WRAPPED_TEXT_line2`
 
     ajaxSend( fun_TYPED ) b
 
-    a ajaxSend( function ( event, xhr, ajaxOption ){  } ) b
+    `ajaxSend( function ( event, xhr, ajaxOption ){  } )^
 
     a ajaxSend( function ( event, xhr, ajaxOption ){  } )
 
@@ -272,7 +272,7 @@ WRAPPED_TEXT_line2`
 
     ajaxStart( fun_TYPED ) b
 
-    a ajaxStart( function() {  } ) b
+    `ajaxStart( function() {  } )^
 
     a ajaxStart( function() {  } )
 
@@ -286,7 +286,7 @@ WRAPPED_TEXT_line2`
 
     ajaxStop( fun_TYPED ) b
 
-    a ajaxStop( function() {  } ) b
+    `ajaxStop( function() {  } )^
 
     a ajaxStop( function() {  } )
 
@@ -300,7 +300,7 @@ WRAPPED_TEXT_line2`
 
     ajaxSuccess( fun_TYPED ) b
 
-    a ajaxSuccess( function ( event, xhr, ajaxOption ){  } ) b
+    `ajaxSuccess( function ( event, xhr, ajaxOption ){  } )^
 
     a ajaxSuccess( function ( event, xhr, ajaxOption ){  } )
 
@@ -314,7 +314,7 @@ WRAPPED_TEXT_line2`
 
     animate( params_TYPED, param_TYPED ) b
 
-    a animate( params, param ) b
+    `animate( params, param )^
 
     a animate( params, param )
 
@@ -328,7 +328,7 @@ WRAPPED_TEXT_line2`
 
     append( expr_TYPED ) b
 
-    a append( expr ) b
+    `append( expr )^
 
     a append( expr )
 
@@ -342,7 +342,7 @@ WRAPPED_TEXT_line2`
 
     $.post( url_TYPED, data_TYPED, callback_TYPED, "xml" ) b
 
-    a $.post( url, data, callback, "xml" ) b
+    `$.post( url, data, callback, "xml" )^
 
     a $.post( url, data, callback, "xml" )
 
@@ -356,7 +356,7 @@ WRAPPED_TEXT_line2`
 
     appendTo( expr_TYPED ) b
 
-    a appendTo( expr ) b
+    `appendTo( expr )^
 
     a appendTo( expr )
 
@@ -370,7 +370,7 @@ WRAPPED_TEXT_line2`
 
     andSelf() b
 
-    a andSelf() b
+    `andSelf()^
 
     a andSelf()
 
@@ -384,7 +384,7 @@ WRAPPED_TEXT_line2`
 
     $.ajaxSetup( opt_TYPED ) b
 
-    a $.ajaxSetup( opt ) b
+    `$.ajaxSetup( opt )^
 
     a $.ajaxSetup( opt )
 
@@ -404,9 +404,9 @@ WRAPPED_TEXT_line2`
                                     , arr_TYPED
                                     , expr_TYPED) b
 
-                                a assertObjectEquals(mess
+                                `assertObjectEquals(mess
                                                   , arr
-                                                  , expr) b
+                                                  , expr)^
 
                                               a assertObjectEquals(mess
                                                                 , arr
@@ -422,7 +422,7 @@ WRAPPED_TEXT_line2`
 
     attr( name_TYPED ) b
 
-    a attr( name ) b
+    `attr( name )^
 
     a attr( name )
 
@@ -436,7 +436,7 @@ WRAPPED_TEXT_line2`
 
     drdr.xp b
 
-    a drdr.xp b
+    `drdr.xp^
 
     a drdr.xp
 
@@ -450,7 +450,7 @@ WRAPPED_TEXT_line2`
 
     bind( type_TYPED, data_TYPED, fun_TYPED ) b
 
-    a bind( type, data, function ( ev ) {  } ) b
+    `bind( type, data, function ( ev ) {  } )^
 
     a bind( type, data, function ( ev ) {  } )
 
@@ -493,6 +493,18 @@ WRAPPED_TEXT_line2`
     log_TYPED(t1-t0, t2-t1);
      b
 
+     `var t0 = new Date().getTime();
+     for (var i = 0; i < times; ++i){
+         /* void */;
+     }
+     var t1 = new Date().getTime();
+     for (var i = 0; i < times; ++i){
+         /* void */;
+     }
+     var t2 = new Date().getTime();
+     console.log(t1-t0, t2-t1);
+     ^
+
      a var t0 = new Date().getTime();
      for (var i = 0; i < times; ++i){
          /* void */;
@@ -503,19 +515,7 @@ WRAPPED_TEXT_line2`
      }
      var t2 = new Date().getTime();
      console.log(t1-t0, t2-t1);
-      b
-
-      a var t0 = new Date().getTime();
-      for (var i = 0; i < times; ++i){
-          /* void */;
-      }
-      var t1 = new Date().getTime();
-      for (var i = 0; i < times; ++i){
-          /* void */;
-      }
-      var t2 = new Date().getTime();
-      console.log(t1-t0, t2-t1);
-      
+     
 
 
     //  -------------bench_--------------- 
@@ -542,15 +542,15 @@ for (var i = 0; i < times_TYPED; ++i){
     WRAPPED_TEXT_line2
 }
 var t1 = new Date().getTime();
-log_TYPED(t1-t0);b
+log_TYPED(t1-t0); b
 
-a var t0 = new Date().getTime();
+`var t0 = new Date().getTime();
 for (var i = 0; i < times; ++i){
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 var t1 = new Date().getTime();
-console.log(t1-t0);b
+console.log(t1-t0);^
 
 a var t0 = new Date().getTime();
 for (var i = 0; i < times; ++i){
@@ -570,7 +570,7 @@ console.log(t1-t0);
 
     before( expr_TYPED ) b
 
-    a before( expr ) b
+    `before( expr )^
 
     a before( expr )
 
@@ -584,33 +584,37 @@ console.log(t1-t0);
 
     blur( fun_TYPED ) b
 
-    a blur( function ( ev ) {  } ) b
+    `blur( function ( ev ) {  } )^
 
     a blur( function ( ev ) {  } )
 
 
     //  -------------case--------------- 
     // case `constant^`$SPcmd^:          
-    //     `job^                         
+    //     `cursor^                      
     //     break;                        
 
 
 
-    case constant :
-        /* void */;
-        break;
+case constant :
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+    break;
 
-        case constant_TYPED :
-            job_TYPED
-            break; b
+    case constant_TYPED :
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+        break; b
+
+        `case constant :
+            WRAPPED_TEXT
+            WRAPPED_TEXT_line2
+            break;^
 
             a case constant :
-                /* void */;
-                break; b
-
-                a case constant :
-                    /* void */;
-                    break;
+                WRAPPED_TEXT
+                WRAPPED_TEXT_line2
+                break;
 
 
     //  -------------ch--------------- 
@@ -622,7 +626,7 @@ console.log(t1-t0);
 
     change( fun_TYPED ) b
 
-    a change( function ( ev ) {  } ) b
+    `change( function ( ev ) {  } )^
 
     a change( function ( ev ) {  } )
 
@@ -636,7 +640,7 @@ console.log(t1-t0);
 
     children( expr_TYPED ) b
 
-    a children(  ) b
+    `children(  )^
 
     a children(  )
 
@@ -650,7 +654,7 @@ console.log(t1-t0);
 
     cloen( expr_TYPED ) b
 
-    a cloen(  ) b
+    `cloen(  )^
 
     a cloen(  )
 
@@ -664,7 +668,7 @@ console.log(t1-t0);
 
     click( fun_TYPED ) b
 
-    a click( function ( ev ) {  } ) b
+    `click( function ( ev ) {  } )^
 
     a click( function ( ev ) {  } )
 
@@ -678,7 +682,7 @@ console.log(t1-t0);
 
     closest( expr_TYPED ) b
 
-    a closest( expr ) b
+    `closest( expr )^
 
     a closest( expr )
 
@@ -707,12 +711,12 @@ console.log(t1-t0);
     * @return {Object_TYPED} desc_TYPED
     */ b
 
-    a /**
+    `/**
     * @author : drdr.xp | drdr.xp@gmail.com
     * @description
     *     
     * @return {Object} desc
-    */ b
+    */^
 
     a /**
     * @author : drdr.xp | drdr.xp@gmail.com
@@ -723,21 +727,7 @@ console.log(t1-t0);
 
 
     //  -------------comment--------------- 
-    // `$CL^ `what^ `$CR^                   
-
-
-
-    /* what */
-
-    /* what_TYPED */ b
-
-    a /* what */ b
-
-    a /* what */
-
-
-    //  -------------comment_--------------- 
-    // `$CL^ `wrapped^ `$CR^                 
+    // `$CL^ `what^^ `$CR^`^                
 
 
 
@@ -745,149 +735,82 @@ console.log(t1-t0);
 WRAPPED_TEXT_line2 */
 
 /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */b
+WRAPPED_TEXT_line2 */ b
 
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */b
+`/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */^
 
 a /* WRAPPED_TEXT
 WRAPPED_TEXT_line2 */
 
 
     //  -------------commentBlock--------------- 
-    // `$CL^                                     
-    //  `$CM^ `cursor^                           
-    //  `$CR^                                    
+    // `_cmt_no_mid_left()^`$CM `cursor^         
+    // `_cmt_mid_ind()$CR^                       
 
 
 
-    /*
-     * 
-     */
-
-    /*
-     * 
-     */ b
-
-    a /*
-     * 
-     */ b
-
-    a /*
-     * 
-     */
-
-
-    //  -------------commentBlock_--------------- 
-    // `$CL^                                      
-    //  `$CM^ `wrapped^                           
-    //  `$CR^                                     
-
-
-
-/*
- * WRAPPED_TEXT
- WRAPPED_TEXT_line2
+/* WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
  */
 
-/*
- * WRAPPED_TEXT
- WRAPPED_TEXT_line2
- */b
+/* WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */ b
 
-a /*
- * WRAPPED_TEXT
- WRAPPED_TEXT_line2
- */b
+`/* WRAPPED_TEXT
+  * WRAPPED_TEXT_line2
+ */^
 
-a /*
- * WRAPPED_TEXT
- WRAPPED_TEXT_line2
+a /* WRAPPED_TEXT
+   * WRAPPED_TEXT_line2
  */
 
 
     //  -------------commentDoc--------------- 
     // `$CL^`$CM^                              
-    //  `$CM^ `cursor^                         
-    //  `$CR^                                  
-
-
-
-    /**
-     * 
-     */
-
-    /**
-     * 
-     */ b
-
-    a /**
-     * 
-     */ b
-
-    a /**
-     * 
-     */
-
-
-    //  -------------commentDoc_--------------- 
-    // `$CL^`$CM^                               
-    //  `$CM^ `wrapped^                         
-    //  `$CR^                                   
+    // `_cmt_mid_ind()$CM `cursor^             
+    // `_cmt_mid_ind()$CR^                     
 
 
 
 /**
  * WRAPPED_TEXT
- WRAPPED_TEXT_line2
+ * WRAPPED_TEXT_line2
  */
 
 /**
  * WRAPPED_TEXT
- WRAPPED_TEXT_line2
- */b
+ * WRAPPED_TEXT_line2
+ */ b
+
+`/**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */^
 
 a /**
  * WRAPPED_TEXT
- WRAPPED_TEXT_line2
- */b
-
-a /**
- * WRAPPED_TEXT
- WRAPPED_TEXT_line2
+ * WRAPPED_TEXT_line2
  */
 
 
     //  -------------commentLine--------------- 
-    // `$CL^ `what^ `$CR^                       
+    // `$CL `what` $CR^`^                       
 
 
 
-    /* what */
+/* WRAPPED_TEXT */
+/* WRAPPED_TEXT_line2 */
 
-    /* what_TYPED */ b
+/* WRAPPED_TEXT */
+/* WRAPPED_TEXT_line2 */ b
 
-    a /* what */ b
+`/* WRAPPED_TEXT */
+ /* WRAPPED_TEXT_line2 */^
 
-    a /* what */
-
-
-    //  -------------commentLine_--------------- 
-    // `$CL^ `wrapped^ `$CR^                     
-
-
-
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
-
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */b
-
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */b
-
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
+ a /* WRAPPED_TEXT */
+   /* WRAPPED_TEXT_line2 */
 
 
     //  -------------con--------------- 
@@ -899,7 +822,7 @@ WRAPPED_TEXT_line2 */
 
     content() b
 
-    a content() b
+    `content()^
 
     a content()
 
@@ -913,7 +836,7 @@ WRAPPED_TEXT_line2 */
 
     @param {Object_TYPED} name_TYPED desc b
 
-    a @param {Object} name desc b
+    `@param {Object} name desc^
 
     a @param {Object} name desc
 
@@ -923,13 +846,13 @@ WRAPPED_TEXT_line2 */
 
 
 
-    css(  )
+    css()
 
     css( val_TYPED ) b
 
-    a css(  ) b
+    `css()^
 
-    a css(  )
+    a css()
 
 
     //  -------------da---------------         
@@ -941,7 +864,7 @@ WRAPPED_TEXT_line2 */
 
     data( name_TYPED, value_TYPED ) b
 
-    a data( name ) b
+    `data( name )^
 
     a data( name )
 
@@ -955,7 +878,7 @@ WRAPPED_TEXT_line2 */
 
     dbclick( fun_TYPED ) b
 
-    a dbclick( function ( ev ) {  } ) b
+    `dbclick( function ( ev ) {  } )^
 
     a dbclick( function ( ev ) {  } )
 
@@ -972,11 +895,11 @@ WRAPPED_TEXT_line2 */
         default:
              b
 
-             a default:
-                  b
+             `default:
+                 ^
 
-                  a default:
-                      
+                 a default:
+                     
 
 
     //  -------------die---------------                           
@@ -988,7 +911,7 @@ WRAPPED_TEXT_line2 */
 
     die( type_TYPED, fun_TYPED ) b
 
-    a die( type, fun ) b
+    `die( type, fun )^
 
     a die( type, fun )
 
@@ -1002,7 +925,7 @@ WRAPPED_TEXT_line2 */
 
     dequeue( name_TYPED ) b
 
-    a dequeue( name ) b
+    `dequeue( name )^
 
     a dequeue( name )
 
@@ -1016,7 +939,7 @@ WRAPPED_TEXT_line2 */
 
     each( function_TYPED ) b
 
-    a each( function(i) {  } ) b
+    `each( function(i) {  } )^
 
     a each( function(i) {  } )
 
@@ -1026,51 +949,31 @@ WRAPPED_TEXT_line2 */
 
 
 
-    else if ( condition ) {
-        /* void */;
-    }
+else if ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
-    else if ( condition_TYPED ) {
-        job_TYPED
-    } b
+else if ( condition_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
 
-    a else if ( condition ) {
-        /* void */;
-    } b
+`else if ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
 
-    a else if ( condition ) {
-        /* void */;
-    }
+a else if ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
 
     //  -------------else--------------- 
     // else`$BRif^{                      
     //     `cursor^                      
     // }                                 
-
-
-
-    else {
-        
-    }
-
-    else {
-        
-    } b
-
-    a else {
-        
-    } b
-
-    a else {
-        
-    }
-
-
-    //  -------------else_--------------- 
-    // else`$BRif^{                       
-    //     `wrapped^                      
-    // }                                  
 
 
 
@@ -1082,12 +985,12 @@ else {
 else {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-}b
+} b
 
-a else {
+`else {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-}b
+}^
 
 a else {
     WRAPPED_TEXT
@@ -1104,7 +1007,7 @@ a else {
 
     drdr.xp@gmail.com b
 
-    a drdr.xp@gmail.com b
+    `drdr.xp@gmail.com^
 
     a drdr.xp@gmail.com
 
@@ -1118,7 +1021,7 @@ a else {
 
     empty() b
 
-    a empty() b
+    `empty()^
 
     a empty()
 
@@ -1132,7 +1035,7 @@ a else {
 
     end() b
 
-    a end() b
+    `end()^
 
     a end()
 
@@ -1146,7 +1049,7 @@ a else {
 
     eq( _TYPED ) b
 
-    a eq(  ) b
+    `eq(  )^
 
     a eq(  )
 
@@ -1160,7 +1063,7 @@ a else {
 
     error( fun_TYPED ) b
 
-    a error( function ( ev ) {  } ) b
+    `error( function ( ev ) {  } )^
 
     a error( function ( ev ) {  } )
 
@@ -1216,7 +1119,7 @@ a else {
      *
      *--------------------------\\\ sum_TYPED ///---------------------------*/ b
 
-    a /**-------------------------/// sum \\\---------------------------
+    `/**-------------------------/// sum \\\---------------------------
      *
      * <b>function</b>
      * @version : 1.0
@@ -1230,7 +1133,7 @@ a else {
      * @copyright :
      * @TODO :
      *
-     *--------------------------\\\ sum ///---------------------------*/ b
+     *--------------------------\\\ sum ///---------------------------*/^
 
     a /**-------------------------/// sum \\\---------------------------
      *
@@ -1258,7 +1161,7 @@ a else {
 
     find( expr_TYPED ) b
 
-    a find( expr ) b
+    `find( expr )^
 
     a find( expr )
 
@@ -1272,7 +1175,7 @@ a else {
 
     fadeIn( speed_TYPED, fun_TYPED ) b
 
-    a fadeIn( speed, function() {  } ) b
+    `fadeIn( speed, function() {  } )^
 
     a fadeIn( speed, function() {  } )
 
@@ -1286,7 +1189,7 @@ a else {
 
     test.page b
 
-    a test.page b
+    `test.page^
 
     a test.page
 
@@ -1300,7 +1203,7 @@ a else {
 
     filter( function_TYPED ) b
 
-    a filter( function(i) {  } ) b
+    `filter( function(i) {  } )^
 
     a filter( function(i) {  } )
 
@@ -1314,7 +1217,7 @@ a else {
 
     fadeOut( speed_TYPED, fun_TYPED ) b
 
-    a fadeOut( speed, function() {  } ) b
+    `fadeOut( speed, function() {  } )^
 
     a fadeOut( speed, function() {  } )
 
@@ -1328,47 +1231,51 @@ a else {
 
     focus( fun_TYPED ) b
 
-    a focus( function ( ev ) {  } ) b
+    `focus( function ( ev ) {  } )^
 
     a focus( function ( ev ) {  } )
 
 
-    //  -------------for---------------                                                          
-    // for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ < `len^; ++`$VAR_PRE^`i^ )`$BRloop^{ 
-    //     `cursor^                                                                              
-    // }                                                                                         
+    //  -------------for---------------                                                                                  
+    // for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{ 
+    //     `cursor^                                                                                                      
+    // }                                                                                                                 
 
 
 
-    for ( var i = 0; i < len; ++i ) {
-        
-    }
+for ( var i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
-    for ( var i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED ) {
-        
-    } b
+for ( var i_TYPED = 0_TYPED; i_TYPED < len_TYPED; i_TYPED++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
 
-    a for ( var i = 0; i < len; ++i ) {
-        
-    } b
+`for ( var i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
 
-    a for ( var i = 0; i < len; ++i ) {
-        
-    }
+a for ( var i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
 
     //  -------------forever--------------- 
-    // for (;;) `body^                      
+    // for`$SPcmd^(;;) `cursor^             
 
 
 
-    for (;;) /* void */
+    for (;;) 
 
-        for (;;) /* void */ b
+        for (;;)  b
 
-    a for (;;) /* void */ b
+    `for (;;) ^
 
-    a for (;;) /* void */
+    a for (;;) 
 
 
     //  -------------forin---------------   
@@ -1389,63 +1296,71 @@ a else {
         
     } b
 
+    `for ( var i in array ) {
+        var e = array[i];
+        
+    }^
+
     a for ( var i in array ) {
         var e = array[i];
         
-    } b
-
-    a for ( var i in array ) {
-        var e = array[i];
-        
     }
 
 
-    //  -------------fornn---------------                                                                    
-    // for ( `$FOR_SCOPE^`$VAR_PRE^`ptr^ = `init^; `$NULL^ != `$VAR_PRE^`ptr^; `$VAR_PRE^`ptrOp^ )`$BRloop^{ 
-    //     `cursor^                                                                                          
-    // }                                                                                                     
+    //  -------------fornn---------------                                                                                                
+    // for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`ptr^`$SPop^=`$SPop^`init^; `$NULL^`$SPop^!=`$SPop^`ptr^; `^R('ptr')^`$SParg^)`$BRloop^{ 
+    //     `cursor^                                                                                                                      
+    // }                                                                                                                                 
 
 
 
-    for ( var ptr = init; NULL != ptr; ptr ) {
-        
-    }
+for ( var ptr = init; NULL != ptr; ptr ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
-    for ( var ptr_TYPED = init_TYPED; NULL != ptr_TYPED; ptrOp_TYPED ) {
-        
-    } b
+for ( var ptr_TYPED = init_TYPED; NULL != ptr_TYPED; _TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
 
-    a for ( var ptr = init; NULL != ptr; ptr ) {
-        
-    } b
+`for ( var ptr = init; NULL != ptr; ptr ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
 
-    a for ( var ptr = init; NULL != ptr; ptr ) {
-        
-    }
-
-
-    //  -------------forr---------------                                                            
-    // for ( `$FOR_SCOPE^`$VAR_PRE^`i^ = `0^; `$VAR_PRE^`i^ >`=^ `end^; --`$VAR_PRE^`i^ )`$BRloop^{ 
-    //     `cursor^                                                                                 
-    // }                                                                                            
+a for ( var ptr = init; NULL != ptr; ptr ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
 
+    //  -------------forr---------------                                                                                 
+    // for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^++`$SParg^)`$BRloop^{ 
+    //     `cursor^                                                                                                      
+    // }                                                                                                                 
 
-    for ( var i = 0; i >= end; --i ) {
-        
-    }
 
-    for ( var i_TYPED = 0_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED ) {
-        
-    } b
 
-    a for ( var i = 0; i >= end; --i ) {
-        
-    } b
+for ( var i = 0; i >= end; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
-    a for ( var i = 0; i >= end; --i ) {
-        
-    }
+for ( var i_TYPED = 0_TYPED; i_TYPED >= end_TYPED; i_TYPED++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`for ( var i = 0; i >= end; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a for ( var i = 0; i >= end; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
 
     //  -------------ft---------------                                                                                           
@@ -1457,7 +1372,7 @@ a else {
 
     fadeTo( speed_TYPED, opacity_TYPED, fun_TYPED ) b
 
-    a fadeTo( speed, opacity, function() {  } ) b
+    `fadeTo( speed, opacity, function() {  } )^
 
     a fadeTo( speed, opacity, function() {  } )
 
@@ -1477,46 +1392,13 @@ a else {
         
     } b
 
-    a function name () {
+    `function name () {
         
-    } b
+    }^
 
     a function name () {
         
     }
-
-
-    //  -------------fun_--------------- 
-    // function` `name^ (`param^) {      
-    //     `wrapped^                     
-    //     return;                       
-    // }                                 
-
-
-
-function name (param) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-    return;
-}
-
-function name_TYPED (param_TYPED) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-    return;
-}b
-
-a function name (param) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-    return;
-}b
-
-a function name (param) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-    return;
-}
 
 
     //  -------------get--------------- 
@@ -1528,7 +1410,7 @@ a function name (param) {
 
     get( _TYPED ) b
 
-    a get(  ) b
+    `get(  )^
 
     a get(  )
 
@@ -1542,7 +1424,7 @@ a function name (param) {
 
     hasClass( class_TYPED ) b
 
-    a hasClass( class ) b
+    `hasClass( class )^
 
     a hasClass( class )
 
@@ -1556,7 +1438,7 @@ a function name (param) {
 
     hide( speed_TYPED, fun_TYPED ) b
 
-    a hide( speed, function() {  } ) b
+    `hide( speed, function() {  } )^
 
     a hide( speed, function() {  } )
 
@@ -1570,7 +1452,7 @@ a function name (param) {
 
     hover( over_TYPED, out_TYPED ) b
 
-    a hover( , function ( ev ) { /* void */ }, function ( ev ) {  } ) b
+    `hover( , function ( ev ) { /* void */ }, function ( ev ) {  } )^
 
     a hover( , function ( ev ) { /* void */ }, function ( ev ) {  } )
 
@@ -1580,13 +1462,13 @@ a function name (param) {
 
 
 
-    height(  )
+    height()
 
     height( val_TYPED ) b
 
-    a height(  ) b
+    `height()^
 
-    a height(  )
+    a height()
 
 
     //  -------------html--------------- 
@@ -1594,81 +1476,17 @@ a function name (param) {
 
 
 
-    html(  )
+    html()
 
     html( val_TYPED ) b
 
-    a html(  ) b
+    `html()^
 
-    a html(  )
-
-
-    //  -------------if---------------                     
-    // `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ 
+    a html()
 
 
-
-    if ( condition ) {
-        /* void */;
-    }
-    else {
-        
-    }
-
-    if ( condition_TYPED ) {
-        job_TYPED
-    } else_TYPED b
-
-    a if ( condition ) {
-        /* void */;
-    }
-    else {
-        
-    } b
-
-    a if ( condition ) {
-        /* void */;
-    }
-    else {
-        
-    }
-
-
-    //  -------------if0---------------                    
-    // `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ 
-
-
-
-    if ( 0 == var ) {
-        /* void */;
-    }
-    else {
-        
-    }
-
-    if ( 0 == var_TYPED ) {
-        job_TYPED
-    } else_TYPED b
-
-    a if ( 0 == var ) {
-        /* void */;
-    }
-    else {
-        
-    } b
-
-    a if ( 0 == var ) {
-        /* void */;
-    }
-    else {
-        
-    }
-
-
-    //  -------------if_---------------                
-    // if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{ 
-    //     `wrapped^                                   
-    // }                                               
+    //  -------------if--------------- 
+    // `Include:_if^                   
 
 
 
@@ -1680,12 +1498,12 @@ if ( condition ) {
 if ( condition_TYPED ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-}b
+} b
 
-a if ( condition ) {
+`if ( condition ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-}b
+}^
 
 a if ( condition ) {
     WRAPPED_TEXT
@@ -1693,146 +1511,209 @@ a if ( condition ) {
 }
 
 
-    //  -------------ifee---------------                                    
-    // `Include:_if^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ 
+    //  -------------if0--------------- 
+    // `Include:_if^                    
+
+
+
+if ( 0 == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+if ( 0 == var_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`if ( 0 == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a if ( 0 == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    //  -------------ifee---------------                              
+    // `:_if:^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ 
 
 
 
     if ( condition ) {
-        /* void */;
+        
     }
     else if ( condition ) {
-        /* void */;
+        /* cursor */
     }
     else if ( condition ) {
-        /* void */;
+        /* cursor */
     }
     else if ( condition ) {
-        /* void */;
+        /* cursor */
     }
 
     if ( condition_TYPED ) {
-        job_TYPED
+        _TYPED
     } else_if_TYPED b
 
+    `if ( condition ) {
+        
+    }
+    else if ( condition ) {
+        /* cursor */
+    }
+    else if ( condition ) {
+        /* cursor */
+    }
+    else if ( condition ) {
+        /* cursor */
+    }^
+
     a if ( condition ) {
-        /* void */;
+        
     }
     else if ( condition ) {
-        /* void */;
+        /* cursor */
     }
     else if ( condition ) {
-        /* void */;
+        /* cursor */
     }
     else if ( condition ) {
-        /* void */;
-    } b
-
-    a if ( condition ) {
-        /* void */;
-    }
-    else if ( condition ) {
-        /* void */;
-    }
-    else if ( condition ) {
-        /* void */;
-    }
-    else if ( condition ) {
-        /* void */;
+        /* cursor */
     }
 
 
-    //  -------------ifn---------------                    
-    // `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ 
+    //  -------------ifn--------------- 
+    // `Include:_if^                    
 
 
 
-    if ( NULL == var ) {
-        /* void */;
-    }
-    else {
-        
-    }
+if ( NULL == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
-    if ( NULL == var_TYPED ) {
-        job_TYPED
-    } else_TYPED b
+if ( NULL == var_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
 
-    a if ( NULL == var ) {
-        /* void */;
-    }
-    else {
-        
-    } b
+`if ( NULL == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
 
-    a if ( NULL == var ) {
-        /* void */;
-    }
-    else {
-        
-    }
+a if ( NULL == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
 
-    //  -------------ifn0---------------                   
-    // `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ 
+    //  -------------ifn0--------------- 
+    // `Include:_if^                     
 
 
 
-    if ( 0 != var ) {
-        /* void */;
-    }
-    else {
-        
-    }
+if ( 0 != var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
-    if ( 0 != var_TYPED ) {
-        job_TYPED
-    } else_TYPED b
+if ( 0 != var_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
 
-    a if ( 0 != var ) {
-        /* void */;
-    }
-    else {
-        
-    } b
+`if ( 0 != var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
 
-    a if ( 0 != var ) {
-        /* void */;
-    }
-    else {
-        
-    }
+a if ( 0 != var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
 
-    //  -------------ifnn---------------                   
-    // `Include:_if^` `else...{{^`$BRel^`Include:else^`}}^ 
+    //  -------------ifnn--------------- 
+    // `Include:_if^                     
 
 
 
-    if ( NULL != var ) {
-        /* void */;
-    }
-    else {
-        
-    }
+if ( NULL != var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
-    if ( NULL != var_TYPED ) {
-        job_TYPED
-    } else_TYPED b
+if ( NULL != var_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
 
-    a if ( NULL != var ) {
-        /* void */;
-    }
-    else {
-        
-    } b
+`if ( NULL != var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
 
-    a if ( NULL != var ) {
-        /* void */;
-    }
-    else {
-        
-    }
+a if ( NULL != var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    //  -------------ifnu--------------- 
+    // `Include:_if^                     
+
+
+
+if ( NULL != var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+if ( NULL != var_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`if ( NULL != var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a if ( NULL != var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    //  -------------ifu--------------- 
+    // `Include:_if^                    
+
+
+
+if ( NULL == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+if ( NULL == var_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`if ( NULL == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a if ( NULL == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
 
     //  -------------ih--------------- 
@@ -1844,7 +1725,7 @@ a if ( condition ) {
 
     innerHeight() b
 
-    a innerHeight() b
+    `innerHeight()^
 
     a innerHeight()
 
@@ -1858,7 +1739,7 @@ a if ( condition ) {
 
     index( _TYPED ) b
 
-    a index(  ) b
+    `index(  )^
 
     a index(  )
 
@@ -1872,7 +1753,7 @@ a if ( condition ) {
 
     insertAfter( expr_TYPED ) b
 
-    a insertAfter( expr ) b
+    `insertAfter( expr )^
 
     a insertAfter( expr )
 
@@ -1886,7 +1767,7 @@ a if ( condition ) {
 
     insertBefore( expr_TYPED ) b
 
-    a insertBefore( expr ) b
+    `insertBefore( expr )^
 
     a insertBefore( expr )
 
@@ -1900,7 +1781,7 @@ a if ( condition ) {
 
     is( expr_TYPED ) b
 
-    a is( expr ) b
+    `is( expr )^
 
     a is( expr )
 
@@ -1914,7 +1795,7 @@ a if ( condition ) {
 
     innerWidth() b
 
-    a innerWidth() b
+    `innerWidth()^
 
     a innerWidth()
 
@@ -1928,7 +1809,7 @@ a if ( condition ) {
 
     jQuery( e_TYPED, context_TYPED ) b
 
-    a jQuery( e ) b
+    `jQuery( e )^
 
     a jQuery( e )
 
@@ -1942,7 +1823,7 @@ a if ( condition ) {
 
     keydown( fun_TYPED ) b
 
-    a keydown( function ( ev ) {  } ) b
+    `keydown( function ( ev ) {  } )^
 
     a keydown( function ( ev ) {  } )
 
@@ -1956,7 +1837,7 @@ a if ( condition ) {
 
     keypress( fun_TYPED ) b
 
-    a keypress( function ( ev ) {  } ) b
+    `keypress( function ( ev ) {  } )^
 
     a keypress( function ( ev ) {  } )
 
@@ -1970,7 +1851,7 @@ a if ( condition ) {
 
     keyup( fun_TYPED ) b
 
-    a keyup( function ( ev ) {  } ) b
+    `keyup( function ( ev ) {  } )^
 
     a keyup( function ( ev ) {  } )
 
@@ -1984,7 +1865,7 @@ a if ( condition ) {
 
     load( fun_TYPED ) b
 
-    a load( function ( ev ) {  } ) b
+    `load( function ( ev ) {  } )^
 
     a load( function ( ev ) {  } )
 
@@ -1998,7 +1879,7 @@ a if ( condition ) {
 
     load( url_TYPED, data_TYPED, function_TYPED ) b
 
-    a load( url, data, function( resText, textStatus, xhr ) {  } ) b
+    `load( url, data, function( resText, textStatus, xhr ) {  } )^
 
     a load( url, data, function( resText, textStatus, xhr ) {  } )
 
@@ -2012,7 +1893,7 @@ a if ( condition ) {
 
     live( type_TYPED, data_TYPED, fun_TYPED ) b
 
-    a live( type, data, function ( ev ) {  } ) b
+    `live( type, data, function ( ev ) {  } )^
 
     a live( type, data, function ( ev ) {  } )
 
@@ -2026,7 +1907,7 @@ a if ( condition ) {
 
     map( function_TYPED ) b
 
-    a map( function(i) {  } ) b
+    `map( function(i) {  } )^
 
     a map( function(i) {  } )
 
@@ -2040,7 +1921,7 @@ a if ( condition ) {
 
     mousedown( fun_TYPED ) b
 
-    a mousedown( function ( ev ) {  } ) b
+    `mousedown( function ( ev ) {  } )^
 
     a mousedown( function ( ev ) {  } )
 
@@ -2054,7 +1935,7 @@ a if ( condition ) {
 
     mouseenter( fun_TYPED ) b
 
-    a mouseenter( function ( ev ) {  } ) b
+    `mouseenter( function ( ev ) {  } )^
 
     a mouseenter( function ( ev ) {  } )
 
@@ -2068,7 +1949,7 @@ a if ( condition ) {
 
     mouseleave( fun_TYPED ) b
 
-    a mouseleave( function ( ev ) {  } ) b
+    `mouseleave( function ( ev ) {  } )^
 
     a mouseleave( function ( ev ) {  } )
 
@@ -2082,7 +1963,7 @@ a if ( condition ) {
 
     mousemove( fun_TYPED ) b
 
-    a mousemove( function ( ev ) {  } ) b
+    `mousemove( function ( ev ) {  } )^
 
     a mousemove( function ( ev ) {  } )
 
@@ -2096,7 +1977,7 @@ a if ( condition ) {
 
     mouseout( fun_TYPED ) b
 
-    a mouseout( function ( ev ) {  } ) b
+    `mouseout( function ( ev ) {  } )^
 
     a mouseout( function ( ev ) {  } )
 
@@ -2110,7 +1991,7 @@ a if ( condition ) {
 
     mouseup( fun_TYPED ) b
 
-    a mouseup( function ( ev ) {  } ) b
+    `mouseup( function ( ev ) {  } )^
 
     a mouseup( function ( ev ) {  } )
 
@@ -2124,7 +2005,7 @@ a if ( condition ) {
 
     nextAll( expr_TYPED ) b
 
-    a nextAll(  ) b
+    `nextAll(  )^
 
     a nextAll(  )
 
@@ -2138,7 +2019,7 @@ a if ( condition ) {
 
     next( expr_TYPED ) b
 
-    a next(  ) b
+    `next(  )^
 
     a next(  )
 
@@ -2152,7 +2033,7 @@ a if ( condition ) {
 
     var instant_TYPED = new Constructor_TYPED(arg_TYPED, arg_TYPED, arg_TYPED) b
 
-    a var instant = new Constructor() b
+    `var instant = new Constructor()^
 
     a var instant = new Constructor()
 
@@ -2166,7 +2047,7 @@ a if ( condition ) {
 
     not( expr_TYPED ) b
 
-    a not( expr ) b
+    `not( expr )^
 
     a not( expr )
 
@@ -2180,7 +2061,7 @@ a if ( condition ) {
 
     outerHeight( margin_TYPED ) b
 
-    a outerHeight( margin ) b
+    `outerHeight( margin )^
 
     a outerHeight( margin )
 
@@ -2194,7 +2075,7 @@ a if ( condition ) {
 
     one( type_TYPED, data_TYPED, fun_TYPED ) b
 
-    a one( type, data, function ( ev ) {  } ) b
+    `one( type, data, function ( ev ) {  } )^
 
     a one( type, data, function ( ev ) {  } )
 
@@ -2208,7 +2089,7 @@ a if ( condition ) {
 
     offset() b
 
-    a offset() b
+    `offset()^
 
     a offset()
 
@@ -2222,7 +2103,7 @@ a if ( condition ) {
 
     offsetParent() b
 
-    a offsetParent() b
+    `offsetParent()^
 
     a offsetParent()
 
@@ -2236,7 +2117,7 @@ a if ( condition ) {
 
     outerWidth( margin_TYPED ) b
 
-    a outerWidth( margin ) b
+    `outerWidth( margin )^
 
     a outerWidth( margin )
 
@@ -2250,7 +2131,7 @@ a if ( condition ) {
 
     position() b
 
-    a position() b
+    `position()^
 
     a position()
 
@@ -2264,7 +2145,7 @@ a if ( condition ) {
 
     prepend( expr_TYPED ) b
 
-    a prepend( expr ) b
+    `prepend( expr )^
 
     a prepend( expr )
 
@@ -2278,7 +2159,7 @@ a if ( condition ) {
 
     prependTo( expr_TYPED ) b
 
-    a prependTo( expr ) b
+    `prependTo( expr )^
 
     a prependTo( expr )
 
@@ -2292,7 +2173,7 @@ a if ( condition ) {
 
     parent( expr_TYPED ) b
 
-    a parent(  ) b
+    `parent(  )^
 
     a parent(  )
 
@@ -2306,7 +2187,7 @@ a if ( condition ) {
 
     prevAll( expr_TYPED ) b
 
-    a prevAll(  ) b
+    `prevAll(  )^
 
     a prevAll(  )
 
@@ -2326,9 +2207,9 @@ a if ( condition ) {
     
     } b
 
-    a Class.prototype.method = function() {
+    `Class.prototype.method = function() {
     
-    } b
+    }^
 
     a Class.prototype.method = function() {
     
@@ -2344,7 +2225,7 @@ a if ( condition ) {
 
     parents( expr_TYPED ) b
 
-    a parents(  ) b
+    `parents(  )^
 
     a parents(  )
 
@@ -2358,7 +2239,7 @@ a if ( condition ) {
 
     prev( expr_TYPED ) b
 
-    a prev(  ) b
+    `prev(  )^
 
     a prev(  )
 
@@ -2372,7 +2253,7 @@ a if ( condition ) {
 
     queue( name_TYPED, toAdd_TYPED ) b
 
-    a queue( name ) b
+    `queue( name )^
 
     a queue( name )
 
@@ -2386,7 +2267,7 @@ a if ( condition ) {
 
     ready( fun_TYPED ) b
 
-    a ready( function() {  } ) b
+    `ready( function() {  } )^
 
     a ready( function() {  } )
 
@@ -2400,7 +2281,7 @@ a if ( condition ) {
 
     replaceWith( expr_TYPED ) b
 
-    a replaceWith( expr ) b
+    `replaceWith( expr )^
 
     a replaceWith( expr )
 
@@ -2414,7 +2295,7 @@ a if ( condition ) {
 
     replaceAll( expr_TYPED ) b
 
-    a replaceAll( expr ) b
+    `replaceAll( expr )^
 
     a replaceAll( expr )
 
@@ -2428,7 +2309,7 @@ a if ( condition ) {
 
     resize( fun_TYPED ) b
 
-    a resize( function ( ev ) {  } ) b
+    `resize( function ( ev ) {  } )^
 
     a resize( function ( ev ) {  } )
 
@@ -2442,7 +2323,7 @@ a if ( condition ) {
 
     remove( expr_TYPED ) b
 
-    a remove(  ) b
+    `remove(  )^
 
     a remove(  )
 
@@ -2456,7 +2337,7 @@ a if ( condition ) {
 
     removeAttr( name_TYPED ) b
 
-    a removeAttr( name ) b
+    `removeAttr( name )^
 
     a removeAttr( name )
 
@@ -2470,7 +2351,7 @@ a if ( condition ) {
 
     removeData( name_TYPED ) b
 
-    a removeData( name ) b
+    `removeData( name )^
 
     a removeData( name )
 
@@ -2484,7 +2365,7 @@ a if ( condition ) {
 
     scroll( fun_TYPED ) b
 
-    a scroll( function ( ev ) {  } ) b
+    `scroll( function ( ev ) {  } )^
 
     a scroll( function ( ev ) {  } )
 
@@ -2494,13 +2375,13 @@ a if ( condition ) {
 
 
 
-    scrollLeft(  )
+    scrollLeft()
 
     scrollLeft( val_TYPED ) b
 
-    a scrollLeft(  ) b
+    `scrollLeft()^
 
-    a scrollLeft(  )
+    a scrollLeft()
 
 
     //  -------------scrt--------------- 
@@ -2508,13 +2389,13 @@ a if ( condition ) {
 
 
 
-    scrollTop(  )
+    scrollTop()
 
     scrollTop( val_TYPED ) b
 
-    a scrollTop(  ) b
+    `scrollTop()^
 
-    a scrollTop(  )
+    a scrollTop()
 
 
     //  -------------sel--------------- 
@@ -2526,7 +2407,7 @@ a if ( condition ) {
 
     select( fun_TYPED ) b
 
-    a select( function ( ev ) {  } ) b
+    `select( function ( ev ) {  } )^
 
     a select( function ( ev ) {  } )
 
@@ -2540,7 +2421,7 @@ a if ( condition ) {
 
     serialize() b
 
-    a serialize() b
+    `serialize()^
 
     a serialize()
 
@@ -2554,7 +2435,7 @@ a if ( condition ) {
 
     serializeArray() b
 
-    a serializeArray() b
+    `serializeArray()^
 
     a serializeArray()
 
@@ -2568,7 +2449,7 @@ a if ( condition ) {
 
     setTimeout(function() { job_TYPED }, milliseconds_TYPED) b
 
-    a setTimeout(function() { /* void */; }, milliseconds) b
+    `setTimeout(function() { /* void */; }, milliseconds)^
 
     a setTimeout(function() { /* void */; }, milliseconds)
 
@@ -2582,7 +2463,7 @@ a if ( condition ) {
 
     show( speed_TYPED, fun_TYPED ) b
 
-    a show( speed, function() {  } ) b
+    `show( speed, function() {  } )^
 
     a show( speed, function() {  } )
 
@@ -2596,7 +2477,7 @@ a if ( condition ) {
 
     sibling( expr_TYPED ) b
 
-    a sibling(  ) b
+    `sibling(  )^
 
     a sibling(  )
 
@@ -2610,7 +2491,7 @@ a if ( condition ) {
 
     slice( start_TYPED, end_TYPED ) b
 
-    a slice( start ) b
+    `slice( start )^
 
     a slice( start )
 
@@ -2624,7 +2505,7 @@ a if ( condition ) {
 
     slideDown( speed_TYPED, fun_TYPED ) b
 
-    a slideDown( speed, function() {  } ) b
+    `slideDown( speed, function() {  } )^
 
     a slideDown( speed, function() {  } )
 
@@ -2638,7 +2519,7 @@ a if ( condition ) {
 
     slideToggle( speed_TYPED, fun_TYPED ) b
 
-    a slideToggle( speed, function() {  } ) b
+    `slideToggle( speed, function() {  } )^
 
     a slideToggle( speed, function() {  } )
 
@@ -2652,7 +2533,7 @@ a if ( condition ) {
 
     slideUp( speed_TYPED, fun_TYPED ) b
 
-    a slideUp( speed, function() {  } ) b
+    `slideUp( speed, function() {  } )^
 
     a slideUp( speed, function() {  } )
 
@@ -2666,7 +2547,7 @@ a if ( condition ) {
 
     stop() b
 
-    a stop() b
+    `stop()^
 
     a stop()
 
@@ -2680,99 +2561,45 @@ a if ( condition ) {
 
     submit( fun_TYPED ) b
 
-    a submit( function ( ev ) {  } ) b
+    `submit( function ( ev ) {  } )^
 
     a submit( function ( ev ) {  } )
 
 
     //  -------------switch---------------    
     // switch (`$SParg^`var^`$SParg^)`$BRif^{ 
-    //     `:case:^                           
-    // `                                      
-    //     `case...`                          
-    //     {{^                                
-    //     `:case:^                           
-    // `                                      
-    //     `case...`                          
-    // ^`}}^`                                 
-    //     `default...`{{^                    
-    //     `:default:^`}}^                    
+    //     `Include:case^                     
     // }                                      
 
 
 
-    switch ( var ) {
-        case constant :
-            /* void */;
-            break;
-    
-        case constant :
-            /* void */;
-            break;
-    
-        case constant :
-            /* void */;
-            break;
-    
-        case constant :
-            /* void */;
-            break;
-    
-        default:
-            
-    }
+switch ( var ) {
+    case constant :
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+        break;
+}
 
-    switch ( var_TYPED ) {
-        case constant_TYPED :
-            job_TYPED
-            break;
-    
-        case_TYPED
-        
-        default_TYPED
-    } b
+switch ( var_TYPED ) {
+    case constant_TYPED :
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+        break;
+} b
 
-    a switch ( var ) {
-        case constant :
-            /* void */;
-            break;
-    
-        case constant :
-            /* void */;
-            break;
-    
-        case constant :
-            /* void */;
-            break;
-    
-        case constant :
-            /* void */;
-            break;
-    
-        default:
-            
-    } b
+`switch ( var ) {
+    case constant :
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+        break;
+}^
 
-    a switch ( var ) {
-        case constant :
-            /* void */;
-            break;
-    
-        case constant :
-            /* void */;
-            break;
-    
-        case constant :
-            /* void */;
-            break;
-    
-        case constant :
-            /* void */;
-            break;
-    
-        default:
-            
-    }
+a switch ( var ) {
+    case constant :
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+        break;
+}
 
 
     //  -------------sz--------------- 
@@ -2784,7 +2611,7 @@ a if ( condition ) {
 
     size() b
 
-    a size() b
+    `size()^
 
     a size()
 
@@ -2798,7 +2625,7 @@ a if ( condition ) {
 
     toggleClass( class_TYPED, switch_TYPED ) b
 
-    a toggleClass( class ) b
+    `toggleClass( class )^
 
     a toggleClass( class )
 
@@ -2808,13 +2635,13 @@ a if ( condition ) {
 
 
 
-    text(  )
+    text()
 
     text( val_TYPED ) b
 
-    a text(  ) b
+    `text()^
 
-    a text(  )
+    a text()
 
 
     //  -------------tg---------------                                                     
@@ -2826,7 +2653,7 @@ a if ( condition ) {
 
     toggle( fn1_TYPED, fn2_TYPED ) b
 
-    a toggle( , function ( ev ) { /* void */ }, function ( ev ) {  } ) b
+    `toggle( , function ( ev ) { /* void */ }, function ( ev ) {  } )^
 
     a toggle( , function ( ev ) { /* void */ }, function ( ev ) {  } )
 
@@ -2840,7 +2667,7 @@ a if ( condition ) {
 
     trigger( ev_TYPED, data_TYPED ) b
 
-    a trigger( ev, data ) b
+    `trigger( ev, data )^
 
     a trigger( ev, data )
 
@@ -2854,7 +2681,7 @@ a if ( condition ) {
 
     triggerHandler( ev_TYPED, data_TYPED ) b
 
-    a triggerHandler( ev, data ) b
+    `triggerHandler( ev, data )^
 
     a triggerHandler( ev, data )
 
@@ -2873,89 +2700,6 @@ a if ( condition ) {
     // finally`$BRif^{                  
     //     `cursor^                     
     // }`}}^                            
-
-
-
-    try {
-        /* void */;
-    }
-    catch (err) {
-        /* error handling */
-    }
-    catch (err) {
-        /* error handling */
-    }
-    catch (err) {
-        /* error handling */
-    }
-    catch (err) {
-        /* error handling */
-    }
-    finally {
-        
-    }
-
-    try {
-        job_TYPED
-    }
-    catch (err_TYPED) {
-        dealError_TYPED
-    }_TYPED
-    finally_TYPED b
-
-    a try {
-        /* void */;
-    }
-    catch (err) {
-        /* error handling */
-    }
-    catch (err) {
-        /* error handling */
-    }
-    catch (err) {
-        /* error handling */
-    }
-    catch (err) {
-        /* error handling */
-    }
-    finally {
-        
-    } b
-
-    a try {
-        /* void */;
-    }
-    catch (err) {
-        /* error handling */
-    }
-    catch (err) {
-        /* error handling */
-    }
-    catch (err) {
-        /* error handling */
-    }
-    catch (err) {
-        /* error handling */
-    }
-    finally {
-        
-    }
-
-
-    //  -------------try_--------------- 
-    // try`$BRif^{                       
-    //     `wrapped^                     
-    // }                                 
-    // catch (`err^)`$BRif^{             
-    //     `dealError^                   
-    // }`...^                            
-    // catch (`err^)`$BRif^{             
-    //     `dealError^                   
-    // }`...^`                           
-    // `finally...{{^                    
-    // finally`$BRif^{                   
-    //     `cursor^                      
-    // }`}}^                             
 
 
 
@@ -2986,9 +2730,9 @@ try {
 catch (err_TYPED) {
     dealError_TYPED
 }_TYPED
-finally_TYPEDb
+finally_TYPED b
 
-a try {
+`try {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
@@ -3006,7 +2750,7 @@ catch (err) {
 }
 finally {
     
-}b
+}^
 
 a try {
     WRAPPED_TEXT
@@ -3038,7 +2782,7 @@ finally {
 
     unbind( type_TYPED, fun_TYPED ) b
 
-    a unbind( type, fun ) b
+    `unbind( type, fun )^
 
     a unbind( type, fun )
 
@@ -3052,7 +2796,7 @@ finally {
 
     unload( fun_TYPED ) b
 
-    a unload( function ( ev ) {  } ) b
+    `unload( function ( ev ) {  } )^
 
     a unload( function ( ev ) {  } )
 
@@ -3062,13 +2806,13 @@ finally {
 
 
 
-    val(  )
+    val()
 
     val( val_TYPED ) b
 
-    a val(  ) b
+    `val()^
 
-    a val(  )
+    a val()
 
 
     //  -------------wr--------------- 
@@ -3080,7 +2824,7 @@ finally {
 
     wrap( expr_TYPED ) b
 
-    a wrap( expr ) b
+    `wrap( expr )^
 
     a wrap( expr )
 
@@ -3094,7 +2838,7 @@ finally {
 
     wrapAll( expr_TYPED ) b
 
-    a wrapAll( expr ) b
+    `wrapAll( expr )^
 
     a wrapAll( expr )
 
@@ -3108,7 +2852,7 @@ finally {
 
     wrapInner( expr_TYPED ) b
 
-    a wrapInner( expr ) b
+    `wrapInner( expr )^
 
     a wrapInner( expr )
 
@@ -3118,17 +2862,17 @@ finally {
 
 
 
-    width(  )
+    width()
 
     width( val_TYPED ) b
 
-    a width(  ) b
+    `width()^
 
-    a width(  )
+    a width()
 
 
     //  -------------{_--------------- 
-    // {`wrapped^}                     
+    // {`w^}                           
 
 
 
@@ -3136,10 +2880,10 @@ finally {
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

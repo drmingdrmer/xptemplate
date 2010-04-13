@@ -26,6 +26,10 @@
 		|xpt-snippet-hidden|
 		|xpt-snippet-alias|
 		|xpt-snippet-synonym|
+		|xpt-snippet-wrap|
+		|xpt-snippet-wraponly|
+		|xpt-snippet-abbr|
+
 
 	|xpt-snippet-body|
 	|xpt-snippet-include|
@@ -46,7 +50,6 @@
 
 	|xpt-placeholder-special|
 	|xpt-placeholder-cursor|
-	|xpt-placeholder-wrapped|
 
 	|xpt-snippet-expression|
 	|xpt-snippet-instant-value|
@@ -103,7 +106,7 @@
 
 
 		XPT for hint=for\ (var..;..;++)	
-		...
+		for ( i=0; i<`len^; ++i ) { `cursor^ }
 <
 
 							  *xpt-snippet-header*
@@ -348,6 +351,54 @@
 	NOTE |xpt-snippet-synonym| can be used to create shortcuts.
 
 
+							    *xpt-snippet-wrap*
+	Wrapper snippets can be triggered in visual mode, place holder marked
+	as "wrap" is replaced with the text selected in visual mode.
+
+	Definition of wrapper snippet has no differences from normal
+	snippet except it declaring a place holder as wrapping holder. For
+	example: >
+		       ________/---------------------| wrapper declaration
+		XPT if wrap=job
+		if (`condition^){
+		    `job^
+		}
+<	
+	Wrapping can be block-wise or line-wise. Wrapper place holder with
+	|xpt-placeholder-edge| is line-wise, or it is block-wise.
+
+	For example: >
+		XPT comment wrap=what
+		`/* `what` */^
+<	This is line-wise wrapper, it will result in: >
+		/* line1 */
+		/* line2 */
+<	But not: >
+		/* line1
+		line2 */
+<
+	See also |xpt-wrapper-snippet| and |xpt-snippet-wraponly|.
+
+
+							*xpt-snippet-wraponly*
+	Normally, wrapper snippet can also be triggered in insert-mode, unless
+	"wraponly" declared. For example: >
+				________/------------| wrap only
+		XPT if wrap=job wraponly
+		if (`condition^){
+		    `job^
+		}
+<
+							    *xpt-snippet-abbr*
+								   {default:0}
+	Set to 1 to create |abbreviations| for this snippet.
+	Example: >
+		       ____/------------------------| create abbr
+		XPT if abbr
+		if (  ) {  }
+<	Snippet defined as above will be triggered by typing "if<space>" or
+	"if<C-]>".
+
 							    *xpt-snippet-body*
 	<snippet body> is all the OTHER text except the first line : >
 		XPT for hint=for\ (..;..;++)
@@ -366,34 +417,40 @@
 
 
 				       *`::^* *Include:* *xpt-snippet-include*
-	Snippet can include another snippet, by using inclusion place holder : >
-		`Include:snippetNmae^
-<	Where "`" and "^" is the mark. When inclusion occurs,
-	|xpt-snippet-post-filter|, |xpt-snippet-default-value| and
-	|xpt-snippet-preset-value| is imported too, if it does not overrides.
+	`::^		Simple Include without "cursor".
+	`Include:^	Include with "cursor" place holder.
 
-	You can also use the short format : >
+	Snippet can include another snippet, through inclusion place holder : >
+		`Include:snippetNmae^
+<	When inclusion occurs, |xpt-snippet-post-filter|,
+	|xpt-snippet-default-value| and |xpt-snippet-preset-value| is imported
+	too, if it does not override.
+
+	Short inclusion format : >
 		`:snippetName:^
-<	Only two ":" around the snippet name are needed. Take the "if" snippet
-	in "_condition/c.like.xpt.vim" for example: >
-		
-		XPT _if hidden=1
+<	Only two ":" around snippet name are needed.
+
+	NOTE	The only difference between "Include:" and "::" is "Include:"
+		keeps "cursor" place holder but "::" does not.
+
+	Take "if" snippet in "_condition/c.like.xpt.vim" for example: >
+		XPT _if hidden
 		if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
 		    `job^
 		}
 
 		XPT if hint=if\ (..)\ {..}\ else...
-		`Include:_if^` `else...{{^`$BRel^`Include:else^`}}^
+		`:_if:^` `else...{{^`$BRel^`Include:else^`}}^
 
 <	The real "if" includes the "_if" and "else" snippets.
 	
-	NOTE	"Include" is literal, so that snippets with different
+	NOTE	Include is literal, so that snippets with different
 		|xpt-snippet-mark| can not include each other.
 
-	NOTE	By convention snippet names starting with "_" are supplied by
-		XPTemplate and shouldn't be used for custom snippets. Normally
-		these snippets are set with |xpt-snippet-hidden| on and for
-		inclusion only.
+	NOTE	By convention snippets of name started with "_" are internal
+		snippets. Normally these snippets are set with
+		|xpt-snippet-hidden| flag on and used for inclusion only.
+
 
 							    *xpt-snippet-XSET*
 	In |xpt-snippet-body| XSET commands can be used anywhere to set : 
@@ -518,7 +575,7 @@
 
 						     *xpt-placeholder-special*
 	Special place holders include : |xpt-placeholder-cursor| and
-	|xpt-placeholder-wrapped|.
+	|xpt-snippet-wrap|.
 
 					 *`cursor^*   *xpt-placeholder-cursor*
 	Sets where cursor the stops after a snippet finished.
@@ -527,11 +584,6 @@
 	and replaced with an empty string. When navigating to the "cursor"
 	item the snippet is complete.
 
-						     *xpt-placeholder-wrapped*
-	If a snippet contains the place holder "`wrapped^" it is a wrapped
-	snippet. Wrapped snippet can only be triggered in visual mode, see
-	|xpt-wrapped|. The place holder `wrapped^ is replaced with text
-	selected in visual mode.
 
 				 *xpt-{}* *xpt-mixed* *xpt-snippet-expression*
 	Expression is a mixture of plain text, |xpt-snippet-variable| and

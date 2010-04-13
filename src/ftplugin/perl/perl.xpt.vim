@@ -45,41 +45,41 @@ XPT fornn hidden=1
 XPT whilenn hidden=1
 
 
-XPT perl hint=#!/usr/bin/env\ perl
+XPT perl " #!/usr/bin/env perl
 #!/usr/bin/env perl
 
 ..XPT
 
 
-XPT xif hint=..\ if\ ..;
+XPT xif " .. if ..;
 `expr^ if `cond^;
 
 
-XPT xwhile hint=..\ while\ ..;
+XPT xwhile " .. while ..;
 `expr^ while `cond^;
 
 
-XPT xunless hint=..\ unless\ ..;
+XPT xunless " .. unless ..;
 `expr^ unless `cond^;
 
 
-XPT xforeach hint=..\ foreach\ ..;
+XPT xforeach " .. foreach ..;
 `expr^ foreach @`array^;
 
 
-XPT sub hint=sub\ ..\ {\ ..\ }
+XPT sub " sub .. { .. }
 sub `fun_name^`$BRfun^{
     `cursor^
 }
 
 
-XPT unless hint=unless\ (\ ..\ )\ {\ ..\ }
+XPT unless " unless ( .. ) { .. }
 unless`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
     `cursor^
 }
 
 
-XPT eval hint=eval\ {\ ..\ };if...
+XPT eval wrap=risky " eval { .. };if...
 eval`$BRif^{
     `risky^
 };
@@ -87,39 +87,39 @@ if`$SPcmd^(`$SParg^$@`$SParg^)`$BRif^{
     `handle^
 }
 
-XPT try alias=eval hint=eval\ {\ ..\ };\ if\ ...
+XPT try alias=eval " eval { .. }; if ...
 
 
-XPT whileeach hint=while\ \(\ \(\ key,\ val\ )\ =\ each\(\ %**\ )\ )
+XPT whileeach " while \( \( key, val ) = each\( %** ) )
 while`$SPcmd^(`$SParg^(`$SParg^$`key^,`$SPop^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRloop^{
     `cursor^
 }
 
-XPT whileline hint=while\ \(\ defined\(\ \$line\ =\ <FILE>\ )\ )
+XPT whileline " while \( defined\( \$line = <FILE> ) )
 while`$SPcmd^(`$SParg^defined(`$SParg^$`line^`$SPop^=`$SPop^<`STDIN^>`$SParg^)`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
-XPT foreach hint=foreach\ my\ ..\ (..){}
+XPT foreach " foreach my .. (..){}
 foreach`$SPcmd^my $`var^ (`$SParg^@`array^`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
-XPT forkeys hint=foreach\ my\ var\ \(\ keys\ %**\ )
+XPT forkeys " foreach my var \( keys %** )
 foreach`$SPcmd^my $`var^ (`$SParg^keys @`array^`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
-XPT forvalues hint=foreach\ my\ var\ \(\ keys\ %**\ )
+XPT forvalues " foreach my var \( keys %** )
 foreach`$SPcmd^my $`var^ (`$SParg^values @`array^`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
-XPT if hint=if\ (\ ..\ )\ {\ ..\ }\ ...
+XPT if wrap=job " if ( .. ) { .. } ...
 XSET job=$CS job
 if`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
     `job^
@@ -132,7 +132,7 @@ if`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
     `cursor^
 }`}}^
 
-XPT package hint=
+XPT package " 
 package `className^;
 
 use base qw(`parent^);
@@ -149,28 +149,4 @@ sub new`$BRfun^{
 ..XPT
 
 
-" ================================= Wrapper ===================================
 
-XPT if_ hint=if\ (..)\ {\ SEL\ }\ ...
-XSET job=$CS job
-if`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
-    `wrapped^
-}`
-`elsif...^`$BRel^elsif`$SPcmd^(`$SParg^`cond2^`$SParg^)`$BRif^{
-    `job^
-}`
-`elsif...^`
-`else...{{^`$BRel^else`$BRif^{
-    `cursor^
-}`}}^
-
-
-XPT eval_ hint=eval\ {\ ..\ };if...
-eval`$BRif^{
-    `wrapped^
-};
-if`$SPcmd^(`$SParg^$@`$SParg^)`$BRif^{
-    `handle^
-}
-
-XPT try_ alias=eval_ hint=eval\ {\ ..\ };\ if\ ...

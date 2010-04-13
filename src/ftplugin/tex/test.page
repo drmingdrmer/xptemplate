@@ -2,7 +2,7 @@
 
 
     %  -------------"_--------------- 
-    % "`wrapped^"                     
+    % "`w^"                           
 
 
 
@@ -10,17 +10,17 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
     %  -------------'_--------------- 
-    % '`wrapped^'                     
+    % '`w^'                           
 
 
 
@@ -28,17 +28,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     %  -------------(_--------------- 
-    % (`wrapped^)                     
+    % (`w^)                           
 
 
 
@@ -46,17 +46,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     %  -------------<_--------------- 
-    % <`wrapped^>                     
+    % <`w^>                           
 
 
 
@@ -64,17 +64,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     %  -------------[_--------------- 
-    % [`wrapped^]                     
+    % [`w^]                           
 
 
 
@@ -82,17 +82,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     %  -------------`_--------------- 
-    % \``wrapped^\`                   
+    % \``w^\`                         
 
 
 
@@ -100,10 +100,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -124,9 +124,9 @@ WRAPPED_TEXT_line2`
         
     \end{abstract} b
 
-    a \begin{abstract}
+    `\begin{abstract}
         
-    \end{abstract} b
+    \end{abstract}^
 
     a \begin{abstract}
         
@@ -151,11 +151,11 @@ WRAPPED_TEXT_line2`
     what_TYPED 0_TYPED \\ 1_TYPED
     \end{array} b
 
-    a \begin{array}{rcl}
+    `\begin{array}{rcl}
     what & what & what & what \\
     what & what & what \\
     what \\
-    \end{array} b
+    \end{array}^
 
     a \begin{array}{rcl}
     what & what & what & what \\
@@ -173,10 +173,10 @@ WRAPPED_TEXT_line2`
 WRAPPED_TEXT_line2{}
 
 \WRAPPED_TEXT
-WRAPPED_TEXT_line2{}b
+WRAPPED_TEXT_line2{} b
 
-a \WRAPPED_TEXT
-WRAPPED_TEXT_line2{}b
+`\WRAPPED_TEXT
+WRAPPED_TEXT_line2{}^
 
 a \WRAPPED_TEXT
 WRAPPED_TEXT_line2{}
@@ -191,7 +191,7 @@ WRAPPED_TEXT_line2{}
 
     drdr.xp b
 
-    a drdr.xp b
+    `drdr.xp^
 
     a drdr.xp
 
@@ -211,9 +211,9 @@ WRAPPED_TEXT_line2{}
     
     \end{something_TYPED} b
 
-    a \begin{something}
+    `\begin{something}
     
-    \end{something} b
+    \end{something}^
 
     a \begin{something}
     
@@ -235,9 +235,9 @@ WRAPPED_TEXT_line2{}
         
     \end{block} b
 
-    a \begin{block}{title}
+    `\begin{block}{title}
         
-    \end{block} b
+    \end{block}^
 
     a \begin{block}{title}
         
@@ -259,13 +259,13 @@ WRAPPED_TEXT_line2{}
     \begin{columns}
         \begin{column}[l]{5cm}
         \end{column}
-        
+    
         \begin{column}[l]{5cm}
         \end{column}
-        
+    
         \begin{column}[l]{5cm}
         \end{column}
-        
+    
         \begin{column}[l]{5cm}
         \end{column}
         
@@ -277,31 +277,31 @@ WRAPPED_TEXT_line2{}
         
     \end{columns} b
 
-    a \begin{columns}
+    `\begin{columns}
+        \begin{column}[l]{5cm}
+        \end{column}
+    
+        \begin{column}[l]{5cm}
+        \end{column}
+    
+        \begin{column}[l]{5cm}
+        \end{column}
+    
         \begin{column}[l]{5cm}
         \end{column}
         
-        \begin{column}[l]{5cm}
-        \end{column}
-        
-        \begin{column}[l]{5cm}
-        \end{column}
-        
-        \begin{column}[l]{5cm}
-        \end{column}
-        
-    \end{columns} b
+    \end{columns}^
 
     a \begin{columns}
         \begin{column}[l]{5cm}
         \end{column}
-        
+    
         \begin{column}[l]{5cm}
         \end{column}
-        
+    
         \begin{column}[l]{5cm}
         \end{column}
-        
+    
         \begin{column}[l]{5cm}
         \end{column}
         
@@ -323,9 +323,9 @@ WRAPPED_TEXT_line2{}
         
     \end{document} b
 
-    a \begin{document}
+    `\begin{document}
         
-    \end{document} b
+    \end{document}^
 
     a \begin{document}
         
@@ -341,7 +341,7 @@ WRAPPED_TEXT_line2{}
 
     \documentclass[size_TYPEDpt]{article} b
 
-    a \documentclass[11pt]{article} b
+    `\documentclass[11pt]{article}^
 
     a \documentclass[11pt]{article}
 
@@ -355,7 +355,7 @@ WRAPPED_TEXT_line2{}
 
     drdr.xp@gmail.com b
 
-    a drdr.xp@gmail.com b
+    `drdr.xp@gmail.com^
 
     a drdr.xp@gmail.com
 
@@ -375,12 +375,12 @@ WRAPPED_TEXT_line2{}
 \begin{something_TYPED}
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-\end{something_TYPED}b
+\end{something_TYPED} b
 
-a \begin{something}
+`\begin{something}
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-\end{something}b
+\end{something}^
 
 a \begin{something}
     WRAPPED_TEXT
@@ -407,12 +407,12 @@ a \begin{something}
     \item what_TYPED_TYPED
     \end{enumerate} b
 
-    a \begin{enumerate}
+    `\begin{enumerate}
     \item 
     \item 
     \item 
     \item 
-    \end{enumerate} b
+    \end{enumerate}^
 
     a \begin{enumerate}
     \item 
@@ -437,9 +437,9 @@ a \begin{something}
     
     \end{equation} b
 
-    a \begin{equation}
+    `\begin{equation}
     
-    \end{equation} b
+    \end{equation}^
 
     a \begin{equation}
     
@@ -455,7 +455,7 @@ a \begin{something}
 
     test.page b
 
-    a test.page b
+    `test.page^
 
     a test.page
 
@@ -469,7 +469,7 @@ a \begin{something}
 
     \frac{a_TYPED}{b_TYPED} b
 
-    a \frac{a}{b} b
+    `\frac{a}{b}^
 
     a \frac{a}{b}
 
@@ -489,9 +489,9 @@ a \begin{something}
         
     \end{frame} b
 
-    a \begin{frame}{title}
+    `\begin{frame}{title}
         
-    \end{frame} b
+    \end{frame}^
 
     a \begin{frame}{title}
         
@@ -513,9 +513,9 @@ a \begin{something}
     \author{drdr.xp}
     \date{2009 Oct 08} b
 
-    a \title{title}
+    `\title{title}
     \author{drdr.xp}
-    \date{2009 Oct 08} b
+    \date{2009 Oct 08}^
 
     a \title{title}
     \author{drdr.xp}
@@ -531,7 +531,7 @@ a \begin{something}
 
     \int_begin_TYPED^end_TYPED{} b
 
-    a \int_begin^end{} b
+    `\int_begin^end{}^
 
     a \int_begin^end{}
 
@@ -555,12 +555,12 @@ a \begin{something}
     \item what_TYPED_TYPED
     \end{itemize} b
 
-    a \begin{itemize}
+    `\begin{itemize}
     \item 
     \item 
     \item 
     \item 
-    \end{itemize} b
+    \end{itemize}^
 
     a \begin{itemize}
     \item 
@@ -579,7 +579,7 @@ a \begin{something}
 
     \label{} b
 
-    a \label{} b
+    `\label{}^
 
     a \label{}
 
@@ -593,7 +593,7 @@ a \begin{something}
 
     \lim_{what_TYPED} b
 
-    a \lim_{what} b
+    `\lim_{what}^
 
     a \lim_{what}
 
@@ -607,7 +607,7 @@ a \begin{something}
 
     \ref{} b
 
-    a \ref{} b
+    `\ref{}^
 
     a \ref{}
 
@@ -621,7 +621,7 @@ a \begin{something}
 
     \section{sectionTitle_TYPED} b
 
-    a \section{sectionTitle} b
+    `\section{sectionTitle}^
 
     a \section{sectionTitle}
 
@@ -641,9 +641,9 @@ a \begin{something}
     
     \end{slide} b
 
-    a \begin{slide}
+    `\begin{slide}
     
-    \end{slide} b
+    \end{slide}^
 
     a \begin{slide}
     
@@ -659,7 +659,7 @@ a \begin{something}
 
     \sqrtn_TYPED{} b
 
-    a \sqrt[nth]{} b
+    `\sqrt[nth]{}^
 
     a \sqrt[nth]{}
 
@@ -673,7 +673,7 @@ a \begin{something}
 
     \sum_{init_TYPED}^end_TYPED{} b
 
-    a \sum_{init}^end{} b
+    `\sum_{init}^end{}^
 
     a \sum_{init}^end{}
 
@@ -702,21 +702,21 @@ a \begin{something}
     \end{tabular}
      b
 
+     `\begin{tabular}{|r|c|l|}
+     \hline
+      \\
+      \hline
+       \\
+     \end{tabular}
+     ^
+
      a \begin{tabular}{|r|c|l|}
      \hline
       \\
       \hline
        \\
      \end{tabular}
-      b
-
-      a \begin{tabular}{|r|c|l|}
-      \hline
-       \\
-       \hline
-        \\
-      \end{tabular}
-      
+     
 
 
     %  -------------toc--------------- 
@@ -728,7 +728,7 @@ a \begin{something}
 
     \tableofcontents b
 
-    a \tableofcontents b
+    `\tableofcontents^
 
     a \tableofcontents
 
@@ -742,29 +742,29 @@ a \begin{something}
 WRAPPED_TEXT_line2}
 
 \{WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a \{WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`\{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a \{WRAPPED_TEXT
 WRAPPED_TEXT_line2}
 
 
     %  -------------{_--------------- 
-    % {`wrapped^}                     
+    % {`w^}                           
 
 
 
 {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}
+WRAPPED_TEXT_line2}
 
-    {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}b
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
 
-    a {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
-    a {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 

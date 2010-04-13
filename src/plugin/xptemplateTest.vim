@@ -2,10 +2,11 @@ if !exists("g:__XPTEMPLATE_VIM__")
     runtime plugin/xptemplate.vim
 endif
 
-if exists("g:__XPTEMPLATETEST_VIM__")
+if exists( "g:__XPTEMPLATETEST_VIM__" ) && g:__XPTEMPLATETEST_VIM__ >= XPT#ver
     finish
 endif
-let g:__XPTEMPLATETEST_VIM__ = 1
+let g:__XPTEMPLATETEST_VIM__ = XPT#ver
+
 
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
@@ -28,13 +29,14 @@ let s:LAST_PHASE = s:phases[ -1 ]
 " Note: using a/b instead of -/= to avoid indent problem that cause text auto
 "       wrapped which make XPM not work well
 let s:preinputs = {
-            \'before' : " b\<left>\<left>", 
-            \'between' : "a  b\<left>\<left>", 
-            \'after' : "a ", 
+            \'before' : " b\<left>\<left>",
+            \'between' : "`^\<left>",
+            \'after' : "a ",
             \}
 
 
 " com! XPTSlow redraw! | sleep 250m
+" com! XPTSlow redraw! | sleep 1000m
 com! XPTSlow echo
 
 fun! s:Feedkeys( text, mode )
@@ -44,7 +46,8 @@ endfunction
 
 fun s:XPTtrigger(name) "{{{
     call s:Feedkeys(a:name, 'nt')
-    call s:Feedkeys("", 'mt')
+    call s:Feedkeys( eval('"\' . g:xptemplate_key . '"' ), 'mt' )
+    " call s:Feedkeys("", 'mt')
 endfunction "}}}
 fun s:XPTtype(...) "{{{
     let ln = line( '.' )
@@ -77,7 +80,10 @@ fun s:XPTwrapNew(name, preinput) "{{{
     call s:Feedkeys("S", 'nt')
     call s:Feedkeys( a:preinput, 'nt' )
 
-    call s:Feedkeys("\<C-o>maWRAPPED_TEXT\<cr>WRAPPED_TEXT_line2\<left>\<C-o>mb", 'nt')
+    " call s:Feedkeys("\<C-o>maWRAPPED_TEXT\<cr>WRAPPED_TEXT_line2\<left>\<C-o>mb", 'nt')
+    call s:Feedkeys("\<C-o>ma" , 'nt' )
+    let @p="WRAPPED_TEXT\nWRAPPED_TEXT_line2"
+    call s:Feedkeys("\<C-o>\"pgP\<Left>\<C-o>mb" , 'nt' )
 
     call s:Feedkeys( "\<C-o>:XPTSlow\<cr>", '' )
 
@@ -93,8 +99,7 @@ fun s:XPTwrapNew(name, preinput) "{{{
         call s:Feedkeys("\<C-g>", 'nt')
     endif
 
-    " call s:Feedkeys(":call cursor(b:q)\<cr>", 'nt')
-    
+
     call s:Feedkeys("`b", 'nt')
 
     if &sel == 'exclusive'
@@ -102,12 +107,14 @@ fun s:XPTwrapNew(name, preinput) "{{{
     endif
 
 
-
-    " call s:Feedkeys("\<C-w>", 'mt')
-    call s:Feedkeys("", 'mt')
+    call s:Feedkeys( eval('"\' . g:xptemplate_key . '"' ), 'mt' )
     call s:Feedkeys(a:name, 'nt')
-    call s:Feedkeys("	", 'mt')
-    " call s:Feedkeys("\<cr>", 'nt')
+
+    if g:xptemplate_pum_tab_nav
+        call s:Feedkeys("\<CR>", 'mt')
+    else
+        call s:Feedkeys("	", 'mt')
+    endif
 
 
 endfunction "}}}
@@ -125,7 +132,6 @@ fun! s:NewTestFile(ft) "{{{
     catch /.*/
     endtry
     let s:tempPath = tempPath
-    " echom tempPath
 
     exe 'e '.tempPath.'/test.page'
 
@@ -187,6 +193,8 @@ fun! s:XPTtest(ft) "{{{
     let b:testPhase      = s:phases[ b:phaseIndex ]
 
 
+    call XPTparseSnippets()
+
     let tmpls = XPTgetAllTemplates()
 
     let x = XPTbufData()
@@ -223,6 +231,7 @@ fun! s:XPTtest(ft) "{{{
 
 
     let b:tmplToTest = tmplList
+
     " let b:tmplToTest = []
     " for v in tmplList
         " if v.item.name =~ 'invoke_' 
@@ -272,6 +281,8 @@ endfunction "}}}
 fun! TestProcess() "{{{
     XPTSlow
 
+    call s:log.Debug( "TestProcess" )
+
     if b:testProcessing == 0
         call s:log.Log("processing = 0, to start new")
         call s:StartNewTemplate()
@@ -280,11 +291,13 @@ fun! TestProcess() "{{{
 
     else " b:testProcessing = 1
 
+
         let x = XPTbufData()
         let ctx = x.renderContext
         if ctx.phase == 'uninit' || ctx.phase == 'popup'
             return ""
         endif
+        call s:log.Log("processing = 1, handle action")
 
         " Insert mode or select mode.
         " If it is in normal mode, maybe something else is going. In normal mode,
@@ -330,7 +343,7 @@ fun! s:StartNewTemplate() "{{{
         " first time rendering the template, show original template definition
 
         let tmpl0 = [ ' ' . '-------------' . b:currentTmpl.name . '---------------' ] 
-                    \+ split( b:currentTmpl.tmpl , "\n" )
+                    \+ split( b:currentTmpl.snipText , "\n" )
 
         let maxLength = 0
         for line in tmpl0
@@ -374,7 +387,7 @@ fun! s:StartNewTemplate() "{{{
 
 
     " render template
-    if b:currentTmpl.wrapped
+    if b:currentTmpl.setting.iswrap
         call s:XPTwrapNew( b:currentTmpl.name, charAround )
     else
         call s:XPTnew( b:currentTmpl.name, charAround )
@@ -393,7 +406,7 @@ fun! s:FillinTemplate() "{{{
         " call confirm(  "can not be!" )
     " endif
 
-    call s:log.Log( "template name=" . ctx.tmpl.name . ' ============================================================ ' )
+    call s:log.Log( "template name=" . ctx.snipObject.name . ' ============================================================ ' )
     call s:log.Log( "mode=".mode()." popup=".pumvisible() )
     call s:log.Log( "render phase:" . ctx.phase)
     call s:log.Log( 'b:testPhase=' . b:testPhase )
@@ -420,7 +433,7 @@ fun! s:FillinTemplate() "{{{
             call s:XPTtype( "\<C-n>" )
 
 
-        elseif len(b:itemSteps) >= 4 
+        elseif len( b:itemSteps ) >= 4 
                     \&& ( b:itemSteps[-3] == ctx.item.name 
                     \    || b:itemSteps[ -4 ] == ctx.item.name )
             call s:log.Log( "too many repetition done, cancel it" )
@@ -437,8 +450,7 @@ fun! s:FillinTemplate() "{{{
             call s:log.Log( 'to type, item name=' . string( ctx.item.name ) )
             call s:XPTtype(substitute(ctx.item.name, '\W', '', 'g') . "_TYPED")
 
-        " elseif b:testPhase == s:CHAR_AROUND
-        " elseif b:testPhase == s:NESTED
+
         else
             call s:log.Log( "other, just goto next" )
             " not implemented yet
@@ -471,4 +483,3 @@ com XPTtestEnd call <SID>TestFinish()
 
 let &cpo = s:oldcpo
 
-" vim: set sw=4 sts=4 :

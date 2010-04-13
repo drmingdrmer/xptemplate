@@ -2,7 +2,7 @@
 
 
     /*  -------------"_--------------- */
-    /* "`wrapped^"                     */
+    /* "`w^"                           */
 
 
 
@@ -10,17 +10,17 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
     /*  -------------'_--------------- */
-    /* '`wrapped^'                     */
+    /* '`w^'                           */
 
 
 
@@ -28,17 +28,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     /*  -------------(_--------------- */
-    /* (`wrapped^)                     */
+    /* (`w^)                           */
 
 
 
@@ -46,17 +46,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     /*  -------------<_--------------- */
-    /* <`wrapped^>                     */
+    /* <`w^>                           */
 
 
 
@@ -64,17 +64,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     /*  -------------[_--------------- */
-    /* [`wrapped^]                     */
+    /* [`w^]                           */
 
 
 
@@ -82,17 +82,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     /*  -------------`_--------------- */
-    /* \``wrapped^\`                   */
+    /* \``w^\`                         */
 
 
 
@@ -100,10 +100,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -118,7 +118,7 @@ WRAPPED_TEXT_line2`
 
 drdr.xp b
 
-a drdr.xp b
+`drdr.xp^
 
 a drdr.xp
 
@@ -149,7 +149,7 @@ case matched_TYPED of
         body_TYPED_TYPED
 end  b
 
-a case matched of
+`case matched of
     pattern ->
         body;
     patternn ->
@@ -158,7 +158,7 @@ a case matched of
         bodyn;
     patternn ->
         bodyn
-end  b
+end ^
 
 a case matched of
     pattern ->
@@ -181,7 +181,7 @@ end
 
 -define( what_TYPED, def_TYPED ). b
 
-a -define( what, def ). b
+`-define( what, def ).^
 
 a -define( what, def ).
 
@@ -195,7 +195,7 @@ a -define( what, def ).
 
 drdr.xp@gmail.com b
 
-a drdr.xp@gmail.com b
+`drdr.xp@gmail.com^
 
 a drdr.xp@gmail.com
 
@@ -209,7 +209,7 @@ a drdr.xp@gmail.com
 
 test.page b
 
-a test.page b
+`test.page^
 
 a test.page
 
@@ -235,11 +235,11 @@ fun (params_TYPED) __TYPED -> body_TYPED
     more_TYPED
 end  b
 
-a fun (params) _ -> body;
+`fun (params) _ -> body;
     (params) _ -> body;
     (params) _ -> body;
     (params) _ -> body
-end  b
+end ^
 
 a fun (params) _ -> body;
     (params) _ -> body;
@@ -271,7 +271,7 @@ funName_TYPED ( args0_TYPED ) __TYPED ->
     body0_TYPED _TYPED
 . b
 
-a funName ( args0 ) _ ->
+`funName ( args0 ) _ ->
     body0 ;
 funName ( argsn ) _ ->
     bodyn;
@@ -279,7 +279,7 @@ funName ( argsn ) _ ->
     bodyn;
 funName ( argsn ) _ ->
     bodyn
-. b
+.^
 
 a funName ( args0 ) _ ->
     body0 ;
@@ -318,7 +318,7 @@ if
         body_TYPED _TYPED
 end  b
 
-a if
+`if
     cond ->
         body;
     cond2 ->
@@ -327,7 +327,7 @@ a if
         bodyn;
     cond2 ->
         bodyn
-end  b
+end ^
 
 a if
     cond ->
@@ -362,11 +362,11 @@ end
     else_TYPED
 -endif(). b
 
-a -ifdef( what ).
+`-ifdef( what ).
     thenmacro
 -else.
     
--endif(). b
+-endif().^
 
 a -ifdef( what ).
     thenmacro
@@ -396,11 +396,11 @@ a -ifdef( what ).
     else_TYPED
 -endif(). b
 
-a -ifndef( what ).
+`-ifndef( what ).
     thenmacro
 -else.
     
--endif(). b
+-endif().^
 
 a -ifndef( what ).
     thenmacro
@@ -418,7 +418,7 @@ a -ifndef( what ).
 
 -include( ".hrl"). b
 
-a -include( ".hrl"). b
+`-include( ".hrl").^
 
 a -include( ".hrl").
 
@@ -455,7 +455,7 @@ receive
 after_TYPED
 end b
 
-a receive
+`receive
     pattern ->
         body;
     patternn ->
@@ -466,7 +466,7 @@ a receive
         body
     after
     afterBody
-end b
+end^
 
 a receive
     pattern ->
@@ -501,12 +501,12 @@ end
         ,{ field1_TYPED_TYPED
         }). b
 
-a -record( recordName
+`-record( recordName
         ,{ field1
         ,  fieldn
         ,  fieldn
         ,  fieldn
-        }). b
+        }).^
 
 a -record( recordName
         ,{ field1
@@ -530,7 +530,8 @@ a -record( recordName
 
 
 
-try what
+try WRAPPED_TEXT
+WRAPPED_TEXT_line2
 catch
     except -> toRet;
     except -> toRet;
@@ -540,14 +541,16 @@ after
     afterBody
 end 
 
-try what_TYPED
+try WRAPPED_TEXT
+WRAPPED_TEXT_line2
 catch
     except_TYPED -> toRet_TYPED
     _TYPED
 after_TYPED
 end  b
 
-a try what
+`try WRAPPED_TEXT
+WRAPPED_TEXT_line2
 catch
     except -> toRet;
     except -> toRet;
@@ -555,9 +558,10 @@ catch
     except -> toRet
 after
     afterBody
-end  b
+end ^
 
-a try what
+a try WRAPPED_TEXT
+WRAPPED_TEXT_line2
 catch
     except -> toRet;
     except -> toRet;
@@ -566,63 +570,6 @@ catch
 after
     afterBody
 end 
-
-
-    /*  -------------try_--------------- */
-    /* try                               */
-    /*     `wrapped^                     */
-    /* catch                             */
-    /*     `excep^ -> `toRet^` `...0^;   */
-    /*     `except^ -> `toRet^` `...0^   */
-    /* `after...{{^after                 */
-    /*     `afterBody^`}}^               */
-    /* end                               */
-
-
-
-try
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-catch
-    excep -> toRet;
-    except -> toRet;
-    except -> toRet;
-    except -> toRet
-after
-    afterBody
-end
-
-try
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-catch
-    excep_TYPED -> toRet_TYPED 0_TYPED
-after_TYPED
-endb
-
-a try
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-catch
-    excep -> toRet;
-    except -> toRet;
-    except -> toRet;
-    except -> toRet
-after
-    afterBody
-endb
-
-a try
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-catch
-    excep -> toRet;
-    except -> toRet;
-    except -> toRet;
-    except -> toRet
-after
-    afterBody
-end
 
 
     /*  -------------tryof--------------- */
@@ -666,7 +613,7 @@ catch
 after_TYPED
 end  b
 
-a try what of
+`try what of
     pattern ->
         body;
     patternn ->
@@ -681,7 +628,7 @@ catch
     except -> toRet
 after
     afterBody
-end  b
+end ^
 
 a try what of
     pattern ->
@@ -702,7 +649,7 @@ end
 
 
     /*  -------------{_--------------- */
-    /* {`wrapped^}                     */
+    /* {`w^}                           */
 
 
 
@@ -710,10 +657,10 @@ end
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

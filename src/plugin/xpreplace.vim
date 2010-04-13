@@ -1,14 +1,15 @@
-if exists("g:__XPREPLACE_VIM__")
-  finish
+if exists( "g:__XPREPLACE_VIM__" ) && g:__XPREPLACE_VIM__ >= XPT#ver
+    finish
 endif
-let g:__XPREPLACE_VIM__ = 1
+let g:__XPREPLACE_VIM__ = XPT#ver
+
 
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
 runtime plugin/debug.vim
 runtime plugin/xpmark.vim
-runtime plugin/SettingSwitch.class.vim
+runtime plugin/classes/SettingSwitch.vim
 
 " TODO xpreplace line start with <tab> leaving a ';', ada:beg snippet
 " TODO use gp to paste and leave cursor after pasted content
@@ -35,8 +36,10 @@ fun! s:InitBuffer() "{{{
     endif
 
     let b:__xpr_init = { 'settingSwitch' : g:SettingSwitch.New() }
+    " NOTE: bug! if 'virtualedit'=all, and 'selection'=exclusive, visual mode
+    " deletion leaves the last char in selection
     call b:__xpr_init.settingSwitch.AddList( 
-          \ [ '&l:virtualedit', 'all' ],
+          \ [ '&l:virtualedit', 'onemore' ],
           \ [ '&l:whichwrap'  , 'b,s,h,l,<,>,~,[,]' ],
           \ [ '&l:selection'  , 'exclusive' ],
           \ [ '&l:selectmode' , '' ],
@@ -50,6 +53,7 @@ fun! XPRstartSession() "{{{
     call s:InitBuffer()
 
     if exists( 'b:_xpr_session' )
+        throw "xpreplace session already pushed"
         return
     endif
 
@@ -95,20 +99,34 @@ endfunction "}}}
 
 " let s:ii = 0
 
+
+fun! s:ConvertSpaceToTab( text ) "{{{
+    return XPT#convertSpaceToTab( a:text )
+endfunction "}}}
+
+
+
 " For internal use only, the caller is reponsible to set settings correctly.
-fun! XPreplaceInternal(start, end, replacement, option) "{{{
+fun! XPreplaceInternal(start, end, replacement, ...) "{{{
     " Cursor stays just after replacement
 
-    let option = { 'doJobs' : 1 }
-    call extend( option, a:option, 'force' )
+    let option = { 'doJobs' : 1, 'saveHoriScroll' : 0 }
+    if a:0 == 1
+        call extend( option, a:1, 'force' )
+    endif
 
     call s:log.Debug( 'XPreplaceInternal parameters:' . string( [ a:start, a:end, a:replacement, option ] ) )
 
-    " TODO use assertion to ensure settings
+    " if option.saveHoriScroll
+    "     " NOTE: long replacement cause screen scroll horizontally if 'nowrap' set
+    "     call XPT#saveHoriScroll()
+    " endif
 
     Assert exists( 'b:_xpr_session' )
 
-    Assert &l:virtualedit == 'all'
+    " NOTE: bug! if 'virtualedit'=all, and 'selection'=exclusive, visual mode
+    " deletion delete only the first space of the last <tab> char
+    Assert &l:virtualedit == 'onemore'
     Assert &l:whichwrap == 'b,s,h,l,<,>,~,[,]'
     Assert &l:selection == 'exclusive'
     Assert &l:selectmode == ''
@@ -119,19 +137,24 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     " reserved register 0
     " Assert @" == 'XPreplaceInited'
 
+    let replacement = s:ConvertSpaceToTab( a:replacement )
+
 
 
     if option.doJobs
         " TODO not good
-        call s:doPreJob(a:start, a:end, a:replacement)
+        call s:doPreJob(a:start, a:end, replacement)
     endif
 
 
     call s:log.Log( 'before replacing, line=' . string( getline( a:start[0] ) ) )
 
+    call s:log.Debug( 'line at start=' . string( getline( a:start[0] ) ) )
+    call s:log.Debug( 'line at start + 1=' . string( getline( a:start[0] + 1 ) ) )
+
+
     " remove old
     call cursor( a:start )
-
 
     if a:start != a:end
         silent! normal! v
@@ -141,18 +164,31 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
         call cursor( a:start )
     endif
 
+
     call s:log.Log( 'after deleting content, line=' . string( getline( a:start[0] ) ) )
+    call s:log.Debug( "line at start=" . string( getline( a:start[0] ) ) )
+    call s:log.Debug( 'line at start + 1=' . string( getline( a:start[0] + 1 ) ) )
 
-    if a:replacement == ''
-        call s:log.Debug( 'no replacement, return' )
-        if option.doJobs
-            call s:doPostJob( a:start, a:start, a:replacement )
-        endif
-
-        return copy( a:start )
-
+    if replacement != ''
+        let positionAfterReplacement = s:Replace_standard( a:start, a:end, replacement )
+        " let positionAfterReplacement = s:Replace_gp( a:start, a:end, replacement )
+    else
+        let positionAfterReplacement = [ line("."), col(".") ]
     endif
 
+
+    call s:log.Log( 'to do post?=' . option.doJobs )
+    if option.doJobs
+        call s:doPostJob( a:start, positionAfterReplacement, replacement )
+    endif
+
+    return positionAfterReplacement
+
+endfunction "}}}
+
+fun! s:Replace_standard( start, end, replacement ) "{{{
+
+    let replacement = a:replacement
 
 
     " add new 
@@ -177,100 +213,159 @@ fun! XPreplaceInternal(start, end, replacement, option) "{{{
     "   endif
     " endfunction
     let ifPasteAtEnd = ( col( [ a:start[0], '$' ] ) == a:start[1] && a:start[1] > 1 ) 
-                " \ && 0
+          " \ && 0
+
+
 
     call s:log.Log( 'ifPasteAtEnd=' . ifPasteAtEnd )
-
+    call s:log.Debug( 'replacement=' . len(replacement) )
 
     " force non-linewise paste
-    let @" = a:replacement . ';'
+    let @" = replacement . ';'
 
     call s:log.Log( 'before append content, line=' . string( getline( a:start[0] ) ) )
     call s:log.Log( 'to append=' . @" )
 
+    call s:log.Debug( "ifPasteAtEnd=" . ifPasteAtEnd )
+    call s:log.Debug( string( getline( a:start[0] ) ) )
+    call s:log.Debug( col( [ a:start[0], '$' ] ) . " " . a:start[1] )
+    call s:log.Debug( string(a:start) )
 
 
-    if 1 "{{{
 
-        " NOTE: When just entering insert mode from select mode, it is impossible to paste at line end.
-        " May be bug of vim
-        if ifPasteAtEnd
-            " " paste before last char 
-            " call cursor( a:start[0], a:start[1] - 1 )
-            " normal! ""p
+    " NOTE: When just entering insert mode from select mode, it is impossible to paste at line end.
+    " May be bug of vim
+    if ifPasteAtEnd
+        " " paste before last char 
+        " call cursor( a:start[0], a:start[1] - 1 )
+        " normal! ""p
 
 
-            " *) if paste at end of line, paste before last char may not be possible.
-            " *) and if previous char is <tab>, pasting after <tab> may break tab
-            " to spaces
-            call cursor( a:start[0], a:start[1] - 1 )
-            let char = getline( "." )[ -1:-1 ]
-            let @" = char . a:replacement . ';'
-            call s:log.Debug( 'at last , to append=' . @" )
-            silent! normal! ""P
+        " *) if paste at end of line, paste before last char may not be possible.
+        " *) and if previous char is <tab>, pasting after <tab> may break tab
+        " to spaces
+        call cursor( a:start[0], a:start[1] - 1 )
+        let char = getline( "." )[ -1:-1 ]
+        let @" = char . replacement . ';'
+        call s:log.Debug( 'at last , to append=' . @" )
+        silent! normal! ""P
 
+    else
+        " NOTE: vim70 can not paste from after last char
+        if col( "." ) == len( getline( line( "." ) ) ) + 1
+            silent! normal! ""p
         else
             silent! normal! ""P
-
         endif
 
+    endif
 
 
 
-        call s:log.Log( 'after append content, line=' . string( getline( a:start[0] ) ) )
 
-        let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
-        let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
+    call s:log.Log( 'after append content, line=' . string( getline( a:start[0] ) ) )
 
-        call s:log.Log( 'positionAfterReplacement='.string( positionAfterReplacement ) )
+    let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
+    let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
 
-        call cursor( a:start )
-        k'
+    call s:log.Log( 'positionAfterReplacement='.string( positionAfterReplacement ) )
 
-        call cursor(positionAfterReplacement)
-        " open fold from mark ' to current line.
-        silent! '',.foldopen!
+    call cursor( a:start )
+    k'
 
-        " remove ';'
-        if ifPasteAtEnd
-            " last char of line start replacing, and ';'
-            call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - 1 )
+    call cursor(positionAfterReplacement)
+    " open fold from mark ' to current line.
+    silent! '',.foldopen!
 
-            " if appending is occur at end of line, delete all following.
-            " 'x' command expands tab and delete only 1 char
-            silent! normal! DzO
+    " remove ';'
+    if ifPasteAtEnd
+        " last char of line start replacing, and ';'
+        call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - 1 )
 
+        " if appending is occur at end of line, delete all following.
+        " 'x' command expands tab and delete only 1 char
+        silent! normal! DzO
+
+    else
+        call cursor( positionAfterReplacement )
+        call s:log.Log( 'before remove ";" positionAfterReplacement='.string( positionAfterReplacement ) )
+
+        " NOTE: vim70 can not successfully remove last char from the postion after the last char of line
+        if positionAfterReplacement[ 1 ] == len( getline( positionAfterReplacement[ 0 ] ) ) + 1 
+              \ && positionAfterReplacement[ 1 ] > 1
+            call cursor( positionAfterReplacement[ 0 ], positionAfterReplacement[ 1 ] - 1 )
+            silent! normal! xzO
         else
-            call cursor( positionAfterReplacement )
-            call s:log.Log( 'before remove ";" positionAfterReplacement='.string( positionAfterReplacement ) )
             silent! normal! XzO
         endif
-
-
-        let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
-        let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
-
-        "}}}
-    else
-
-        " NOTE: command 'gp' leaves cursor after pasted content. but it still has
-        " select-mode -> insert-mode problem
-        call cursor( a:start )
-        silent! normal! ""gPX
-
-
-        let positionAfterReplacement = [ line( "." ), col( "." ) ]
-
     endif
 
-    call s:log.Log( 'to do post?=' . option.doJobs )
-    if option.doJobs
-        call s:doPostJob( a:start, positionAfterReplacement, a:replacement )
-    endif
+
+    let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
+    let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
+
+
 
     return positionAfterReplacement
-
+    
 endfunction "}}}
+
+fun! s:Replace_gp( start, end, replacement ) "{{{
+
+    let replacement = a:replacement
+
+
+    " add new 
+    let bStart = [a:start[0] - line( '$' ), a:start[1] - len(getline(a:start[0]))]
+
+
+    call cursor( a:start )
+
+    call s:log.Debug( 'current cursor:'.string( [ line( "." ), col( "." ), mode() ] ) . 'expect at:' . string( a:start ) )
+
+    call s:log.Log( 'before append' )
+
+    " TODO use this only when entering insert mode from select mode
+    " example snipppet: 
+    " `aa^`aa^fff()^
+    " fun! s:f.fff()
+    "   let v = self.V()
+    "   if v == 'aa'
+    "     return ''
+    "   else
+    "     return ', another'
+    "   endif
+    " endfunction
+    let ifPasteAtEnd = ( col( [ a:start[0], '$' ] ) == a:start[1] && a:start[1] > 1 ) 
+
+    call s:log.Log( 'ifPasteAtEnd=' . ifPasteAtEnd )
+    call s:log.Debug( 'replacement=' . len(replacement) )
+
+    " force non-linewise paste
+    let @" = replacement . ';'
+
+    call s:log.Log( 'before append content, line=' . string( getline( a:start[0] ) ) )
+    call s:log.Log( 'to append=' . @" )
+
+    call s:log.Debug( "ifPasteAtEnd=" . ifPasteAtEnd )
+    call s:log.Debug( string( getline( a:start[0] ) ) )
+    call s:log.Debug( col( [ a:start[0], '$' ] ) . " " . a:start[1] )
+    call s:log.Debug( string(a:start) )
+
+
+    " NOTE: command 'gp' leaves cursor after pasted content. but it still has
+    " select-mode -> insert-mode problem
+    call cursor( a:start )
+    silent! normal! ""gPzOXzO
+
+
+    let positionAfterReplacement = [ line( "." ), col( "." ) ]
+
+
+    return positionAfterReplacement
+    
+endfunction "}}}
+
 
 fun! XPreplace(start, end, replacement, ...) "{{{
     " Cursor stays just after replacement

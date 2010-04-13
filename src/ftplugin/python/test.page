@@ -2,7 +2,7 @@
 
 
     #  -------------"_--------------- 
-    # "`wrapped^"                     
+    # "`w^"                           
 
 
 
@@ -10,17 +10,17 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
     #  -------------'_--------------- 
-    # '`wrapped^'                     
+    # '`w^'                           
 
 
 
@@ -28,17 +28,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     #  -------------(_--------------- 
-    # (`wrapped^)                     
+    # (`w^)                           
 
 
 
@@ -46,17 +46,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     #  -------------<_--------------- 
-    # <`wrapped^>                     
+    # <`w^>                           
 
 
 
@@ -64,17 +64,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     #  -------------[_--------------- 
-    # [`wrapped^]                     
+    # [`w^]                           
 
 
 
@@ -82,17 +82,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     #  -------------`_--------------- 
-    # \``wrapped^\`                   
+    # \``w^\`                         
 
 
 
@@ -100,10 +100,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -118,138 +118,128 @@ drdr.xp
 
 drdr.xp b
 
-a drdr.xp b
+`drdr.xp^
 
 a drdr.xp
 
 
-    #  -------------class---------------                  
-    # class `ClassName^`$SPfun^(`$SParg`parent?`$SParg^): 
-    #     `__init__...{{^`:init:^`}}^                     
+    #  -------------class---------------                 
+    # class `ClassName^`$SPfun^(`$SParg`object`$SParg^): 
+    #     `pass^                                         
 
 
 
-class ClassName():
-    def __init__( self ):
-        
+class ClassName( object ):
+    pass
 
-        class ClassName_TYPED( parent_TYPED ):
-            __init___TYPED b
+class ClassName_TYPED( object_TYPED ):
+    pass b
 
-a class ClassName():
-    def __init__( self ):
-         b
+`class ClassName( object ):
+    pass^
 
-a class ClassName():
-    def __init__( self ):
-        
+a class ClassName( object ):
+    pass
 
 
     #  -------------comment--------------- 
-    # `$CS^ `cursor^                       
-
-
-
-# 
-#
-#  b
-#
-a #  b
-
-a # 
-
-
-    #  -------------comment_--------------- 
-    # `$CS^ `wrapped^                       
+    # `$CS `cursor^                        
 
 
 
 # WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+# WRAPPED_TEXT_line2
+#
 # WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
+# WRAPPED_TEXT_line2 b
+#
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+ #
 a # WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a # WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+  # WRAPPED_TEXT_line2
+  #
 
     #  -------------commentBlock--------------- 
-    # `$CS^ `cursor^                            
-    # `$CS^                                     
+    # `$CS `cursor^                             
 
 
 
-# 
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
 #
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
 #
-# 
-# b
-#
-a # 
-# b
-#
-a # 
-#
-#
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+ #
+a # WRAPPED_TEXT
+  # WRAPPED_TEXT_line2
+  #
 
     #  -------------commentDoc--------------- 
-    # `$CS^                                   
-    # `$CS^ `cursor^                          
-    # `$CS^                                   
+    # `$CL^`$CM^                              
+    # `_cmt_mid_ind()$CM `cursor^             
+    # `_cmt_mid_ind()$CR^                     
 
 
 
-#
-# 
-#
-#
-#
-# 
-# b
-#
-a #
-# 
-# b
-#
-a #
-# 
-#
-#
+'''
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+   '''
+
+'''
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+   ''' b
+
+`'''
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+   '''^
+
+a '''
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+   '''
+
 
     #  -------------commentLine--------------- 
-    # `$CS^ `cursor^                           
-
-
-
-# 
-#
-#  b
-#
-a #  b
-
-a # 
-
-
-    #  -------------commentLine_--------------- 
-    # `$CS^ `wrapped^                           
+    # `$CS `cursor^                            
 
 
 
 # WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+# WRAPPED_TEXT_line2
+#
 # WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
+# WRAPPED_TEXT_line2 b
+#
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+ #
 a # WRAPPED_TEXT
-WRAPPED_TEXT_line2b
+  # WRAPPED_TEXT_line2
+  #
 
-a # WRAPPED_TEXT
-WRAPPED_TEXT_line2
+    #  -------------commentLine2--------------- 
+    # `$CL `what` $CR^`^                        
+
+
+
+''' WRAPPED_TEXT '''
+''' WRAPPED_TEXT_line2 '''
+
+''' WRAPPED_TEXT '''
+''' WRAPPED_TEXT_line2 ''' b
+
+`''' WRAPPED_TEXT '''
+ ''' WRAPPED_TEXT_line2 '''^
+
+a ''' WRAPPED_TEXT '''
+  ''' WRAPPED_TEXT_line2 '''
 
 
     #  -------------def---------------                                                      
@@ -264,8 +254,8 @@ def name():
     def name_TYPED( a_TYPED, arg_TYPED, arg_TYPED, arg_TYPED ):
          b
 
-a def name():
-     b
+`def name():
+    ^
 
 a def name():
     
@@ -283,8 +273,8 @@ elif cond:
     elif cond_TYPED:
          b
 
-a elif cond:
-     b
+`elif cond:
+    ^
 
 a elif cond:
     
@@ -302,8 +292,8 @@ else:
     else:
          b
 
-a else:
-     b
+`else:
+    ^
 
 a else:
     
@@ -318,28 +308,28 @@ drdr.xp@gmail.com
 
 drdr.xp@gmail.com b
 
-a drdr.xp@gmail.com b
+`drdr.xp@gmail.com^
 
 a drdr.xp@gmail.com
 
 
     #  -------------except---------------    
     # except `Exception^`$PYTHON_EXP_SYM`e^: 
-    #     `pass^                             
+    #     `cursor^                           
 
 
 
 except Exception, e:
-    pass
+    
 
-except Exception_TYPED, e_TYPED:
-    pass b
+    except Exception_TYPED, e_TYPED:
+         b
+
+`except Exception, e:
+    ^
 
 a except Exception, e:
-    pass b
-
-a except Exception, e:
-    pass
+    
 
 
     #  -------------File--------------- 
@@ -351,7 +341,7 @@ test.page
 
 test.page b
 
-a test.page b
+`test.page^
 
 a test.page
 
@@ -386,14 +376,14 @@ Date    : 2009 Oct 08
 Description : 
 ''' b
 
-a '''
+`'''
 File    : test.page
 Author  : drdr.xp
 Contact : drdr.xp@gmail.com
 Date    : 2009 Oct 08
 
 Description : 
-''' b
+'''^
 
 a '''
 File    : test.page
@@ -407,21 +397,21 @@ Description :
 
     #  -------------finally--------------- 
     # finally:                             
-    #     pass`^                           
+    #     `cursor^                         
 
 
 
 finally:
-    pass
+    
 
-finally:
-    pass b
+    finally:
+         b
+
+`finally:
+    ^
 
 a finally:
-    pass b
-
-a finally:
-    pass
+    
 
 
     #  -------------for---------------           
@@ -436,8 +426,8 @@ for var in seq:
     for var_TYPED in seq_TYPED:
          b
 
-a for var in seq:
-     b
+`for var in seq:
+    ^
 
 a for var in seq:
     
@@ -455,8 +445,8 @@ for i in range( end ):
     for i_TYPED in range( 0_TYPED, end_TYPED ):
          b
 
-a for i in range( end ):
-     b
+`for i in range( end ):
+    ^
 
 a for i in range( end ):
     
@@ -471,7 +461,7 @@ from module import item
 
 from module_TYPED import item_TYPED as name_TYPED b
 
-a from module import item b
+`from module import item^
 
 a from module import item
 
@@ -485,7 +475,7 @@ from __future__ import name
 
 from __future__ import name b
 
-a from __future__ import name b
+`from __future__ import name^
 
 a from __future__ import name
 
@@ -499,7 +489,7 @@ a from __future__ import name
 
 ( func_TYPED for elem_TYPED in seq_TYPED if condition_TYPED ) b
 
-a ( func for elem in seq ) b
+`( func for elem in seq )^
 
 a ( func for elem in seq )
 
@@ -519,10 +509,10 @@ else:
         pass_TYPED
     else_TYPED b
 
-a if cond:
+`if cond:
     pass
 else:
-     b
+    ^
 
 a if cond:
     pass
@@ -542,8 +532,8 @@ if __name__ == "__main__":
     if __name__ == "__main__":
          b
 
-a if __name__ == "__main__":
-     b
+`if __name__ == "__main__":
+    ^
 
 a if __name__ == "__main__":
     
@@ -558,7 +548,7 @@ import mod
 
 import mod_TYPED as name_TYPED b
 
-a import mod b
+`import mod^
 
 a import mod
 
@@ -575,8 +565,8 @@ def __init__( self ):
     def __init__( self, arg_TYPED, arg_TYPED, arg_TYPED ):
          b
 
-a def __init__( self ):
-     b
+`def __init__( self ):
+    ^
 
 a def __init__( self ):
     
@@ -591,7 +581,7 @@ lambda : expr
 
 lambda arg_TYPED, arg_TYPED, arg_TYPED: expr b
 
-a lambda : expr b
+`lambda : expr^
 
 a lambda : expr
 
@@ -605,7 +595,7 @@ a lambda : expr
 
 [ func_TYPED for elem_TYPED in seq_TYPED if condition_TYPED ] b
 
-a [ func for elem in seq ] b
+`[ func for elem in seq ]^
 
 a [ func for elem in seq ]
 
@@ -619,7 +609,7 @@ pass
 
 pass b
 
-a pass b
+`pass^
 
 a pass
 
@@ -638,9 +628,9 @@ a pass
 # coding: encoding_TYPED
  b
 
-a #!/usr/bin/env python
+`#!/usr/bin/env python
 # coding: utf-8
- b
+^
 
 a #!/usr/bin/env python
 # coding: utf-8
@@ -656,7 +646,7 @@ range( end )
 
 range( 0_TYPED, end_TYPED ) b
 
-a range( end ) b
+`range( end )^
 
 a range( end )
 
@@ -670,7 +660,7 @@ self.
 
 self. b
 
-a self. b
+`self.^
 
 a self.
 
@@ -689,9 +679,9 @@ a self.
 # coding: encoding_TYPED
  b
 
-a #!/usr/bin/env python
+`#!/usr/bin/env python
 # coding: utf-8
- b
+^
 
 a #!/usr/bin/env python
 # coding: utf-8
@@ -712,70 +702,33 @@ a #!/usr/bin/env python
 # coding: encoding_TYPED
  b
 
+`#!/usr/bin/env python
+# coding: utf-8
+^
+
 a #!/usr/bin/env python
 # coding: utf-8
- b
-
-a #!/usr/bin/env python
-# coding: utf-8
 
 
 
-    #  -------------super---------------                                                   
-    # super(`$SParg^`clz^python_find_class('Me')^,`$SPop^self`$SParg^).`method^(`:_args:^) 
+    #  -------------super---------------                                                                            
+    # super(`$SParg^`clz^python_find_class('Me')^,`$SPop^self`$SParg^).`method^python_find_func('what')^(`:_args:^) 
 
 
 
-super( ClassName_TYPED, self ).method()
+super( Me, self ).what()
 
 super( clz_TYPED, self ).method_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ) b
 
-a super( ClassName_TYPED, self ).method() b
+`super( Me, self ).what()^
 
-a super( ClassName_TYPED, self ).method()
+a super( Me, self ).what()
 
 
     #  -------------try--------------- 
     # try:                             
     #     `job^                        
     # `:except:^                       
-    # `finally...{{^`:finally:^`}}^    
-
-
-
-try:
-    job
-except Exception, e:
-    pass
-finally:
-    pass
-
-try:
-    job_TYPED
-except Exception_TYPED, e_TYPED:
-    pass_TYPED
-finally_TYPED b
-
-a try:
-    job
-except Exception, e:
-    pass
-finally:
-    pass b
-
-a try:
-    job
-except Exception, e:
-    pass
-finally:
-    pass
-
-
-    #  -------------try_--------------- 
-    # try:                              
-    #     `wrapped^                     
-    # `:except:^                        
-    # `finally...{{^`:finally:^`}}^     
 
 
 
@@ -783,32 +736,25 @@ try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 except Exception, e:
-    pass
-finally:
-    pass
+    
 
-try:
+    try:
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+    except Exception_TYPED, e_TYPED:
+         b
+
+`try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-except Exception_TYPED, e_TYPED:
-    pass_TYPED
-finally_TYPEDb
+except Exception, e:
+    ^
 
 a try:
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 except Exception, e:
-    pass
-finally:
-    passb
-
-a try:
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-except Exception, e:
-    pass
-finally:
-    pass
+    
 
 
     #  -------------while--------------- 
@@ -823,34 +769,34 @@ while condition:
     while condition_TYPED:
          b
 
-a while condition:
-     b
+`while condition:
+    ^
 
 a while condition:
     
 
 
     #  -------------with--------------- 
-    # with `opener^ as `name^:          
+    # with `opener^` as `name?^:        
     #     `cursor^                      
 
 
 
-with opener as name:
+with opener:
     
 
     with opener_TYPED as name_TYPED:
          b
 
-a with opener as name:
-     b
+`with opener:
+    ^
 
-a with opener as name:
+a with opener:
     
 
 
     #  -------------{_--------------- 
-    # {`wrapped^}                     
+    # {`w^}                           
 
 
 
@@ -858,10 +804,10 @@ a with opener as name:
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

@@ -21,7 +21,7 @@ XPTinclude
 XPTemplateDef
 
 
-XPT eq " \begin{equation} .. \end{equation}
+XPT eq " \\begin{equation} .. \\end{equation}
 \begin{equation}
 `cursor~
 \end{equation}
@@ -33,19 +33,19 @@ XPT info " title author date
 \date{`date()~}
 ..XPT
 
-XPT doc " \begin{document} .. \end{document}
+XPT doc " begin{document} .. end{document}
 \begin{document}
     `cursor~
 \end{document}
 ..XPT
 
-XPT abstract " \begin{abstract} .. \end{abstract}
+XPT abstract " begin{abstract} .. end{abstract}
 \begin{abstract}
     `cursor~
 \end{abstract}
 ..XPT
 
-XPT array " \begin{array}{..}... \end{array}
+XPT array " begin{array}{..}... end{array}
 \begin{array}{`kind~rcl~}
 `what~` `...0~ & `what~` `...0~ \\\\` `...1~
 `what~` `...2~ & `what~` `...2~ \\\\` `...1~
@@ -64,7 +64,7 @@ XSET what*|post=ExpandIfNotEmpty( ' & ', 'what*' )
 
 ..XPT
 
-XPT section " \section{..}
+XPT section " section{..}
 \section{`sectionTitle~}
 ..XPT
 
@@ -78,34 +78,34 @@ XPT block " \begin{block}{..} .. \end{block}
     `cursor~
 \end{block}
 
-XPT frac " \frac{..}{..}
+XPT frac " frac{..}{..}
 \frac{`a~}{`b~}
 ..XPT
 
-XPT lbl " \label{..}
+XPT lbl " label{..}
 \label{`cursor~}
 ..XPT
 
-XPT ref " \ref{..}
+XPT ref " ref{..}
 \ref{`cursor~}
 ..XPT
 
-XPT integral " \int_..^..
+XPT integral " int_..^..
 \int_`begin~^`end~{`cursor~}
 ..XPT
 
-XPT lim " \lim_....
+XPT lim " lim_....
 \lim_{`what~}
 ..XPT
 
-XPT itemize " \begin{itemize} ... \end{itemize}
+XPT itemize " begin{itemize} ... end{itemize}
 \begin{itemize}
 \item `what~~`...~
 \item `what~~`...~
 \end{itemize}
 ..XPT
 
-XPT enumerate " \begin{enumerate} ... \end{enumerate}
+XPT enumerate " begin{enumerate} ... end{enumerate}
 \begin{enumerate}
 \item `what~~`...~
 \item `what~~`...~
@@ -116,17 +116,17 @@ XPT sqrt " sqrt[..]{..}
 \sqrt`n...{{~[`nth~]`}}~{`cursor~}
 ..XPT
 
-XPT sum " \sum{..}~..{}
+XPT sum " sum{..}~..{}
 \sum_{`init~}^`end~{`cursor~}
 ..XPT
 
-XPT slide " \begin{slide} .. \end{slide}
+XPT slide " begin{slide} .. end{slide}
 \begin{slide}
 `cursor~
 \end{slide}
 ..XPT
 
-XPT documentclass " \documentclass[..]{..}
+XPT documentclass " documentclass[..]{..}
 XSET kind=Choose(['article','book','report', 'letter','slides'])
 \documentclass[`size~11~pt]{`kind~}
 ..XPT
@@ -135,7 +135,7 @@ XPT toc " \tableofcontents
 \tableofcontents
 ..XPT
 
-XPT beg " \begin{..} .. \end{..}
+XPT beg " begin{..} .. end{..}
 \begin{`something~}
 `cursor~
 \end{`something~}
@@ -152,16 +152,16 @@ XPT columns " \begin{columns}...
 \end{columns}
 ..XPT
 
-XPT enclose_ " \begin{..} SEL \end{..}
+XPT enclose_ wraponly=wrapped " \begin{..} SEL \end{..}
 \begin{`something~}
     `wrapped~
 \end{`something~}
 
-XPT as_ " \SEL{..}
+XPT as_ wraponly=wrapped " SEL{..}
 \\`wrapped~{`cursor~}
 ..XPT
 
-XPT with_ " \..{SEL}
+XPT with_ wraponly=wrapped " \\.. {SEL}
 \\`cursor~{`wrapped~}
 ..XPT
 

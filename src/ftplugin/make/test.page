@@ -2,7 +2,7 @@
 
 
     #   -------------"_--------------- 
-    #  "`wrapped^"                     
+    #  "`w^"                           
 
 
 
@@ -10,17 +10,17 @@
 WRAPPED_TEXT_line2"
 
 "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+WRAPPED_TEXT_line2" b
 
-a "WRAPPED_TEXT
-WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
     #   -------------'_--------------- 
-    #  '`wrapped^'                     
+    #  '`w^'                           
 
 
 
@@ -28,17 +28,17 @@ WRAPPED_TEXT_line2"
 WRAPPED_TEXT_line2'
 
 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+WRAPPED_TEXT_line2' b
 
-a 'WRAPPED_TEXT
-WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
 a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
     #   -------------(_--------------- 
-    #  (`wrapped^)                     
+    #  (`w^)                           
 
 
 
@@ -46,17 +46,17 @@ WRAPPED_TEXT_line2'
 WRAPPED_TEXT_line2)
 
 (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+WRAPPED_TEXT_line2) b
 
-a (WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
 a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
     #   -------------<_--------------- 
-    #  <`wrapped^>                     
+    #  <`w^>                           
 
 
 
@@ -64,17 +64,17 @@ WRAPPED_TEXT_line2)
 WRAPPED_TEXT_line2>
 
 <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+WRAPPED_TEXT_line2> b
 
-a <WRAPPED_TEXT
-WRAPPED_TEXT_line2>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
 a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
     #   -------------[_--------------- 
-    #  [`wrapped^]                     
+    #  [`w^]                           
 
 
 
@@ -82,17 +82,17 @@ WRAPPED_TEXT_line2>
 WRAPPED_TEXT_line2]
 
 [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+WRAPPED_TEXT_line2] b
 
-a [WRAPPED_TEXT
-WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
 a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
     #   -------------`_--------------- 
-    #  \``wrapped^\`                   
+    #  \``w^\`                         
 
 
 
@@ -100,10 +100,10 @@ WRAPPED_TEXT_line2]
 WRAPPED_TEXT_line2`
 
 `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+WRAPPED_TEXT_line2` b
 
-a `WRAPPED_TEXT
-WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
 a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
@@ -118,7 +118,7 @@ $(addprefix prefix, elemList)
 
 $(addprefix prefix_TYPED, elemList_TYPED) b
 
-a $(addprefix prefix, elemList) b
+`$(addprefix prefix, elemList)^
 
 a $(addprefix prefix, elemList)
 
@@ -132,7 +132,7 @@ $(addsuffix suffix, elemList)
 
 $(addsuffix suffix_TYPED, elemList_TYPED) b
 
-a $(addsuffix suffix, elemList) b
+`$(addsuffix suffix, elemList)^
 
 a $(addsuffix suffix, elemList)
 
@@ -146,7 +146,7 @@ drdr.xp
 
 drdr.xp b
 
-a drdr.xp b
+`drdr.xp^
 
 a drdr.xp
 
@@ -163,119 +163,94 @@ CFLAGS := -Wall -Wextra
 lang_TYPEDC := compiler_TYPED
 CFLAGS := -Wall -Wextra b
 
-a CC := gcc
-CFLAGS := -Wall -Wextra b
+`CC := gcc
+CFLAGS := -Wall -Wextra^
 
 a CC := gcc
 CFLAGS := -Wall -Wextra
 
 
     #   -------------comment--------------- 
-    #  `$CS^ `cursor^                       
-
-
-
-# 
-#
-#  b
-#
-a #  b
-
-a # 
-
-
-    #   -------------comment_--------------- 
-    #  `$CS^ `wrapped^                       
+    #  `$CS `cursor^                        
 
 
 
 # WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+# WRAPPED_TEXT_line2
+#
 # WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a # WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a # WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+# WRAPPED_TEXT_line2 b
+#
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+ #
+ a # WRAPPED_TEXT
+   # WRAPPED_TEXT_line2
+   #
 
     #   -------------commentBlock--------------- 
-    #  `$CS^ `cursor^                            
-    #  `$CS^                                     
+    #  `$CS `cursor^                             
 
 
 
-# 
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
 #
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
 #
-# 
-# b
-#
-a # 
-# b
-#
-a # 
-#
-#
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+ #
+ a # WRAPPED_TEXT
+   # WRAPPED_TEXT_line2
+   #
 
     #   -------------commentDoc--------------- 
     #  `$CS^                                   
-    #  `$CS^ `cursor^                          
+    #  `$CS `cursor^                           
     #  `$CS^                                   
 
 
 
 #
-# 
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
 #
 #
 #
-# 
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
 # b
 #
+`#
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+#^
+
 a #
-# 
-# b
-#
-a #
-# 
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
 #
 #
 
     #   -------------commentLine--------------- 
-    #  `$CS^ `cursor^                           
-
-
-
-# 
-#
-#  b
-#
-a #  b
-
-a # 
-
-
-    #   -------------commentLine_--------------- 
-    #  `$CS^ `wrapped^                           
+    #  `$CS `cursor^                            
 
 
 
 # WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+# WRAPPED_TEXT_line2
+#
 # WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a # WRAPPED_TEXT
-WRAPPED_TEXT_line2b
-
-a # WRAPPED_TEXT
-WRAPPED_TEXT_line2
-
+# WRAPPED_TEXT_line2 b
+#
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+ #
+ a # WRAPPED_TEXT
+   # WRAPPED_TEXT_line2
+   #
 
     #   -------------Email--------------- 
     #  `$email^                           
@@ -286,7 +261,7 @@ drdr.xp@gmail.com
 
 drdr.xp@gmail.com b
 
-a drdr.xp@gmail.com b
+`drdr.xp@gmail.com^
 
 a drdr.xp@gmail.com
 
@@ -300,7 +275,7 @@ test.page
 
 test.page b
 
-a test.page b
+`test.page^
 
 a test.page
 
@@ -314,7 +289,7 @@ $(filter-out toRemove, elemList)
 
 $(filter-out toRemove_TYPED, elemList_TYPED) b
 
-a $(filter-out toRemove, elemList) b
+`$(filter-out toRemove, elemList)^
 
 a $(filter-out toRemove, elemList)
 
@@ -340,11 +315,11 @@ ifeq (what_TYPED, with_TYPED)
 else_TYPED
 endif b
 
-a ifeq (what, with)
+`ifeq (what, with)
     # job
 else
     
-endif b
+endif^
 
 a ifeq (what, with)
     # job
@@ -374,11 +349,11 @@ ifneq (what_TYPED, with_TYPED)
 else_TYPED
 endif b
 
-a ifneq (what, with)
+`ifneq (what, with)
     job
 else
     
-endif b
+endif^
 
 a ifneq (what, with)
     job
@@ -396,7 +371,7 @@ $(patsubst %.c,  %.o, list)
 
 $(patsubst sourcePattern_TYPED,  destPattern_TYPED, list_TYPED) b
 
-a $(patsubst %.c,  %.o, list) b
+`$(patsubst %.c,  %.o, list)^
 
 a $(patsubst %.c,  %.o, list)
 
@@ -410,7 +385,7 @@ $(shell command)
 
 $(shell command_TYPED) b
 
-a $(shell command) b
+`$(shell command)^
 
 a $(shell command)
 
@@ -424,27 +399,9 @@ $(subst sourceString, destString, string)
 
 $(subst sourceString_TYPED, destString_TYPED, string_TYPED) b
 
-a $(subst sourceString, destString, string) b
+`$(subst sourceString, destString, string)^
 
 a $(subst sourceString, destString, string)
-
-
-    #   -------------var_--------------- 
-    #  $(`wrapped^)                      
-
-
-
-$(WRAPPED_TEXT
-WRAPPED_TEXT_line2)
-
-$(WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
-
-a $(WRAPPED_TEXT
-WRAPPED_TEXT_line2)b
-
-a $(WRAPPED_TEXT
-WRAPPED_TEXT_line2)
 
 
     #   -------------wildcard--------------- 
@@ -456,13 +413,13 @@ $(wildcard globpattern)
 
 $(wildcard globpattern_TYPED) b
 
-a $(wildcard globpattern) b
+`$(wildcard globpattern)^
 
 a $(wildcard globpattern)
 
 
     #   -------------{_--------------- 
-    #  {`wrapped^}                     
+    #  {`w^}                           
 
 
 
@@ -470,10 +427,10 @@ a $(wildcard globpattern)
 WRAPPED_TEXT_line2}
 
 {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+WRAPPED_TEXT_line2} b
 
-a {WRAPPED_TEXT
-WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}

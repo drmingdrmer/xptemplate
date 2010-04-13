@@ -46,7 +46,7 @@ fi
 
 # remove 'call Log'
 # grep -v "call \(Fatal\|Error\|Warn\|Info\|Log\|Debug\)(" plugin/$file |\
-for file in `ls plugin/`;do
+for file in `find plugin/ -name *.vim`;do
 
   if [[ $file == "debug.vim" ]];then
     continue
@@ -54,12 +54,13 @@ for file in `ls plugin/`;do
 
   echo remove Log and comments from $file
 
-  grep -v "call s:log.\(Log\|Debug\)(" plugin/$file |\
+  grep -v "call s:log.\(Log\|Debug\)(" $file |\
+  grep -v "^ *Assert " |\
   grep -v "^\s*\"" |\
   grep -v "^\s*$" |\
   sed 's/"\s*{{{//; s/"\s*}}}//' > .tmp
 
-  mv .tmp plugin/$file
+  mv .tmp $file
 done
 
 

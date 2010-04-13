@@ -2,125 +2,125 @@
 
 
     <!--  -------------"_--------------- -->
-    <!-- "`wrapped^"                     -->
+    <!-- "`w^"                           -->
 
 
 
-"    WRAPPED_TEXT
-    WRAPPED_TEXT_line2"
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
-    "WRAPPED_TEXT
-    WRAPPED_TEXT_line2"b
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
 
-    a "WRAPPED_TEXT
-    WRAPPED_TEXT_line2"b
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
 
-    a "WRAPPED_TEXT
-    WRAPPED_TEXT_line2"
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
 
 
     <!--  -------------'_--------------- -->
-    <!-- '`wrapped^'                     -->
+    <!-- '`w^'                           -->
 
 
 
-'    WRAPPED_TEXT
-    WRAPPED_TEXT_line2'
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
-    'WRAPPED_TEXT
-    WRAPPED_TEXT_line2'b
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
 
-    a 'WRAPPED_TEXT
-    WRAPPED_TEXT_line2'b
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
 
-    a 'WRAPPED_TEXT
-    WRAPPED_TEXT_line2'
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
 
 
     <!--  -------------(_--------------- -->
-    <!-- (`wrapped^)                     -->
+    <!-- (`w^)                           -->
 
 
 
-(    WRAPPED_TEXT
-    WRAPPED_TEXT_line2)
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
-    (WRAPPED_TEXT
-    WRAPPED_TEXT_line2)b
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
 
-    a (WRAPPED_TEXT
-    WRAPPED_TEXT_line2)b
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
 
-    a (WRAPPED_TEXT
-    WRAPPED_TEXT_line2)
-
-
-    <!--  -------------<---------------                      -->
-    <!-- <`tag^` `att*^`att*^xml_attVal()^>`content^</`tag^> -->
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
 
 
+    <!--  -------------<--------------- -->
+    <!-- <`tag^`att*^>`content^</`tag^> -->
 
-<tag>content</tag>
 
-<tag_TYPED att_TYPED="val_TYPED" att_TYPED="val_TYPED" att_TYPED="val_TYPED">content_TYPED</tag_TYPED> b
 
-a <tag>content</tag> b
+<tag >content</tag>
 
-a <tag>content</tag>
+<tag_TYPED _TYPED>content_TYPED</tag_TYPED> b
+
+`<tag >content</tag>^
+
+a <tag >content</tag>
 
 
     <!--  -------------<_--------------- -->
-    <!-- <`span^>`wrapped^</`span^>      -->
+    <!-- <`w^>                           -->
 
 
 
-<span>WRAPPED_TEXT
-WRAPPED_TEXT_line2</span>
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
 
-<span_TYPED>WRAPPED_TEXT
-WRAPPED_TEXT_line2</span_TYPED>b
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
 
-a <span>WRAPPED_TEXT
-WRAPPED_TEXT_line2</span>b
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
 
-a <span>WRAPPED_TEXT
-WRAPPED_TEXT_line2</span>
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
 
 
     <!--  -------------[_--------------- -->
-    <!-- [`wrapped^]                     -->
+    <!-- [`w^]                           -->
 
 
 
-[    WRAPPED_TEXT
-    WRAPPED_TEXT_line2]
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
 
-    [WRAPPED_TEXT
-    WRAPPED_TEXT_line2]b
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
 
-    a [WRAPPED_TEXT
-    WRAPPED_TEXT_line2]b
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
 
-    a [WRAPPED_TEXT
-    WRAPPED_TEXT_line2]
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
 
 
     <!--  -------------`_--------------- -->
-    <!-- \``wrapped^\`                   -->
+    <!-- \``w^\`                         -->
 
 
 
-`    WRAPPED_TEXT
-    WRAPPED_TEXT_line2`
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
-    `WRAPPED_TEXT
-    WRAPPED_TEXT_line2`b
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
 
-    a `WRAPPED_TEXT
-    WRAPPED_TEXT_line2`b
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
 
-    a `WRAPPED_TEXT
-    WRAPPED_TEXT_line2`
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
 
 
     <!--  -------------a--------------- -->
@@ -132,27 +132,9 @@ WRAPPED_TEXT_line2</span>
 
     <a href="href_TYPED"></a> b
 
-    a <a href="href"></a> b
+    `<a href="href"></a>^
 
     a <a href="href"></a>
-
-
-    <!--  -------------a_--------------- -->
-    <!-- <a href="`^">`wrapped^</a>      -->
-
-
-
-<a href="">    WRAPPED_TEXT
-    WRAPPED_TEXT_line2</a>
-
-<a href="_TYPED">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a>b
-
-a <a href="">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a>b
-
-a <a href="">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a>
 
 
     <!--  -------------apply---------------      -->
@@ -164,7 +146,7 @@ WRAPPED_TEXT_line2</a>
 
     <xsl:apply-templates select="what_TYPED" /> b
 
-    a <xsl:apply-templates select="what" /> b
+    `<xsl:apply-templates select="what" />^
 
     a <xsl:apply-templates select="what" />
 
@@ -178,55 +160,65 @@ WRAPPED_TEXT_line2</a>
 
     drdr.xp b
 
-    a drdr.xp b
+    `drdr.xp^
 
     a drdr.xp
 
 
+    <!--  -------------body--------------- -->
+    <!-- <body>                            -->
+    <!--     `cursor^                      -->
+    <!-- </body>                           -->
+
+
+
+<body>
+    
+</body>
+
+<body>
+    
+</body> b
+
+`<body>
+    
+</body>^
+
+a <body>
+    
+</body>
+
+
     <!--  -------------br--------------- -->
-    <!-- <br />                          -->
+    <!-- <`$_xSnipName^ />               -->
 
 
 
-    <br />
+<br />
 
-    <br /> b
+<br /> b
 
-    a <br /> b
+`<br />^
 
-    a <br />
+a <br />
 
 
-    <!--  -------------CDATA--------------- -->
+    <!--  -------------cdata--------------- -->
     <!-- <![CDATA[`cursor^]]>               -->
 
 
 
-    <![CDATA[]]>
+<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>
 
-    <![CDATA[]]> b
+<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]> b
 
-    a <![CDATA[]]> b
+`<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>^
 
-    a <![CDATA[]]>
-
-
-    <!--  -------------CDATA_--------------- -->
-    <!-- <![CDATA[`wrapped^]]>               -->
-
-
-
-<![CDATA[    WRAPPED_TEXT
-    WRAPPED_TEXT_line2]]>
-
-    <![CDATA[WRAPPED_TEXT
-    WRAPPED_TEXT_line2]]>b
-
-    a <![CDATA[WRAPPED_TEXT
-    WRAPPED_TEXT_line2]]>b
-
-    a <![CDATA[WRAPPED_TEXT
-    WRAPPED_TEXT_line2]]>
+a <![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>
 
 
     <!--  -------------choose--------------- -->
@@ -269,7 +261,7 @@ WRAPPED_TEXT_line2</a>
     otherwise_TYPED
 </xsl:choose> b
 
-a <xsl:choose>
+`<xsl:choose>
     <xsl:when test="expr">
         <!-- void -->
     </xsl:when>
@@ -285,7 +277,7 @@ a <xsl:choose>
     <xsl:otherwise>
         
     </xsl:otherwise>
-</xsl:choose> b
+</xsl:choose>^
 
 a <xsl:choose>
     <xsl:when test="expr">
@@ -307,207 +299,122 @@ a <xsl:choose>
 
 
     <!--  -------------comment--------------- -->
-    <!-- `$CL^ `what^ `$CR^                   -->
+    <!-- `$CL^ `what^^ `$CR^`^                -->
 
 
-
-    <!-- what -->
-
-    <!-- what_TYPED --> b
-
-    a <!-- what --> b
-
-    a <!-- what -->
-
-
-    <!--  -------------comment_--------------- -->
-    <!-- `$CL^ `wrapped^ `$CR^                 -->
-
-
-
-<!--     WRAPPED_TEXT
-    WRAPPED_TEXT_line2 -->
 
 <!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->b
+WRAPPED_TEXT_line2 -->
 
-a <!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->b
+<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 --> b
+
+`<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->^
 
 a <!-- WRAPPED_TEXT
 WRAPPED_TEXT_line2 -->
 
 
     <!--  -------------commentBlock--------------- -->
-    <!-- `$CL^                                     -->
-    <!--  `$CM^ `cursor^                           -->
-    <!--  `$CR^                                    -->
+    <!-- `_cmt_no_mid_left()^`$CM `cursor^         -->
+    <!-- `_cmt_mid_ind()$CR^                       -->
 
 
 
-    <!-- 
-      
-     -->
+<!-- WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
 
-<!-- 
-  
- --> b
+<!-- WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    --> b
 
- a <!-- 
-   
-  --> b
+    `<!-- WRAPPED_TEXT
+          WRAPPED_TEXT_line2
+        -->^
 
-  a <!-- 
-    
-   -->
-
-
-    <!--  -------------commentBlock_--------------- -->
-    <!-- `$CL^                                      -->
-    <!--  `$CM^ `wrapped^                           -->
-    <!--  `$CR^                                     -->
-
-
-
-<!-- 
-      WRAPPED_TEXT
-      WRAPPED_TEXT_line2
- -->
-
-<!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- -->b
-
-a <!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- -->b
-
-a <!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- -->
+a <!-- WRAPPED_TEXT
+       WRAPPED_TEXT_line2
+    -->
 
 
     <!--  -------------commentDoc--------------- -->
     <!-- `$CL^`$CM^                              -->
-    <!--  `$CM^ `cursor^                         -->
-    <!--  `$CR^                                  -->
+    <!-- `_cmt_mid_ind()$CM `cursor^             -->
+    <!-- `_cmt_mid_ind()$CR^                     -->
 
 
 
-    <!-- 
-      
-     -->
+<!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
 
-<!-- 
-  
- --> b
+<!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    --> b
 
- a <!-- 
-   
-  --> b
+    `<!--
+         WRAPPED_TEXT
+         WRAPPED_TEXT_line2
+        -->^
 
-  a <!-- 
-    
-   -->
-
-
-    <!--  -------------commentDoc_--------------- -->
-    <!-- `$CL^`$CM^                               -->
-    <!--  `$CM^ `wrapped^                         -->
-    <!--  `$CR^                                   -->
-
-
-
-<!-- 
-      WRAPPED_TEXT
-      WRAPPED_TEXT_line2
- -->
-
-<!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- -->b
-
-a <!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- -->b
-
-a <!-- 
-  WRAPPED_TEXT
-  WRAPPED_TEXT_line2
- -->
+a <!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
 
 
     <!--  -------------commentLine--------------- -->
-    <!-- `$CL^ `what^ `$CR^                       -->
+    <!-- `$CL `what` $CR^`^                       -->
 
 
 
-    <!-- what -->
+<!-- WRAPPED_TEXT -->
+<!-- WRAPPED_TEXT_line2 -->
 
-    <!-- what_TYPED --> b
+<!-- WRAPPED_TEXT -->
+<!-- WRAPPED_TEXT_line2 --> b
 
-    a <!-- what --> b
+`<!-- WRAPPED_TEXT -->
+ <!-- WRAPPED_TEXT_line2 -->^
 
-    a <!-- what -->
-
-
-    <!--  -------------commentLine_--------------- -->
-    <!-- `$CL^ `wrapped^ `$CR^                     -->
-
-
-
-<!--     WRAPPED_TEXT
-    WRAPPED_TEXT_line2 -->
-
-<!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->b
-
-a <!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->b
-
-a <!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->
+ a <!-- WRAPPED_TEXT -->
+   <!-- WRAPPED_TEXT_line2 -->
 
 
-    <!--  -------------div--------------- -->
-    <!-- <div`^>`cursor^</div>            -->
+    <!--  -------------contenttype---------------                                             -->
+    <!-- <meta http-equiv="Content-Type" content="text/html; charset=`encoding^html_enc()^"/> -->
 
 
 
-    <div></div>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-    <div_TYPED></div> b
+    <meta http-equiv="Content-Type" content="text/html; charset=encoding_TYPED"/> b
 
-    a <div></div> b
+    `<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>^
 
-    a <div></div>
-
-
-    <!--  -------------div_--------------- -->
-    <!-- <div>`wrapped^</div>              -->
+    a <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 
+    <!--  -------------div---------------                                      -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
 
-<div>    WRAPPED_TEXT
-    WRAPPED_TEXT_line2</div>
 
-<div>WRAPPED_TEXT
-WRAPPED_TEXT_line2</div>b
 
-a <div>WRAPPED_TEXT
-WRAPPED_TEXT_line2</div>b
+<div></div>
 
-a <div>WRAPPED_TEXT
-WRAPPED_TEXT_line2</div>
+<div>content_TYPED</div> b
+
+`<div></div>^
+
+a <div></div>
 
 
     <!--  -------------doctype--------------- -->
-    <!-- <!DOCTYPE html PUBLIC `doctype^>     -->
+    <!-- <!DOCTYPE `doctype^>                 -->
 
 
 
@@ -515,7 +422,7 @@ WRAPPED_TEXT_line2</div>
 
     <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> b
 
-    a <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> b
+    `<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">^
 
     a <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
@@ -529,9 +436,38 @@ WRAPPED_TEXT_line2</div>
 
     drdr.xp@gmail.com b
 
-    a drdr.xp@gmail.com b
+    `drdr.xp@gmail.com^
 
     a drdr.xp@gmail.com
+
+
+    <!--  -------------fieldset--------------- -->
+    <!-- <fieldset>                            -->
+    <!--     <legend></legend>                 -->
+    <!--     `cursor^                          -->
+    <!-- </fieldset>                           -->
+
+
+
+<fieldset>
+    <legend></legend>
+    
+</fieldset>
+
+<fieldset>
+    <legend></legend>
+    
+</fieldset> b
+
+`<fieldset>
+    <legend></legend>
+    
+</fieldset>^
+
+a <fieldset>
+    <legend></legend>
+    
+</fieldset>
 
 
     <!--  -------------File--------------- -->
@@ -543,7 +479,7 @@ WRAPPED_TEXT_line2</div>
 
     test.page b
 
-    a test.page b
+    `test.page^
 
     a test.page
 
@@ -563,59 +499,282 @@ WRAPPED_TEXT_line2</div>
     
 </xsl:for-each> b
 
-a <xsl:for-each select="match">
+`<xsl:for-each select="match">
     
-</xsl:for-each> b
+</xsl:for-each>^
 
 a <xsl:for-each select="match">
     
 </xsl:for-each>
 
 
-    <!--  -------------h--------------- -->
-    <!-- <h`n^>`cursor^</h`n^>          -->
+    <!--  -------------form---------------                                                                      -->
+    <!-- <form action="`action^" method="`method^" accept-charset="`html_enc()^" enctype="multipart/form-data"> -->
+    <!--     `cursor^                                                                                           -->
+    <!-- </form>                                                                                                -->
 
 
 
-    <h1></h1>
+<form action="action" method="GET" accept-charset="utf-8" enctype="multipart/form-data">
+    
+</form>
 
-    <hn_TYPED></hn_TYPED> b
+<form action="action_TYPED" method="GET" accept-charset="utf-8" enctype="multipart/form-data">
+    
+</form> b
 
-    a <h1></h1> b
+`<form action="action" method="GET" accept-charset="utf-8" enctype="multipart/form-data">
+    
+</form>^
 
-    a <h1></h1>
+a <form action="action" method="GET" accept-charset="utf-8" enctype="multipart/form-data">
+    
+</form>
 
 
-    <!--  -------------h_--------------- -->
-    <!-- <h`n^>`wrapped^</h`n^>          -->
+    <!--  -------------fulltable--------------- -->
+    <!-- `createTable()^                        -->
 
 
 
-<h1>    WRAPPED_TEXT
-    WRAPPED_TEXT_line2</h1>
+    <table id='`id^'>
+    <tr>
+    <td id="`pre^_1_1"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_1_2"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_1_3"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_2_1"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_2_2"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_2_3"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_3_1"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_3_2"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_3_3"></td>
+    </tr>
+    </table>
 
-<hn_TYPED>WRAPPED_TEXT
-WRAPPED_TEXT_line2</hn_TYPED>b
+    <table id='`id^'>
+    <tr>
+    <td id="`pre^_1_1"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_1_2"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_1_3"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_2_1"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_2_2"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_2_3"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_3_1"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_3_2"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_3_3"></td>
+    </tr>
+    </table> b
 
-a <h1>WRAPPED_TEXT
-WRAPPED_TEXT_line2</h1>b
+    `<table id='`id^'>
+    <tr>
+    <td id="`pre^_1_1"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_1_2"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_1_3"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_2_1"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_2_2"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_2_3"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_3_1"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_3_2"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_3_3"></td>
+    </tr>
+    </table>^
 
-a <h1>WRAPPED_TEXT
-WRAPPED_TEXT_line2</h1>
+    a <table id='`id^'>
+    <tr>
+    <td id="`pre^_1_1"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_1_2"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_1_3"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_2_1"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_2_2"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_2_3"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_3_1"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_3_2"></td>
+    </tr>
+    <tr>
+    <td id="`pre^_3_3"></td>
+    </tr>
+    </table>
+
+
+    <!--  -------------h1---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+<h1></h1>
+
+<h1>content_TYPED</h1> b
+
+`<h1></h1>^
+
+a <h1></h1>
+
+
+    <!--  -------------h2---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+<h2></h2>
+
+<h2>content_TYPED</h2> b
+
+`<h2></h2>^
+
+a <h2></h2>
+
+
+    <!--  -------------h3---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+<h3></h3>
+
+<h3>content_TYPED</h3> b
+
+`<h3></h3>^
+
+a <h3></h3>
+
+
+    <!--  -------------h4---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+<h4></h4>
+
+<h4>content_TYPED</h4> b
+
+`<h4></h4>^
+
+a <h4></h4>
+
+
+    <!--  -------------h5---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+<h5></h5>
+
+<h5>content_TYPED</h5> b
+
+`<h5></h5>^
+
+a <h5></h5>
+
+
+    <!--  -------------h6---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+<h6></h6>
+
+<h6>content_TYPED</h6> b
+
+`<h6></h6>^
+
+a <h6></h6>
+
+
+    <!--  -------------head--------------- -->
+    <!-- <head>                            -->
+    <!--     `:contenttype:^               -->
+    <!--     `:title:^                     -->
+    <!-- </head>                           -->
+
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>test</title>
+</head>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=encoding_TYPED"/>
+    <title>title_TYPED</title>
+</head> b
+
+`<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>test</title>
+</head>^
+
+a <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>test</title>
+</head>
 
 
     <!--  -------------html---------------                                                                                         -->
     <!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
     <!-- <html>                                                                                                                    -->
-    <!--     <head>                                                                                                                -->
-    <!--         <meta http-equiv="Content-Type" content="text/html; charset=`encoding^Echo(&fenc == '' ? 'utf-8' : &fenc)^"/>     -->
-    <!--         <link rel="stylesheet" type="text/css" href="" />                                                                 -->
-    <!--         <style></style>                                                                                                   -->
-    <!--         <title>`title^E('%:r')^</title>                                                                                   -->
-    <!--         <script language="javascript" type="text/javascript">                                                             -->
-    <!--             _CMT_ _cmt_                                                                                                   -->
-    <!--         </script>                                                                                                         -->
-    <!--     </head>                                                                                                               -->
+    <!--     `:head:^                                                                                                              -->
     <!--     <body>                                                                                                                -->
     <!--         `cursor^                                                                                                          -->
     <!--     </body>                                                                                                               -->
@@ -627,12 +786,7 @@ WRAPPED_TEXT_line2</h1>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <link rel="stylesheet" type="text/css" href="" />
-        <style></style>
-        <title>/home/drdrxp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/xslt/.test/test</title>
-        <script language="javascript" type="text/javascript">
-            <!-- -->
-        </script>
+        <title>test</title>
     </head>
     <body>
         
@@ -643,44 +797,29 @@ WRAPPED_TEXT_line2</h1>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=encoding_TYPED"/>
-        <link rel="stylesheet" type="text/css" href="" />
-        <style></style>
         <title>title_TYPED</title>
-        <script language="javascript" type="text/javascript">
-            <!-- -->
-        </script>
     </head>
     <body>
         
     </body>
 </html> b
 
-a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <link rel="stylesheet" type="text/css" href="" />
-        <style></style>
-        <title>/home/drdrxp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/xslt/.test/test</title>
-        <script language="javascript" type="text/javascript">
-            <!-- -->
-        </script>
+        <title>test</title>
     </head>
     <body>
         
     </body>
-</html> b
+</html>^
 
 a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <link rel="stylesheet" type="text/css" href="" />
-        <style></style>
-        <title>/home/drdrxp/bash.xp/vim.xp/plugins.extern/xptemplate.svn/trunk/src/ftplugin/xslt/.test/test</title>
-        <script language="javascript" type="text/javascript">
-            <!-- -->
-        </script>
+        <title>test</title>
     </head>
     <body>
         
@@ -703,13 +842,41 @@ a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.
     
 </xsl:if> b
 
-a <xsl:if test="test">
+`<xsl:if test="test">
     
-</xsl:if> b
+</xsl:if>^
 
 a <xsl:if test="test">
     
 </xsl:if>
+
+
+    <!--  -------------iframe---------------                                           -->
+    <!-- <`$_xSnipName^` `att?^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+<iframe name="name"></iframe>
+
+<iframe name="name_TYPED">content_TYPED</iframe> b
+
+`<iframe name="name"></iframe>^
+
+a <iframe name="name"></iframe>
+
+
+    <!--  -------------img--------------- -->
+    <!-- <`$_xSnipName^` `att?^/>         -->
+
+
+
+<img src="where" alt="alt"/>
+
+<img src="where_TYPED" alt="alt_TYPED"/> b
+
+`<img src="where" alt="alt"/>^
+
+a <img src="where" alt="alt"/>
 
 
     <!--  -------------import--------------- -->
@@ -721,7 +888,7 @@ a <xsl:if test="test">
 
     <xsl:import href="URI_TYPED" /> b
 
-    a <xsl:import href="URI" /> b
+    `<xsl:import href="URI" />^
 
     a <xsl:import href="URI" />
 
@@ -735,75 +902,121 @@ a <xsl:if test="test">
 
     <xsl:include href="URI_TYPED" /> b
 
-    a <xsl:include href="URI" /> b
+    `<xsl:include href="URI" />^
 
     a <xsl:include href="URI" />
 
 
-    <!--  -------------ol--------------- -->
-    <!-- <ol>                            -->
-    <!--     <li>`val^</li>`...^         -->
-    <!--     <li>`val^</li>`...^         -->
-    <!-- </ol>                           -->
+    <!--  -------------input--------------- -->
+    <!-- <`$_xSnipName^` `att?^/>           -->
 
 
 
-<ol>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-</ol>
+<input type="text" name="name" value="value"/>
 
-<ol>
-    <li>val_TYPED</li>_TYPED
-</ol> b
+<input type="text" name="name_TYPED" value="value_TYPED"/> b
 
-a <ol>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-</ol> b
+`<input type="text" name="name" value="value"/>^
 
-a <ol>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-</ol>
+a <input type="text" name="name" value="value"/>
 
 
-    <!--  -------------p--------------- -->
-    <!-- <p` `attr?^>`cursor^</p>       -->
+    <!--  -------------label---------------                                            -->
+    <!-- <`$_xSnipName^` `att?^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
 
 
 
-    <p></p>
+<label for="which"></label>
 
-    <p attr_TYPED></p> b
+<label for="which_TYPED">content_TYPED</label> b
 
-    a <p></p> b
+`<label for="which"></label>^
 
-    a <p></p>
-
-
-    <!--  -------------p_--------------- -->
-    <!-- <p>`wrapped^</p>                -->
+a <label for="which"></label>
 
 
+    <!--  -------------li---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
 
-<p>    WRAPPED_TEXT
-    WRAPPED_TEXT_line2</p>
 
-<p>WRAPPED_TEXT
-WRAPPED_TEXT_line2</p>b
 
-a <p>WRAPPED_TEXT
-WRAPPED_TEXT_line2</p>b
+<li></li>
 
-a <p>WRAPPED_TEXT
-WRAPPED_TEXT_line2</p>
+<li>content_TYPED</li> b
+
+`<li></li>^
+
+a <li></li>
+
+
+    <!--  -------------link---------------                               -->
+    <!-- <link rel="`stylesheet^" type="`type^text/css^" href="`url^" /> -->
+
+
+
+    <link rel="stylesheet" type="text/css" href="url" />
+
+    <link rel="stylesheet_TYPED" type="type_TYPED" href="url_TYPED" /> b
+
+    `<link rel="stylesheet" type="text/css" href="url" />^
+
+    a <link rel="stylesheet" type="text/css" href="url" />
+
+
+    <!--  -------------meta---------------                    -->
+    <!-- <meta name="`meta_name^" content="`meta_content^" /> -->
+
+
+
+    <meta name="meta_name" content="meta_content" />
+
+    <meta name="meta_name_TYPED" content="meta_content_TYPED" /> b
+
+    `<meta name="meta_name" content="meta_content" />^
+
+    a <meta name="meta_name" content="meta_content" />
+
+
+    <!--  -------------ol---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+<ol></ol>
+
+<ol>content_TYPED</ol> b
+
+`<ol></ol>^
+
+a <ol></ol>
+
+
+    <!--  -------------option---------------                                           -->
+    <!-- <`$_xSnipName^` `att?^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+<option value="value"></option>
+
+<option value="value_TYPED">content_TYPED</option> b
+
+`<option value="value"></option>^
+
+a <option value="value"></option>
+
+
+    <!--  -------------p---------------                                        -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+<p></p>
+
+<p>content_TYPED</p> b
+
+`<p></p>^
+
+a <p></p>
 
 
     <!--  -------------param---------------                           -->
@@ -815,7 +1028,7 @@ WRAPPED_TEXT_line2</p>
 
     <xsl:param name="name_TYPED" select_TYPED /> b
 
-    a <xsl:param name="name" select="expr" /> b
+    `<xsl:param name="name" select="expr" />^
 
     a <xsl:param name="name" select="expr" />
 
@@ -835,27 +1048,41 @@ WRAPPED_TEXT_line2</p>
     
 </script> b
 
-a <script language="javascript" type="text/javascript">
+`<script language="javascript" type="text/javascript">
     
-</script> b
+</script>^
 
 a <script language="javascript" type="text/javascript">
     
 </script>
 
 
-    <!--  -------------scrlink---------------                                          -->
-    <!-- <script language="javascript" type="text/javascript" src="`cursor^"></script> -->
+    <!--  -------------scriptsrc---------------                                    -->
+    <!-- <script language="javascript" type="text/javascript" src="`js^"></script> -->
 
 
 
-    <script language="javascript" type="text/javascript" src=""></script>
+    <script language="javascript" type="text/javascript" src="js"></script>
 
-    <script language="javascript" type="text/javascript" src=""></script> b
+    <script language="javascript" type="text/javascript" src="js_TYPED"></script> b
 
-    a <script language="javascript" type="text/javascript" src=""></script> b
+    `<script language="javascript" type="text/javascript" src="js"></script>^
 
-    a <script language="javascript" type="text/javascript" src=""></script>
+    a <script language="javascript" type="text/javascript" src="js"></script>
+
+
+    <!--  -------------select---------------                                           -->
+    <!-- <`$_xSnipName^` `att?^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+<select name="name"></select>
+
+<select name="name_TYPED">content_TYPED</select> b
+
+`<select name="name"></select>^
+
+a <select name="name"></select>
 
 
     <!--  -------------sort--------------- -->
@@ -867,23 +1094,33 @@ a <script language="javascript" type="text/javascript">
 
     <xsl:sort select="what_TYPED" /> b
 
-    a <xsl:sort select="what" /> b
+    `<xsl:sort select="what" />^
 
     a <xsl:sort select="what" />
 
 
-    <!--  -------------style---------------                      -->
-    <!-- <?xml-stylesheet type="`style^text/css^" href="`from^"> -->
+    <!--  -------------style---------------     -->
+    <!-- <style type="text/css" media="screen"> -->
+    <!--     `cursor^                           -->
+    <!-- </style>                               -->
 
 
 
-    <?xml-stylesheet type="text/css" href="from">
+<style type="text/css" media="screen">
+    
+</style>
 
-    <?xml-stylesheet type="style_TYPED" href="from_TYPED"> b
+<style type="text/css" media="screen">
+    
+</style> b
 
-    a <?xml-stylesheet type="text/css" href="from"> b
+`<style type="text/css" media="screen">
+    
+</style>^
 
-    a <?xml-stylesheet type="text/css" href="from">
+a <style type="text/css" media="screen">
+    
+</style>
 
 
     <!--  -------------stylesheet---------------                            -->
@@ -916,14 +1153,14 @@ a <script language="javascript" type="text/javascript">
     </xsl:template>
 </xsl:stylesheet> b
 
-a <xsl:stylesheet version="1.0"
+`<xsl:stylesheet version="1.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
 
     <xsl:output method="xml" indent="yes"/>
 
     <xsl:template match="/">
     </xsl:template>
-</xsl:stylesheet> b
+</xsl:stylesheet>^
 
 a <xsl:stylesheet version="1.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
@@ -935,67 +1172,32 @@ a <xsl:stylesheet version="1.0"
 </xsl:stylesheet>
 
 
-    <!--  -------------table--------------- -->
-    <!-- <table>                            -->
-    <!--     `Include:tr^` `tr...{{^        -->
-    <!--     `Include:tr^` `tr...^`}}^      -->
-    <!-- </table>                           -->
+    <!--  -------------table---------------                                    -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
 
 
 
-<table>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-    </tr>
-</table>
+<table></table>
 
-<table>
-    <tr>
-        <td>_TYPED </td> td_TYPED
-    </tr> tr_TYPED
-</table> b
+<table>content_TYPED</table> b
 
-a <table>
-    <tr>
-        <td> </td> td...
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-    </tr>
-</table> b
+`<table></table>^
 
-a <table>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-    </tr>
-</table>
+a <table></table>
 
 
-    <!--  -------------td--------------- -->
-    <!-- <td>`^</td>                     -->
+    <!--  -------------td---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
 
 
 
-    <td></td>
+<td></td>
 
-    <td>_TYPED</td> b
+<td>content_TYPED</td> b
 
-    a <td></td> b
+`<td></td>^
 
-    a <td></td>
+a <td></td>
 
 
     <!--  -------------template--------------- -->
@@ -1013,92 +1215,83 @@ a <table>
     
 </xsl:template> b
 
-a <xsl:template match="match">
+`<xsl:template match="match">
     
-</xsl:template> b
+</xsl:template>^
 
 a <xsl:template match="match">
     
 </xsl:template>
 
 
-    <!--  -------------th--------------- -->
-    <!-- <th>`^</th>                     -->
+    <!--  -------------textarea---------------                                         -->
+    <!-- <`$_xSnipName^` `att?^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
 
 
 
-    <th></th>
+<textarea name="name"></textarea>
 
-    <th>_TYPED</th> b
+<textarea name="name_TYPED">content_TYPED</textarea> b
 
-    a <th></th> b
+`<textarea name="name"></textarea>^
 
-    a <th></th>
+a <textarea name="name"></textarea>
 
 
-    <!--  -------------tr--------------- -->
-    <!-- <tr>                            -->
-    <!--     `Include:td^` `td...{{^     -->
-    <!--     `Include:td^` `td...^`}}^   -->
-    <!-- </tr>                           -->
+    <!--  -------------th---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
 
 
 
-<tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-</tr>
+<th></th>
 
-<tr>
-    <td>_TYPED </td> td_TYPED
-</tr> b
+<th>content_TYPED</th> b
 
-a <tr>
-    <td> </td> td...
-</tr> b
+`<th></th>^
 
-a <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-</tr>
+a <th></th>
 
 
-    <!--  -------------ul--------------- -->
-    <!-- <ul>                            -->
-    <!--     <li>`val^</li>`...^         -->
-    <!--     <li>`val^</li>`...^         -->
-    <!-- </ul>                           -->
+    <!--  -------------title---------------     -->
+    <!-- <title>`title^expand('%:t:r')^</title> -->
 
 
 
-<ul>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-</ul>
+    <title>test</title>
 
-<ul>
-    <li>val_TYPED</li>_TYPED
-</ul> b
+    <title>title_TYPED</title> b
 
-a <ul>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-</ul> b
+    `<title>test</title>^
 
-a <ul>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-    <li>val</li>
-</ul>
+    a <title>test</title>
+
+
+    <!--  -------------tr---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+<tr></tr>
+
+<tr>content_TYPED</tr> b
+
+`<tr></tr>^
+
+a <tr></tr>
+
+
+    <!--  -------------ul---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+<ul></ul>
+
+<ul>content_TYPED</ul> b
+
+`<ul></ul>^
+
+a <ul></ul>
 
 
     <!--  -------------valueof--------------- -->
@@ -1110,7 +1303,7 @@ a <ul>
 
     <xsl:value-of select="what_TYPED" /> b
 
-    a <xsl:value-of select="what" /> b
+    `<xsl:value-of select="what" />^
 
     a <xsl:value-of select="what" />
 
@@ -1124,7 +1317,7 @@ a <ul>
 
     <?xml version="ver_TYPED" encoding="enc_TYPED" ?> b
 
-    a <?xml version="1.0" encoding="utf-8" ?> b
+    `<?xml version="1.0" encoding="utf-8" ?>^
 
     a <?xml version="1.0" encoding="utf-8" ?>
 
@@ -1144,9 +1337,9 @@ a <ul>
     what_TYPED
 </xsl:when> b
 
-a <xsl:when test="ex">
+`<xsl:when test="ex">
     what
-</xsl:when> b
+</xsl:when>^
 
 a <xsl:when test="ex">
     what
@@ -1154,19 +1347,19 @@ a <xsl:when test="ex">
 
 
     <!--  -------------{_--------------- -->
-    <!-- {`wrapped^}                     -->
+    <!-- {`w^}                           -->
 
 
 
-{    WRAPPED_TEXT
-    WRAPPED_TEXT_line2}
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 
-    {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}b
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
 
-    a {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}b
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
 
-    a {WRAPPED_TEXT
-    WRAPPED_TEXT_line2}
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
 
