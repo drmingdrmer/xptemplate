@@ -272,7 +272,6 @@ fun s:TestFinish() "{{{
 
 
     exe 'w %:h/../test.page'
-    exe 'qa'
 
     try
         if has('win32')
@@ -282,6 +281,8 @@ fun s:TestFinish() "{{{
         end
     catch /.*/
     endtry
+
+    exe 'qa'
 
     return
 
