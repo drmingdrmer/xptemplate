@@ -4,6 +4,7 @@ CurrentDir=${PWD##*/}
 ParentDir=${PWD%/*}
 DistDir=$ParentDir/dist
 
+update help tags
 vim -c 'helptags doc|qa'
 
 echo export "$CurrentDir" to "$DistDir" 
