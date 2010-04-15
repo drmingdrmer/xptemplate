@@ -2178,7 +2178,19 @@ fun! s:Crash(...)
     call s:CallPlugin( 'finishAll', 'after' )
     return ''
 endfunction 
+fun! s:SkipSpecialBuf() 
+    if bufname( '%' ) == "[Command Line]"
+        return 1
+    endif
+    if &buftype == 'quickfix'
+        return 1
+    endif
+    return 0
+endfunction 
 fun! s:XPTupdateTyping() 
+    if s:SkipSpecialBuf()
+        return 0
+    endif
     let rc = s:XPTupdate()
     if rc != 0
         return rc

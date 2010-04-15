@@ -706,6 +706,7 @@ fun! s:initBufData()
     endif
 endfunction 
 fun! s:BufData() 
+    echom bufnr( "%" )
     if !exists('b:_xpmark')
         call s:initBufData()
     endif

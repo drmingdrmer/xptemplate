@@ -32,6 +32,7 @@ call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 1	)
 call s:SetIfNotExist('g:xptemplate_vars'                , ''	)
 call s:SetIfNotExist('g:xptemplate_bundle'              , ''	)
 call s:SetIfNotExist('g:xptemplate_snippet_folders'     , []	)
+call s:SetIfNotExist('g:xptemplate_map'                 , ''	)
 call s:SetIfNotExist('g:xpt_post_action', '')
 if g:xptemplate_fallback == ''
     let g:xptemplate_fallback = '<NOP>'
