@@ -30,7 +30,6 @@ XPTvar	xpt.snippet.syn.txt	/*XPTvar*
 `cursor^	xpt.snippet.syn.txt	/*`cursor^*
 g:XPTaddBundle()	xpt.api.txt	/*g:XPTaddBundle()*
 g:xptemplate_brace_complete	xptemplate.txt	/*g:xptemplate_brace_complete*
-g:xptemplate_brace_complete	xptemplate.txt	/*g:xptemplate_brace_complete*
 g:xptemplate_bundle	xptemplate.txt	/*g:xptemplate_bundle*
 g:xptemplate_fallback	xptemplate.txt	/*g:xptemplate_fallback*
 g:xptemplate_goback	xptemplate.txt	/*g:xptemplate_goback*
