@@ -25,6 +25,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO fix: 
 " TODO fix: if XSET cursor=123 present, cursor stops at incorrect position. xptest:bb
 " TODO add: visual mode trigger.
 " TODO fix: after undo, highlight is not cleared.
@@ -4043,8 +4044,23 @@ fun! s:Crash(...) "{{{
     return ''
 endfunction "}}}
 
+fun! s:SkipSpecialBuf() "{{{
+    if bufname( '%' ) == "[Command Line]"
+        return 1
+    endif
+
+    if &buftype == 'quickfix'
+        return 1
+    endif
+
+    return 0
+endfunction "}}}
 
 fun! s:XPTupdateTyping() "{{{
+
+    if s:SkipSpecialBuf()
+        return 0
+    endif
 
     let rc = s:XPTupdate()
 

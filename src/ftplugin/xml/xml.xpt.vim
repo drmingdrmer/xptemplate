@@ -65,19 +65,71 @@ fun! s:f.xml_create_attr_ph()
     endif
 endfunction
 
+fun! s:f.xml_close_tag()
+    let v = self.V()
+    if v[ 0 : 0 ] != '<' || v[ -1:-1 ] != '>'
+        return ''
+    endif
+
+    let v = v[ 1: -2 ]
+
+    if v =~ '\v/\s*$|^!'
+        return ''
+    else
+        return '</' . matchstr( v, '\v^\S+' ) . '>'
+    endif
+endfunction
+
+fun! s:f.xml_cont_helper()
+    let v = self.V()
+    if v =~ '\V\n'
+        return self.ResetIndent( -s:nIndent, "\n" )
+    else
+        return ''
+    endif
+endfunction
+
+let s:nIndent = 0
+fun! s:f.xml_cont_ontype()
+    let v = self.V()
+    if v =~ '\V\n'
+        let v = matchstr( v, '\V\.\*\ze\n' )
+        let s:nIndent = &indentexpr != ''
+              \ ? eval( substitute( &indentexpr, '\Vv:lnum', 'line(".")', '' ) ) - indent( line( "." ) - 1 )
+              \ : self.NIndent()
+
+        return self.Finish( v . "\n" . repeat( ' ', s:nIndent ) )
+    else
+        return v
+    endif
+endfunction
+
+
+" inoremap <silent> < <C-r>=XPTtgr('__tag',{'syn':'','k':'<'})<cr>
 
 " ================================= Snippets ===================================
 XPTemplateDef
 
+XPT _tag hidden " <$_xSnipName>..</$_xSnipName>
+XSET content|def=Echo( R( 't' ) =~ '\v/\s*$' ? Finish() : '' )
+XSET content|ontype=xml_cont_ontype()
+<`t^$_xSnipName^>`content^`content^xml_cont_helper()^`t^xml_close_tag()^
+..XPT
+
+XPT __tag hidden " <Tag>..</Tag>
+XSET content|def=Echo( R( 't' ) =~ '\v/\s*$' ? Finish() : '' )
+XSET content|ontype=xml_cont_ontype()
+`<`t`>^^`content^^`content^xml_cont_helper()^`t^xml_close_tag()^
+..XPT
 
 " NOTE: use Embed in default value phase to prevent post filter ruin place
 " holder
-XPT < " <Tag>..</Tag>
-XSET tag|ontype=xml_tag_ontype()
-XSET att*|pre=Echo('')
-XSET att*|def=Embed( '` `^' )
-<`tag^`att*^>`content^</`tag^>
-..XPT
+" XPT < " <Tag>..</Tag>
+" XSET tag|ontype=xml_tag_ontype()
+" XSET att*|pre=Echo('')
+" XSET att*|def=Embed( '` `^' )
+" <`tag^`att*^>`content^</`tag^>
+" ..XPT
 
 
 " " auto attributes completion

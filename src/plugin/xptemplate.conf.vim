@@ -53,6 +53,11 @@ call s:SetIfNotExist('g:xptemplate_bundle'              , ''	)
 call s:SetIfNotExist('g:xptemplate_snippet_folders'     , []	)
 
 
+" doc it
+call s:SetIfNotExist('g:xptemplate_map'                 , ''	)
+
+
+
 
 
 " for test script
