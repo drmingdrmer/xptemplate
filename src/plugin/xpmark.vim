@@ -1351,7 +1351,6 @@ fun! s:initBufData() "{{{
 endfunction "}}}
 
 fun! s:BufData() "{{{
-    echom bufnr( "%" )
     if !exists('b:_xpmark')
         call s:initBufData()
     endif
