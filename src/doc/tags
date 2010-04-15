@@ -30,6 +30,7 @@ XPTvar	xpt.snippet.syn.txt	/*XPTvar*
 `cursor^	xpt.snippet.syn.txt	/*`cursor^*
 g:XPTaddBundle()	xpt.api.txt	/*g:XPTaddBundle()*
 g:xptemplate_brace_complete	xptemplate.txt	/*g:xptemplate_brace_complete*
+g:xptemplate_brace_complete	xptemplate.txt	/*g:xptemplate_brace_complete*
 g:xptemplate_bundle	xptemplate.txt	/*g:xptemplate_bundle*
 g:xptemplate_fallback	xptemplate.txt	/*g:xptemplate_fallback*
 g:xptemplate_goback	xptemplate.txt	/*g:xptemplate_goback*
@@ -97,7 +98,6 @@ xpt-placeholder-optional-ph	xpt.snippet.syn.txt	/*xpt-placeholder-optional-ph*
 xpt-placeholder-post-filter	xpt.snippet.syn.txt	/*xpt-placeholder-post-filter*
 xpt-placeholder-right-mark	xpt.snippet.syn.txt	/*xpt-placeholder-right-mark*
 xpt-placeholder-special	xpt.snippet.syn.txt	/*xpt-placeholder-special*
-xpt-placeholder-wrapped	xpt.snippet.syn.txt	/*xpt-placeholder-wrapped*
 xpt-popup	xptemplate.txt	/*xpt-popup*
 xpt-priority-format	xpt.snippet.syn.txt	/*xpt-priority-format*
 xpt-priority-value	xpt.snippet.syn.txt	/*xpt-priority-value*
@@ -108,6 +108,7 @@ xpt-snippet-ComeLast	xpt.snippet.syn.txt	/*xpt-snippet-ComeLast*
 xpt-snippet-XPTinclude	xpt.snippet.syn.txt	/*xpt-snippet-XPTinclude*
 xpt-snippet-XSET	xpt.snippet.syn.txt	/*xpt-snippet-XSET*
 xpt-snippet-XSETm	xpt.snippet.syn.txt	/*xpt-snippet-XSETm*
+xpt-snippet-abbr	xpt.snippet.syn.txt	/*xpt-snippet-abbr*
 xpt-snippet-alias	xpt.snippet.syn.txt	/*xpt-snippet-alias*
 xpt-snippet-body	xpt.snippet.syn.txt	/*xpt-snippet-body*
 xpt-snippet-default-post-filter	xpt.snippet.syn.txt	/*xpt-snippet-default-post-filter*
@@ -139,6 +140,8 @@ xpt-snippet-synonym	xpt.snippet.syn.txt	/*xpt-snippet-synonym*
 xpt-snippet-syntax	xpt.snippet.syn.txt	/*xpt-snippet-syntax*
 xpt-snippet-tutorial	xpt.snippet.tutor.txt	/*xpt-snippet-tutorial*
 xpt-snippet-variable	xpt.snippet.syn.txt	/*xpt-snippet-variable*
+xpt-snippet-wrap	xpt.snippet.syn.txt	/*xpt-snippet-wrap*
+xpt-snippet-wraponly	xpt.snippet.syn.txt	/*xpt-snippet-wraponly*
 xpt-substitute	xpt-function.txt	/*xpt-substitute*
 xpt-tips	xptemplate.txt	/*xpt-tips*
 xpt-tutor-define-snippet	xpt.snippet.tutor.txt	/*xpt-tutor-define-snippet*
