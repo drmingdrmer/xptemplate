@@ -105,7 +105,7 @@ fun! s:f.xml_cont_ontype()
 endfunction
 
 
-" inoremap <silent> < <C-r>=XPTtgr('__tag',{'syn':'','k':'<'})<cr>
+" inoremap <silent> < <space><BS><C-r>=XPTtgr('__tag',{'syn':'','k':'<'})<cr>
 
 " ================================= Snippets ===================================
 XPTemplateDef
