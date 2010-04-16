@@ -838,15 +838,15 @@ WRAPPED_TEXT_line2`
 
 
 
-    module .Home.Drdrxp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
+    module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
         ) where
 
     module moduleName_TYPED exports_TYPEDwhere b
 
-    `module .Home.Drdrxp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
+    `module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
         ) where^
 
-    a module .Home.Drdrxp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
+    a module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell..test.Test ( 
         ) where
 
 

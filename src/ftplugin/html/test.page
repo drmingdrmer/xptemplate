@@ -55,20 +55,6 @@ a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
-    <!--  -------------<--------------- -->
-    <!-- <`tag^`att*^>`content^</`tag^> -->
-
-
-
-    <tag >content</tag>
-
-    <tag_TYPED _TYPED>content_TYPED</tag_TYPED> b
-
-    `<tag >content</tag>^
-
-    a <tag >content</tag>
-
-
     <!--  -------------<_--------------- -->
     <!-- <`w^>                           -->
 
