@@ -102,7 +102,7 @@ xpt-priority-format	xpt.snippet.syn.txt	/*xpt-priority-format*
 xpt-priority-value	xpt.snippet.syn.txt	/*xpt-priority-value*
 xpt-repetition	xptemplate.txt	/*xpt-repetition*
 xpt-snippet	xpt.snippet.syn.txt	/*xpt-snippet*
-xpt-snippet-ComeFist	xpt.snippet.syn.txt	/*xpt-snippet-ComeFist*
+xpt-snippet-ComeFirst	xpt.snippet.syn.txt	/*xpt-snippet-ComeFirst*
 xpt-snippet-ComeLast	xpt.snippet.syn.txt	/*xpt-snippet-ComeLast*
 xpt-snippet-XPTinclude	xpt.snippet.syn.txt	/*xpt-snippet-XPTinclude*
 xpt-snippet-XSET	xpt.snippet.syn.txt	/*xpt-snippet-XSET*
