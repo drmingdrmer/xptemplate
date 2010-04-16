@@ -220,12 +220,13 @@ augroup END
 
 if g:xptemplate_brace_complete
 
-    inoremap <silent> ( <C-r>=XPTtgr('(',{'noliteral':1,'k':'('})<cr>
-    inoremap <silent> [ <C-r>=XPTtgr('[',{'noliteral':1,'k':'['})<cr>
-    inoremap <silent> { <C-r>=XPTtgr('{',{'noliteral':1,'k':'{'})<cr>
-    " inoremap <silent> < <C-r>=XPTtgr('<',{'noliteral':1,'k':'<'})<cr>
-    inoremap <silent> ' <C-r>=XPTtgr('''',{'noliteral':1,'k':''''})<cr>
-    inoremap <silent> " <C-r>=XPTtgr('"',{'noliteral':1,'k':'"'})<cr>
+    " <space><BS> force pum to close
+    inoremap <silent> ( <space><BS><C-r>=XPTtgr('(',{'noliteral':1,'k':'('})<cr>
+    inoremap <silent> [ <space><BS><C-r>=XPTtgr('[',{'noliteral':1,'k':'['})<cr>
+    inoremap <silent> { <space><BS><C-r>=XPTtgr('{',{'noliteral':1,'k':'{'})<cr>
+    " inoremap <silent> < <space><BS><C-r>=XPTtgr('<',{'noliteral':1,'k':'<'})<cr>
+    inoremap <silent> ' <space><BS><C-r>=XPTtgr('''',{'noliteral':1,'k':''''})<cr>
+    inoremap <silent> " <space><BS><C-r>=XPTtgr('"',{'noliteral':1,'k':'"'})<cr>
 
 endif
 

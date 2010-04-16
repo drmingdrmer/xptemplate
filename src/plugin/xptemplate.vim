@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.4.1
+" VERSION: 0.4.2
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
@@ -25,7 +25,6 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO fix: 
 " TODO fix: if XSET cursor=123 present, cursor stops at incorrect position. xptest:bb
 " TODO add: visual mode trigger.
 " TODO fix: after undo, highlight is not cleared.
@@ -118,6 +117,7 @@
 "   fix: improve sh snippets
 "   fix: quotes snippet removed single space in it when typing the second quote
 "   fix: nested cursor PH can not occupy input focus
+"   fix: popup menu not closed
 "
 "
 "   add: use XPTtgr() to trigger a snippet in insert-mode.
@@ -551,7 +551,7 @@ endfunction "}}}
 fun! s:Abbr( name ) "{{{
     let name = a:name
     try
-        exe 'inoreabbr <silent> <buffer> ' name "\<C-r>=XPTtgr(" . string( name ) . ",{'k':''})\<CR>"
+        exe 'inoreabbr <silent> <buffer> ' name "<space><BS>\<C-r>=XPTtgr(" . string( name ) . ",{'k':''})\<CR>"
     catch /.*/
         let n = matchstr( name, '\v\w+$' )
         let pre = name[ : -len( n ) - 1 ]
