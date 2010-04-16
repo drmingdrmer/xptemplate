@@ -35,7 +35,7 @@
 	|xpt-snippet-include|
 	|xpt-snippet-XSET|
 	|xpt-snippet-XSETm|
-	|xpt-snippet-ComeFist|
+	|xpt-snippet-ComeFirst|
 	|xpt-snippet-ComeLast|
 	|xpt-snippet-postQuoter|
 
@@ -421,7 +421,7 @@
 	`Include:^	Include with "cursor" place holder.
 
 	Snippet can include another snippet, through inclusion place holder : >
-		`Include:snippetNmae^
+		`Include:snippetName^
 <	When inclusion occurs, |xpt-snippet-post-filter|,
 	|xpt-snippet-default-value| and |xpt-snippet-preset-value| is imported
 	too, if it does not override.
@@ -486,7 +486,7 @@
 		XSETm END
 <
 
-							*xpt-snippet-ComeFist*
+						       *xpt-snippet-ComeFirst*
 							*xpt-snippet-ComeLast*
 	Special XSET keys "ComeFirst" and "ComeLast" specify the item render
 	order. Their value is a list of place holder names separated by space.
