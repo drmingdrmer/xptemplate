@@ -1366,16 +1366,16 @@ fun! s:InitBuf() "{{{
     endif
 
 
-    if !exists( 'b:_xpm_redefined' )
+    " if !exists( 'b:_xpm_redefined' )
 
-        " redefine it
-        fun! s:BufData() "{{{
-            return b:_xpmark
-        endfunction "}}}
+    "     " redefine it
+    "     fun! s:BufData() "{{{
+    "         return b:_xpmark
+    "     endfunction "}}}
 
-        let b:_xpm_redefined = 1
+    "     let b:_xpm_redefined = 1
 
-    endif
+    " endif
 
 
 endfunction "}}}
