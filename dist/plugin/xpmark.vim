@@ -715,12 +715,6 @@ fun! s:InitBuf()
     if !exists('b:_xpmark')
         call s:initBufData()
     endif
-    if !exists( 'b:_xpm_redefined' )
-        fun! s:BufData() 
-            return b:_xpmark
-        endfunction 
-        let b:_xpm_redefined = 1
-    endif
 endfunction 
 fun! s:defaultCompare(d, markA, markB) 
     let [ ma, mb ] = [ a:d.marks[ a:markA ], a:d.marks[ a:markB ] ]
