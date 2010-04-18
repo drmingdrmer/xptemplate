@@ -27,5 +27,17 @@ XPT bb " tips
 XSET cursor=123
 what `a^ `cursor^
 
-XPT aa " paste at end test
-`f^`aa...{{^pp`}}^`l^Echo( Context().history[-1].item.name )^
+XPT q " tips
+XSET $a=3
+`p`{$a}`p^-`p^
+
+XPT x " tips
+XSET $a=3
+`p`p`p^-`p^
+
+XPT t " tips
+XSET $a=5
+`:x({ 'p' : '\`{$a}\`' }):^
+
+" XPT aa " paste at end test
+" `f^`aa...{{^pp`}}^`l^Echo( Context().history[-1].item.name )^

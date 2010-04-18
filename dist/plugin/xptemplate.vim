@@ -295,6 +295,7 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor )
         endif
         let [ matching, indent, incName ] = matchlist( snip, a:pattern.line, pos )[ : 2 ]
         let indent = matchstr( split( matching, '\n' )[ -1 ], '^\s*' )
+        let [ incName, params ] = s:ParseInclusionStatement( a:tmplObject, incName )
         if has_key( a:tmplDict, incName )
             if has_key( included, incName ) && included[ incName ] > 20
                 throw "XPT : include too many snippet:" . incName . ' in ' . a:tmplObject.name
@@ -303,7 +304,8 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor )
             let ph = matchstr( matching, a:pattern.ph )
             let incTmplObject = a:tmplDict[ incName ]
             call s:MergeSetting( a:tmplObject.setting, incTmplObject.setting )
-            let incSnip = substitute( incTmplObject.snipText, '\n', '&' . indent, 'g' )
+            let incSnip = s:ReplacePHInSubSnip( a:tmplObject, incTmplObject, params )
+            let incSnip = substitute( incSnip, '\n', '&' . indent, 'g' )
             if !a:keepCursor
                 let incSnip = substitute( incSnip, xp.lft . 'cursor' . xp.rt, xp.l . xp.r, 'g' )
             endif
@@ -317,6 +319,46 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor )
         endif
     endwhile
     let a:tmplObject.snipText = snip[1:]
+endfunction 
+fun! s:ReplacePHInSubSnip( snipObject, subSnipObject, params ) 
+    let xp = a:snipObject.ptn
+    let incSnip = a:subSnipObject.snipText
+    let incSnipPieces = split( incSnip, '\V' . xp.rt, 1 )
+    for [ k, v ] in items( a:params )
+        let [ i, len ] = [ 0 - 1, len( incSnipPieces ) - 1 ]
+        while i < len | let i += 1
+            let piece = incSnipPieces[ i ]
+            if piece =~# '\V' . k
+                let parts = split( piece, '\V' . xp.lft, 1 )
+                let iName = len( parts ) == 4 ? 2 : len( parts ) - 1
+                if parts[ iName ] ==# k
+                    let parts[ iName ] = v
+                endif
+                let incSnipPieces[ i ] = join( parts, xp.l )
+            endif
+        endwhile
+    endfor
+    let incSnip = join( incSnipPieces, xp.r )
+    return incSnip
+endfunction 
+fun! s:ParseInclusionStatement( snipObject, st ) 
+    let xp = a:snipObject.ptn
+    let ptn = '\V\^\[^(]\{-}('
+    let st = a:st
+    if st =~ ptn && st[ -1 : -1 ] == ')'
+        let name = matchstr( st, ptn )[ : -2 ]
+        let paramStr = st[ len( name ) + 1 : -2 ]
+        let paramStr = g:xptutil.UnescapeChar( paramStr, xp.l . xp.r )
+        let params = {}
+        try
+            let params = eval( paramStr )
+        catch /.*/
+            XPT#warn( 'XPT: Invalid parameter: ' . string( paramStr ) . ' Error=' . v:exception )
+        endtry
+        return [ name, params ]
+    else
+        return [ st, {} ]
+    endif
 endfunction 
 fun! s:MergeSetting( toSettings, fromSettings ) 
     let a:toSettings.comeFirst += a:fromSettings.comeFirst
@@ -1440,7 +1482,8 @@ fun! s:DoGotoNextItem()
           \ && empty( renderContext.item.placeHolders )
           \ && XPMpos( leader.mark.end ) == XPMpos( renderContext.marks.tmpl.end )
           \ && postaction !~ ''
-        return s:FinishRendering()
+        let pp = s:FinishRendering()
+        return postaction
     endif
     if !renderContext.processing
         return postaction
@@ -1953,23 +1996,29 @@ fun! s:XPTinitMapping()
         \]
     let b:mapSaver = g:MapSaver.New(1)
     call b:mapSaver.AddList(
-        \ 'i_' . g:xptemplate_nav_next,
-        \ 's_' . g:xptemplate_nav_next,
-        \
-        \ 'i_' . g:xptemplate_nav_prev,
-        \ 's_' . g:xptemplate_nav_prev,
-        \
-        \ 's_' . g:xptemplate_nav_cancel,
-        \ 's_' . g:xptemplate_to_right,
-        \
-        \ 'n_' . g:xptemplate_goback,
-        \ 'i_' . g:xptemplate_goback,
-        \
-        \ 'i_<CR>',
-        \
-        \ 's_<DEL>',
-        \ 's_<BS>',
-        \)
+          \ 'i_' . g:xptemplate_nav_next,
+          \ 's_' . g:xptemplate_nav_next,
+          \
+          \ 'i_' . g:xptemplate_nav_prev,
+          \ 's_' . g:xptemplate_nav_prev,
+          \
+          \ 's_' . g:xptemplate_nav_cancel,
+          \ 's_' . g:xptemplate_to_right,
+          \
+          \ 'n_' . g:xptemplate_goback,
+          \ 'i_' . g:xptemplate_goback,
+          \
+          \ 'i_<CR>',
+          \
+          \ 's_<DEL>',
+          \ 's_<BS>',
+          \)
+    if g:xptemplate_nav_next_2 != g:xptemplate_nav_next
+        call b:mapSaver.AddList(
+              \ 'i_' . g:xptemplate_nav_next_2,
+              \ 's_' . g:xptemplate_nav_next_2,
+              \ )
+    endif
     let b:mapLiteral = g:MapSaver.New( 1 )
     call b:mapLiteral.AddList( literalKeys )
     let b:mapMask = g:MapSaver.New( 0 )
@@ -2012,6 +2061,10 @@ fun! s:ApplyMap()
     inoremap <silent> <buffer> <CR> <C-r>=<SID>XPTCR()<CR>
     snoremap <silent> <buffer> <Del> <Del>i
     snoremap <silent> <buffer> <BS> d<BS>
+    if g:xptemplate_nav_next_2 != g:xptemplate_nav_next
+        exe 'inoremap <silent> <buffer>' g:xptemplate_nav_next_2   '<C-r>=<SID>ShiftForward("")<CR>'
+        exe 'snoremap <silent> <buffer>' g:xptemplate_nav_next_2   '<Esc>`>a<C-r>=<SID>ShiftForward("")<CR>'
+    endif
     if &selection == 'inclusive'
         exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>a"
     else
@@ -2178,19 +2231,7 @@ fun! s:Crash(...)
     call s:CallPlugin( 'finishAll', 'after' )
     return ''
 endfunction 
-fun! s:SkipSpecialBuf() 
-    if bufname( '%' ) == "[Command Line]"
-        return 1
-    endif
-    if &buftype == 'quickfix'
-        return 1
-    endif
-    return 0
-endfunction 
 fun! s:XPTupdateTyping() 
-    if s:SkipSpecialBuf()
-        return 0
-    endif
     let rc = s:XPTupdate()
     if rc != 0
         return rc
