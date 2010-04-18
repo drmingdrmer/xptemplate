@@ -725,6 +725,7 @@ fun! s:MergeSetting( toSettings, fromSettings ) "{{{
     call extend( a:toSettings.preValues, a:fromSettings.preValues, 'keep' )
     call extend( a:toSettings.defaultValues, a:fromSettings.defaultValues, 'keep' )
     call extend( a:toSettings.postFilters, a:fromSettings.postFilters, 'keep' )
+    call extend( a:toSettings.variables, a:fromSettings.variables, 'keep' )
 
     for key in keys( a:fromSettings.mappings )
         if !has_key( a:toSettings.mappings, key )
@@ -1785,6 +1786,13 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
     call s:log.Log( "item is :" . string( [ leftEdge, name, rightEdge ] ) )
 
 
+    " NOTE: inclusion comes first
+    let incPattern = '\V\^:\zs\.\*\ze:\$\|\^Include:\zs\.\*\$'
+    if name =~ incPattern
+        " build-time inclusion for XSET
+        return { 'include' : matchstr( name, incPattern ) }
+    endif
+
     " TODO quoted pattern
     " if a place holder need to be evalueated, the evaluate part must be all
     " in name but not edge.
@@ -1793,11 +1801,6 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
         return { 'value' : fullname }
     endif
 
-    let incPattern = '\V\^:\zs\.\*\ze:\$\|\^Include:\zs\.\*\$'
-    if name =~ incPattern
-        " build-time inclusion for XSET
-        return { 'include' : matchstr( name, incPattern ) }
-    endif
 
 
 
@@ -2291,18 +2294,21 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
 
     call s:log.Debug( 'buildtime inclusion' )
 
-    if !has_key( tmplDict, placeHolder.include )
-        call XPT#warn( "unknown inclusion :" . placeHolder.include )
+    let [ incName, params ] = s:ParseInclusionStatement( renderContext.snipObject, placeHolder.include )
+
+    if !has_key( tmplDict, incName )
+        call XPT#warn( "unknown inclusion :" . incName )
         return
     endif
 
-    let incTmplObject = tmplDict[ placeHolder.include ]
 
-    " TODO  including multiple times causes settings are merged multiple times.
-    "       what about create a single tmplObject for each rendering?
+
+    let incTmplObject = tmplDict[ incName ]
+
     call s:MergeSetting( renderContext.snipSetting, incTmplObject.setting )
 
-    let incSnip = s:AddIndent( incTmplObject.snipText, nameInfo[0] )
+    let incSnip = s:ReplacePHInSubSnip( renderContext.snipObject, incTmplObject, params )
+    let incSnip = s:AddIndent( incSnip, nameInfo[0] )
 
     let valueInfo[-1][1] += 1
     call XPreplaceInternal( nameInfo[0], valueInfo[-1], incSnip )

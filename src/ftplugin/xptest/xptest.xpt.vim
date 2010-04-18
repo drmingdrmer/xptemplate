@@ -33,11 +33,11 @@ XSET $a=3
 
 XPT x " tips
 XSET $a=3
-`p`p`p^-`p^
+`p`p`p^-`$a^
 
 XPT t " tips
-XSET $a=5
-`:x({ 'p' : '\`{$a}\`' }):^
+`:x:^
+..XPT
 
 " XPT aa " paste at end test
 " `f^`aa...{{^pp`}}^`l^Echo( Context().history[-1].item.name )^
