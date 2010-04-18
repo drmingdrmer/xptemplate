@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.4.3
+" VERSION: 0.4.4
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
@@ -25,6 +25,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO goto next or trigger?
 " TODO fix: if XSET cursor=123 present, cursor stops at incorrect position. xptest:bb
 " TODO add: visual mode trigger.
 " TODO fix: after undo, highlight is not cleared.
@@ -80,50 +81,6 @@
 "
 "
 " Log of This version:
-"
-"   fix: pop up menu supports case insensitive matching.
-"   fix: inline auto complete bug
-"   fix: defer snippet parsing to the time user trigger the first snippet
-"   fix: expandtab setting
-"   fix: <CR> caused indent problem now fixed by remapping <CR> key.
-"   fix: made XPTparseSnippets globally public
-"   fix: test script does not handling space correctly
-"   fix: popup menu matches input with case ignored, if all input are lower-case letter.
-"   fix: some python snippets have been simplified.
-"   fix: marks order of nested mark
-"   fix: break undo only when strict mode is not 1
-"   fix: bug that pum does not complete word with right case.
-"   fix: html snippet bug: 'table' after 'p' is rendered incorrectly.
-"   fix: virtualedit=all causes incorrect deletion, in replace module.
-"   fix: Finish Action did not call FinishCurrent()
-"   fix: `cursor^ of included snippet transforms to an anonymous place holder
-"   fix: bug snippet starts following a back slash "\" is not built correctly
-"   fix: update highlight when re-enter insert-mode
-"   fix: highlight bug.
-"   fix: crash handling
-"   fix: snippet name sorting bug
-"   fix: bug of nested bracket snippet
-"   fix: bug: in vim 7.0, [ at line end. snippet is not built correctly
-"   fix: minimal prefix setting bug
-"   fix: re-highlight after nested snippet finished.
-"   fix: hint extract bug
-"   fix: longest complete bug.
-"   fix: boring horizontal scroll when snippet rendered
-"   fix: pum bug 'if s<Tab><BS>' removes whole line in vim file
-"   fix: html snippet hint and xpt syntax file
-"   fix: improve html
-"   fix: <C-g> bug
-"   fix: bug wrongly restoring mapping: i <C-r><tab> <C-c> i (
-"   fix: improve sh snippets
-"   fix: quotes snippet removed single space in it when typing the second quote
-"   fix: nested cursor PH can not occupy input focus
-"   fix: popup menu not closed
-"
-"
-"   add: use XPTtgr() to trigger a snippet in insert-mode.
-"   add: option of pum's accepting empty input.
-"   add: brackets complete support.
-"   add: supertab support
 "
 "
 " supertab support
@@ -309,6 +266,7 @@ let s:ItemPumCB = {}
 fun! s:ItemPumCB.onOneMatch( sess ) "{{{
 
     " TODO  next item is better?
+    " TODO XPTupdateTyping
     if 0 == s:XPTupdate()
         return s:ShiftForward( '' )
     else
@@ -641,6 +599,8 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor ) "{{{
         call s:log.Debug( 'inclusion line:' . matching )
         call s:log.Debug( 'indent=' . string( indent ) )
 
+        let [ incName, params ] = s:ParseInclusionStatement( a:tmplObject, incName )
+
         if has_key( a:tmplDict, incName )
             if has_key( included, incName ) && included[ incName ] > 20
                 throw "XPT : include too many snippet:" . incName . ' in ' . a:tmplObject.name
@@ -654,9 +614,11 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor ) "{{{
             let incTmplObject = a:tmplDict[ incName ]
             call s:MergeSetting( a:tmplObject.setting, incTmplObject.setting )
 
-            let incSnip = substitute( incTmplObject.snipText, '\n', '&' . indent, 'g' )
+            let incSnip = s:ReplacePHInSubSnip( a:tmplObject, incTmplObject, params )
+            let incSnip = substitute( incSnip, '\n', '&' . indent, 'g' )
 
 
+            " TODO replace this with parameter
             if !a:keepCursor
                 " Dumb `cursor^ of included snippet
                 let incSnip = substitute( incSnip, xp.lft . 'cursor' . xp.rt, xp.l . xp.r, 'g' )
@@ -681,6 +643,79 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor ) "{{{
 
     " remove "\n"
     let a:tmplObject.snipText = snip[1:]
+
+endfunction "}}}
+
+fun! s:ReplacePHInSubSnip( snipObject, subSnipObject, params ) "{{{
+    let xp = a:snipObject.ptn
+    let incSnip = a:subSnipObject.snipText
+
+    let incSnipPieces = split( incSnip, '\V' . xp.rt, 1 )
+
+    " NOTE: not very strict matching
+    for [ k, v ] in items( a:params )
+
+        let [ i, len ] = [ 0 - 1, len( incSnipPieces ) - 1 ]
+        while i < len | let i += 1
+            let piece = incSnipPieces[ i ]
+
+
+            if piece =~# '\V' . k
+                let parts = split( piece, '\V' . xp.lft, 1 )
+                
+                " len of parts : 2 3 4
+                " index of name: 1 2 2
+                
+                let iName = len( parts ) == 4 ? 2 : len( parts ) - 1
+
+
+                if parts[ iName ] ==# k
+                    let parts[ iName ] = v
+                endif
+                
+                let incSnipPieces[ i ] = join( parts, xp.l )
+            endif
+
+        endwhile
+
+    endfor
+
+    let incSnip = join( incSnipPieces, xp.r )
+
+    return incSnip
+endfunction "}}}
+
+fun! s:ParseInclusionStatement( snipObject, st ) "{{{
+
+    let xp = a:snipObject.ptn
+
+    
+    let ptn = '\V\^\[^(]\{-}('
+    let st = a:st
+
+    if st =~ ptn && st[ -1 : -1 ] == ')'
+
+        let name = matchstr( st, ptn )[ : -2 ]
+        let paramStr = st[ len( name ) + 1 : -2 ]
+
+        call s:log.Debug( 'name=' . string( name ) )
+        call s:log.Debug( 'paramStr' . string( paramStr ) )
+
+        let paramStr = g:xptutil.UnescapeChar( paramStr, xp.l . xp.r )
+        let params = {}
+        try
+            let params = eval( paramStr )
+        catch /.*/
+            XPT#warn( 'XPT: Invalid parameter: ' . string( paramStr ) . ' Error=' . v:exception )
+        endtry
+
+        call s:log.Debug( 'params=' . string( params ) )
+
+        return [ name, params ]
+
+    else
+        return [ st, {} ]
+    endif
 
 endfunction "}}}
 
@@ -2247,6 +2282,7 @@ fun! s:EvaluateEdge( xp, item, ph ) "{{{
 endfunction "}}}
 
 fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
+
     let renderContext = b:xptemplateData.renderContext
     let tmplDict = renderContext.ftScope.allTemplates
 
@@ -2271,7 +2307,6 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
 
     let valueInfo[-1][1] += 1
     call XPreplaceInternal( nameInfo[0], valueInfo[-1], incSnip )
-    " call XPreplace( nameInfo[0], valueInfo[-1], incSnip )
 
 endfunction "}}}
 
@@ -2804,9 +2839,9 @@ fun! s:DoGotoNextItem() "{{{
           \ && XPMpos( leader.mark.end ) == XPMpos( renderContext.marks.tmpl.end )
           \ && postaction !~ ''
 
-        " TODO postaction discarded
-        return s:FinishRendering()
-        " return postaction
+        " NOTE: FinishRendering does not return any action
+        let pp = s:FinishRendering()
+        return postaction
 
     endif
 
@@ -3699,23 +3734,31 @@ fun! s:XPTinitMapping() "{{{
 
     let b:mapSaver = g:MapSaver.New(1)
     call b:mapSaver.AddList(
-        \ 'i_' . g:xptemplate_nav_next,
-        \ 's_' . g:xptemplate_nav_next,
-        \
-        \ 'i_' . g:xptemplate_nav_prev,
-        \ 's_' . g:xptemplate_nav_prev,
-        \
-        \ 's_' . g:xptemplate_nav_cancel,
-        \ 's_' . g:xptemplate_to_right,
-        \
-        \ 'n_' . g:xptemplate_goback,
-        \ 'i_' . g:xptemplate_goback,
-        \
-        \ 'i_<CR>',
-        \
-        \ 's_<DEL>',
-        \ 's_<BS>',
-        \)
+          \ 'i_' . g:xptemplate_nav_next,
+          \ 's_' . g:xptemplate_nav_next,
+          \
+          \ 'i_' . g:xptemplate_nav_prev,
+          \ 's_' . g:xptemplate_nav_prev,
+          \
+          \ 's_' . g:xptemplate_nav_cancel,
+          \ 's_' . g:xptemplate_to_right,
+          \
+          \ 'n_' . g:xptemplate_goback,
+          \ 'i_' . g:xptemplate_goback,
+          \
+          \ 'i_<CR>',
+          \
+          \ 's_<DEL>',
+          \ 's_<BS>',
+          \)
+
+    if g:xptemplate_nav_next_2 != g:xptemplate_nav_next
+        call b:mapSaver.AddList(
+              \ 'i_' . g:xptemplate_nav_next_2,
+              \ 's_' . g:xptemplate_nav_next_2,
+              \ )
+        
+    endif
 
     let b:mapLiteral = g:MapSaver.New( 1 )
     call b:mapLiteral.AddList( literalKeys )
@@ -3786,6 +3829,12 @@ fun! s:ApplyMap() " {{{
     inoremap <silent> <buffer> <CR> <C-r>=<SID>XPTCR()<CR>
     snoremap <silent> <buffer> <Del> <Del>i
     snoremap <silent> <buffer> <BS> d<BS>
+
+
+    if g:xptemplate_nav_next_2 != g:xptemplate_nav_next
+        exe 'inoremap <silent> <buffer>' g:xptemplate_nav_next_2   '<C-r>=<SID>ShiftForward("")<CR>'
+        exe 'snoremap <silent> <buffer>' g:xptemplate_nav_next_2   '<Esc>`>a<C-r>=<SID>ShiftForward("")<CR>'
+    endif
 
     if &selection == 'inclusive'
         " snoremap <silent> <buffer> <BS> <esc>`>a<BS>
@@ -4044,23 +4093,23 @@ fun! s:Crash(...) "{{{
     return ''
 endfunction "}}}
 
-fun! s:SkipSpecialBuf() "{{{
-    if bufname( '%' ) == "[Command Line]"
-        return 1
-    endif
+" fun! s:SkipSpecialBuf() "{{{
+"     if bufname( '%' ) == "[Command Line]"
+"         return 1
+"     endif
 
-    if &buftype == 'quickfix'
-        return 1
-    endif
+"     if &buftype == 'quickfix'
+"         return 1
+"     endif
 
-    return 0
-endfunction "}}}
+"     return 0
+" endfunction "}}}
 
 fun! s:XPTupdateTyping() "{{{
 
-    if s:SkipSpecialBuf()
-        return 0
-    endif
+    " if s:SkipSpecialBuf()
+        " return 0
+    " endif
 
     let rc = s:XPTupdate()
 

@@ -410,18 +410,25 @@
 		|xpt-snippet-XSET|
 		|xpt-snippet-XSETm|
 	Snippet with XSET command : >
+
 		XPT printf	hint=printf\(...)
 		XSET elts=c_printfElts( R( 'pattern' ) )
 		printf( "`pattern^"`elts^ )
+
 <	NOTE XSET/XSETm commands can be placed anywhere inside a snippet.
 
 
 				       *`::^* *Include:* *xpt-snippet-include*
-	`::^		Simple Include without "cursor".
-	`Include:^	Include with "cursor" place holder.
+	`:<snipname>:^		Simple Include without "cursor".
+	`Include:<snipname>^	Include with "cursor" place holder.
+
+	`:<snipname>():^	Simple inclusion with parameter.
+	`Include:<snipname>()^	Inclusion with parameter.
 
 	Snippet can include another snippet, through inclusion place holder : >
+
 		`Include:snippetName^
+
 <	When inclusion occurs, |xpt-snippet-post-filter|,
 	|xpt-snippet-default-value| and |xpt-snippet-preset-value| is imported
 	too, if it does not override.
@@ -433,23 +440,32 @@
 	NOTE	The only difference between "Include:" and "::" is "Include:"
 		keeps "cursor" place holder but "::" does not.
 
-	Take "if" snippet in "_condition/c.like.xpt.vim" for example: >
+	Take "if" snippet in file "_condition/c.like.xpt.vim" for example(
+	snippets are simplified for reading ): >
 		XPT _if hidden
-		if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
+		if ( `condition^ ) {
 		    `job^
 		}
 
 		XPT if hint=if\ (..)\ {..}\ else...
-		`:_if:^` `else...{{^`$BRel^`Include:else^`}}^
+		`:_if:^` `else...{{^ `Include:else^`}}^
 
 <	The real "if" includes the "_if" and "else" snippets.
 	
-	NOTE	Include is literal, so that snippets with different
+	NOTE	Inclusion is literal, so that snippets with different
 		|xpt-snippet-mark| can not include each other.
 
 	NOTE	By convention snippets of name started with "_" are internal
 		snippets. Normally these snippets are set with
 		|xpt-snippet-hidden| flag on and used for inclusion only.
+
+	Parameters of Inclusion:
+
+	Inclusion can have parameters passed to included snippet. Parameters
+	are name-value pairs. Names are placeholder name. Values presents in a
+	|Dictionary|:
+		`:<snipname>( { '<phname>' : '<new_phname>', ... } ):^
+	Name of place holders in sub-snippet are replaced according to parameters.
 
 
 							    *xpt-snippet-XSET*

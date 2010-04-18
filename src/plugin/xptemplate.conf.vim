@@ -29,6 +29,8 @@ call s:SetIfNotExist('g:xptemplate_key'                 , '<C-\>'	)
 call s:SetIfNotExist('g:xptemplate_key_pum_only'        , '<C-r>' . g:xptemplate_key	)
 " call s:SetIfNotExist('g:xptemplate_crash'             , '<C-g>'	)
 
+
+
 call s:SetIfNotExist('g:xptemplate_nav_next'            , '<Tab>'	)
 call s:SetIfNotExist('g:xptemplate_nav_prev'            , '<S-Tab>'	)
 " call s:SetIfNotExist('g:xptemplate_nav_clear_next'      , '<cr>'	)
@@ -36,6 +38,9 @@ call s:SetIfNotExist('g:xptemplate_nav_cancel'          , '<cr>'	)
 call s:SetIfNotExist('g:xptemplate_goback'              , '<C-g>'	)
 call s:SetIfNotExist('g:xptemplate_to_right'            , '<C-l>'	)
 
+" TODO doc it
+call s:SetIfNotExist('g:xptemplate_key_2'               ,  g:xptemplate_key	)
+call s:SetIfNotExist('g:xptemplate_nav_next_2'          ,  g:xptemplate_nav_next	)
 
 call s:SetIfNotExist('g:xptemplate_fallback'            , '<Plug>XPTrawKey'	)
 call s:SetIfNotExist('g:xptemplate_minimal_prefix'      , 1	)
@@ -116,6 +121,12 @@ exe "inoremap <silent>" g:xptemplate_key           g:XPTmappings.trigger
 exe "xnoremap <silent>" g:xptemplate_key           g:XPTmappings.wrapTrigger
 exe "snoremap <silent>" g:xptemplate_key           g:XPTmappings.selTrigger
 exe "inoremap <silent>" g:xptemplate_key_pum_only  g:XPTmappings.popup
+
+if g:xptemplate_key_2 != g:xptemplate_key
+    exe "inoremap <silent>" g:xptemplate_key_2           g:XPTmappings.trigger
+    exe "xnoremap <silent>" g:xptemplate_key_2           g:XPTmappings.wrapTrigger
+    exe "snoremap <silent>" g:xptemplate_key_2           g:XPTmappings.selTrigger
+endif
 
 
 " let &cpo = s:oldcpo

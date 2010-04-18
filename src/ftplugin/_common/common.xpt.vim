@@ -76,6 +76,10 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 
+fun! s:f.GetDict( ... )
+    return 
+endfunction
+
 " TODO bad, this function should not depends on phase of rendering
 fun! s:f.GetVar( name )
     if a:name =~# '\V\^$_x'
