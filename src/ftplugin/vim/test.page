@@ -242,14 +242,14 @@ a "
    " WRAPPED_TEXT_line2
    "
 
-    "  -------------debug---------------         
-    " call s:log.Debug(`$SParg^`cursor^`$SParg^) 
+    "  -------------debug---------------   
+    " call s:log.Debug(`$SParg^`^`$SParg^) 
 
 
 
     call s:log.Debug(  )
 
-    call s:log.Debug(  ) b
+    call s:log.Debug( _TYPED ) b
 
     `call s:log.Debug(  )^
 
@@ -289,14 +289,14 @@ else
     a drdr.xp@gmail.com
 
 
-    "  -------------error---------------         
-    " call s:log.Error(`$SParg^`cursor^`$SParg^) 
+    "  -------------error---------------   
+    " call s:log.Error(`$SParg^`^`$SParg^) 
 
 
 
     call s:log.Error(  )
 
-    call s:log.Error(  ) b
+    call s:log.Error( _TYPED ) b
 
     `call s:log.Error(  )^
 
@@ -502,28 +502,28 @@ a if cond
 endif
 
 
-    "  -------------info---------------         
-    " call s:log.Info(`$SParg^`cursor^`$SParg^) 
+    "  -------------info---------------   
+    " call s:log.Info(`$SParg^`^`$SParg^) 
 
 
 
     call s:log.Info(  )
 
-    call s:log.Info(  ) b
+    call s:log.Info( _TYPED ) b
 
     `call s:log.Info(  )^
 
     a call s:log.Info(  )
 
 
-    "  -------------log---------------         
-    " call s:log.Log(`$SParg^`cursor^`$SParg^) 
+    "  -------------log---------------   
+    " call s:log.Log(`$SParg^`^`$SParg^) 
 
 
 
     call s:log.Log(  )
 
-    call s:log.Log(  ) b
+    call s:log.Log( _TYPED ) b
 
     `call s:log.Log(  )^
 
@@ -765,14 +765,14 @@ endtry
     a " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}
 
 
-    "  -------------warn---------------         
-    " call s:log.Warn(`$SParg^`cursor^`$SParg^) 
+    "  -------------warn---------------   
+    " call s:log.Warn(`$SParg^`^`$SParg^) 
 
 
 
     call s:log.Warn(  )
 
-    call s:log.Warn(  ) b
+    call s:log.Warn( _TYPED ) b
 
     `call s:log.Warn(  )^
 

@@ -39,5 +39,5 @@ XPT t " tips
 XSET $a=5
 `:x({ 'p' : '\`{$a}\`' }):^
 
-XPT aa " paste at end test
-`f^`aa...{{^pp`}}^`l^Echo( Context().history[-1].item.name )^
+" XPT aa " paste at end test
+" `f^`aa...{{^pp`}}^`l^Echo( Context().history[-1].item.name )^
