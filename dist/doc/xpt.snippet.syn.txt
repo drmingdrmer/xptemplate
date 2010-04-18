@@ -462,10 +462,10 @@
 	Parameters of Inclusion:
 
 	Inclusion can have parameters passed to included snippet. Parameters
-	are name-value pairs. Names are placeholder name. Values presents in a
-	|Dictionary|:
+	are name-value pairs. Names are placeholder name. Name-Values presents
+	in form of |Dictionary|:
 		`:<snipname>( { '<phname>' : '<new_phname>', ... } ):^
-	Name of place holders in sub-snippet are replaced according to parameters.
+	Place holders in sub-snippet presents in parameter are replaced.
 
 
 							    *xpt-snippet-XSET*

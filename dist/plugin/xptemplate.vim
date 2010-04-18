@@ -367,6 +367,7 @@ fun! s:MergeSetting( toSettings, fromSettings )
     call extend( a:toSettings.preValues, a:fromSettings.preValues, 'keep' )
     call extend( a:toSettings.defaultValues, a:fromSettings.defaultValues, 'keep' )
     call extend( a:toSettings.postFilters, a:fromSettings.postFilters, 'keep' )
+    call extend( a:toSettings.variables, a:fromSettings.variables, 'keep' )
     for key in keys( a:fromSettings.mappings )
         if !has_key( a:toSettings.mappings, key )
             let a:toSettings.mappings[ key ] =
@@ -451,7 +452,7 @@ fun! XPTemplatePreWrap( wrap )
     endif
     let maxIndent = indentNr
     let x.wrap = substitute( x.wrap, '\V\n \{0,' . maxIndent . '\}', "\n", 'g' )
-    let lines = split( x.wrap, '\V\[\r\n]\+', 1 )
+    let lines = split( x.wrap, '\V\\r\n\|\r\|\n', 1 )
     let maxlen = 0
     for l in lines
         let maxlen = maxlen < len(l) ? len(l) : maxlen
@@ -954,12 +955,12 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo )
     let rightEdge = s:TextBetween( a:nameInfo[ 2 : 3 ] )
     let [ leftEdge, name, rightEdge ] = [ leftEdge[1 : ], name[1 : ], rightEdge[1 : ] ]
     let fullname  = leftEdge . name . rightEdge
-    if name =~ '\V' . xp.item_var . '\|' . xp.item_func
-        return { 'value' : fullname }
-    endif
     let incPattern = '\V\^:\zs\.\*\ze:\$\|\^Include:\zs\.\*\$'
     if name =~ incPattern
         return { 'include' : matchstr( name, incPattern ) }
+    endif
+    if name =~ '\V' . xp.item_var . '\|' . xp.item_func
+        return { 'value' : fullname }
     endif
     let placeHolder = {
                 \ 'name'        : name,
@@ -1204,13 +1205,15 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo )
     let placeHolder = a:placeHolder
     let nameInfo    = a:nameInfo
     let valueInfo   = a:valueInfo
-    if !has_key( tmplDict, placeHolder.include )
-        call XPT#warn( "unknown inclusion :" . placeHolder.include )
+    let [ incName, params ] = s:ParseInclusionStatement( renderContext.snipObject, placeHolder.include )
+    if !has_key( tmplDict, incName )
+        call XPT#warn( "unknown inclusion :" . incName )
         return
     endif
-    let incTmplObject = tmplDict[ placeHolder.include ]
+    let incTmplObject = tmplDict[ incName ]
     call s:MergeSetting( renderContext.snipSetting, incTmplObject.setting )
-    let incSnip = s:AddIndent( incTmplObject.snipText, nameInfo[0] )
+    let incSnip = s:ReplacePHInSubSnip( renderContext.snipObject, incTmplObject, params )
+    let incSnip = s:AddIndent( incSnip, nameInfo[0] )
     let valueInfo[-1][1] += 1
     call XPreplaceInternal( nameInfo[0], valueInfo[-1], incSnip )
 endfunction 
