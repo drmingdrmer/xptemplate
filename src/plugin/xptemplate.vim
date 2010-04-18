@@ -2784,6 +2784,7 @@ fun! s:DoGotoNextItem() "{{{
 
     if placeHolder == s:nullDict
         call cursor( XPMpos( renderContext.marks.tmpl.end ) )
+        " NOTE: FinishRendering does not return any action
         return s:FinishRendering(1)
     endif
 
