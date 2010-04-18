@@ -26,12 +26,10 @@
 "
 " TODOLIST: "{{{
 " TODO goto next or trigger?
-" TODO fix: if XSET cursor=123 present, cursor stops at incorrect position. xptest:bb
 " TODO add: visual mode trigger.
 " TODO fix: after undo, highlight is not cleared.
 " TODO add: global shortcuts
 " TODO add: context detect
-" TODO fix: tab nav in item pum
 " TODO add: XSET to set edge.
 " TODO add: short snippet syntax
 " TODO add: when nested, prefer to trigger or shift forward
@@ -100,7 +98,7 @@
 " " xpt triggers only when you typed whole name of a snippet. This maybe
 " " helpfull
 " let g:xptemplate_minimal_prefix = 'full'
-" 
+"
 "
 
 
