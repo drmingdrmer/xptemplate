@@ -855,7 +855,6 @@ fun! XPTemplatePreWrap( wrap ) "{{{
     let x.wrap = x.wrap[ 1: ]
 
 
-
     if ( g:xptemplate_strip_left || x.wrap =~ '\n' )
           \ && visualmode() ==# 'V'
         let x.wrapStartPos = virtcol(".")
@@ -875,7 +874,8 @@ fun! XPTemplatePreWrap( wrap ) "{{{
 
     let maxIndent = indentNr
     let x.wrap = substitute( x.wrap, '\V\n \{0,' . maxIndent . '\}', "\n", 'g' )
-    let lines = split( x.wrap, '\V\[\r\n]\+', 1 )
+    let lines = split( x.wrap, '\V\\r\n\|\r\|\n', 1 )
+
 
     let maxlen = 0
     for l in lines
@@ -2103,6 +2103,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
             " let line = "\n" . indent . xp.l . placeHolder.leftEdge . 'GetWrappedText()' . placeHolder.rightEdge . xp.r
 
             let lines = repeat( line, n )
+
 
 
             let pos = copy( valueInfo[ -1 ] )
