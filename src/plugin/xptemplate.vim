@@ -25,6 +25,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO fix: snippet name match non-word char
 " TODO goto next or trigger?
 " TODO add: visual mode trigger.
 " TODO fix: after undo, highlight is not cleared.
@@ -79,6 +80,8 @@
 "
 "
 " Log of This version:
+"   fix: improve non-word char snippet name support
+"   
 "
 "
 " supertab support
@@ -1059,6 +1062,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
     let cursorColumn = col(".")
     let startLineNr = line(".")
     let accEmp = 0
+
     if g:xptemplate_key ==? '<Tab>'
         " TODO other plugin like supertab?
         " call feedkeys(eval('"\' . g:xptemplate_key . '"'), 'nt')
@@ -1093,6 +1097,9 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
         endif
 
         let matched = matchstr( lineToCursor, '\V\%('. x.keyword . '\)\+\$' )
+        if matched =~ '\V\W\$'
+            let matched = matchstr( matched, '\V\W\+\$' )
+        endif
 
         if !fullmatching && len( matched ) < g:xptemplate_minimal_prefix
             return s:FallbackKey()

@@ -145,10 +145,12 @@ fun! s:f.RemoveIfUnchanged() "{{{
   end
 endfunction "}}}
 
+
+
 " ================================= Snippets ===================================
 XPTemplateDef
 
-XPT # " #{..} syn=string
+XPT # syn=string " #{..}
 #{`^}
 
 
