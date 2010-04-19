@@ -577,6 +577,9 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
             let lineToCursor = ''
         endif
         let matched = matchstr( lineToCursor, '\V\%('. x.keyword . '\)\+\$' )
+        if matched =~ '\V\W\$'
+            let matched = matchstr( matched, '\V\W\+\$' )
+        endif
         if !fullmatching && len( matched ) < g:xptemplate_minimal_prefix
             return s:FallbackKey()
         endif

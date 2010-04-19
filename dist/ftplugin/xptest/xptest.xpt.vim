@@ -22,6 +22,8 @@ endfunction
 XPTemplateDef
 
 
+XPT # " tips
+#{ `^ }
 
 XPT bb " tips
 XSET cursor=123
