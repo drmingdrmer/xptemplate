@@ -558,6 +558,12 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
             return leftSpaces . "\<C-r>=XPTemplateStart(0," . string( opt ) . ")\<CR>"
         endif
     endif
+    echom string( opt )
+    echom pumvisible()
+    echom XPPhasSession()
+    if pumvisible() || XPPhasSession()
+        return XPPend() . "\<C-r>=XPTemplateStart(0," . string( opt ) . ")\<CR>"
+    endif
     let fullmatching = g:xptemplate_minimal_prefix is 'full'
     let cursorColumn = col(".")
     let startLineNr = line(".")

@@ -573,7 +573,8 @@ endfunction
 fun! XPPend() 
     call s:End()
     if pumvisible()
-        return ".\<BS>"
+        call PUMclear()
+        return " \<BS>"
     endif
     return ''
 endfunction 
