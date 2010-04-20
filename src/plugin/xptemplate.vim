@@ -1051,7 +1051,14 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
     endif
 
 
+    echom string( opt )
+    echom pumvisible()
+    echom XPPhasSession()
 
+    if pumvisible() || XPPhasSession()
+        return XPPend() . "\<C-r>=XPTemplateStart(0," . string( opt ) . ")\<CR>"
+    endif
+    
 
 
     " input mode
