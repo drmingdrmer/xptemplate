@@ -97,6 +97,7 @@ for ftAndBundle in s:bundle
     let g:xptBundle[ ft ][ bundle ] = 1
 endfor
 fun! g:XPTaddBundle(ft, bundle) 
+    call XPTemplateInit()
     let g:xptBundle[ a:ft ] = get( g:xptBundle, a:ft, {} )
     let g:xptBundle[ a:ft ][ a:bundle ] = 1
     call XPTembed( a:ft . '/' . a:bundle )
