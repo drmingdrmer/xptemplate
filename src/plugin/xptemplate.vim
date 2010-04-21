@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.4.5
+" VERSION: 0.4.6
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " MARK USED:
