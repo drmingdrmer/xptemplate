@@ -25,6 +25,8 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO fix: when <tab> pressed to navigate to next, pum does not close and it
+" swallow some chars
 " TODO fix: snippet name match non-word char
 " TODO goto next or trigger?
 " TODO add: visual mode trigger.
