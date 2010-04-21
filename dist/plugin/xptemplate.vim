@@ -244,7 +244,7 @@ endfunction
 fun! s:Abbr( name ) 
     let name = a:name
     try
-        exe 'inoreabbr <silent> <buffer> ' name "<space><BS>\<C-r>=XPTtgr(" . string( name ) . ",{'k':''})\<CR>"
+        exe 'inoreabbr <silent> <buffer> ' name '<C-v><C-v>' . "<BS>\<C-r>=XPTtgr(" . string( name ) . ",{'k':''})\<CR>"
     catch /.*/
         let n = matchstr( name, '\v\w+$' )
         let pre = name[ : -len( n ) - 1 ]
@@ -558,9 +558,6 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
             return leftSpaces . "\<C-r>=XPTemplateStart(0," . string( opt ) . ")\<CR>"
         endif
     endif
-    echom string( opt )
-    echom pumvisible()
-    echom XPPhasSession()
     if pumvisible() || XPPhasSession()
         return XPPend() . "\<C-r>=XPTemplateStart(0," . string( opt ) . ")\<CR>"
     endif

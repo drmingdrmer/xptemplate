@@ -139,11 +139,11 @@ augroup XPTftInit
   au FileType * call XPTfiletypeInit()
 augroup END
 if g:xptemplate_brace_complete
-    inoremap <silent> ( <space><BS><C-r>=XPTtgr('(',{'noliteral':1,'k':'('})<cr>
-    inoremap <silent> [ <space><BS><C-r>=XPTtgr('[',{'noliteral':1,'k':'['})<cr>
-    inoremap <silent> { <space><BS><C-r>=XPTtgr('{',{'noliteral':1,'k':'{'})<cr>
-    inoremap <silent> ' <space><BS><C-r>=XPTtgr('''',{'noliteral':1,'k':''''})<cr>
-    inoremap <silent> " <space><BS><C-r>=XPTtgr('"',{'noliteral':1,'k':'"'})<cr>
+    inoremap <silent> ( <C-v><C-v><BS><C-r>=XPTtgr('(',{'noliteral':1,'k':'('})<cr>
+    inoremap <silent> [ <C-v><C-v><BS><C-r>=XPTtgr('[',{'noliteral':1,'k':'['})<cr>
+    inoremap <silent> { <C-v><C-v><BS><C-r>=XPTtgr('{',{'noliteral':1,'k':'{'})<cr>
+    inoremap <silent> ' <C-v><C-v><BS><C-r>=XPTtgr('''',{'noliteral':1,'k':''''})<cr>
+    inoremap <silent> " <C-v><C-v><BS><C-r>=XPTtgr('"',{'noliteral':1,'k':'"'})<cr>
 endif
 let bs=&bs
 if bs != 2 && bs !~ "start" 
