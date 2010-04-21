@@ -169,6 +169,10 @@ for ftAndBundle in s:bundle
 endfor
 
 fun! g:XPTaddBundle(ft, bundle) "{{{
+
+    " This function may be called before buffer inited
+    call XPTemplateInit()
+
     let g:xptBundle[ a:ft ] = get( g:xptBundle, a:ft, {} )
     let g:xptBundle[ a:ft ][ a:bundle ] = 1
 
