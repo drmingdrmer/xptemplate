@@ -512,7 +512,7 @@ endfunction "}}}
 fun! s:Abbr( name ) "{{{
     let name = a:name
     try
-        exe 'inoreabbr <silent> <buffer> ' name "<space><BS>\<C-r>=XPTtgr(" . string( name ) . ",{'k':''})\<CR>"
+        exe 'inoreabbr <silent> <buffer> ' name '<C-v><C-v>' . "<BS>\<C-r>=XPTtgr(" . string( name ) . ",{'k':''})\<CR>"
     catch /.*/
         let n = matchstr( name, '\v\w+$' )
         let pre = name[ : -len( n ) - 1 ]
