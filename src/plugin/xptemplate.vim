@@ -25,6 +25,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO add: php snippet <% for .. %> in html 
 " TODO fix: when <tab> pressed to navigate to next, pum does not close and it
 " swallow some chars
 " TODO fix: snippet name match non-word char
