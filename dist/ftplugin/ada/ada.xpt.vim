@@ -17,7 +17,6 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 
 XPT acc " access

@@ -24,7 +24,6 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 
 XPT lex " Basic lex file

@@ -35,7 +35,6 @@ fun! s:f.CntIncr(name, ...)"{{{
 endfunction"}}}
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 
 

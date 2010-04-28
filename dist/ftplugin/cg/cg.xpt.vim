@@ -37,7 +37,6 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
-XPTemplateDef
 XPT fun " fun ( .. )
 `type^ `name^(
              )

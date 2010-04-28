@@ -15,7 +15,6 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 XPT svg " Start an svg document
 <?xml version="1.0" standalone="no"?>

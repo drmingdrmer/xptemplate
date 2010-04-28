@@ -36,7 +36,6 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 
 " perl has no NULL value

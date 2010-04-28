@@ -14,7 +14,8 @@ com! -nargs=* XPTemplate
       \   if XPTsnippetFileInit( expand( "<sfile>" ), <f-args> ) == 'finish'
       \ |     finish
       \ | endif
-com!          XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | finish
+com! -nargs=* XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | finish
+com! -nargs=* XPT           call s:XPTstartSnippetPart(expand("<sfile>")) | finish
 com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
 com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
 com! -nargs=+ XPTinclude    call XPTinclude(<f-args>)
@@ -151,7 +152,13 @@ fun! XPTembed(...)
 endfunction 
 fun! s:XPTstartSnippetPart(fn) 
     let lines = readfile(a:fn)
-    let i = match( lines, '^XPTemplateDef' )
+    let i = match( lines, '\V\^XPTemplateDef' )
+    if i == -1
+        let i = match( lines, '\V\^XPT\s' ) - 1
+    endif
+    if i < 0
+        return
+    endif
     let lines = lines[ i : ]
     let x = b:xptemplateData
     let x.snippetToParse += [ { 'snipFileScope' : x.snipFileScope, 'lines' : lines } ]

@@ -91,11 +91,7 @@ fun! s:popup( start_col, opt ) dict
     return actions
 endfunction 
 fun PUMclear()
-    let savedIndentKeys = &l:indentkeys
-    let &l:indentkeys = ""
-    call complete( col( "." ), [] )
-    let &l:indentkeys = savedIndentKeys
-    return ''
+    return "\<C-v>\<C-v>\<BS>"
 endfunction
 fun! s:CreateSession( sess ) 
     if !exists( 'b:__xpp_sess_count' )
@@ -107,7 +103,7 @@ fun! s:CreateSession( sess )
     if exists( 'b:__xpp_current_session' )
         call s:End()
         if pumvisible()
-            call PUMclear()
+            let action .= PUMclear()
         endif
     endif
     let b:__xpp_current_session = a:sess
@@ -564,8 +560,7 @@ fun! s:CheckAndFinish()
 endfunction 
 fun! s:MistakeTypeEnd() 
     call s:End()
-    call PUMclear()
-    return ''
+    return PUMclear()
 endfunction 
 fun! XPPhasSession() 
     return exists("b:__xpp_current_session")
@@ -573,8 +568,7 @@ endfunction
 fun! XPPend() 
     call s:End()
     if pumvisible()
-        call PUMclear()
-        return " \<BS>"
+        return PUMclear()
     endif
     return ''
 endfunction 

@@ -145,7 +145,6 @@ call XPTdefineSnippet("class", {'syn' : 'tag'}, 'class="`^"')
 
 
 " TODO map < to tag
-XPTemplateDef
 
 
 XPT tag hidden " <$_xSnipName>..</$_xSnipName>

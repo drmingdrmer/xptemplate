@@ -130,7 +130,6 @@ fun! s:f.bkt_finish( keyPressed )
 endfunction
 
 
-XPTemplateDef
 
 
 XPT _bracket hidden

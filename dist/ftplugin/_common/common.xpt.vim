@@ -91,13 +91,22 @@ fun! s:f.GetVar( name )
         endtry
     endif
 
-    if self.renderContext.phase == g:xptRenderPhase.uninit
-        return get( self.renderContext.evalCtx.variables, a:name,
-              \ get( self, a:name, a:name ) )
-    else
-        return get( self.renderContext.snipSetting.variables, a:name,
-              \     get( self, a:name, a:name ) )
-    endif
+    let r = self.renderContext
+
+    let ev = get( r.evalCtx, 'variables', {} )
+    let rv = get( r.snipSetting, 'variables', {} )
+
+    return get( ev, a:name,
+          \     get( rv, a:name,
+          \         get( self, a:name, a:name ) ) )
+
+    " if self.renderContext.phase == g:xptRenderPhase.uninit
+    "     return get( self.renderContext.evalCtx.variables, a:name,
+    "           \ get( self, a:name, a:name ) )
+    " else
+    "     return get( get( self.renderContext.snipSetting, 'variables', {} ), a:name,
+    "           \     get( self, a:name, a:name ) )
+    " endif
 endfunction
 
 fun! s:f._xSnipName()

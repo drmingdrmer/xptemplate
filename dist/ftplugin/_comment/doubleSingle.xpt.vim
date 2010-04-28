@@ -7,7 +7,6 @@ XPTinclude
       \ _comment/doubleSign
 
 
-XPTemplateDef
 
 
 XPT comment      alias=_d_comment

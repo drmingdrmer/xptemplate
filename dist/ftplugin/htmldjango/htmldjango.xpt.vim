@@ -10,5 +10,4 @@ XPTinclude
 XPTembed
       \ html/html
 
-XPTemplateDef
 

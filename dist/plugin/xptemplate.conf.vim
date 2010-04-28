@@ -51,6 +51,8 @@ unlet s:path
 unlet s:filename
 let g:XPTpvs = {}
 let g:XPTmappings = {
+      \ 'popup_old'     : "<C-v><C-v><BS><C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
+      \ 'trigger_old'   : "<C-v><C-v><BS><C-r>=XPTemplateStart(0)<cr>", 
       \ 'popup'         : "<C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
       \ 'trigger'       : "<C-r>=XPTemplateStart(0)<cr>", 
       \ 'wrapTrigger'   : "\"0s<C-r>=XPTemplatePreWrap(@0)<cr>", 

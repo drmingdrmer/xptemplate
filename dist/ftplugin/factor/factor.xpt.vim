@@ -14,7 +14,6 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 XPT alias "ALIAS: ... ...
 ALIAS: `newword^ `oldword^

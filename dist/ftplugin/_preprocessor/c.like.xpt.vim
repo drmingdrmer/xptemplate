@@ -7,7 +7,6 @@ XPTinclude
       \ _common/common
 
 
-XPTemplateDef
 
 
 XPT #inc		" include <>

@@ -35,7 +35,6 @@ XPTinclude
 
 call XPTdefineSnippet('vimformat', {}, [ '" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}' ])
 
-XPTemplateDef
 
 
 XPT printf	" printf\(..)

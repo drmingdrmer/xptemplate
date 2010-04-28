@@ -19,7 +19,6 @@ XPTvar $SPcmd      ' '
 " (a, ** b, ** )
 XPTvar $SPop       ' '
 
-XPTemplateDef
 
 
 XPT for wrap=cursor " for (..;..;++)

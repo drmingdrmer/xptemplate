@@ -29,7 +29,6 @@ fun! s:f.css_braced_post()
 endfunction
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 
 XPT padding " padding:

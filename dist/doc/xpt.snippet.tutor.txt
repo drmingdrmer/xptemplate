@@ -46,7 +46,6 @@
 <		To create a very simple snippet file skeleton. It may look
 		like: >
 		XPTemplate priority=personal+
-		XPTemplateDef
 
 		XPT helloxpt " tips about what this snippet do
 		Say hello to `xpt^
@@ -55,9 +54,8 @@
 	2.1 Short explanation.
 : >
 		XPTemplate priority=personal+
-		XPTemplateDef
 <		These 2 lines declare an XPT snippet file. See
-		|xpt-snippet-header| and |XPTemplateDef|.
+		|xpt-snippet-header|.
 
 : >
 		XPT helloxpt " tips about what this snippet do

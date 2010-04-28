@@ -20,7 +20,6 @@ XPTinclude
 
 " ================================= Snippets ===================================
 
-XPTemplateDef
 
 
 XPT shebang " #!/bin/sh .. exec tclsh..

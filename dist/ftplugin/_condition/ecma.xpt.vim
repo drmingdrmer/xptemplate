@@ -18,7 +18,6 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 
 XPT ifu  alias=if	" if ($UNDEFINED == ..) {..} else...

@@ -27,7 +27,6 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 XPT if " if .. then .. else ..
 if `cond^
