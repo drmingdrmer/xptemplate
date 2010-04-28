@@ -7,7 +7,6 @@ XPTvar $BRstc         ' '
 let s:f = g:XPTfuncs()
 
 
-XPTemplateDef
 
 
 XPT enum hint=enum\ {\ ..\ }

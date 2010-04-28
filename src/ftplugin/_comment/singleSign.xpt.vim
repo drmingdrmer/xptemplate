@@ -5,7 +5,6 @@ XPTinclude
       \ _comment/common
 
 
-XPTemplateDef
 
 XPT _s_comment hidden wrap=cursor		" $CS ..
 `$CS `cursor^

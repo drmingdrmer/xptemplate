@@ -58,6 +58,14 @@ augroup XPM
 augroup END
 
 fun! XPMcheckStatusline() "{{{
+    if stridx( &l:statusline, 'XPMautoUpdate' ) >= 0
+        return
+    else
+        call s:SetupStatusline()
+    endif
+endfunction
+
+fun! s:SetupStatusline() "{{{
     if &statusline == ""
         if &l:statusline == ''
             " all empty 
@@ -65,7 +73,7 @@ fun! XPMcheckStatusline() "{{{
         else
             " locally set
             " nothing to do
-
+    
         endif 
     else
         if &l:statusline == ''
@@ -74,21 +82,21 @@ fun! XPMcheckStatusline() "{{{
             setlocal statusline<
         else
             " locally set
-
+    
         endif 
     endif
-
-    if &l:statusline !~ 'XPMautoUpdate' 
-
+    
+    if stridx( &l:statusline, 'XPMautoUpdate' ) < 0
+    
         if &l:statusline =~ '\V\^%!'
             let &l:statusline  .= '.XPMautoUpdate("statusline")' 
         else
             let &l:statusline  .= '%{XPMautoUpdate("statusline")}' 
         endif
-
+    
     endif
+endfunction "}}}
 
-endfunction "}}} 
 
 
 fun! XPMadd( name, pos, prefer, ... ) "{{{
@@ -1364,19 +1372,6 @@ fun! s:InitBuf() "{{{
     if !exists('b:_xpmark')
         call s:initBufData()
     endif
-
-
-    " if !exists( 'b:_xpm_redefined' )
-
-    "     " redefine it
-    "     fun! s:BufData() "{{{
-    "         return b:_xpmark
-    "     endfunction "}}}
-
-    "     let b:_xpm_redefined = 1
-
-    " endif
-
 
 endfunction "}}}
 

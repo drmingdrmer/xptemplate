@@ -12,7 +12,6 @@ XPTcurrentPH	xptemplate.txt	/*XPTcurrentPH*
 XPTembed	xpt.snippet.syn.txt	/*XPTembed*
 XPTemplate	xptemplate.txt	/*XPTemplate*
 XPTemplate()	xpt.api.txt	/*XPTemplate()*
-XPTemplateDef	xpt.snippet.syn.txt	/*XPTemplateDef*
 XPTemplateMark()	xpt.api.txt	/*XPTemplateMark()*
 XPTemplatePriority()	xpt.api.txt	/*XPTemplatePriority()*
 XPTemplateTrigger()	xpt.api.txt	/*XPTemplateTrigger()*
@@ -83,6 +82,7 @@ xpt-key-navigate	xptemplate.txt	/*xpt-key-navigate*
 xpt-key-pum	xptemplate.txt	/*xpt-key-pum*
 xpt-key-trigger	xptemplate.txt	/*xpt-key-trigger*
 xpt-mixed	xpt.snippet.syn.txt	/*xpt-mixed*
+xpt-name-matching	xptemplate.txt	/*xpt-name-matching*
 xpt-nested	xptemplate.txt	/*xpt-nested*
 xpt-option	xptemplate.txt	/*xpt-option*
 xpt-personal-folder	xptemplate.txt	/*xpt-personal-folder*
@@ -127,6 +127,7 @@ xpt-snippet-keyword	xpt.snippet.syn.txt	/*xpt-snippet-keyword*
 xpt-snippet-leading-placeholder	xpt.snippet.syn.txt	/*xpt-snippet-leading-placeholder*
 xpt-snippet-mark	xpt.snippet.syn.txt	/*xpt-snippet-mark*
 xpt-snippet-name	xpt.snippet.syn.txt	/*xpt-snippet-name*
+xpt-snippet-name-matching-rule	xpt.snippet.syn.txt	/*xpt-snippet-name-matching-rule*
 xpt-snippet-placeholder	xpt.snippet.syn.txt	/*xpt-snippet-placeholder*
 xpt-snippet-post-filter	xpt.snippet.syn.txt	/*xpt-snippet-post-filter*
 xpt-snippet-postQuoter	xpt.snippet.syn.txt	/*xpt-snippet-postQuoter*

@@ -32,7 +32,6 @@ XPTvar $CURSOR_PH      /* cursor */
 
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 
 XPT _if hidden

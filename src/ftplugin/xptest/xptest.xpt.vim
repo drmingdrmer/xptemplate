@@ -19,15 +19,26 @@ endfunction
 
 
 
-XPTemplateDef
 
+XPT aa syn=43w
+fjdkls
+\XPT
+fdskl
+..XPT
 
-XPT # " tips
+XPT table alias=_tag
+XPT tr    alias=_tag
+
+XPT e " tips
 #{ `^ }
 
 XPT bb " tips
 XSET cursor=123
 what `a^ `cursor^
+\XPT
+..XPT
+
+" XPT jkldsjfksl
 
 XPT q " tips
 XSET $a=3
@@ -38,8 +49,13 @@ XSET $a=3
 `p`p`p^-`$a^
 
 XPT t " tips
-`:x:^
-..XPT
+`:x:^fjkdls
+fjksl
 
+
+fd
+..XPT
 " XPT aa " paste at end test
 " `f^`aa...{{^pp`}}^`l^Echo( Context().history[-1].item.name )^
+
+

@@ -25,7 +25,6 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 
 XPT yacc " Basic yacc file

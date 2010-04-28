@@ -4,6 +4,13 @@ CurrentDir=${PWD##*/}
 ParentDir=${PWD%/*}
 DistDir=$ParentDir/dist
 
+VersionControlSys=svn
+if [ -d ../.git ]; then
+    VersionControlSys=git
+fi
+
+echo "VersionControlSys=$VersionControlSys"
+
 # update help tags
 vim -c 'helptags doc|qa'
 
@@ -21,8 +28,11 @@ find -name "*.vim" | xargs rm -f
 
 
 cd $ParentDir
-svn export --force $CurrentDir $DistDir
-# svn export $CurrentDir/../xpt.ftp.svn/trunk/ftplugin $DistDir/ftplugin
+if [ "$VersionControlSys" = "svn" ]; then
+    svn export --force $CurrentDir $DistDir
+elif [ "$VersionControlSys" = "git" ]; then
+    cp -R $CurrentDir/* $DistDir/
+fi
 
 
 cd $DistDir
@@ -67,15 +77,27 @@ for file in `find plugin/ -name *.vim`;do
 done
 
 
+
 cd $DistDir
-# addsvn
-# rmsvn
-svn ci -m "dist"
+
+if [ "$VersionControlSys" = "svn" ]; then
+    svn ci -m "dist"
+elif [ "$VersionControlSys" = "git" ]; then
+
+    git commit -a -m "dist"
+fi
+
 
 
 cd $ParentDir
+
 rm -rf xpt
-svn export dist xpt
+if [ "$VersionControlSys" = "svn" ]; then
+    svn export dist xpt
+elif [ "$VersionControlSys" = "git" ]; then
+    cp -R dist xpt
+fi
+
 cd xpt
 tar -czf ../xpt-$v.tgz *
 cd -

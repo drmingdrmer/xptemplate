@@ -49,7 +49,6 @@ endif
 " ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 XPT html " <?$PHP_TAG ... ?>
 ?>`html^<?`$PHP_TAG^

@@ -5,7 +5,6 @@ endif
 
 XPTemplate priority=lang-
 
-XPTemplateDef
 
 XPT ruby " <% ...
 <%

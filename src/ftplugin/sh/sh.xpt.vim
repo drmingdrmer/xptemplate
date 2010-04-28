@@ -73,7 +73,6 @@ endfunction
 " ================================= Snippets ===================================
 
 
-XPTemplateDef
 
 
 XPT shebang " #!/bin/[ba|z|c]sh

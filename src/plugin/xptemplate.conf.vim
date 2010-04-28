@@ -102,7 +102,11 @@ let g:XPTpvs = {}
 " 'selTrigger' used in select mode trigger, but if 'selection' changed after this
 " script loaded, incSelTrigger or excSelTrigger should be used according to
 " runtime settings.
+"
+" <C-v><C-v><BS> force pum to close
 let g:XPTmappings = {
+      \ 'popup_old'     : "<C-v><C-v><BS><C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
+      \ 'trigger_old'   : "<C-v><C-v><BS><C-r>=XPTemplateStart(0)<cr>", 
       \ 'popup'         : "<C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
       \ 'trigger'       : "<C-r>=XPTemplateStart(0)<cr>", 
       \ 'wrapTrigger'   : "\"0s<C-r>=XPTemplatePreWrap(@0)<cr>", 

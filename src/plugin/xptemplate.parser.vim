@@ -40,7 +40,8 @@ com! -nargs=* XPTemplate
       \ |     finish
       \ | endif
 
-com!          XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | finish
+com! -nargs=* XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | finish
+com! -nargs=* XPT           call s:XPTstartSnippetPart(expand("<sfile>")) | finish
 com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
 com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
 com! -nargs=+ XPTinclude    call XPTinclude(<f-args>)
@@ -270,8 +271,15 @@ fun! s:XPTstartSnippetPart(fn) "{{{
     let lines = readfile(a:fn)
 
 
-    " find the line where XPTemplateDef called
-    let i = match( lines, '^XPTemplateDef' )
+    let i = match( lines, '\V\^XPTemplateDef' )
+    if i == -1
+        " so that XPT can not start at first line
+        let i = match( lines, '\V\^XPT\s' ) - 1
+    endif
+
+    if i < 0
+        return
+    endif
 
     let lines = lines[ i : ]
 
@@ -489,19 +497,6 @@ fun! s:ConvertIndent( snipLines ) "{{{
 
     call map( a:snipLines, cmdExpand )
 
-
-    " " Convert it at render time
-    " let usingTab = !&l:expandtab
-    " if usingTab
-
-        " let cmdReplaceTab = 'v:val !~ ''^ '' '
-              " \ . ' ? v:val'
-              " \ . ' : join(split( v:val, ' . string( '^\%(' . tabspaces . '\)' ) . ', 1), ''	'')'
-
-        " call map( a:snipLines, cmdReplaceTab )
-
-    " endif
-
 endfunction "}}}
 
 fun! s:getXSETkeyAndValue(lines, start) "{{{
@@ -650,6 +645,7 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
 
     elseif a:keytype ==# 'pre'
         let a:setting.preValues[a:keyname] = g:FilterValue.New( 0, a:value )
+        " echom 'prevalue set=' . a:keyname . '   ' . string( a:value )
 
     elseif a:keytype ==# 'ontype'
         let a:setting.ontypeFilters[a:keyname] = g:FilterValue.New( 0, a:value )

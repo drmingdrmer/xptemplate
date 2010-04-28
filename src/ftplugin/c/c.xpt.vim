@@ -37,7 +37,6 @@ XPTinclude
 let s:f = g:XPTfuncs()
 
 
-XPTemplateDef
 
 XPT _printfElts hidden 
 XSET elts|pre=Echo('')
@@ -77,7 +76,6 @@ XPT fcomment
 XPT para syn=comment	" comment parameter
 @param {`Object^} `name^ `desc^
 
-
 XPT filehead
 XSET cursor|pre=CURSOR
 /**-------------------------/// `sum^ \\\---------------------------
@@ -101,3 +99,4 @@ XSET cursor|pre=CURSOR
 
 XPT call wraponly=param " ..( .. )
 `name^(`$SPop^`param^`$SPop^)
+

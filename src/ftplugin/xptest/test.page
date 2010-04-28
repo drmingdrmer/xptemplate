@@ -125,16 +125,35 @@ a drdr.xp
 
     /*  -------------bb--------------- */
     /* what `a^ `cursor^               */
+    /* XPT                             */
 
 
 
 what a 123
+XPT
 
-what a_TYPED 123 b
+what a_TYPED cursor_TYPED
+XPT b
 
-`what a 123^
+`what a 123
+XPT^
 
 a what a 123
+XPT
+
+
+    /*  -------------e--------------- */
+    /* #{ `^ }                        */
+
+
+
+#{  }
+
+#{ _TYPED } b
+
+`#{  }^
+
+a #{  }
 
 
     /*  -------------Email--------------- */
@@ -172,7 +191,7 @@ a test.page
 
 p3p-p
 
-p3p-p b
+p3_TYPEDp-p b
 
 `p3p-p^
 
@@ -180,41 +199,51 @@ a p3p-p
 
 
     /*  -------------t--------------- */
-    /* `:x({ 'p' : '\`{$a}\`' }):^    */
+    /* `:x:^fjkdls                    */
+    /* fjksl                          */
     /*                                */
-    /* " XPT aa " paste at end test   */
+    /*                                */
+    /* fd                             */
 
 
 
-p5``p-5
+ppp-3fjkdls
+fjksl
 
-" XPT aa " paste at end test
 
-p_TYPED5``p-5
+fd
 
-" XPT aa " paste at end test b
+pp_TYPEDp-3fjkdls
+fjksl
 
-`p5``p-5
 
-" XPT aa " paste at end test^
+fd b
 
-a p5``p-5
+`ppp-3fjkdls
+fjksl
 
-" XPT aa " paste at end test
+
+fd^
+
+a ppp-3fjkdls
+fjksl
+
+
+fd
 
 
     /*  -------------x--------------- */
-    /* `p`p`p^-`p^                    */
+    /* `p`p`p^-`$a^                   */
 
 
 
-ppp-ppp
+ppp-3
 
-pp_TYPEDp-pp_TYPEDp b
+pp_TYPEDp-3 b
 
-`ppp-ppp^
+`ppp-3^
 
-a ppp-ppp
+a ppp-3
 
 
     /*  -------------{_--------------- */

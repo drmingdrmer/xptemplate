@@ -78,7 +78,8 @@
 								 *xpt-feature*
 	Live typing update
 	Navigate forward and backward		|xpt-key-navigate|
-	Popup hint				|xpt-popup| |xpt-snippet-hint|
+	Popup hint				|xpt-popup|
+						|xpt-snippet-hint|
 	Ordered place holders			|xpt-snippet-ComeFist|
 	Embedded functions and variables	|xpt-snippet-function|
 	Repeatable snippet generation		|xpt-repetition|
@@ -94,6 +95,9 @@
 	Preset value                 		|xpt-snippet-preset-value|
 	Snippet Bundle/Library Support		|xpt-bundle|
 	and more...
+
+							   *xpt-name-matching*
+	See |xpt-snippet-name-matching-rule|.
 
 								   *xpt-popup*
 	If you type nothing or an incomplete snippet key and press <C-\>, a
@@ -757,8 +761,6 @@
 
 		XPTvar $author       your_name
 		XPTvar $email        your_email
-
-		XPTemplateDef
 
 		XPT yoursnippet " tips here
 		bla bla

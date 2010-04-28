@@ -21,7 +21,6 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 XPT addprefix " $(addprefix ...)
 $(addprefix `prefix^, `elemList^)

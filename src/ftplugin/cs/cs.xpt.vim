@@ -34,7 +34,6 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 
 XPT foreach " foreach (.. in ..) {..}

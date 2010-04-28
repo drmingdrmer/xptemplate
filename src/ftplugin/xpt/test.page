@@ -681,7 +681,6 @@ let g_TYPED:i_TYPED = 1
     /* "     helloxpt<C-\>                                    */
     /* "                                                      */
     /* XPTemplate priority=personal+                          */
-    /* XPTemplateDef                                          */
     /*                                                        */
     /*                                                        */
     /*                                                        */
@@ -699,7 +698,6 @@ let g_TYPED:i_TYPED = 1
   "     helloxpt<C-\>
   "
   XPTemplate priority=personal+
-  XPTemplateDef
   
   
   
@@ -715,7 +713,6 @@ let g_TYPED:i_TYPED = 1
   "     helloxpt<C-\>
   "
   XPTemplate priority=personal+
-  XPTemplateDef
   
   
   
@@ -731,7 +728,6 @@ let g_TYPED:i_TYPED = 1
   "     helloxpt<C-\>
   "
   XPTemplate priority=personal+
-  XPTemplateDef
   
   
   
@@ -747,7 +743,6 @@ let g_TYPED:i_TYPED = 1
   "     helloxpt<C-\>
   "
   XPTemplate priority=personal+
-  XPTemplateDef
   
   
   
@@ -837,16 +832,16 @@ let g_TYPED:i_TYPED = 1
 
 
 string( WRAPPED_TEXT 
-       $SPargGetWrappedText() )
+        WRAPPED_TEXT_line2 )
 
-    string( WRAPPED_TEXT 
-           $SPargGetWrappedText() ) b
+string( WRAPPED_TEXT 
+        WRAPPED_TEXT_line2 ) b
 
-    `string( WRAPPED_TEXT 
-            $SPargGetWrappedText() )^
+`string( WRAPPED_TEXT 
+         WRAPPED_TEXT_line2 )^
 
-    a string( WRAPPED_TEXT 
-             $SPargGetWrappedText() )
+a string( WRAPPED_TEXT 
+          WRAPPED_TEXT_line2 )
 
 
     /*  -------------tmpl--------------- */
@@ -855,17 +850,17 @@ string( WRAPPED_TEXT
 
 
 
-    XPT name " tips
-    
+XPT name " tips
 
-    XPT name_TYPED " tips_TYPED
-     b
 
-     `XPT name " tips
-     ^
+XPT name_TYPED " tips_TYPED
+ b
 
-     a XPT name " tips
-     
+ `XPT name " tips
+ ^
+
+ a XPT name " tips
+ 
 
 
     /*  -------------try--------------- */
@@ -1400,7 +1395,6 @@ endwhile
     /* `XPTinclude...{{^`Include:incfile^`}}^ */
     /*                                        */
     /*                                        */
-    /* XPTemplateDef                          */
     /*                                        */
     /* `cursor^                               */
 
@@ -1439,122 +1433,118 @@ XPTinclude
       \ dot/dot
 
 
-XPTemplateDef
 
 
 
 
-XPTemplate priority=all
+      XPTemplate priority=all
+      
+      let s:f = g:XPTfuncs()
+      
+      XPTvar $TRUE          1
+      XPTvar $FALSE         0
+      XPTvar $NULL          NULL
+      XPTvar $UNDEFINED     NULL
+      
+      " if () ** {
+      " else ** {
+      XPTvar $BRif     ' '
+      
+      " } ** else {
+      XPTvar $BRel     \n
+      
+      " for () ** {
+      " while () ** {
+      " do ** {
+      XPTvar $BRloop   ' '
+      
+      " struct name ** {
+      XPTvar $BRstc    ' '
+      
+      " int fun() ** {
+      " class name ** {
+      XPTvar $BRfun    ' '
+      
+      XPTinclude_TYPED
+      
+      
+      
+      
+       b
 
-let s:f = g:XPTfuncs()
+       `XPTemplate priority=all
+       
+       let s:f = g:XPTfuncs()
+       
+       XPTvar $TRUE          1
+       XPTvar $FALSE         0
+       XPTvar $NULL          NULL
+       XPTvar $UNDEFINED     NULL
+       
+       " if () ** {
+       " else ** {
+       XPTvar $BRif     ' '
+       
+       " } ** else {
+       XPTvar $BRel     \n
+       
+       " for () ** {
+       " while () ** {
+       " do ** {
+       XPTvar $BRloop   ' '
+       
+       " struct name ** {
+       XPTvar $BRstc    ' '
+       
+       " int fun() ** {
+       " class name ** {
+       XPTvar $BRfun    ' '
+       
+       XPTinclude
+             \ _common/common
+             \ dot/dot
+       
+       
+       
+       
+       ^
 
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $UNDEFINED     NULL
-
-" if () ** {
-" else ** {
-XPTvar $BRif     ' '
-
-" } ** else {
-XPTvar $BRel     \n
-
-" for () ** {
-" while () ** {
-" do ** {
-XPTvar $BRloop   ' '
-
-" struct name ** {
-XPTvar $BRstc    ' '
-
-" int fun() ** {
-" class name ** {
-XPTvar $BRfun    ' '
-
-XPTinclude_TYPED
-
-
-XPTemplateDef
-
-
- b
-
- `XPTemplate priority=all
- 
- let s:f = g:XPTfuncs()
- 
- XPTvar $TRUE          1
- XPTvar $FALSE         0
- XPTvar $NULL          NULL
- XPTvar $UNDEFINED     NULL
- 
- " if () ** {
- " else ** {
- XPTvar $BRif     ' '
- 
- " } ** else {
- XPTvar $BRel     \n
- 
- " for () ** {
- " while () ** {
- " do ** {
- XPTvar $BRloop   ' '
- 
- " struct name ** {
- XPTvar $BRstc    ' '
- 
- " int fun() ** {
- " class name ** {
- XPTvar $BRfun    ' '
- 
- XPTinclude
-       \ _common/common
-       \ dot/dot
- 
- 
- XPTemplateDef
- 
- 
- ^
-
- a XPTemplate priority=all
- 
- let s:f = g:XPTfuncs()
- 
- XPTvar $TRUE          1
- XPTvar $FALSE         0
- XPTvar $NULL          NULL
- XPTvar $UNDEFINED     NULL
- 
- " if () ** {
- " else ** {
- XPTvar $BRif     ' '
- 
- " } ** else {
- XPTvar $BRel     \n
- 
- " for () ** {
- " while () ** {
- " do ** {
- XPTvar $BRloop   ' '
- 
- " struct name ** {
- XPTvar $BRstc    ' '
- 
- " int fun() ** {
- " class name ** {
- XPTvar $BRfun    ' '
- 
- XPTinclude
-       \ _common/common
-       \ dot/dot
- 
- 
- XPTemplateDef
- 
- 
- 
+       a XPTemplate priority=all
+       
+       let s:f = g:XPTfuncs()
+       
+       XPTvar $TRUE          1
+       XPTvar $FALSE         0
+       XPTvar $NULL          NULL
+       XPTvar $UNDEFINED     NULL
+       
+       " if () ** {
+       " else ** {
+       XPTvar $BRif     ' '
+       
+       " } ** else {
+       XPTvar $BRel     \n
+       
+       " for () ** {
+       " while () ** {
+       " do ** {
+       XPTvar $BRloop   ' '
+       
+       " struct name ** {
+       XPTvar $BRstc    ' '
+       
+       " int fun() ** {
+       " class name ** {
+       XPTvar $BRfun    ' '
+       
+       XPTinclude
+             \ _common/common
+             \ dot/dot
+       
+       
+       
+       
+       
 
 
     /*  -------------{_--------------- */

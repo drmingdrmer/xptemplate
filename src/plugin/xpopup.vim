@@ -175,14 +175,14 @@ fun! s:popup( start_col, opt ) dict "{{{
 endfunction "}}}
 
 fun PUMclear()
-    let savedIndentKeys = &l:indentkeys
-    let &l:indentkeys = ""
+    " let savedIndentKeys = &l:indentkeys
+    " let &l:indentkeys = ""
 
-    call complete( col( "." ), [] )
+    " call complete( col( "." ), [] )
 
-    let &l:indentkeys = savedIndentKeys
+    " let &l:indentkeys = savedIndentKeys
 
-    return ''
+    return "\<C-v>\<C-v>\<BS>"
 endfunction
 
 fun! s:CreateSession( sess ) "{{{
@@ -198,7 +198,7 @@ fun! s:CreateSession( sess ) "{{{
     if exists( 'b:__xpp_current_session' )
         call s:End()
         if pumvisible()
-            call PUMclear()
+            let action .= PUMclear()
         endif
     endif
     
@@ -1034,9 +1034,9 @@ fun! s:MistakeTypeEnd() "{{{
     "
     "       <C-e> or <C-y> does not work in identical way in different case(
     "       chosen something in pum or not )
-    call PUMclear()
+    return PUMclear()
 
-    return ''
+    " return ''
 endfunction "}}}
 
 fun! XPPhasSession() "{{{
@@ -1046,8 +1046,7 @@ endfunction "}}}
 fun! XPPend() "{{{
     call s:End()
     if pumvisible()
-        call PUMclear()
-        return " \<BS>"
+        return PUMclear()
     endif
 
     return ''

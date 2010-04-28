@@ -32,16 +32,12 @@ syntax region   XPTfileMeta               start=/./ end=/$/ contained
 syntax match    XPTfileMetaPair           /\w\+=\S*/ containedin=XPTfileMeta
 
 " meta data values
-syntax match    XPTfileMetaValue_keyword  /=\S*/ containedin=XPTfileMetaPair
 syntax match    XPTfileMetaValue_mark     /=\S\{2}/ containedin=XPTfileMetaPair
-syntax match    XPTfileMetaValue_indent   /=\%(auto\|keep\|\%(\/\d\+\)\?\*\d\+\)/ containedin=XPTfileMetaPair
 syntax match    XPTfileMetaValue_priority /=\%(all\|spec\|like\|lang\|sub\|personal\)\?\%([+-]\d*\)\?/ containedin=XPTfileMetaPair
 
 " meta data keys 
 syntax keyword  XPTfileMetaKey_priority   prio[rity] containedin=XPTfileMetaPair nextgroup=XPTfileMetaValue_priority
-syntax keyword  XPTfileMetaKey_keyword    key[word] containedin=XPTfileMetaPair nextgroup=XPTfileMetaValue_keyword
 syntax keyword  XPTfileMetaKey_mark       mark containedin=XPTfileMetaPair nextgroup=XPTfileMetaValue_mark
-syntax keyword  XPTfileMetaKey_indent     ind[ent] containedin=XPTfileMetaPair nextgroup=XPTfileMetaValue_indent
 
 
 " ==================================
@@ -64,12 +60,6 @@ syntax keyword  XptSnippetInclude     XPTembed   nextgroup=XptSnippetIncludeBody
 
 
 
-" =======================
-" Xpt snippets definition
-" =======================
-" use the max priority to find the XPTemplateDef
-syntax keyword  XPTemplateDefStartKey XPTemplateDef nextgroup=XPTregion skipnl skipempty skipwhite
-syntax region   XPTregion start=/^/ end=/\%$/ contained contains=XPTsnippetTitle
 
 
 
@@ -97,10 +87,6 @@ exe 'syntax match XPTmark /\V' . s:m[1] .  '/ contains=XPTmark containedin=XPTit
 
 " the end pattern is weird.
 " \%(^$)^XPT\s does not work.
-syntax region XPTsnippetBody  start=/^/ end=/\ze\%(^$\n\)*\%$\|\ze\%(^$\n\)*XPT\s\|^\ze\.\.XPT\|^\ze\(".*\n\|\s*\n\)*XPT\s/ contained containedin=XPTsnippetTitle contains=XPTxset excludenl fold
-" syntax region XPTsnippetBody  start=/^/ end=/\%$/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
-" syntax region XPTsnippetBody  start=/^/ end=/$\n^\zeXPT\s/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
-" syntax region XPTsnippetBody  start=/^/ end=/\ze\.\.XPT/ contained containedin=XPTsnippetTitle contains=XPTxset  fold
 syntax match XPTxset /^XSET\s\+\%(\w\|[.?*]\)\+\([|.]\%(pre\|def\|post\|ontype\)\)\?=.*/ containedin=XPTsnippetBody
 syntax region XPTxsetm start=/^XSETm\s\+/ end=/XSETm END$/ containedin=XPTsnippetBody fold
 syntax keyword XPTkeyword_XSET XSET containedin=XPTxset nextgroup=XPTxset_name1,XPTxset_name2,XPTxset_name3 skipwhite transparent
@@ -112,28 +98,27 @@ syntax match XPTxset_name3 /\%(\w\|\.\)*/ containedin=XPTxset nextgroup=XPTxset_
 syntax match XPTxset_name2 /\%(\w\|\.\)*\ze\./ containedin=XPTxset nextgroup=XPTxset_type transparent
 syntax match XPTxset_name1 /\%(\w\|\.\)*\ze|/ containedin=XPTxset nextgroup=XPTxset_type transparent
 
-syntax match    XPTsnippetTitle /^XPT\s\+.*$/ containedin=XPTregion nextgroup=XPTsnippetTitle,XPTsnippetBody skipnl skipempty
-syntax keyword  XPTkeyword_XPT XPT containedin=XPTsnippetTitle nextgroup=XPTsnippetName skipwhite
-syntax match    XPTsnippetName /\S\+/ contained containedin=XPTsnippetTitle nextgroup=XPTmeta,XPTmetaAlias skipwhite
+syntax keyword  XPTkeyword_XPT XPT nextgroup=XPTsnippetName skipwhite
+syntax match    XPTsnippetTitle /.*$/ contained nextgroup=XPTsnippetBody,XPTkeyword_XPT skipwhite skipnl skipempty
+syntax match    XPTsnippetName /\S\+/ contained nextgroup=XPTmeta,XPTmetaAlias,XPTsnippetTitle,XPTsnippetBody skipwhite skipempty
+syntax match    XPTend /\.\.XPT/ contained containedin=XPTsnippetBody
+syntax match    XPTnotKey /\\XPT/ contained containedin=XPTsnippetBody
 
-" syntax match    XPTsnippetBeforeTitle /^$/ containedin=XPTregion nextgroup=XPTsnippetTitle skipnl skipempty
 
 " escaped white space or non-space
-syntax match XPTmeta /\w\(\\\s\|\S\)\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta,XPTmetaAlias,XPTmeta_simpleHint skipwhite
+syntax match XPTmeta /\w\(\\\s\|\S\)\+/ containedin=XPTsnippetTitle nextgroup=XPTmeta,XPTmetaAlias,XPTmeta_simpleHint skipwhite skipnl skipempty
 
 syntax match XPTmeta_simpleHint /\V\(\\\*\)\1"\.\*/ contained containedin=XPTsnippetTitle
-"syntax match XPTmeta_simpleHint /\V"\.\*/ contained containedin=XPTsnippetTitle
 
-syntax match XPTmetaAlias /alias=\S\+/ nextgroup=XPTmeta skipwhite
+syntax match XPTmetaAlias /alias=\S\+/ nextgroup=XPTmeta,XPTsnippetBody,XPTkeyword_XPT skipwhite skipnl skipempty
 syntax match XPTmetaAlias_name /\S\+\ze=/ contained containedin=XPTmetaAlias
 syntax match XPTmetaAlias_value /=\zs\S\+/ contained containedin=XPTmetaAlias
 
 syntax match XPTmeta_name /\w\+\ze=\?/ containedin=XPTmeta nextgroup=XPTmeta_value
 syntax keyword XPTmeta_name_key hint alias synonym hidden wrap wraponly abbr syn contained containedin=XPTmeta_name
 syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
-" syntax match XPTcomment /^"\%(\s\|"\)*[^"]*$/ containedin=XPTregion
-" syntax match XPTcomment /^".*$/ containedin=XPTregion
-" hack
+
+syntax region XPTsnippetBody  start=/^/ end=/\ze\%(^$\n\)*\%$\|\ze\%(^$\n\)*XPT\s\|^\.\.XPT\|^\ze\(".*\n\|\s*\n\)*\(XPT\s\|\%$\)/ contained containedin=XPTsnippetTitle contains=XPTxset excludenl fold
 
 syntax match XPThintMark /\V \zs**\ze / contained containedin=vimLineComment
 syntax match vimLineComment /^".*$/ containedin=XPTregion contains=@vimCommentGroup,vimCommentString,vimCommentTitle
@@ -146,18 +131,22 @@ syntax match XPTbadIndent /^\s*\zs\t/ contained containedin=XPTsnippetBody
 
 
 
-syntax keyword TemplateKey XSETm indent hint syn priority containedin=XPTsnippetTitle
+" syntax keyword TemplateKey XSETm indent hint syn priority containedin=XPTsnippetTitle
+
+
+
+
+" =======================
+" Xpt snippets definition
+" =======================
+syntax region   XPTregion start=/^/ end=/\%$/ contained contains=XPTsnippetTitle
 
 
 hi def link XPTfileMetaPair           Normal
 hi def link XPTfileMetaKey_priority   Identifier
 hi def link XPTfileMetaValue_priority Constant
-hi def link XPTfileMetaKey_keyword    Identifier
-hi def link XPTfileMetaValue_keyword  Constant
 hi def link XPTfileMetaKey_mark       Identifier
 hi def link XPTfileMetaValue_mark     Constant
-hi def link XPTfileMetaKey_indent       Identifier
-hi def link XPTfileMetaValue_indent     Constant
 
 hi def link XptVarBody            Error
 hi def link XptVarName            Constant
@@ -170,7 +159,6 @@ hi def link XptSnippetIncludeBody Normal
 hi def link XptSnippetInclude     Statement
 
 
-hi def link XPTemplateDefStartKey Special
 hi def link XPTsnippetTitle       Statement
 hi def link XPTsnippetName        Label
 hi def link XPTmeta               Normal

@@ -160,8 +160,8 @@ WRAPPED_TEXT_line2 -->
 
 
     <!--  -------------commentBlock--------------- -->
-    <!-- `_cmt_no_mid_left()^`$CM `cursor^         -->
-    <!-- `_cmt_mid_ind()$CR^                       -->
+    <!-- `$_xCommentLeftWithoutMid^`$CM `cursor^   -->
+    <!-- `$_xCommentMidIndent$CR^                  -->
 
 
 
@@ -184,8 +184,8 @@ a <!-- WRAPPED_TEXT
 
     <!--  -------------commentDoc--------------- -->
     <!-- `$CL^`$CM^                              -->
-    <!-- `_cmt_mid_ind()$CM `cursor^             -->
-    <!-- `_cmt_mid_ind()$CR^                     -->
+    <!-- `$_xCommentMidIndent$CM `cursor^        -->
+    <!-- `$_xCommentMidIndent$CR^                -->
 
 
 

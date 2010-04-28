@@ -29,7 +29,6 @@ XPTvar $BRfun    ' '
 XPTinclude
       \ _common/common
 
-XPTemplateDef
 
 
 

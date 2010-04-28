@@ -5,7 +5,12 @@ endif
 
 XPTemplate priority=lang-2
 
-XPTemplateDef
+" this is html-scope variable independent
+if exists( 'php_noShortTags' )
+    XPTvar $PHP_TAG php
+else
+    XPTvar $PHP_TAG
+endif
 
 
 XPT shebang " #!/usr/bin/env php
@@ -21,4 +26,6 @@ XPT php " <?$PHP_TAG ?>
 
 XPT pe " <?= ?>
 <?=`cursor^?>
+
+
 

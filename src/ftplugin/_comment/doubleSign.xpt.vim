@@ -9,7 +9,7 @@ XPTinclude
       \ _common/common
 
 
-fun! s:f._cmt_mid_ind()
+fun! s:f._xCommentMidIndent()
     let l = self.GetVar( '$CL' )
     let m = self.GetVar( '$CM' )
     
@@ -21,7 +21,7 @@ fun! s:f._cmt_mid_ind()
 endfunction
 
 
-fun! s:f._cmt_no_mid_left()
+fun! s:f._xCommentLeftWithoutMid()
     let l = self.GetVar( '$CL' )
     let m = self.GetVar( '$CM' )
 
@@ -37,22 +37,20 @@ fun! s:f._cmt_no_mid_left()
 endfunction
 
 
-XPTemplateDef
-
 
 XPT _d_comment hidden wrap=what		" $CL .. $CR
 `$CL^ `what^^ `$CR^`^
 
 
 XPT _d_commentBlock hidden wrap=cursor	" $CL ..
-`_cmt_no_mid_left()^`$CM `cursor^
-`_cmt_mid_ind()$CR^
+`$_xCommentLeftWithoutMid^`$CM `cursor^
+`$_xCommentMidIndent$CR^
 
 
 XPT _d_commentDoc hidden wrap=cursor	" $CL$CM ..
 `$CL^`$CM^
-`_cmt_mid_ind()$CM `cursor^
-`_cmt_mid_ind()$CR^
+`$_xCommentMidIndent$CM `cursor^
+`$_xCommentMidIndent$CR^
 
 
 XPT _d_commentLine hidden wrap=what	" $CL .. $CR

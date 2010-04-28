@@ -189,8 +189,8 @@ case constant :
 
     /*  -------------commentDoc--------------- */
     /* `$CL^`$CM^                              */
-    /* `_cmt_mid_ind()$CM `cursor^             */
-    /* `_cmt_mid_ind()$CR^                     */
+    /* `$_xCommentMidIndent$CM `cursor^        */
+    /* `$_xCommentMidIndent$CR^                */
 
 
 

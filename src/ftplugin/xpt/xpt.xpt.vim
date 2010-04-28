@@ -43,7 +43,6 @@ fun! s:f.xpt_vim_name(path)
 endfunction
 
 
-XPTemplateDef
 
 
 XPT ftpfile " xpt ftplugin snippet file
@@ -182,7 +181,6 @@ XPT skeleton " very simple snippet file skeleton
 "     helloxpt<C-\>
 "
 XPTemplate priority=personal+
-XPTemplateDef
 
 
 
@@ -207,7 +205,6 @@ let s:f = g:XPTfuncs()
 `XPTinclude...{{^`Include:incfile^`}}^
 
 
-XPTemplateDef
 
 `cursor^
 

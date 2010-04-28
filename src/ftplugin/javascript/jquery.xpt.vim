@@ -55,7 +55,6 @@ fun! s:f.jquery_ajaxOptions()
 endfunction
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 " ===============
 " Snippet Pieces

@@ -166,7 +166,6 @@ fun! s:f.python_find_func( default )
 endfunction
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 
 XPT _if hidden

@@ -644,16 +644,16 @@ endfunction "}}}
 
 
 string( WRAPPED_TEXT 
-       $SPargGetWrappedText() )
+        WRAPPED_TEXT_line2 )
 
-       string( WRAPPED_TEXT 
-              $SPargGetWrappedText() ) b
+        string( WRAPPED_TEXT 
+                WRAPPED_TEXT_line2 ) b
 
-              `string( WRAPPED_TEXT 
-                      $SPargGetWrappedText() )^
+                `string( WRAPPED_TEXT 
+                         WRAPPED_TEXT_line2 )^
 
-                      a string( WRAPPED_TEXT 
-                               $SPargGetWrappedText() )
+                         a string( WRAPPED_TEXT 
+                                   WRAPPED_TEXT_line2 )
 
 
     "  -------------try--------------- 

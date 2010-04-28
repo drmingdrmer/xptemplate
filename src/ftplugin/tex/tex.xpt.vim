@@ -18,7 +18,6 @@ XPTinclude
 
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 
 XPT eq " \\begin{equation} .. \\end{equation}

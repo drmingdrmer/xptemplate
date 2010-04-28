@@ -19,20 +19,6 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
-    #   -------------#--------------- 
-    #  #{`^}                          
-
-
-
-    #{}
-    #
-    #{_TYPED} b
-    #
-    `#{}^
-
-    a #{}
-
-
     #   -------------%--------------- 
     #  %`_^[`^]                       
 
@@ -387,37 +373,37 @@ WRAPPED_TEXT_line2`
     begin
         expr_TYPED
     rescue_TYPED
-        else_TYPED
-            ensure_TYPED
-                end b
+    else_TYPED
+    ensure_TYPED
+        end b
 
-                `begin
-                    expr
-                rescue Exception => e
-                    # block
-                rescue Exception => e
-                    # block
-                rescue Exception => e
-                    # block
-                else
-                    # block
-                ensure
-                    
-                end^
+        `begin
+            expr
+        rescue Exception => e
+            # block
+        rescue Exception => e
+            # block
+        rescue Exception => e
+            # block
+        else
+            # block
+        ensure
+            
+        end^
 
-                a begin
-                    expr
-                rescue Exception => e
-                    # block
-                rescue Exception => e
-                    # block
-                rescue Exception => e
-                    # block
-                else
-                    # block
-                ensure
-                    
-                end
+        a begin
+            expr
+        rescue Exception => e
+            # block
+        rescue Exception => e
+            # block
+        rescue Exception => e
+            # block
+        else
+            # block
+        ensure
+            
+        end
 
 
     #   -------------begin_--------------- 
@@ -452,43 +438,43 @@ ensure
     
 end
 
-begin
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-rescue_TYPED
-else_TYPED
-ensure_TYPED
-end b
+        begin
+            WRAPPED_TEXT
+            WRAPPED_TEXT_line2
+        rescue_TYPED
+        else_TYPED
+        ensure_TYPED
+                end b
 
-`begin
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-rescue Exception => e
-    # block
-rescue Exception => e
-    # block
-rescue Exception => e
-    # block
-else
-    # block
-ensure
-    
-end^
+                `begin
+                    WRAPPED_TEXT
+                    WRAPPED_TEXT_line2
+                rescue Exception => e
+                    # block
+                rescue Exception => e
+                    # block
+                rescue Exception => e
+                    # block
+                else
+                    # block
+                ensure
+                    
+                end^
 
-a begin
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-rescue Exception => e
-    # block
-rescue Exception => e
-    # block
-rescue Exception => e
-    # block
-else
-    # block
-ensure
-    
-end
+                a begin
+                    WRAPPED_TEXT
+                    WRAPPED_TEXT_line2
+                rescue Exception => e
+                    # block
+                rescue Exception => e
+                    # block
+                rescue Exception => e
+                    # block
+                else
+                    # block
+                ensure
+                    
+                end
 
 
     #   -------------bm--------------- 
@@ -557,34 +543,34 @@ end
     when comparison_TYPED
         block_TYPED
     when_TYPED
-        else_TYPED
-            end b
+    else_TYPED
+        end b
 
-            `case target
-            when comparison
-                # block
-            when comparison
-                # block
-            when comparison
-                # block
-            when comparison
-                # block
-            else
-                
-            end^
+        `case target
+        when comparison
+            # block
+        when comparison
+            # block
+        when comparison
+            # block
+        when comparison
+            # block
+        else
+            
+        end^
 
-            a case target
-            when comparison
-                # block
-            when comparison
-                # block
-            when comparison
-                # block
-            when comparison
-                # block
-            else
-                
-            end
+        a case target
+        when comparison
+            # block
+        when comparison
+            # block
+        when comparison
+            # block
+        when comparison
+            # block
+        else
+            
+        end
 
 
     #   -------------cfy---------------  
@@ -637,20 +623,20 @@ class
     WRAPPED_TEXT_line2
 end
 
-class TYPED
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-end b
+    class TYPED
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+    end b
 
-`class 
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-end^
+    `class 
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+    end^
 
-a class 
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-end
+    a class 
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+    end
 
 
     #   -------------cld---------------                 
@@ -888,20 +874,20 @@ def method_name
     WRAPPED_TEXT_line2
 end
 
-def method_name_TYPED(arg_TYPED, narg_TYPED, narg_TYPED)
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-end b
+    def method_name_TYPED(arg_TYPED, narg_TYPED, narg_TYPED)
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+    end b
 
-`def method_name
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-end^
+    `def method_name
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+    end^
 
-a def method_name
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-end
+    a def method_name
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+    end
 
 
     #   -------------defd---------------                  

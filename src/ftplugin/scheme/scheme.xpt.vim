@@ -14,7 +14,6 @@ XPTinclude
       \ _condition/lisp.like
 
 
-XPTemplateDef
 XPT begin " (begin .. )
 (begin
    (`todo0^)` `...^

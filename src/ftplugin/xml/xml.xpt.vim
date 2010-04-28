@@ -108,7 +108,6 @@ endfunction
 " inoremap <silent> < <space><BS><C-r>=XPTtgr('__tag',{'syn':'','k':'<'})<cr>
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 XPT _tag hidden " <$_xSnipName>..</$_xSnipName>
 XSET content|def=Echo( R( 't' ) =~ '\v/\s*$' ? Finish() : '' )

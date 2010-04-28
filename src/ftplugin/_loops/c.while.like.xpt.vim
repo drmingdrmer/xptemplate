@@ -12,7 +12,6 @@ XPTvar $SPcmd      ' '
 XPTvar $SPop       ' '
 
 
-XPTemplateDef
 
 
 XPT while wrap=cursor " while ( .. )

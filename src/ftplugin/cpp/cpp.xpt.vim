@@ -48,7 +48,6 @@ endfunction
 
 
 " ================================= Snippets ===================================
-XPTemplateDef
 
 XPT all  " ..begin, ..end,
 `v^.begin(), `v^.end(), `cursor^

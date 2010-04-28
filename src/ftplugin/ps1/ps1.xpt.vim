@@ -7,7 +7,6 @@ XPTinclude
 " ========================= Function and Variables =============================
 
 " ================================= Snippets ===================================
-XPTemplateDef
 XPT cmdlet " cmdlet ..-.. {}
 Cmdlet `verb^-`noun^
 {

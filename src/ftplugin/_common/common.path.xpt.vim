@@ -22,7 +22,6 @@ fun! s:f.ExpPathPumFrom( base )
           \ : self.Build( p . '`p^Choose( PathPumFrom( ' . string(prev) . ' ) )^' )
 endfunction
 
-XPTemplateDef
 
 
 XPT FromHome " path starts from $HOME
