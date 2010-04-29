@@ -43,6 +43,10 @@ call s:SetIfNotExist('g:xptemplate_key_2'               ,  g:xptemplate_key	)
 call s:SetIfNotExist('g:xptemplate_nav_next_2'          ,  g:xptemplate_nav_next	)
 
 call s:SetIfNotExist('g:xptemplate_fallback'            , '<Plug>XPTrawKey'	)
+
+
+" TODO doc it
+call s:SetIfNotExist('g:xptemplate_always_show_pum'     , 0	)
 call s:SetIfNotExist('g:xptemplate_minimal_prefix'      , 1	)
 call s:SetIfNotExist('g:xptemplate_pum_tab_nav'         , 0	)
 call s:SetIfNotExist('g:xptemplate_strict'              , 2	)
