@@ -19,6 +19,7 @@ let s:opt = {
             \ 'doCallback'   : 'doCallback', 
             \ 'enlarge'      : 'enlarge', 
             \ 'acceptEmpty'  : 'acceptEmpty', 
+            \ 'tabNav'       : 'tabNav',
             \}
 let s:CHECK_PUM = 1
 let s:errorTolerance = 3
@@ -38,6 +39,7 @@ let s:sessionPrototype = {
             \ 'ignoreCase'      : 0,
             \ 'acceptEmpty'     : 0,
             \ 'matchWholeName'  : 0,
+            \ 'matchPrefix'     : 0,
             \ 'strictInput'     : 0,
             \ 'tabNav'          : 0,
             \
@@ -90,9 +92,9 @@ fun! s:popup( start_col, opt ) dict
     call s:ApplyMapAndSetting()
     return actions
 endfunction 
-fun PUMclear()
+fun PUMclear() 
     return "\<C-v>\<C-v>\<BS>"
-endfunction
+endfunction 
 fun! s:CreateSession( sess ) 
     if !exists( 'b:__xpp_sess_count' )
         let b:__xpp_sess_count = 0
@@ -160,24 +162,29 @@ fun! s:ListPopup( doCallback, ifEnlarge ) dict
         let self.matchedCallback = 'onOneMatch'
         let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
     elseif self.prefix != "" 
-          \&& self.longest ==? self.prefix 
-          \&& a:doCallback
-        let self.matched = ''
-        for item in self.currentList
-            let key = type(item) == type({}) ? item.word : item
-            if key ==? self.prefix
-                let self.matched = key
-                let self.matchedCallback = 'onOneMatch'
-                let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
-                break
+          \ && self.longest ==? self.prefix 
+        echom 'longest matches prefix'
+        if a:doCallback && self.matchPrefix
+            let self.matched = ''
+            for item in self.currentList
+                let key = type(item) == type({}) ? item.word : item
+                if key ==? self.prefix
+                    let self.matched = key
+                    let self.matchedCallback = 'onOneMatch'
+                    let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeLongest', 'callback']
+                    break
+                endif
+            endfor
+            if self.matched == ''
+                let actionList += [ 'popup', 'fixPopup' ]
             endif
-        endfor
-        if self.matched == ''
+        else
             let actionList += [ 'popup', 'fixPopup' ]
         endif
     else
         let actionList += [ 'popup', 'fixPopup' ]
     endif
+    let self.matchPrefix = 1
     return "\<C-r>=XPPprocess(" . string( actionList ) . ")\<CR>"
 endfunction 
 fun! s:SetTriggerKey( key ) dict 

@@ -272,18 +272,19 @@
 		|g:xptemplate_goback|
 		|g:xptemplate_to_right|
 		|g:xptemplate_fallback|
-		|g:xptemplate_brace_complete|
 
 	Options:
-		|g:xptemplate_minimal_prefix|
-		|g:xptemplate_pum_tab_nav|
-		|g:xptemplate_strict|
-		|g:xptemplate_highlight|
-		|g:xptemplate_strip_left|
-		|g:xptemplate_ph_pum_accept_empty|
-		|g:xptemplate_vars|
+		|g:xptemplate_always_show_pum|
+		|g:xptemplate_brace_complete|
 		|g:xptemplate_bundle|
+		|g:xptemplate_highlight|
+		|g:xptemplate_minimal_prefix|
+		|g:xptemplate_ph_pum_accept_empty|
+		|g:xptemplate_pum_tab_nav|
 		|g:xptemplate_snippet_folders|
+		|g:xptemplate_strict|
+		|g:xptemplate_strip_left|
+		|g:xptemplate_vars|
 
 							     *<Plug>XPTrawKey*
 	Key mapping defined as: >
@@ -354,6 +355,21 @@
 	matched, you can have this line added into your |.vimrc|: >
 		let g:xptemplate_fallback = '<C-n>'
 <
+
+						*g:xptemplate_always_show_pum*
+								   {default:0}
+	If set to 1, snippets is not triggered but popup menu shows when text
+	user typed before cursor matches a snippet name.
+
+	For example, you have three snippets defined of names: "for", "forever"
+	and "forr". Typing "for<C-\>" results in a popup menu if
+	|g:xptemplate_always_show_pum| set to 1: >
+		for
+	       |for      |
+	       |forloop  |
+	       |forr     |
+<	Otherwise, "for<C-\>" triggers snippet "for".
+
 
 						 *g:xptemplate_brace_complete*
 								   {default:1}

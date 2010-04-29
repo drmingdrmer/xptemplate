@@ -713,7 +713,7 @@ fun! s:Popup(pref, coln, opt)
     endif
     let snipDict = ftScope.allTemplates
     let synNames = s:SynNameStack(line("."), a:coln)
-    if has_key( snipDict, a:pref )
+    if has_key( snipDict, a:pref ) && !g:xptemplate_always_show_pum
         let snipObj = snipDict[ a:pref ]
         if s:IfSnippetShow( snipObj, synNames )
             return  s:DoStart( {
@@ -741,6 +741,7 @@ fun! s:Popup(pref, coln, opt)
     call pumsess.SetAcceptEmpty( get( a:opt, 'acceptEmpty', 0 ) )
     call pumsess.SetMatchWholeName( get( a:opt, 'matchWholeName', 0 ) )
     call pumsess.SetOption( {
+          \ 'matchPrefix' : !g:xptemplate_always_show_pum,
           \ 'tabNav'      : g:xptemplate_pum_tab_nav } )
     return pumsess.popup(a:coln, {})
 endfunction 
