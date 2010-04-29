@@ -67,8 +67,9 @@ fun! XPT#LeadingTabToSpace( str ) "{{{
     
     let str = "\n" . a:str
 
-    let last = ''
+    let tabspaces = repeat( ' ', &tabstop )
 
+    let last = ''
     while str != last
         let last = str
         let str = substitute( str, '\n	*\zs	', tabspaces, 'g' )

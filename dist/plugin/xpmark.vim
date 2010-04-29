@@ -404,7 +404,7 @@ fun! s:updateWithNewChangeRange( changeStart, changeEnd ) dict
         let len2 = len( self.orderedMarks )
         let j += len2 - len
         call self.updateMarksAfter( [j, len2], a:changeStart, a:changeEnd )
-        return [ self.orderedMarks[ likelyIndexes[ 0 ] ], self.orderedMarks[ likelyIndexes[ 1 ] ] ]
+        return [ self.orderedMarks[ i ], self.orderedMarks[ j ] ]
     endif
 endfunction 
 fun! s:updateMarksBefore( indexRange, changeStart, changeEnd ) dict 
