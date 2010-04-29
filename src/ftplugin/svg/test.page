@@ -55,20 +55,6 @@ a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
-    <!--  -------------<--------------- -->
-    <!-- <`tag^`att*^>`content^</`tag^> -->
-
-
-
-    <tag >content</tag>
-
-    <tag_TYPED _TYPED>content_TYPED</tag_TYPED> b
-
-    `<tag >content</tag>^
-
-    a <tag >content</tag>
-
-
     <!--  -------------<_--------------- -->
     <!-- <`w^>                           -->
 
@@ -188,8 +174,8 @@ WRAPPED_TEXT_line2 -->
 
 
     <!--  -------------commentBlock--------------- -->
-    <!-- `_cmt_no_mid_left()^`$CM `cursor^         -->
-    <!-- `_cmt_mid_ind()$CR^                       -->
+    <!-- `$_xCommentLeftWithoutMid^`$CM `cursor^   -->
+    <!-- `$_xCommentMidIndent$CR^                  -->
 
 
 
@@ -212,8 +198,8 @@ WRAPPED_TEXT_line2 -->
 
     <!--  -------------commentDoc--------------- -->
     <!-- `$CL^`$CM^                              -->
-    <!-- `_cmt_mid_ind()$CM `cursor^             -->
-    <!-- `_cmt_mid_ind()$CR^                     -->
+    <!-- `$_xCommentMidIndent$CM `cursor^        -->
+    <!-- `$_xCommentMidIndent$CR^                -->
 
 
 
@@ -357,12 +343,11 @@ WRAPPED_TEXT_line2 -->
 
     <rect x="xStart" y="yStart" width="width" height="height" style="" />
 
-    <rect x="xStart_TYPED" y="yStart_TYPED" width="width_TYPED" height="height_TYPED" 
-        style_TYPED/> b
+    <rect x="xStart_TYPED" y="yStart_TYPED" width="width_TYPED" height="height_TYPED" style_TYPED /> b
 
-        `<rect x="xStart" y="yStart" width="width" height="height" style="" />^
+    `<rect x="xStart" y="yStart" width="width" height="height" style="" />^
 
-        a <rect x="xStart" y="yStart" width="width" height="height" style="" />
+    a <rect x="xStart" y="yStart" width="width" height="height" style="" />
 
 
     <!--  -------------style---------------                      -->

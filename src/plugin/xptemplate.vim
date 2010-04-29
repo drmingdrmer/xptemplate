@@ -21,7 +21,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO add: always drop down.
+" TODO add: <BS> at ph start to shift backward.
 " TODO fix: register handling when snippet expand
 " TODO add: php snippet <% for .. %> in html 
 " TODO goto next or trigger?
@@ -77,12 +77,8 @@
 "
 "
 " Log of This version:
-"   fix: improve non-word char snippet name support
-"   fix: when <tab> pressed to go to next, pum does not close and it swallows some chars
-"   fix: removes all XPTemplateDef command
-"   fix: supertab does not work well
-"   fix: pum bug mess text.
-"   fix: edges with quotes are evaluated wrongly
+"   add: always drop down.
+"   fix: mark bug and tab convertion bug
 "
 
 

@@ -791,7 +791,8 @@ fun! s:updateWithNewChangeRange( changeStart, changeEnd ) dict "{{{
         call self.updateMarksAfter( [j, len2], a:changeStart, a:changeEnd )
 
         " return g:XPM_RET.likely_matched
-        return [ self.orderedMarks[ likelyIndexes[ 0 ] ], self.orderedMarks[ likelyIndexes[ 1 ] ] ]
+        " return [ self.orderedMarks[ likelyIndexes[ 0 ] ], self.orderedMarks[ likelyIndexes[ 1 ] ] ]
+        return [ self.orderedMarks[ i ], self.orderedMarks[ j ] ]
     endif
 
 
