@@ -305,8 +305,6 @@ fun! s:ListPopup( doCallback, ifEnlarge ) dict "{{{
     elseif self.prefix != "" 
           \ && self.longest ==? self.prefix 
 
-        echom 'longest matches prefix'
-
         if a:doCallback && self.matchPrefix
 
             " If text typed matches all items with case ignored, Try to find
