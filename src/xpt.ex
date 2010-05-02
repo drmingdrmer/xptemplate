@@ -53,7 +53,7 @@ rm -rf	\
 if [ "$1" = "no" ]; then
   echo
 else
-  find -name "test.page" | xargs rm
+  find -name "test.page*" | xargs rm
 fi
 
 
