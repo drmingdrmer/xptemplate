@@ -1,0 +1,918 @@
+
+
+
+    <!--  -------------"_--------------- -->
+    <!-- "`w^"                           -->
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    <!--  -------------'_--------------- -->
+    <!-- '`w^'                           -->
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    <!--  -------------(_--------------- -->
+    <!-- (`w^)                           -->
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    <!--  -------------<_--------------- -->
+    <!-- <`w^>                           -->
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    <!--  -------------[_--------------- -->
+    <!-- [`w^]                           -->
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    <!--  -------------`_--------------- -->
+    <!-- \``w^\`                         -->
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    <!--  -------------a--------------- -->
+    <!-- <a href="`href^">`cursor^</a>  -->
+
+
+
+    <a href="href"></a>
+
+    <a href="href_TYPED"></a> b
+
+    `<a href="href"></a>^
+
+    a <a href="href"></a>
+
+
+    <!--  -------------Author--------------- -->
+    <!-- `$author^                           -->
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    `drdr.xp^
+
+    a drdr.xp
+
+
+    <!--  -------------body--------------- -->
+    <!-- <body>                            -->
+    <!--         `cursor^                  -->
+    <!-- </body>                           -->
+
+
+
+<body>
+	
+</body>
+
+<body>
+	
+</body> b
+
+`<body>
+	
+</body>^
+
+a <body>
+	
+</body>
+
+
+    <!--  -------------br--------------- -->
+    <!-- <`$_xSnipName^ />               -->
+
+
+
+    <br />
+
+    <br /> b
+
+    `<br />^
+
+    a <br />
+
+
+    <!--  -------------cdata--------------- -->
+    <!-- <![CDATA[`cursor^]]>               -->
+
+
+
+<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>
+
+<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]> b
+
+`<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>^
+
+a <![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>
+
+
+    <!--  -------------comment--------------- -->
+    <!-- `$CL^ `what^^ `$CR^`^                -->
+
+
+
+<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->
+
+<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 --> b
+
+`<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->^
+
+a <!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->
+
+
+    <!--  -------------commentBlock--------------- -->
+    <!-- `$_xCommentLeftWithoutMid^`$CM `cursor^   -->
+    <!-- `$_xCommentMidIndent$CR^                  -->
+
+
+
+<!-- WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
+
+    <!-- WRAPPED_TEXT
+	 WRAPPED_TEXT_line2
+	--> b
+
+	`<!-- WRAPPED_TEXT
+	      WRAPPED_TEXT_line2
+	    -->^
+
+	    a <!-- WRAPPED_TEXT
+		   WRAPPED_TEXT_line2
+		-->
+
+
+    <!--  -------------commentDoc--------------- -->
+    <!-- `$CL^`$CM^                              -->
+    <!-- `$_xCommentMidIndent$CM `cursor^        -->
+    <!-- `$_xCommentMidIndent$CR^                -->
+
+
+
+<!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
+
+    <!--
+         WRAPPED_TEXT
+         WRAPPED_TEXT_line2
+	--> b
+
+	`<!--
+	     WRAPPED_TEXT
+	     WRAPPED_TEXT_line2
+	    -->^
+
+	    a <!--
+	         WRAPPED_TEXT
+	         WRAPPED_TEXT_line2
+		-->
+
+
+    <!--  -------------commentLine--------------- -->
+    <!-- `$CL `what` $CR^`^                       -->
+
+
+
+<!-- WRAPPED_TEXT -->
+<!-- WRAPPED_TEXT_line2 -->
+
+<!-- WRAPPED_TEXT -->
+<!-- WRAPPED_TEXT_line2 --> b
+
+`<!-- WRAPPED_TEXT -->
+ <!-- WRAPPED_TEXT_line2 -->^
+
+ a <!-- WRAPPED_TEXT -->
+   <!-- WRAPPED_TEXT_line2 -->
+
+
+    <!--  -------------contenttype---------------                                             -->
+    <!-- <meta http-equiv="Content-Type" content="text/html; charset=`encoding^html_enc()^"/> -->
+
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=encoding_TYPED"/> b
+
+    `<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>^
+
+    a <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+
+    <!--  -------------div---------------                                      -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <div></div>
+
+    <div>content_TYPED</div> b
+
+    `<div></div>^
+
+    a <div></div>
+
+
+    <!--  -------------doctype--------------- -->
+    <!-- <!DOCTYPE `doctype^>                 -->
+
+
+
+    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> b
+
+    `<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">^
+
+    a <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+
+    <!--  -------------Email--------------- -->
+    <!-- `$email^                           -->
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    `drdr.xp@gmail.com^
+
+    a drdr.xp@gmail.com
+
+
+    <!--  -------------fieldset--------------- -->
+    <!-- <fieldset>                            -->
+    <!--         <legend></legend>             -->
+    <!--         `cursor^                      -->
+    <!-- </fieldset>                           -->
+
+
+
+<fieldset>
+	<legend></legend>
+	
+</fieldset>
+
+<fieldset>
+	<legend></legend>
+	
+</fieldset> b
+
+`<fieldset>
+	<legend></legend>
+	
+</fieldset>^
+
+a <fieldset>
+	<legend></legend>
+	
+</fieldset>
+
+
+    <!--  -------------File--------------- -->
+    <!-- `file()^                          -->
+
+
+
+    test.page.bare
+
+    test.page.bare b
+
+    `test.page.bare^
+
+    a test.page.bare
+
+
+    <!--  -------------form---------------                                                                      -->
+    <!-- <form action="`action^" method="`method^" accept-charset="`html_enc()^" enctype="multipart/form-data"> -->
+    <!--         `cursor^                                                                                       -->
+    <!-- </form>                                                                                                -->
+
+
+
+<form action="action" method="GET" accept-charset="utf-8" enctype="multipart/form-data">
+	
+</form>
+
+<form action="action_TYPED" method="GET" accept-charset="utf-8" enctype="multipart/form-data">
+	
+</form> b
+
+`<form action="action" method="GET" accept-charset="utf-8" enctype="multipart/form-data">
+	
+</form>^
+
+a <form action="action" method="GET" accept-charset="utf-8" enctype="multipart/form-data">
+	
+</form>
+
+
+    <!--  -------------h1---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <h1></h1>
+
+    <h1>content_TYPED</h1> b
+
+    `<h1></h1>^
+
+    a <h1></h1>
+
+
+    <!--  -------------h2---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <h2></h2>
+
+    <h2>content_TYPED</h2> b
+
+    `<h2></h2>^
+
+    a <h2></h2>
+
+
+    <!--  -------------h3---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <h3></h3>
+
+    <h3>content_TYPED</h3> b
+
+    `<h3></h3>^
+
+    a <h3></h3>
+
+
+    <!--  -------------h4---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <h4></h4>
+
+    <h4>content_TYPED</h4> b
+
+    `<h4></h4>^
+
+    a <h4></h4>
+
+
+    <!--  -------------h5---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <h5></h5>
+
+    <h5>content_TYPED</h5> b
+
+    `<h5></h5>^
+
+    a <h5></h5>
+
+
+    <!--  -------------h6---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <h6></h6>
+
+    <h6>content_TYPED</h6> b
+
+    `<h6></h6>^
+
+    a <h6></h6>
+
+
+    <!--  -------------head--------------- -->
+    <!-- <head>                            -->
+    <!--         `:contenttype:^           -->
+    <!--         `:title:^                 -->
+    <!-- </head>                           -->
+
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>test.page</title>
+</head>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=encoding_TYPED"/>
+	<title>title_TYPED</title>
+</head> b
+
+`<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>test.page</title>
+</head>^
+
+a <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>test.page</title>
+</head>
+
+
+    <!--  -------------html---------------                                                                                         -->
+    <!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
+    <!-- <html>                                                                                                                    -->
+    <!--         `:head:^                                                                                                          -->
+    <!--         <body>                                                                                                            -->
+    <!--                 `cursor^                                                                                                  -->
+    <!--         </body>                                                                                                           -->
+    <!-- </html>                                                                                                                   -->
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>test.page</title>
+	</head>
+	<body>
+		
+	</body>
+</html>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=encoding_TYPED"/>
+		<title>title_TYPED</title>
+	</head>
+	<body>
+		
+	</body>
+</html> b
+
+`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>test.page</title>
+	</head>
+	<body>
+		
+	</body>
+</html>^
+
+a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>test.page</title>
+	</head>
+	<body>
+		
+	</body>
+</html>
+
+
+    <!--  -------------iframe---------------                                           -->
+    <!-- <`$_xSnipName^` `att?^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <iframe name="name"></iframe>
+
+    <iframe name="name_TYPED">content_TYPED</iframe> b
+
+    `<iframe name="name"></iframe>^
+
+    a <iframe name="name"></iframe>
+
+
+    <!--  -------------img--------------- -->
+    <!-- <`$_xSnipName^` `att?^/>         -->
+
+
+
+    <img src="where" alt="alt"/>
+
+    <img src="where_TYPED" alt="alt_TYPED"/> b
+
+    `<img src="where" alt="alt"/>^
+
+    a <img src="where" alt="alt"/>
+
+
+    <!--  -------------input--------------- -->
+    <!-- <`$_xSnipName^` `att?^/>           -->
+
+
+
+    <input type="text" name="name" value="value"/>
+
+    <input type="text" name="name_TYPED" value="value_TYPED"/> b
+
+    `<input type="text" name="name" value="value"/>^
+
+    a <input type="text" name="name" value="value"/>
+
+
+    <!--  -------------label---------------                                            -->
+    <!-- <`$_xSnipName^` `att?^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <label for="which"></label>
+
+    <label for="which_TYPED">content_TYPED</label> b
+
+    `<label for="which"></label>^
+
+    a <label for="which"></label>
+
+
+    <!--  -------------li---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <li></li>
+
+    <li>content_TYPED</li> b
+
+    `<li></li>^
+
+    a <li></li>
+
+
+    <!--  -------------link---------------                               -->
+    <!-- <link rel="`stylesheet^" type="`type^text/css^" href="`url^" /> -->
+
+
+
+    <link rel="stylesheet" type="text/css" href="url" />
+
+    <link rel="stylesheet_TYPED" type="type_TYPED" href="url_TYPED" /> b
+
+    `<link rel="stylesheet" type="text/css" href="url" />^
+
+    a <link rel="stylesheet" type="text/css" href="url" />
+
+
+    <!--  -------------meta---------------                    -->
+    <!-- <meta name="`meta_name^" content="`meta_content^" /> -->
+
+
+
+    <meta name="meta_name" content="meta_content" />
+
+    <meta name="meta_name_TYPED" content="meta_content_TYPED" /> b
+
+    `<meta name="meta_name" content="meta_content" />^
+
+    a <meta name="meta_name" content="meta_content" />
+
+
+    <!--  -------------ol---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <ol></ol>
+
+    <ol>content_TYPED</ol> b
+
+    `<ol></ol>^
+
+    a <ol></ol>
+
+
+    <!--  -------------option---------------                                           -->
+    <!-- <`$_xSnipName^` `att?^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <option value="value"></option>
+
+    <option value="value_TYPED">content_TYPED</option> b
+
+    `<option value="value"></option>^
+
+    a <option value="value"></option>
+
+
+    <!--  -------------p---------------                                        -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <p></p>
+
+    <p>content_TYPED</p> b
+
+    `<p></p>^
+
+    a <p></p>
+
+
+    <!--  -------------script---------------                   -->
+    <!-- <script language="javascript" type="text/javascript"> -->
+    <!--         `cursor^                                      -->
+    <!-- </script>                                             -->
+
+
+
+<script language="javascript" type="text/javascript">
+	
+</script>
+
+<script language="javascript" type="text/javascript">
+	
+</script> b
+
+`<script language="javascript" type="text/javascript">
+	
+</script>^
+
+a <script language="javascript" type="text/javascript">
+	
+</script>
+
+
+    <!--  -------------scriptsrc---------------                                    -->
+    <!-- <script language="javascript" type="text/javascript" src="`js^"></script> -->
+
+
+
+    <script language="javascript" type="text/javascript" src="js"></script>
+
+    <script language="javascript" type="text/javascript" src="js_TYPED"></script> b
+
+    `<script language="javascript" type="text/javascript" src="js"></script>^
+
+    a <script language="javascript" type="text/javascript" src="js"></script>
+
+
+    <!--  -------------select---------------                                           -->
+    <!-- <`$_xSnipName^` `att?^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <select name="name"></select>
+
+    <select name="name_TYPED">content_TYPED</select> b
+
+    `<select name="name"></select>^
+
+    a <select name="name"></select>
+
+
+    <!--  -------------style---------------     -->
+    <!-- <style type="text/css" media="screen"> -->
+    <!--         `cursor^                       -->
+    <!-- </style>                               -->
+
+
+
+<style type="text/css" media="screen">
+	
+</style>
+
+<style type="text/css" media="screen">
+	
+</style> b
+
+`<style type="text/css" media="screen">
+	
+</style>^
+
+a <style type="text/css" media="screen">
+	
+</style>
+
+
+    <!--  -------------table---------------                                    -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <table></table>
+
+    <table>content_TYPED</table> b
+
+    `<table></table>^
+
+    a <table></table>
+
+
+    <!--  -------------td---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <td></td>
+
+    <td>content_TYPED</td> b
+
+    `<td></td>^
+
+    a <td></td>
+
+
+    <!--  -------------textarea---------------                                         -->
+    <!-- <`$_xSnipName^` `att?^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <textarea name="name"></textarea>
+
+    <textarea name="name_TYPED">content_TYPED</textarea> b
+
+    `<textarea name="name"></textarea>^
+
+    a <textarea name="name"></textarea>
+
+
+    <!--  -------------th---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <th></th>
+
+    <th>content_TYPED</th> b
+
+    `<th></th>^
+
+    a <th></th>
+
+
+    <!--  -------------title---------------     -->
+    <!-- <title>`title^expand('%:t:r')^</title> -->
+
+
+
+    <title>test.page</title>
+
+    <title>title_TYPED</title> b
+
+    `<title>test.page</title>^
+
+    a <title>test.page</title>
+
+
+    <!--  -------------tr---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <tr></tr>
+
+    <tr>content_TYPED</tr> b
+
+    `<tr></tr>^
+
+    a <tr></tr>
+
+
+    <!--  -------------ul---------------                                       -->
+    <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
+
+
+
+    <ul></ul>
+
+    <ul>content_TYPED</ul> b
+
+    `<ul></ul>^
+
+    a <ul></ul>
+
+
+    <!--  -------------ver---------------                    -->
+    <!-- <?xml version="`ver^1.0^" encoding="`enc^utf-8^" ?> -->
+
+
+
+    <?xml version="1.0" encoding="utf-8" ?>
+
+    <?xml version="ver_TYPED" encoding="enc_TYPED" ?> b
+
+    `<?xml version="1.0" encoding="utf-8" ?>^
+
+    a <?xml version="1.0" encoding="utf-8" ?>
+
+
+    <!--  -------------{_--------------- -->
+    <!-- {`w^}                           -->
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

@@ -1,0 +1,813 @@
+
+
+
+    #  -------------"_--------------- 
+    # "`w^"                           
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    #  -------------'_--------------- 
+    # '`w^'                           
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    #  -------------(_--------------- 
+    # (`w^)                           
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    #  -------------<_--------------- 
+    # <`w^>                           
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    #  -------------[_--------------- 
+    # [`w^]                           
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    #  -------------`_--------------- 
+    # \``w^\`                         
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    #  -------------Author--------------- 
+    # `$author^                           
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    #  -------------class---------------                 
+    # class `ClassName^`$SPfun^(`$SParg`object`$SParg^): 
+    #         `pass^                                     
+
+
+
+class ClassName( object ):
+	pass
+
+class ClassName_TYPED( object_TYPED ):
+	pass b
+
+`class ClassName( object ):
+	pass^
+
+a class ClassName( object ):
+	pass
+
+
+    #  -------------comment--------------- 
+    # `$CS `cursor^                        
+
+
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
+
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+
+a # WRAPPED_TEXT
+  # WRAPPED_TEXT_line2
+
+
+    #  -------------commentBlock--------------- 
+    # `$CS `cursor^                             
+
+
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
+
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+
+a # WRAPPED_TEXT
+  # WRAPPED_TEXT_line2
+
+
+    #  -------------commentDoc--------------- 
+    # `$CL^`$CM^                              
+    # `$_xCommentMidIndent$CM `cursor^        
+    # `$_xCommentMidIndent$CR^                
+
+
+
+'''
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+   '''
+
+'''
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+   ''' b
+
+`'''
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+   '''^
+
+a '''
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+   '''
+
+
+    #  -------------commentLine--------------- 
+    # `$CS `cursor^                            
+
+
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
+
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+
+a # WRAPPED_TEXT
+  # WRAPPED_TEXT_line2
+
+
+    #  -------------commentLine2--------------- 
+    # `$CL `what` $CR^`^                        
+
+
+
+''' WRAPPED_TEXT '''
+''' WRAPPED_TEXT_line2 '''
+
+''' WRAPPED_TEXT '''
+''' WRAPPED_TEXT_line2 ''' b
+
+`''' WRAPPED_TEXT '''
+ ''' WRAPPED_TEXT_line2 '''^
+
+a ''' WRAPPED_TEXT '''
+  ''' WRAPPED_TEXT_line2 '''
+
+
+    #  -------------def---------------                                                      
+    # def `name^`$SPfun^(`a^python_sp_arg()^``a^`a^AutoCmpl(0,'self')^`a^python_sp_arg()^): 
+    #         `cursor^                                                                      
+
+
+
+def name():
+	
+
+	def name_TYPED( a_TYPED, arg_TYPED, arg_TYPED, arg_TYPED ):
+		 b
+
+`def name():
+	^
+
+a def name():
+	
+
+
+    #  -------------elif--------------- 
+    # elif `cond^:                      
+    #         `cursor^                  
+
+
+
+elif cond:
+	
+
+	elif cond_TYPED:
+		 b
+
+`elif cond:
+	^
+
+a elif cond:
+	
+
+
+    #  -------------else--------------- 
+    # else:                             
+    #         `cursor^                  
+
+
+
+else:
+	
+
+	else:
+		 b
+
+`else:
+	^
+
+a else:
+	
+
+
+    #  -------------Email--------------- 
+    # `$email^                           
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    #  -------------except---------------    
+    # except `Exception^`$PYTHON_EXP_SYM`e^: 
+    #         `cursor^                       
+
+
+
+except Exception, e:
+	
+
+	except Exception_TYPED, e_TYPED:
+		 b
+
+`except Exception, e:
+	^
+
+a except Exception, e:
+	
+
+
+    #  -------------File--------------- 
+    # `file()^                          
+
+
+
+test.page.bare
+
+test.page.bare b
+
+`test.page.bare^
+
+a test.page.bare
+
+
+    #  -------------filehead--------------- 
+    # `$PYTHON_DOC_MARK^                    
+    # File    : `file()^                    
+    # Author  : `$author^                   
+    # Contact : `$email^                    
+    # Date    : `date()^                    
+    #                                       
+    # Description : `cursor^                
+    # `$PYTHON_DOC_MARK^                    
+
+
+
+'''
+File    : test.page.bare
+Author  : drdr.xp
+Contact : drdr.xp@gmail.com
+Date    : 2009 Oct 08
+
+Description : 
+'''
+
+'''
+File    : test.page.bare
+Author  : drdr.xp
+Contact : drdr.xp@gmail.com
+Date    : 2009 Oct 08
+
+Description : 
+''' b
+
+`'''
+File    : test.page.bare
+Author  : drdr.xp
+Contact : drdr.xp@gmail.com
+Date    : 2009 Oct 08
+
+Description : 
+'''^
+
+a '''
+File    : test.page.bare
+Author  : drdr.xp
+Contact : drdr.xp@gmail.com
+Date    : 2009 Oct 08
+
+Description : 
+'''
+
+
+    #  -------------finally--------------- 
+    # finally:                             
+    #         `cursor^                     
+
+
+
+finally:
+	
+
+	finally:
+		 b
+
+`finally:
+	^
+
+a finally:
+	
+
+
+    #  -------------for---------------           
+    # for `var^ in `seq^`seq^python_seq_cmpl()^: 
+    #         `cursor^                           
+
+
+
+for var in seq:
+	
+
+	for var_TYPED in seq_TYPED:
+		 b
+
+`for var in seq:
+	^
+
+a for var in seq:
+	
+
+
+    #  -------------forrange--------------- 
+    # for `i^ in `:range:^:                 
+    #         `cursor^                      
+
+
+
+for i in range( end ):
+	
+
+	for i_TYPED in range( 0_TYPED, end_TYPED ):
+		 b
+
+`for i in range( end ):
+	^
+
+a for i in range( end ):
+	
+
+
+    #  -------------from---------------       
+    # from `module^ import `item^` as `name?^ 
+
+
+
+from module import item
+
+from module_TYPED import item_TYPED as name_TYPED b
+
+`from module import item^
+
+a from module import item
+
+
+    #  -------------fromfuture--------------- 
+    # from __future__ import `name^           
+
+
+
+from __future__ import name
+
+from __future__ import name b
+
+`from __future__ import name^
+
+a from __future__ import name
+
+
+    #  -------------genExp--------------- 
+    # (`$SParg^`:_generator:^`$SParg^)    
+
+
+
+( func for elem in seq )
+
+( func_TYPED for elem_TYPED in seq_TYPED if condition_TYPED ) b
+
+`( func for elem in seq )^
+
+a ( func for elem in seq )
+
+
+    #  -------------if--------------- 
+    # `:_if:^                         
+    # `else...{{^`:else:^`}}^         
+
+
+
+if cond:
+	pass
+else:
+	
+
+	if cond_TYPED:
+		pass_TYPED
+	else_TYPED b
+
+`if cond:
+	pass
+else:
+	^
+
+a if cond:
+	pass
+else:
+	
+
+
+    #  -------------ifmain---------------    
+    # if __name__`$SPop^==`$SPop^"__main__": 
+    #         `cursor^                       
+
+
+
+if __name__ == "__main__":
+	
+
+	if __name__ == "__main__":
+		 b
+
+`if __name__ == "__main__":
+	^
+
+a if __name__ == "__main__":
+	
+
+
+    #  -------------import--------------- 
+    # import `mod^` as `name?^            
+
+
+
+import mod
+
+import mod_TYPED as name_TYPED b
+
+`import mod^
+
+a import mod
+
+
+    #  -------------init---------------                        
+    # def __init__`$SPfun^(`$SParg^self`,$SPop`arg*^`$SParg^): 
+    #         `cursor^                                         
+
+
+
+def __init__( self ):
+	
+
+	def __init__( self, arg_TYPED, arg_TYPED, arg_TYPED ):
+		 b
+
+`def __init__( self ):
+	^
+
+a def __init__( self ):
+	
+
+
+    #  -------------lambda--------------- 
+    # lambda `arg*^: `expr^               
+
+
+
+lambda : expr
+
+lambda arg_TYPED, arg_TYPED, arg_TYPED: expr b
+
+`lambda : expr^
+
+a lambda : expr
+
+
+    #  -------------listComp--------------- 
+    # [`$SParg^`:_generator:^`$SParg^]      
+
+
+
+[ func for elem in seq ]
+
+[ func_TYPED for elem_TYPED in seq_TYPED if condition_TYPED ] b
+
+`[ func for elem in seq ]^
+
+a [ func for elem in seq ]
+
+
+    #  -------------p--------------- 
+    # pass                           
+
+
+
+pass
+
+pass b
+
+`pass^
+
+a pass
+
+
+    #  -------------python--------------- 
+    # _CMT_!`$PYTHON_EXC^                 
+    # _CMT_ coding: `encoding^            
+
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
+
+#!/usr/bin/env python
+# coding: encoding_TYPED
+ b
+
+`#!/usr/bin/env python
+# coding: utf-8
+^
+
+a #!/usr/bin/env python
+# coding: utf-8
+
+
+
+    #  -------------range---------------       
+    # range(`$SParg^``0?`,$SPop^`end^`$SParg^) 
+
+
+
+range( end )
+
+range( 0_TYPED, end_TYPED ) b
+
+`range( end )^
+
+a range( end )
+
+
+    #  -------------s--------------- 
+    # self.                          
+
+
+
+self.
+
+self. b
+
+`self.^
+
+a self.
+
+
+    #  -------------sb--------------- 
+    # _CMT_!`$PYTHON_EXC^             
+    # _CMT_ coding: `encoding^        
+
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
+
+#!/usr/bin/env python
+# coding: encoding_TYPED
+ b
+
+`#!/usr/bin/env python
+# coding: utf-8
+^
+
+a #!/usr/bin/env python
+# coding: utf-8
+
+
+
+    #  -------------shebang--------------- 
+    # _CMT_!`$PYTHON_EXC^                  
+    # _CMT_ coding: `encoding^             
+
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
+
+#!/usr/bin/env python
+# coding: encoding_TYPED
+ b
+
+`#!/usr/bin/env python
+# coding: utf-8
+^
+
+a #!/usr/bin/env python
+# coding: utf-8
+
+
+
+    #  -------------super---------------                                                                            
+    # super(`$SParg^`clz^python_find_class('Me')^,`$SPop^self`$SParg^).`method^python_find_func('what')^(`:_args:^) 
+
+
+
+super( Me, self ).what()
+
+super( clz_TYPED, self ).method_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ) b
+
+`super( Me, self ).what()^
+
+a super( Me, self ).what()
+
+
+    #  -------------try--------------- 
+    # try:                             
+    #         `job^                    
+    # `:except:^                       
+
+
+
+try:
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+except Exception, e:
+	
+
+	try:
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+	except Exception_TYPED, e_TYPED:
+		 b
+
+`try:
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+except Exception, e:
+	^
+
+a try:
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+except Exception, e:
+	
+
+
+    #  -------------while--------------- 
+    # while `condition^:                 
+    #         `cursor^                   
+
+
+
+while condition:
+	
+
+	while condition_TYPED:
+		 b
+
+`while condition:
+	^
+
+a while condition:
+	
+
+
+    #  -------------with--------------- 
+    # with `opener^` as `name?^:        
+    #         `cursor^                  
+
+
+
+with opener:
+	
+
+	with opener_TYPED as name_TYPED:
+		 b
+
+`with opener:
+	^
+
+a with opener:
+	
+
+
+    #  -------------{_--------------- 
+    # {`w^}                           
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

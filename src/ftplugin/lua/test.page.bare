@@ -1,0 +1,624 @@
+
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-"__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- "`w^"                           
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-'__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- '`w^'                           
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-(__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- (`w^)                           
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-<__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- <`w^>                           
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-[__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- [`w^]                           
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-`__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- \``w^\`                         
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-Author_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- `$author^                           
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    `drdr.xp^
+
+    a drdr.xp
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-comment_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- `$CS `cursor^                        
+
+
+
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2
+
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2 b
+
+`-- WRAPPED_TEXT
+ -- WRAPPED_TEXT_line2^
+
+ a -- WRAPPED_TEXT
+   -- WRAPPED_TEXT_line2
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-commentBlock_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- `$CS `cursor^                             
+
+
+
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2
+
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2 b
+
+`-- WRAPPED_TEXT
+ -- WRAPPED_TEXT_line2^
+
+ a -- WRAPPED_TEXT
+   -- WRAPPED_TEXT_line2
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-commentDoc_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- `$CS^                                   
+    -- `$CS `cursor^                           
+    -- `$CS^                                   
+
+
+
+--
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2
+--
+
+--
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2
+-- b
+
+`--
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2
+--^
+
+a --
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2
+--
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-commentLine_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- `$CS `cursor^                            
+
+
+
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2
+
+-- WRAPPED_TEXT
+-- WRAPPED_TEXT_line2 b
+
+`-- WRAPPED_TEXT
+ -- WRAPPED_TEXT_line2^
+
+ a -- WRAPPED_TEXT
+   -- WRAPPED_TEXT_line2
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-do_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- do                              
+    --         `cursor^                
+    -- end                             
+
+
+
+    do
+	    
+    end
+
+    do
+	    
+    end b
+
+    `do
+	    
+    end^
+
+    a do
+	    
+    end
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-Email_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- `$email^                           
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    `drdr.xp@gmail.com^
+
+    a drdr.xp@gmail.com
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-File_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- `file()^                          
+
+
+
+    test.page.bare
+
+    test.page.bare b
+
+    `test.page.bare^
+
+    a test.page.bare
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-fn_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- function (`arg*^) `cursor^ end  
+
+
+
+    function ()  end
+
+    function (arg_TYPED, arg_TYPED, arg_TYPED)  end b
+
+    `function ()  end^
+
+    a function ()  end
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-for_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- for `var^ = `0^, `10^`, `step?^ do 
+    --         `cursor^                   
+    -- end                                
+
+
+
+    for var = 0, 10 do
+	    
+    end
+
+    for var_TYPED = 0_TYPED, 10_TYPED, step_TYPED do
+	    
+    end b
+
+    `for var = 0, 10 do
+	    
+    end^
+
+    a for var = 0, 10 do
+	    
+    end
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-forin_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- for `var*^ in `expr^ do            
+    --         `cursor^                   
+    -- end                                
+
+
+
+    for  in expr do
+	    
+    end
+
+    for var_TYPED, var_TYPED, var_TYPED in expr_TYPED do
+	    
+    end b
+
+    `for  in expr do
+	    
+    end^
+
+    a for  in expr do
+	    
+    end
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-forip_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- for `key^, `value^ in ipairs(`table^) do 
+    --         `cursor^                         
+    -- end                                      
+
+
+
+    for key, value in ipairs(table) do
+	    
+    end
+
+    for key_TYPED, value_TYPED in ipairs(table_TYPED) do
+	    
+    end b
+
+    `for key, value in ipairs(table) do
+	    
+    end^
+
+    a for key, value in ipairs(table) do
+	    
+    end
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-forp_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- for `key^, `value^ in pairs(`table^) do 
+    --         `cursor^                        
+    -- end                                     
+
+
+
+    for key, value in pairs(table) do
+	    
+    end
+
+    for key_TYPED, value_TYPED in pairs(table_TYPED) do
+	    
+    end b
+
+    `for key, value in pairs(table) do
+	    
+    end^
+
+    a for key, value in pairs(table) do
+	    
+    end
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-fun_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- function `name^(`arg*^)          
+    --         `cursor^                 
+    -- end                              
+
+
+
+    function name()
+	    
+    end
+
+    function name_TYPED(arg_TYPED, arg_TYPED, arg_TYPED)
+	    
+    end b
+
+    `function name()
+	    
+    end^
+
+    a function name()
+	    
+    end
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-if_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- if `cond^ then                  
+    --         `cursor^                
+    -- end                             
+
+
+
+    if cond then
+	    
+    end
+
+    if cond_TYPED then
+	    
+    end b
+
+    `if cond then
+	    
+    end^
+
+    a if cond then
+	    
+    end
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-ife_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- if `cond^ then                   
+    --         `job^                    
+    -- else                             
+    --         `cursor^                 
+    -- end                              
+
+
+
+    if cond then
+	    -- job
+    else
+	    
+    end
+
+    if cond_TYPED then
+	    job_TYPED
+    else
+	    
+    end b
+
+    `if cond then
+	    -- job
+    else
+	    
+    end^
+
+    a if cond then
+	    -- job
+    else
+	    
+    end
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-ifei_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- if `cond^ then`                   
+    --         `job^                     
+    -- ``elseif...`                      
+    -- {{^elseif `comparison^ then       
+    --         `job^                     
+    -- ``elseif...`                      
+    -- ^`}}^``else...`                   
+    -- {{^else                           
+    --         `cursor^                  
+    -- `}}^end                           
+
+
+
+    if cond then
+	    -- job
+    elseif comparison then
+	    -- job
+    elseif comparison then
+	    -- job
+    elseif comparison then
+	    -- job
+    else
+	    
+    end
+
+    if cond_TYPED then
+	    job_TYPED
+    elseif_TYPED
+	else_TYPED
+	    end b
+
+	    `if cond then
+		    -- job
+	    elseif comparison then
+		    -- job
+	    elseif comparison then
+		    -- job
+	    elseif comparison then
+		    -- job
+	    else
+		    
+	    end^
+
+	    a if cond then
+		    -- job
+	    elseif comparison then
+		    -- job
+	    elseif comparison then
+		    -- job
+	    elseif comparison then
+		    -- job
+	    else
+		    
+	    end
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-locf_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- local function `name^(`arg*^)     
+    --         `cursor^                  
+    -- end                               
+
+
+
+    local function name()
+	    
+    end
+
+    local function name_TYPED(arg_TYPED, arg_TYPED, arg_TYPED)
+	    
+    end b
+
+    `local function name()
+	    
+    end^
+
+    a local function name()
+	    
+    end
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-locv_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- local `var^ =                     
+
+
+
+    local var = 
+
+    local var_TYPED =  b
+
+    `local var = ^
+
+    a local var = 
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-p_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- print(`cursor^)                
+
+
+
+    print()
+
+    print() b
+
+    `print()^
+
+    a print()
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-repeat_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- repeat                              
+    --         `cursor^                    
+    -- until                               
+
+
+
+    repeat
+	    
+    until
+
+    repeat
+	    
+    until b
+
+    `repeat
+	    
+    until^
+
+    a repeat
+	    
+    until
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-while_CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- while `cond^ do                    
+    --         `cursor^                   
+    -- end                                
+
+
+
+    while cond do
+	    
+    end
+
+    while cond_TYPED do
+	    
+    end b
+
+    `while cond do
+	    
+    end^
+
+    a while cond do
+	    
+    end
+
+
+    --  _CMT__CMT__CMT__CMT__CMT__CMT_-{__CMT__CMT__CMT__CMT__CMT__CMT__CMT_- 
+    -- {`w^}                           
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

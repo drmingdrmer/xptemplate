@@ -1,0 +1,595 @@
+
+
+
+    /*  -------------"_--------------- */
+    /* "`w^"                           */
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    /*  -------------'_--------------- */
+    /* '`w^'                           */
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    /*  -------------(_--------------- */
+    /* (`w^)                           */
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`w^>                           */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`w^]                           */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``w^\`                         */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    /*  -------------Author--------------- */
+    /* `$author^                           */
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    /*  -------------cmdlet--------------- */
+    /* Cmdlet `verb^-`noun^                */
+    /* {                                   */
+    /*         `Param...{{^Param(          */
+    /*            `^                       */
+    /*         )`}}^                       */
+    /*         `Begin...{{^Begin           */
+    /*         {                           */
+    /*         }`}}^                       */
+    /*         Process                     */
+    /*         {                           */
+    /*         }                           */
+    /*         `End...{{^End               */
+    /*         {                           */
+    /*         }`}}^                       */
+    /* }                                   */
+
+
+
+Cmdlet verb-noun
+{
+	Param(
+	   
+	)
+	Begin
+	{
+	}
+	Process
+	{
+	}
+	End
+	{
+	}
+}
+
+Cmdlet verb_TYPED-noun_TYPED
+{
+	Param_TYPED
+	Begin_TYPED
+	Process
+	{
+	}
+	End_TYPED
+} b
+
+`Cmdlet verb-noun
+{
+	Param(
+	   
+	)
+	Begin
+	{
+	}
+	Process
+	{
+	}
+	End
+	{
+	}
+}^
+
+a Cmdlet verb-noun
+{
+	Param(
+	   
+	)
+	Begin
+	{
+	}
+	Process
+	{
+	}
+	End
+	{
+	}
+}
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+test.page.bare
+
+test.page.bare b
+
+`test.page.bare^
+
+a test.page.bare
+
+
+    /*  -------------for---------------                  */
+    /* for ($`var^ = `init^; $`var^ -ge `val^; $`var^--) */
+    /* {                                                 */
+    /*         `cursor^                                  */
+    /* }                                                 */
+
+
+
+for ($var = init; $var -ge val; $var--)
+{
+	
+}
+
+for ($var_TYPED = init_TYPED; $var_TYPED -ge val_TYPED; $var_TYPED--)
+{
+	
+} b
+
+`for ($var = init; $var -ge val; $var--)
+{
+	
+}^
+
+a for ($var = init; $var -ge val; $var--)
+{
+	
+}
+
+
+    /*  -------------foreach--------------- */
+    /* foreach ($`var^ in `other^)          */
+    /*         { `cursor^ }                 */
+
+
+
+foreach ($var in other)
+	{  }
+
+foreach ($var_TYPED in other_TYPED)
+	{  } b
+
+`foreach ($var in other)
+	{  }^
+
+a foreach ($var in other)
+	{  }
+
+
+    /*  -------------forr---------------                 */
+    /* for ($`var^ = `init^; $`var^ -ge `val^; $`var^--) */
+    /* {                                                 */
+    /*         `cursor^                                  */
+    /* }                                                 */
+
+
+
+for ($var = init; $var -ge val; $var--)
+{
+	
+}
+
+for ($var_TYPED = init_TYPED; $var_TYPED -ge val_TYPED; $var_TYPED--)
+{
+	
+} b
+
+`for ($var = init; $var -ge val; $var--)
+{
+	
+}^
+
+a for ($var = init; $var -ge val; $var--)
+{
+	
+}
+
+
+    /*  -------------fun--------------- */
+    /* function `funName^( `params^ )   */
+    /* {                                */
+    /*    `cursor^                      */
+    /* }                                */
+
+
+
+function funName( params )
+{
+   
+}
+
+function funName_TYPED( params_TYPED )
+{
+   
+} b
+
+`function funName( params )
+{
+   
+}^
+
+a function funName( params )
+{
+   
+}
+
+
+    /*  -------------function--------------- */
+    /* function `funName^( `params^ )        */
+    /* {                                     */
+    /*         `Begin...{{^Begin             */
+    /*         {                             */
+    /*                 `^                    */
+    /*         }`}}^                         */
+    /*         `Process...{{^Process         */
+    /*         {                             */
+    /*                 `^                    */
+    /*         }`}}^                         */
+    /*         `End...{{^End                 */
+    /*         {                             */
+    /*                 `^                    */
+    /*         }`}}^                         */
+    /* }                                     */
+
+
+
+function funName( params )
+{
+	Begin
+	{
+		
+	}
+	Process
+	{
+		
+	}
+	End
+	{
+		
+	}
+}
+
+function funName_TYPED( params_TYPED )
+{
+	Begin_TYPED
+	Process_TYPED
+	End_TYPED
+} b
+
+`function funName( params )
+{
+	Begin
+	{
+		
+	}
+	Process
+	{
+		
+	}
+	End
+	{
+		
+	}
+}^
+
+a function funName( params )
+{
+	Begin
+	{
+		
+	}
+	Process
+	{
+		
+	}
+	End
+	{
+		
+	}
+}
+
+
+    /*  -------------if--------------- */
+    /* if ( `cond^ )                   */
+    /* {                               */
+    /*         `code^                  */
+    /* }`                              */
+    /* `...^                           */
+    /* elseif ( `cond2^ )              */
+    /* {                               */
+    /*         `body^                  */
+    /* }`                              */
+    /* `...^`                          */
+    /* `else...{{^                     */
+    /* else                            */
+    /* {                               */
+    /*         `body^                  */
+    /* }`}}^                           */
+
+
+
+if ( cond )
+{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+elseif ( cond2 )
+{
+	body
+}
+elseif ( cond2 )
+{
+	body
+}
+elseif ( cond2 )
+{
+	body
+}
+else
+{
+	body
+}
+
+if ( cond_TYPED )
+{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+_TYPED
+else_TYPED b
+
+`if ( cond )
+{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+elseif ( cond2 )
+{
+	body
+}
+elseif ( cond2 )
+{
+	body
+}
+elseif ( cond2 )
+{
+	body
+}
+else
+{
+	body
+}^
+
+a if ( cond )
+{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+elseif ( cond2 )
+{
+	body
+}
+elseif ( cond2 )
+{
+	body
+}
+elseif ( cond2 )
+{
+	body
+}
+else
+{
+	body
+}
+
+
+    /*  -------------switch---------------     */
+    /* switch `option^^ (`what^)               */
+    /* {                                       */
+    /*  `pattern^ { `action^ }`...^            */
+    /*  `pattern^ { `action^ }`...^            */
+    /*  `Default...{{^Default { `action^ }`}}^ */
+    /* }                                       */
+
+
+
+switch  (what)
+{
+ pattern { action }
+ pattern { action }
+ pattern { action }
+ pattern { action }
+ Default { action }
+}
+
+switch option_TYPED (what_TYPED)
+{
+ pattern_TYPED { action_TYPED }_TYPED
+ Default_TYPED
+} b
+
+`switch  (what)
+{
+ pattern { action }
+ pattern { action }
+ pattern { action }
+ pattern { action }
+ Default { action }
+}^
+
+a switch  (what)
+{
+ pattern { action }
+ pattern { action }
+ pattern { action }
+ pattern { action }
+ Default { action }
+}
+
+
+    /*  -------------trap--------------- */
+    /* trap [`Exception^]                */
+    /* {                                 */
+    /*         `body^                    */
+    /* }                                 */
+
+
+
+trap [Exception]
+{
+	body
+}
+
+trap [Exception_TYPED]
+{
+	body_TYPED
+} b
+
+`trap [Exception]
+{
+	body
+}^
+
+a trap [Exception]
+{
+	body
+}
+
+
+    /*  -------------{_--------------- */
+    /* {`w^}                           */
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

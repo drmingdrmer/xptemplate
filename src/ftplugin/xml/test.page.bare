@@ -1,0 +1,302 @@
+
+
+
+    <!--  -------------"_--------------- -->
+    <!-- "`w^"                           -->
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    <!--  -------------'_--------------- -->
+    <!-- '`w^'                           -->
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    <!--  -------------(_--------------- -->
+    <!-- (`w^)                           -->
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    <!--  -------------<_--------------- -->
+    <!-- <`w^>                           -->
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    <!--  -------------[_--------------- -->
+    <!-- [`w^]                           -->
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    <!--  -------------`_--------------- -->
+    <!-- \``w^\`                         -->
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    <!--  -------------Author--------------- -->
+    <!-- `$author^                           -->
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    `drdr.xp^
+
+    a drdr.xp
+
+
+    <!--  -------------cdata--------------- -->
+    <!-- <![CDATA[`cursor^]]>               -->
+
+
+
+<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>
+
+<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]> b
+
+`<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>^
+
+a <![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>
+
+
+    <!--  -------------comment--------------- -->
+    <!-- `$CL^ `what^^ `$CR^`^                -->
+
+
+
+<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->
+
+<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 --> b
+
+`<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->^
+
+a <!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->
+
+
+    <!--  -------------commentBlock--------------- -->
+    <!-- `$_xCommentLeftWithoutMid^`$CM `cursor^   -->
+    <!-- `$_xCommentMidIndent$CR^                  -->
+
+
+
+<!-- WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
+
+<!-- WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    --> b
+
+    `<!-- WRAPPED_TEXT
+	  WRAPPED_TEXT_line2
+	-->^
+
+a <!-- WRAPPED_TEXT
+       WRAPPED_TEXT_line2
+    -->
+
+
+    <!--  -------------commentDoc--------------- -->
+    <!-- `$CL^`$CM^                              -->
+    <!-- `$_xCommentMidIndent$CM `cursor^        -->
+    <!-- `$_xCommentMidIndent$CR^                -->
+
+
+
+<!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
+
+<!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    --> b
+
+    `<!--
+         WRAPPED_TEXT
+         WRAPPED_TEXT_line2
+	-->^
+
+a <!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
+
+
+    <!--  -------------commentLine--------------- -->
+    <!-- `$CL `what` $CR^`^                       -->
+
+
+
+<!-- WRAPPED_TEXT -->
+<!-- WRAPPED_TEXT_line2 -->
+
+<!-- WRAPPED_TEXT -->
+<!-- WRAPPED_TEXT_line2 --> b
+
+`<!-- WRAPPED_TEXT -->
+ <!-- WRAPPED_TEXT_line2 -->^
+
+ a <!-- WRAPPED_TEXT -->
+   <!-- WRAPPED_TEXT_line2 -->
+
+
+    <!--  -------------Email--------------- -->
+    <!-- `$email^                           -->
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    `drdr.xp@gmail.com^
+
+    a drdr.xp@gmail.com
+
+
+    <!--  -------------File--------------- -->
+    <!-- `file()^                          -->
+
+
+
+    test.page.bare
+
+    test.page.bare b
+
+    `test.page.bare^
+
+    a test.page.bare
+
+
+    <!--  -------------style---------------                      -->
+    <!-- <?xml-stylesheet type="`style^text/css^" href="`from^"> -->
+
+
+
+    <?xml-stylesheet type="text/css" href="from">
+
+    <?xml-stylesheet type="style_TYPED" href="from_TYPED"> b
+
+    `<?xml-stylesheet type="text/css" href="from">^
+
+    a <?xml-stylesheet type="text/css" href="from">
+
+
+    <!--  -------------ver---------------                    -->
+    <!-- <?xml version="`ver^1.0^" encoding="`enc^utf-8^" ?> -->
+
+
+
+    <?xml version="1.0" encoding="utf-8" ?>
+
+    <?xml version="ver_TYPED" encoding="enc_TYPED" ?> b
+
+    `<?xml version="1.0" encoding="utf-8" ?>^
+
+    a <?xml version="1.0" encoding="utf-8" ?>
+
+
+    <!--  -------------{_--------------- -->
+    <!-- {`w^}                           -->
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

@@ -1,0 +1,1181 @@
+
+
+
+    //  -------------"_--------------- 
+    // "`w^"                           
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    //  -------------'_--------------- 
+    // '`w^'                           
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    //  -------------(_--------------- 
+    // (`w^)                           
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    //  -------------<_--------------- 
+    // <`w^>                           
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    //  -------------[_--------------- 
+    // [`w^]                           
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    //  -------------`_--------------- 
+    // \``w^\`                         
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    //  -------------asoe---------------           
+    // assertObjectEquals(`mess^                   
+    //                                   , `arr^   
+    //                                   , `expr^) 
+
+
+
+assertObjectEquals(mess
+				  , arr
+				  , expr)
+
+assertObjectEquals(mess_TYPED
+				  , arr_TYPED
+				  , expr_TYPED) b
+
+`assertObjectEquals(mess
+				  , arr
+				  , expr)^
+
+a assertObjectEquals(mess
+				  , arr
+				  , expr)
+
+
+    //  -------------Author--------------- 
+    // `$author^                           
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    //  -------------bench--------------- 
+    // var t0 = new Date().getTime();     
+    // for (var i = 0; i < `times^; ++i){ 
+    //         `job^                      
+    // }                                  
+    // var t1 = new Date().getTime();     
+    // for (var i = 0; i < `times^; ++i){ 
+    //         `jobn^                     
+    // }                                  
+    // var t2 = new Date().getTime();     
+    // `log^(t1-t0, t2-t1);               
+
+
+
+var t0 = new Date().getTime();
+for (var i = 0; i < times; ++i){
+	/* void */;
+}
+var t1 = new Date().getTime();
+for (var i = 0; i < times; ++i){
+	/* void */;
+}
+var t2 = new Date().getTime();
+console.log(t1-t0, t2-t1);
+
+
+var t0 = new Date().getTime();
+for (var i = 0; i < times_TYPED; ++i){
+	job_TYPED
+}
+var t1 = new Date().getTime();
+for (var i = 0; i < times_TYPED; ++i){
+	jobn_TYPED
+}
+var t2 = new Date().getTime();
+log_TYPED(t1-t0, t2-t1);
+ b
+
+ `var t0 = new Date().getTime();
+ for (var i = 0; i < times; ++i){
+	 /* void */;
+ }
+ var t1 = new Date().getTime();
+ for (var i = 0; i < times; ++i){
+	 /* void */;
+ }
+ var t2 = new Date().getTime();
+ console.log(t1-t0, t2-t1);
+ ^
+
+ a var t0 = new Date().getTime();
+ for (var i = 0; i < times; ++i){
+	 /* void */;
+ }
+ var t1 = new Date().getTime();
+ for (var i = 0; i < times; ++i){
+	 /* void */;
+ }
+ var t2 = new Date().getTime();
+ console.log(t1-t0, t2-t1);
+ 
+
+
+    //  -------------bench_--------------- 
+    // var t0 = new Date().getTime();      
+    // for (var i = 0; i < `times^; ++i){  
+    //         `wrapped^                   
+    // }                                   
+    // var t1 = new Date().getTime();      
+    // `log^(t1-t0);                       
+
+
+
+var t0 = new Date().getTime();
+for (var i = 0; i < times; ++i){
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+var t1 = new Date().getTime();
+console.log(t1-t0);
+
+var t0 = new Date().getTime();
+for (var i = 0; i < times_TYPED; ++i){
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+var t1 = new Date().getTime();
+log_TYPED(t1-t0); b
+
+`var t0 = new Date().getTime();
+for (var i = 0; i < times; ++i){
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+var t1 = new Date().getTime();
+console.log(t1-t0);^
+
+a var t0 = new Date().getTime();
+for (var i = 0; i < times; ++i){
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+var t1 = new Date().getTime();
+console.log(t1-t0);
+
+
+    //  -------------case--------------- 
+    // case `constant^`$SPcmd^:          
+    //         `cursor^                  
+    //         break;                    
+
+
+
+case constant :
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	break;
+
+	case constant_TYPED :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break; b
+
+		`case constant :
+			WRAPPED_TEXT
+			WRAPPED_TEXT_line2
+			break;^
+
+			a case constant :
+				WRAPPED_TEXT
+				WRAPPED_TEXT_line2
+				break;
+
+
+    //  -------------cmt--------------- 
+    // /**                              
+    // * @author : `author^ | `email^   
+    // * @description                   
+    // *     `cursor^                   
+    // * @return {`Object^} `desc^      
+    // */                               
+
+
+
+				/**
+				* @author : drdr.xp | drdr.xp@gmail.com
+				* @description
+				*     
+				* @return {Object} desc
+				*/
+
+				/**
+				* @author : author_TYPED | email_TYPED
+				* @description
+				*     
+				* @return {Object_TYPED} desc_TYPED
+				*/ b
+
+				`/**
+				* @author : drdr.xp | drdr.xp@gmail.com
+				* @description
+				*     
+				* @return {Object} desc
+				*/^
+
+				a /**
+				* @author : drdr.xp | drdr.xp@gmail.com
+				* @description
+				*     
+				* @return {Object} desc
+				*/
+
+
+    //  -------------comment--------------- 
+    // `$CL^ `what^^ `$CR^`^                
+
+
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
+
+				/* WRAPPED_TEXT
+				WRAPPED_TEXT_line2 */ b
+
+				`/* WRAPPED_TEXT
+				WRAPPED_TEXT_line2 */^
+
+				a /* WRAPPED_TEXT
+				WRAPPED_TEXT_line2 */
+
+
+    //  -------------commentBlock--------------- 
+    // `$_xCommentLeftWithoutMid^`$CM `cursor^   
+    // `$_xCommentMidIndent$CR^                  
+
+
+
+/* WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */
+
+				/* WRAPPED_TEXT
+				 * WRAPPED_TEXT_line2
+				 */ b
+
+				`/* WRAPPED_TEXT
+				  * WRAPPED_TEXT_line2
+				 */^
+
+				a /* WRAPPED_TEXT
+				   * WRAPPED_TEXT_line2
+				 */
+
+
+    //  -------------commentDoc--------------- 
+    // `$CL^`$CM^                              
+    // `$_xCommentMidIndent$CM `cursor^        
+    // `$_xCommentMidIndent$CR^                
+
+
+
+/**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */
+
+				/**
+				 * WRAPPED_TEXT
+				 * WRAPPED_TEXT_line2
+				 */ b
+
+				`/**
+				 * WRAPPED_TEXT
+				 * WRAPPED_TEXT_line2
+				 */^
+
+				a /**
+				 * WRAPPED_TEXT
+				 * WRAPPED_TEXT_line2
+				 */
+
+
+    //  -------------commentLine--------------- 
+    // `$CL `what` $CR^`^                       
+
+
+
+/* WRAPPED_TEXT */
+/* WRAPPED_TEXT_line2 */
+
+				/* WRAPPED_TEXT */
+				/* WRAPPED_TEXT_line2 */ b
+
+				`/* WRAPPED_TEXT */
+				 /* WRAPPED_TEXT_line2 */^
+
+				 a /* WRAPPED_TEXT */
+				   /* WRAPPED_TEXT_line2 */
+
+
+    //  -------------cpr--------------- 
+    // @param {`Object^} `name^ `desc^  
+
+
+
+				 @param {Object} name desc
+
+				 @param {Object_TYPED} name_TYPED desc b
+
+				 `@param {Object} name desc^
+
+				 a @param {Object} name desc
+
+
+    //  -------------default--------------- 
+    // default:                             
+    //         `cursor^                     
+
+
+
+				 default:
+					 
+
+				 default:
+					  b
+
+					  `default:
+						  ^
+
+						  a default:
+							  
+
+
+    //  -------------elif--------------- 
+    // else `Include:_if^                
+
+
+
+else if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+else if ( condition_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`else if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a else if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    //  -------------else--------------- 
+    // else`$BRif^{                      
+    //         `cursor^                  
+    // }                                 
+
+
+
+else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    //  -------------Email--------------- 
+    // `$email^                           
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    //  -------------fcmt---------------                                      
+    // /**-------------------------_CMT_/ `sum^ \\\--------------------------- 
+    //  *                                                                     
+    //  * <b>`function^</b>                                                   
+    //  * @version : `1.0^                                                    
+    //  * @since : `date^                                                     
+    //  *                                                                     
+    //  * @description :                                                      
+    //  *   `cursor^                                                          
+    //  * @usage :                                                            
+    //  *                                                                     
+    //  * @author : `$author^ | `$email^                                      
+    //  * @copyright :                                                        
+    //  * @TODO :                                                             
+    //  *                                                                     
+    //  *--------------------------\\\ `sum^ _CMT_/---------------------------*/ 
+
+
+
+/**-------------------------/// sum \\\---------------------------
+ *
+ * <b>function</b>
+ * @version : 1.0
+ * @since : date
+ *
+ * @description :
+ *   
+ * @usage :
+ *
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @copyright :
+ * @TODO :
+ *
+ *--------------------------\\\ sum ///---------------------------*/
+
+/**-------------------------/// sum_TYPED \\\---------------------------
+ *
+ * <b>function_TYPED</b>
+ * @version : 10_TYPED
+ * @since : date_TYPED
+ *
+ * @description :
+ *   
+ * @usage :
+ *
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @copyright :
+ * @TODO :
+ *
+ *--------------------------\\\ sum_TYPED ///---------------------------*/ b
+
+`/**-------------------------/// sum \\\---------------------------
+ *
+ * <b>function</b>
+ * @version : 1.0
+ * @since : date
+ *
+ * @description :
+ *   
+ * @usage :
+ *
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @copyright :
+ * @TODO :
+ *
+ *--------------------------\\\ sum ///---------------------------*/^
+
+a /**-------------------------/// sum \\\---------------------------
+ *
+ * <b>function</b>
+ * @version : 1.0
+ * @since : date
+ *
+ * @description :
+ *   
+ * @usage :
+ *
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @copyright :
+ * @TODO :
+ *
+ *--------------------------\\\ sum ///---------------------------*/
+
+
+    //  -------------File--------------- 
+    // `file()^                          
+
+
+
+test.page.bare
+
+test.page.bare b
+
+`test.page.bare^
+
+a test.page.bare
+
+
+    //  -------------for---------------                                                                                  
+    // for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{ 
+    //         `cursor^                                                                                                  
+    // }                                                                                                                 
+
+
+
+for ( var i = 0; i < len; i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+for ( var i_TYPED = 0_TYPED; i_TYPED < len_TYPED; i_TYPED++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`for ( var i = 0; i < len; i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a for ( var i = 0; i < len; i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    //  -------------forever--------------- 
+    // for`$SPcmd^(;;) `cursor^             
+
+
+
+for (;;) 
+
+for (;;)  b
+
+`for (;;) ^
+
+a for (;;) 
+
+
+    //  -------------forin---------------   
+    // for ( var `i^ in `array^ )`$BRloop^{ 
+    //         var `e^ = `array^[`i^];      
+    //         `cursor^                     
+    // }                                    
+
+
+
+for ( var i in array ) {
+	var e = array[i];
+	
+}
+
+for ( var i_TYPED in array_TYPED ) {
+	var e_TYPED = array_TYPED[i_TYPED];
+	
+} b
+
+`for ( var i in array ) {
+	var e = array[i];
+	
+}^
+
+a for ( var i in array ) {
+	var e = array[i];
+	
+}
+
+
+    //  -------------fornn---------------                                                                                                
+    // for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`ptr^`$SPop^=`$SPop^`init^; `$NULL^`$SPop^!=`$SPop^`ptr^; `^R('ptr')^`$SParg^)`$BRloop^{ 
+    //         `cursor^                                                                                                                  
+    // }                                                                                                                                 
+
+
+
+for ( var ptr = init; null != ptr; ptr ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+for ( var ptr_TYPED = init_TYPED; null != ptr_TYPED; _TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`for ( var ptr = init; null != ptr; ptr ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a for ( var ptr = init; null != ptr; ptr ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    //  -------------forr---------------                                                                                 
+    // for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^++`$SParg^)`$BRloop^{ 
+    //         `cursor^                                                                                                  
+    // }                                                                                                                 
+
+
+
+for ( var i = 0; i >= end; i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+for ( var i_TYPED = 0_TYPED; i_TYPED >= end_TYPED; i_TYPED++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`for ( var i = 0; i >= end; i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a for ( var i = 0; i >= end; i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    //  -------------fun--------------- 
+    // function` `name^ (`arg*^) {      
+    //         `cursor^                 
+    // }                                
+
+
+
+function name () {
+	
+}
+
+function name_TYPED (arg_TYPED, arg_TYPED, arg_TYPED) {
+	
+} b
+
+`function name () {
+	
+}^
+
+a function name () {
+	
+}
+
+
+    //  -------------if--------------- 
+    // `Include:_if^                   
+
+
+
+if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( condition_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    //  -------------if0--------------- 
+    // `Include:_if^                    
+
+
+
+if ( 0 == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( 0 == var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( 0 == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( 0 == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    //  -------------ifee---------------                              
+    // `:_if:^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ 
+
+
+
+if ( condition ) {
+	
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+
+if ( condition_TYPED ) {
+	_TYPED
+} else_if_TYPED b
+
+`if ( condition ) {
+	
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}^
+
+a if ( condition ) {
+	
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+
+
+    //  -------------ifn--------------- 
+    // `Include:_if^                    
+
+
+
+if ( null == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( null == var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( null == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( null == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    //  -------------ifn0--------------- 
+    // `Include:_if^                     
+
+
+
+if ( 0 != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( 0 != var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( 0 != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( 0 != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    //  -------------ifnn--------------- 
+    // `Include:_if^                     
+
+
+
+if ( null != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( null != var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( null != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( null != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    //  -------------ifnu--------------- 
+    // `Include:_if^                     
+
+
+
+if ( undefined != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( undefined != var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( undefined != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( undefined != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    //  -------------ifu--------------- 
+    // `Include:_if^                    
+
+
+
+if ( undefined == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( undefined == var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( undefined == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( undefined == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    //  -------------new---------------          
+    // var `instant^ = new `Constructor^(`arg*^) 
+
+
+
+var instant = new Constructor()
+
+	var instant_TYPED = new Constructor_TYPED(arg_TYPED, arg_TYPED, arg_TYPED) b
+
+	`var instant = new Constructor()^
+
+	a var instant = new Constructor()
+
+
+    //  -------------proto---------------                     
+    // `Class^.prototype.`method^ = function(`arg*^)`$BRfun^{ 
+    // `cursor^                                               
+    // }                                                      
+
+
+
+	Class.prototype.method = function() {
+	
+	}
+
+Class_TYPED.prototype.method_TYPED = function(arg_TYPED, arg_TYPED, arg_TYPED) {
+
+} b
+
+`Class.prototype.method = function() {
+
+}^
+
+a Class.prototype.method = function() {
+
+}
+
+
+    //  -------------setTimeout---------------          
+    // setTimeout(function() { `job^ }, `milliseconds^) 
+
+
+
+setTimeout(function() { /* void */; }, milliseconds)
+
+setTimeout(function() { job_TYPED }, milliseconds_TYPED) b
+
+`setTimeout(function() { /* void */; }, milliseconds)^
+
+a setTimeout(function() { /* void */; }, milliseconds)
+
+
+    //  -------------switch---------------    
+    // switch (`$SParg^`var^`$SParg^)`$BRif^{ 
+    //         `Include:case^                 
+    // }                                      
+
+
+
+switch ( var ) {
+	case constant :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+}
+
+switch ( var_TYPED ) {
+	case constant_TYPED :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+} b
+
+`switch ( var ) {
+	case constant :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+}^
+
+a switch ( var ) {
+	case constant :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+}
+
+
+    //  -------------try--------------- 
+    // try`$BRif^{                      
+    //         `job^                    
+    // }                                
+    // catch (`err^)`$BRif^{            
+    //         `dealError^              
+    // }`...^                           
+    // catch (`err^)`$BRif^{            
+    //         `dealError^              
+    // }`...^`                          
+    // `finally...{{^                   
+    // finally`$BRif^{                  
+    //         `cursor^                 
+    // }`}}^                            
+
+
+
+try {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+catch (err) {
+	/* error handling */
+}
+catch (err) {
+	/* error handling */
+}
+catch (err) {
+	/* error handling */
+}
+catch (err) {
+	/* error handling */
+}
+finally {
+	
+}
+
+try {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+catch (err_TYPED) {
+	dealError_TYPED
+}_TYPED
+finally_TYPED b
+
+`try {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+catch (err) {
+	/* error handling */
+}
+catch (err) {
+	/* error handling */
+}
+catch (err) {
+	/* error handling */
+}
+catch (err) {
+	/* error handling */
+}
+finally {
+	
+}^
+
+a try {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+catch (err) {
+	/* error handling */
+}
+catch (err) {
+	/* error handling */
+}
+catch (err) {
+	/* error handling */
+}
+catch (err) {
+	/* error handling */
+}
+finally {
+	
+}
+
+
+    //  -------------{_--------------- 
+    // {`w^}                           
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

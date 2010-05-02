@@ -1,0 +1,910 @@
+
+
+
+    /*  -------------"_--------------- */
+    /* "`w^"                           */
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    /*  -------------'_--------------- */
+    /* '`w^'                           */
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    /*  -------------(_--------------- */
+    /* (`w^)                           */
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`w^>                           */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`w^]                           */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``w^\`                         */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    /*  -------------Author--------------- */
+    /* `$author^                           */
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    `drdr.xp^
+
+    a drdr.xp
+
+
+    /*  -------------begin--------------- */
+    /* begin                              */
+    /*         `cursor^                   */
+    /* end                                */
+
+
+
+    begin
+            
+    end
+
+begin
+        
+end b
+
+`begin
+        
+end^
+
+a begin
+        
+end
+
+
+    /*  -------------class--------------- */
+    /* class `_^^ `name^ =                */
+    /* object (self)                      */
+    /*         `cursor^                   */
+    /* end                                */
+
+
+
+    class  name =
+    object (self)
+            
+    end
+
+class __TYPED name_TYPED =
+object (self)
+        
+end b
+
+`class  name =
+object (self)
+        
+end^
+
+a class  name =
+object (self)
+        
+end
+
+
+    /*  -------------classtype--------------- */
+    /* class type `name^ =                    */
+    /* object                                 */
+    /*    method `field^ : `type^` `...^      */
+    /*    method `field^ : `type^` `...^      */
+    /* end                                    */
+
+
+
+    class type name =
+    object
+       method field : type
+       method field : type
+       method field : type
+       method field : type
+    end
+
+class type name_TYPED =
+object
+   method field_TYPED : type_TYPED _TYPED
+end b
+
+`class type name =
+object
+   method field : type
+   method field : type
+   method field : type
+   method field : type
+end^
+
+a class type name =
+object
+   method field : type
+   method field : type
+   method field : type
+   method field : type
+end
+
+
+    /*  -------------classtypecom--------------- */
+    /* (** `class_descr^^ *)                     */
+    /* class type `name^ =                       */
+    /* object                                    */
+    /*    (** `method_descr^^ *)                 */
+    /*    method `field^ : `type^` `...^         */
+    /*    (** `method_descr^^ *)                 */
+    /*    method `field^ : `type^` `...^         */
+    /* end                                       */
+
+
+
+    (**  *)
+    class type name =
+    object
+       (**  *)
+       method field : type
+       (**  *)
+       method field : type
+       (**  *)
+       method field : type
+       (**  *)
+       method field : type
+    end
+
+(** class_descr_TYPED *)
+class type name_TYPED =
+object
+   (** method_descr_TYPED *)
+   method field_TYPED : type_TYPED _TYPED
+end b
+
+`(**  *)
+class type name =
+object
+   (**  *)
+   method field : type
+   (**  *)
+   method field : type
+   (**  *)
+   method field : type
+   (**  *)
+   method field : type
+end^
+
+a (**  *)
+class type name =
+object
+   (**  *)
+   method field : type
+   (**  *)
+   method field : type
+   (**  *)
+   method field : type
+   (**  *)
+   method field : type
+end
+
+
+    /*  -------------comment--------------- */
+    /* `$CL^ `what^^ `$CR^`^                */
+
+
+
+(* WRAPPED_TEXT
+WRAPPED_TEXT_line2 *)
+
+(* WRAPPED_TEXT
+WRAPPED_TEXT_line2 *) b
+
+`(* WRAPPED_TEXT
+WRAPPED_TEXT_line2 *)^
+
+a (* WRAPPED_TEXT
+WRAPPED_TEXT_line2 *)
+
+
+    /*  -------------commentBlock--------------- */
+    /* `$_xCommentLeftWithoutMid^`$CM `cursor^   */
+    /* `$_xCommentMidIndent$CR^                  */
+
+
+
+(* WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ *)
+
+(* WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ *) b
+
+ `(* WRAPPED_TEXT
+   * WRAPPED_TEXT_line2
+  *)^
+
+  a (* WRAPPED_TEXT
+     * WRAPPED_TEXT_line2
+   *)
+
+
+    /*  -------------commentDoc--------------- */
+    /* `$CL^`$CM^                              */
+    /* `$_xCommentMidIndent$CM `cursor^        */
+    /* `$_xCommentMidIndent$CR^                */
+
+
+
+(**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ *)
+
+(**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ *) b
+
+ `(**
+  * WRAPPED_TEXT
+  * WRAPPED_TEXT_line2
+  *)^
+
+  a (**
+   * WRAPPED_TEXT
+   * WRAPPED_TEXT_line2
+   *)
+
+
+    /*  -------------commentLine--------------- */
+    /* `$CL `what` $CR^`^                       */
+
+
+
+(* WRAPPED_TEXT *)
+(* WRAPPED_TEXT_line2 *)
+
+    (* WRAPPED_TEXT *)
+    (* WRAPPED_TEXT_line2 *) b
+
+    `(* WRAPPED_TEXT *)
+     (* WRAPPED_TEXT_line2 *)^
+
+     a (* WRAPPED_TEXT *)
+       (* WRAPPED_TEXT_line2 *)
+
+
+    /*  -------------do--------------- */
+    /* do {                            */
+    /*         `cursor^                */
+    /* }                               */
+
+
+
+    do {
+            
+    }
+
+do {
+        
+} b
+
+`do {
+        
+}^
+
+a do {
+        
+}
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    `drdr.xp@gmail.com^
+
+    a drdr.xp@gmail.com
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+    test.page.bare
+
+    test.page.bare b
+
+    `test.page.bare^
+
+    a test.page.bare
+
+
+    /*  -------------for---------------   */
+    /* for `var^ = `val^ `side^ `expr^ do */
+    /*         `cursor^                   */
+    /* done                               */
+
+
+
+    for var = val to expr do
+            
+    done
+
+for var_TYPED = val_TYPED to expr_TYPED do
+        
+done b
+
+`for var = val to expr do
+        
+done^
+
+a for var = val to expr do
+        
+done
+
+
+    /*  -------------fun--------------- */
+    /* (fun `args^ -> `^)               */
+
+
+
+    (fun args -> )
+
+(fun args_TYPED -> _TYPED) b
+
+`(fun args -> )^
+
+a (fun args -> )
+
+
+    /*  -------------func--------------- */
+    /* let `funName^ : `ty^ =            */
+    /* fun `args^ ->                     */
+    /*         `cursor^                  */
+
+
+
+    let funName : ty =
+    fun args ->
+            
+
+            let funName_TYPED : ty_TYPED =
+            fun args_TYPED ->
+                     b
+
+                     `let funName : ty =
+                     fun args ->
+                             ^
+
+                             a let funName : ty =
+                             fun args ->
+                                     
+
+
+    /*  -------------if---------------  */
+    /* if `cond^                        */
+    /*         then `cursor^`else...{{^ */
+    /*         else`}}^                 */
+
+
+
+    if cond
+            then 
+            else
+
+                    if cond_TYPED
+                            then else_TYPED b
+
+                            `if cond
+                                    then 
+                                    else^
+
+                                    a if cond
+                                            then 
+                                            else
+
+
+    /*  -------------letin--------------- */
+    /* let `name^ `_^^ =                  */
+    /*         `what^` `...^              */
+    /* and `subname^ `_^^ =               */
+    /*         `subwhat^` `...^           */
+    /* in                                 */
+
+
+
+    let name  =
+            what
+    and subname  =
+            subwhat
+    and subname  =
+            subwhat
+    and subname  =
+            subwhat
+    in
+
+    let name_TYPED __TYPED =
+            what_TYPED _TYPED
+    in b
+
+    `let name  =
+            what
+    and subname  =
+            subwhat
+    and subname  =
+            subwhat
+    and subname  =
+            subwhat
+    in^
+
+    a let name  =
+            what
+    and subname  =
+            subwhat
+    and subname  =
+            subwhat
+    and subname  =
+            subwhat
+    in
+
+
+    /*  -------------letrecin--------------- */
+    /* let rec `name^ `_^^ =                 */
+    /*         `what^` `...^                 */
+    /* and `subname^ `_^^ =                  */
+    /*         `subwhat^` `...^              */
+    /* in                                    */
+
+
+
+    let rec name  =
+            what
+    and subname  =
+            subwhat
+    and subname  =
+            subwhat
+    and subname  =
+            subwhat
+    in
+
+    let rec name_TYPED __TYPED =
+            what_TYPED _TYPED
+    in b
+
+    `let rec name  =
+            what
+    and subname  =
+            subwhat
+    and subname  =
+            subwhat
+    and subname  =
+            subwhat
+    in^
+
+    a let rec name  =
+            what
+    and subname  =
+            subwhat
+    and subname  =
+            subwhat
+    and subname  =
+            subwhat
+    in
+
+
+    /*  -------------match---------------      */
+    /* match `expr^ with                       */
+    /*         `what^ -> `with^` `...{{^       */
+    /*   | `what^ -> `with^` `more...{{^       */
+    /*   | `what^ -> `with^` `more...^`}}^`}}^ */
+
+
+
+    match expr with
+            what -> with
+      | what -> with
+      | what -> with
+      | what -> with
+
+      match expr_TYPED with
+              what_TYPED -> with_TYPED _TYPED b
+
+              `match expr with
+                      what -> with
+                | what -> with
+                | what -> with
+                | what -> with^
+
+                a match expr with
+                        what -> with
+                  | what -> with
+                  | what -> with
+                  | what -> with
+
+
+    /*  -------------module--------------- */
+    /* module `name^ `^ = struct           */
+    /*         `cursor^                    */
+    /* end                                 */
+
+
+
+    module Name  = struct
+            
+    end
+
+module Name_TYPED _TYPED = struct
+        
+end b
+
+`module Name  = struct
+        
+end^
+
+a module Name  = struct
+        
+end
+
+
+    /*  -------------moduletype--------------- */
+    /* module type `name^ `^ = sig             */
+    /*         `cursor^                        */
+    /* end                                     */
+
+
+
+    module type name  = sig
+            
+    end
+
+module type name_TYPED _TYPED = sig
+        
+end b
+
+`module type name  = sig
+        
+end^
+
+a module type name  = sig
+        
+end
+
+
+    /*  -------------try--------------- */
+    /* try `expr^                       */
+    /* with  `exc^ -> `rez^             */
+    /* `     `...`                      */
+    /* {{^     | `exc2^ -> `rez2^       */
+    /* `     `...`                      */
+    /* ^`}}^                            */
+
+
+
+try WRAPPED_TEXT
+WRAPPED_TEXT_line2
+with  exc -> rez
+     | exc2 -> rez2
+     | exc2 -> rez2
+     | exc2 -> rez2
+
+
+     try WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+     with  exc_TYPED -> rez_TYPED
+          _TYPED
+           b
+
+           `try WRAPPED_TEXT
+           WRAPPED_TEXT_line2
+           with  exc -> rez
+                | exc2 -> rez2
+                | exc2 -> rez2
+                | exc2 -> rez2
+           ^
+
+           a try WRAPPED_TEXT
+           WRAPPED_TEXT_line2
+           with  exc -> rez
+                | exc2 -> rez2
+                | exc2 -> rez2
+                | exc2 -> rez2
+           
+
+
+    /*  -------------ty--------------- */
+    /* `t^`...^ -> `t2^`...^           */
+
+
+
+    t -> t2 -> t2 -> t2
+
+    t_TYPED_TYPED b
+
+    `t -> t2 -> t2 -> t2^
+
+    a t -> t2 -> t2 -> t2
+
+
+    /*  -------------typerecord---------------  */
+    /* type `typename^` `typeParams?^ =         */
+    /*         { `recordField^ : `fType^` `...^ */
+    /*         ; `recordField^ : `fType^` `...^ */
+    /*         }                                */
+
+
+
+    type typename =
+            { recordField : fType
+            ; recordField : fType
+            ; recordField : fType
+            }
+
+type typename_TYPED typeParams_TYPED =
+        { recordField_TYPED : fType_TYPED _TYPED
+        } b
+
+        `type typename =
+                { recordField : fType
+                ; recordField : fType
+                ; recordField : fType
+                }^
+
+                a type typename =
+                        { recordField : fType
+                        ; recordField : fType
+                        ; recordField : fType
+                        }
+
+
+    /*  -------------typerecordcom---------------                */
+    /* (** `type_descr^ *)                                       */
+    /* type `typename^ `_^^=                                     */
+    /*         { `recordField^ : `fType^ (** `desc^ *)` `...^    */
+    /*         ; `otherfield^ : `othertype^ (** `desc^ *)` `...^ */
+    /*         }                                                 */
+
+
+
+    (** type_descr *)
+    type typename =
+            { recordField : fType (** desc *)
+            ; otherfield : othertype (** desc *)
+            ; otherfield : othertype (** desc *)
+            ; otherfield : othertype (** desc *)
+            }
+
+(** type_descr_TYPED *)
+type typename_TYPED __TYPED=
+        { recordField_TYPED : fType_TYPED (** desc_TYPED *) _TYPED
+        } b
+
+        `(** type_descr *)
+        type typename =
+                { recordField : fType (** desc *)
+                ; otherfield : othertype (** desc *)
+                ; otherfield : othertype (** desc *)
+                ; otherfield : othertype (** desc *)
+                }^
+
+                a (** type_descr *)
+                type typename =
+                        { recordField : fType (** desc *)
+                        ; otherfield : othertype (** desc *)
+                        ; otherfield : othertype (** desc *)
+                        ; otherfield : othertype (** desc *)
+                        }
+
+
+    /*  -------------typesum--------------- */
+    /* type `typename^` `typeParams?^ =     */
+    /*         `constructor^` `...{{^       */
+    /*   | `constructor^` `more...{{^       */
+    /*   | `constructor^` `more...^`}}^`}}^ */
+
+
+
+    type typename =
+            constructor
+      | constructor
+      | constructor
+      | constructor
+
+      type typename_TYPED typeParams_TYPED =
+              constructor_TYPED _TYPED b
+
+              `type typename =
+                      constructor
+                | constructor
+                | constructor
+                | constructor^
+
+                a type typename =
+                        constructor
+                  | constructor
+                  | constructor
+                  | constructor
+
+
+    /*  -------------typesumcom---------------                 */
+    /* (** `typeDescr^ *)                                      */
+    /* type `typename^` `typeParams?^ =                        */
+    /*         `constructor^ (** `ctordescr^ *)` `...{{^       */
+    /*   | `constructor^ (** `ctordescr^ *)` `more...{{^       */
+    /*   | `constructor^ (** `ctordescr^ *)` `more...^`}}^`}}^ */
+
+
+
+    (** typeDescr *)
+    type typename =
+            constructor (** ctordescr *)
+      | constructor (** ctordescr *)
+      | constructor (** ctordescr *)
+      | constructor (** ctordescr *)
+
+      (** typeDescr_TYPED *)
+      type typename_TYPED typeParams_TYPED =
+              constructor_TYPED (** ctordescr_TYPED *) _TYPED b
+
+              `(** typeDescr *)
+              type typename =
+                      constructor (** ctordescr *)
+                | constructor (** ctordescr *)
+                | constructor (** ctordescr *)
+                | constructor (** ctordescr *)^
+
+                a (** typeDescr *)
+                type typename =
+                        constructor (** ctordescr *)
+                  | constructor (** ctordescr *)
+                  | constructor (** ctordescr *)
+                  | constructor (** ctordescr *)
+
+
+    /*  -------------val--------------- */
+    /* value `thing^ : `cursor^         */
+
+
+
+    value thing : 
+
+            value thing_TYPED :  b
+
+            `value thing : ^
+
+            a value thing : 
+
+
+    /*  -------------while--------------- */
+    /* while `cond^ do                    */
+    /*         `cursor^                   */
+    /* done                               */
+
+
+
+    while cond do
+            
+    done
+
+while cond_TYPED do
+        
+done b
+
+`while cond do
+        
+done^
+
+a while cond do
+        
+done
+
+
+    /*  -------------{_--------------- */
+    /* {`w^}                           */
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
