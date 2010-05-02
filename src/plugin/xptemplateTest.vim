@@ -13,6 +13,9 @@ runtime plugin/debug.vim
 let s:log = CreateLogger( 'warn' )
 " let s:log = CreateLogger( 'debug' )
 
+if !exists( 'g:xptmode' )
+    let g:xptmode = ''
+endif
 
 let s:fn = 'test.page' . g:xptmode
 
