@@ -1080,15 +1080,15 @@ a printf( "pattern" )
 
 %left   ''
 %left   ''
-%
+
 %left   'op_TYPED' 'op_TYPED' 'op_TYPED' _TYPED b
-%
+
 `%left   ''
 %left   ''^
-%
+
 a %left   ''
 %left   ''
-%
+
 
     /*  -------------rule---------------     */
     /* `ruleName^: `pattern^   { `action^ }  */
@@ -1216,9 +1216,9 @@ a switch ( var ) {
 
 
 %token 
-%
+
 %token  b
-%
+
 `%token ^
 
 a %token 

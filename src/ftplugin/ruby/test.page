@@ -1893,16 +1893,16 @@ end
 
     #!/usr/bin/env ruby
     # -*- encoding: utf-8 -*-
-    #
+
     #!/usr/bin/env ruby
     # -*- encoding: enc_TYPED -*- b
-    #
+
     `#!/usr/bin/env ruby
     # -*- encoding: utf-8 -*-^
-    #
+
     a #!/usr/bin/env ruby
     # -*- encoding: utf-8 -*-
-    #
+
 
     #   -------------sb--------------- 
     #  #!/usr/bin/env ruby             
@@ -1912,16 +1912,16 @@ end
 
     #!/usr/bin/env ruby
     # -*- encoding: utf-8 -*-
-    #
+
     #!/usr/bin/env ruby
     # -*- encoding: enc_TYPED -*- b
-    #
+
     `#!/usr/bin/env ruby
     # -*- encoding: utf-8 -*-^
-    #
+
     a #!/usr/bin/env ruby
     # -*- encoding: utf-8 -*-
-    #
+
 
     #   -------------scan---------------        
     #  scan(/`pattern^/) { |`match^| `cursor^ } 
@@ -1959,16 +1959,16 @@ end
 
     #!/usr/bin/env ruby
     # -*- encoding: utf-8 -*-
-    #
+
     #!/usr/bin/env ruby
     # -*- encoding: enc_TYPED -*- b
-    #
+
     `#!/usr/bin/env ruby
     # -*- encoding: utf-8 -*-^
-    #
+
     a #!/usr/bin/env ruby
     # -*- encoding: utf-8 -*-
-    #
+
 
     #   -------------sinc--------------- 
     #  class << self; self; end          

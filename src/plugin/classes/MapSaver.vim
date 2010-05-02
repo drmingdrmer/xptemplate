@@ -75,15 +75,15 @@ fun! s:_GetMapLine(key, mode, isbuffer) "{{{
 
 endfunction "}}}
 
-fun! s:_GetMapInfo(key, mode, isbuffer) "{{{
+fun! MapSaver_GetMapInfo( key, mode, isbuffer ) "{{{
     let line = s:_GetMapLine(a:key, a:mode, a:isbuffer)
     if line == ''
         " unmap info
-        return {'mode' : a:mode,
-              \'key'   : a:key,
-              \'nore'  : '',
-              \'isbuf' : a:isbuffer ? ' <buffer> ' : ' ',
-              \'cont'  : ''}
+        return { 'mode'  : a:mode,
+              \  'key'   : a:key,
+              \  'nore'  : '',
+              \  'isbuf' : a:isbuffer ? ' <buffer> ' : ' ',
+              \  'cont'  : ''}
     endif
 
     let item = line[0:1] " the first 2 characters
@@ -105,6 +105,15 @@ fun! s:_MapPop( info ) "{{{
 
     Assert !empty( a:info )
 
+    let cmd = MapSaverGetMapCommand( a:info )
+
+    try
+        exe cmd
+    catch /.*/
+    endtry
+endfunction "}}}
+
+fun! MapSaverGetMapCommand( info ) "{{{
     " NOTE: guess it, no way to figure out whether a key is mapped with <expr> or not
     let exprMap = ''
     if a:info.mode == 'i' && a:info.cont =~ '\V\w(\.\*)' && a:info.cont !~? '\V<c-r>'
@@ -119,12 +128,11 @@ fun! s:_MapPop( info ) "{{{
         let cmd = "silent! " . a:info.mode . a:info.nore . 'map <silent> '. exprMap . a:info.isbuf . a:info.key . ' ' . a:info.cont
     endif
 
-
-    try
-        exe cmd
-    catch /.*/
-    endtry
+    return cmd
+    
 endfunction "}}}
+
+
 
 fun! s:String( stack ) "{{{
     let rst = ''    
@@ -184,7 +192,7 @@ fun! s:Save() dict "{{{
 
 
     for [ mode, key ] in self.keys
-        call insert( self.saved, s:_GetMapInfo( key, mode, self.isLocal ) )
+        call insert( self.saved, MapSaver_GetMapInfo( key, mode, self.isLocal ) )
     endfor
 
     let stack = self.GetStack()

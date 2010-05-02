@@ -383,11 +383,6 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
         let setting[name] = value
     endfor
 
-    " parse special setting
-    if type( get( setting, 'wraponly', 0 ) ) == type( '' )
-        let setting.wrap = setting.wraponly
-        let setting.wraponly = 1
-    endif
 
 
     " skip the title line

@@ -149,16 +149,16 @@ a class ClassName( object ):
 
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
-#
+
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2 b
-#
+
 `# WRAPPED_TEXT
  # WRAPPED_TEXT_line2^
- #
+
 a # WRAPPED_TEXT
   # WRAPPED_TEXT_line2
-  #
+
 
     #  -------------commentBlock--------------- 
     # `$CS `cursor^                             
@@ -167,16 +167,16 @@ a # WRAPPED_TEXT
 
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
-#
+
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2 b
-#
+
 `# WRAPPED_TEXT
  # WRAPPED_TEXT_line2^
- #
+
 a # WRAPPED_TEXT
   # WRAPPED_TEXT_line2
-  #
+
 
     #  -------------commentDoc--------------- 
     # `$CL^`$CM^                              
@@ -213,16 +213,16 @@ a '''
 
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
-#
+
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2 b
-#
+
 `# WRAPPED_TEXT
  # WRAPPED_TEXT_line2^
- #
+
 a # WRAPPED_TEXT
   # WRAPPED_TEXT_line2
-  #
+
 
     #  -------------commentLine2--------------- 
     # `$CL `what` $CR^`^                        

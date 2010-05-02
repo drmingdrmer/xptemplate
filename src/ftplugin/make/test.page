@@ -177,16 +177,16 @@ CFLAGS := -Wall -Wextra
 
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
-#
+
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2 b
-#
+
 `# WRAPPED_TEXT
  # WRAPPED_TEXT_line2^
- #
- a # WRAPPED_TEXT
-   # WRAPPED_TEXT_line2
-   #
+
+a # WRAPPED_TEXT
+  # WRAPPED_TEXT_line2
+
 
     #   -------------commentBlock--------------- 
     #  `$CS `cursor^                             
@@ -195,16 +195,16 @@ CFLAGS := -Wall -Wextra
 
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
-#
+
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2 b
-#
+
 `# WRAPPED_TEXT
  # WRAPPED_TEXT_line2^
- #
- a # WRAPPED_TEXT
-   # WRAPPED_TEXT_line2
-   #
+
+a # WRAPPED_TEXT
+  # WRAPPED_TEXT_line2
+
 
     #   -------------commentDoc--------------- 
     #  `$CS^                                   
@@ -217,12 +217,12 @@ CFLAGS := -Wall -Wextra
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
 #
-#
+
 #
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
 # b
-#
+
 `#
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
@@ -232,7 +232,7 @@ a #
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
 #
-#
+
 
     #   -------------commentLine--------------- 
     #  `$CS `cursor^                            
@@ -241,16 +241,16 @@ a #
 
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
-#
+
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2 b
-#
+
 `# WRAPPED_TEXT
  # WRAPPED_TEXT_line2^
- #
- a # WRAPPED_TEXT
-   # WRAPPED_TEXT_line2
-   #
+
+a # WRAPPED_TEXT
+  # WRAPPED_TEXT_line2
+
 
     #   -------------Email--------------- 
     #  `$email^                           

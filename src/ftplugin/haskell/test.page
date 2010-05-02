@@ -718,19 +718,19 @@ WRAPPED_TEXT_line2`
     --------------------------------------------------
     ----            headName
     --------------------------------------------------
-    --
+
     --------------------------------------------------
     ----            headName_TYPED
     -------------------------------------------------- b
-    --
+
     `--------------------------------------------------
     ----            headName
     --------------------------------------------------^
-    --
+
     a --------------------------------------------------
     ----            headName
     --------------------------------------------------
-    --
+
 
     --   -------------if--------------- 
     --  if `expr~                       
@@ -838,15 +838,15 @@ WRAPPED_TEXT_line2`
 
 
 
-    module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.git.Src.Ftplugin.Haskell..test.Test ( 
+    module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.git.Src.Ftplugin.Haskell.Test ( 
         ) where
 
     module moduleName_TYPED exports_TYPEDwhere b
 
-    `module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.git.Src.Ftplugin.Haskell..test.Test ( 
+    `module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.git.Src.Ftplugin.Haskell.Test ( 
         ) where^
 
-    a module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.git.Src.Ftplugin.Haskell..test.Test ( 
+    a module .Bash.xp.Vim.xp.Plugins.extern.Xptemplate.git.Src.Ftplugin.Haskell.Test ( 
         ) where
 
 

@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.4.7
+" VERSION: 0.4.8
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " USAGE: "{{{
@@ -21,9 +21,11 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO test: test in windows and with bare .vimrc
 " TODO add: <BS> at ph start to shift backward.
 " TODO fix: register handling when snippet expand
 " TODO add: php snippet <% for .. %> in html 
+" TODO improve: 3 quotes in python
 " TODO goto next or trigger?
 " TODO add: visual mode trigger.
 " TODO fix: after undo, highlight is not cleared.
@@ -73,12 +75,16 @@
 "
 " "}}}
 "
-"
-"
-"
 " Log of This version:
 "   add: always drop down.
 "   fix: mark bug and tab convertion bug
+"   fix: brackets snippets swallow 1 char after it after typing: "<space><C-u>
+"   add: key map "g:xptemplate_key_force_pum" to show pum. like that with
+"        g:xptemplate_always_show_pum set to 1
+"   add: pum support for <tab>-navigation
+"   change: <c-r><c-\> shows pum with prefix check, <c-r><c-r><c-\> shows pum without prefix
+"   fix: key mapping of brackets check pum
+"   fix: indent problem with ph with line-breaks
 "
 
 
@@ -98,7 +104,7 @@
 " " use <tab>/<S-tab> to navigate through pum
 " let g:xptemplate_pum_tab_nav = 1
 "
-" " xpt triggers only when you typed whole name of a snippet. This maybe
+" " xpt triggers only when you typed whole name of a snippet. This may be
 " " helpfull
 " let g:xptemplate_minimal_prefix = 'full'
 "
@@ -738,6 +744,11 @@ fun! s:ParseTemplateSetting( tmpl ) "{{{
 
     let setting = a:tmpl.setting
 
+    if type( get( setting, 'wraponly', 0 ) ) == type( '' )
+        let setting.wrap = setting.wraponly
+        let setting.wraponly = 1
+    endif
+
     let setting.iswrap = has_key( setting, 'wrap' )
     let setting.wraponly = get( setting, 'wraponly', 0 )
 
@@ -951,12 +962,25 @@ fun! XPTtgr( snippetName, ... ) "{{{
             let opt.syn = '\V\cstring\|comment'
         endif
 
+        if has_key( opt, 'nopum' )
+            let opt.pum = !opt.nopum
+        endif
+
+
         let syn = synIDattr( synID( line("."), col("."), 0 ), "name" )
 
         if has_key( opt, 'nosyn' ) && syn =~ opt.nosyn
               \ || has_key( opt, 'syn' ) && syn !~ opt.syn
             return opt.k
         endif
+
+        if has_key( opt, 'pum' )
+            if opt.pum && !pumvisible()
+                  \ || !opt.pum && pumvisible()
+                return opt.k
+            endif
+        endif
+
     endif
 
     let action = XPTemplateStart( 0, { 'startPos' : [ line( "." ), col( "." ) ], 'tmplName' : a:snippetName } )
@@ -1043,7 +1067,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
 
 
-    let fullmatching = g:xptemplate_minimal_prefix is 'full'
+    let isFullMaatching = g:xptemplate_minimal_prefix is 'full'
 
 
     let cursorColumn = col(".")
@@ -1087,7 +1111,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
             let matched = matchstr( matched, '\V\W\+\$' )
         endif
 
-        if !fullmatching && len( matched ) < g:xptemplate_minimal_prefix
+        if !isFullMaatching && len( matched ) < g:xptemplate_minimal_prefix
             return s:FallbackKey()
         endif
 
@@ -1108,7 +1132,8 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
     return action . s:Popup( templateName, startColumn,
           \ { 'acceptEmpty'    : accEmp,
-          \   'matchWholeName' : get( opt, 'popupOnly', 0 ) ? 0 : fullmatching } )
+          \   'forcePum'       : get( opt, 'forcePum', g:xptemplate_always_show_pum ), 
+          \   'matchWholeName' : get( opt, 'popupOnly', 0 ) ? 0 : isFullMaatching } )
 
 endfunction " }}}
 
@@ -1244,6 +1269,8 @@ fun! s:CreateSnippet() "{{{
 
 
     if empty(x.stack)
+        call s:SaveNavKey()
+
         call s:ApplyMap()
     endif
 
@@ -1264,6 +1291,30 @@ fun! s:CreateSnippet() "{{{
     return action
 
 endfunction "}}}
+
+fun! s:SaveNavKey() "{{{
+    let x = b:xptemplateData
+
+    let navKey = g:xptemplate_nav_next
+
+    let mapInfo = MapSaver_GetMapInfo( navKey, 'i', 1 )
+    if mapInfo.cont == ''
+        let mapInfo = MapSaver_GetMapInfo( navKey, 'i', 0 )
+    endif
+
+    if mapInfo.cont == ''
+        exe 'inoremap <buffer> ' '<Plug>XPTnavFallback' navKey
+    else
+        let mapInfo.key = '<Plug>XPTnavFallback'
+
+        exe MapSaverGetMapCommand( mapInfo )
+
+    endif
+
+    " No need to restore.
+
+endfunction "}}}
+
 
 " TODO deal with it in any condition
 fun! s:FinishRendering(...) "{{{
@@ -1324,13 +1375,16 @@ fun! s:Popup(pref, coln, opt) "{{{
         return ''
     endif
 
+
+    let forcePum = get( a:opt, 'forcePum', g:xptemplate_always_show_pum )
+
     let snipDict = ftScope.allTemplates
 
     let synNames = s:SynNameStack(line("."), a:coln)
 
     call s:log.Log("Popup, pref and coln=".a:pref." ".a:coln)
 
-    if has_key( snipDict, a:pref ) && !g:xptemplate_always_show_pum
+    if has_key( snipDict, a:pref ) && !forcePum
         let snipObj = snipDict[ a:pref ]
         if s:IfSnippetShow( snipObj, synNames )
             return  s:DoStart( {
@@ -1369,7 +1423,7 @@ fun! s:Popup(pref, coln, opt) "{{{
     call pumsess.SetAcceptEmpty( get( a:opt, 'acceptEmpty', 0 ) )
     call pumsess.SetMatchWholeName( get( a:opt, 'matchWholeName', 0 ) )
     call pumsess.SetOption( {
-          \ 'matchPrefix' : !g:xptemplate_always_show_pum,
+          \ 'matchPrefix' : ! forcePum,
           \ 'tabNav'      : g:xptemplate_pum_tab_nav } )
     return pumsess.popup(a:coln, {})
 
@@ -2594,10 +2648,32 @@ endfunction "}}}
 
 fun! s:ShiftForward( action ) " {{{
     if pumvisible()
-        " NOTE: AutoComplPop does too much. I have to clean up its dirty job! Not glad :(.
-        return "\<C-y>"
-        " return "\<C-e>\<C-r>=<SNR>" . s:sid . 'ShiftForward(' . string( a:action ) . ")\<CR>"
+
+        if XPPhasSession()
+            return XPPend() . "\<C-r>=<SNR>" . s:sid . 'ShiftForward(' . string( a:action ) . ")\<CR>"
+        else
+            if g:xptemplate_move_even_with_pum
+                " nothing todo
+            else
+                call feedkeys( "\<Plug>XPTnavFallback", 'm')
+                return ''
+            endif
+        endif
+
+    else
+
+        if XPPhasSession()
+            call XPPend()
+        endif
+
     endif
+
+
+    " if pumvisible()
+    "     " NOTE: AutoComplPop does too much. I have to clean up its dirty job! Not glad :(.
+    "     return "\<C-y>"
+    "     " return "\<C-e>\<C-r>=<SNR>" . s:sid . 'ShiftForward(' . string( a:action ) . ")\<CR>"
+    " endif
 
     if s:FinishCurrent( a:action ) < 0
         return ''
@@ -2961,7 +3037,12 @@ fun! s:DoGotoNextItem() "{{{
         return postaction
     endif
 
-    call XPMsetLikelyBetween( leader.mark.start, leader.mark.end )
+    try
+        call XPMsetLikelyBetween( leader.mark.start, leader.mark.end )
+    catch /.*/
+        " Maybe crashed
+        return s:Crash()
+    endtry
 
     call s:log.Log( 'current PH is key?=' . renderContext.leadingPlaceHolder.isKey )
 
@@ -3096,14 +3177,17 @@ fun! s:ActionFinish( renderContext, filter ) "{{{
     call s:log.Debug( "start, end=" . string( [ start, end ] ) )
     call s:log.Debug( "start line=" . string( getline( start[0] ) ) )
 
-    if a:filter.rc isnot 0
-
-        let text = get( a:filter, 'text', '' )
-
-        " do NOT need to update position
-
-        call s:log.Debug( "text=" . string( text ) . len( text ) )
-        call XPreplace( start, end, text )
+    if start[ 0 ] != 0 && end[ 0 ] != 0
+        " marks are not deleted during user edit
+        if a:filter.rc isnot 0
+        
+            let text = get( a:filter, 'text', '' )
+        
+            " do NOT need to update position
+        
+            call s:log.Debug( "text=" . string( text ) . len( text ) )
+            call XPreplace( start, end, text )
+        endif
     endif
 
     if s:FinishCurrent( '' ) < 0
@@ -3363,7 +3447,11 @@ endfunction "}}}
 
 fun! XPTmappingEval( str ) "{{{
     if pumvisible()
-        return "\<C-y>\<C-r>=XPTmappingEval(" . string(a:str) . ")\<CR>"
+        if XPPhasSession()
+            return XPPend() . "\<C-r>=XPTmappingEval(" . string(a:str) . ")\<CR>"
+        else
+            return "\<C-v>\<C-v>\<BS>\<C-r>=XPTmappingEval(" . string(a:str) . ")\<CR>"
+        endif
     endif
 
     " TODO startPos is current pos or start of mark?
@@ -3836,22 +3924,6 @@ fun! s:XPTinitMapping() "{{{
         \ 's_a',
         \]
 
-    " NOTE: do not do anything needless
-    " if g:xptemplate_brace_complete
-        " let literalKeys += [
-            " \ 'i_''',
-            " \ 'i_"',
-            " \ 'i_[',
-            " \ 'i_(',
-            " \ 'i_{',
-            " \ 'i_]',
-            " \ 'i_)',
-            " \ 'i_}',
-            " \ 'i_<BS>',
-            " \ 'i_<C-h>',
-            " \ 'i_<DEL>',
-            " \]
-    " endif
 
     let b:mapSaver = g:MapSaver.New(1)
     call b:mapSaver.AddList(
@@ -3941,7 +4013,8 @@ fun! s:ApplyMap() " {{{
     exe 'inoremap <silent> <buffer>' g:xptemplate_nav_prev   '<C-v><C-v><BS><C-r>=<SID>ShiftBackward()<CR>'
     exe 'snoremap <silent> <buffer>' g:xptemplate_nav_prev   '<Esc>`>a<C-r>=<SID>ShiftBackward()<CR>'
 
-    exe 'inoremap <silent> <buffer>' g:xptemplate_nav_next   '<C-v><C-v><BS><C-r>=<SID>ShiftForward("")<CR>'
+    " exe 'inoremap <silent> <buffer>' g:xptemplate_nav_next   '<C-v><C-v><BS><C-r>=<SID>ShiftForward("")<CR>'
+    exe 'inoremap <silent> <buffer>' g:xptemplate_nav_next   '<C-r>=<SID>ShiftForward("")<CR>'
     exe 'snoremap <silent> <buffer>' g:xptemplate_nav_next   '<Esc>`>a<C-r>=<SID>ShiftForward("")<CR>'
     exe 'snoremap <silent> <buffer>' g:xptemplate_nav_cancel '<Esc>i<C-r>=<SID>ShiftForward("clear")<CR>'
 
@@ -4155,23 +4228,26 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
 
             call s:log.Log( 'UpdateFollowingPlaceHoldersWith : filter=' . string( flt ) )
 
+            let phStartPos = XPMpos( ph.mark.start )
+            let [ phln, phcol ] = phStartPos
+
             if flt isnot g:EmptyFilter
                 let flt = copy( flt )
 
                 call s:EvalFilter( flt, renderContext.ftScope.funcs,
                       \ { 'typed'    : a:contentTyped,
-                      \   'startPos' : XPMpos( ph.mark.start ) } )
+                      \   'startPos' : phStartPos } )
 
 
                 " TODO ontime flt action support?
 
             elseif useGroupPost
                 let flt = copy( groupFilter )
-                call flt.AdjustIndent( XPMpos( ph.mark.start ) )
+                call flt.AdjustIndent( phStartPos )
 
             else
-                let flt = g:FilterValue.New( 0, a:contentTyped )
-                call flt.AdjustIndent( XPMpos( ph.mark.start ) )
+                let flt = g:FilterValue.New( -XPT#getIndentNr( phln, phcol ), a:contentTyped )
+                call flt.AdjustIndent( phStartPos )
 
             endif
 
@@ -4433,6 +4509,7 @@ fun! s:XPTupdate() "{{{
     endif
 
 
+    call s:log.Log( "current line=" . string( getline( "." ) ) )
     call s:log.Log( "XPTupdate called, mode:" . mode() )
     call s:log.Log( "marks before XPTupdate:\n" . XPMallMark() )
 
@@ -4480,6 +4557,7 @@ fun! s:DoUpdate( renderContext, changeType ) "{{{
     " update items
 
     call s:log.Log( "-----------------------")
+    call s:log.Log( 'current line=' . string( getline( "." ) ) )
     call s:log.Log( "tmpl:", s:TextBetween( XPMposStartEnd( renderContext.marks.tmpl ) ) )
     call s:log.Log( "lastContent=".renderContext.lastContent )
     call s:log.Log( "contentTyped=".contentTyped )

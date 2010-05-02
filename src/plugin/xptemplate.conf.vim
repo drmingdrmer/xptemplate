@@ -23,59 +23,60 @@ endfunction "}}}
 
 
 
-" call s:SetIfNotExist('g:xptemplate_show_stack'        , 1	)
-" call s:SetIfNotExist('g:xptemplate_abbr_mode'           , 0	)
-call s:SetIfNotExist('g:xptemplate_key'                 , '<C-\>'	)
-call s:SetIfNotExist('g:xptemplate_key_pum_only'        , '<C-r>' . g:xptemplate_key	)
-" call s:SetIfNotExist('g:xptemplate_crash'             , '<C-g>'	)
+" call s:SetIfNotExist('g:xptemplate_show_stack'	, 1 )
+" call s:SetIfNotExist('g:xptemplate_abbr_mode'	, 0 )
+" call s:SetIfNotExist('g:xptemplate_crash'	, '<C-g>' )
+" call s:SetIfNotExist('g:xptemplate_nav_clear_next'	, '<cr>' )
+" call s:SetIfNotExist('g:xptemplate_map'	, '' )
+
+call s:SetIfNotExist('g:xptemplate_key'	, '<C-\>' )
+call s:SetIfNotExist('g:xptemplate_key_force_pum'	, '<C-r>' . g:xptemplate_key )
+call s:SetIfNotExist('g:xptemplate_key_pum_only'	, '<C-r><C-r>' . g:xptemplate_key )
 
 
-
-call s:SetIfNotExist('g:xptemplate_nav_next'            , '<Tab>'	)
-call s:SetIfNotExist('g:xptemplate_nav_prev'            , '<S-Tab>'	)
-" call s:SetIfNotExist('g:xptemplate_nav_clear_next'      , '<cr>'	)
-call s:SetIfNotExist('g:xptemplate_nav_cancel'          , '<cr>'	)
-call s:SetIfNotExist('g:xptemplate_goback'              , '<C-g>'	)
-call s:SetIfNotExist('g:xptemplate_to_right'            , '<C-l>'	)
-
-" TODO doc it
-call s:SetIfNotExist('g:xptemplate_key_2'               ,  g:xptemplate_key	)
-call s:SetIfNotExist('g:xptemplate_nav_next_2'          ,  g:xptemplate_nav_next	)
-
-call s:SetIfNotExist('g:xptemplate_fallback'            , '<Plug>XPTrawKey'	)
-
+call s:SetIfNotExist('g:xptemplate_nav_next'	, '<Tab>' )
+call s:SetIfNotExist('g:xptemplate_nav_prev'	, '<S-Tab>' )
+call s:SetIfNotExist('g:xptemplate_nav_cancel'	, '<cr>' )
+call s:SetIfNotExist('g:xptemplate_goback'	, '<C-g>' )
+call s:SetIfNotExist('g:xptemplate_to_right'	, '<C-l>' )
 
 " TODO doc it
-call s:SetIfNotExist('g:xptemplate_always_show_pum'     , 0	)
-call s:SetIfNotExist('g:xptemplate_minimal_prefix'      , 1	)
-call s:SetIfNotExist('g:xptemplate_pum_tab_nav'         , 0	)
-call s:SetIfNotExist('g:xptemplate_strict'              , 2	)
-call s:SetIfNotExist('g:xptemplate_highlight'           , 'next'	)
-call s:SetIfNotExist('g:xptemplate_brace_complete'      , 1	)
-call s:SetIfNotExist('g:xptemplate_strip_left'          , 1	)
-call s:SetIfNotExist('g:xptemplate_fix'                 , 1	)
-call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty' , 1	)
-
-
-call s:SetIfNotExist('g:xptemplate_vars'                , ''	)
-call s:SetIfNotExist('g:xptemplate_bundle'              , ''	)
-call s:SetIfNotExist('g:xptemplate_snippet_folders'     , []	)
+call s:SetIfNotExist('g:xptemplate_key_2'	, g:xptemplate_key )
+call s:SetIfNotExist('g:xptemplate_nav_next_2'	, g:xptemplate_nav_next )
+call s:SetIfNotExist('g:xptemplate_fallback'	, '<Plug>XPTrawKey' )
 
 
 " doc it
-call s:SetIfNotExist('g:xptemplate_map'                 , ''	)
+call s:SetIfNotExist('g:xptemplate_move_even_with_pum'	, g:xptemplate_nav_next !=? '<Tab>' )
+call s:SetIfNotExist('g:xptemplate_always_show_pum'	, 0 )
+call s:SetIfNotExist('g:xptemplate_minimal_prefix'	, 1 )
+call s:SetIfNotExist('g:xptemplate_pum_tab_nav'	, 0 )
+call s:SetIfNotExist('g:xptemplate_strict'	, 2 )
+call s:SetIfNotExist('g:xptemplate_highlight'	, 'next' )
+call s:SetIfNotExist('g:xptemplate_brace_complete'	, 1 )
+call s:SetIfNotExist('g:xptemplate_strip_left'	, 1 )
+call s:SetIfNotExist('g:xptemplate_fix'	, 1 )
+call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty'	, 1 )
 
 
+call s:SetIfNotExist('g:xptemplate_vars'	, '' )
+call s:SetIfNotExist('g:xptemplate_bundle'	, '' )
+call s:SetIfNotExist('g:xptemplate_snippet_folders'	, [] )
 
 
 
 " for test script
 call s:SetIfNotExist('g:xpt_post_action', '')
 
+
+
 if g:xptemplate_fallback == ''
     let g:xptemplate_fallback = '<NOP>'
 endif
 
+if g:xptemplate_brace_complete is 1
+    let g:xptemplate_brace_complete = '([{"'''
+endif
 
 
 " Setup other snippets folder {{{
@@ -112,6 +113,7 @@ let g:XPTmappings = {
       \ 'popup_old'     : "<C-v><C-v><BS><C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
       \ 'trigger_old'   : "<C-v><C-v><BS><C-r>=XPTemplateStart(0)<cr>", 
       \ 'popup'         : "<C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
+      \ 'prefixedPopup' : "<C-r>=XPTemplateStart(0,{'forcePum':1})<cr>", 
       \ 'trigger'       : "<C-r>=XPTemplateStart(0)<cr>", 
       \ 'wrapTrigger'   : "\"0s<C-r>=XPTemplatePreWrap(@0)<cr>", 
       \ 'incSelTrigger' : "<C-c>`>a<C-r>=XPTemplateStart(0)<cr>", 
@@ -129,6 +131,7 @@ exe "inoremap <silent>" g:xptemplate_key           g:XPTmappings.trigger
 exe "xnoremap <silent>" g:xptemplate_key           g:XPTmappings.wrapTrigger
 exe "snoremap <silent>" g:xptemplate_key           g:XPTmappings.selTrigger
 exe "inoremap <silent>" g:xptemplate_key_pum_only  g:XPTmappings.popup
+exe "inoremap <silent>" g:xptemplate_key_force_pum g:XPTmappings.prefixedPopup
 
 if g:xptemplate_key_2 != g:xptemplate_key
     exe "inoremap <silent>" g:xptemplate_key_2           g:XPTmappings.trigger
@@ -241,17 +244,24 @@ augroup XPTftInit
 augroup END
 
 
-if g:xptemplate_brace_complete
+" <C-v><C-v><BS> force pum to close
 
-    " <space><BS> force pum to close
+if stridx( g:xptemplate_brace_complete, '(' ) >= 0
     inoremap <silent> ( <C-v><C-v><BS><C-r>=XPTtgr('(',{'noliteral':1,'k':'('})<cr>
-    inoremap <silent> [ <C-v><C-v><BS><C-r>=XPTtgr('[',{'noliteral':1,'k':'['})<cr>
-    inoremap <silent> { <C-v><C-v><BS><C-r>=XPTtgr('{',{'noliteral':1,'k':'{'})<cr>
-    " inoremap <silent> < <C-v><C-v><BS><C-r>=XPTtgr('<',{'noliteral':1,'k':'<'})<cr>
-    inoremap <silent> ' <C-v><C-v><BS><C-r>=XPTtgr('''',{'noliteral':1,'k':''''})<cr>
-    inoremap <silent> " <C-v><C-v><BS><C-r>=XPTtgr('"',{'noliteral':1,'k':'"'})<cr>
-
 endif
+if stridx( g:xptemplate_brace_complete, '[' ) >= 0
+    inoremap <silent> [ <C-v><C-v><BS><C-r>=XPTtgr('[',{'noliteral':1,'k':'['})<cr>
+endif
+if stridx( g:xptemplate_brace_complete, '{' ) >= 0
+    inoremap <silent> { <C-v><C-v><BS><C-r>=XPTtgr('{',{'noliteral':1,'k':'{'})<cr>
+endif
+if stridx( g:xptemplate_brace_complete, '''' ) >= 0
+    inoremap <silent> ' <C-v><C-v><BS><C-r>=XPTtgr('''',{'noliteral':1,'k':''''})<cr>
+endif
+if stridx( g:xptemplate_brace_complete, '"' ) >= 0
+    inoremap <silent> " <C-v><C-v><BS><C-r>=XPTtgr('"',{'noliteral':1,'k':'"'})<cr>
+endif
+
 
 
 
@@ -283,4 +293,4 @@ endif
 let &cpo = s:oldcpo
 
 
-" vim:tw=78:ts=90:sw=4:sts=4
+" vim:tw=78:ts=60:sw=4:sts=4

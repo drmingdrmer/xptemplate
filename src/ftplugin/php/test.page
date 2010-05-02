@@ -2,7 +2,7 @@
 
 
     /*  -------------"_--------------- */
-/* "`w^"                           */
+    /* "`w^"                           */
 
 
 
@@ -20,7 +20,7 @@ WRAPPED_TEXT_line2"
 
 
     /*  -------------'_--------------- */
-/* '`w^'                           */
+    /* '`w^'                           */
 
 
 
@@ -38,7 +38,7 @@ WRAPPED_TEXT_line2'
 
 
     /*  -------------(_--------------- */
-/* (`w^)                           */
+    /* (`w^)                           */
 
 
 
@@ -56,7 +56,7 @@ WRAPPED_TEXT_line2)
 
 
     /*  -------------<_--------------- */
-/* <`w^>                           */
+    /* <`w^>                           */
 
 
 
@@ -74,7 +74,7 @@ WRAPPED_TEXT_line2>
 
 
     /*  -------------[_--------------- */
-/* [`w^]                           */
+    /* [`w^]                           */
 
 
 
@@ -92,7 +92,7 @@ WRAPPED_TEXT_line2]
 
 
     /*  -------------`_--------------- */
-/* \``w^\`                         */
+    /* \``w^\`                         */
 
 
 
@@ -110,7 +110,7 @@ WRAPPED_TEXT_line2`
 
 
     /*  -------------Author--------------- */
-/* `$author^                           */
+    /* `$author^                           */
 
 
 
@@ -124,9 +124,9 @@ a drdr.xp
 
 
     /*  -------------case--------------- */
-/* case `constant^`$SPcmd^:          */
-/*     `cursor^                      */
-/*     break;                        */
+    /* case `constant^`$SPcmd^:          */
+    /*     `cursor^                      */
+    /*     break;                        */
 
 
 
@@ -152,11 +152,11 @@ a case constant :
 
 
     /*  -------------class---------------          */
-/* class `className^`$BRfun^{                  */
-/*     function __construct( `args^ )`$BRfun^{ */
-/*         `cursor^                            */
-/*     }                                       */
-/* }                                           */
+    /* class `className^`$BRfun^{                  */
+    /*     function __construct( `args^ )`$BRfun^{ */
+    /*         `cursor^                            */
+    /*     }                                       */
+    /* }                                           */
 
 
 
@@ -186,7 +186,7 @@ a class className {
 
 
     /*  -------------comment--------------- */
-/* `$CL^ `what^^ `$CR^`^                */
+    /* `$CL^ `what^^ `$CR^`^                */
 
 
 
@@ -204,8 +204,8 @@ WRAPPED_TEXT_line2 */
 
 
     /*  -------------commentBlock--------------- */
-/* `$_xCommentLeftWithoutMid^`$CM `cursor^   */
-/* `$_xCommentMidIndent$CR^                  */
+    /* `$_xCommentLeftWithoutMid^`$CM `cursor^   */
+    /* `$_xCommentMidIndent$CR^                  */
 
 
 
@@ -227,9 +227,9 @@ a /* WRAPPED_TEXT
 
 
     /*  -------------commentDoc--------------- */
-/* `$CL^`$CM^                              */
-/* `$_xCommentMidIndent$CM `cursor^        */
-/* `$_xCommentMidIndent$CR^                */
+    /* `$CL^`$CM^                              */
+    /* `$_xCommentMidIndent$CM `cursor^        */
+    /* `$_xCommentMidIndent$CR^                */
 
 
 
@@ -255,7 +255,7 @@ a /**
 
 
     /*  -------------commentLine--------------- */
-/* `$CL `what` $CR^`^                       */
+    /* `$CL `what` $CR^`^                       */
 
 
 
@@ -273,8 +273,8 @@ a /* WRAPPED_TEXT */
 
 
     /*  -------------default--------------- */
-/* default:                             */
-/*     `cursor^                         */
+    /* default:                             */
+    /*     `cursor^                         */
 
 
 
@@ -292,9 +292,9 @@ a default:
 
 
     /*  -------------do---------------                       */
-/* do`$BRloop^{                                          */
-/*     `cursor^                                          */
-/* }`$BRloop^while`$SPcmd^(`$SParg^`condition^`$SParg^); */
+    /* do`$BRloop^{                                          */
+    /*     `cursor^                                          */
+    /* }`$BRloop^while`$SPcmd^(`$SParg^`condition^`$SParg^); */
 
 
 
@@ -320,7 +320,7 @@ a do {
 
 
     /*  -------------elif--------------- */
-/* else `Include:_if^                */
+    /* else `Include:_if^                */
 
 
 
@@ -346,9 +346,9 @@ a else if ( condition ) {
 
 
     /*  -------------else--------------- */
-/* else`$BRif^{                      */
-/*     `cursor^                      */
-/* }                                 */
+    /* else`$BRif^{                      */
+    /*     `cursor^                      */
+    /* }                                 */
 
 
 
@@ -374,7 +374,7 @@ a else {
 
 
     /*  -------------Email--------------- */
-/* `$email^                           */
+    /* `$email^                           */
 
 
 
@@ -388,7 +388,7 @@ a drdr.xp@gmail.com
 
 
     /*  -------------File--------------- */
-/* `file()^                          */
+    /* `file()^                          */
 
 
 
@@ -402,9 +402,9 @@ a test.page
 
 
     /*  -------------for---------------                                                                                  */
-/* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{ */
-/*     `cursor^                                                                                                      */
-/* }                                                                                                                 */
+    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                                                                                      */
+    /* }                                                                                                                 */
 
 
 
@@ -430,9 +430,9 @@ a for ( $i = 0; $i < len; $i++ ) {
 
 
     /*  -------------foreach---------------      */
-/* foreach ($`var^ as `container^)`$BRloop^{ */
-/*     `cursor^                              */
-/* }                                         */
+    /* foreach ($`var^ as `container^)`$BRloop^{ */
+    /*     `cursor^                              */
+    /* }                                         */
 
 
 
@@ -454,7 +454,7 @@ a foreach ($var as container) {
 
 
     /*  -------------forever--------------- */
-/* for`$SPcmd^(;;) `cursor^             */
+    /* for`$SPcmd^(;;) `cursor^             */
 
 
 
@@ -468,9 +468,9 @@ a for (;;)
 
 
     /*  -------------fornn---------------                                                                                                */
-/* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`ptr^`$SPop^=`$SPop^`init^; `$NULL^`$SPop^!=`$SPop^`ptr^; `^R('ptr')^`$SParg^)`$BRloop^{ */
-/*     `cursor^                                                                                                                      */
-/* }                                                                                                                                 */
+    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`ptr^`$SPop^=`$SPop^`init^; `$NULL^`$SPop^!=`$SPop^`ptr^; `^R('ptr')^`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                                                                                                      */
+    /* }                                                                                                                                 */
 
 
 
@@ -496,9 +496,9 @@ a for ( $ptr = init; null != $ptr; $ptr ) {
 
 
     /*  -------------forr---------------                                                                                 */
-/* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^++`$SParg^)`$BRloop^{ */
-/*     `cursor^                                                                                                      */
-/* }                                                                                                                 */
+    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^++`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                                                                                      */
+    /* }                                                                                                                 */
 
 
 
@@ -524,9 +524,9 @@ a for ( $i = 0; $i >= end; $i++ ) {
 
 
     /*  -------------fun---------------          */
-/* function `funName^(` `params` ^)`$BRfun^{ */
-/*     `cursor^                              */
-/* }                                         */
+    /* function `funName^(` `params` ^)`$BRfun^{ */
+    /*     `cursor^                              */
+    /* }                                         */
 
 
 
@@ -548,7 +548,7 @@ a function funName() {
 
 
     /*  -------------html--------------- */
-/* ?>`html^<?`$PHP_TAG^              */
+    /* ?>`html^<?`$PHP_TAG^              */
 
 
 
@@ -556,13 +556,13 @@ a function funName() {
 
 ?>html_TYPED<? b
 
-    `?>html<?^
+`?>html<?^
 
 a ?>html<?
 
 
     /*  -------------if--------------- */
-/* `Include:_if^                   */
+    /* `Include:_if^                   */
 
 
 
@@ -588,7 +588,7 @@ a if ( condition ) {
 
 
     /*  -------------if0--------------- */
-/* `Include:_if^                    */
+    /* `Include:_if^                    */
 
 
 
@@ -614,7 +614,7 @@ a if ( 0 == var ) {
 
 
     /*  -------------ifee---------------                              */
-/* `:_if:^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ */
+    /* `:_if:^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ */
 
 
 
@@ -663,7 +663,7 @@ else if ( condition ) {
 
 
     /*  -------------ifn--------------- */
-/* `Include:_if^                    */
+    /* `Include:_if^                    */
 
 
 
@@ -689,7 +689,7 @@ a if ( null == var ) {
 
 
     /*  -------------ifn0--------------- */
-/* `Include:_if^                     */
+    /* `Include:_if^                     */
 
 
 
@@ -715,7 +715,7 @@ a if ( 0 != var ) {
 
 
     /*  -------------ifnn--------------- */
-/* `Include:_if^                     */
+    /* `Include:_if^                     */
 
 
 
@@ -741,9 +741,9 @@ a if ( null != var ) {
 
 
     /*  -------------interface--------------- */
-/* interface `interfaceName^`$BRfun^{     */
-/*     `cursor^                           */
-/* }                                      */
+    /* interface `interfaceName^`$BRfun^{     */
+    /*     `cursor^                           */
+    /* }                                      */
 
 
 
@@ -765,9 +765,9 @@ interface interfaceName_TYPED {
 
 
     /*  -------------switch---------------    */
-/* switch (`$SParg^`var^`$SParg^)`$BRif^{ */
-/*     `Include:case^                     */
-/* }                                      */
+    /* switch (`$SParg^`var^`$SParg^)`$BRif^{ */
+    /*     `Include:case^                     */
+    /* }                                      */
 
 
 
@@ -801,9 +801,9 @@ switch ( var_TYPED ) {
 
 
     /*  -------------while---------------                   */
-/* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
-/*     `cursor^                                         */
-/* }                                                    */
+    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                         */
+    /* }                                                    */
 
 
 
@@ -829,9 +829,9 @@ a while ( condition ) {
 
 
     /*  -------------while0---------------                   */
-/* do`$BRloop^{                                          */
-/*     `cursor^                                          */
-/* }`$BRloop^while`$SPcmd^(`$SParg^`condition^`$SParg^); */
+    /* do`$BRloop^{                                          */
+    /*     `cursor^                                          */
+    /* }`$BRloop^while`$SPcmd^(`$SParg^`condition^`$SParg^); */
 
 
 
@@ -857,9 +857,9 @@ a do {
 
 
     /*  -------------while1---------------                  */
-/* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
-/*     `cursor^                                         */
-/* }                                                    */
+    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                         */
+    /* }                                                    */
 
 
 
@@ -885,9 +885,9 @@ a while ( true ) {
 
 
     /*  -------------whilenn---------------                 */
-/* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
-/*     `cursor^                                         */
-/* }                                                    */
+    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                         */
+    /* }                                                    */
 
 
 
@@ -913,7 +913,7 @@ a while ( null != x ) {
 
 
     /*  -------------{_--------------- */
-/* {`w^}                           */
+    /* {`w^}                           */
 
 
 

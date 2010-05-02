@@ -167,16 +167,16 @@ catch /.*/
 
 " WRAPPED_TEXT
 " WRAPPED_TEXT_line2
-"
+
 " WRAPPED_TEXT
 " WRAPPED_TEXT_line2 b
-"
+
 `" WRAPPED_TEXT
  " WRAPPED_TEXT_line2^
- "
+
  a " WRAPPED_TEXT
    " WRAPPED_TEXT_line2
-   "
+
 
     "  -------------commentBlock--------------- 
     " `$CS `cursor^                             
@@ -185,16 +185,16 @@ catch /.*/
 
 " WRAPPED_TEXT
 " WRAPPED_TEXT_line2
-"
+
 " WRAPPED_TEXT
 " WRAPPED_TEXT_line2 b
-"
+
 `" WRAPPED_TEXT
  " WRAPPED_TEXT_line2^
- "
+
  a " WRAPPED_TEXT
    " WRAPPED_TEXT_line2
-   "
+
 
     "  -------------commentDoc--------------- 
     " `$CS^                                   
@@ -207,22 +207,22 @@ catch /.*/
 " WRAPPED_TEXT
 " WRAPPED_TEXT_line2
 "
-"
+
 "
 " WRAPPED_TEXT
 " WRAPPED_TEXT_line2
 " b
-"
+
 `"
 " WRAPPED_TEXT
 " WRAPPED_TEXT_line2
 "^
-"
+
 a "
 " WRAPPED_TEXT
 " WRAPPED_TEXT_line2
 "
-"
+
 
     "  -------------commentLine--------------- 
     " `$CS `cursor^                            
@@ -231,16 +231,16 @@ a "
 
 " WRAPPED_TEXT
 " WRAPPED_TEXT_line2
-"
+
 " WRAPPED_TEXT
 " WRAPPED_TEXT_line2 b
-"
+
 `" WRAPPED_TEXT
  " WRAPPED_TEXT_line2^
- "
+
  a " WRAPPED_TEXT
    " WRAPPED_TEXT_line2
-   "
+
 
     "  -------------debug---------------   
     " call s:log.Debug(`$SParg^`^`$SParg^) 
@@ -339,7 +339,7 @@ else
     "
     " =============================================================================
     " }}}
-    "
+
     " File Description {{{
     " =============================================================================
     " 
@@ -349,7 +349,7 @@ else
     "
     " =============================================================================
     " }}} b
-    "
+
     `" File Description {{{
     " =============================================================================
     " 
@@ -359,7 +359,7 @@ else
     "
     " =============================================================================
     " }}}^
-    "
+
     a " File Description {{{
     " =============================================================================
     " 
@@ -369,7 +369,7 @@ else
     "
     " =============================================================================
     " }}}
-    "
+
 
     "  -------------finally--------------- 
     " finally                              
@@ -757,9 +757,9 @@ endtry
 
 
     " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}
-    "
+
     " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}} b
-    "
+
     `" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}^
 
     a " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}

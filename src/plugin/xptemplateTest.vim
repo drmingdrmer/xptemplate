@@ -1,6 +1,4 @@
-if !exists("g:__XPTEMPLATE_VIM__")
-    runtime plugin/xptemplate.vim
-endif
+runtime plugin/xptemplate.vim
 
 if exists( "g:__XPTEMPLATETEST_VIM__" ) && g:__XPTEMPLATETEST_VIM__ >= XPT#ver
     finish
@@ -15,6 +13,8 @@ runtime plugin/debug.vim
 let s:log = CreateLogger( 'warn' )
 " let s:log = CreateLogger( 'debug' )
 
+
+let s:fn = 'test.page' . g:xptmode
 
 " TODO indent test 
 
@@ -35,9 +35,12 @@ let s:preinputs = {
             \}
 
 
-" com! XPTSlow redraw! | sleep 250m
+" com! XPTSlow redraw! | sleep 100m
 " com! XPTSlow redraw! | sleep 1000m
 com! XPTSlow echo
+
+
+
 
 fun! s:Feedkeys( text, mode )
     call s:log.Debug( 'Feedkeys=' . string( [ a:text, a:mode ] ) )
@@ -79,7 +82,8 @@ fun s:XPTcancel(...) "{{{
     call s:Feedkeys("\<cr>", 'mt')
 endfunction "}}}
 fun! s:LastLine() "{{{
-    call s:Feedkeys("\<C-c>G:silent a\<cr>\<cr>.\<cr>G", 'nt')
+    let @q = "\n"
+    call s:Feedkeys("\<C-c>G\"qpG", 'nt')
 endfunction "}}}
 fun s:XPTnew(name, preinput) "{{{
     " 'S' for indent test. it takes the indent from line above
@@ -88,6 +92,10 @@ fun s:XPTnew(name, preinput) "{{{
     call s:XPTtrigger(a:name)
 endfunction "}}}
 fun s:XPTwrapNew(name, preinput) "{{{
+
+    " virtualedit need to be set to correct pasting
+    let ve = &virtualedit
+    set virtualedit=onemore,insert,block
 
     " 'S' for indent test. it takes the indent from line above
     call s:Feedkeys("S", 'nt')
@@ -100,12 +108,16 @@ fun s:XPTwrapNew(name, preinput) "{{{
 
     call s:Feedkeys( "\<C-o>:XPTSlow\<cr>", '' )
 
+
+    call s:Feedkeys( "\<C-o>:set virtualedit=" . ve . "\<cr>", '' )
+
+
     call s:Feedkeys("\<C-c>`a", 'nt')
 
-    " TODO very bad!
-    if &l:ve !~ 'all\|onemore' && a:preinput == s:preinputs.after
-        call s:Feedkeys( 'l', 'nt' )
-    endif
+    " " TODO very bad!
+    " if ve !~ 'all\|onemore' && a:preinput == s:preinputs.after
+    "     call s:Feedkeys( 'l', 'nt' )
+    " endif
 
     call s:Feedkeys("v", 'nt')
     if &slm =~ 'cmd'
@@ -138,22 +150,25 @@ fun! s:NewTestFile(ft) "{{{
 
     let tempPath = globpath(&rtp, 'ftplugin/_common/common.xpt.vim')
     let tempPath = split(tempPath, "\n")[0]
-    let tempPath = matchstr(tempPath, '.*\ze[\\/]_common[\\/]common.xpt.vim') . '/' . subft . '/.test'
+    let tempPath = matchstr(tempPath, '.*\ze[\\/]_common[\\/]common.xpt.vim') . '/' . subft 
+    " . '/.test'
 
-    try
-        call mkdir(tempPath, 'p')
-    catch /.*/
-    endtry
+    " try
+    "     call mkdir(tempPath, 'p')
+    " catch /.*/
+    " endtry
+
     let s:tempPath = tempPath
 
-    exe 'e '.tempPath.'/test.page'
+    exe 'e ' . tempPath . '/' . s:fn
+    exe '0,$d'
 
-    set buftype=nofile
+    " set buftype=nofile
 
-    " standard test setting
-    setlocal tabstop=8
-    setlocal shiftwidth=4
-    setlocal softtabstop=4
+    " " standard test setting
+    " setlocal tabstop=8
+    " setlocal shiftwidth=4
+    " setlocal softtabstop=4
 
 
 
@@ -229,7 +244,7 @@ fun! s:XPTtest(ft) "{{{
 
     call filter( tmpls, '!has_key(v:val.setting, "hidden") || !v:val.setting.hidden' )
 
-    " call filter( tmpls, 'v:val.name =~ "^[a-m]"' )
+    " call filter( tmpls, 'v:val.name =~ "^comment"' )
 
     
     " for [k, v] in items(tmpls)
@@ -270,41 +285,24 @@ fun s:TestFinish() "{{{
         au!
     augroup END
 
+    " set buftype=
+    exe 'w'
+    " exe 'w! %:h/../' . s:fn
+    " echom 'w %:h/../' . s:fn
 
-    exe 'w %:h/../test.page'
+    " try
+    "     if has('win32')
+    "         exe 'silent! !rd /s/q "'.s:tempPath.'"'
+    "     else
+    "         exe 'silent! !rm -rf "'.s:tempPath.'"'
+    "     end
+    " catch /.*/
+    " endtry
 
-    try
-        if has('win32')
-            exe 'silent! !rd /s/q "'.s:tempPath.'"'
-        else
-            exe 'silent! !rm -rf "'.s:tempPath.'"'
-        end
-    catch /.*/
-    endtry
-
-    exe 'qa'
+    exe 'wqa'
 
     return
 
-
-    fn = split(globpath(&rtp, 'ftplugin/'.&ft.'/test.page'), "\n")
-
-    if len(fn) > 0
-        exe "vertical diffsplit ".fn[0]
-
-        wincmd x
-        diffupdate
-        normal! zM
-    endif
-
-    try
-        if has('win32')
-            exe 'silent! !rd /s/q "'.s:tempPath.'"'
-        else
-            exe 'silent! !rm -rf "'.s:tempPath.'"'
-        end
-    catch /.*/
-    endtry
 endfunction "}}}
 
 
@@ -395,9 +393,15 @@ fun! s:StartNewTemplate() "{{{
             let line2 .= ' ' . b:cms[ 1 ]                           " eend
 
             let tmpl += [ line2 ]
+
         endfor
 
-        call s:Feedkeys( ":silent a\n" . '    ' . join( tmpl, "\n" ) . "\n\n\n\n", 'nt' )
+        let text = '    ' . join( tmpl, "\n    " )
+        let text = "" . text . "\n\n\n\n"
+
+        let @o = text
+
+        call s:Feedkeys( '"op', 'nt' )
         call s:LastLine()
     endif
 
@@ -497,7 +501,10 @@ fun! s:FillinTemplate() "{{{
             let b:phaseIndex = (b:phaseIndex + 1) % len(s:phases)
             let b:testPhase = s:phases[ b:phaseIndex ]
             let b:testProcessing = 0
-            call s:Feedkeys("\<C-c>Go\<C-c>", 'nt')
+
+            let @r="\n"
+
+            call s:Feedkeys("\<C-c>G\"rp\<C-c>", 'nt')
         else
             call s:log.Log( "finish nested" )
             call s:XPTtype( 'NESTED_TYPED' )

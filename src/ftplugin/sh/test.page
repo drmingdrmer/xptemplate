@@ -191,16 +191,16 @@ esac
 
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
-#
+
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2 b
-#
+
 `# WRAPPED_TEXT
  # WRAPPED_TEXT_line2^
- #
+
  a # WRAPPED_TEXT
    # WRAPPED_TEXT_line2
-   #
+
 
     #  -------------commentBlock--------------- 
     # `$CS `cursor^                             
@@ -209,16 +209,16 @@ esac
 
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
-#
+
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2 b
-#
+
 `# WRAPPED_TEXT
  # WRAPPED_TEXT_line2^
- #
+
  a # WRAPPED_TEXT
    # WRAPPED_TEXT_line2
-   #
+
 
     #  -------------commentDoc--------------- 
     # `$CS^                                   
@@ -231,12 +231,12 @@ esac
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
 #
-#
+
 #
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
 # b
-#
+
 `#
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
@@ -246,7 +246,7 @@ a #
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
 #
-#
+
 
     #  -------------commentLine--------------- 
     # `$CS `cursor^                            
@@ -255,16 +255,16 @@ a #
 
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2
-#
+
 # WRAPPED_TEXT
 # WRAPPED_TEXT_line2 b
-#
+
 `# WRAPPED_TEXT
  # WRAPPED_TEXT_line2^
- #
+
  a # WRAPPED_TEXT
    # WRAPPED_TEXT_line2
-   #
+
 
     #  -------------csh--------------- 
     # _CMT_!/bin/~$_xSnipName^         

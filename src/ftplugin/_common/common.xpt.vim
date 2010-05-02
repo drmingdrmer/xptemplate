@@ -687,13 +687,13 @@ call XPTdefineSnippet("File", {}, "`file()^")
 call XPTdefineSnippet("Path", {}, "`path()^")
 
 
-call XPTdefineSnippet('"_', {'hint' : '" .. "', 'wrap' : 'w', 'wraponly' : 1 }, '"`w^"')
-call XPTdefineSnippet("'_", {'hint' : "' .. '", 'wrap' : 'w', 'wraponly' : 1 }, "'`w^'")
-call XPTdefineSnippet("<_", {'hint' : '< .. >', 'wrap' : 'w', 'wraponly' : 1 }, '<`w^>')
-call XPTdefineSnippet("(_", {'hint' : '( .. )', 'wrap' : 'w', 'wraponly' : 1 }, '(`w^)')
-call XPTdefineSnippet("[_", {'hint' : '[ .. ]', 'wrap' : 'w', 'wraponly' : 1 }, '[`w^]')
-call XPTdefineSnippet("{_", {'hint' : '{ .. }', 'wrap' : 'w', 'wraponly' : 1 }, '{`w^}')
-call XPTdefineSnippet("`_", {'hint' : '` .. `', 'wrap' : 'w', 'wraponly' : 1 }, '\``w^\`')
+call XPTdefineSnippet('"_', {'hint' : '" .. "', 'wraponly' : 'w' }, '"`w^"')
+call XPTdefineSnippet("'_", {'hint' : "' .. '", 'wraponly' : 'w' }, "'`w^'")
+call XPTdefineSnippet("<_", {'hint' : '< .. >', 'wraponly' : 'w' }, '<`w^>')
+call XPTdefineSnippet("(_", {'hint' : '( .. )', 'wraponly' : 'w' }, '(`w^)')
+call XPTdefineSnippet("[_", {'hint' : '[ .. ]', 'wraponly' : 'w' }, '[`w^]')
+call XPTdefineSnippet("{_", {'hint' : '{ .. }', 'wraponly' : 'w' }, '{`w^}')
+call XPTdefineSnippet("`_", {'hint' : '` .. `', 'wraponly' : 'w' }, '\``w^\`')
 
 
 
