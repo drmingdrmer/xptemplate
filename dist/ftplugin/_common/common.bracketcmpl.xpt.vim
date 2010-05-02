@@ -19,7 +19,7 @@ let s:crIndent = 0
 
 fun! s:f.BracketRightPart( leftReg )
 
-    if has_key( self.renderContext, 'bracketFinished' )
+    if has_key( self.renderContext, 'bracketComplete' )
         return ''
     endif
 
@@ -47,7 +47,40 @@ fun! s:f.bkt_cmpl()
     return self.BracketRightPart( self.renderContext.leftReg )
 endfunction
 
+fun! s:f.quote_cmpl()
+    let r = self.renderContext
+    let v = self.V()
+    let v = matchstr( v, r.leftReg )
+
+    if has_key( r, 'bracketComplete' )
+        return ''
+    elseif v == ''
+        return ''
+    else
+        return r.charRight
+    endif
+endfunction
+
+fun! s:f.quote_ontype()
+    let r = self.renderContext
+
+    let v = self.V()
+
+    if v == ''
+        return self.Finish()
+
+    elseif v =~ '\V\n'
+
+        return self.FinishOuter( v )
+
+    else
+        return v
+    endif
+    
+endfunction
+
 fun! s:f.bkt_ontype()
+
 
     let v = self.V()
 
@@ -111,7 +144,7 @@ fun! s:f.bkt_finish( keyPressed )
         return a:keyPressed
     endif
 
-    let r.bracketFinished = 1
+    let r.bracketComplete = 1
 
     let v = self.V()
 
@@ -140,9 +173,9 @@ XSET s=bkt_init(' ')
 
 XPT _quote hidden
 XSET s|pre=Echo('')
-XSET s|ontype=bkt_ontype()
+XSET s|ontype=quote_ontype()
 XSET s=bkt_init('')
-`$_xSnipName`s^`s^bkt_cmpl()^
+`$_xSnipName`s^`s^quote_cmpl()^
 
 
 XPT ( hidden alias=_bracket

@@ -266,6 +266,7 @@
 
 		|g:xptemplate_key|
 		|g:xptemplate_key_pum_only|
+		|g:xptemplate_key_force_pum|
 		|g:xptemplate_nav_next|
 		|g:xptemplate_nav_prev|
 		|g:xptemplate_nav_cancel|
@@ -274,6 +275,7 @@
 		|g:xptemplate_fallback|
 
 	Options:
+		|g:xptemplate_move_even_with_pum|
 		|g:xptemplate_always_show_pum|
 		|g:xptemplate_brace_complete|
 		|g:xptemplate_bundle|
@@ -302,12 +304,25 @@
 	<Tab> if there is no snippet key matched.
 
 
-		      *i_<C-r><C-\>* *xpt-key-pum* *g:xptemplate_key_pum_only*
-					       {default:<C-r>g:xptemplate_key}
+		 *i_<C-r><C-r><C-\>* *xpt-key-pum* *g:xptemplate_key_pum_only*
+					  {default:<C-r><C-r>g:xptemplate_key}
 	Show pop up menu at cursor position. Example: >
 		let g:xptemplate_key_pum_only = '<S-Tab>'
-<	By default, this key map is set to '<C-r>' concatenated with
-	|g:xptemplate_key| : '<C-r><C-\>'.
+<	By default, this key map is set to '<C-r><C-r>' concatenated with
+	|g:xptemplate_key| : '<C-r><C-r><C-\>'.
+
+
+						  *g:xptemplate_key_force_pum*
+					       {default:<C-r>g:xptemplate_key}
+	Behave like that with |g:xptemplate_always_show_pum| set.
+
+	If more than one snippet starts with( or exactly equals to ) the text
+	before cursor, pop up menu shows.
+
+	This key triggers snippet only when there is only one snippet of name
+	starts with the text before cursor.
+
+	See also: |g:xptemplate_always_show_pum|.
 
 
 	       *i_<tab>*  *s_<tab>* *xpt-key-navigate* *g:xptemplate_nav_next*
@@ -356,10 +371,19 @@
 		let g:xptemplate_fallback = '<C-n>'
 <
 
+					     *g:xptemplate_move_even_with_pum*
+								   {default:0}
+	If set to 1, |g:xptemplate_nav_next| does not care whether pop up menu
+	shown or not. It will always move cursor to next item.
+
+	Otherwise, |g:xptemplate_nav_next| fall back to original mapping. This
+	could be helpfull for xpt working with supertab together.
+
+
 						*g:xptemplate_always_show_pum*
 								   {default:0}
-	If set to 1, snippets is not triggered but popup menu shows when text
-	user typed before cursor matches a snippet name.
+	If set to 1, snippets is not triggered but popup menu shows even when
+	text user typed before cursor matches a snippet name.
 
 	For example, you have three snippets defined of names: "for", "forever"
 	and "forr". Typing "for<C-\>" results in a popup menu if
@@ -370,6 +394,8 @@
 	       |forr     |
 <	Otherwise, "for<C-\>" triggers snippet "for".
 
+	See also: |g:xptemplate_key_force_pum|.
+
 
 						 *g:xptemplate_brace_complete*
 								   {default:1}
@@ -378,6 +404,11 @@
 		(  )
 	          \______| cursor stops in mid of pairs of bracket
 <	"(", "[", "{", "'" and '"' are affected by this setting.
+	
+	If set to string, only bracket or quote chars included in this setting
+	will be mapped. For example: >
+		let g:xptemplate_brace_complete = '([{'
+<	With this setting, quotes are not mapped.
 
 
 		    *n_<C-g>* *i_<C-g>* *xpt-key-goback* *g:xptemplate_goback*

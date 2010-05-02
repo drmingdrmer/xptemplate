@@ -221,10 +221,6 @@ fun! s:XPTemplateParseSnippet(lines)
         let value = value[0:0] == '=' ? g:xptutil.UnescapeChar(value[1:], ' ') : 1
         let setting[name] = value
     endfor
-    if type( get( setting, 'wraponly', 0 ) ) == type( '' )
-        let setting.wrap = setting.wraponly
-        let setting.wraponly = 1
-    endif
     let start = 1
     let len = len( lines )
     while start < len

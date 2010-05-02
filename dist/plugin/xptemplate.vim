@@ -382,6 +382,10 @@ endfunction
 fun! s:ParseTemplateSetting( tmpl ) 
     let x = b:xptemplateData
     let setting = a:tmpl.setting
+    if type( get( setting, 'wraponly', 0 ) ) == type( '' )
+        let setting.wrap = setting.wraponly
+        let setting.wraponly = 1
+    endif
     let setting.iswrap = has_key( setting, 'wrap' )
     let setting.wraponly = get( setting, 'wraponly', 0 )
     let x.renderContext.snipObject = a:tmpl
@@ -505,10 +509,19 @@ fun! XPTtgr( snippetName, ... )
         elseif get( opt, 'literal', 0 )
             let opt.syn = '\V\cstring\|comment'
         endif
+        if has_key( opt, 'nopum' )
+            let opt.pum = !opt.nopum
+        endif
         let syn = synIDattr( synID( line("."), col("."), 0 ), "name" )
         if has_key( opt, 'nosyn' ) && syn =~ opt.nosyn
               \ || has_key( opt, 'syn' ) && syn !~ opt.syn
             return opt.k
+        endif
+        if has_key( opt, 'pum' )
+            if opt.pum && !pumvisible()
+                  \ || !opt.pum && pumvisible()
+                return opt.k
+            endif
         endif
     endif
     let action = XPTemplateStart( 0, { 'startPos' : [ line( "." ), col( "." ) ], 'tmplName' : a:snippetName } )
@@ -557,7 +570,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
             call XPPend()
         endif
     endif
-    let fullmatching = g:xptemplate_minimal_prefix is 'full'
+    let isFullMaatching = g:xptemplate_minimal_prefix is 'full'
     let cursorColumn = col(".")
     let startLineNr = line(".")
     let accEmp = 0
@@ -579,7 +592,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
         if matched =~ '\V\W\$'
             let matched = matchstr( matched, '\V\W\+\$' )
         endif
-        if !fullmatching && len( matched ) < g:xptemplate_minimal_prefix
+        if !isFullMaatching && len( matched ) < g:xptemplate_minimal_prefix
             return s:FallbackKey()
         endif
         let startColumn = col( "." ) - len( matched )
@@ -590,7 +603,8 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
     let templateName = strpart( getline(startLineNr), startColumn - 1, cursorColumn - startColumn )
     return action . s:Popup( templateName, startColumn,
           \ { 'acceptEmpty'    : accEmp,
-          \   'matchWholeName' : get( opt, 'popupOnly', 0 ) ? 0 : fullmatching } )
+          \   'forcePum'       : get( opt, 'forcePum', g:xptemplate_always_show_pum ), 
+          \   'matchWholeName' : get( opt, 'popupOnly', 0 ) ? 0 : isFullMaatching } )
 endfunction 
 fun! s:ParsePriorityString(s) 
     let x = b:xptemplateData
@@ -671,6 +685,7 @@ fun! s:CreateSnippet()
     let ctx.processing = 1
     call s:CallPlugin( 'render', 'after' )
     if empty(x.stack)
+        call s:SaveNavKey()
         call s:ApplyMap()
     endif
     let x.wrap = ''
@@ -678,6 +693,20 @@ fun! s:CreateSnippet()
     let action =  s:GotoNextItem()
     call s:CallPlugin( 'start', 'after' )
     return action
+endfunction 
+fun! s:SaveNavKey() 
+    let x = b:xptemplateData
+    let navKey = g:xptemplate_nav_next
+    let mapInfo = MapSaver_GetMapInfo( navKey, 'i', 1 )
+    if mapInfo.cont == ''
+        let mapInfo = MapSaver_GetMapInfo( navKey, 'i', 0 )
+    endif
+    if mapInfo.cont == ''
+        exe 'inoremap <buffer> ' '<Plug>XPTnavFallback' navKey
+    else
+        let mapInfo.key = '<Plug>XPTnavFallback'
+        exe MapSaverGetMapCommand( mapInfo )
+    endif
 endfunction 
 fun! s:FinishRendering(...) 
     let x = b:xptemplateData
@@ -711,9 +740,10 @@ fun! s:Popup(pref, coln, opt)
     if ftScope == {}
         return ''
     endif
+    let forcePum = get( a:opt, 'forcePum', g:xptemplate_always_show_pum )
     let snipDict = ftScope.allTemplates
     let synNames = s:SynNameStack(line("."), a:coln)
-    if has_key( snipDict, a:pref ) && !g:xptemplate_always_show_pum
+    if has_key( snipDict, a:pref ) && !forcePum
         let snipObj = snipDict[ a:pref ]
         if s:IfSnippetShow( snipObj, synNames )
             return  s:DoStart( {
@@ -741,7 +771,7 @@ fun! s:Popup(pref, coln, opt)
     call pumsess.SetAcceptEmpty( get( a:opt, 'acceptEmpty', 0 ) )
     call pumsess.SetMatchWholeName( get( a:opt, 'matchWholeName', 0 ) )
     call pumsess.SetOption( {
-          \ 'matchPrefix' : !g:xptemplate_always_show_pum,
+          \ 'matchPrefix' : ! forcePum,
           \ 'tabNav'      : g:xptemplate_pum_tab_nav } )
     return pumsess.popup(a:coln, {})
 endfunction 
@@ -1399,7 +1429,19 @@ fun! s:PushBackItem()
 endfunction 
 fun! s:ShiftForward( action ) 
     if pumvisible()
-        return "\<C-y>"
+        if XPPhasSession()
+            return XPPend() . "\<C-r>=<SNR>" . s:sid . 'ShiftForward(' . string( a:action ) . ")\<CR>"
+        else
+            if g:xptemplate_move_even_with_pum
+            else
+                call feedkeys( "\<Plug>XPTnavFallback", 'm')
+                return ''
+            endif
+        endif
+    else
+        if XPPhasSession()
+            call XPPend()
+        endif
     endif
     if s:FinishCurrent( a:action ) < 0
         return ''
@@ -1568,7 +1610,11 @@ fun! s:DoGotoNextItem()
     if !renderContext.processing
         return postaction
     endif
-    call XPMsetLikelyBetween( leader.mark.start, leader.mark.end )
+    try
+        call XPMsetLikelyBetween( leader.mark.start, leader.mark.end )
+    catch /.*/
+        return s:Crash()
+    endtry
     if postaction == ''
         if oldRenderContext == renderContext || oldRenderContext.level < renderContext.level
             call cursor( XPMpos( renderContext.leadingPlaceHolder.innerMarks.end ) ) 
@@ -1644,9 +1690,11 @@ endfunction
 fun! s:ActionFinish( renderContext, filter ) 
     let marks = a:renderContext.leadingPlaceHolder[ a:filter.marks ]
     let [ start, end ] = XPMposStartEnd( marks )
-    if a:filter.rc isnot 0
-        let text = get( a:filter, 'text', '' )
-        call XPreplace( start, end, text )
+    if start[ 0 ] != 0 && end[ 0 ] != 0
+        if a:filter.rc isnot 0
+            let text = get( a:filter, 'text', '' )
+            call XPreplace( start, end, text )
+        endif
     endif
     if s:FinishCurrent( '' ) < 0
         return ''
@@ -1791,7 +1839,11 @@ fun! s:ApplyDefaultValue()
 endfunction 
 fun! XPTmappingEval( str ) 
     if pumvisible()
-        return "\<C-y>\<C-r>=XPTmappingEval(" . string(a:str) . ")\<CR>"
+        if XPPhasSession()
+            return XPPend() . "\<C-r>=XPTmappingEval(" . string(a:str) . ")\<CR>"
+        else
+            return "\<C-v>\<C-v>\<BS>\<C-r>=XPTmappingEval(" . string(a:str) . ")\<CR>"
+        endif
     endif
     let x = b:xptemplateData
     let typed = s:TextBetween(
@@ -2138,7 +2190,7 @@ fun! s:ApplyMap()
     call b:mapMask.UnmapAll()
     exe 'inoremap <silent> <buffer>' g:xptemplate_nav_prev   '<C-v><C-v><BS><C-r>=<SID>ShiftBackward()<CR>'
     exe 'snoremap <silent> <buffer>' g:xptemplate_nav_prev   '<Esc>`>a<C-r>=<SID>ShiftBackward()<CR>'
-    exe 'inoremap <silent> <buffer>' g:xptemplate_nav_next   '<C-v><C-v><BS><C-r>=<SID>ShiftForward("")<CR>'
+    exe 'inoremap <silent> <buffer>' g:xptemplate_nav_next   '<C-r>=<SID>ShiftForward("")<CR>'
     exe 'snoremap <silent> <buffer>' g:xptemplate_nav_next   '<Esc>`>a<C-r>=<SID>ShiftForward("")<CR>'
     exe 'snoremap <silent> <buffer>' g:xptemplate_nav_cancel '<Esc>i<C-r>=<SID>ShiftForward("clear")<CR>'
     exe 'nnoremap <silent> <buffer>' g:xptemplate_goback     'i<C-r>=<SID>Goback()<CR>'
@@ -2284,17 +2336,19 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option )
                   \ ? get( ph, 'postFilter',
                   \     get( ph, 'ontimeFilter',  g:EmptyFilter ) )
                   \ : get( ph, 'ontimeFilter', g:EmptyFilter )
+            let phStartPos = XPMpos( ph.mark.start )
+            let [ phln, phcol ] = phStartPos
             if flt isnot g:EmptyFilter
                 let flt = copy( flt )
                 call s:EvalFilter( flt, renderContext.ftScope.funcs,
                       \ { 'typed'    : a:contentTyped,
-                      \   'startPos' : XPMpos( ph.mark.start ) } )
+                      \   'startPos' : phStartPos } )
             elseif useGroupPost
                 let flt = copy( groupFilter )
-                call flt.AdjustIndent( XPMpos( ph.mark.start ) )
+                call flt.AdjustIndent( phStartPos )
             else
-                let flt = g:FilterValue.New( 0, a:contentTyped )
-                call flt.AdjustIndent( XPMpos( ph.mark.start ) )
+                let flt = g:FilterValue.New( -XPT#getIndentNr( phln, phcol ), a:contentTyped )
+                call flt.AdjustIndent( phStartPos )
             endif
             let text = s:TextBetween( XPMposStartEnd( ph.mark ) )
             if text !=# flt.text

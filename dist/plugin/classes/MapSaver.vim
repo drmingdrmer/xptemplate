@@ -32,14 +32,14 @@ fun! s:_GetMapLine(key, mode, isbuffer)
     endfor
     return ""
 endfunction 
-fun! s:_GetMapInfo(key, mode, isbuffer) 
+fun! MapSaver_GetMapInfo( key, mode, isbuffer ) 
     let line = s:_GetMapLine(a:key, a:mode, a:isbuffer)
     if line == ''
-        return {'mode' : a:mode,
-              \'key'   : a:key,
-              \'nore'  : '',
-              \'isbuf' : a:isbuffer ? ' <buffer> ' : ' ',
-              \'cont'  : ''}
+        return { 'mode'  : a:mode,
+              \  'key'   : a:key,
+              \  'nore'  : '',
+              \  'isbuf' : a:isbuffer ? ' <buffer> ' : ' ',
+              \  'cont'  : ''}
     endif
     let item = line[0:1] " the first 2 characters
     let info =  {'mode' : a:mode,
@@ -50,6 +50,13 @@ fun! s:_GetMapInfo(key, mode, isbuffer)
     return info
 endfunction 
 fun! s:_MapPop( info ) 
+    let cmd = MapSaverGetMapCommand( a:info )
+    try
+        exe cmd
+    catch /.*/
+    endtry
+endfunction 
+fun! MapSaverGetMapCommand( info ) 
     let exprMap = ''
     if a:info.mode == 'i' && a:info.cont =~ '\V\w(\.\*)' && a:info.cont !~? '\V<c-r>'
           \ || a:info.mode != 'i' && a:info.cont =~ '\V\w(\.\*)' 
@@ -60,10 +67,7 @@ fun! s:_MapPop( info )
     else
         let cmd = "silent! " . a:info.mode . a:info.nore . 'map <silent> '. exprMap . a:info.isbuf . a:info.key . ' ' . a:info.cont
     endif
-    try
-        exe cmd
-    catch /.*/
-    endtry
+    return cmd
 endfunction 
 fun! s:String( stack ) 
     let rst = ''    
@@ -108,7 +112,7 @@ fun! s:Save() dict
         return
     endif
     for [ mode, key ] in self.keys
-        call insert( self.saved, s:_GetMapInfo( key, mode, self.isLocal ) )
+        call insert( self.saved, MapSaver_GetMapInfo( key, mode, self.isLocal ) )
     endfor
     let stack = self.GetStack()
     call add( stack, self )

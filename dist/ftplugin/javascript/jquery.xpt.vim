@@ -7,10 +7,10 @@ XPTemplate priority=lang-2
 
 let s:f = g:XPTfuncs()
 
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $UNDEFINED     NULL
+XPTvar $TRUE          true
+XPTvar $FALSE         false
+XPTvar $NULL          null
+XPTvar $UNDEFINED     undefined
 
 XPTvar $BRif     ' '
 XPTvar $BRel   \n

@@ -163,7 +163,6 @@ fun! s:ListPopup( doCallback, ifEnlarge ) dict
         let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
     elseif self.prefix != "" 
           \ && self.longest ==? self.prefix 
-        echom 'longest matches prefix'
         if a:doCallback && self.matchPrefix
             let self.matched = ''
             for item in self.currentList
