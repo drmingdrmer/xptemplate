@@ -21,11 +21,10 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO test: test in windows and with bare .vimrc
 " TODO add: <BS> at ph start to shift backward.
-" TODO fix: register handling when snippet expand
 " TODO add: php snippet <% for .. %> in html 
 " TODO improve: 3 quotes in python
+" TODO fix: register handling when snippet expand
 " TODO goto next or trigger?
 " TODO add: visual mode trigger.
 " TODO fix: after undo, highlight is not cleared.
