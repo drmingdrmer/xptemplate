@@ -438,7 +438,10 @@
 		XSET elts=c_printfElts( R( 'pattern' ) )
 		printf( "`pattern^"`elts^ )
 
-<	NOTE XSET/XSETm commands can be placed anywhere inside a snippet.
+<	NOTE	XPTemplate use 4-spaces indent. No table-char indent is
+		allowed in snippet file.
+
+	NOTE	XSET/XSETm commands can be placed anywhere inside a snippet.
 
 
 				       *`::^* *Include:* *xpt-snippet-include*

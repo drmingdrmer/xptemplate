@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.4.8
+" VERSION: 0.4.8.1
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " USAGE: "{{{
@@ -75,18 +75,11 @@
 " "}}}
 "
 " Log of This version:
-"   add: always drop down.
-"   fix: mark bug and tab convertion bug
-"   fix: brackets snippets swallow 1 char after it after typing: "<space><C-u>
-"   add: key map "g:xptemplate_key_force_pum" to show pum. like that with
-"        g:xptemplate_always_show_pum set to 1
-"   add: pum support for <tab>-navigation
-"   change: <c-r><c-\> shows pum with prefix check, <c-r><c-r><c-\> shows pum without prefix
-"   fix: key mapping of brackets check pum
-"   fix: indent problem with ph with line-breaks
+"   fix: sometimes xpt is broken by uninitialized buffer-variable
+"   fix: <C-r><C-\> now always show pum
+"   fix: g:xptemplate_always_show_pum sometimes breaks vim:"E523: Not allowed here"
+"   change: <CR> and <C-y> now accept pum selection and triggers snippet.
 "
-
-
 "
 "
 " supertab support
@@ -167,19 +160,6 @@ fun! XPTmarkCompare( o, markToAdd, existedMark ) "{{{
     call s:log.Debug( a:markToAdd . ' > ' . a:existedMark )
     return 1
 endfunction "}}}
-
-
-" escape rule:
-" 0 a
-" 1 \a
-" 3 \\\a
-" 7 \\\\\\\a
-"
-" 2 \\a
-" 5 \\\\\a
-"
-" 2*n + 1
-
 
 let s:repetitionPattern     = '\w\*...\w\*'
 let s:nullDict = {}
@@ -1004,6 +984,7 @@ fun! XPTparseSnippets() "{{{
 endfunction "}}}
 
 
+" ********* XXX *********
 " TODO remove the first argument
 fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
@@ -1064,6 +1045,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
     endif
 
 
+    let forcePum = get( opt, 'forcePum', g:xptemplate_always_show_pum )
 
 
     let isFullMaatching = g:xptemplate_minimal_prefix is 'full'
@@ -1110,7 +1092,10 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
             let matched = matchstr( matched, '\V\W\+\$' )
         endif
 
-        if !isFullMaatching && len( matched ) < g:xptemplate_minimal_prefix
+
+        if !isFullMaatching
+              \ && len( matched ) < g:xptemplate_minimal_prefix
+              \ && !forcePum
             return s:FallbackKey()
         endif
 
@@ -1129,11 +1114,12 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
     call s:log.Log( 'to popup, templateName='.templateName )
 
-    return action . s:Popup( templateName, startColumn,
+    let action = action . s:Popup( templateName, startColumn,
           \ { 'acceptEmpty'    : accEmp,
-          \   'forcePum'       : get( opt, 'forcePum', g:xptemplate_always_show_pum ), 
+          \   'forcePum'       : forcePum, 
           \   'matchWholeName' : get( opt, 'popupOnly', 0 ) ? 0 : isFullMaatching } )
 
+    return action
 endfunction " }}}
 
 " TODO simplify with split
@@ -4635,6 +4621,11 @@ fun! s:GotoRelativePosToMark( rPos, mark ) "{{{
 endfunction "}}}
 
 fun! s:XPTcheck() "{{{
+    
+    if !exists( 'b:xptemplateData' )
+        call XPTemplateInit()
+    endif
+
     let x = b:xptemplateData
 
     if x.wrap isnot ''
