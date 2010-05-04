@@ -570,6 +570,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
             call XPPend()
         endif
     endif
+    let forcePum = get( opt, 'forcePum', g:xptemplate_always_show_pum )
     let isFullMaatching = g:xptemplate_minimal_prefix is 'full'
     let cursorColumn = col(".")
     let startLineNr = line(".")
@@ -592,7 +593,9 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
         if matched =~ '\V\W\$'
             let matched = matchstr( matched, '\V\W\+\$' )
         endif
-        if !isFullMaatching && len( matched ) < g:xptemplate_minimal_prefix
+        if !isFullMaatching
+              \ && len( matched ) < g:xptemplate_minimal_prefix
+              \ && !forcePum
             return s:FallbackKey()
         endif
         let startColumn = col( "." ) - len( matched )
@@ -601,10 +604,11 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
         endif
     endif
     let templateName = strpart( getline(startLineNr), startColumn - 1, cursorColumn - startColumn )
-    return action . s:Popup( templateName, startColumn,
+    let action = action . s:Popup( templateName, startColumn,
           \ { 'acceptEmpty'    : accEmp,
-          \   'forcePum'       : get( opt, 'forcePum', g:xptemplate_always_show_pum ), 
+          \   'forcePum'       : forcePum, 
           \   'matchWholeName' : get( opt, 'popupOnly', 0 ) ? 0 : isFullMaatching } )
+    return action
 endfunction 
 fun! s:ParsePriorityString(s) 
     let x = b:xptemplateData
@@ -2556,6 +2560,9 @@ fun! s:GotoRelativePosToMark( rPos, mark )
     endif
 endfunction 
 fun! s:XPTcheck() 
+    if !exists( 'b:xptemplateData' )
+        call XPTemplateInit()
+    endif
     let x = b:xptemplateData
     if x.wrap isnot ''
         let x.wrapStartPos = 0

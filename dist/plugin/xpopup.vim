@@ -104,9 +104,9 @@ fun! s:CreateSession( sess )
     let action = ''
     if exists( 'b:__xpp_current_session' )
         call s:End()
-        if pumvisible()
-            let action .= PUMclear()
-        endif
+    endif
+    if pumvisible()
+        let action .= PUMclear()
     endif
     let b:__xpp_current_session = a:sess
     return action
@@ -147,23 +147,26 @@ fun! s:ListPopup( doCallback, ifEnlarge ) dict
     if self.longest !=# self.prefix
         let actionList += ['clearPum',  'clearPrefix', 'clearPum', 'typeLongest' ]
     endif
-    if self.popupCount > 1 && a:ifEnlarge && self.acceptEmpty && self.prefix == ''
-        let self.matched = ''
-        let self.matchedCallback = 'onOneMatch'
-        let actionList = []
-        let actionList += [ 'clearPum',  'clearPrefix', 'clearPum', 'callback' ]
-    elseif len(self.currentList) == 0
-        let self.matched = ''
-        let self.matchedCallback = 'onEmpty'
-        let actionList += ['callback']
-    elseif len(self.currentList) == 1
-          \ && a:doCallback
-        let self.matched = type(self.currentList[0]) == type({}) ? self.currentList[0].word : self.currentList[0]
-        let self.matchedCallback = 'onOneMatch'
-        let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
-    elseif self.prefix != "" 
-          \ && self.longest ==? self.prefix 
-        if a:doCallback && self.matchPrefix
+    if !self.matchPrefix
+        let actionList += [ 'popup', 'fixPopup' ]
+    else
+        if self.popupCount > 1 && a:ifEnlarge && self.acceptEmpty && self.prefix == ''
+            let self.matched = ''
+            let self.matchedCallback = 'onOneMatch'
+            let actionList = []
+            let actionList += [ 'clearPum',  'clearPrefix', 'clearPum', 'callback' ]
+        elseif len(self.currentList) == 0
+            let self.matched = ''
+            let self.matchedCallback = 'onEmpty'
+            let actionList += ['callback']
+        elseif len(self.currentList) == 1
+              \ &&  a:doCallback
+            let self.matched = type(self.currentList[0]) == type({}) ? self.currentList[0].word : self.currentList[0]
+            let self.matchedCallback = 'onOneMatch'
+            let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
+        elseif self.prefix != "" 
+              \ && self.longest ==? self.prefix 
+              \ && a:doCallback
             let self.matched = ''
             for item in self.currentList
                 let key = type(item) == type({}) ? item.word : item
@@ -180,8 +183,6 @@ fun! s:ListPopup( doCallback, ifEnlarge ) dict
         else
             let actionList += [ 'popup', 'fixPopup' ]
         endif
-    else
-        let actionList += [ 'popup', 'fixPopup' ]
     endif
     let self.matchPrefix = 1
     return "\<C-r>=XPPprocess(" . string( actionList ) . ")\<CR>"
@@ -505,7 +506,6 @@ fun! s:ApplyMapAndSetting()
     exe 'inoremap <silent> <buffer> <DOWN>' '<C-r>=XPPdown()<CR>'
     exe 'inoremap <silent> <buffer> <bs>'  '<C-r>=XPPshorten()<cr>'
     exe 'inoremap <silent> <buffer> <C-e>' '<C-r>=XPPcancel()<cr>'
-    exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
     if sess.tabNav
         exe 'inoremap <silent> <buffer> <S-tab>' '<C-r>=XPPup()<cr>'
         exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPdown()<cr>'
@@ -513,8 +513,8 @@ fun! s:ApplyMapAndSetting()
         exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPenlarge()<cr>'
     else
         exe 'inoremap <silent> <buffer> <tab>' '<C-r>=XPPenlarge()<cr>'
-        exe 'inoremap <silent> <buffer> <cr>'  '<C-r>=XPPcr()<cr>'
-        exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPaccept()<cr>'
+        exe 'inoremap <silent> <buffer> <cr>'  '<C-r>=XPPenlarge()<cr>'
+        exe 'inoremap <silent> <buffer> <C-y>' '<C-r>=XPPenlarge()<cr>'
     endif
     augroup XPpopup
         au!
