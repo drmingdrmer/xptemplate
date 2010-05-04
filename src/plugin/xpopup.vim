@@ -278,36 +278,33 @@ fun! s:ListPopup( doCallback, ifEnlarge ) dict "{{{
 
     endif
 
-    if !self.matchPrefix
 
-        call s:log.Debug("only 1 matched, but matchPrefix or callback is disabled")
-        let actionList += [ 'popup', 'fixPopup' ]
+    if self.popupCount > 1 && a:ifEnlarge && self.acceptEmpty && self.prefix == ''
+        let self.matched = ''
+        let self.matchedCallback = 'onOneMatch'
+        let actionList = []
+        let actionList += [ 'clearPum',  'clearPrefix', 'clearPum', 'callback' ]
 
-    else
-        if self.popupCount > 1 && a:ifEnlarge && self.acceptEmpty && self.prefix == ''
-            let self.matched = ''
-            let self.matchedCallback = 'onOneMatch'
-            let actionList = []
-            let actionList += [ 'clearPum',  'clearPrefix', 'clearPum', 'callback' ]
+    elseif len(self.currentList) == 0
+        call s:log.Debug("no matching")
 
-        elseif len(self.currentList) == 0
-            call s:log.Debug("no matching")
+        let self.matched = ''
+        let self.matchedCallback = 'onEmpty'
+        let actionList += ['callback']
 
-            let self.matched = ''
-            let self.matchedCallback = 'onEmpty'
-            let actionList += ['callback']
+    elseif len(self.currentList) == 1
+          \ && a:doCallback
 
-        elseif len(self.currentList) == 1
-              \ &&  a:doCallback
-            call s:log.Debug("only 1 item matched")
+        call s:log.Debug("only 1 item matched")
 
-            let self.matched = type(self.currentList[0]) == type({}) ? self.currentList[0].word : self.currentList[0]
-            let self.matchedCallback = 'onOneMatch'
-            let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
+        let self.matched = type(self.currentList[0]) == type({}) ? self.currentList[0].word : self.currentList[0]
+        let self.matchedCallback = 'onOneMatch'
+        let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
 
-        elseif self.prefix != "" 
-              \ && self.longest ==? self.prefix 
-              \ && a:doCallback
+    elseif self.prefix != "" 
+          \ && self.longest ==? self.prefix 
+
+        if self.matchPrefix && a:doCallback
 
             " If text typed matches all items with case ignored, Try to find
             " the first matched item.
@@ -332,15 +329,18 @@ fun! s:ListPopup( doCallback, ifEnlarge ) dict "{{{
                 let actionList += [ 'popup', 'fixPopup' ]
             endif
 
-
         else
-
-            call s:log.Debug("no match and list is not empty")
+            call s:log.Debug("only 1 matched, but matchPrefix or callback is disabled")
             let actionList += [ 'popup', 'fixPopup' ]
-
         endif
 
+    else
+
+        call s:log.Debug("no match and list is not empty")
+        let actionList += [ 'popup', 'fixPopup' ]
+
     endif
+
 
 
 
