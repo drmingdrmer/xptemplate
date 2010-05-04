@@ -147,26 +147,23 @@ fun! s:ListPopup( doCallback, ifEnlarge ) dict
     if self.longest !=# self.prefix
         let actionList += ['clearPum',  'clearPrefix', 'clearPum', 'typeLongest' ]
     endif
-    if !self.matchPrefix
-        let actionList += [ 'popup', 'fixPopup' ]
-    else
-        if self.popupCount > 1 && a:ifEnlarge && self.acceptEmpty && self.prefix == ''
-            let self.matched = ''
-            let self.matchedCallback = 'onOneMatch'
-            let actionList = []
-            let actionList += [ 'clearPum',  'clearPrefix', 'clearPum', 'callback' ]
-        elseif len(self.currentList) == 0
-            let self.matched = ''
-            let self.matchedCallback = 'onEmpty'
-            let actionList += ['callback']
-        elseif len(self.currentList) == 1
-              \ &&  a:doCallback
-            let self.matched = type(self.currentList[0]) == type({}) ? self.currentList[0].word : self.currentList[0]
-            let self.matchedCallback = 'onOneMatch'
-            let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
-        elseif self.prefix != "" 
-              \ && self.longest ==? self.prefix 
-              \ && a:doCallback
+    if self.popupCount > 1 && a:ifEnlarge && self.acceptEmpty && self.prefix == ''
+        let self.matched = ''
+        let self.matchedCallback = 'onOneMatch'
+        let actionList = []
+        let actionList += [ 'clearPum',  'clearPrefix', 'clearPum', 'callback' ]
+    elseif len(self.currentList) == 0
+        let self.matched = ''
+        let self.matchedCallback = 'onEmpty'
+        let actionList += ['callback']
+    elseif len(self.currentList) == 1
+          \ && a:doCallback
+        let self.matched = type(self.currentList[0]) == type({}) ? self.currentList[0].word : self.currentList[0]
+        let self.matchedCallback = 'onOneMatch'
+        let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
+    elseif self.prefix != "" 
+          \ && self.longest ==? self.prefix 
+        if self.matchPrefix && a:doCallback
             let self.matched = ''
             for item in self.currentList
                 let key = type(item) == type({}) ? item.word : item
@@ -183,6 +180,8 @@ fun! s:ListPopup( doCallback, ifEnlarge ) dict
         else
             let actionList += [ 'popup', 'fixPopup' ]
         endif
+    else
+        let actionList += [ 'popup', 'fixPopup' ]
     endif
     let self.matchPrefix = 1
     return "\<C-r>=XPPprocess(" . string( actionList ) . ")\<CR>"
