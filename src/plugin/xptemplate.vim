@@ -3,7 +3,6 @@
 " VERSION: 0.4.8
 " BY: drdr.xp | drdr.xp@gmail.com
 "
-" GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
 "
 " USAGE: "{{{
 "   1) vim test.c

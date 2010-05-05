@@ -95,12 +95,15 @@ fi
 
 cd $ParentDir
 
+echo "\" GetLatestVimScripts: 2611 1 :AutoInstall: xpt-$v-$rev.tgz" >> dist/plugin/xptemplate.vim
+
 rm -rf xpt
 if [ "$VersionControlSys" = "svn" ]; then
     svn export dist xpt
 elif [ "$VersionControlSys" = "git" ]; then
     cp -R dist xpt
 fi
+
 
 cd xpt
 tar -czf ../xpt-$v-$rev.tgz *
