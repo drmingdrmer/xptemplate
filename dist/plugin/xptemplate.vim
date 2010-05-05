@@ -2654,3 +2654,4 @@ endfunction
 com! XPTreload call XPTreload()
 com! XPTcrash call <SID>Crash()
 let &cpo = s:oldcpo
+" GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
