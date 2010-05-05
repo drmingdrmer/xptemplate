@@ -84,6 +84,8 @@ done
 
 cd $DistDir
 
+echo "\" GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz" >> plugin/xptemplate.vim
+
 if [ "$VersionControlSys" = "svn" ]; then
     svn ci -m "dist"
 elif [ "$VersionControlSys" = "git" ]; then
@@ -95,7 +97,6 @@ fi
 
 cd $ParentDir
 
-echo "\" GetLatestVimScripts: 2611 1 :AutoInstall: xpt-$v-$rev.tgz" >> dist/plugin/xptemplate.vim
 
 rm -rf xpt
 if [ "$VersionControlSys" = "svn" ]; then
@@ -108,6 +109,8 @@ fi
 cd xpt
 tar -czf ../xpt-$v-$rev.tgz *
 cd -
+
+cp xpt-$v-$rev.tgz xpt.tgz
 
 ls xpt-*.tgz
 
