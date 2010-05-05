@@ -17,6 +17,9 @@ let s:xpt_snip = split( globpath( &rtp, "**/*.xpt.vim" ), "\n" )
 call map( s:xpt_snip, 'substitute(v:val, ''\V\'', ''/'', ''g'')' )
 call map( s:xpt_snip, 'matchstr(v:val, ''\Vftplugin/\zs\.\*\ze.xpt.vim'')' )
 
+fun! s:f.xpt_ftp_pum()
+    return self.Choose( s:xpt_snip )
+endfunction
 
 let s:xpts = {}
 for v in s:xpt_snip
@@ -166,7 +169,7 @@ XPT include " `Include:^
 \`Include:`name^\^
 
 
-XPT fun wrap=param " fun! s:f.**
+XPT fun wrap=cursor " fun! s:f.**
 fun! `s:f.`name^(`$SParg`param?`$SParg^)
     `cursor^
 endfunction
@@ -182,8 +185,6 @@ XPT skeleton " very simple snippet file skeleton
 "
 XPTemplate priority=personal+
 
-
-
 \XPT helloxpt " tips about what this snippet do
 Say hello to \`xpt^.
 \`xpt^ says hello.
@@ -198,13 +199,18 @@ XSET prio=ChooseStr( 'all', 'spec', 'like', 'lang', 'sub', 'personal' )
 
 let s:f = g:XPTfuncs()
 
-`Include:varConst^
-
-`Include:varFormat^
-
-`XPTinclude...{{^`Include:incfile^`}}^
+" use snippet 'varConst' to generate contant variables
+" use snippet 'varFormat' to generate formatting variables
+" use snippet 'varSpaces' to generate spacing variables
 
 
+XPTinclude
+      \ _common/common
+
+
+\XPT helloxpt " tips about what this snippet does
+Say hello to \`xpt\^.
+\`xpt\^ says hello.
 
 `cursor^
 
