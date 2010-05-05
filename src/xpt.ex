@@ -11,15 +11,18 @@ fi
 
 echo "VersionControlSys=$VersionControlSys"
 
+rev=r
+if [ "$VersionControlSys" = "svn" ]; then
+    svn up
+    rev=r`svn info | grep Revision | awk '{print $2}'`
+fi
+v=`grep VERSION plugin/xptemplate.vim | awk '{print $3}'`
+
+
 # update help tags
 vim -c 'helptags doc|qa'
 
 echo export "$CurrentDir" to "$DistDir" 
-# exit
-
-
-
-v=`grep VERSION plugin/xptemplate.vim | awk '{print $3}'`
 
 
 # remove old files those may not exist in src
@@ -41,6 +44,7 @@ cd $DistDir
 rm -rf	\
   plugin/xptemplateTest.vim	\
   plugin/xptemplate.importer.vim	\
+  xpt.testall.*	\
   xpt.ex	\
   genfile.vim	\
   doc/tags	\
@@ -99,7 +103,7 @@ elif [ "$VersionControlSys" = "git" ]; then
 fi
 
 cd xpt
-tar -czf ../xpt-$v.tgz *
+tar -czf ../xpt-$v-$rev.tgz *
 cd -
 
 ls xpt-*.tgz

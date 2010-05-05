@@ -1,6 +1,6 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.4.8.1
+" VERSION: 0.4.8
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 " USAGE: "{{{
@@ -21,6 +21,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO add GetLatestVimScripts support
 " TODO add: <BS> at ph start to shift backward.
 " TODO add: php snippet <% for .. %> in html 
 " TODO improve: 3 quotes in python
