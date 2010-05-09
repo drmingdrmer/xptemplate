@@ -276,14 +276,19 @@ fun! s:ListPopup( doCallback, ifEnlarge ) dict "{{{
 
     endif
 
-    if !self.matchPrefix
-        call s:log.Debug("only 1 matched, but matchPrefix or callback is disabled")
-        let actionClosePum = PUMclear()
-        let actionList += [ 'popup', 'fixPopup' ]
+    if 0
+        " !self.matchPrefix
+        " call s:log.Debug("only 1 matched, but matchPrefix or callback is disabled")
+        " let actionClosePum = PUMclear()
+        " let actionList += [ 'popup', 'fixPopup' ]
 
     else
 
-        if self.popupCount > 1 && a:ifEnlarge && self.acceptEmpty && self.prefix == ''
+        if self.popupCount > 1
+              \ && a:ifEnlarge
+              \ && self.acceptEmpty
+              \ && self.prefix == ''
+
             let self.matched = ''
             let self.matchedCallback = 'onOneMatch'
             let actionList = []
@@ -301,9 +306,16 @@ fun! s:ListPopup( doCallback, ifEnlarge ) dict "{{{
 
             call s:log.Debug("only 1 item matched")
 
-            let self.matched = type(self.currentList[0]) == type({}) ? self.currentList[0].word : self.currentList[0]
-            let self.matchedCallback = 'onOneMatch'
-            let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
+            if self.matchPrefix
+
+                let self.matched = type(self.currentList[0]) == type({}) ? self.currentList[0].word : self.currentList[0]
+                let self.matchedCallback = 'onOneMatch'
+                let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
+            else
+                call s:log.Debug("only 1 matched, but matchPrefix or callback is disabled")
+                let actionClosePum = PUMclear()
+                let actionList += [ 'popup', 'fixPopup' ]
+            endif
 
         elseif self.prefix != "" 
               \ && self.longest ==? self.prefix 
@@ -981,6 +993,7 @@ fun! s:ApplyMapAndSetting() "{{{
     augroup XPpopup
         au!
         au CursorMovedI * call s:CheckAndFinish()
+        au InsertEnter * call XPPend()
     augroup END
 
     call b:_xpp_setting_switch.Switch()

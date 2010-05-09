@@ -288,20 +288,6 @@ fun s:TestFinish() "{{{
         au!
     augroup END
 
-    " set buftype=
-    exe 'w'
-    " exe 'w! %:h/../' . s:fn
-    " echom 'w %:h/../' . s:fn
-
-    " try
-    "     if has('win32')
-    "         exe 'silent! !rd /s/q "'.s:tempPath.'"'
-    "     else
-    "         exe 'silent! !rm -rf "'.s:tempPath.'"'
-    "     end
-    " catch /.*/
-    " endtry
-
     exe 'wqa'
 
     return

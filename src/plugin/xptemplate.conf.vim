@@ -74,6 +74,11 @@ if g:xptemplate_fallback == ''
     let g:xptemplate_fallback = '<NOP>'
 endif
 
+if g:xptemplate_fallback == g:xptemplate_key
+      \ || g:xptemplate_fallback == g:xptemplate_key_force_pum
+    let g:xptemplate_fallback = 'nore:' . g:xptemplate_fallback
+endif
+
 if g:xptemplate_brace_complete is 1
     let g:xptemplate_brace_complete = '([{"'''
 endif
@@ -123,7 +128,13 @@ let g:XPTmappings = {
       \                     : "<C-c>`>i<C-r>=XPTemplateStart(0)<cr>", 
       \ }
 
-exe "imap     <silent> <Plug>XPTfallback"          g:xptemplate_fallback
+
+if g:xptemplate_fallback =~ '\V\^nore:'
+    let g:xptemplate_fallback = g:xptemplate_fallback[ 5: ]
+    exe "inoremap <silent> <Plug>XPTfallback"          g:xptemplate_fallback
+else
+    exe "imap     <silent> <Plug>XPTfallback"          g:xptemplate_fallback
+endif
 
 exe "inoremap <silent> <Plug>XPTrawKey"            g:xptemplate_key
 

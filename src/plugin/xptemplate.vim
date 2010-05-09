@@ -232,7 +232,9 @@ fun! s:pumCB.onEmpty(sess) "{{{
         call XPT#warn( "XPT: No snippet matches" )
         return ''
     else
-        return s:FallbackKey()
+        let x = b:xptemplateData
+        let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
+        return XPT#fallback( x.fallbacks )
     endif
 endfunction "}}}
 
@@ -988,6 +990,7 @@ endfunction "}}}
 
 " ********* XXX *********
 " TODO remove the first argument
+" TODO xpt seize pum if something matches snippet name in normal pum.
 fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
     let action = ''
@@ -1036,6 +1039,25 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
         if XPPhasSession()
             return XPPend() . "\<C-r>=XPTemplateStart(0," . string( opt ) . ")\<CR>"
+        else
+            if x.fallbacks != []
+                " no more tries can be done
+                if g:xptemplate_fallback =~? '\V<Plug>XPTrawKey\|<NOP>'
+                      \ || g:xptemplate_fallback == g:xptemplate_key
+                      \ || g:xptemplate_fallback == g:xptemplate_key_force_pum
+                      \ || g:xptemplate_fallback == g:xptemplate_key_pum_only
+
+                    return XPT#fallback( x.fallbacks )
+
+                else
+                    let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
+                    return XPT#fallback( x.fallbacks )
+                endif
+
+            else
+                let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
+                return XPT#fallback( x.fallbacks )
+            endif
         endif
 
     else
@@ -1049,8 +1071,10 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
     let forcePum = get( opt, 'forcePum', g:xptemplate_always_show_pum )
 
-
     let isFullMaatching = g:xptemplate_minimal_prefix is 'full'
+    " if pumvisible()
+    "     let isFullMaatching = 1
+    " endif
 
 
     let cursorColumn = col(".")
@@ -1059,8 +1083,8 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
     if g:xptemplate_key ==? '<Tab>'
         " TODO other plugin like supertab?
+        " TODO this is not needed any more.
         let accEmp = 1
-
     endif
 
     if has_key( opt, 'popupOnly' )
@@ -1095,10 +1119,14 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
         endif
 
 
-        if !isFullMaatching
-              \ && len( matched ) < g:xptemplate_minimal_prefix
-              \ && !forcePum
-            return s:FallbackKey()
+        if !has_key( opt, 'popupOnly' )
+            if !isFullMaatching
+                  \ && len( matched ) < g:xptemplate_minimal_prefix
+                  " \ && !forcePum
+
+                  let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
+                  return XPT#fallback( x.fallbacks )
+            endif
         endif
 
 
@@ -1106,7 +1134,6 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
         if matched == ''
             let [startLineNr, startColumn] = [line("."), col(".")]
-
         endif
 
     endif
@@ -1118,7 +1145,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
     let action = action . s:Popup( templateName, startColumn,
           \ { 'acceptEmpty'    : accEmp,
-          \   'forcePum'       : forcePum, 
+          \   'forcePum'       : forcePum,
           \   'matchWholeName' : get( opt, 'popupOnly', 0 ) ? 0 : isFullMaatching } )
 
     return action
@@ -1218,7 +1245,6 @@ endfunction "}}}
 fun! s:DoStart( sess ) " {{{
     " @param sess       xpopup call back argument
 
-
     let x = b:xptemplateData
 
     if !has_key( s:GetContextFTObj().allTemplates, a:sess.matched )
@@ -1228,11 +1254,11 @@ fun! s:DoStart( sess ) " {{{
     let b:__xpt_snip_sess__ = a:sess
 
     " before start, force pum to close
-    return "\<BS>" . s:CreateSnippet()
+    return "\<BS>" . s:RenderSnippet()
 
 endfunction " }}}
 
-fun! s:CreateSnippet() "{{{
+fun! s:RenderSnippet() "{{{
 
     let x = b:xptemplateData
     let sess = b:__xpt_snip_sess__
@@ -1290,8 +1316,10 @@ fun! s:SaveNavKey() "{{{
     endif
 
     if mapInfo.cont == ''
-        exe 'inoremap <buffer> ' '<Plug>XPTnavFallback' navKey
+        let x.canNavFallback = 0
+        exe 'inoremap <buffer> <Plug>XPTnavFallback ' navKey
     else
+        let x.canNavFallback = 1
         let mapInfo.key = '<Plug>XPTnavFallback'
 
         exe MapSaverGetMapCommand( mapInfo )
@@ -1317,6 +1345,7 @@ fun! s:FinishRendering(...) "{{{
 
 
     if empty(x.stack)
+        let x.fallbacks = []
 
         let renderContext.processing = 0
         let renderContext.phase = 'finished'
@@ -2633,17 +2662,29 @@ fun! s:PushBackItem() "{{{
 
 endfunction "}}}
 
+
 fun! s:ShiftForward( action ) " {{{
+    let x = b:xptemplateData
+    
+    let renderContext = x.renderContext
+
+
     if pumvisible()
 
         if XPPhasSession()
             return XPPend() . "\<C-r>=<SNR>" . s:sid . 'ShiftForward(' . string( a:action ) . ")\<CR>"
         else
+
             if g:xptemplate_move_even_with_pum
                 " nothing todo
             else
-                call feedkeys( "\<Plug>XPTnavFallback", 'm')
-                return ''
+                if x.canNavFallback
+                    let x.fallbacks = [ [ "\<Plug>XPTnavFallback", 'feed' ],
+                          \             [ "\<C-r>=XPTforceForward(" . string( a:action ) . ")\<CR>", 'expr' ], ]
+                    return  XPT#fallback( x.fallbacks )
+                else
+                    return XPPend() . "\<C-r>=<SNR>" . s:sid . 'ShiftForward(' . string( a:action ) . ")\<CR>"
+                endif
             endif
         endif
 
@@ -2656,11 +2697,11 @@ fun! s:ShiftForward( action ) " {{{
     endif
 
 
-    " if pumvisible()
-    "     " NOTE: AutoComplPop does too much. I have to clean up its dirty job! Not glad :(.
-    "     return "\<C-y>"
-    "     " return "\<C-e>\<C-r>=<SNR>" . s:sid . 'ShiftForward(' . string( a:action ) . ")\<CR>"
-    " endif
+    return XPTforceForward( a:action )
+
+endfunction " }}}
+
+fun! XPTforceForward( action ) "{{{
 
     if s:FinishCurrent( a:action ) < 0
         return ''
@@ -2672,8 +2713,8 @@ fun! s:ShiftForward( action ) " {{{
     call s:log.Debug( "postaction=" . string( postaction ) )
 
     return postaction
-
-endfunction " }}}
+    
+endfunction "}}}
 
 " TODO this function should reset item and leadingPlaceHolder to null
 fun! s:FinishCurrent( action ) "{{{
@@ -3981,6 +4022,10 @@ fun! s:ApplyMap() " {{{
 
     let x = b:xptemplateData
 
+    " if exists( ':AcpLock' )
+    "     AcpLock
+    " endif
+
 
     call b:xptemplateData.settingSwitch.Switch()
 
@@ -4035,6 +4080,13 @@ fun! s:ClearMap() " {{{
     call b:mapMask.Restore()
     call b:mapLiteral.Restore()
     call b:mapSaver.Restore()
+
+    " if exists( ':AcpUnlock' )
+    "     try
+    "         AcpUnlock
+    "     catch /.*/
+    "     endtry
+    " endif
 
 endfunction " }}}
 
@@ -4099,6 +4151,7 @@ fun! XPTemplateInit() "{{{
           \     'savedReg'          : '',
           \     'snippetToParse'    : [],
           \     'abbrPrefix'        : {},
+          \     'fallbacks'         : [],
           \ }
 
     let b:xptemplateData.posStack = []
@@ -4756,6 +4809,35 @@ endfunction "}}}
 com! XPTreload call XPTreload()
 com! XPTcrash call <SID>Crash()
 
+
+" " acp hack to detect if acp is showing
+" let scriptnames = XPT#getCmdOutput( 'silent scriptnames' )
+" let scrs = split( scriptnames, "\n" )
+" for s in scrs
+"     if s =~ '\V/autoload/acp.vim\$'
+"         let acpline = s
+"         break
+"     endif
+" endfor
+
+" let acpsid = matchstr( acpline, '\V\s\*\zs\d\+' )
+
+" let SS = function( '<SNR>' . acpsid . '_setTempOption' )
+
+
+" fun! XPTwhat(x)
+"     let s:acp_tempOptionSet = a:x
+"     let a:x[ 0 ] = {}
+"     return ''
+" endfunction
+
+
+" try
+"     call SS( 0, 'readonly.XPTwhat(s:tempOptionSet)', &readonly )
+" catch /.*/
+" endtry
+
+" echom string( s:acp_tempOptionSet )
 
 let &cpo = s:oldcpo
 

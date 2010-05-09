@@ -43,6 +43,7 @@ cd $DistDir
 # plugin/xpop.test.vim	\
 rm -rf	\
   plugin/xptemplateTest.vim	\
+  plugin/xptTestKey.vim	\
   plugin/xptemplate.importer.vim	\
   xpt.testall.*	\
   xpt.ex	\
@@ -110,7 +111,7 @@ cd xpt
 tar -czf ../xpt-$v-$rev.tgz *
 cd -
 
-cp xpt-$v-$rev.tgz xpt.tgz
+cp -f xpt-$v-$rev.tgz xpt.tgz
 
 ls xpt-*.tgz
 

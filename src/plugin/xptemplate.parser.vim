@@ -440,7 +440,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 
 
     if has_key( snipScope.loadedSnip, snippetName )
-        echom "XPT: warn : duplicate snippet:" . snippetName . ' in file:' . snipScope.filename
+        XPT#warn( "XPT: warn : duplicate snippet:" . snippetName . ' in file:' . snipScope.filename )
     endif
 
     let snipScope.loadedSnip[ snippetName ] = 1
@@ -452,7 +452,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
             call XPTemplateAlias( synonym, snippetName, {} )
 
             if has_key( snipScope.loadedSnip, synonym )
-                echom "XPT: warn : duplicate synonym:" . synonym . ' in file:' . snipScope.filename
+                call XPT#warn( "XPT: warn : duplicate synonym:" . synonym . ' in file:' . snipScope.filename )
             endif
 
             let snipScope.loadedSnip[ synonym ] = 1
@@ -640,7 +640,6 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
 
     elseif a:keytype ==# 'pre'
         let a:setting.preValues[a:keyname] = g:FilterValue.New( 0, a:value )
-        " echom 'prevalue set=' . a:keyname . '   ' . string( a:value )
 
     elseif a:keytype ==# 'ontype'
         let a:setting.ontypeFilters[a:keyname] = g:FilterValue.New( 0, a:value )

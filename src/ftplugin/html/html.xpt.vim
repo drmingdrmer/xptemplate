@@ -159,6 +159,9 @@ XSET content|ontype=html_cont_ontype()
 <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^>
 ..XPT
 
+" XPT _t hidden " ..
+" <`$_xSnipName^>`cont^</`$_xSnipName^>
+
 
 XPT _tagAttr hidden " <$_xSnipName >..</$_xSnipName>
 XSET content|ontype=html_cont_ontype()
@@ -330,6 +333,10 @@ XPT fieldset " <fieldset ..
     `cursor^
 </fieldset>
 
+" XPT sdiv alias=_t
+
+" XPT diva " tips
+" `:div( { 'content' : ':a:' } ):^
 
 
 " html 5
