@@ -148,11 +148,12 @@ fun! s:ListPopup( doCallback, ifEnlarge ) dict
     if self.longest !=# self.prefix
         let actionList += ['clearPum',  'clearPrefix', 'clearPum', 'typeLongest' ]
     endif
-    if !self.matchPrefix
-        let actionClosePum = PUMclear()
-        let actionList += [ 'popup', 'fixPopup' ]
+    if 0
     else
-        if self.popupCount > 1 && a:ifEnlarge && self.acceptEmpty && self.prefix == ''
+        if self.popupCount > 1
+              \ && a:ifEnlarge
+              \ && self.acceptEmpty
+              \ && self.prefix == ''
             let self.matched = ''
             let self.matchedCallback = 'onOneMatch'
             let actionList = []
@@ -163,9 +164,14 @@ fun! s:ListPopup( doCallback, ifEnlarge ) dict
             let actionList += ['callback']
         elseif len(self.currentList) == 1
               \ && a:doCallback
-            let self.matched = type(self.currentList[0]) == type({}) ? self.currentList[0].word : self.currentList[0]
-            let self.matchedCallback = 'onOneMatch'
-            let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
+            if self.matchPrefix
+                let self.matched = type(self.currentList[0]) == type({}) ? self.currentList[0].word : self.currentList[0]
+                let self.matchedCallback = 'onOneMatch'
+                let actionList += ['clearPum', 'clearPrefix', 'clearPum', 'typeMatched', 'callback']
+            else
+                let actionClosePum = PUMclear()
+                let actionList += [ 'popup', 'fixPopup' ]
+            endif
         elseif self.prefix != "" 
               \ && self.longest ==? self.prefix 
             if self.matchPrefix && a:doCallback
@@ -527,6 +533,7 @@ fun! s:ApplyMapAndSetting()
     augroup XPpopup
         au!
         au CursorMovedI * call s:CheckAndFinish()
+        au InsertEnter * call XPPend()
     augroup END
     call b:_xpp_setting_switch.Switch()
     if exists( ':AcpLock' )

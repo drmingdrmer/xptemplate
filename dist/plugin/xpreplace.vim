@@ -141,7 +141,7 @@ fun! XPreplace(start, end, replacement, ...)
     try
         let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, option )
     catch /.*/
-        echom v:exception
+        call XPT#war( v:exception )
     finally
         call XPRendSession()
     endtry

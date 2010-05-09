@@ -86,7 +86,9 @@ fun! s:pumCB.onEmpty(sess)
         call XPT#warn( "XPT: No snippet matches" )
         return ''
     else
-        return s:FallbackKey()
+        let x = b:xptemplateData
+        let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
+        return XPT#fallback( x.fallbacks )
     endif
 endfunction 
 fun! s:pumCB.onOneMatch(sess) 
@@ -564,6 +566,21 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
     if pumvisible()
         if XPPhasSession()
             return XPPend() . "\<C-r>=XPTemplateStart(0," . string( opt ) . ")\<CR>"
+        else
+            if x.fallbacks != []
+                if g:xptemplate_fallback =~? '\V<Plug>XPTrawKey\|<NOP>'
+                      \ || g:xptemplate_fallback == g:xptemplate_key
+                      \ || g:xptemplate_fallback == g:xptemplate_key_force_pum
+                      \ || g:xptemplate_fallback == g:xptemplate_key_pum_only
+                    return XPT#fallback( x.fallbacks )
+                else
+                    let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
+                    return XPT#fallback( x.fallbacks )
+                endif
+            else
+                let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
+                return XPT#fallback( x.fallbacks )
+            endif
         endif
     else
         if XPPhasSession()
@@ -593,10 +610,12 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
         if matched =~ '\V\W\$'
             let matched = matchstr( matched, '\V\W\+\$' )
         endif
-        if !isFullMaatching
-              \ && len( matched ) < g:xptemplate_minimal_prefix
-              \ && !forcePum
-            return s:FallbackKey()
+        if !has_key( opt, 'popupOnly' )
+            if !isFullMaatching
+                  \ && len( matched ) < g:xptemplate_minimal_prefix
+                  let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
+                  return XPT#fallback( x.fallbacks )
+            endif
         endif
         let startColumn = col( "." ) - len( matched )
         if matched == ''
@@ -606,7 +625,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
     let templateName = strpart( getline(startLineNr), startColumn - 1, cursorColumn - startColumn )
     let action = action . s:Popup( templateName, startColumn,
           \ { 'acceptEmpty'    : accEmp,
-          \   'forcePum'       : forcePum, 
+          \   'forcePum'       : forcePum,
           \   'matchWholeName' : get( opt, 'popupOnly', 0 ) ? 0 : isFullMaatching } )
     return action
 endfunction 
@@ -674,9 +693,9 @@ fun! s:DoStart( sess )
         return ''
     endif
     let b:__xpt_snip_sess__ = a:sess
-    return "\<BS>" . s:CreateSnippet()
+    return "\<BS>" . s:RenderSnippet()
 endfunction 
-fun! s:CreateSnippet() 
+fun! s:RenderSnippet() 
     let x = b:xptemplateData
     let sess = b:__xpt_snip_sess__
     let x.savedReg = @"
@@ -706,8 +725,10 @@ fun! s:SaveNavKey()
         let mapInfo = MapSaver_GetMapInfo( navKey, 'i', 0 )
     endif
     if mapInfo.cont == ''
-        exe 'inoremap <buffer> ' '<Plug>XPTnavFallback' navKey
+        let x.canNavFallback = 0
+        exe 'inoremap <buffer> <Plug>XPTnavFallback ' navKey
     else
+        let x.canNavFallback = 1
         let mapInfo.key = '<Plug>XPTnavFallback'
         exe MapSaverGetMapCommand( mapInfo )
     endif
@@ -719,6 +740,7 @@ fun! s:FinishRendering(...)
     let isCursor = get( renderContext.item, 'name', 0 ) is 'cursor'
     call XPMremoveMarkStartWith( renderContext.markNamePre )
     if empty(x.stack)
+        let x.fallbacks = []
         let renderContext.processing = 0
         let renderContext.phase = 'finished'
         call s:ClearMap()
@@ -1432,14 +1454,21 @@ fun! s:PushBackItem()
     let item.processed = 1
 endfunction 
 fun! s:ShiftForward( action ) 
+    let x = b:xptemplateData
+    let renderContext = x.renderContext
     if pumvisible()
         if XPPhasSession()
             return XPPend() . "\<C-r>=<SNR>" . s:sid . 'ShiftForward(' . string( a:action ) . ")\<CR>"
         else
             if g:xptemplate_move_even_with_pum
             else
-                call feedkeys( "\<Plug>XPTnavFallback", 'm')
-                return ''
+                if x.canNavFallback
+                    let x.fallbacks = [ [ "\<Plug>XPTnavFallback", 'feed' ],
+                          \             [ "\<C-r>=XPTforceForward(" . string( a:action ) . ")\<CR>", 'expr' ], ]
+                    return  XPT#fallback( x.fallbacks )
+                else
+                    return XPPend() . "\<C-r>=<SNR>" . s:sid . 'ShiftForward(' . string( a:action ) . ")\<CR>"
+                endif
             endif
         endif
     else
@@ -1447,6 +1476,9 @@ fun! s:ShiftForward( action )
             call XPPend()
         endif
     endif
+    return XPTforceForward( a:action )
+endfunction 
+fun! XPTforceForward( action ) 
     if s:FinishCurrent( a:action ) < 0
         return ''
     endif
@@ -2266,6 +2298,7 @@ fun! XPTemplateInit()
           \     'savedReg'          : '',
           \     'snippetToParse'    : [],
           \     'abbrPrefix'        : {},
+          \     'fallbacks'         : [],
           \ }
     let b:xptemplateData.posStack = []
     let b:xptemplateData.stack = []
