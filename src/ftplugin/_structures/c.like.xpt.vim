@@ -16,7 +16,7 @@ enum `name^`$BRstc^{
 }
 
 
-XPT struct abbr hint=struct\ {\ ..\ }
+XPT struct hint=struct\ {\ ..\ }
 struct `structName^`$BRstc^{
     `^
 }

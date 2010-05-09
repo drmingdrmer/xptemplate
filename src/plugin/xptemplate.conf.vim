@@ -47,6 +47,8 @@ call s:SetIfNotExist('g:xptemplate_fallback'	, '<Plug>XPTrawKey' )
 
 
 " doc it
+call s:SetIfNotExist('g:xptemplate_fallback_condition'	, '\V\c<Tab>' )
+" doc it
 call s:SetIfNotExist('g:xptemplate_move_even_with_pum'	, g:xptemplate_nav_next !=? '<Tab>' )
 call s:SetIfNotExist('g:xptemplate_always_show_pum'	, 0 )
 call s:SetIfNotExist('g:xptemplate_minimal_prefix'	, 1 )
@@ -117,15 +119,15 @@ let g:XPTpvs = {}
 let g:XPTmappings = {
       \ 'popup_old'     : "<C-v><C-v><BS><C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
       \ 'trigger_old'   : "<C-v><C-v><BS><C-r>=XPTemplateStart(0)<cr>", 
-      \ 'popup'         : "<C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
-      \ 'prefixedPopup' : "<C-r>=XPTemplateStart(0,{'forcePum':1})<cr>", 
-      \ 'trigger'       : "<C-r>=XPTemplateStart(0)<cr>", 
+      \ 'popup'         : "<C-r>=XPTemplateStart(0,{'k':'%s','popupOnly':1})<cr>", 
+      \ 'force_pum'     : "<C-r>=XPTemplateStart(0,{'k':'%s','forcePum':1})<cr>", 
+      \ 'trigger'       : "<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>", 
       \ 'wrapTrigger'   : "\"0s<C-r>=XPTemplatePreWrap(@0)<cr>", 
       \ 'incSelTrigger' : "<C-c>`>a<C-r>=XPTemplateStart(0)<cr>", 
       \ 'excSelTrigger' : "<C-c>`>i<C-r>=XPTemplateStart(0)<cr>", 
       \ 'selTrigger'    : (&selection == 'inclusive') ?
-      \                       "<C-c>`>a<C-r>=XPTemplateStart(0)<cr>" 
-      \                     : "<C-c>`>i<C-r>=XPTemplateStart(0)<cr>", 
+      \                       "<C-c>`>a<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>" 
+      \                     : "<C-c>`>i<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>", 
       \ }
 
 
@@ -138,11 +140,18 @@ endif
 
 exe "inoremap <silent> <Plug>XPTrawKey"            g:xptemplate_key
 
-exe "inoremap <silent>" g:xptemplate_key           g:XPTmappings.trigger
+fun! s:EscapeMap( s ) "{{{
+    return substitute( a:s, '\V<', '\<lt>', 'g' )
+endfunction "}}}
+
+
+
+
+exe "inoremap <silent>" g:xptemplate_key           printf( g:XPTmappings.trigger      , s:EscapeMap( g:xptemplate_key )          )
 exe "xnoremap <silent>" g:xptemplate_key           g:XPTmappings.wrapTrigger
-exe "snoremap <silent>" g:xptemplate_key           g:XPTmappings.selTrigger
-exe "inoremap <silent>" g:xptemplate_key_pum_only  g:XPTmappings.popup
-exe "inoremap <silent>" g:xptemplate_key_force_pum g:XPTmappings.prefixedPopup
+exe "snoremap <silent>" g:xptemplate_key           printf( g:XPTmappings.selTrigger   , s:EscapeMap( g:xptemplate_key )          )
+exe "inoremap <silent>" g:xptemplate_key_pum_only  printf( g:XPTmappings.popup        , s:EscapeMap( g:xptemplate_key_pum_only ) )
+exe "inoremap <silent>" g:xptemplate_key_force_pum printf( g:XPTmappings.force_pum    , s:EscapeMap( g:xptemplate_key_force_pum ))
 
 if g:xptemplate_key_2 != g:xptemplate_key
     exe "inoremap <silent>" g:xptemplate_key_2           g:XPTmappings.trigger

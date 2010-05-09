@@ -81,6 +81,7 @@
 "   fix: <C-r><C-\> now always show pum
 "   fix: g:xptemplate_always_show_pum sometimes breaks vim:"E523: Not allowed here"
 "   change: <CR> and <C-y> now accept pum selection and triggers snippet.
+"   fix: default key like <C-\> does not fallback to raw key stoke.
 "
 "
 "
@@ -208,7 +209,6 @@ endfunction "}}}
 
 
 let s:priorities = {'all' : 64, 'spec' : 48, 'like' : 32, 'lang' : 16, 'sub' : 8, 'personal' : 0}
-let s:priPtn = 'all\|spec\|like\|lang\|sub\|personal\|\d\+'
 
 let g:XPT_RC = {
       \   'ok' : {},
@@ -1035,13 +1035,26 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
     endif
 
 
+
+    let keypressed = get( opt, 'k', g:xptemplate_key )
+
     if pumvisible()
 
         if XPPhasSession()
             return XPPend() . "\<C-r>=XPTemplateStart(0," . string( opt ) . ")\<CR>"
         else
-            if x.fallbacks != []
+
+            if x.fallbacks == []
                 " no more tries can be done
+
+                if keypressed =~ g:xptemplate_fallback_condition
+                    let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
+                    return XPT#fallback( x.fallbacks )
+                else
+                    " nothing to do, normal procedure.
+                endif
+
+            else
                 if g:xptemplate_fallback =~? '\V<Plug>XPTrawKey\|<NOP>'
                       \ || g:xptemplate_fallback == g:xptemplate_key
                       \ || g:xptemplate_fallback == g:xptemplate_key_force_pum
@@ -1053,11 +1066,8 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
                     let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
                     return XPT#fallback( x.fallbacks )
                 endif
-
-            else
-                let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
-                return XPT#fallback( x.fallbacks )
             endif
+
         endif
 
     else
@@ -1152,6 +1162,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 endfunction " }}}
 
 " TODO simplify with split
+let s:priPtn = 'all\|spec\|like\|lang\|sub\|personal\|\d\+'
 fun! s:ParsePriorityString(s) "{{{
     let x = b:xptemplateData
 
@@ -1161,43 +1172,60 @@ fun! s:ParsePriorityString(s) "{{{
         return x.snipFileScope.priority
     endif
 
+    let newPrio = s:ParsePriority( a:s )
+    return newPrio
 
-    let prio = 0
 
-    let p = matchlist(pstr, '\V\^\(' . s:priPtn . '\)' . '\%(' . '\(\[+-]\)' . '\(\d\+\)\?\)\?\$')
 
-    let base   = 0
-    let r      = 1
-    let offset = 0
+    " let prio = 0
 
-    if p[1] != ""
-        if has_key(s:priorities, p[1])
-            let base = s:priorities[p[1]]
-        elseif p[1] =~ '^\d\+$'
-            let base = 0 + p[1]
-        else
-            let base = 0
-        endif
-    else
-        let base = 0
+    " let p = matchlist(pstr, '\V\^\(' . s:priPtn . '\)' . '\%(' . '\(\[+-]\)' . '\(\d\+\)\?\)\?\$')
+
+    " let base   = 0
+    " let r      = 1
+    " let offset = 0
+
+    " if p[1] != ""
+    "     if has_key(s:priorities, p[1])
+    "         let base = s:priorities[p[1]]
+    "     elseif p[1] =~ '^\d\+$'
+    "         let base = 0 + p[1]
+    "     else
+    "         let base = 0
+    "     endif
+    " else
+    "     let base = 0
+    " endif
+
+    " let r = p[2] == '+'
+    "       \ ? 1
+    "       \ : ( p[2] == '-' ? -1 : 0 )
+
+    " if p[3] != ""
+    "     let offset = 0 + p[3]
+    " else
+    "     let offset = 1
+    " endif
+
+    " let prio = base + offset * r
+
+
+    " call s:log.Log("parse priority : str=".a:s." value=".prio)
+
+    " return prio
+endfunction "}}}
+
+fun! s:ParsePriority( pstr ) "{{{
+    let pstr = a:pstr
+    if pstr =~ '\V\[+-]\$'
+        let pstr .= '1'
     endif
+    
+    let reg = '\V\(\w\+\|\[+-]\)\zs'
+    let prioParts = split( pstr, reg )
 
-    let r = p[2] == '+'
-          \ ? 1
-          \ : ( p[2] == '-' ? -1 : 0 )
-
-    if p[3] != ""
-        let offset = 0 + p[3]
-    else
-        let offset = 1
-    endif
-
-    let prio = base + offset * r
-
-
-    call s:log.Log("parse priority : str=".a:s." value=".prio)
-
-    return prio
+    let prioParts[ 0 ] = get( s:priorities, prioParts[ 0 ], prioParts[ 0 ] - 0 )
+    return eval( join( prioParts, '' ) )
 endfunction "}}}
 
 fun! s:NewRenderContext( ftScope, tmplName ) "{{{

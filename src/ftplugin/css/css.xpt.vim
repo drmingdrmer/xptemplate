@@ -3,7 +3,7 @@ XPTemplate priority=lang
 let s:f = g:XPTfuncs()
 
 XPTvar $VOID_LINE  /* void */;
-XPTvar $CURSOR_PH      /* cursor */
+XPTvar $CURSOR_PH  /* cursor */
 
 XPTvar $CL  /*
 XPTvar $CM   *
