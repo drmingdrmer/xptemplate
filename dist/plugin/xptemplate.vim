@@ -69,7 +69,6 @@ fun! s:SetDefaultFilters( ph )
     endif
 endfunction 
 let s:priorities = {'all' : 64, 'spec' : 48, 'like' : 32, 'lang' : 16, 'sub' : 8, 'personal' : 0}
-let s:priPtn = 'all\|spec\|like\|lang\|sub\|personal\|\d\+'
 let g:XPT_RC = {
       \   'ok' : {},
       \   'canceled' : {},
@@ -563,11 +562,18 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
             return leftSpaces . "\<C-r>=XPTemplateStart(0," . string( opt ) . ")\<CR>"
         endif
     endif
+    let keypressed = get( opt, 'k', g:xptemplate_key )
     if pumvisible()
         if XPPhasSession()
             return XPPend() . "\<C-r>=XPTemplateStart(0," . string( opt ) . ")\<CR>"
         else
-            if x.fallbacks != []
+            if x.fallbacks == []
+                if keypressed =~ g:xptemplate_fallback_condition
+                    let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
+                    return XPT#fallback( x.fallbacks )
+                else
+                endif
+            else
                 if g:xptemplate_fallback =~? '\V<Plug>XPTrawKey\|<NOP>'
                       \ || g:xptemplate_fallback == g:xptemplate_key
                       \ || g:xptemplate_fallback == g:xptemplate_key_force_pum
@@ -577,9 +583,6 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
                     let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
                     return XPT#fallback( x.fallbacks )
                 endif
-            else
-                let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
-                return XPT#fallback( x.fallbacks )
             endif
         endif
     else
@@ -629,38 +632,25 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
           \   'matchWholeName' : get( opt, 'popupOnly', 0 ) ? 0 : isFullMaatching } )
     return action
 endfunction 
+let s:priPtn = 'all\|spec\|like\|lang\|sub\|personal\|\d\+'
 fun! s:ParsePriorityString(s) 
     let x = b:xptemplateData
     let pstr = a:s
     if pstr == ""
         return x.snipFileScope.priority
     endif
-    let prio = 0
-    let p = matchlist(pstr, '\V\^\(' . s:priPtn . '\)' . '\%(' . '\(\[+-]\)' . '\(\d\+\)\?\)\?\$')
-    let base   = 0
-    let r      = 1
-    let offset = 0
-    if p[1] != ""
-        if has_key(s:priorities, p[1])
-            let base = s:priorities[p[1]]
-        elseif p[1] =~ '^\d\+$'
-            let base = 0 + p[1]
-        else
-            let base = 0
-        endif
-    else
-        let base = 0
+    let newPrio = s:ParsePriority( a:s )
+    return newPrio
+endfunction 
+fun! s:ParsePriority( pstr ) 
+    let pstr = a:pstr
+    if pstr =~ '\V\[+-]\$'
+        let pstr .= '1'
     endif
-    let r = p[2] == '+'
-          \ ? 1
-          \ : ( p[2] == '-' ? -1 : 0 )
-    if p[3] != ""
-        let offset = 0 + p[3]
-    else
-        let offset = 1
-    endif
-    let prio = base + offset * r
-    return prio
+    let reg = '\V\(\w\+\|\[+-]\)\zs'
+    let prioParts = split( pstr, reg )
+    let prioParts[ 0 ] = get( s:priorities, prioParts[ 0 ], prioParts[ 0 ] - 0 )
+    return eval( join( prioParts, '' ) )
 endfunction 
 fun! s:NewRenderContext( ftScope, tmplName ) 
     let x = b:xptemplateData
