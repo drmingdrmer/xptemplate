@@ -15,60 +15,56 @@ let s:unescapeHead = '\v(\\*)\1\\?\V'
 let s:ep           = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
 
-fun! s:SetIfNotExist(k, v) "{{{
-    if !exists( a:k )
-        exe "let" a:k "=" string( a:v )
-    endif
-endfunction "}}}
 
 
 
-" call s:SetIfNotExist('g:xptemplate_show_stack'	, 1 )
-" call s:SetIfNotExist('g:xptemplate_abbr_mode'	, 0 )
-" call s:SetIfNotExist('g:xptemplate_crash'	, '<C-g>' )
-" call s:SetIfNotExist('g:xptemplate_nav_clear_next'	, '<cr>' )
-" call s:SetIfNotExist('g:xptemplate_map'	, '' )
+" call XPT#setIfNotExist('g:xptemplate_show_stack'	, 1 )
+" call XPT#setIfNotExist('g:xptemplate_abbr_mode'	, 0 )
+" call XPT#setIfNotExist('g:xptemplate_crash'	, '<C-g>' )
+" call XPT#setIfNotExist('g:xptemplate_nav_clear_next'	, '<cr>' )
+" call XPT#setIfNotExist('g:xptemplate_map'	, '' )
 
-call s:SetIfNotExist('g:xptemplate_key'	, '<C-\>' )
-call s:SetIfNotExist('g:xptemplate_key_force_pum'	, '<C-r>' . g:xptemplate_key )
-call s:SetIfNotExist('g:xptemplate_key_pum_only'	, '<C-r><C-r>' . g:xptemplate_key )
+call XPT#setIfNotExist('g:xptemplate_key'	, '<C-\>' )
+call XPT#setIfNotExist('g:xptemplate_key_force_pum'	, '<C-r>' . g:xptemplate_key )
+call XPT#setIfNotExist('g:xptemplate_key_pum_only'	, '<C-r><C-r>' . g:xptemplate_key )
 
 
-call s:SetIfNotExist('g:xptemplate_nav_next'	, '<Tab>' )
-call s:SetIfNotExist('g:xptemplate_nav_prev'	, '<S-Tab>' )
-call s:SetIfNotExist('g:xptemplate_nav_cancel'	, '<cr>' )
-call s:SetIfNotExist('g:xptemplate_goback'	, '<C-g>' )
-call s:SetIfNotExist('g:xptemplate_to_right'	, '<C-l>' )
+call XPT#setIfNotExist('g:xptemplate_nav_next'	, '<Tab>' )
+call XPT#setIfNotExist('g:xptemplate_nav_prev'	, '<S-Tab>' )
+call XPT#setIfNotExist('g:xptemplate_nav_cancel'	, '<cr>' )
+call XPT#setIfNotExist('g:xptemplate_goback'	, '<C-g>' )
+call XPT#setIfNotExist('g:xptemplate_to_right'	, '<C-l>' )
 
 " TODO doc it
-call s:SetIfNotExist('g:xptemplate_key_2'	, g:xptemplate_key )
-call s:SetIfNotExist('g:xptemplate_nav_next_2'	, g:xptemplate_nav_next )
-call s:SetIfNotExist('g:xptemplate_fallback'	, '<Plug>XPTrawKey' )
+call XPT#setIfNotExist('g:xptemplate_key_2'	, g:xptemplate_key )
+call XPT#setIfNotExist('g:xptemplate_nav_next_2'	, g:xptemplate_nav_next )
+call XPT#setIfNotExist('g:xptemplate_fallback'	, '<Plug>XPTrawKey' )
 
 
 " doc it
-call s:SetIfNotExist('g:xptemplate_fallback_condition'	, '\V\c<Tab>' )
+call XPT#setIfNotExist('g:xptemplate_fallback_condition'	, '\V\c<Tab>' )
 " doc it
-call s:SetIfNotExist('g:xptemplate_move_even_with_pum'	, g:xptemplate_nav_next !=? '<Tab>' )
-call s:SetIfNotExist('g:xptemplate_always_show_pum'	, 0 )
-call s:SetIfNotExist('g:xptemplate_minimal_prefix'	, 1 )
-call s:SetIfNotExist('g:xptemplate_pum_tab_nav'	, 0 )
-call s:SetIfNotExist('g:xptemplate_strict'	, 2 )
-call s:SetIfNotExist('g:xptemplate_highlight'	, 'next' )
-call s:SetIfNotExist('g:xptemplate_brace_complete'	, 1 )
-call s:SetIfNotExist('g:xptemplate_strip_left'	, 1 )
-call s:SetIfNotExist('g:xptemplate_fix'	, 1 )
-call s:SetIfNotExist('g:xptemplate_ph_pum_accept_empty'	, 1 )
+call XPT#setIfNotExist('g:xptemplate_move_even_with_pum'	, g:xptemplate_nav_next !=? '<Tab>' )
+call XPT#setIfNotExist('g:xptemplate_always_show_pum'	, 0 )
+call XPT#setIfNotExist('g:xptemplate_minimal_prefix'	, 1 )
+call XPT#setIfNotExist('g:xptemplate_pum_tab_nav'	, 0 )
+call XPT#setIfNotExist('g:xptemplate_strict'	, 2 )
+call XPT#setIfNotExist('g:xptemplate_highlight'	, 'next' )
+call XPT#setIfNotExist('g:xptemplate_highlight_nested'	, 0 )
+call XPT#setIfNotExist('g:xptemplate_brace_complete'	, 1 )
+call XPT#setIfNotExist('g:xptemplate_strip_left'	, 1 )
+call XPT#setIfNotExist('g:xptemplate_fix'	, 1 )
+call XPT#setIfNotExist('g:xptemplate_ph_pum_accept_empty'	, 1 )
 
 
-call s:SetIfNotExist('g:xptemplate_vars'	, '' )
-call s:SetIfNotExist('g:xptemplate_bundle'	, '' )
-call s:SetIfNotExist('g:xptemplate_snippet_folders'	, [] )
+call XPT#setIfNotExist('g:xptemplate_vars'	, '' )
+call XPT#setIfNotExist('g:xptemplate_bundle'	, '' )
+call XPT#setIfNotExist('g:xptemplate_snippet_folders'	, [] )
 
 
 
 " for test script
-call s:SetIfNotExist('g:xpt_post_action', '')
+call XPT#setIfNotExist('g:xpt_post_action', '')
 
 
 
@@ -141,7 +137,8 @@ endif
 exe "inoremap <silent> <Plug>XPTrawKey"            g:xptemplate_key
 
 fun! s:EscapeMap( s ) "{{{
-    return substitute( a:s, '\V<', '\<lt>', 'g' )
+    " return substitute( a:s, '\V<', '\<lt>', 'g' )
+    return substitute( a:s, '\V>', '++', 'g' )
 endfunction "}}}
 
 

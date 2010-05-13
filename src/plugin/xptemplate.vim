@@ -77,31 +77,10 @@
 " "}}}
 "
 " Log of This version:
-"   fix: sometimes xpt is broken by uninitialized buffer-variable
-"   fix: <C-r><C-\> now always show pum
-"   fix: g:xptemplate_always_show_pum sometimes breaks vim:"E523: Not allowed here"
-"   change: <CR> and <C-y> now accept pum selection and triggers snippet.
-"   fix: default key like <C-\> does not fallback to raw key stoke.
+"   fix: mistakely using $SPop in brackets snippet. It should be $SParg
+"   fix: bug pre-parsing spaces
+"   add: g:xptemplate_highlight_nested
 "
-"
-"
-" supertab support
-"
-" " avoid key conflict
-" let g:SuperTabMappingForward = '<Plug>supertabKey'
-"
-" " if nothing matched in xpt, try supertab
-" let g:xptemplate_fallback = '<Plug>supertabKey'
-"
-" " xpt uses <Tab> as trigger key
-" let g:xptemplate_key = '<Tab>'
-"
-" " use <tab>/<S-tab> to navigate through pum
-" let g:xptemplate_pum_tab_nav = 1
-"
-" " xpt triggers only when you typed whole name of a snippet. This may be
-" " helpfull
-" let g:xptemplate_minimal_prefix = 'full'
 "
 "
 
@@ -1037,6 +1016,8 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
 
     let keypressed = get( opt, 'k', g:xptemplate_key )
+    let keypressed = substitute( keypressed, '\V++', '>', 'g' )
+
 
     if pumvisible()
 
@@ -1056,9 +1037,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
             else
                 if g:xptemplate_fallback =~? '\V<Plug>XPTrawKey\|<NOP>'
-                      \ || g:xptemplate_fallback == g:xptemplate_key
-                      \ || g:xptemplate_fallback == g:xptemplate_key_force_pum
-                      \ || g:xptemplate_fallback == g:xptemplate_key_pum_only
+                      \ || g:xptemplate_fallback ==? keypressed
 
                     return XPT#fallback( x.fallbacks )
 
@@ -1545,8 +1524,8 @@ fun! s:ParseSpaces( snipObject ) "{{{
         let expr = s:CachedCompileExpr( raw, renderContext.ftScope.funcs )
 
         if substitute( expr, 'GetVar', '', 'g' ) =~ '\V\<xfunc.\w\+('
-            let start = end + 1
-            let lastMark = text[ end ]
+            let start = end
+            let lastMark = text[ end - 1 ]
             continue
         endif
 
@@ -1563,6 +1542,7 @@ fun! s:ParseSpaces( snipObject ) "{{{
         endif
 
         let currentMark = text[ end ]
+
 
 
         if lastMark == xp.l
@@ -1584,9 +1564,8 @@ fun! s:ParseSpaces( snipObject ) "{{{
 
     endwhile
 
-
     return text
-    
+
 endfunction "}}}
 
 fun! s:ParseRepetition( snipObject ) "{{{

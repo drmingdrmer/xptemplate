@@ -113,6 +113,10 @@ fun! s:_MapPop( info ) "{{{
     endtry
 endfunction "}}}
 
+" fun! s:EscapeMap( s ) "{{{
+    " return substitute( a:s, '\V<', '\<lt>', 'g' )
+" endfunction "}}}
+
 fun! MapSaverGetMapCommand( info ) "{{{
     " NOTE: guess it, no way to figure out whether a key is mapped with <expr> or not
     let exprMap = ''

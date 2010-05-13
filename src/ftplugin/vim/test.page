@@ -123,15 +123,15 @@ WRAPPED_TEXT_line2`
     a drdr.xp
 
 
-    "  -------------call--------------- 
-    " `name^(`$SParg^`param^`$SParg^)   
+    "  -------------call---------------          
+    " `vim_call()`name^(`$SParg^`param^`$SParg^) 
 
 
 
-name( WRAPPED_TEXT
+call name( WRAPPED_TEXT
 WRAPPED_TEXT_line2 )
 
-name_TYPED( WRAPPED_TEXT
+call name_TYPED( WRAPPED_TEXT
 WRAPPED_TEXT_line2 ) b
 
 `name( WRAPPED_TEXT
@@ -388,34 +388,6 @@ finally
 
              a finally
                  
-
-
-    "  -------------foreach--------------- 
-    " for `value^ in `list^                
-    "     `cursor^                         
-    " endfor                               
-
-
-
-for value in list
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endfor
-
-for value_TYPED in list_TYPED
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endfor b
-
-`for value in list
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endfor^
-
-a for value in list
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endfor
 
 
     "  -------------forin--------------- 

@@ -55,19 +55,14 @@ fun! s:UpdateHL(x, ctx) "{{{
 
 
     if g:xptemplate_highlight =~ 'next'
-        let r = ''
 
-        for item in a:ctx.itemList
-            if item.keyPH != {}
-                let r .= '\|' . s:MarkRange( item.keyPH.innerMarks )
-            else
-                let r .= '\|' . s:MarkRange( item.placeHolders[0].mark )
-            endif
-        endfor
+        let r = s:PatternOfNext( a:ctx )
 
-        if a:ctx.itemList == [] || 'cursor' != item.name
-            let pos = XPMposList( a:ctx.marks.tmpl.end, a:ctx.marks.tmpl.end )
-            let r .= '\|' . XPTgetStaticRange( pos[0], [ pos[1][0], pos[1][1] + 1 ] )
+        if g:xptemplate_highlight_nested
+
+            for octx in a:x.stack
+                let r .= s:PatternOfNext( octx )
+            endfor
 
         endif
 
@@ -77,6 +72,27 @@ fun! s:UpdateHL(x, ctx) "{{{
 
     return 1
 
+endfunction "}}}
+
+fun! s:PatternOfNext( ctx ) "{{{
+
+    let r = ''
+
+    for item in a:ctx.itemList
+        if item.keyPH != {}
+            let r .= '\|' . s:MarkRange( item.keyPH.innerMarks )
+        else
+            let r .= '\|' . s:MarkRange( item.placeHolders[0].mark )
+        endif
+    endfor
+
+    if a:ctx.itemList == [] || 'cursor' != item.name
+        let pos = XPMposList( a:ctx.marks.tmpl.end, a:ctx.marks.tmpl.end )
+        let r .= '\|' . XPTgetStaticRange( pos[0], [ pos[1][0], pos[1][1] + 1 ] )
+
+    endif
+
+    return r
 endfunction "}}}
 
 fun! s:MarkRange( marks ) "{{{

@@ -222,7 +222,6 @@ Description : `cursor^
 
 XPT if " if ..: .. else...
 `:_if:^
-`else...{{^`:else:^`}}^
 
 
 XPT else " else:
@@ -319,6 +318,10 @@ from `module^ import `item^` as `name?^
 
 XPT fromfuture " from __future__ import ..
 from __future__ import `name^
+
+
+XPT str wrap=s " str\( .. )
+str(`$SParg^`s^`$SParg^)
 
 
 XPT genExp " \(func\(x) for x in seq)
