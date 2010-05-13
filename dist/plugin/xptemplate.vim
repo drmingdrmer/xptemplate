@@ -563,6 +563,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
         endif
     endif
     let keypressed = get( opt, 'k', g:xptemplate_key )
+    let keypressed = substitute( keypressed, '\V++', '>', 'g' )
     if pumvisible()
         if XPPhasSession()
             return XPPend() . "\<C-r>=XPTemplateStart(0," . string( opt ) . ")\<CR>"
@@ -575,9 +576,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
                 endif
             else
                 if g:xptemplate_fallback =~? '\V<Plug>XPTrawKey\|<NOP>'
-                      \ || g:xptemplate_fallback == g:xptemplate_key
-                      \ || g:xptemplate_fallback == g:xptemplate_key_force_pum
-                      \ || g:xptemplate_fallback == g:xptemplate_key_pum_only
+                      \ || g:xptemplate_fallback ==? keypressed
                     return XPT#fallback( x.fallbacks )
                 else
                     let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
@@ -835,8 +834,8 @@ fun! s:ParseSpaces( snipObject )
         let raw = text[ start + 1 : end - 1 ]
         let expr = s:CachedCompileExpr( raw, renderContext.ftScope.funcs )
         if substitute( expr, 'GetVar', '', 'g' ) =~ '\V\<xfunc.\w\+('
-            let start = end + 1
-            let lastMark = text[ end ]
+            let start = end
+            let lastMark = text[ end - 1 ]
             continue
         endif
         let str = s:Eval( raw, renderContext.ftScope.funcs, { 'variables' : a:snipObject.setting.variables } )

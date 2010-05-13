@@ -169,7 +169,7 @@ XPT _bracket hidden
 XSET s|pre=Echo('')
 XSET s|ontype=bkt_ontype()
 XSET s=bkt_init(' ')
-`$_xSnipName$SPop`s^`s^bkt_cmpl()^
+`$_xSnipName$SParg`s^`s^bkt_cmpl()^
 
 XPT _quote hidden
 XSET s|pre=Echo('')

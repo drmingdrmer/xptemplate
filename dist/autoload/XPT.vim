@@ -22,6 +22,12 @@ let XPT#nonEscaped =
       \ . '\@<='
 
 
+fun! XPT#setIfNotExist(k, v) "{{{
+    if !exists( a:k )
+        exe "let" a:k "=" string( a:v )
+    endif
+endfunction "}}}
+
 fun! XPT#warn( msg ) "{{{
     echohl WarningMsg
     echom a:msg

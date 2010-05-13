@@ -33,6 +33,11 @@ XPTvar $CS    "
 XPTinclude
       \ _comment/singleSign
 
+fun! s:f.vim_call()
+    " Note: do not use [ * - 2 ] which may be -1
+    return getline( '.' )[ : self.ItemPos()[0][1] - 1 ] =~ '\v^\s*\w$' ? 'call ' : ''
+endfunction
+
 call XPTdefineSnippet('vimformat', {}, [ '" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}' ])
 
 
@@ -100,8 +105,6 @@ for `value^ in `list^
     `cursor^
 endfor
 
-XPT foreach alias=forin
-
 XPT try wrap=job " try .. catch ..
 try
     `job^
@@ -145,7 +148,7 @@ exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|un
 ..XPT
 
 XPT call wraponly=param " ..\( .. )
-`name^(`$SParg^`param^`$SParg^)
+`vim_call()`name^(`$SParg^`param^`$SParg^)
 
 XPT _call hidden wrap=param? " $_xSnipName( .. )
 `$_xSnipName^(`$SParg`param?`$SParg^)
