@@ -2188,8 +2188,8 @@ fun! s:XPTinitMapping()
     let b:xptemplateData.settingSwitch = g:SettingSwitch.New()
     call b:xptemplateData.settingSwitch.AddList(
           \[ '&l:textwidth', '0' ],
-          \[ '&l:indentkeys', { 'exe' : 'setl indentkeys-=*<Return> | setl indentkeys-=o' } ],
-          \[ '&l:cinkeys', { 'exe' : 'setl cinkeys-=*<Return> | setl cinkeys-=o' } ],
+          \[ '&l:indentkeys', { 'exe' : 'setl indentkeys-=*<Return>' } ],
+          \[ '&l:cinkeys', { 'exe' : 'setl cinkeys-=*<Return>' } ],
           \)
     let b:xptemplateData.settingWrap = g:SettingSwitch.New()
     call b:xptemplateData.settingWrap.Add( '&l:wrap', '1' )
