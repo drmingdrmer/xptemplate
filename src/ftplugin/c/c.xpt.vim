@@ -59,6 +59,14 @@ snprintf(`$SPop^`str^,`$SPop^`size^,`$SPop^`:_printfElts:^`$SPop^)
 XPT fprintf	" fprintf\(...)
 fprintf(`$SPop^`stream^,`$SPop^`:_printfElts:^`$SPop^)
 
+XPT memcpy " memcpy (..., ..., sizeof (...) ... )
+memcpy( `dest^, `source^, sizeof(`type^int^) * `count^ )
+
+XPT memset " memset (..., ..., sizeof (...) ... )
+memset( `buffer^, `what^0^, sizeof( `type^int^ ) * `count^ )
+
+XPT malloc " malloc ( ... );
+(`type^int^*)malloc( sizeof( `type^ ) * `count^ )
 
 XPT assert	" assert (.., msg)
 assert(`$SPop^`isTrue^,`$SPop^"`text^"`$SPop^)
