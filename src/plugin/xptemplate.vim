@@ -22,7 +22,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
-" TODO add GetLatestVimScripts support
+" TODO duplicate snippet name check
 " TODO add: <BS> at ph start to shift backward.
 " TODO add: php snippet <% for .. %> in html 
 " TODO improve: 3 quotes in python
@@ -30,6 +30,7 @@
 " TODO goto next or trigger?
 " TODO add: visual mode trigger.
 " TODO fix: after undo, highlight is not cleared.
+" TODO with strict = 0/1 XPT does not work well
 " TODO add: XSET to set edge.
 " TODO add: short snippet syntax
 " TODO add: global shortcuts
@@ -79,7 +80,11 @@
 " Log of This version:
 "   fix: mistakely using $SPop in brackets snippet. It should be $SParg
 "   fix: bug pre-parsing spaces
+"   fix: bug that non-key place holder does not clear  '`' and '^'
 "   add: g:xptemplate_highlight_nested
+"   add: g:xptemplate_minimal_prefix_nested
+"
+"   improve: critical: do not update 'k' and 'l' marks of xpmark if no marks defined
 "
 "
 "
@@ -1060,7 +1065,13 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
     let forcePum = get( opt, 'forcePum', g:xptemplate_always_show_pum )
 
-    let isFullMaatching = g:xptemplate_minimal_prefix is 'full'
+    if x.renderContext.processing
+        let miniPrefix = g:xptemplate_minimal_prefix_nested
+    else
+        let miniPrefix = g:xptemplate_minimal_prefix
+    endif
+
+    let isFullMaatching = miniPrefix is 'full'
     " if pumvisible()
     "     let isFullMaatching = 1
     " endif
@@ -1107,10 +1118,9 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
             let matched = matchstr( matched, '\V\W\+\$' )
         endif
 
-
         if !has_key( opt, 'popupOnly' )
             if !isFullMaatching
-                  \ && len( matched ) < g:xptemplate_minimal_prefix
+                  \ && len( matched ) < miniPrefix
                   " \ && !forcePum
 
                   let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
@@ -2087,8 +2097,10 @@ fun! s:BuildMarksOfPlaceHolder( item, placeHolder, nameInfo, valueInfo ) "{{{
 
         call XPreplaceInternal(nameInfo[0], valueInfo[2], placeHolder.fullname)
 
-    elseif nameInfo[0][0] == nameInfo[3][0]
-        let nameInfo[3][1] -= 1
+    else
+        if nameInfo[0][0] == nameInfo[3][0]
+            let nameInfo[3][1] -= 1
+        endif
         call XPreplaceInternal(nameInfo[0], valueInfo[2], placeHolder.name)
     endif
 
@@ -2704,6 +2716,7 @@ fun! s:ShiftForward( action ) " {{{
     endif
 
 
+
     return XPTforceForward( a:action )
 
 endfunction " }}}
@@ -2822,7 +2835,7 @@ fun! s:ApplyPostFilter() "{{{
 
     let typed = s:TextBetween( XPMposStartEnd( marks ) )
 
-    " Note: some post filter need the typed value
+    " NOTE: some post filter need the typed value
     if renderContext.item.name != ''
         let renderContext.namedStep[renderContext.item.name] = typed
     endif
@@ -3998,12 +4011,16 @@ fun! s:XPTinitMapping() "{{{
 
     " 'indentkeys' causes problem that it changes indent or converts tabs/spaces
     " that xpmark can not track
+    "
+    " *<Return> reindent current line
     let b:xptemplateData.settingSwitch = g:SettingSwitch.New()
     call b:xptemplateData.settingSwitch.AddList(
           \[ '&l:textwidth', '0' ],
           \[ '&l:indentkeys', { 'exe' : 'setl indentkeys-=*<Return>' } ],
           \[ '&l:cinkeys', { 'exe' : 'setl cinkeys-=*<Return>' } ],
           \)
+    " \[ '&l:indentkeys', { 'exe' : 'setl indentkeys-=*<Return> | setl indentkeys-=o' } ],
+    " \[ '&l:cinkeys', { 'exe' : 'setl cinkeys-=*<Return> | setl cinkeys-=o' } ],
 
     " provent horizontal scroll when putting raw snippet onto screen before building
     let b:xptemplateData.settingWrap = g:SettingSwitch.New()
