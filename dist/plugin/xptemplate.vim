@@ -590,7 +590,12 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
         endif
     endif
     let forcePum = get( opt, 'forcePum', g:xptemplate_always_show_pum )
-    let isFullMaatching = g:xptemplate_minimal_prefix is 'full'
+    if x.renderContext.processing
+        let miniPrefix = g:xptemplate_minimal_prefix_nested
+    else
+        let miniPrefix = g:xptemplate_minimal_prefix
+    endif
+    let isFullMaatching = miniPrefix is 'full'
     let cursorColumn = col(".")
     let startLineNr = line(".")
     let accEmp = 0
@@ -614,7 +619,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
         endif
         if !has_key( opt, 'popupOnly' )
             if !isFullMaatching
-                  \ && len( matched ) < g:xptemplate_minimal_prefix
+                  \ && len( matched ) < miniPrefix
                   let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
                   return XPT#fallback( x.fallbacks )
             endif
@@ -1138,8 +1143,10 @@ fun! s:BuildMarksOfPlaceHolder( item, placeHolder, nameInfo, valueInfo )
             let nameInfo[3][1] -= shift
         endif
         call XPreplaceInternal(nameInfo[0], valueInfo[2], placeHolder.fullname)
-    elseif nameInfo[0][0] == nameInfo[3][0]
-        let nameInfo[3][1] -= 1
+    else
+        if nameInfo[0][0] == nameInfo[3][0]
+            let nameInfo[3][1] -= 1
+        endif
         call XPreplaceInternal(nameInfo[0], valueInfo[2], placeHolder.name)
     endif
     call XPMadd( placeHolder.mark.start, nameInfo[0], 'l' )
