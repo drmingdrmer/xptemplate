@@ -595,6 +595,9 @@ fun! s:findLikelyRange(changeStart, bChangeEnd) dict
     return [ iLikelyStart, iLikelyEnd ]
 endfunction 
 fun! s:saveCurrentCursorStat() dict 
+    if self.marks == {}
+        return
+    endif
     let p = [ line( '.' ), col( '.' ) ]
         exe 'k'.g:xpm_mark
         if p[0] < line( '$' )

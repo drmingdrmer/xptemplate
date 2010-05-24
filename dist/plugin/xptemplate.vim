@@ -894,8 +894,12 @@ fun! s:ParseRepetition( snipObject )
     while stack != []
         let matchpos = stack[-1]
         unlet stack[-1]
-        let bef = tmpl[:matchpos-1]
-        let rest = tmpl[matchpos : ]
+        if matchpos == 0
+            let bef = ''
+        else
+            let bef = tmpl[ : matchpos-1 ]
+        endif
+        let rest = tmpl[ matchpos : ]
         let indentNr = s:GetIndentBeforeEdge( tmplObj, bef )
         let repeatPart = matchstr(rest, repContPtn)
         let repeatPart = 'BuildIfNoChange(' . string( repeatPart ) . ')'
