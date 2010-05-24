@@ -67,6 +67,26 @@ call XPT#setIfNotExist('g:xptemplate_snippet_folders'	, [] )
 call XPT#setIfNotExist('g:xpt_post_action', '')
 
 
+if type( g:xptemplate_minimal_prefix ) == type( '' )
+    if g:xptemplate_minimal_prefix =~ ','
+        let [ outer, inner ] = split( g:xptemplate_minimal_prefix, ',' )
+        if outer =~ '\d'
+            let g:xptemplate_minimal_prefix = outer + 0
+        else
+            let g:xptemplate_minimal_prefix = outer
+        endif
+
+        if inner =~ '\d'
+            let g:xptemplate_minimal_prefix_nested = inner + 0
+        else
+            let g:xptemplate_minimal_prefix_nested = inner
+        endif
+    endif
+endif
+
+call XPT#setIfNotExist( 'g:xptemplate_minimal_prefix_nested', g:xptemplate_minimal_prefix )
+
+
 
 if g:xptemplate_fallback == ''
     let g:xptemplate_fallback = '<NOP>'
@@ -137,7 +157,6 @@ endif
 exe "inoremap <silent> <Plug>XPTrawKey"            g:xptemplate_key
 
 fun! s:EscapeMap( s ) "{{{
-    " return substitute( a:s, '\V<', '\<lt>', 'g' )
     return substitute( a:s, '\V>', '++', 'g' )
 endfunction "}}}
 

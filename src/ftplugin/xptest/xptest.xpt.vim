@@ -58,4 +58,5 @@ fd
 " XPT aa " paste at end test
 " `f^`aa...{{^pp`}}^`l^Echo( Context().history[-1].item.name )^
 
-
+XPT pp " tips
+   `wat^abc\(n)^

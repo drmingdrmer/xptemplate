@@ -447,10 +447,7 @@ fun! s:_InitBuffer() "{{{
     " then selecting snippet start with '#' causes a choas.
     " NOTE:  user-defined pum does not accept non-keywords char. pressing
     "       non-keywords char make pum disappear.
-    "
-    " 33 is the min visual char "!".
-    " 127 is last ascii char.
-    " and other multi bytes letters.
+
     let b:_xpp_setting_switch = g:SettingSwitch.New()
     call b:_xpp_setting_switch.AddList( 
           \ [ '&l:cinkeys', '' ], 

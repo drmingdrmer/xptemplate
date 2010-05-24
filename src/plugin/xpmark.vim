@@ -1178,6 +1178,11 @@ fun! s:saveCurrentCursorStat() dict "{{{
 
     call s:log.Debug( 'saveCurrentCursorStat' )
 
+    " if self.markHistory == {} && self.marks == {}
+    if self.marks == {}
+        return
+    endif
+
     let p = [ line( '.' ), col( '.' ) ]
 
     " NOTE:undo or redo does NOT change line/col but need to update
