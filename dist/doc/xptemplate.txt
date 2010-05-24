@@ -31,7 +31,7 @@
 
 								   *xpt-usage*
 	To see what snippets have been defined for the current filetype, press
-	<C-r><C-\> in insert mode. See |xpt-key-pum|.
+	<C-r><C-r><C-\> in insert mode. See |xpt-key-pum|.
 
 	In insert mode type the snippet name and press <C-\> to insert a
 	snippet. Use <Tab> to navigate through the snippet template.

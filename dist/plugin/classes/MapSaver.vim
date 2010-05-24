@@ -60,6 +60,7 @@ fun! MapSaverGetMapCommand( info )
     let exprMap = ''
     if a:info.mode == 'i' && a:info.cont =~ '\V\w(\.\*)' && a:info.cont !~? '\V<c-r>'
           \ || a:info.mode != 'i' && a:info.cont =~ '\V\w(\.\*)' 
+          \ || a:info.mode == 'i' && a:info.cont =~ '\V\.\*?\.\*:\.\*'
         let exprMap = '<expr> '
     endif
     if a:info.cont == ''
