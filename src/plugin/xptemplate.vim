@@ -81,6 +81,7 @@
 "   fix: mistakely using $SPop in brackets snippet. It should be $SParg
 "   fix: bug pre-parsing spaces
 "   fix: bug that non-key place holder does not clear  '`' and '^'
+"   fix: bug snippet starts with "..." repetition can not be rendered correctly.
 "   add: g:xptemplate_highlight_nested
 "   add: g:xptemplate_minimal_prefix_nested
 "
@@ -1609,8 +1610,13 @@ fun! s:ParseRepetition( snipObject ) "{{{
         let matchpos = stack[-1]
         unlet stack[-1]
 
-        let bef = tmpl[:matchpos-1]
-        let rest = tmpl[matchpos : ]
+        if matchpos == 0
+            let bef = ''
+        else
+            let bef = tmpl[ : matchpos-1 ]
+        endif
+        let rest = tmpl[ matchpos : ]
+
 
         let indentNr = s:GetIndentBeforeEdge( tmplObj, bef )
 
@@ -1635,6 +1641,7 @@ fun! s:ParseRepetition( snipObject ) "{{{
     endwhile
 
     call s:log.Log( 'template after parse repetition:', tmpl )
+
     return tmpl
 
 

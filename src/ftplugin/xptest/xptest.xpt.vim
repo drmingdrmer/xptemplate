@@ -59,4 +59,6 @@ fd
 " `f^`aa...{{^pp`}}^`l^Echo( Context().history[-1].item.name )^
 
 XPT pp " tips
-   `wat^abc\(n)^
+`...^
+- Let's repeat `this^
+`...^
