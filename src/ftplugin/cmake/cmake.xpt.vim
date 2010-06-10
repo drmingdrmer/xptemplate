@@ -5,7 +5,7 @@ XPTinclude
 
 " ================================= Snippets
 XPTemplateDef
-XPT if " if( cond )...
+XPT if " if ( cond )...
 if ( `cond^ )
     `cursor^
 `else...{{^else( `cond^ )
