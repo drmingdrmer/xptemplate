@@ -409,6 +409,32 @@ fun! s:f.FinishOuter( ... )
 
 endfunction
 
+fun! s:f.FinishPH( opt )
+    " opt.cursor    'current',
+    "               [ line, col ],
+    "               { 'rel'    : 'which'/1,
+    "                 'where'  : 'innerMarks.start',
+    "                 'offset' : [ line, col ] },
+    "               [ 'innerMarks.start', [ line, col ] ]
+    "
+    " opt.marks     'innerMarks', 'mark'
+    " opt.text      string
+    " opt.postponed string
+
+    let opt = a:opt
+
+    if empty( self.renderContext.itemList )
+
+        let o = { 'action' : 'finishTemplate' }
+        call extend( o, opt, 'keep' )
+        return o
+
+    else
+        return get( opt, 'text', 0 )
+    endif
+    
+endfunction
+
 fun! s:f.Embed( snippet )
   return { 'action' : 'embed', 'text' : a:snippet }
 endfunction
