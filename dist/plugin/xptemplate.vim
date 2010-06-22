@@ -532,13 +532,6 @@ fun! XPTemplateTrigger( snippetName, ... )
     let opt = a:0 == 1 ? a:1 : {}
     return XPTtgr(a:snippetName, opt)
 endfunction 
-fun! XPTparseSnippets() 
-    let x = b:xptemplateData
-    for p in x.snippetToParse
-        call DoParseSnippet(p)
-    endfor
-    let x.snippetToParse = []
-endfunction 
 fun! XPTemplateStart(pos_unused_any_more, ...) 
     let action = ''
     call XPTparseSnippets()
@@ -1724,22 +1717,47 @@ fun! s:HandleDefaultValueAction( ctx, filter )
     return -1
 endfunction 
 fun! s:ActionFinish( renderContext, filter ) 
+    echom "ActionFinish called" 
+    let renderContext = a:renderContext
     let marks = a:renderContext.leadingPlaceHolder[ a:filter.marks ]
     let [ start, end ] = XPMposStartEnd( marks )
-    if start[ 0 ] != 0 && end[ 0 ] != 0
+    echom "filter=" . string( a:filter )
+    let isMarkBroken = start[ 0 ] * end[ 0 ] == 0
+    let hasCursor = has_key( a:filter.action, 'cursor' )
+    if hasCursor
+        let keepCursor = a:filter.action.cursor
+        let isRel = type( keepCursor ) == type( [] ) && type( keepCursor[ 0 ] ) == type( '' )
+        if isRel
+            let relMark = eval( 'renderContext.leadingPlaceHolder.' . keepCursor[ 0 ] )
+            let relPos = s:RecordRelativePosToMark( [ line( "." ), col( "." ) ],
+                  \ relMark )
+        endif
+    endif
+    if !isMarkBroken
         if a:filter.rc isnot 0
-            let text = get( a:filter, 'text', '' )
-            call XPreplace( start, end, text )
+            if has_key( a:filter, 'text' )
+                let text = a:filter.text
+                call XPreplace( start, end, text )
+            else
+            endif
         endif
     endif
     if s:FinishCurrent( '' ) < 0
+        echom "to finish current"
         return ''
     endif
-    call cursor( XPMpos( a:renderContext.leadingPlaceHolder.mark.end ) )
+    if hasCursor
+        if isRel
+            call s:GotoRelativePosToMark( relPos, relMark )
+        endif
+    else
+        call cursor( XPMpos( a:renderContext.leadingPlaceHolder.mark.end ) )
+    endif
     let xptObj = b:xptemplateData
+    let postponed = get( a:filter.action, 'postponed', '' )
     if empty( xptObj.stack )
           \ || 1
-        return s:FinishRendering()
+        return s:FinishRendering() . postponed
     else
         return ''
     endif
@@ -1888,6 +1906,7 @@ fun! XPTmappingEval( str )
     let filter = g:FilterValue.New( 0, a:str )
     let filter = s:EvalFilter( filter, x.renderContext.ftScope.funcs,
           \ { 'typed' : typed, 'startPos' : [ line( "." ), col( "." ) ] } )
+    echom "filter=" . string( filter )
     if has_key( filter, 'action' )
         let postAction = s:HandleAction( x.renderContext, filter )
     elseif has_key( filter, 'text' )
@@ -2457,6 +2476,7 @@ fun! s:HandleOntypeAction( renderContext, filter )
     endif
 endfunction 
 fun! s:HandleAction( renderContext, filter ) 
+    echom "HandleAction called"
     if a:renderContext.phase == 'post'
         let marks = a:renderContext.leadingPlaceHolder.mark
     else

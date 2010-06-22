@@ -162,7 +162,15 @@ fun! s:XPTstartSnippetPart(fn)
     let lines = lines[ i : ]
     let x = b:xptemplateData
     let x.snippetToParse += [ { 'snipFileScope' : x.snipFileScope, 'lines' : lines } ]
+    call XPTparseSnippets()
     return
+endfunction 
+fun! XPTparseSnippets() 
+    let x = b:xptemplateData
+    for p in x.snippetToParse
+        call DoParseSnippet(p)
+    endfor
+    let x.snippetToParse = []
 endfunction 
 fun! DoParseSnippet( p ) 
     call XPTsnipScopePush()
@@ -274,8 +282,8 @@ fun! s:GetSnipCommentHint(str)
     endif
 endfunction 
 fun! s:ConvertIndent( snipLines ) 
-    let tabspaces = repeat( ' ', &l:tabstop )
-    let indentRep = repeat( '\1', &l:shiftwidth )
+    let tabspaces = repeat( ' ', &tabstop )
+    let indentRep = repeat( '\1', &shiftwidth )
     let cmdExpand = 'substitute(v:val, ''^\( *\)\1\1\1'', ''' . indentRep . ''', "g" )'
     call map( a:snipLines, cmdExpand )
 endfunction 
