@@ -7,8 +7,8 @@ XPTvar $FALSE         false
 XPTvar $NULL          null
 XPTvar $UNDEFINED     null
 
-XPTvar $VOID_LINE  /* void */;
-XPTvar $CURSOR_PH      /* cursor */
+XPTvar $VOID_LINE     /* void */;
+XPTvar $CURSOR_PH     /* cursor */
 
 XPTvar $BRif          ' '
 XPTvar $BRloop        ' '
@@ -38,7 +38,7 @@ XPTinclude
 
 
 XPT foreach " for \( .. : .. \)
-for ( `type^ `var^ : `inWhat^ )`$BRloop^{
+for (`$SParg^`type^ `var^ : `inWhat^`$SParg^)`$BRloop^{
     `cursor^
 }
 
@@ -54,14 +54,14 @@ protected `type^ `varName^;
 
 XPT class " class .. ctor
 public class `className^ {
-    public `className^(` `ctorParam` ^)`$BRfun^{
+    public `className^(`$SParg^`ctorParam^`$SParg^)`$BRfun^{
         `cursor^
     }
 }
 
 
 XPT main " main ( String )
-public static void main( String[] args )`$BRfun^{
+public static void main(`$SParg^String[] args`$SParg^)`$BRfun^{
     `cursor^
 }
 

@@ -1,5 +1,5 @@
 " finish " not finished
-if !g:XPTloadBundle( 'c', 'autoimplem' ) && !exists('g:cppautoimplemneedc')
+if !g:XPTloadBundle( 'c', 'autoimplem' ) && !exists('g:cppautoimplemneedc') && !exists('g:objcautoimlemneedc')
     finish
 endif
 
