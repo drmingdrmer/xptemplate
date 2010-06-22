@@ -4,9 +4,9 @@ CurrentDir=${PWD##*/}
 ParentDir=${PWD%/*}
 DistDir=$ParentDir/dist
 
-VersionControlSys=svn
-if [ -d ../.git ]; then
-    VersionControlSys=git
+VersionControlSys=git
+if [ -d ../.svn ]; then
+    VersionControlSys=svn
 fi
 
 echo "VersionControlSys=$VersionControlSys"
