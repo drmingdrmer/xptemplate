@@ -286,8 +286,19 @@ fun! s:XPTstartSnippetPart(fn) "{{{
     let x = b:xptemplateData
     let x.snippetToParse += [ { 'snipFileScope' : x.snipFileScope, 'lines' : lines } ]
 
+    call XPTparseSnippets()
+
     return
 
+endfunction "}}}
+
+fun! XPTparseSnippets() "{{{
+    let x = b:xptemplateData
+    for p in x.snippetToParse
+        call DoParseSnippet(p)
+    endfor
+
+    let x.snippetToParse = []
 endfunction "}}}
 
 fun! DoParseSnippet( p ) "{{{
@@ -352,6 +363,7 @@ fun! DoParseSnippet( p ) "{{{
 endfunction "}}}
 
 fun! s:XPTemplateParseSnippet(lines) "{{{
+
     let lines = a:lines
 
     let snipScope = XPTsnipScope()
@@ -413,11 +425,10 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
             " TODO can not input \XSET
         elseif lines[start] =~# '^\\XSET' " escaped XSET or XSETm
             let snippetLines += [ lines[ start ][1:] ]
-            " break
 
         else
             let snippetLines += [ lines[ start ] ]
-            " break
+
         endif
 
         let start += 1
@@ -483,10 +494,8 @@ endfunction "}}}
 " TODO convert indent in runtime
 fun! s:ConvertIndent( snipLines ) "{{{
 
-
-    let tabspaces = repeat( ' ', &l:tabstop )
-    let indentRep = repeat( '\1', &l:shiftwidth )
-
+    let tabspaces = repeat( ' ', &tabstop )
+    let indentRep = repeat( '\1', &shiftwidth )
 
     let cmdExpand = 'substitute(v:val, ''^\( *\)\1\1\1'', ''' . indentRep . ''', "g" )'
 

@@ -22,7 +22,16 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" in 0.4.8:
+" TODO check super tab or other pum plugin before jump to next.
+" TODO quote complete should break at once if user move cursor to other place.
+" TODO multiple expandible or reference to expanded parts.
+" TODO add version info to dist/
+" TODO move all xpt files into one sub folder.
 " TODO duplicate snippet name check
+" in future
+" TODO lazy load of scripts
+" TODO add: be able to load textmate snippet or snipmate snippet.
 " TODO add: <BS> at ph start to shift backward.
 " TODO add: php snippet <% for .. %> in html 
 " TODO improve: 3 quotes in python
@@ -77,11 +86,13 @@
 "
 " "}}}
 "
-" Log of This version:
+" Log of this version:
 "   fix: mistakely using $SPop in brackets snippet. It should be $SParg
 "   fix: bug pre-parsing spaces
 "   fix: bug that non-key place holder does not clear  '`' and '^'
 "   fix: bug snippet starts with "..." repetition can not be rendered correctly.
+"   fix: parse abbr setting at once as snippet loaded. parse inclusion at the first time snippet rendering.
+"
 "   add: g:xptemplate_highlight_nested
 "   add: g:xptemplate_minimal_prefix_nested
 "
@@ -476,6 +487,7 @@ fun! s:Abbr( name ) "{{{
     try
         exe 'inoreabbr <silent> <buffer> ' name '<C-v><C-v>' . "<BS>\<C-r>=XPTtgr(" . string( name ) . ",{'k':''})\<CR>"
     catch /.*/
+        " key sequence is not allowed as abbr name
         let n = matchstr( name, '\v\w+$' )
         let pre = name[ : -len( n ) - 1 ]
         let x.abbrPrefix[ n ] = get( x.abbrPrefix, n, {} )
@@ -963,14 +975,6 @@ fun! XPTemplateTrigger( snippetName, ... ) "{{{
     return XPTtgr(a:snippetName, opt)
 endfunction "}}}
 
-fun! XPTparseSnippets() "{{{
-    let x = b:xptemplateData
-    for p in x.snippetToParse
-        call DoParseSnippet(p)
-    endfor
-
-    let x.snippetToParse = []
-endfunction "}}}
 
 
 " ********* XXX *********
@@ -2983,6 +2987,7 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
 
             " let res = [ post. ]
         else
+            " TODO post is not defined
             " unknown action
             let a:filter.text = get( post, 'text', '' )
         endif
@@ -3226,40 +3231,73 @@ fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
 endfunction "}}}
 
 fun! s:ActionFinish( renderContext, filter ) "{{{
+    echom "ActionFinish called" 
+    let renderContext = a:renderContext
     let marks = a:renderContext.leadingPlaceHolder[ a:filter.marks ]
     let [ start, end ] = XPMposStartEnd( marks )
 
     call s:log.Debug( "start, end=" . string( [ start, end ] ) )
     call s:log.Debug( "start line=" . string( getline( start[0] ) ) )
 
-    if start[ 0 ] != 0 && end[ 0 ] != 0
+    echom "filter=" . string( a:filter )
+
+    let isMarkBroken = start[ 0 ] * end[ 0 ] == 0
+    let hasCursor = has_key( a:filter.action, 'cursor' )
+
+    if hasCursor
+        let keepCursor = a:filter.action.cursor
+        let isRel = type( keepCursor ) == type( [] ) && type( keepCursor[ 0 ] ) == type( '' )
+
+        if isRel
+            let relMark = eval( 'renderContext.leadingPlaceHolder.' . keepCursor[ 0 ] )
+            let relPos = s:RecordRelativePosToMark( [ line( "." ), col( "." ) ],
+                  \ relMark )
+        endif
+    endif
+
+    if !isMarkBroken
         " marks are not deleted during user edit
         if a:filter.rc isnot 0
         
-            let text = get( a:filter, 'text', '' )
-        
-            " do NOT need to update position
-        
-            call s:log.Debug( "text=" . string( text ) . len( text ) )
-            call XPreplace( start, end, text )
+            if has_key( a:filter, 'text' )
+                let text = a:filter.text
+            
+                " do NOT need to update position
+
+                call s:log.Debug( "text=" . string( text ) . len( text ) )
+                call XPreplace( start, end, text )
+
+            else
+                call s:log.Log( "there is no text set to replace ph contents" )
+            endif
         endif
     endif
 
     if s:FinishCurrent( '' ) < 0
+        echom "to finish current"
         return ''
     endif
 
 
-    " TODO bad 
-    call cursor( XPMpos( a:renderContext.leadingPlaceHolder.mark.end ) )
+    if hasCursor
+        if isRel
+            call s:GotoRelativePosToMark( relPos, relMark )
+        endif
+    else
+        " TODO bad 
+        call cursor( XPMpos( a:renderContext.leadingPlaceHolder.mark.end ) )
+    endif
 
     let xptObj = b:xptemplateData
+
+    let postponed = get( a:filter.action, 'postponed', '' )
+
 
     " TODO controled by behavior is better?
     " NOTE: XXX TODO!!! 
     if empty( xptObj.stack )
           \ || 1
-        return s:FinishRendering()
+        return s:FinishRendering() . postponed
     else
         " TODO for cursor item in nested template, this is ok. what if
         " need to select something or doing something else?
@@ -3521,6 +3559,8 @@ fun! XPTmappingEval( str ) "{{{
     let filter = g:FilterValue.New( 0, a:str )
     let filter = s:EvalFilter( filter, x.renderContext.ftScope.funcs,
           \ { 'typed' : typed, 'startPos' : [ line( "." ), col( "." ) ] } )
+
+    echom "filter=" . string( filter )
 
     if has_key( filter, 'action' )
         let postAction = s:HandleAction( x.renderContext, filter )
@@ -4455,6 +4495,7 @@ fun! s:HandleOntypeAction( renderContext, filter ) "{{{
 endfunction "}}}
 
 fun! s:HandleAction( renderContext, filter ) "{{{
+    echom "HandleAction called"
     " NOTE: handle only leader's action
 
     if a:renderContext.phase == 'post'
