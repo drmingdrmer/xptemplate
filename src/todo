@@ -1,8 +1,5 @@
-vim: else<cr> results in elseif
+vim : else<cr> results in elseif
 
 TODO use completefunc instead of complete()
 TODO longest setting test.
 
-todo
-todo
-123
