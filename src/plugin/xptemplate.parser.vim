@@ -627,8 +627,10 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
         let a:setting.variables[ a:keyname ] = a:value
 
 
+    elseif a:keytype == 'repl'
+        let a:setting.replacements[ a:keyname ] = a:value
 
-    elseif a:keytype == "" || a:keytype ==# 'def'
+    elseif a:keytype == "" || a:keytype ==# 'def' || a:keytype ==# 'onfocus'
         " first line is indent : empty indent
         let a:setting.defaultValues[a:keyname] = g:FilterValue.New( 0, a:value )
 

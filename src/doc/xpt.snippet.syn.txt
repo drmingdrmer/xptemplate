@@ -54,7 +54,8 @@
 	|xpt-snippet-expression|
 	|xpt-snippet-instant-value|
 	|xpt-snippet-preset-value|
-	|xpt-snippet-default-value|
+	|xpt-snippet-repl|
+	|xpt-snippet-onfocus|	also known as |xpt-snippet-default-value|
 	|xpt-snippet-post-filter|
 		|xpt-snippet-default-post-filter|
 			|xpt-placeholder-optional-ph|
@@ -702,25 +703,62 @@
 	To define preset values: >
 		XSET the_name|pre=<expression>
 <	
- 						   *xpt-snippet-default-value*
-	By default place holders use their name as the default value but you
-	can choose another text as default value by using : >
-		XSET the_name|def=<expression>
+							    *xpt-snippet-repl*
+	You can tell some place holder to replace its name with something
+	else, LITERALLY, By using: >
+		XSET ph_name|repl=<text>
 <	
-	So that before cursor jumps to leading place holder of name
-	"the_name", the <expression> evaluated and applied to the place
-	holder.
+	This usefull when you want to make alias of other snippet but still
+	want to take some minor changes to it.
 
-	Example : the "#ind" snippet defined as : >
+	For example: >
+		XPT foo
+		`I^ am Bob.
+
+		XPT bar alias=foo
+		XSET I|repl=`I` am not
+<	Snippet "bar" extends "foo" and changes place holder "I".
+	Thus snippet "bar" becomes : >
+		XPT bar
+		``I` am not^ am Bob.
+<	Notice that replacement is taken totally literally!
+
+	Now typing "bar<C-\>" results in : >
+			 ___| " am not" is right edge here.
+		 _______/
+		I am not Bob
+		`\
+		  \_________| "I" is selected.
+<
+
+							 *xpt-snippet-onfocus*
+ 						   *xpt-snippet-default-value*
+	NOTE	This is known as old |xpt-snippet-default-value|, which is
+		deprecated.
+
+	By default place holders use their name as the text selected when you
+	focus on it. You can set the text to select to something else by using
+	: >
+		XSET itemName|onfocus=<expression>
+		or
+		XSET itemName=<expression>
+		or
+		XSET itemName|def=<expression>  // deprecated
+<	
+	Thus when cursor moves to the leading place holder of item "itemName",
+	the <expression> is evaluated and result text is applied to all place
+	holders of this item.
+
+	Example : the "#ind" snippet: >
 		XPT #ind
-		XSET me|def|=fileRoot()
+		XSET me|def=fileRoot()
 		#include "`me^.h"
-<	In C language, type "#ind<C-\>" you get : >
+<	In C language, type "#ind<C-\>" and you will get : >
 		#include "current_file_name.h"
 <	
-	NOTE : if default value expression contains only plain string and
-	|xpt-snippet-variable|, it is used as |xpt-snippet-preset-value|, too;
-	for better looking without any side-effect.
+	NOTE	if onfocus expression contains only plain text and
+		|xpt-snippet-variable|( without |xpt-snippet-function| ), it
+		will be also used as |xpt-snippet-preset-value|.
 
 
 						    *xpt-snippet-post-filter*

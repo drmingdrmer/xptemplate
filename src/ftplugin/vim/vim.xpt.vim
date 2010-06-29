@@ -76,10 +76,12 @@ if !exists(`$SParg^"`g^:`varname^"`$SParg^)
     let `g^:`varname^`$SPop^=`$SPop^`val^
 endif
 
-XPT fun wrap=cursor " fun! ..(..) .. endfunction
+XPT _fun hidden wrap=cursor " fun! ..(..) .. endfunction
 fun! `name^`$SPfun^(`:_args:^) "{{{
     `cursor^
 endfunction "}}}
+
+XPT fun alias=_fun
 
 XPT member wrap=cursor " tips
 fun! `name^`$SPfun^(`:_args:^) dict "{{{

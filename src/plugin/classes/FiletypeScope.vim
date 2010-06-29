@@ -10,7 +10,7 @@ set cpo-=< cpo+=B
 
 
 let s:proto = {
-            \}
+      \ }
 
 fun! s:New() dict "{{{
     let self.filetype        = ''

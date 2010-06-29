@@ -23,6 +23,7 @@
 "
 " TODOLIST: "{{{
 " in 0.4.8:
+" TODO finish ActionFinish
 " TODO check super tab or other pum plugin before jump to next.
 " TODO quote complete should break at once if user move cursor to other place.
 " TODO multiple expandible or reference to expanded parts.
@@ -86,6 +87,7 @@
 "
 " "}}}
 "
+"
 " Log of this version:
 "   fix: mistakely using $SPop in brackets snippet. It should be $SParg
 "   fix: bug pre-parsing spaces
@@ -114,6 +116,14 @@ set cpo-=< cpo+=B
 
 
 exe XPT#let_sid
+
+let g:XPTact = {
+      \ 'embed'		: 'embed',
+      \ 'next'		: 'next',
+      \ 'finishPH'	: 'finishTemplate',
+      \ 'removePH'	: 'remove',
+      \ 'trigger'	: 'expandTmpl',
+      \ }
 
 
 runtime plugin/xptemplate.conf.vim
@@ -179,6 +189,7 @@ let g:XPTemplateSettingPrototype  = {
       \    'mappings'         : {},
       \    'ontypeFilters'    : {},
       \    'postFilters'      : {},
+      \    'replacements'     : {},
       \    'comeFirst'        : [],
       \    'comeLast'         : [],
       \}
@@ -511,7 +522,7 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
     if !has_key( a:tmplObj.setting.defaultValues, 'cursor' )
                 " \ || a:tmplObj.setting.defaultValues.cursor !~ 'Finish'
-        let a:tmplObj.setting.defaultValues.cursor = g:FilterValue.New( 0, 'Finish()' )
+        let a:tmplObj.setting.defaultValues.cursor = g:FilterValue.New( 0, 'FinishPH({"text":""})' )
     endif
 
     call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . string( a:tmplObj.setting.defaultValues.cursor ) )
@@ -526,6 +537,16 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
                 call XPTemplateKeyword( nonWordChar )
             endif
         endif
+    endif
+
+endfunction "}}}
+
+fun! s:ParsePHReplacements( snipObject ) "{{{
+
+    let repls = a:snipObject.setting.replacements
+
+    if repls != {}
+        let a:snipObject.snipText = s:ReplacePHofSubSnip( a:snipObject, a:snipObject, repls )
     endif
 
 endfunction "}}}
@@ -591,7 +612,7 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor ) "{{{
             let incTmplObject = a:tmplDict[ incName ]
             call s:MergeSetting( a:tmplObject.setting, incTmplObject.setting )
 
-            let incSnip = s:ReplacePHInSubSnip( a:tmplObject, incTmplObject, params )
+            let incSnip = s:ReplacePHofSubSnip( a:tmplObject, incTmplObject, params )
             let incSnip = substitute( incSnip, '\n', '&' . indent, 'g' )
 
 
@@ -623,7 +644,7 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor ) "{{{
 
 endfunction "}}}
 
-fun! s:ReplacePHInSubSnip( snipObject, subSnipObject, params ) "{{{
+fun! s:ReplacePHofSubSnip( snipObject, subSnipObject, params ) "{{{
     let xp = a:snipObject.ptn
     let incSnip = a:subSnipObject.snipText
 
@@ -1240,6 +1261,8 @@ fun! s:NewRenderContext( ftScope, tmplName ) "{{{
 
 
     if !renderContext.snipObject.parsed
+
+        call s:ParsePHReplacements( renderContext.snipObject )
 
         call s:ParseInclusion( renderContext.ftScope.allTemplates, renderContext.snipObject )
 
@@ -2485,7 +2508,7 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
 
     call s:MergeSetting( renderContext.snipSetting, incTmplObject.setting )
 
-    let incSnip = s:ReplacePHInSubSnip( renderContext.snipObject, incTmplObject, params )
+    let incSnip = s:ReplacePHofSubSnip( renderContext.snipObject, incTmplObject, params )
     let incSnip = s:AddIndent( incSnip, nameInfo[0] )
 
     let valueInfo[-1][1] += 1
@@ -3163,21 +3186,21 @@ fun! s:ExtractOneItem() "{{{
 
 endfunction "}}}
 
-fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
+fun! s:HandleDefaultValueAction( renderContext, filter ) "{{{
     " @return   string  typing
     "           -1      if this action can not be handled
 
     let x = b:xptemplateData
-    let ctx = a:ctx
-    let leader = ctx.leadingPlaceHolder
+    let renderContext = a:renderContext
+    let leader = renderContext.leadingPlaceHolder
 
     let act = a:filter.action
 
 
     call s:log.Log( "type is " . type( act ). ' {} type is ' . type( {} ) )
 
-    if act.name ==# 'expandTmpl'
-        " let ctx.item.behavior.gotoNextAtOnce = 1
+    if act.name ==# g:XPTact.trigger
+        " let renderContext.item.behavior.gotoNextAtOnce = 1
 
 
         " do NOT need to update position
@@ -3187,21 +3210,21 @@ fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
         call XPMsetLikelyBetween( marks.start, marks.end )
         return XPTemplateStart(0, {'startPos' : getpos(".")[1:2], 'tmplName' : act.tmplName})
 
-    elseif act.name ==# 'finishTemplate'
+    elseif act.name ==# g:XPTact.finishPH
 
-        return s:ActionFinish( ctx, a:filter )
+        return s:ActionFinish( renderContext, a:filter )
 
-    elseif act.name ==# 'embed'
+    elseif act.name ==# g:XPTact.embed
         " embed a piece of snippet
 
-        return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:filter.text )
+        return s:EmbedSnippetInLeadingPlaceHolder( renderContext, a:filter )
 
-    elseif act.name ==# 'next'
+    elseif act.name ==# g:XPTact.next
 
         let postaction = ''
         " Note: update following?
         if has_key( a:filter, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:filter.text )
+            let postaction = s:FillinLeadingPlaceHolderAndSelect( renderContext, a:filter.text )
         endif
         if x.renderContext.processing
             return s:ShiftForward( '' )
@@ -3209,11 +3232,11 @@ fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
             return postaction
         endif
 
-    elseif act.name ==# 'remove'
+    elseif act.name ==# g:XPTact.removePH
 
         let postaction = ''
         if has_key( a:filter, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:filter.text )
+            let postaction = s:FillinLeadingPlaceHolderAndSelect( renderContext, a:filter.text )
         endif
         if x.renderContext.processing
             return s:ShiftForward( 'clear' )
@@ -3232,6 +3255,7 @@ endfunction "}}}
 
 fun! s:ActionFinish( renderContext, filter ) "{{{
     echom "ActionFinish called" 
+
     let renderContext = a:renderContext
     let marks = a:renderContext.leadingPlaceHolder[ a:filter.marks ]
     let [ start, end ] = XPMposStartEnd( marks )
@@ -3246,7 +3270,8 @@ fun! s:ActionFinish( renderContext, filter ) "{{{
 
     if hasCursor
         let keepCursor = a:filter.action.cursor
-        let isRel = type( keepCursor ) == type( [] ) && type( keepCursor[ 0 ] ) == type( '' )
+        let isRel = type( keepCursor ) == type( [] )
+              \ && type( keepCursor[ 0 ] ) == type( '' )
 
         if isRel
             let relMark = eval( 'renderContext.leadingPlaceHolder.' . keepCursor[ 0 ] )
@@ -3288,14 +3313,15 @@ fun! s:ActionFinish( renderContext, filter ) "{{{
         call cursor( XPMpos( a:renderContext.leadingPlaceHolder.mark.end ) )
     endif
 
-    let xptObj = b:xptemplateData
+
+    let x = b:xptemplateData
 
     let postponed = get( a:filter.action, 'postponed', '' )
 
 
     " TODO controled by behavior is better?
     " NOTE: XXX TODO!!! 
-    if empty( xptObj.stack )
+    if empty( x.stack )
           \ || 1
         return s:FinishRendering() . postponed
     else
@@ -3306,23 +3332,32 @@ fun! s:ActionFinish( renderContext, filter ) "{{{
     
 endfunction "}}}
 
-fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet ) "{{{
-    " TODO remove needless marks
+fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, filter ) "{{{
+
+    let sniptext = a:filter.text
+
     let ph = a:ctx.leadingPlaceHolder
 
-    let marks = ph.innerMarks
-    let range = [ XPMpos( marks.start ), XPMpos( marks.end ) ]
-    if range[0] == [0, 0] || range[1] == [0, 0]
+    let marks = ph[ a:filter.marks ]
+    " " filter has a default value for marks to use
+    " let marks = ph.innerMarks
+
+
+    let [ pstart, pend ] = XPMposStartEnd( marks )
+    if pstart[ 0 ] == 0 || pend[ 0 ] == 0
         return s:Crash( 'leading place holder''s mark lost:' . string( marks ) )
     endif
 
+
     call b:xptemplateData.settingWrap.Switch()
 
-    call XPreplace( range[0], range[1] , a:snippet )
+
+    call XPreplace( pstart, pend , sniptext )
 
     if 0 > s:BuildPlaceHolders( marks )
         return s:Crash('building place holder failed')
     endif
+
 
     call s:RemoveCurrentMarks()
 
@@ -4912,5 +4947,6 @@ com! XPTcrash call <SID>Crash()
 " echom string( s:acp_tempOptionSet )
 
 let &cpo = s:oldcpo
+
 
 

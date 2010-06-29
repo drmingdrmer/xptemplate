@@ -1,5 +1,5 @@
 if exists("g:__XPT_VIM__")
-    finish
+    " finish
 endif
 let g:__XPT_VIM__ = 1
 
@@ -22,12 +22,14 @@ let XPT#nonEscaped =
       \ . '\@<='
 
 
-fun! XPT#setIfNotExist(k, v) "{{{
+
+fun! XPT#default(k, v) "{{{
     if !exists( a:k )
         exe "let" a:k "=" string( a:v )
     endif
 endfunction "}}}
 
+" Some information utils
 fun! XPT#warn( msg ) "{{{
     echohl WarningMsg
     echom a:msg
@@ -104,7 +106,6 @@ fun! XPT#LeadingTabToSpace( str ) "{{{
     return str[ 1 : ]
 
 endfunction "}}}
-
 fun! XPT#convertSpaceToTab( text ) "{{{
     " NOTE: line-break followed by space
 
@@ -145,14 +146,12 @@ fun! XPT#class( sid, proto ) "{{{
 
     return clz
 endfunction "}}}
-
 fun! XPT#classNew( ... ) dict "{{{
     let inst = copy( self )
     call call( inst.__init__, a:000, inst )
     let inst.__class__ = self
     return inst
 endfunction "}}}
-
 fun! XPT#classVoidInit( ... ) dict "{{{
 endfunction "}}}
 

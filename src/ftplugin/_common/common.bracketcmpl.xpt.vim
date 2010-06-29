@@ -6,7 +6,7 @@ let s:f = g:XPTfuncs()
 
 " which bracket should be completed in block mode. Thus <CR> push right bracket
 " down to the third line from the left bracket
-XPTvar $XPT_BRACE_BLOCK '[('
+XPTvar $XPT_BRACE_BLOCK '[({'
 
 XPTinclude
       \ _common/common
