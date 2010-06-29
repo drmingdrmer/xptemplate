@@ -740,22 +740,32 @@ fun! s:MergeSetting( toSettings, fromSettings ) "{{{
 
 endfunction "}}}
 
-fun! s:ParseTemplateSetting( tmpl ) "{{{
+fun! s:ParseSettingWrap( snipObject ) "{{{
+
+    let setting = a:snipObject.setting
+
+    let wraponly = get( setting, 'wraponly', 0 )
+
+    let wrap = get( setting, 'wrap', wraponly )
+    let wrap = wrap is 1 ? 'cursor' : wrap
+
+
+    let setting.iswrap = wrap isnot 0
+    let setting.wraponly = wraponly isnot 0
+    let setting.wrap = wrap
+
+endfunction "}}}
+
+fun! s:ParseTemplateSetting( snipObject ) "{{{
+
     let x = b:xptemplateData
+    let setting = a:snipObject.setting
 
-    let setting = a:tmpl.setting
-
-    if type( get( setting, 'wraponly', 0 ) ) == type( '' )
-        let setting.wrap = setting.wraponly
-        let setting.wraponly = 1
-    endif
-
-    let setting.iswrap = has_key( setting, 'wrap' )
-    let setting.wraponly = get( setting, 'wraponly', 0 )
+    call s:ParseSettingWrap( a:snipObject )
 
 
     " TODO bad code
-    let x.renderContext.snipObject = a:tmpl
+    let x.renderContext.snipObject = a:snipObject
 
     " Note: empty means nothing, "" means something that can override others
     if has_key(setting, 'rawHint')
@@ -1383,9 +1393,6 @@ fun! s:FinishRendering(...) "{{{
     let renderContext = x.renderContext
     let xp = renderContext.snipObject.ptn
 
-    let isCursor = get( renderContext.item, 'name', 0 ) is 'cursor'
-
-
     call XPMremoveMarkStartWith( renderContext.markNamePre )
 
 
@@ -1807,22 +1814,6 @@ fun! s:BuildSnippet(nameStartPosition, nameEndPosition) " {{{
     let xp = ctx.snipObject.ptn
 
 
-
-    let curline = getline( a:nameStartPosition[ 0 ] )
-
-    let nIndent = -1
-    if len( matchstr( curline, '\V\^\s\*' ) ) == a:nameStartPosition[ 1 ] - 1
-        " snippet name starts as the first non-space char
-
-        if has_key( ctx.oriIndentkeys, ctx.snipObject.name )
-
-            let nIndent = XPT#getPreferedIndentNr( a:nameStartPosition[ 0 ] )
-
-        endif
-
-    endif
-
-
     let ctx.phase = 'rendering'
 
 
@@ -1839,42 +1830,11 @@ fun! s:BuildSnippet(nameStartPosition, nameEndPosition) " {{{
         let ctx.wrap = copy( x.wrap )
     endif
 
-    let snippetText = ctx.snipObject.snipText
+    let snippetText = s:GenerateSnipTextToShow( a:nameStartPosition )
 
-
-
-    let currentNIndent = XPT#getIndentNr( a:nameStartPosition[ 0 ], a:nameStartPosition[ 1 ] )
-    let nIndentToAdd = currentNIndent
-    if nIndent >= 0
-
-        if nIndent > currentNIndent
-
-            let snippetText = repeat( ' ', nIndent - currentNIndent ) . snippetText
-            let nIndentToAdd = nIndent
-
-        elseif nIndent < currentNIndent
-
-            let snippetText = repeat( ' ', nIndent ) . snippetText
-            let nIndentToAdd = nIndent
-            let a:nameStartPosition[ 1 ] = 1
-
-        endif
-
-    endif
-
-
-    if snippetText =~ '\n'
-
-        " let snippetText = s:AdjustIndentAt( snippetText, a:nameStartPosition )
-
-        " let nIndent = XPT#getIndentNr( a:startPos[0], a:startPos[1] )
-        let snippetText =  s:AddIndent( snippetText, nIndentToAdd )
-    endif
 
     " Note: simple implementation of wrapping, the better way is by default value
     " TODO use default value!
-
-
 
 
     " update xpm status
@@ -1916,6 +1876,56 @@ fun! s:BuildSnippet(nameStartPosition, nameEndPosition) " {{{
     " exe 'silent! ' . rg[0][0] . ',' . rg[1][0] . 'retab!'
 
 endfunction " }}}
+
+fun! s:GenerateSnipTextToShow( startPos ) "{{{
+    let ctx = b:xptemplateData.renderContext
+
+    let snippetText = ctx.snipObject.snipText
+
+
+    let curline = getline( a:startPos[ 0 ] )
+    let currentNIndent = XPT#getIndentNr( a:startPos[ 0 ], a:startPos[ 1 ] )
+
+
+    let nIndent = -1
+    if len( matchstr( curline, '\V\^\s\*' ) ) == a:startPos[ 1 ] - 1
+        " snippet name starts as the first non-space char
+
+        " TODO test with the first word of snippet text is better
+        if has_key( ctx.oriIndentkeys, ctx.snipObject.name )
+            let nIndent = XPT#getPreferedIndentNr( a:startPos[ 0 ] )
+        endif
+
+    endif
+
+
+    if nIndent >= 0
+
+        let nIndentToAdd = nIndent
+
+        if nIndent > currentNIndent
+
+            let snippetText = repeat( ' ', nIndent - currentNIndent ) . snippetText
+
+        elseif nIndent < currentNIndent
+
+            let snippetText = repeat( ' ', nIndent ) . snippetText
+            let a:startPos[ 1 ] = 1
+
+        endif
+
+    else
+        let nIndentToAdd = currentNIndent
+    endif
+
+
+    if snippetText =~ '\n'
+        let snippetText =  s:AddIndent( snippetText, nIndentToAdd )
+    endif
+
+    return snippetText
+    
+endfunction "}}}
 
 " [ first, second, third, right-mark ]
 " [ first, first, right-mark, right-mark ]
@@ -3261,12 +3271,12 @@ fun! s:HandleDefaultValueAction( renderContext, filter ) "{{{
 
     elseif act.name ==# g:XPTact.finishPH
 
-        return s:ActionFinish( renderContext, a:filter )
+        return s:ActionFinish( a:filter )
 
     elseif act.name ==# g:XPTact.embed
         " embed a piece of snippet
 
-        return s:EmbedSnippetInLeadingPlaceHolder( renderContext, a:filter )
+        return s:EmbedSnippetIntoLeaderPH( renderContext, a:filter )
 
     elseif act.name ==# g:XPTact.next
 
@@ -3302,64 +3312,111 @@ fun! s:HandleDefaultValueAction( renderContext, filter ) "{{{
 
 endfunction "}}}
 
-fun! s:ActionFinish( renderContext, filter ) "{{{
-    echom "ActionFinish called" 
 
-    let renderContext = a:renderContext
-    let marks = a:renderContext.leadingPlaceHolder[ a:filter.marks ]
+fun! s:SaveCursorBeforeAction( filter ) "{{{
+    let x = b:xptemplateData
+    let renderContext = x.renderContext
+
+    if a:filter.hasCursor
+
+        if a:filter.isCursorRel
+
+            let relMark = eval( 'renderContext.leadingPlaceHolder.' . a:filter.cursor[ 0 ] )
+
+            if XPMhas( relMark )
+                let relPos = s:RecordRelativePosToMark( [ line( "." ), col( "." ) ],
+                      \ relMark )
+
+                let b:__xpt_saved_cursor__ = [ relMark, relPos ]
+            endif
+
+        elseif a:filter.cursor is 'current'
+
+            let b:__xpt_saved_cursor__ = [ line( "." ), col( "." ) ]
+
+        else " absolute position
+
+            let b:__xpt_saved_cursor__ = copy( a:filter.cursor )
+
+        endif
+
+    endif
+    
+endfunction "}}}
+
+fun! s:RestoreCursorAfterAction( filter ) "{{{
+    let x = b:xptemplateData
+    let renderContext = x.renderContext
+
+    if exists( 'b:__xpt_saved_cursor__' )
+
+        let saved = b:__xpt_saved_cursor__
+
+        if a:filter.hasCursor
+
+            if a:filter.isCursorRel
+                call s:GotoRelativePosToMark( saved[ 0 ], saved[ 1 ] )
+
+            elseif a:filter.cursor is 'current'
+
+                call cussor( saved[ 0 ], saved[ 1 ] )
+
+            else " absolute position
+
+                call cussor( saved[ 0 ], saved[ 1 ] )
+
+            endif
+
+        unlet b:__xpt_saved_cursor__
+    endif
+
+
+
+endfunction "}}}
+
+
+fun! s:ActionFinish( filter ) "{{{
+
+
+    let x = b:xptemplateData
+    let renderContext = x.renderContext
+
+    let marks = renderContext.leadingPlaceHolder[ a:filter.marks ]
     let [ start, end ] = XPMposStartEnd( marks )
+    let isMarkBroken = start[ 0 ] * end[ 0 ] == 0
 
     call s:log.Debug( "start, end=" . string( [ start, end ] ) )
     call s:log.Debug( "start line=" . string( getline( start[0] ) ) )
 
-    echom "filter=" . string( a:filter )
 
-    let isMarkBroken = start[ 0 ] * end[ 0 ] == 0
-    let hasCursor = has_key( a:filter.action, 'cursor' )
 
-    if hasCursor
-        let keepCursor = a:filter.action.cursor
-        let isRel = type( keepCursor ) == type( [] )
-              \ && type( keepCursor[ 0 ] ) == type( '' )
 
-        if isRel
-            let relMark = eval( 'renderContext.leadingPlaceHolder.' . keepCursor[ 0 ] )
-            let relPos = s:RecordRelativePosToMark( [ line( "." ), col( "." ) ],
-                  \ relMark )
-        endif
-    endif
+    call s:SaveCursorBeforeAction( a:filter )
+
 
     if !isMarkBroken
+          \ && a:filter.rc isnot 0 
+          \ && has_key( a:filter, 'text' )
+
         " marks are not deleted during user edit
-        if a:filter.rc isnot 0
-        
-            if has_key( a:filter, 'text' )
-                let text = a:filter.text
-            
-                " do NOT need to update position
 
-                call s:log.Debug( "text=" . string( text ) . len( text ) )
-                call XPreplace( start, end, text )
+        let text = a:filter.text
 
-            else
-                call s:log.Log( "there is no text set to replace ph contents" )
-            endif
-        endif
+        " do NOT need to update position
+
+        call s:log.Debug( "text=" . string( text ) . len( text ) )
+        call XPreplace( start, end, text )
+
     endif
 
     if s:FinishCurrent( '' ) < 0
-        echom "to finish current"
         return ''
     endif
 
-
-    if hasCursor
-        if isRel
-            call s:GotoRelativePosToMark( relPos, relMark )
-        endif
+    if exists( 'b:__xpt_saved_cursor__' )
+        call s:RestoreCursorAfterAction( a:filter )
     else
-        " TODO bad 
-        call cursor( XPMpos( a:renderContext.leadingPlaceHolder.mark.end ) )
+        call cursor( XPMpos( renderContext.leadingPlaceHolder.mark.end ) )
     endif
 
 
@@ -3381,7 +3438,7 @@ fun! s:ActionFinish( renderContext, filter ) "{{{
     
 endfunction "}}}
 
-fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, filter ) "{{{
+fun! s:EmbedSnippetIntoLeaderPH( ctx, filter ) "{{{
 
     let sniptext = a:filter.text
 
@@ -3392,8 +3449,8 @@ fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, filter ) "{{{
     " let marks = ph.innerMarks
 
 
-    let [ pstart, pend ] = XPMposStartEnd( marks )
-    if pstart[ 0 ] == 0 || pend[ 0 ] == 0
+    let [ start, end ] = XPMposStartEnd( marks )
+    if start[ 0 ] == 0 || end[ 0 ] == 0
         return s:Crash( 'leading place holder''s mark lost:' . string( marks ) )
     endif
 
@@ -3401,7 +3458,7 @@ fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, filter ) "{{{
     call b:xptemplateData.settingWrap.Switch()
 
 
-    call XPreplace( pstart, pend , sniptext )
+    call XPreplace( start, end , sniptext )
 
     if 0 > s:BuildPlaceHolders( marks )
         return s:Crash('building place holder failed')
@@ -3644,7 +3701,6 @@ fun! XPTmappingEval( str ) "{{{
     let filter = s:EvalFilter( filter, x.renderContext.ftScope.funcs,
           \ { 'typed' : typed, 'startPos' : [ line( "." ), col( "." ) ] } )
 
-    echom "filter=" . string( filter )
 
     if has_key( filter, 'action' )
         let postAction = s:HandleAction( x.renderContext, filter )
@@ -3857,6 +3913,27 @@ fun! s:EvalFilter( filter, container, context ) "{{{
 
         let a:filter.action = rst
         let a:filter.marks = get( rst, 'marks', a:filter.marks )
+
+
+        if has_key( a:filter.action, 'cursor' )
+
+            let a:filter.cursor = a:filter.action.cursor
+
+            if type( a:filter.cursor ) == type( [] )
+                  \ && type( a:filter.cursor[ 0 ] ) == type( '' )
+
+                " convert [ '<mark>', [ <offset> ] ] format to standard format
+
+                let a:filter.cursor = { 'rel' : 1,
+                      \ 'where' : a:filter.cursor[ 0 ],
+                      \ 'offset' : a:filter.cursor[ 1 ] }
+
+            endif
+
+            let a:filter.hasCursor = 1
+            let a:filter.isCursorRel = type( a:filter.cursor ) == type( {} )
+            
+        endif
 
 
         call a:filter.AdjustTextAction( a:context )
@@ -4580,7 +4657,6 @@ fun! s:HandleOntypeAction( renderContext, filter ) "{{{
 endfunction "}}}
 
 fun! s:HandleAction( renderContext, filter ) "{{{
-    echom "HandleAction called"
     " NOTE: handle only leader's action
 
     if a:renderContext.phase == 'post'
@@ -4604,7 +4680,7 @@ fun! s:HandleAction( renderContext, filter ) "{{{
         let postaction = s:ShiftForward( '' )
 
     elseif a:filter.action.name == 'finishTemplate'
-        let postaction = s:ActionFinish( a:renderContext, a:filter )
+        let postaction = s:ActionFinish( a:filter )
 
     elseif a:filter.action.name == ''
         " TODO other actions

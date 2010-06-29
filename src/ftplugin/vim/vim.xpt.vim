@@ -42,6 +42,9 @@ call XPTdefineSnippet('vimformat', {}, [ '" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fd
 
 
 
+XPT lncol " [ line\( "." ), col\( "." ) ]
+[ line( '.' ), col( '.' ) ]
+
 XPT printf	" printf\(..)
 XSET elts|pre=Echo('')
 XSET elts=c_printf_elts( R( 'pattern' ), "," )

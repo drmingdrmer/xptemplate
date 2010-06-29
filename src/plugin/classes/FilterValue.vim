@@ -19,6 +19,7 @@ fun! s:New( nIndent, text, ... ) dict "{{{
     " force to use this
     let self.force   = a:0 == 1 && a:1
     let self.marks   = 'innerMarks'
+    let self.hasCursor = 0
 
     let self.rc      = 1 " right status. 0 means nothing should be updated.
     let self.toBuild = 0
