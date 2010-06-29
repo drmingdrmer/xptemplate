@@ -1518,14 +1518,20 @@ endfunction "}}}
 
 
 
-fun! s:AddIndent( text, startPos ) "{{{
+fun! s:AdjustIndentAt( text, startPos ) "{{{
 
     let nIndent = XPT#getIndentNr( a:startPos[0], a:startPos[1] )
 
-    let baseIndent = repeat( " ", nIndent )
+    return s:AddIndent( a:text, nIndent )
+
+endfunction "}}}
+
+fun! s:AddIndent( text, nIndent ) "{{{
+
+    let baseIndent = repeat( " ", a:nIndent )
 
     return substitute(a:text, '\n', '&' . baseIndent, 'g')
-
+    
 endfunction "}}}
 
 fun! s:ParseSpaces( snipObject ) "{{{
@@ -1800,6 +1806,23 @@ fun! s:BuildSnippet(nameStartPosition, nameEndPosition) " {{{
     let ctx = b:xptemplateData.renderContext
     let xp = ctx.snipObject.ptn
 
+
+
+    let curline = getline( a:nameStartPosition[ 0 ] )
+
+    let nIndent = -1
+    if len( matchstr( curline, '\V\^\s\*' ) ) == a:nameStartPosition[ 1 ] - 1
+        " snippet name starts as the first non-space char
+
+        if has_key( ctx.oriIndentkeys, ctx.snipObject.name )
+
+            let nIndent = XPT#getPreferedIndentNr( a:nameStartPosition[ 0 ] )
+
+        endif
+
+    endif
+
+
     let ctx.phase = 'rendering'
 
 
@@ -1818,8 +1841,34 @@ fun! s:BuildSnippet(nameStartPosition, nameEndPosition) " {{{
 
     let snippetText = ctx.snipObject.snipText
 
+
+
+    let currentNIndent = XPT#getIndentNr( a:nameStartPosition[ 0 ], a:nameStartPosition[ 1 ] )
+    let nIndentToAdd = currentNIndent
+    if nIndent >= 0
+
+        if nIndent > currentNIndent
+
+            let snippetText = repeat( ' ', nIndent - currentNIndent ) . snippetText
+            let nIndentToAdd = nIndent
+
+        elseif nIndent < currentNIndent
+
+            let snippetText = repeat( ' ', nIndent ) . snippetText
+            let nIndentToAdd = nIndent
+            let a:nameStartPosition[ 1 ] = 1
+
+        endif
+
+    endif
+
+
     if snippetText =~ '\n'
-        let snippetText = s:AddIndent( snippetText, a:nameStartPosition )
+
+        " let snippetText = s:AdjustIndentAt( snippetText, a:nameStartPosition )
+
+        " let nIndent = XPT#getIndentNr( a:startPos[0], a:startPos[1] )
+        let snippetText =  s:AddIndent( snippetText, nIndentToAdd )
     endif
 
     " Note: simple implementation of wrapping, the better way is by default value
@@ -2509,7 +2558,7 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
     call s:MergeSetting( renderContext.snipSetting, incTmplObject.setting )
 
     let incSnip = s:ReplacePHofSubSnip( renderContext.snipObject, incTmplObject, params )
-    let incSnip = s:AddIndent( incSnip, nameInfo[0] )
+    let incSnip = s:AdjustIndentAt( incSnip, nameInfo[0] )
 
     let valueInfo[-1][1] += 1
     call XPreplaceInternal( nameInfo[0], valueInfo[-1], incSnip )
@@ -4127,6 +4176,7 @@ endfunction "}}}
 fun! s:ApplyMap() " {{{
 
     let x = b:xptemplateData
+    let renderContext = x.renderContext
 
     " if exists( ':AcpLock' )
     "     AcpLock
