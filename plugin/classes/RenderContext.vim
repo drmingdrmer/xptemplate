@@ -71,7 +71,17 @@ fun! s:New( x ) dict "{{{
           \   'lastContent'        : '',
           \   'snipSetting'        : {},
           \   'tmpmappings'        : {},
+          \   'oriIndentkeys'      : {},
           \ }, 'force' )
+
+    " for emulation of 'indentkeys'
+    let indentkeysList = split( &indentkeys, ',' )
+    call filter( indentkeysList, 'v:val=~''\V\^0=''' )
+    for k in indentkeysList
+
+        " "0=" is not included
+        let self.oriIndentkeys[ k[ 2: ] ] = 1
+    endfor
 
 endfunction "}}}
 
