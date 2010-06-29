@@ -37,6 +37,7 @@ XPTinclude
 XPTembed
       \ html/html
       \ html/php*
+      \ html/for.php*
 
 
 
