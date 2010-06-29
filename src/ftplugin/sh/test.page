@@ -308,17 +308,17 @@ elif condition; then
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 
-    elif condition_TYPED; then
+elif condition_TYPED; then
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2 b
+
+    `elif condition; then
         WRAPPED_TEXT
-        WRAPPED_TEXT_line2 b
+        WRAPPED_TEXT_line2^
 
-        `elif condition; then
+        a elif condition; then
             WRAPPED_TEXT
-            WRAPPED_TEXT_line2^
-
-            a elif condition; then
-                WRAPPED_TEXT
-                WRAPPED_TEXT_line2
+            WRAPPED_TEXT_line2
 
 
     #  -------------else--------------- 
@@ -331,17 +331,17 @@ else
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 
-    else
+else
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2 b
+
+    `else
         WRAPPED_TEXT
-        WRAPPED_TEXT_line2 b
+        WRAPPED_TEXT_line2^
 
-        `else
+        a else
             WRAPPED_TEXT
-            WRAPPED_TEXT_line2^
-
-            a else
-                WRAPPED_TEXT
-                WRAPPED_TEXT_line2
+            WRAPPED_TEXT_line2
 
 
     #  -------------Email--------------- 
