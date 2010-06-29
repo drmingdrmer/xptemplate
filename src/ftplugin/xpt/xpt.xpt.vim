@@ -169,8 +169,8 @@ XPT include " `Include:^
 \`Include:`name^\^
 
 
-XPT fun " fun! s:f.**
-`Include:_fun( { 'name' : 's:f.`name' } )^
+XPT fun alias=_fun " fun! s:f.**
+XSET name|repl=s:f.`name
 
 
 XPT skeleton " very simple snippet file skeleton

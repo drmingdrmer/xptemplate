@@ -395,19 +395,23 @@ endfunction
 
 fun! s:f.FinishOuter( ... )
 
-    if empty( self.renderContext.itemList )
+    return self.FinishPH( a:0 > 0
+          \ ? { 'text' : a:1, 'marks' : 'mark' }
+          \ : { 'marks' : 'mark' } )
 
-        let o = { 'action' : 'finishTemplate', 'marks' : 'mark' }
+    " if empty( self.renderContext.itemList )
 
-        if a:0 > 0
-            let o.text = a:1
-        endif
+    "     let o = { 'action' : 'finishTemplate', 'marks' : 'mark' }
 
-        return o
+    "     if a:0 > 0
+    "         let o.text = a:1
+    "     endif
 
-    else
-        return a:0 > 0 ? a:1 : 0
-    endif
+    "     return o
+
+    " else
+    "     return a:0 > 0 ? a:1 : 0
+    " endif
 
 endfunction
 
