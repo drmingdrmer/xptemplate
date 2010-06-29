@@ -2,11 +2,6 @@ XPTemplate priority=lang
 
 let s:f = g:XPTfuncs()
 
-" use snippet 'varConst' to generate contant variables
-" use snippet 'varFormat' to generate formatting variables
-" use snippet 'varSpaces' to generate spacing variables
-
-
 XPTinclude
       \ _common/common
       \ _condition/c.like
@@ -35,4 +30,7 @@ XPT operator " %...% <- function ( ... , ... ) { ... }
 { 
     `cursor^
 }
+
+XPT head " #! /usr/bin/env/Rscript
+#! /usr/bin/env Rscript
 
