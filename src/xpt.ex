@@ -111,7 +111,7 @@ cd xpt
 tar -czf ../xpt-$v-$rev.tgz *
 cd -
 
-cp -f xpt-$v-$rev.tgz xpt.tgz
+# cp -f xpt-$v-$rev.tgz xpt.tgz
 
 ls xpt-*.tgz
 
