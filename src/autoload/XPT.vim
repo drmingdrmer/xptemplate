@@ -8,7 +8,7 @@ let g:__XPT_VIM__ = 1
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-let XPT#ver = 2
+let XPT#ver = 3
 
 let XPT#let_sid = 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
 

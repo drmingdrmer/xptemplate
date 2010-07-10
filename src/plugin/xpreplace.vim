@@ -7,7 +7,6 @@ let g:__XPREPLACE_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-runtime plugin/debug.vim
 runtime plugin/xpmark.vim
 runtime plugin/classes/SettingSwitch.vim
 
@@ -25,8 +24,8 @@ runtime plugin/classes/SettingSwitch.vim
 "
 
 
-let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
+let s:log = xpt#debug#Logger( 'debug' )
 
 
 

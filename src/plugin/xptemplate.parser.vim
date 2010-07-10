@@ -22,7 +22,6 @@ let g:__XPTEMPLATE_PARSER_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-runtime plugin/debug.vim
 
 runtime plugin/classes/FiletypeScope.vim
 runtime plugin/classes/FilterValue.vim
@@ -31,8 +30,8 @@ runtime plugin/xptemplate.vim
 
 
 
-let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
+" let s:log = xpt#debug#Logger( 'debug' )
 
 
 com! -nargs=* XPTemplate

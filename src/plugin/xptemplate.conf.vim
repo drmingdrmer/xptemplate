@@ -8,7 +8,6 @@ let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
 
-runtime plugin/debug.vim
 
 let s:escapeHead   = '\v(\\*)\V'
 let s:unescapeHead = '\v(\\*)\1\\?\V'

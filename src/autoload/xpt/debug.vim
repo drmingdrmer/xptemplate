@@ -1,20 +1,29 @@
-if exists( "g:__DEBUG_VIM__" ) && g:__DEBUG_VIM__ >= XPT#ver
+if exists( "g:__XPT_DEBUG_VIM__" ) && g:__XPT_DEBUG_VIM__ >= XPT#ver
     finish
 endif
-let g:__DEBUG_VIM__ = XPT#ver
+let g:__XPT_DEBUG_VIM__ = XPT#ver
 
 let s:oldcpo = &cpo
 set cpo-=<
 set cpo+=B
 
+
+exe XPT#let_sid
+
+
 let s:globalLogLevel = 'warn'
 " let s:globalLogLevel = 'debug'
 
-com! DebugGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
-DebugGetSID
-delc DebugGetSID
+let s:logLevels = {
+      \ 'fatal' : 1,
+      \ 'error' : 2,
+      \ 'warn'  : 3,
+      \ 'info'  : 4,
+      \ 'log'   : 5,
+      \ 'debug' : 6,
+      \ }
 
-fun! CreateLogger( level ) "{{{
+fun! xpt#debug#Logger( level ) "{{{
 
   let level = s:logLevels[ a:level ]
   let level = min( [ level, s:logLevels[ s:globalLogLevel ] ] )
@@ -31,25 +40,13 @@ fun! CreateLogger( level ) "{{{
   return logger
 endfunction "}}}
 
-fun! Assert( shouldBeTrue, msg ) "{{{
+fun! xpt#debug#Assert( shouldBeTrue, msg ) "{{{
     if !a:shouldBeTrue
         throw a:msg
     end 
 endfunction "}}}
 
-com! -nargs=+ Assert call Assert( <args>, <q-args> )
 
-
-let s:logLevels = {
-      \ 'fatal' : 1,
-      \ 'error' : 2,
-      \ 'warn'  : 3,
-      \ 'info'  : 4,
-      \ 'log'   : 5,
-      \ 'debug' : 6,
-      \ }
-
-let s:loggerPrototype = {}
 fun! s:Fatal(...) dict "{{{
     return call('Log_core', ['Fatal'] + a:000)
 endfunction "}}}
@@ -77,27 +74,6 @@ endfunction "}}}
 fun! s:LogNothing(...) "{{{
 endfunction "}}}
 
-
-
-let s:loggerPrototype.Fatal       = function( "<SNR>" . s:sid . "Fatal"      )
-let s:loggerPrototype.Error       = function( "<SNR>" . s:sid . "Error"      )
-let s:loggerPrototype.Warn        = function( "<SNR>" . s:sid . "Warn"       )
-let s:loggerPrototype.Info        = function( "<SNR>" . s:sid . "Info"       )
-let s:loggerPrototype.Log         = function( "<SNR>" . s:sid . "Log"        )
-let s:loggerPrototype.Debug       = function( "<SNR>" . s:sid . "Debug"      )
-let s:loggerPrototype.LogNothing  = function( "<SNR>" . s:sid . "LogNothing" )
-
-
-if len( finddir( '~/tmp' ) ) > 0
-    let s:logLocation = finddir( '~/tmp' )
-else
-    let s:logLocation = '~'
-endif
-
-let s:logLocation .= '/vim.log'
-
-
-call delete(s:logLocation)
 
 fun! Log_core(level, ...) "{{{
     " call stack printing 
@@ -128,6 +104,27 @@ fun! Log_core(level, ...) "{{{
         echoerr string( a:000 )
     endif
 endfunction "}}}
+
+
+let s:loggerPrototype = {}
+let s:loggerPrototype.Fatal       = function( "<SNR>" . s:sid . "Fatal"      )
+let s:loggerPrototype.Error       = function( "<SNR>" . s:sid . "Error"      )
+let s:loggerPrototype.Warn        = function( "<SNR>" . s:sid . "Warn"       )
+let s:loggerPrototype.Info        = function( "<SNR>" . s:sid . "Info"       )
+let s:loggerPrototype.Log         = function( "<SNR>" . s:sid . "Log"        )
+let s:loggerPrototype.Debug       = function( "<SNR>" . s:sid . "Debug"      )
+let s:loggerPrototype.LogNothing  = function( "<SNR>" . s:sid . "LogNothing" )
+
+
+if len( finddir( '~/tmp' ) ) > 0
+    let s:logLocation = finddir( '~/tmp' )
+else
+    let s:logLocation = '~'
+endif
+
+let s:logLocation .= '/vim.log'
+
+call delete(s:logLocation)
 
 
 let &cpo = s:oldcpo

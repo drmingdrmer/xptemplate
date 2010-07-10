@@ -12,8 +12,8 @@ set cpo-=< cpo+=B
 runtime plugin/debug.vim
 
 
-let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
+let s:log = xpt#debug#Logger( 'debug' )
 
 
 

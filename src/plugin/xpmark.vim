@@ -8,13 +8,10 @@ let g:__XPMARK_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-com! XPMgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
-XPMgetSID
-delc XPMgetSID
+exe XPT#let_sid
 
-runtime plugin/debug.vim
-let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
+" let s:log = xpt#debug#Logger( 'debug' )
 
 
 " probe mark
@@ -1376,7 +1373,9 @@ endfunction "}}}
 fun! s:InitBuf() "{{{
 
     if !exists('b:_xpmark')
+
         call s:initBufData()
+
     endif
 
 endfunction "}}}
@@ -1405,9 +1404,6 @@ elseif !&ruler
 
 endif
 
-" if &statusline == ""
-    " set statusline=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
-" endif
 
 " Always enable ruler so that if statusline disabled, update can be done
 " through rulerformat
