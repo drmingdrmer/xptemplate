@@ -3321,7 +3321,7 @@ fun! s:SaveCursorBeforeAction( filter ) "{{{
 
         if a:filter.isCursorRel
 
-            let relMark = eval( 'renderContext.leadingPlaceHolder.' . a:filter.cursor[ 0 ] )
+            let relMark = eval( 'renderContext.leadingPlaceHolder.' . a:filter.cursor.where )
 
             if XPMhas( relMark )
                 let relPos = s:RecordRelativePosToMark( [ line( "." ), col( "." ) ],
@@ -3355,7 +3355,8 @@ fun! s:RestoreCursorAfterAction( filter ) "{{{
         if a:filter.hasCursor
 
             if a:filter.isCursorRel
-                call s:GotoRelativePosToMark( saved[ 0 ], saved[ 1 ] )
+
+                call s:GotoRelativePosToMark( saved[ 1 ], saved[ 0 ] )
 
             elseif a:filter.cursor is 'current'
 
@@ -3367,10 +3368,10 @@ fun! s:RestoreCursorAfterAction( filter ) "{{{
 
             endif
 
+        endif
+
         unlet b:__xpt_saved_cursor__
     endif
-
-
 
 endfunction "}}}
 
@@ -3926,7 +3927,7 @@ fun! s:EvalFilter( filter, container, context ) "{{{
 
                 let a:filter.cursor = { 'rel' : 1,
                       \ 'where' : a:filter.cursor[ 0 ],
-                      \ 'offset' : a:filter.cursor[ 1 ] }
+                      \ 'offset' : get( a:filter.cursor, 1, [ 0, 0 ] ) }
 
             endif
 
