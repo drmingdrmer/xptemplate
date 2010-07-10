@@ -1881,6 +1881,10 @@ fun! XPTmappingEval( str )
             return "\<C-v>\<C-v>\<BS>\<C-r>=XPTmappingEval(" . string(a:str) . ")\<CR>"
         endif
     endif
+    let rc = s:XPTupdate()
+    if rc != 0
+        return ''
+    endif
     let x = b:xptemplateData
     let typed = s:TextBetween(
           \ XPMposStartEnd(
