@@ -60,7 +60,7 @@ fun! XPMcheckStatusline() "{{{
     else
         call s:SetupStatusline()
     endif
-endfunction
+endfunction "}}}
 
 fun! s:SetupStatusline() "{{{
     if &statusline == ""

@@ -1,7 +1,18 @@
-if exists( "g:__XPTEMPLATE_UTIL_VIM__" ) && g:__XPTEMPLATE_UTIL_VIM__ >= XPT#ver
+" File Description {{{
+" =============================================================================
+" Low level utilities which depend on nothing else
+"
+"                                                  by drdr.xp
+"                                                     drdr.xp@gmail.com
+" Usage :
+"
+" =============================================================================
+" }}}
+if exists("g:__UTIL_VIM__") && g:__UTIL_VIM__ >= XPT#ver
     finish
 endif
-let g:__XPTEMPLATE_UTIL_VIM__ = XPT#ver
+let g:__UTIL_VIM__ = XPT#ver
+
 
 
 let s:oldcpo = &cpo
@@ -14,11 +25,9 @@ let s:log = xpt#debug#Logger( 'warn' )
 
 
 
-
-
 let s:unescapeHead          = '\v(\\*)\1\\?\V'
 
-fun! s:UnescapeChar( str, chars ) "{{{
+fun! xpt#util#UnescapeChar( str, chars ) "{{{
     " unescape only chars started with several '\' 
 
     " remove all '\'.
@@ -30,15 +39,16 @@ fun! s:UnescapeChar( str, chars ) "{{{
     let unescaped = substitute( a:str, pattern, '\1\2', 'g' )
     " call s:log.Log( 'unescaped ='.unescaped )
     return unescaped
+
 endfunction "}}}
 
-fun! s:DeepExtend( to, from ) "{{{
+fun! xpt#util#DeepExtend( to, from ) "{{{
     for key in keys( a:from )
 
         if type( a:from[ key ] ) == 4
             " dict 
             if has_key( a:to, key )
-                call g:xptutil.DeepExtend( a:to[ key ], a:from[ key ] )
+                call xpt#util#DeepExtend( a:to[ key ], a:from[ key ] )
             else
                 let a:to[ key ] = a:from[key]
             endif
@@ -58,7 +68,7 @@ fun! s:DeepExtend( to, from ) "{{{
     endfor
 endfunction "}}}
 
-fun! s:XPTgetCurrentOrPreviousSynName() "{{{
+fun! xpt#util#getCurrentOrPreviousSynName() "{{{
     let pos = [ line( "." ), col( "." ) ]
     let synName = synIDattr(synID(pos[0], pos[1], 1), "name")
 
@@ -79,7 +89,7 @@ fun! s:XPTgetCurrentOrPreviousSynName() "{{{
 
 endfunction "}}}
 
-fun! s:RemoveDuplicate( list ) "{{{
+fun! xpt#util#RemoveDuplicate( list ) "{{{
     let dict = {}
     let newList = []
     for e in a:list
@@ -92,8 +102,7 @@ fun! s:RemoveDuplicate( list ) "{{{
     return newList
 endfunction "}}}
 
-exe XPT#let_sid
-let g:xptutil = XPT#class( s:sid, {} )
+
+
 
 let &cpo = s:oldcpo
-

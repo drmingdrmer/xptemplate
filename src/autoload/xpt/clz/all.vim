@@ -4,8 +4,13 @@ endif
 let g:__ALL_VIM__ = XPT#ver
 
 
-runtime plugin/classes/MapSaver.vim
-runtime plugin/classes/SettingSwitch.vim
-runtime plugin/classes/FiletypeScope.vim
-runtime plugin/classes/FilterValue.vim
-runtime plugin/classes/RenderContext.vim
+
+fun! xpt#clz#all#Load() "{{{
+endfunction "}}}
+
+runtime autoload/xpt/clz/FiletypeScope.vim
+runtime autoload/xpt/clz/FilterValue.vim
+runtime autoload/xpt/clz/MapSaver.vim
+runtime autoload/xpt/clz/RenderContext.vim
+runtime autoload/xpt/clz/SettingSwitch.vim
+runtime autoload/xpt/clz/SnippetScope.vim

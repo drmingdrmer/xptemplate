@@ -389,7 +389,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
         let value = pair[ len(name) : ]
 
         " flag setting need no value present
-        let value = value[0:0] == '=' ? g:xptutil.UnescapeChar(value[1:], ' ') : 1
+        let value = value[0:0] == '=' ? xpt#util#UnescapeChar(value[1:], ' ') : 1
 
         let setting[name] = value
     endfor

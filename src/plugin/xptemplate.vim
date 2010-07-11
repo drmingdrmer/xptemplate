@@ -132,11 +132,8 @@ runtime plugin/xptemplate.util.vim
 runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
 runtime plugin/xpopup.vim
-runtime plugin/classes/MapSaver.vim
-runtime plugin/classes/SettingSwitch.vim
-runtime plugin/classes/FiletypeScope.vim
-runtime plugin/classes/FilterValue.vim
-runtime plugin/classes/RenderContext.vim
+
+call xpt#clz#all#Load()
 
 
 let s:log = xpt#debug#Logger( 'warn' )
@@ -356,7 +353,7 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
 
         endif
 
-        call g:xptutil.DeepExtend( xt[ a:name ].setting, a:setting )
+        call xpt#util#DeepExtend( xt[ a:name ].setting, a:setting )
 
         call s:ParseTemplateSetting( xt[ a:name ] )
 
@@ -699,7 +696,7 @@ fun! s:ParseInclusionStatement( snipObject, st ) "{{{
         call s:log.Debug( 'name=' . string( name ) )
         call s:log.Debug( 'paramStr' . string( paramStr ) )
 
-        let paramStr = g:xptutil.UnescapeChar( paramStr, xp.l . xp.r )
+        let paramStr = xpt#util#UnescapeChar( paramStr, xp.l . xp.r )
         let params = {}
         try
             let params = eval( paramStr )
@@ -808,8 +805,8 @@ endfunction "}}}
 fun! s:InitItemOrderList( setting ) "{{{
     " TODO move me to template creation phase
 
-    let a:setting.comeFirst = g:xptutil.RemoveDuplicate( a:setting.comeFirst )
-    let a:setting.comeLast  = g:xptutil.RemoveDuplicate( a:setting.comeLast )
+    let a:setting.comeFirst = xpt#util#RemoveDuplicate( a:setting.comeFirst )
+    let a:setting.comeLast  = xpt#util#RemoveDuplicate( a:setting.comeLast )
 
 endfunction "}}}
 
@@ -2089,7 +2086,7 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
         let val = s:TextBetween( a:valueInfo[ 0 : 1 ] )
         let val = val[1:]
-        let val = g:xptutil.UnescapeChar( val, xp.l . xp.r )
+        let val = xpt#util#UnescapeChar( val, xp.l . xp.r )
 
         " NOTE: problem indent() returns indent without no mark consideration
         let nIndent = indent( a:valueInfo[0][0] )
@@ -4024,13 +4021,13 @@ fun! s:CompileExpr(s, xfunc) "{{{
 
     " simple test
     if a:s !~  '\V\w(\|$\w'
-        return string(g:xptutil.UnescapeChar(a:s, '{$( '))
+        return string(xpt#util#UnescapeChar(a:s, '{$( '))
     endif
 
     let stringMask = s:CreateStringMask( a:s )
 
     if stringMask !~ patternVarOrFunc
-        return string(g:xptutil.UnescapeChar(a:s, '{$( '))
+        return string(xpt#util#UnescapeChar(a:s, '{$( '))
     endif
 
     call s:log.Debug( 'string =' . a:s, 'strmask=' . stringMask )
@@ -4108,7 +4105,7 @@ fun! s:CompileExpr(s, xfunc) "{{{
 
         if '' != matches[1]
             let part = str[ idx : idx + len(matches[1]) - 1 ]
-            let part = g:xptutil.UnescapeChar(part, '{$( ')
+            let part = xpt#util#UnescapeChar(part, '{$( ')
             let expr .= '.' . string(part)
         endif
 
