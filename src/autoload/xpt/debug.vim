@@ -106,6 +106,8 @@ fun! Log_core(level, ...) "{{{
 endfunction "}}}
 
 
+" define script-private functions first and then make reference to them. Thus
+" in traceback function name can be shown.
 let s:loggerPrototype = {}
 let s:loggerPrototype.Fatal       = function( "<SNR>" . s:sid . "Fatal"      )
 let s:loggerPrototype.Error       = function( "<SNR>" . s:sid . "Error"      )
