@@ -3689,6 +3689,14 @@ fun! XPTmappingEval( str ) "{{{
         endif
     endif
 
+    " If pum is visible when something typed, updating must be made because
+    " update is not triggered when pum is visible
+    let rc = s:XPTupdate()
+
+    if rc isnot 0
+        return ''
+    endif
+
     " TODO startPos is current pos or start of mark?
 
     let x = b:xptemplateData
