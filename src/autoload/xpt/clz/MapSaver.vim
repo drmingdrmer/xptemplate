@@ -25,7 +25,7 @@ snoremap <Plug>selectToInsert d<BS>
 " TODO Maybe use <script> mapping is better
 fun! s:_GetAlighWidth() "{{{
     nmap <buffer> 1 2
-    let line = XPT#getCmdOutput("silent nmap <buffer> 1")
+    let line = xpt#util#getCmdOutput("silent nmap <buffer> 1")
     nunmap <buffer> 1
 
     let line = split(line, "\n")[0]
@@ -46,7 +46,7 @@ fun! s:_GetMapLine(key, mode, isbuffer) "{{{
     let mcmd = "silent ".a:mode."map ".(a:isbuffer ? "<buffer> " : "").a:key
 
     " get fixed mapping
-    let str = XPT#getCmdOutput(mcmd)
+    let str = xpt#util#getCmdOutput(mcmd)
 
     let lines = split(str, "\n")
 
@@ -266,6 +266,6 @@ fun! s:GetStack() dict "{{{
 endfunction "}}}
 
 exe XPT#let_sid
-let g:MapSaver = XPT#class( s:sid, {} )
+let g:MapSaver = xpt#util#class( s:sid, {} )
 
 let &cpo = s:oldcpo

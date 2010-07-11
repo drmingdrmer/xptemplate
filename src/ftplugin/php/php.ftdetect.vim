@@ -41,7 +41,7 @@ let s:topFT = 'html'
 fun! XPT_phpFiletypeDetect() "{{{
     let pos = [ line( "." ), col( "." ) ]
 
-    let synName = xpt#util#getCurrentOrPreviousSynName()
+    let synName = xpt#util#NearestSynName()
 
     if synName == ''
         " top level ft is html

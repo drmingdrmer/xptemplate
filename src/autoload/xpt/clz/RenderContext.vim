@@ -97,6 +97,6 @@ endfunction "}}}
 
 
 exe XPT#let_sid
-let g:RenderContext = XPT#class( s:sid, s:proto )
+let g:RenderContext = xpt#util#class( s:sid, s:proto )
 
 let &cpo = s:oldcpo

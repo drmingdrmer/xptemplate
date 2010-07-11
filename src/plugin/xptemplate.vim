@@ -238,7 +238,7 @@ fun! s:pumCB.onEmpty(sess) "{{{
     else
         let x = b:xptemplateData
         let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
-        return XPT#fallback( x.fallbacks )
+        return xpt#util#Fallback( x.fallbacks )
     endif
 endfunction "}}}
 
@@ -846,7 +846,7 @@ fun! XPTemplatePreWrap( wrap ) "{{{
     let x.wrap = substitute( x.wrap, '\V\n\$', '', '' )
 
 
-    let x.wrap = XPT#LeadingTabToSpace( x.wrap )
+    let x.wrap = xpt#util#ExpandTab( x.wrap )
 
 
     if ( g:xptemplate_strip_left || x.wrap =~ '\n' )
@@ -905,7 +905,7 @@ fun! s:ConcreteSpace() "{{{
         let pos = virtcol( '.' )
         normal! d0
 
-        let leftSpaces = XPT#convertSpaceToTab( repeat( ' ', pos - 1 ) )
+        let leftSpaces = xpt#util#convertSpaceToTab( repeat( ' ', pos - 1 ) )
 
     else
         let leftSpaces = ''
@@ -1068,7 +1068,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
                 if keypressed =~ g:xptemplate_fallback_condition
                     let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
-                    return XPT#fallback( x.fallbacks )
+                    return xpt#util#Fallback( x.fallbacks )
                 else
                     " nothing to do, normal procedure.
                 endif
@@ -1077,11 +1077,11 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
                 if g:xptemplate_fallback =~? '\V<Plug>XPTrawKey\|<NOP>'
                       \ || g:xptemplate_fallback ==? keypressed
 
-                    return XPT#fallback( x.fallbacks )
+                    return xpt#util#Fallback( x.fallbacks )
 
                 else
                     let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
-                    return XPT#fallback( x.fallbacks )
+                    return xpt#util#Fallback( x.fallbacks )
                 endif
             endif
 
@@ -1157,7 +1157,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
                   " \ && !forcePum
 
                   let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
-                  return XPT#fallback( x.fallbacks )
+                  return xpt#util#Fallback( x.fallbacks )
             endif
         endif
 
@@ -1524,7 +1524,7 @@ endfunction "}}}
 
 fun! s:AdjustIndentAt( text, startPos ) "{{{
 
-    let nIndent = XPT#getIndentNr( a:startPos[0], a:startPos[1] )
+    let nIndent = xpt#util#getIndentNr( a:startPos[0], a:startPos[1] )
 
     return s:AddIndent( a:text, nIndent )
 
@@ -1881,7 +1881,7 @@ fun! s:GenerateSnipTextToShow( startPos ) "{{{
 
 
     let curline = getline( a:startPos[ 0 ] )
-    let currentNIndent = XPT#getIndentNr( a:startPos[ 0 ], a:startPos[ 1 ] )
+    let currentNIndent = xpt#util#getIndentNr( a:startPos[ 0 ], a:startPos[ 1 ] )
 
 
     let nIndent = -1
@@ -1890,7 +1890,7 @@ fun! s:GenerateSnipTextToShow( startPos ) "{{{
 
         " TODO test with the first word of snippet text is better
         if has_key( ctx.oriIndentkeys, ctx.snipObject.name )
-            let nIndent = XPT#getPreferedIndentNr( a:startPos[ 0 ] )
+            let nIndent = xpt#util#getPreferedIndentNr( a:startPos[ 0 ] )
         endif
 
     endif
@@ -2790,7 +2790,7 @@ fun! s:ShiftForward( action ) " {{{
                 if x.canNavFallback
                     let x.fallbacks = [ [ "\<Plug>XPTnavFallback", 'feed' ],
                           \             [ "\<C-r>=XPTforceForward(" . string( a:action ) . ")\<CR>", 'expr' ], ]
-                    return  XPT#fallback( x.fallbacks )
+                    return  xpt#util#Fallback( x.fallbacks )
                 else
                     return XPPend() . "\<C-r>=<SNR>" . s:sid . 'ShiftForward(' . string( a:action ) . ")\<CR>"
                 endif
@@ -4525,7 +4525,7 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
                 call flt.AdjustIndent( phStartPos )
 
             else
-                let flt = g:FilterValue.New( -XPT#getIndentNr( phln, phcol ), a:contentTyped )
+                let flt = g:FilterValue.New( -xpt#util#getIndentNr( phln, phcol ), a:contentTyped )
                 call flt.AdjustIndent( phStartPos )
 
             endif
@@ -5050,7 +5050,7 @@ com! XPTcrash call <SID>Crash()
 
 
 " " acp hack to detect if acp is showing
-" let scriptnames = XPT#getCmdOutput( 'silent scriptnames' )
+" let scriptnames = xpt#util#getCmdOutput( 'silent scriptnames' )
 " let scrs = split( scriptnames, "\n" )
 " for s in scrs
 "     if s =~ '\V/autoload/acp.vim\$'

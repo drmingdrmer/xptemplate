@@ -29,7 +29,7 @@ let s:pattern = {
 
 fun! XPT_htmlFiletypeDetect() "{{{
     let pos = [ line( "." ), col( "." ) ]
-    let synName = xpt#util#getCurrentOrPreviousSynName()
+    let synName = xpt#util#NearestSynName()
 
     if synName == ''
         " no character at current position or before curernt position

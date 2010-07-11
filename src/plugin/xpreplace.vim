@@ -100,7 +100,7 @@ endfunction "}}}
 
 
 fun! s:ConvertSpaceToTab( text ) "{{{
-    return XPT#convertSpaceToTab( a:text )
+    return xpt#util#convertSpaceToTab( a:text )
 endfunction "}}}
 
 

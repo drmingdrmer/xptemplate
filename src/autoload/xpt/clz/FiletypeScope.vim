@@ -43,6 +43,6 @@ endfunction "}}}
 
 
 exe XPT#let_sid
-let g:FiletypeScope = XPT#class( s:sid, s:proto )
+let g:FiletypeScope = xpt#util#class( s:sid, s:proto )
 
 let &cpo = s:oldcpo

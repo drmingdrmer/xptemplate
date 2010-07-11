@@ -82,6 +82,6 @@ endfunction "}}}
 " endfunction "}}}
 
 exe XPT#let_sid
-let g:SettingSwitch = XPT#class( s:sid, {} )
+let g:SettingSwitch = xpt#util#class( s:sid, {} )
 
 let &cpo = s:oldcpo

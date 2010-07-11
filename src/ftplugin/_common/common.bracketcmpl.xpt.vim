@@ -141,7 +141,7 @@ fun! s:f.bkt_ontype()
     else
 
         let pos = self.ItemPos()[ 0 ]
-        return self.ResetIndent( -XPT#getIndentNr( pos[ 0 ], pos[ 1 ] ), v )
+        return self.ResetIndent( -xpt#util#getIndentNr( pos[ 0 ], pos[ 1 ] ), v )
 
     endif
 

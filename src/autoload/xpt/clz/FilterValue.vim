@@ -33,7 +33,7 @@ fun! s:AdjustIndent( startPos ) dict "{{{
     endif
 
 
-    let nIndent = XPT#getIndentNr( a:startPos[0], a:startPos[1] )
+    let nIndent = xpt#util#getIndentNr( a:startPos[0], a:startPos[1] )
     let [ nIndent, self.nIndent ] = [ max( [ 0, nIndent + self.nIndent ] ), 0 ]
 
     if nIndent == 0
@@ -71,6 +71,6 @@ fun! s:AdjustTextAction( context ) dict "{{{
 endfunction "}}}
 
 exe XPT#let_sid
-let g:FilterValue = XPT#class( s:sid, s:proto )
+let g:FilterValue = xpt#util#class( s:sid, s:proto )
 
 let &cpo = s:oldcpo

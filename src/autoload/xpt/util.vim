@@ -68,7 +68,7 @@ fun! xpt#util#DeepExtend( to, from ) "{{{
     endfor
 endfunction "}}}
 
-fun! xpt#util#getCurrentOrPreviousSynName() "{{{
+fun! xpt#util#NearestSynName() "{{{
     let pos = [ line( "." ), col( "." ) ]
     let synName = synIDattr(synID(pos[0], pos[1], 1), "name")
 
@@ -102,6 +102,131 @@ fun! xpt#util#RemoveDuplicate( list ) "{{{
     return newList
 endfunction "}}}
 
+
+fun! xpt#util#ExpandTab( text ) "{{{
+    if stridx( a:text, "	" ) < 0
+        return a:text
+    endif
+    
+    let str = "\n" . a:text
+
+    let tabspaces = repeat( ' ', &tabstop )
+
+    let last = ''
+    while str != last
+        let last = str
+        let str = substitute( str, '\n	*\zs	', tabspaces, 'g' )
+    endwhile
+
+    return str[ 1 : ]
+
+endfunction "}}}
+
+fun! xpt#util#convertSpaceToTab( text ) "{{{
+    " NOTE: line-break followed by space
+
+    if ( "\n" . a:text ) !~ '\V\n ' || &expandtab
+        return a:text
+    else
+
+        let tabspaces = repeat( ' ',  &tabstop )
+        let lines = split( a:text, '\V\n', 1 )
+        let newlines = []
+        for line in lines
+            let newline = join( split( line, '\V\^\%(' . tabspaces . '\)', 1 ), '	' )
+            let newlines += [ newline ]
+        endfor
+
+        return join( newlines, "\n" )
+
+    endif
+endfunction "}}}
+
+fun! xpt#util#Fallback( fbs ) "{{{
+    let fbs = a:fbs
+    if len( fbs ) > 0
+        let [ key, flag ] = fbs[ 0 ]
+        call remove( fbs, 0 )
+        if flag == 'feed'
+            call feedkeys( key, 'mt' )
+            return ''
+        else
+            " flag == 'expr'
+            return key
+        endif
+    else
+        return ''
+    endif
+endfunction "}}}
+
+fun! xpt#util#getIndentNr( ln, col ) "{{{
+
+    let line = matchstr( getline(a:ln), '\V\^\s\*' )
+    let line = ( a:col == 1 ) ? '' : line[ 0 : a:col - 1 - 1 ]
+
+    let tabspaces = repeat( ' ', &l:tabstop )
+
+    return len( substitute( line, '	', tabspaces, 'g' ) )
+
+endfunction "}}}
+
+fun! xpt#util#getPreferedIndentNr( ln ) "{{{
+    if &indentexpr == ''
+        return -1
+    else
+        let indentexpr = substitute( &indentexpr, '\Vv:lnum', a:ln, '' )
+        try
+            return  eval( indentexpr )
+        catch /.*/
+            return -1
+        endtry
+    endif
+    
+endfunction "}}}
+
+fun! xpt#util#getCmdOutput( cmd ) "{{{
+    let l:a = ""
+
+    redir => l:a
+    exe a:cmd
+    redir END
+
+    return l:a
+endfunction "}}}
+
+
+
+
+
+" OO support 
+fun! xpt#util#class( sid, proto ) "{{{
+    let clz = deepcopy( a:proto )
+
+    let funcs = split( xpt#util#getCmdOutput( 'silent function /' . a:sid ), "\n" )
+    call map( funcs, 'matchstr( v:val, "' . a:sid . '\\zs.*\\ze(" )' )
+
+    for name in funcs
+        if name !~ '\V\^_'
+            let clz[ name ] = function( '<SNR>' . a:sid . name )
+        endif
+    endfor
+
+    " wrapper
+    let clz.__init__ = get( clz, 'New', function( 'xpt#util#classVoidInit' ) )
+    let clz.New = function( 'xpt#util#classNew' )
+
+    return clz
+endfunction "}}}
+
+fun! xpt#util#classNew( ... ) dict "{{{
+    let inst = copy( self )
+    call call( inst.__init__, a:000, inst )
+    let inst.__class__ = self
+    return inst
+endfunction "}}}
+
+fun! xpt#util#classVoidInit( ... ) dict "{{{
+endfunction "}}}
 
 
 
