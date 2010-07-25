@@ -1471,12 +1471,13 @@ fun! s:ShiftForward( action )
                 endif
             endif
         endif
+        return XPTforceForward( a:action )
     else
         if XPPhasSession()
             call XPPend()
         endif
+        return "\<C-v>\<C-v>\<BS>\<C-r>" . '=XPTforceForward(' . string( a:action ) . ")\<CR>"
     endif
-    return XPTforceForward( a:action )
 endfunction 
 fun! XPTforceForward( action ) 
     if s:FinishCurrent( a:action ) < 0
