@@ -18,6 +18,14 @@ fun! s:New() dict "{{{
     let self.funcs           = { '$CURSOR_PH' : 'CURSOR' }
     let self.varPriority     = {}
     let self.loadedSnipFiles = {}
+
+    " Some snippet can have extension pattern. Extensions are meant for
+    " zencode-like snippet.
+    " But extensions can be very little as well as snippets using a same
+    " extension can be many. So this dictionary stores extension-to-snippet
+    " name table.
+    let self.extensionTable = {}
+
 endfunction "}}}
 
 

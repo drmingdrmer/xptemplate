@@ -115,7 +115,7 @@ syntax match XPTmetaAlias_name /\S\+\ze=/ contained containedin=XPTmetaAlias
 syntax match XPTmetaAlias_value /=\zs\S\+/ contained containedin=XPTmetaAlias
 
 syntax match XPTmeta_name /\w\+\ze=\?/ containedin=XPTmeta nextgroup=XPTmeta_value
-syntax keyword XPTmeta_name_key hint alias synonym hidden wrap wraponly abbr syn contained containedin=XPTmeta_name
+syntax keyword XPTmeta_name_key hint alias extension synonym hidden wrap wraponly abbr syn contained containedin=XPTmeta_name
 syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
 
 syntax region XPTsnippetBody  start=/^/ end=/\ze\%(^$\n\)*\%$\|\ze\%(^$\n\)*XPT\s\|^\.\.XPT\|^\ze\(".*\n\|\s*\n\)*\(XPT\s\|\%$\)/ contained containedin=XPTsnippetTitle contains=XPTxset excludenl fold
