@@ -2873,17 +2873,22 @@ fun! s:ShiftForward( action ) " {{{
             endif
         endif
 
+        return XPTforceForward( a:action )
+
     else
 
         if XPPhasSession()
             call XPPend()
         endif
 
+        " Pum may be not visible but pum does exist. This cause problem
+        " further <tab> swallow chars between pum-text and cursor position.
+        "
+        " In this case we have to force pum to close.
+
+        return "\<C-v>\<C-v>\<BS>\<C-r>" . '=XPTforceForward(' . string( a:action ) . ")\<CR>"
+
     endif
-
-
-
-    return XPTforceForward( a:action )
 
 endfunction " }}}
 

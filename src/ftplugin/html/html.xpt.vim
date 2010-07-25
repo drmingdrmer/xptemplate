@@ -150,7 +150,7 @@ fun! s:ExtractAttr( elts, mark, attrName ) "{{{
     
 endfunction "}}}
 
-fun! s:f.TagExt( v ) "{{{
+fun! s:f.html_tagattr_ext( v ) "{{{
 
     let rst = ''
     let elts = split( a:v, '\V\ze\[.#@]' )
@@ -180,9 +180,9 @@ XSET content|ontype=html_cont_ontype()
 ..XPT
 
 
-XPT _tag wrap=content hidden " <$_xSnipName >..</$_xSnipName>
+XPT _tag wrap=content extension=(\.\w*|\#\w*)+ hidden " <$_xSnipName >..</$_xSnipName>
 XSET content|ontype=html_cont_ontype()
-<`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^>
+<`$_xSnipName^`html_tagattr_ext($EXT)^>`content^^`content^html_cont_helper()^</`$_xSnipName^>
 ..XPT
 
 " XPT _t hidden " ..
@@ -306,8 +306,6 @@ XPT ul   alias=_tag
 XPT ol   alias=_tag
 XPT li   alias=_tag
 
-XPT vv extension=(\.\w*|\#\w*)+ " tips
-<vv`TagExt($EXT)^></vv>
 
 
 
