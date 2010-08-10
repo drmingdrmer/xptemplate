@@ -23,6 +23,11 @@
 "
 " TODOLIST: "{{{
 " TODO duplicate snippet name check
+" in future
+" TODO efficiently loading long snippet file
+" TODO test vim 7.3
+" TODO lazy load of scripts
+" TODO add: be able to load textmate snippet or snipmate snippet.
 " TODO add: <BS> at ph start to shift backward.
 " TODO add: php snippet <% for .. %> in html 
 " TODO improve: 3 quotes in python
