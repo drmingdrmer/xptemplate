@@ -24,12 +24,16 @@ endfunction
 
 let s:xpts = {}
 for v in s:xpt_snip
-  let [ ft, snip ] = split( v, '/' )
-  if !has_key( s:xpts, ft )
-    let s:xpts[ ft ] = []
-  endif
+    if v == ''
+        continue
+    endif
 
-  let s:xpts[ ft ] += [ snip ]
+    let [ ft, snip ] = split( v, '/' )
+    if !has_key( s:xpts, ft )
+        let s:xpts[ ft ] = []
+    endif
+
+    let s:xpts[ ft ] += [ snip ]
 endfor
 
 
