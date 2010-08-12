@@ -48,6 +48,7 @@ let s:nonEscaped =
       \ . '\)'
       \ . '\@<='
 let s:nonsafe = '{$( '
+let s:nonsafeHint = '$('
 let s:regEval = '\V\w(\|$\w'
 let g:XPTemplateSettingPrototype  = {
       \    'hidden'           : 0,

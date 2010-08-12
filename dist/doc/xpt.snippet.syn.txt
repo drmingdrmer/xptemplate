@@ -93,7 +93,7 @@
 		endfunction                             |
 
 
-		XPT cmt hint=/**\ @auth...\ */		| |xpt-snippet|
+		XPT cmt " /** @auth... */		| |xpt-snippet|
 		XSET author=$author                     | |xpt-snippet-XSET|
 		XSET email=$email                       | |xpt-snippet-XSET|
 		/**                                     |\ 
@@ -104,7 +104,7 @@
 		*/
 
 
-		XPT for hint=for\ (var..;..;++)	
+		XPT for " for (var..;..;++)
 		for ( i=0; i<`len^; ++i ) { `cursor^ }
 <
 
@@ -232,7 +232,7 @@
 			...
 		endfunction
 <	Then function 'c_printfElts' can be used in the snippet : >
-		XPT printf	hint=printf\(...)
+		XPT printf	" printf\(...)
 		XSET elts=c_printfElts( R( 'pattern' ) )
 		printf( "`pattern^"`elts^ )
 <
@@ -316,46 +316,39 @@
 		| #ifndef       #ifndef ..        |
 <	
 	Syntax to set up hints: >
-		XPT for hint=for\ (..;..;++)
-<	Or : >
 		XPT for " for (..;..;++)
 <	The quote-hint must be at the end of |xpt-snippet| declaration.
 
-	Some characters( space, left quote and "$" ) need to be escaped in
+	Some characters( left quote and "$" ) need to be escaped in
 	hint text: >
-				<space>	(	$
-		hint=		yes	yes	yes
-		"		no	yes	yes
+		(	$
 <
-	With only the 'hint=' way:
-		space needs to be escaped.
+	"(" needs to be escaped if you do NOT want it to be evaluated as a
+	function call.
 
-	With both these two ways :
-		"(" needs to be escaped if you do NOT want it to be evaluated
-		as a function call.
-		"$" needs to be escaped if you do NOT want it to be evaluated
-		as variable.
+	"$" needs to be escaped if you do NOT want it to be evaluated as
+	variable.
 
 
 							  *xpt-snippet-hidden*
 	Set to 1 to prevent the snippet from being triggered by the user, but
 	it CAN be triggered from internal API, or included by other snippet.
 	Syntax: >
-		XPT for hidden=1 hint=...
+		XPT for hidden=1
 <	Or: >
-		XPT for hidden hint=...
+		XPT for hidden
 <
 	See |xpt-snippet-include| and |xpt-api|.
 
 
 							   *xpt-snippet-alias*
 	Make the snippet an alias to another snippet. Syntax : >
-		XPT forin hint=for\ ..\ in\ ..\ ..\ endfor
+		XPT forin
 		for `value^ in `list^
 		    `cursor^
 		endfor
 
-		XPT foreach alias=forin hint=for\ ..\ in\ ..\ ..\ endfor
+		XPT foreach alias=forin
 <	This makes "forin" and "foreach" the same, but with possible different
 	settings.
 
@@ -366,7 +359,7 @@
 	Syntax : >
 		XPT snippetName synonym=a|b|c...
 <	Where a, b and c are all the names of this snippet. For example : >
-		XPT forin synonym=fin|fi hint=for\ ..\ in\ ..\ ..\ endfor
+		XPT forin synonym=fin|fi
 		for `value^ in `list^
 		    `cursor^
 		endfor
@@ -425,7 +418,7 @@
 
 							    *xpt-snippet-body*
 	<snippet body> is all the OTHER text except the first line : >
-		XPT for hint=for\ (..;..;++)
+		XPT for
 		for (`i^ = `0^; `i^ < `len^; ++`i^) { |
 		    `cursor^                          | snippet body
 		}                                     |
@@ -474,7 +467,7 @@
 		    `job^
 		}
 
-		XPT if hint=if\ (..)\ {..}\ else...
+		XPT if
 		`:_if:^` `else...{{^ `Include:else^`}}^
 
 <	The real "if" includes the "_if" and "else" snippets.
@@ -509,7 +502,7 @@
 <	XSET syntax to set |xpt-snippet-post-filter|: >
 		XSET itemname|post=<expression>
 <	<expression> is |xpt-snippet-expression|. For example : >
-		XPT #include_user	hint=include\ ""
+		XPT #include_user
 		XSET me=fileRoot()
 		#include "`me^.h"
 <	Item "me" is set to the file name without extension.
@@ -518,7 +511,7 @@
 	"XSETm" is similar to |xpt-snippet-XSET| except it uses "\n" instead
 	of "=" in |xpt-snippet-XSET| and ends with "XSETm END". For
 	example : >
-		XPT if		hint=if\ (..)\ {..}\ else...
+		XPT if
 		if (`condition^) { 
 		    `job^
 		}` `else...^
@@ -534,7 +527,7 @@
 	Special XSET keys "ComeFirst" and "ComeLast" specify the item render
 	order. Their value is a list of place holder names separated by space.
 	For example : >
-		XPT for hint=for\ (..;..;++)
+		XPT for
 		XSET ComeFirst=0 len
 		for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRloop^{
 		    `cursor^
@@ -548,7 +541,7 @@
 							    *xpt-snippet-item*
 	In one snippet a group of |xpt-snippet-placeholder|s with the same
 	name is an "item". For example : >
-		XPT for hint=for\ (..;..;++)
+		XPT for
 		for (`i^ = `0^; `i^ < `len^; ++`i^) {
 		    `cursor^
 		}
@@ -563,7 +556,7 @@
 
 	The place holders are defined by |xpt-placeholder-mark|, by default
 	|`| and |^| are used. For example : >
-		XPT for hint=for\ (..;..;++)
+		XPT for
 		for (`i^ = `0^; `i^ < `len^; ++`i^) {
 		    `cursor^
 		}
@@ -766,7 +759,7 @@
 	typed text. To define a post filter use : >
 		XSET the_name|post=<expression>
 <	Or use |xpt-snippet-postQuoter| : >
-		XPT enum hint=enum\ {\ ..\ }
+		XPT enum
 		enum `name^`$BRstc^{
 		    `elt^;`
 		    `...{{^
@@ -778,7 +771,7 @@
 	ftplugin/_common/common.xpt.vim. 
 
 	For example for c language, "#ifndef" snippet is defined as follows : >
-		XPT #ifndef	hint=#ifndef\ ..
+		XPT #ifndef
 		XSET symbol=S(fileRoot(),'\.','_','g')
 		XSET symbol|post=UpperCase(V())
 		#ifndef `symbol^

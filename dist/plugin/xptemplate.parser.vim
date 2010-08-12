@@ -267,10 +267,6 @@ fun! s:XPTemplateParseSnippet(lines)
     endif
 endfunction 
 fun! s:GetSnipCommentHint(str) 
-    let pos = match(a:str, '\V' . s:nonEscaped . '\shint=')
-    if pos != -1
-        return [ a:str[ pos + 6 : ], a:str[ : pos - 1 ] ]
-    endif
     let pos = match( a:str, '\VXPT\s\+\S\+\.\{-}\zs\s' . s:nonEscaped . '"' )
     if pos == -1
         return [ '', a:str ]

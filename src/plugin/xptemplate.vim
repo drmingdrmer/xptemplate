@@ -92,6 +92,7 @@
 "
 "
 " Log of this version:
+"   removed: hint format "hint=**" is no longer supported
 "   fix: slowly loading *.xpt.vim
 "   fix: mistakely using $SPop in brackets snippet. It should be $SParg
 "   fix: bug pre-parsing spaces
@@ -182,6 +183,7 @@ let s:nonEscaped =
       \ . '\@<='
 
 let s:nonsafe = '{$( '
+let s:nonsafeHint = '$('
 let s:regEval = '\V\w(\|$\w'
 
 " TODO move more init values here, comeLast for cursor, default value for cursor
