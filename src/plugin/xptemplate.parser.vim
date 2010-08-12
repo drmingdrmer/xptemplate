@@ -665,6 +665,7 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
         let a:setting.ontypeFilters[a:keyname] = g:FilterValue.New( 0, a:value )
 
     elseif a:keytype ==# 'post'
+
         if a:keyname =~ '\V...'
             " TODO not good, use another keytype to define 'buildIfNoChange' post filter
             "

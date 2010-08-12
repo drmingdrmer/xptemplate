@@ -64,7 +64,7 @@ fi
 
 # remove 'call Log'
 # grep -v "call \(Fatal\|Error\|Warn\|Info\|Log\|Debug\)(" plugin/$file |\
-for file in `find plugin/ -name *.vim`;do
+for file in `find {plugin,autoload}/ -name *.vim`;do
 
   if [[ $file == "debug.vim" ]];then
     continue
