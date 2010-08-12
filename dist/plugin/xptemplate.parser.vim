@@ -215,9 +215,10 @@ fun! s:XPTemplateParseSnippet(lines)
     let snipScope.loadedSnip = get( snipScope, 'loadedSnip', {} )
     let snippetLines = []
     let setting = deepcopy( g:XPTemplateSettingPrototype )
-    let [hint, lines[0]] = s:GetSnipCommentHint( lines[0] )
-    if hint != ''
-        let setting.rawHint = hint
+    let l0 = line[ 0 ]
+    let pos = match( l0, '\VXPT\s\+\S\+\.\{-}\zs\s' . s:nonEscaped . '"' )
+    if pos >= 0
+        let [setting.rawHint, lines[0]] = [ matchstr( l0[ pos + 1 + 1 : ], '\v\S.*' ), l0[ : pos ] ]
     endif
     let [ x, snippetName; snippetParameters ] = split(lines[0], '\V'.s:nonEscaped.'\s\+')
     for pair in snippetParameters
@@ -264,14 +265,6 @@ fun! s:XPTemplateParseSnippet(lines)
             endif
             let snipScope.loadedSnip[ synonym ] = 1
         endfor
-    endif
-endfunction 
-fun! s:GetSnipCommentHint(str) 
-    let pos = match( a:str, '\VXPT\s\+\S\+\.\{-}\zs\s' . s:nonEscaped . '"' )
-    if pos == -1
-        return [ '', a:str ]
-    else
-        return [ matchstr( a:str[ pos + 1 + 1 : ], '\S.*' ), a:str[ : pos ] ]
     endif
 endfunction 
 fun! s:ConvertIndent( snipLines ) 

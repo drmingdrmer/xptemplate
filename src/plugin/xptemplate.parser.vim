@@ -374,10 +374,22 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 
     let setting = deepcopy( g:XPTemplateSettingPrototype )
 
-    let [hint, lines[0]] = s:GetSnipCommentHint( lines[0] )
-    if hint != ''
-        let setting.rawHint = hint
+
+    " " inline-ed
+    " let [hint, lines[0]] = s:GetSnipCommentHint( lines[0] )
+
+    let l0 = line[ 0 ]
+    let pos = match( l0, '\VXPT\s\+\S\+\.\{-}\zs\s' . s:nonEscaped . '"' )
+    if pos >= 0
+        " skip space, '"'
+        let [setting.rawHint, lines[0]] = [ matchstr( l0[ pos + 1 + 1 : ], '\v\S.*' ), l0[ : pos ] ]
     endif
+
+
+    " if hint != ''
+    "     let setting.rawHint = hint
+    " endif
+
 
     let [ x, snippetName; snippetParameters ] = split(lines[0], '\V'.s:nonEscaped.'\s\+')
 
@@ -470,20 +482,20 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 
 endfunction "}}}
 
-fun! s:GetSnipCommentHint(str) "{{{
-    " let pos = match(a:str, '\V' . s:nonEscaped . '\shint=')
-    " if pos != -1
-    "     return [ a:str[ pos + 6 : ], a:str[ : pos - 1 ] ]
-    " endif
+" fun! s:GetSnipCommentHint(str) "{{{
+"     " let pos = match(a:str, '\V' . s:nonEscaped . '\shint=')
+"     " if pos != -1
+"     "     return [ a:str[ pos + 6 : ], a:str[ : pos - 1 ] ]
+"     " endif
 
-    let pos = match( a:str, '\VXPT\s\+\S\+\.\{-}\zs\s' . s:nonEscaped . '"' )
-    if pos == -1
-        return [ '', a:str ]
-    else
-        " skip space, '"'
-        return [ matchstr( a:str[ pos + 1 + 1 : ], '\S.*' ), a:str[ : pos ] ]
-    endif
-endfunction "}}}
+"     let pos = match( a:str, '\VXPT\s\+\S\+\.\{-}\zs\s' . s:nonEscaped . '"' )
+"     if pos == -1
+"         return [ '', a:str ]
+"     else
+"         " skip space, '"'
+"         return [ matchstr( a:str[ pos + 1 + 1 : ], '\v\S.*' ), a:str[ : pos ] ]
+"     endif
+" endfunction "}}}
 
 
 
