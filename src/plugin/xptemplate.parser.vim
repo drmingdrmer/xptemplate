@@ -322,7 +322,7 @@ fun! DoParseSnippet( p ) "{{{
         let v = lines[i]
 
         " blank line
-        if v =~# '\v^\s*$|^"[^"]*$'
+        if v == '' || v =~ '^"[^"]*$'
             let blk = min([blk, i - 1])
             continue
         endif

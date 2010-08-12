@@ -181,7 +181,7 @@ fun! DoParseSnippet( p )
     let [s, e, blk] = [-1, -1, 10000]
     while i < len-1 | let i += 1
         let v = lines[i]
-        if v =~# '\v^\s*$|^"[^"]*$'
+        if v == '' || v =~ '^"[^"]*$'
             let blk = min([blk, i - 1])
             continue
         endif
