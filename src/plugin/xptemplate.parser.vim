@@ -322,14 +322,13 @@ fun! DoParseSnippet( p ) "{{{
         let v = lines[i]
 
         " blank line
-        if v =~ '^\s*$' || v =~ '^"[^"]*$'
+        if v =~# '\v^\s*$|^"[^"]*$'
             let blk = min([blk, i - 1])
             continue
         endif
 
 
-        if v =~# '^\.\.XPT'
-        " if v[ 0:4 ] ==# '..XPT'
+        if v =~# '^\.\.XPT\>'
 
             let e = i - 1
             call s:XPTemplateParseSnippet(lines[s : e])

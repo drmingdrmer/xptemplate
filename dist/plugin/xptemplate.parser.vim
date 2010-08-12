@@ -181,11 +181,11 @@ fun! DoParseSnippet( p )
     let [s, e, blk] = [-1, -1, 10000]
     while i < len-1 | let i += 1
         let v = lines[i]
-        if v =~ '^\s*$' || v =~ '^"[^"]*$'
+        if v =~# '\v^\s*$|^"[^"]*$'
             let blk = min([blk, i - 1])
             continue
         endif
-        if v =~# '^\.\.XPT'
+        if v =~# '^\.\.XPT\>'
             let e = i - 1
             call s:XPTemplateParseSnippet(lines[s : e])
             let [s, e, blk] = [-1, -1, 10000]
