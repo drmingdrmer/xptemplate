@@ -44,13 +44,14 @@ fun! xpt#util#UnescapeChar( str, chars ) "{{{
     " unescape only chars started with several '\' 
 
     if has_key( s:charsPatternTable, a:chars )
-        let pattern = s:charsPatternTable[ a:chars ]
+        " let pattern = s:charsPatternTable[ a:chars ]
+        return substitute( a:str, s:charsPatternTable[ a:chars ], '\1', 'g' )
     else
-        let pattern = s:GetUnescapeCharPattern( a:chars )
+        return substitute( a:str, s:GetUnescapeCharPattern( a:chars ), '\1', 'g' )
     endif
 
     " return substitute( a:str, pattern, '\1\2', 'g' )
-    return substitute( a:str, pattern, '\1', 'g' )
+    " return substitute( a:str, pattern, '\1', 'g' )
 
 endfunction "}}}
 
