@@ -328,13 +328,13 @@ fun! DoParseSnippet( p ) "{{{
         endif
 
 
-        if v =~# '^\.\.XPT\>'
+        if v =~# '\V\^..XPT\>'
 
             let e = i - 1
             call s:XPTemplateParseSnippet(lines[s : e])
             let [s, e, blk] = [-1, -1, 10000]
 
-        elseif v =~# '^XPT\>'
+        elseif v =~# '\V\^XPT\>'
 
             if s != -1
                 " template with no end
