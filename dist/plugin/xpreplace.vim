@@ -4,11 +4,10 @@ endif
 let g:__XPREPLACE_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
-runtime plugin/debug.vim
 runtime plugin/xpmark.vim
 runtime plugin/classes/SettingSwitch.vim
-let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
+let s:log = xpt#debug#Logger( 'debug' )
 fun! s:InitBuffer() 
     if exists( 'b:__xpr_init' )
         return
@@ -51,7 +50,7 @@ fun! XPreplaceByMarkInternal( startMark, endMark, replacement )
     return pos
 endfunction 
 fun! s:ConvertSpaceToTab( text ) 
-    return XPT#convertSpaceToTab( a:text )
+    return xpt#util#convertSpaceToTab( a:text )
 endfunction 
 fun! XPreplaceInternal(start, end, replacement, ...) 
     let option = { 'doJobs' : 1, 'saveHoriScroll' : 0 }

@@ -42,6 +42,9 @@ call XPTdefineSnippet('vimformat', {}, [ '" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fd
 
 
 
+XPT lncol " [ line\( "." ), col\( "." ) ]
+[ line( '.' ), col( '.' ) ]
+
 XPT printf	" printf\(..)
 XSET elts|pre=Echo('')
 XSET elts=c_printf_elts( R( 'pattern' ), "," )
@@ -76,10 +79,12 @@ if !exists(`$SParg^"`g^:`varname^"`$SParg^)
     let `g^:`varname^`$SPop^=`$SPop^`val^
 endif
 
-XPT fun wrap=cursor " fun! ..(..) .. endfunction
+XPT _fun hidden wrap=cursor " fun! ..(..) .. endfunction
 fun! `name^`$SPfun^(`:_args:^) "{{{
     `cursor^
 endfunction "}}}
+
+XPT fun alias=_fun
 
 XPT member wrap=cursor " tips
 fun! `name^`$SPfun^(`:_args:^) dict "{{{
@@ -92,7 +97,7 @@ while `cond^
 endwhile
 
 XPT while1 alias=while
-XSET cond=Embed( $TRUE )
+XSET cond|repl=$TRUE
 
 XPT whilei wrap=cursor " while i | let i += 1
 let [`$SParg^`i^,`$SPop^`len^`$SParg^] = [`$SParg^`0^`$SPop^-`$SPop^1,`$SPop^`len_expr^`$SPop^-`$SPop^1`$SParg^]

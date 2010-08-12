@@ -87,13 +87,13 @@ exe 'syntax match XPTmark /\V' . s:m[1] .  '/ contains=XPTmark containedin=XPTit
 
 " the end pattern is weird.
 " \%(^$)^XPT\s does not work.
-syntax match XPTxset /^XSET\s\+\%(\w\|[.?*]\)\+\([|.]\%(pre\|def\|post\|ontype\)\)\?=.*/ containedin=XPTsnippetBody
+syntax match XPTxset /^XSET\s\+\%(\w\|[.?*]\)\+\([|.]\%(pre\|def\|post\|ontype\|repl\)\)\?=.*/ containedin=XPTsnippetBody
 syntax region XPTxsetm start=/^XSETm\s\+/ end=/XSETm END$/ containedin=XPTsnippetBody fold
 syntax keyword XPTkeyword_XSET XSET containedin=XPTxset nextgroup=XPTxset_name1,XPTxset_name2,XPTxset_name3 skipwhite transparent
 " priorities are low to high
 syntax match XPTxset_value /.*/ containedin=XPTxset transparent
 syntax match XPTxset_eq /=/ containedin=XPTxset nextgroup=XPTxset_value transparent
-syntax match XPTxset_type /[|.]\%(pre\|def\|post\|ontype\)\|\ze=/ containedin=XPTxset nextgroup=XPTxset_eq transparent
+syntax match XPTxset_type /[|.]\%(pre\|def\|post\|ontype\|repl\)\|\ze=/ containedin=XPTxset nextgroup=XPTxset_eq transparent
 syntax match XPTxset_name3 /\%(\w\|\.\)*/ containedin=XPTxset nextgroup=XPTxset_type transparent
 syntax match XPTxset_name2 /\%(\w\|\.\)*\ze\./ containedin=XPTxset nextgroup=XPTxset_type transparent
 syntax match XPTxset_name1 /\%(\w\|\.\)*\ze|/ containedin=XPTxset nextgroup=XPTxset_type transparent
@@ -115,7 +115,7 @@ syntax match XPTmetaAlias_name /\S\+\ze=/ contained containedin=XPTmetaAlias
 syntax match XPTmetaAlias_value /=\zs\S\+/ contained containedin=XPTmetaAlias
 
 syntax match XPTmeta_name /\w\+\ze=\?/ containedin=XPTmeta nextgroup=XPTmeta_value
-syntax keyword XPTmeta_name_key hint alias synonym hidden wrap wraponly abbr syn contained containedin=XPTmeta_name
+syntax keyword XPTmeta_name_key hint alias extension synonym hidden wrap wraponly abbr syn contained containedin=XPTmeta_name
 syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
 
 syntax region XPTsnippetBody  start=/^/ end=/\ze\%(^$\n\)*\%$\|\ze\%(^$\n\)*XPT\s\|^\.\.XPT\|^\ze\(".*\n\|\s*\n\)*\(XPT\s\|\%$\)/ contained containedin=XPTsnippetTitle contains=XPTxset excludenl fold

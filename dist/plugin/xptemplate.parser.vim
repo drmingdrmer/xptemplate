@@ -4,12 +4,11 @@ endif
 let g:__XPTEMPLATE_PARSER_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
-runtime plugin/debug.vim
 runtime plugin/classes/FiletypeScope.vim
 runtime plugin/classes/FilterValue.vim
 runtime plugin/xptemplate.util.vim
 runtime plugin/xptemplate.vim
-let s:log = CreateLogger( 'warn' )
+let s:log = xpt#debug#Logger( 'warn' )
 com! -nargs=* XPTemplate
       \   if XPTsnippetFileInit( expand( "<sfile>" ), <f-args> ) == 'finish'
       \ |     finish
@@ -220,13 +219,11 @@ fun! s:XPTemplateParseSnippet(lines)
     if hint != ''
         let setting.rawHint = hint
     endif
-    let snippetParameters = split(lines[0], '\V'.s:nonEscaped.'\s\+')
-    let snippetName = snippetParameters[1]
-    let snippetParameters = snippetParameters[2:]
+    let [ x, snippetName; snippetParameters ] = split(lines[0], '\V'.s:nonEscaped.'\s\+')
     for pair in snippetParameters
         let name = matchstr(pair, '\V\^\[^=]\*')
         let value = pair[ len(name) : ]
-        let value = value[0:0] == '=' ? g:xptutil.UnescapeChar(value[1:], ' ') : 1
+        let value = value[0:0] == '=' ? xpt#util#UnescapeChar(value[1:], ' ') : 1
         let setting[name] = value
     endfor
     let start = 1
@@ -344,7 +341,9 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value)
         let a:setting.postQuoter = a:value
     elseif a:keyname =~ '\V\^$'
         let a:setting.variables[ a:keyname ] = a:value
-    elseif a:keytype == "" || a:keytype ==# 'def'
+    elseif a:keytype == 'repl'
+        let a:setting.replacements[ a:keyname ] = a:value
+    elseif a:keytype == "" || a:keytype ==# 'def' || a:keytype ==# 'onfocus'
         let a:setting.defaultValues[a:keyname] = g:FilterValue.New( 0, a:value )
     elseif a:keytype ==# 'map'
         let a:setting.mappings[ a:keyname ] = get(
@@ -375,3 +374,4 @@ fun! s:SplitWith( str, char )
   return s
 endfunction 
 let &cpo = s:oldcpo
+call StartProf()

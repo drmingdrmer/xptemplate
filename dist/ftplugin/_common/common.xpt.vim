@@ -376,56 +376,72 @@ endfunction "}}}
 
 fun! s:f.Finish(...)
 
-    if empty( self.renderContext.itemList )
+    return self.FinishPH( a:0 > 0 ? { 'text' : a:1 } : {} )
 
-        let o = { 'action' : 'finishTemplate' }
+    " if empty( self.renderContext.itemList )
 
-        if a:0 > 0
-            let o.text = a:1
-        endif
+    "     let o = { 'action' : 'finishTemplate' }
 
-        return o
+    "     if a:0 > 0
+    "         let o.text = a:1
+    "     endif
 
-    else
-        return a:0 > 0 ? a:1 : 0
-    endif
+    "     return o
+
+    " else
+    "     return a:0 > 0 ? a:1 : 0
+    " endif
 endfunction
 
 fun! s:f.FinishOuter( ... )
 
-    if empty( self.renderContext.itemList )
+    return self.FinishPH( a:0 > 0
+          \ ? { 'text' : a:1, 'marks' : 'mark' }
+          \ : { 'marks' : 'mark' } )
 
-        let o = { 'action' : 'finishTemplate', 'marks' : 'mark' }
+    " if empty( self.renderContext.itemList )
 
-        if a:0 > 0
-            let o.text = a:1
-        endif
+    "     let o = { 'action' : 'finishTemplate', 'marks' : 'mark' }
 
-        return o
+    "     if a:0 > 0
+    "         let o.text = a:1
+    "     endif
 
-    else
-        return a:0 > 0 ? a:1 : 0
-    endif
+    "     return o
+
+    " else
+    "     return a:0 > 0 ? a:1 : 0
+    " endif
 
 endfunction
 
 fun! s:f.FinishPH( opt )
-    " opt.cursor    'current',
-    "               [ line, col ],
-    "               { 'rel'    : 'which'/1,
-    "                 'where'  : 'innerMarks.start',
-    "                 'offset' : [ line, col ] },
-    "               [ 'innerMarks.start', [ line, col ] ]
+    " opt.cursor    'current',	// keep cursor position
     "
-    " opt.marks     'innerMarks', 'mark'
-    " opt.text      string
-    " opt.postponed string
+    "               [ line, col ],	// move cursor to
+    "
+    "               { 'rel'    : 'which'/1,	// keep cursor position relative
+    "                                           to PH 'which' or current PH when
+    "                                           set to 1
+    "
+    "                 'where'  : 'innerMarks.start',	// reference position
+    "                                                   of PH described by
+    "                                                   mark name.
+    "
+    "                 'offset' : [ line, col ] },	// offset
+    "
+    "               [ 'innerMarks.start', [ line, col ] ]	// shortcut
+    "                                                           way.
+    "
+    " opt.marks     'innerMarks', 'mark'	// which part text to fill in.
+    " opt.text      string	// text to fill into current PH.
+    " opt.postponed string	// actions to do after Finish PH.
 
     let opt = a:opt
 
     if empty( self.renderContext.itemList )
 
-        let o = { 'action' : 'finishTemplate' }
+        let o = { 'action' : g:XPTact.finishPH }
         call extend( o, opt, 'keep' )
         return o
 
@@ -436,7 +452,7 @@ fun! s:f.FinishPH( opt )
 endfunction
 
 fun! s:f.Embed( snippet )
-  return { 'action' : 'embed', 'text' : a:snippet }
+  return { 'action' : g:XPTact.embed, 'text' : a:snippet }
 endfunction
 
 fun! s:f.Next( ... )

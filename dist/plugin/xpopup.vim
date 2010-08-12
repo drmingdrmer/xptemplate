@@ -4,12 +4,11 @@ endif
 let g:__XPOPUP_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
-runtime plugin/debug.vim
 runtime plugin/classes/SettingSwitch.vim
 runtime plugin/classes/MapSaver.vim
 exe XPT#let_sid
-let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
+let s:log = xpt#debug#Logger( 'debug' )
 fun! s:SetIfNotExist(k, v) 
     if !exists(a:k)
         exe "let ".a:k."=".string(a:v)

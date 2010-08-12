@@ -6,7 +6,7 @@ let s:f = g:XPTfuncs()
 
 " which bracket should be completed in block mode. Thus <CR> push right bracket
 " down to the third line from the left bracket
-XPTvar $XPT_BRACE_BLOCK '[('
+XPTvar $XPT_BRACE_BLOCK '[({'
 
 XPTinclude
       \ _common/common
@@ -141,7 +141,7 @@ fun! s:f.bkt_ontype()
     else
 
         let pos = self.ItemPos()[ 0 ]
-        return self.ResetIndent( -XPT#getIndentNr( pos[ 0 ], pos[ 1 ] ), v )
+        return self.ResetIndent( -xpt#util#getIndentNr( pos[ 0 ], pos[ 1 ] ), v )
 
     endif
 

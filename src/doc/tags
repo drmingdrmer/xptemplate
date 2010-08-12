@@ -139,6 +139,7 @@ xpt-snippet-postQuoter	xpt.snippet.syn.txt	/*xpt-snippet-postQuoter*
 xpt-snippet-preset-value	xpt.snippet.syn.txt	/*xpt-snippet-preset-value*
 xpt-snippet-priority	xpt.snippet.syn.txt	/*xpt-snippet-priority*
 xpt-snippet-repetition	xpt.snippet.syn.txt	/*xpt-snippet-repetition*
+xpt-snippet-repl	xpt.snippet.syn.txt	/*xpt-snippet-repl*
 xpt-snippet-sample	xpt.snippet.syn.txt	/*xpt-snippet-sample*
 xpt-snippet-setting	xpt.snippet.syn.txt	/*xpt-snippet-setting*
 xpt-snippet-synonym	xpt.snippet.syn.txt	/*xpt-snippet-synonym*

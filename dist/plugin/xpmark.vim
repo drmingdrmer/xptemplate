@@ -4,11 +4,8 @@ endif
 let g:__XPMARK_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
-com! XPMgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
-XPMgetSID
-delc XPMgetSID
-runtime plugin/debug.vim
-let s:log = CreateLogger( 'warn' )
+exe XPT#let_sid
+let s:log = xpt#debug#Logger( 'warn' )
 let g:xpm_mark = 'p'
 let g:xpm_mark_nextline = 'l'
 let g:xpm_changenr_level = 1000
@@ -33,7 +30,7 @@ fun! XPMcheckStatusline()
     else
         call s:SetupStatusline()
     endif
-endfunction
+endfunction 
 fun! s:SetupStatusline() 
     if &statusline == ""
         if &l:statusline == ''

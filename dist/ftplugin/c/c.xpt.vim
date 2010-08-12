@@ -45,19 +45,19 @@ XSET elts=c_printf_elts( R( 'pattern' ), ',' )
 
 
 XPT printf	" printf\(...)
-printf(`$SPop^`:_printfElts:^`$SPop^)
+printf(`$SParg^`:_printfElts:^`$SParg^)
 
 
 XPT sprintf	" sprintf\(...)
-sprintf(`$SPop^`str^,`$SPop^`:_printfElts:^`$SPop^)
+sprintf(`$SParg^`str^,`$SPop^`:_printfElts:^`$SParg^)
 
 
 XPT snprintf	" snprintf\(...)
-snprintf(`$SPop^`str^,`$SPop^`size^,`$SPop^`:_printfElts:^`$SPop^)
+snprintf(`$SParg^`str^,`$SPop^`size^,`$SPop^`:_printfElts:^`$SParg^)
 
 
 XPT fprintf	" fprintf\(...)
-fprintf(`$SPop^`stream^,`$SPop^`:_printfElts:^`$SPop^)
+fprintf(`$SParg^`stream^,`$SPop^`:_printfElts:^`$SParg^)
 
 XPT memcpy " memcpy (..., ..., sizeof (...) ... )
 memcpy( `dest^, `source^, sizeof(`type^int^) * `count^ )
@@ -69,7 +69,7 @@ XPT malloc " malloc ( ... );
 (`type^int^*)malloc( sizeof( `type^ ) * `count^ )
 
 XPT assert	" assert (.., msg)
-assert(`$SPop^`isTrue^,`$SPop^"`text^"`$SPop^)
+assert(`$SParg^`isTrue^,`$SPop^"`text^"`$SParg^)
 
 
 XPT fcomment
@@ -106,5 +106,5 @@ XSET cursor|pre=CURSOR
 
 
 XPT call wraponly=param " ..( .. )
-`name^(`$SPop^`param^`$SPop^)
+`name^(`$SParg^`param^`$SParg^)
 

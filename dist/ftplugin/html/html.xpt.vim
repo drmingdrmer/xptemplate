@@ -136,6 +136,32 @@ fun! s:f.html_close_tag()
     endif
 endfunction
 
+fun! s:ExtractAttr( elts, mark, attrName ) "{{{
+
+    let elts = filter( copy( a:elts ), 'v:val[0] == ' . string( a:mark ) . '' )
+    let attrValues = substitute( join( elts, '' ), '\V.', ' ', 'g' )
+    let attrValues = attrValues[ 1 : ]
+
+    if attrValues != ''
+        return ' ' . a:attrName . '="' . attrValues . '"'
+    else
+        return ''
+    endif
+    
+endfunction "}}}
+
+fun! s:f.html_tagattr_ext( v ) "{{{
+
+    let rst = ''
+    let elts = split( a:v, '\V\ze\[.#@]' )
+
+    let rst .= s:ExtractAttr( elts, '#', 'id' )
+    let rst .= s:ExtractAttr( elts, '.', 'class' )
+
+    return rst
+
+endfunction "}}}
+
 " ================================= Snippets ===================================
 
 
@@ -154,9 +180,9 @@ XSET content|ontype=html_cont_ontype()
 ..XPT
 
 
-XPT _tag wrap=content hidden " <$_xSnipName >..</$_xSnipName>
+XPT _tag wrap=content extension=(\.\w*|\#\w*)+ hidden " <$_xSnipName >..</$_xSnipName>
 XSET content|ontype=html_cont_ontype()
-<`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^>
+<`$_xSnipName^`html_tagattr_ext($EXT)^>`content^^`content^html_cont_helper()^</`$_xSnipName^>
 ..XPT
 
 " XPT _t hidden " ..
@@ -273,11 +299,13 @@ XPT a wrap=cursor " <a href...
 ..XPT
 
 
-XPT div alias=_tag
-XPT p   alias=_tag
-XPT ul  alias=_tag
-XPT ol  alias=_tag
-XPT li  alias=_tag
+XPT div  alias=_tag
+XPT span alias=_tag
+XPT p    alias=_tag
+XPT ul   alias=_tag
+XPT ol   alias=_tag
+XPT li   alias=_tag
+
 
 
 
