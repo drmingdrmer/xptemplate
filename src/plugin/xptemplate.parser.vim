@@ -365,8 +365,8 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 
     let lines = a:lines
 
-    let snipScope = XPTsnipScope()
-    let snipScope.loadedSnip = get( snipScope, 'loadedSnip', {} )
+    let snipFileScope = XPTsnipScope()
+    let snipFileScope.loadedSnip = get( snipFileScope, 'loadedSnip', {} )
 
 
     let snippetLines = []
@@ -435,7 +435,8 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
             let snippetLines += [ lines[ start ][1:] ]
 
         else
-            let snippetLines += [ lines[ start ] ]
+            " let snippetLines += [ lines[ start ] ]
+            call add( snippetLines, lines[ start ] )
 
         endif
 
@@ -458,11 +459,11 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     endif
 
 
-    if has_key( snipScope.loadedSnip, snippetName )
-        XPT#warn( "XPT: warn : duplicate snippet:" . snippetName . ' in file:' . snipScope.filename )
+    if has_key( snipFileScope.loadedSnip, snippetName )
+        XPT#warn( "XPT: warn : duplicate snippet:" . snippetName . ' in file:' . snipFileScope.filename )
     endif
 
-    let snipScope.loadedSnip[ snippetName ] = 1
+    let snipFileScope.loadedSnip[ snippetName ] = 1
 
 
     if has_key( setting, 'synonym' )
@@ -470,11 +471,11 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
         for synonym in synonyms
             call XPTemplateAlias( synonym, snippetName, {} )
 
-            if has_key( snipScope.loadedSnip, synonym )
-                call XPT#warn( "XPT: warn : duplicate synonym:" . synonym . ' in file:' . snipScope.filename )
+            if has_key( snipFileScope.loadedSnip, synonym )
+                call XPT#warn( "XPT: warn : duplicate synonym:" . synonym . ' in file:' . snipFileScope.filename )
             endif
 
-            let snipScope.loadedSnip[ synonym ] = 1
+            let snipFileScope.loadedSnip[ synonym ] = 1
 
         endfor
     endif
