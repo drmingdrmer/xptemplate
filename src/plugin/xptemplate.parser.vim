@@ -378,7 +378,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     " " inline-ed
     " let [hint, lines[0]] = s:GetSnipCommentHint( lines[0] )
 
-    let l0 = line[ 0 ]
+    let l0 = lines[ 0 ]
     let pos = match( l0, '\VXPT\s\+\S\+\.\{-}\zs\s' . s:nonEscaped . '"' )
     if pos >= 0
         " skip space, '"'

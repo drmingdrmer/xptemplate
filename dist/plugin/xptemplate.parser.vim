@@ -215,7 +215,7 @@ fun! s:XPTemplateParseSnippet(lines)
     let snipScope.loadedSnip = get( snipScope, 'loadedSnip', {} )
     let snippetLines = []
     let setting = deepcopy( g:XPTemplateSettingPrototype )
-    let l0 = line[ 0 ]
+    let l0 = lines[ 0 ]
     let pos = match( l0, '\VXPT\s\+\S\+\.\{-}\zs\s' . s:nonEscaped . '"' )
     if pos >= 0
         let [setting.rawHint, lines[0]] = [ matchstr( l0[ pos + 1 + 1 : ], '\v\S.*' ), l0[ : pos ] ]
