@@ -328,7 +328,8 @@ fun! DoParseSnippet( p ) "{{{
         endif
 
 
-        if v =~# '^\.\.XPT'
+        " if v =~# '^\.\.XPT'
+        if v[ 0:4 ] ==# '..XPT'
 
             let e = i - 1
             call s:XPTemplateParseSnippet(lines[s : e])
