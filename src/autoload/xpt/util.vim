@@ -27,18 +27,30 @@ let s:log = xpt#debug#Logger( 'warn' )
 
 let s:unescapeHead          = '\v(\\*)\1\\?\V'
 
-fun! xpt#util#UnescapeChar( str, chars ) "{{{
-    " unescape only chars started with several '\' 
 
+let s:charsPatternTable = {}
+fun! s:GetUnescapeCharPattern( chars ) "{{{
     " remove all '\'.
     let chars = substitute( a:chars, '\\', '', 'g' )
 
-    
-    let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]-^' ) . ']\)'
-    " call s:log.Log( 'to unescape pattern='.pattern )
-    let unescaped = substitute( a:str, pattern, '\1\2', 'g' )
-    " call s:log.Log( 'unescaped ='.unescaped )
-    return unescaped
+    " let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]-^' ) . ']\)'
+    let pattern = s:unescapeHead . '\ze\[' . escape( chars, '\]-^' ) . ']'
+    let s:charsPatternTable[ a:chars ] = pattern
+
+    return pattern
+endfunction "}}}
+
+fun! xpt#util#UnescapeChar( str, chars ) "{{{
+    " unescape only chars started with several '\' 
+
+    if has_key( s:charsPatternTable, a:chars )
+        let pattern = s:charsPatternTable[ a:chars ]
+    else
+        let pattern = s:GetUnescapeCharPattern( a:chars )
+    endif
+
+    " return substitute( a:str, pattern, '\1\2', 'g' )
+    return substitute( a:str, pattern, '\1', 'g' )
 
 endfunction "}}}
 

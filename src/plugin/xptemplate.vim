@@ -23,7 +23,6 @@
 "
 " TODOLIST: "{{{
 " in 0.4.8:
-" TODO remove log printed to ~/vim.log
 " TODO finish ActionFinish
 " TODO check super tab or other pum plugin before jump to next.
 " TODO quote complete should break at once if user move cursor to other place.
@@ -31,6 +30,7 @@
 " TODO add version info to dist/
 " TODO move all xpt files into one sub folder.
 " TODO duplicate snippet name check
+" TODO remove log printed to ~/vim.log
 " in future
 " TODO efficiently loading long snippet file
 " TODO test vim 7.3
@@ -180,6 +180,9 @@ let s:nonEscaped =
       \ .     '\%(\\\\\)\*'
       \ . '\)'
       \ . '\@<='
+
+let s:nonsafe = '{$( '
+let s:regEval = '\V\w(\|$\w'
 
 " TODO move more init values here, comeLast for cursor, default value for cursor
 let g:XPTemplateSettingPrototype  = {
@@ -742,10 +745,17 @@ fun! s:MergeSetting( toSettings, fromSettings ) "{{{
 
 endfunction "}}}
 
-fun! s:ParseSettingWrap( snipObject ) "{{{
+" fun! s:ParseSettingWrap( snipObject ) "{{{
+"     let setting = a:snipObject.setting
+" endfunction "}}}
+
+fun! s:ParseTemplateSetting( snipObject ) "{{{
+    " TODO keyword parsing should be here so that Alias can use non-keyword char
 
     let setting = a:snipObject.setting
 
+
+    " call s:ParseSettingWrap( a:snipObject )
     let wraponly = get( setting, 'wraponly', 0 )
 
     let wrap = get( setting, 'wrap', wraponly )
@@ -756,28 +766,30 @@ fun! s:ParseSettingWrap( snipObject ) "{{{
     let setting.wraponly = wraponly isnot 0
     let setting.wrap = wrap
 
-endfunction "}}}
 
-fun! s:ParseTemplateSetting( snipObject ) "{{{
-    " TODO keyword parsing should be here so that Alias can use non-keyword char
-
-    let x = b:xptemplateData
-    let setting = a:snipObject.setting
-
-    call s:ParseSettingWrap( a:snipObject )
-
-
-    " TODO bad code
-    let x.renderContext.snipObject = a:snipObject
 
     " Note: empty means nothing, "" means something that can override others
     if has_key(setting, 'rawHint')
 
-        let setting.hint = s:Eval( setting.rawHint,
-              \ x.filetypes[ x.snipFileScope.filetype ].funcs,
-              \ { 'variables' : setting.variables } )
+        if setting.rawHint !~  s:regEval
+
+            let setting.hint = xpt#util#UnescapeChar( setting.rawHint, s:nonsafe )
+
+        else
+
+            " TODO bad code. To make Eval() be able to use snippet-related
+            " variables like $_xSnipName
+            let x = b:xptemplateData
+            let x.renderContext.snipObject = a:snipObject
+
+            let setting.hint = s:Eval( setting.rawHint,
+                  \ x.filetypes[ x.snipFileScope.filetype ].funcs,
+                  \ { 'variables' : setting.variables } )
+
+        endif
 
     endif
+
 
     call s:ParsePostQuoter( setting )
 
@@ -787,8 +799,6 @@ fun! s:ParseTemplateSetting( snipObject ) "{{{
         let a:snipObject.ftScope.extensionTable[ ext ] = get( a:snipObject.ftScope.extensionTable, ext, [] )
         let a:snipObject.ftScope.extensionTable[ ext ]  += [ a:snipObject.name ]
     endif
-
-
 
 endfunction "}}}
 
@@ -4105,14 +4115,14 @@ fun! s:CompileExpr(s, xfunc) "{{{
     let patternVarOrFunc = fptn . '\|' . vptn . '\|' . sptn
 
     " simple test
-    if a:s !~  '\V\w(\|$\w'
-        return string(xpt#util#UnescapeChar(a:s, '{$( '))
+    if a:s !~  s:regEval
+        return string(xpt#util#UnescapeChar(a:s, s:nonsafe))
     endif
 
     let stringMask = s:CreateStringMask( a:s )
 
     if stringMask !~ patternVarOrFunc
-        return string(xpt#util#UnescapeChar(a:s, '{$( '))
+        return string(xpt#util#UnescapeChar(a:s, s:nonsafe))
     endif
 
     call s:log.Debug( 'string =' . a:s, 'strmask=' . stringMask )

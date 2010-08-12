@@ -379,10 +379,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
         let setting.rawHint = hint
     endif
 
-    let snippetParameters = split(lines[0], '\V'.s:nonEscaped.'\s\+')
-    let snippetName = snippetParameters[1]
-
-    let snippetParameters = snippetParameters[2:]
+    let [ x, snippetName; snippetParameters ] = split(lines[0], '\V'.s:nonEscaped.'\s\+')
 
     for pair in snippetParameters
         let name = matchstr(pair, '\V\^\[^=]\*')
@@ -685,4 +682,4 @@ endfunction "}}}
 let &cpo = s:oldcpo
 
 
-
+call StartProf()

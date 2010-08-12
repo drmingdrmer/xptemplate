@@ -405,10 +405,10 @@
 
 
 							*xpt-snippet-wraponly*
-	Normally, wrapper snippet can also be triggered in insert-mode, unless
-	"wraponly" declared. For example: >
-				________/------------| wrap only
-		XPT if wrap=job wraponly
+	Normally, wrapper snippet can also be triggered in insert-mode with
+	"wrap" place holder as a normal one. If wrapper is declared with
+	"wraponly", snippet can only be used as wrapper. For example: >
+		XPT if wraponly=job
 		if (`condition^){
 		    `job^
 		}
