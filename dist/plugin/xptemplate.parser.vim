@@ -198,7 +198,7 @@ fun! DoParseSnippet( p )
                 let s = i
                 let blk = i
             endif
-        elseif v =~# '^\\XPT'
+        elseif v =~# '\V\^\\XPT'
             let lines[i] = v[ 1 : ]
         else
             let blk = i
