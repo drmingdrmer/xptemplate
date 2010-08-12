@@ -185,7 +185,7 @@ fun! DoParseSnippet( p )
             let blk = min([blk, i - 1])
             continue
         endif
-        if v[ 0:4 ] ==# '..XPT'
+        if v =~# '^\.\.XPT'
             let e = i - 1
             call s:XPTemplateParseSnippet(lines[s : e])
             let [s, e, blk] = [-1, -1, 10000]
