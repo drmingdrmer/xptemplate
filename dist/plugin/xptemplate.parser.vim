@@ -149,18 +149,16 @@ fun! XPTembed(...)
         endif
     endfor
 endfunction 
-fun! s:XPTstartSnippetPart(fn) 
+fun! s:XPTstartSnippetPart( fn ) 
     let lines = readfile(a:fn)
-    let i = match( lines, '\V\^XPTemplateDef' )
-    if i == -1
-        let i = match( lines, '\V\^XPT\s' ) - 1
-    endif
+    call xpt#parser#Compact( lines )
+    let i = match( lines, '\V\^XPT\s' ) - 1
     if i < 0
         return
     endif
     let lines = lines[ i : ]
     let x = b:xptemplateData
-    let x.snippetToParse += [ { 'snipFileScope' : x.snipFileScope, 'lines' : lines } ]
+    let x.snippetToParse += [ { 'snipFileScope' : x.snipFileScope, 'lines' : lines, } ]
     call XPTparseSnippets()
     return
 endfunction 
@@ -177,8 +175,8 @@ fun! DoParseSnippet( p )
     let x.snipFileScope = a:p.snipFileScope
     let lines = a:p.lines
     let [i, len] = [0, len(lines)]
-    call s:ConvertIndent( lines )
-    let [s, e, blk] = [-1, -1, 10000]
+    call s:AdjustIndentWidth( lines )
+    let [s, e, blk] = [-1, -1, 100000]
     while i < len-1 | let i += 1
         let v = lines[i]
         if v == '' || v =~ '\v^"[^"]*$'
@@ -188,12 +186,12 @@ fun! DoParseSnippet( p )
         if v =~# '\V\^..XPT\>'
             let e = i - 1
             call s:XPTemplateParseSnippet(lines[s : e])
-            let [s, e, blk] = [-1, -1, 10000]
+            let [s, e, blk] = [-1, -1, 100000]
         elseif v =~# '\V\^XPT\>'
             if s != -1
                 let e = min([i - 1, blk])
                 call s:XPTemplateParseSnippet(lines[s : e])
-                let [s, e, blk] = [i, -1, 10000]
+                let [s, e, blk] = [i, -1, 100000]
             else
                 let s = i
                 let blk = i
@@ -267,7 +265,7 @@ fun! s:XPTemplateParseSnippet(lines)
         endfor
     endif
 endfunction 
-fun! s:ConvertIndent( snipLines ) 
+fun! s:AdjustIndentWidth( snipLines ) 
     let tabspaces = repeat( ' ', &tabstop )
     let indentRep = repeat( '\1', &shiftwidth )
     let cmdExpand = 'substitute(v:val, ''^\( *\)\1\1\1'', ''' . indentRep . ''', "g" )'

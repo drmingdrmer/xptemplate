@@ -265,16 +265,17 @@ endfunction "}}}
 
 
 " TODO refine me
-fun! s:XPTstartSnippetPart(fn) "{{{
+fun! s:XPTstartSnippetPart( fn ) "{{{
+
     call s:log.Log("parse file :".a:fn)
+
     let lines = readfile(a:fn)
 
+    call xpt#parser#Compact( lines )
 
-    let i = match( lines, '\V\^XPTemplateDef' )
-    if i == -1
-        " so that XPT can not start at first line
-        let i = match( lines, '\V\^XPT\s' ) - 1
-    endif
+
+    " Now that XPT can not start at first line
+    let i = match( lines, '\V\^XPT\s' ) - 1
 
     if i < 0
         return
@@ -283,7 +284,7 @@ fun! s:XPTstartSnippetPart(fn) "{{{
     let lines = lines[ i : ]
 
     let x = b:xptemplateData
-    let x.snippetToParse += [ { 'snipFileScope' : x.snipFileScope, 'lines' : lines } ]
+    let x.snippetToParse += [ { 'snipFileScope' : x.snipFileScope, 'lines' : lines, } ]
 
     call XPTparseSnippets()
 
@@ -312,11 +313,11 @@ fun! DoParseSnippet( p ) "{{{
 
     let [i, len] = [0, len(lines)]
 
-    call s:ConvertIndent( lines )
+    call s:AdjustIndentWidth( lines )
 
     " parse lines
     " start end and blank start
-    let [s, e, blk] = [-1, -1, 10000]
+    let [s, e, blk] = [-1, -1, 100000]
     while i < len-1 | let i += 1
 
         let v = lines[i]
@@ -332,7 +333,7 @@ fun! DoParseSnippet( p ) "{{{
 
             let e = i - 1
             call s:XPTemplateParseSnippet(lines[s : e])
-            let [s, e, blk] = [-1, -1, 10000]
+            let [s, e, blk] = [-1, -1, 100000]
 
         elseif v =~# '\V\^XPT\>'
 
@@ -340,7 +341,7 @@ fun! DoParseSnippet( p ) "{{{
                 " template with no end
                 let e = min([i - 1, blk])
                 call s:XPTemplateParseSnippet(lines[s : e])
-                let [s, e, blk] = [i, -1, 10000]
+                let [s, e, blk] = [i, -1, 100000]
             else
                 let s = i
                 let blk = i
@@ -501,7 +502,7 @@ endfunction "}}}
 
 
 " TODO convert indent in runtime
-fun! s:ConvertIndent( snipLines ) "{{{
+fun! s:AdjustIndentWidth( snipLines ) "{{{
 
     let tabspaces = repeat( ' ', &tabstop )
     let indentRep = repeat( '\1', &shiftwidth )
