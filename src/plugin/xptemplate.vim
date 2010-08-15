@@ -23,6 +23,7 @@
 "
 " TODOLIST: "{{{
 " in 0.4.8:
+" TODO in php, starting with empty file, { <CR> does not create indent.
 " TODO finish ActionFinish
 " TODO check super tab or other pum plugin before jump to next.
 " TODO quote complete should break at once if user move cursor to other place.
@@ -32,6 +33,7 @@
 " TODO duplicate snippet name check
 " TODO remove log printed to ~/vim.log
 " in future
+" TODO when tracking snippet rendering, ignore leading spaces.
 " TODO efficiently loading long snippet file
 " TODO test vim 7.3
 " TODO lazy load of scripts

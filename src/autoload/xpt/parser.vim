@@ -74,11 +74,58 @@ fun! xpt#parser#Compact( lines ) "{{{
         let compacted += a:lines[ s : min([lastNonblank, i]) ]
     endif
 
-    for l in compacted
-        echom l
-    endfor
+    " for l in compacted
+    "     echom l
+    " endfor
 
     return compacted
+endfunction "}}}
+
+
+fun! xpt#parser#CompileCompacted( lines ) "{{{
+
+    let iSnipPart = match( lines, '\V\^XPT\s' )
+
+    if iSnipPart < 0
+        return
+    endif
+
+    if iSnipPart != 0
+        let lines = lines[ i : ]
+    endif
+
+
+    let [i, len] = [0, len(lines)]
+
+    call s:AdjustIndentWidth( lines )
+
+    " parse lines
+    " start end and blank start
+    let s = i
+    while i < len-1 | let i += 1
+
+        let v = lines[i]
+
+        if v =~# '\V\^XPT\>'
+
+            " template with no end
+            call s:XPTemplateParseSnippet(lines[s : i - 1])
+            let s = i
+
+        elseif v =~# '\V\^\\XPT'
+            let lines[i] = v[ 1 : ]
+        endif
+
+    endwhile
+
+    if s != -1
+        call s:XPTemplateParseSnippet(lines[s : i - 1)])
+    endif
+
+endfunction "}}}
+
+fun! xpt#parser#CompileSnippet( lines ) "{{{
+
 endfunction "}}}
 
 " fun! xpt#parser#Compile( lines ) "{{{
@@ -142,7 +189,7 @@ endfunction "}}}
 "     if s != -1
 "         call s:XPTemplateParseSnippet(lines[s : min([blk, i])])
 "     endif
-    
+
 " endfunction "}}}
 
 
