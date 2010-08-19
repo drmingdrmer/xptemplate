@@ -188,7 +188,7 @@ let s:nonsafe = '{$( '
 let s:nonsafeHint = '$('
 let s:regEval = '\V\w(\|$\w'
 
-" TODO move more init values here, comeLast for cursor, default value for cursor
+" TODO moved to autoload/st.vim
 let g:XPTemplateSettingPrototype  = {
       \    'hidden'           : 0,
       \    'variables'        : {},
@@ -1450,9 +1450,9 @@ fun! s:SaveNavKey() "{{{
 
     let navKey = g:xptemplate_nav_next
 
-    let mapInfo = MapSaver_GetMapInfo( navKey, 'i', 1 )
+    let mapInfo = xpt#msvr#MapInfo( navKey, 'i', 1 )
     if mapInfo.cont == ''
-        let mapInfo = MapSaver_GetMapInfo( navKey, 'i', 0 )
+        let mapInfo = xpt#msvr#MapInfo( navKey, 'i', 0 )
     endif
 
     if mapInfo.cont == ''
@@ -1462,7 +1462,7 @@ fun! s:SaveNavKey() "{{{
         let x.canNavFallback = 1
         let mapInfo.key = '<Plug>XPTnavFallback'
 
-        exe MapSaverGetMapCommand( mapInfo )
+        exe xpt#msvr#MapCommand( mapInfo )
 
     endif
 

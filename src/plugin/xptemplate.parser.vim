@@ -6,10 +6,10 @@ let g:__XPTEMPLATE_PARSER_VIM__ = XPT#ver
 
 "
 " Special XSET[m] Keys
-"   ComeFirst   : item names which come first before any other  
+"   ComeFirst   : item names which come first before any other
 "               // XSET ComeFirst=i,len
 "
-"   ComeLast    : item names which come last after any other 
+"   ComeLast    : item names which come last after any other
 "               // XSET ComeLast=i,len
 "
 "   postQuoter  : Quoter to define repetition
@@ -42,6 +42,7 @@ com! -nargs=* XPTemplate
 com! -nargs=* XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | finish
 com! -nargs=* XPT           call s:XPTstartSnippetPart(expand("<sfile>")) | finish
 com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
+" TODO rename me to XSET
 com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
 com! -nargs=+ XPTinclude    call XPTinclude(<f-args>)
 com! -nargs=+ XPTembed      call XPTembed(<f-args>)
@@ -61,13 +62,13 @@ fun! s:AssignSnipFT( filename ) "{{{
 
 
     let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
-    if empty( x.snipFileScopeStack ) 
+    if empty( x.snipFileScopeStack )
         " Top Level
         "
         " All cross filetype inclusion must be done through XPTinclude or
         " XPTembed, 'runtime' command is disabled for inclusion or embed
 
-        if &filetype !~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim' 
+        if &filetype !~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim'
             return 'not allowed'
         else
             let ft =  &filetype
@@ -79,7 +80,7 @@ fun! s:AssignSnipFT( filename ) "{{{
                 \ || ftFolder =~ '^_'
 
             if !has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
-                " no parent snippet file 
+                " no parent snippet file
                 " maybe parent snippet file has no XPTemplate command called
                 throw 'parent may has no XPTemplate command called :' . a:filename
             endif
@@ -132,10 +133,10 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
 
 
     if snipScope.filetype == 'not allowed'
-        " TODO 
+        " TODO
         call s:log.Info(  "not allowed:" . a:filename )
         return 'finish'
-    endif 
+    endif
 
     let filetypes[ snipScope.filetype ] = get( filetypes, snipScope.filetype, g:FiletypeScope.New() )
     let ftScope = filetypes[ snipScope.filetype ]
@@ -232,7 +233,7 @@ fun! XPTinclude(...) "{{{
             for s in v
                 call XPTinclude(s)
             endfor
-        elseif type(v) == type('') 
+        elseif type(v) == type('')
 
             if b:xptemplateData.filetypes[ scope.filetype ].IsSnippetLoaded( v )
                 continue
@@ -271,7 +272,7 @@ fun! s:XPTstartSnippetPart( fn ) "{{{
 
     let lines = readfile(a:fn)
 
-    call xpt#parser#Compact( lines )
+    call xpt#parser#Compile( a:fn )
 
 
     " Now that XPT can not start at first line
@@ -365,6 +366,7 @@ endfunction "}}}
 fun! s:XPTemplateParseSnippet(lines) "{{{
 
     let lines = a:lines
+
 
     let snipFileScope = XPTsnipScope()
     let snipFileScope.loadedSnip = get( snipFileScope, 'loadedSnip', {} )
@@ -548,7 +550,7 @@ endfunction "}}}
 " fun! s:XPTbufferScopeSet( str )
     " let [ key, value, start ] = s:getXSETkeyAndValue( [ 'XSET ' . a:str ], 0 )
     " let [ keyname, keytype ] = s:GetKeyType( key )
-" 
+"
 " endfunction
 
 fun! s:ParseMultiLineValues(lines, start) "{{{
@@ -625,10 +627,10 @@ endfunction "}}}
 fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
 
     if a:keyname ==# 'ComeFirst'
-        let a:setting.comeFirst = s:SplitWith( a:value, ' ' )
+        let a:setting.comeFirst = xpt#util#SplitWith( a:value, ' ' )
 
     elseif a:keyname ==# 'ComeLast'
-        let a:setting.comeLast = s:SplitWith( a:value, ' ' )
+        let a:setting.comeLast = xpt#util#SplitWith( a:value, ' ' )
 
     elseif a:keyname ==# 'postQuoter'
         let a:setting.postQuoter = a:value
@@ -671,7 +673,7 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
             " TODO not good, use another keytype to define 'buildIfNoChange' post filter
             "
             " first line is indent : empty indent
-            let a:setting.postFilters[a:keyname] = 
+            let a:setting.postFilters[a:keyname] =
                   \ g:FilterValue.New( 0, 'BuildIfNoChange(' . string(a:value) . ')' )
 
         else
@@ -685,12 +687,6 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
 
     endif
 
-endfunction "}}}
-
-
-fun! s:SplitWith( str, char ) "{{{
-  let s = split( a:str, '\V' . s:nonEscaped . a:char, 1 )
-  return s
 endfunction "}}}
 
 

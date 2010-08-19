@@ -28,6 +28,14 @@ let s:log = xpt#debug#Logger( 'warn' )
 let s:unescapeHead          = '\v(\\*)\1\\?\V'
 
 
+
+
+fun! xpt#util#SplitWith( str, char ) "{{{
+    let s = split( a:str, '\V' . s:nonEscaped . a:char, 1 )
+    return s
+endfunction "}}}
+
+
 let s:charsPatternTable = {}
 fun! s:GetUnescapeCharPattern( chars ) "{{{
     " remove all '\'.

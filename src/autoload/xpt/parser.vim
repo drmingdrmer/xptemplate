@@ -9,6 +9,30 @@ let g:__AL_XPT_PARSER_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
+let s:log = xpt#debug#Logger( 'warn' )
+let s:log = xpt#debug#Logger( 'debug' )
+
+let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
+
+
+
+fun! xpt#parser#Compile( fn ) "{{{
+
+    let compiledFn = a:fn . 'c'
+    let ctime = getftime( a:fn )
+
+    if !filereadable( compiledFn ) || getftime( compiledFn ) < ctime
+
+        let lines = readfile( a:fn )
+        let lines = xpt#parser#Compact( lines )
+        let lines = xpt#parser#CompileCompacted( lines )
+
+        call writefile( lines, compiledFn )
+
+    endif
+
+endfunction "}}}
+
 fun! xpt#parser#Compact( lines ) "{{{
 
     let compacted = []
@@ -81,8 +105,10 @@ fun! xpt#parser#Compact( lines ) "{{{
     return compacted
 endfunction "}}}
 
-
 fun! xpt#parser#CompileCompacted( lines ) "{{{
+
+    let rst = []
+    let lines = a:lines
 
     let iSnipPart = match( lines, '\V\^XPT\s' )
 
@@ -91,13 +117,14 @@ fun! xpt#parser#CompileCompacted( lines ) "{{{
     endif
 
     if iSnipPart != 0
-        let lines = lines[ i : ]
+        let rst += lines[ : iSnipPart - 1 ]
+        let lines = lines[ iSnipPart : ]
     endif
 
 
     let [i, len] = [0, len(lines)]
 
-    call s:AdjustIndentWidth( lines )
+    call xpt#parser#ConvertIndentToTab( lines )
 
     " parse lines
     " start end and blank start
@@ -109,7 +136,10 @@ fun! xpt#parser#CompileCompacted( lines ) "{{{
         if v =~# '\V\^XPT\>'
 
             " template with no end
-            call s:XPTemplateParseSnippet(lines[s : i - 1])
+
+            let ll = xpt#parser#CompileSnippet( lines[ s : i - 1 ] )
+            let rst += [ ll ]
+
             let s = i
 
         elseif v =~# '\V\^\\XPT'
@@ -118,80 +148,98 @@ fun! xpt#parser#CompileCompacted( lines ) "{{{
 
     endwhile
 
-    if s != -1
-        call s:XPTemplateParseSnippet(lines[s : i - 1)])
+    if i > s
+        let ll = xpt#parser#CompileSnippet( lines[ s : i - 1 ] )
+        let rst += [ ll ]
     endif
+
+    return rst
 
 endfunction "}}}
 
 fun! xpt#parser#CompileSnippet( lines ) "{{{
 
+    let lines = a:lines
+
+    let snippetLines = []
+
+
+    let setting = xpt#st#New()
+
+
+    let l0 = lines[ 0 ]
+    let pos = match( l0, '\VXPT\s\+\S\+\.\{-}\zs\s' . s:nonEscaped . '"' )
+    if pos >= 0
+        " skip space, '"'
+        let [setting.rawHint, lines[0]] = [ matchstr( l0[ pos + 1 + 1 : ], '\v\S.*' ), l0[ : pos ] ]
+    endif
+
+
+
+    let [ x, snippetName; snippetParameters ] = split(lines[0], '\V'.s:nonEscaped.'\s\+')
+
+    for pair in snippetParameters
+        let name = matchstr(pair, '\V\^\[^=]\*')
+        let value = pair[ len(name) : ]
+
+        " flag setting need no value present
+        let value = value[0:0] == '=' ? xpt#util#UnescapeChar(value[1:], ' ') : 1
+
+        let setting[name] = value
+    endfor
+
+
+
+    " skip the title line
+    let start = 1
+    let len = len( lines )
+    while start < len
+        let command = matchstr( lines[ start ], '\V\^XSETm\?\ze\s' )
+        if command != ''
+
+            let [ key, val, start ] = s:getXSETkeyAndValue( lines, start )
+            if key == ''
+                let start += 1
+                continue
+            endif
+            call s:log.Log("got value, start=".start)
+
+            let [ keyname, keytype ] = s:GetKeyType( key )
+            call s:log.Log("parse XSET:" . keyname . "|" . keytype . '=' . val)
+
+            call s:HandleXSETcommand(setting, command, keyname, keytype, val)
+
+            " TODO can not input \XSET
+        elseif lines[start] =~# '^\\XSET' " escaped XSET or XSETm
+            let snippetLines += [ lines[ start ][1:] ]
+
+        else
+            call add( snippetLines, lines[ start ] )
+
+        endif
+
+        let start += 1
+    endwhile
+
+
+    call s:log.Log("start:".start)
+    call s:log.Log("to parse tmpl : snippetName=" . snippetName)
+
+    call xpt#st#Simplify( setting )
+
+    call s:log.Log("tmpl setting:".string(setting))
+
+    if has_key( setting, 'alias' )
+        " call XPTemplateAlias( snippetName, setting.alias, setting )
+        return printf( 'call XPTemplateAlias(%s,%s,%s)',
+              \ string( snippetName ), string( setting.alias ), string( setting ) )
+    else
+        " call XPTdefineSnippet(snippetName, setting, snippetLines)
+        return printf( 'call XPTdefineSnippet(%s,%s,%s)',
+              \ string( snippetName ), string( setting ), string( snippetLines ) )
+    endif
+
 endfunction "}}}
-
-" fun! xpt#parser#Compile( lines ) "{{{
-"     let x = b:xptemplateData
-
-"     let iSnipPart = match( lines, '\V\^XPT\s' )
-
-"     if iSnipPart < 0
-"         return
-"     endif
-
-"     let lines = lines[ i : ]
-
-"     " let x.snipFileScope = a:p.snipFileScope
-"     let lines = lines
-
-
-"     let [i, len] = [0, len(lines)]
-
-"     call s:AdjustIndentWidth( lines )
-
-"     " parse lines
-"     " start end and blank start
-"     let [s, e, blk] = [-1, -1, 100000]
-"     while i < len-1 | let i += 1
-
-"         let v = lines[i]
-
-"         if v == '' || v =~ '\v^"[^"]*$'
-"             let blk = min([blk, i - 1])
-"             continue
-"         endif
-
-
-"         if v =~# '\V\^..XPT\>'
-
-"             let e = i - 1
-"             call s:XPTemplateParseSnippet(lines[s : e])
-"             let [s, e, blk] = [-1, -1, 100000]
-
-"         elseif v =~# '\V\^XPT\>'
-
-"             if s != -1
-"                 " template with no end
-"                 let e = min([i - 1, blk])
-"                 call s:XPTemplateParseSnippet(lines[s : e])
-"                 let [s, e, blk] = [i, -1, 100000]
-"             else
-"                 let s = i
-"                 let blk = i
-"             endif
-
-"         elseif v =~# '\V\^\\XPT'
-"             let lines[i] = v[ 1 : ]
-"         else
-"             let blk = i
-"         endif
-
-"     endwhile
-
-"     if s != -1
-"         call s:XPTemplateParseSnippet(lines[s : min([blk, i])])
-"     endif
-
-" endfunction "}}}
-
 
 
 " Converting indent to real space-chars( like spaces or tabs ) must be done at
@@ -203,11 +251,132 @@ fun! xpt#parser#ConvertIndentToTab( snipLines ) "{{{
     " let indentRep = repeat( '\1', &shiftwidth )
     let indentRep = '	'
 
-    let cmdExpand = 'substitute(v:val, ''^\( *\)\1\1\1'', ''' . indentRep . ''', "g" )'
+    let cmdExpand = 'substitute(v:val, ''\v^( +)\1\1\1'', ''' . indentRep . ''', "g" )'
 
     call map( a:snipLines, cmdExpand )
 
 endfunction "}}}
-" getftime()
 
+
+
+
+let s:keytypeMap = {
+      \ '_' : 'onfocus',
+      \ '_def' : 'onfocus',
+      \ }
+
+let s:keytypeToDict = {
+      \ 'pre'     : 'preValues',
+      \ 'ontype'  : 'ontypeFilters',
+      \ 'onfocus' : 'defaultValues',
+      \}
+
+fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
+
+    let keytype = get( s:keytypeMap, '_' . a:keytype, a:keytype )
+
+
+    if a:keyname ==# 'ComeFirst'
+        let a:setting.comeFirst = xpt#util#SplitWith( a:value, ' ' )
+
+    elseif a:keyname ==# 'ComeLast'
+        let a:setting.comeLast = xpt#util#SplitWith( a:value, ' ' )
+
+    elseif a:keyname ==# 'postQuoter'
+        let a:setting.postQuoter = a:value
+
+    elseif has_key( s:keytypeToDict, keytype )
+        let dicName = s:keytypeToDict[ keytype ]
+        let a:setting[ dicName ][a:keyname] = xpt#flt#NewSimple( 0, a:value )
+
+    elseif a:keyname =~ '\V\^$'
+        let a:setting.variables[ a:keyname ] = a:value
+
+    elseif keytype == 'repl'
+        " TODO need to convert to FilterValue?
+        let a:setting.replacements[ a:keyname ] = a:value
+
+    elseif keytype ==# 'map'
+
+        let mp = a:setting.mappings
+
+        if !has_key( mp, a:keyname )
+            let mp[ a:keyname ] = { 'saver' : xpt#msvr#New( 1 ), 'keys' : {} }
+        endif
+
+        let key = matchstr( a:value, '\V\^\S\+\ze\s' )
+        let mapping = matchstr( a:value, '\V\s\+\zs\.\*' )
+
+        call xpt#msvr#Add( mp[ a:keyname ].saver, 'i', key )
+
+        let mp[ a:keyname ].keys[ key ] = xpt#flt#NewSimple( 0, mapping )
+
+    elseif keytype ==# 'post'
+
+        if a:keyname =~ '\V...'
+            " TODO not good, use another keytype to define 'buildIfNoChange' post filter
+            "
+            " first line is indent : empty indent
+            let a:setting.postFilters[a:keyname] =
+                  \ xpt#flt#NewSimple( 0, 'BuildIfNoChange(' . string(a:value) . ')' )
+
+        else
+            " first line is indent : empty indent
+            let a:setting.postFilters[a:keyname] = xpt#flt#NewSimple( 0, a:value )
+
+        endif
+
+    else
+        throw "unknown key name or type:" . a:keyname . ' ' . keytype
+
+    endif
+
+endfunction "}}}
+fun! s:getXSETkeyAndValue(lines, start) "{{{
+    let start = a:start
+
+    let XSETparam = matchstr(a:lines[start], '\V\^XSET\%[m]\s\+\zs\.\*')
+    let isMultiLine = a:lines[ start ] =~# '\V\^XSETm'
+
+    if isMultiLine
+        let key = XSETparam
+
+        let [ start, val ] = s:ParseMultiLineValues(a:lines, start)
+        call s:log.Log( 'multi line XSETm ends at:' . start )
+
+
+    else
+        let key = matchstr(XSETparam, '\V\[^=]\*\ze=')
+
+        if key == ''
+            return [ '', '', start + 1 ]
+        endif
+
+        let val = matchstr(XSETparam, '\V=\s\*\zs\.\*')
+
+        " TODO can not input '\\n'
+        let val = substitute(val, '\\n', "\n", 'g')
+
+    endif
+
+    return [ key, val, start ]
+
+endfunction "}}}
+fun! s:SplitWith( str, char ) "{{{
+    let s = split( a:str, '\V' . s:nonEscaped . a:char, 1 )
+    return s
+endfunction "}}}
+fun! s:GetKeyType(rawKey) "{{{
+
+    let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'|\zs\.\{-}\$')
+    if keytype == ""
+        let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'.\zs\.\{-}\$')
+    endif
+
+    let keyname = keytype == "" ? a:rawKey :  a:rawKey[ 0 : - len(keytype) - 2 ]
+    let keyname = substitute(keyname, '\V\\\(\[.|\\]\)', '\1', 'g')
+
+    return [ keyname, keytype ]
+
+endfunction "}}}
 let &cpo = s:oldcpo
