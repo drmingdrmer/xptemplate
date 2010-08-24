@@ -45,4 +45,15 @@ fun! XPT#error( msg ) "{{{
 endfunction "}}}
 
 
+fun! XPT#Assert( toBeTrue, msg ) "{{{
+    if !a:toBeTrue
+        call XPT#warn( a:msg )
+        if g:xpt_test_on_error == 'stop'
+            throw "XPT_TEST: fail: " . a:msg
+        endif
+    endi
+endfunction "}}}
+fun! XPT#AssertEq( a, b, msg ) "{{{
+    call xpt#Assert( a:a == a:b, a:msg )
+endfunction "}}}
 let &cpo = s:oldcpo

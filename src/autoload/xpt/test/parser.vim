@@ -37,7 +37,7 @@ fun! xpt#test#parser#TestCompact() "{{{
           \]
 
 
-    call xpt#AssertEq( expected, xpt#parser#Compact( inp ), 'compact snippet' )
+    call XPT#AssertEq( expected, xpt#parser#Compact( inp ), 'compact snippet' )
 
     let o = xpt#parser#Compact( inp )
     for ln in o
