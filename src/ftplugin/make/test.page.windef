@@ -1,0 +1,436 @@
+
+
+
+    #   -------------"_--------------- 
+    #  "`w^"                           
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    #   -------------'_--------------- 
+    #  '`w^'                           
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    #   -------------(_--------------- 
+    #  (`w^)                           
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    #   -------------<_--------------- 
+    #  <`w^>                           
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    #   -------------[_--------------- 
+    #  [`w^]                           
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    #   -------------`_--------------- 
+    #  \``w^\`                         
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    #   -------------addprefix--------------- 
+    #  $(addprefix `prefix^, `elemList^)      
+
+
+
+$(addprefix prefix, elemList)
+
+$(addprefix prefix_TYPED, elemList_TYPED) b
+
+`$(addprefix prefix, elemList)^
+
+a $(addprefix prefix, elemList)
+
+
+    #   -------------addsuffix--------------- 
+    #  $(addsuffix `suffix^, `elemList^)      
+
+
+
+$(addsuffix suffix, elemList)
+
+$(addsuffix suffix_TYPED, elemList_TYPED) b
+
+`$(addsuffix suffix, elemList)^
+
+a $(addsuffix suffix, elemList)
+
+
+    #   -------------Author--------------- 
+    #  `$author^                           
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    #   -------------basevar---------------      
+    #  `lang^C^C := `compiler^gcc^               
+    #  `lang^C^FLAGS := `switches^-Wall -Wextra^ 
+
+
+
+CC := gcc
+CFLAGS := -Wall -Wextra
+
+lang_TYPEDC := compiler_TYPED
+CFLAGS := -Wall -Wextra b
+
+`CC := gcc
+CFLAGS := -Wall -Wextra^
+
+a CC := gcc
+CFLAGS := -Wall -Wextra
+
+
+    #   -------------comment--------------- 
+    #  `$CS `cursor^                        
+
+
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
+
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+
+a # WRAPPED_TEXT
+  # WRAPPED_TEXT_line2
+
+
+    #   -------------commentBlock--------------- 
+    #  `$CS `cursor^                             
+
+
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
+
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+
+a # WRAPPED_TEXT
+  # WRAPPED_TEXT_line2
+
+
+    #   -------------commentDoc--------------- 
+    #  `$CS^                                   
+    #  `$CS `cursor^                           
+    #  `$CS^                                   
+
+
+
+#
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+#
+
+#
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+# b
+
+`#
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+#^
+
+a #
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+#
+
+
+    #   -------------commentLine--------------- 
+    #  `$CS `cursor^                            
+
+
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
+
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+
+a # WRAPPED_TEXT
+  # WRAPPED_TEXT_line2
+
+
+    #   -------------Email--------------- 
+    #  `$email^                           
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    #   -------------File--------------- 
+    #  `file()^                          
+
+
+
+test.page.bare
+
+test.page.bare b
+
+`test.page.bare^
+
+a test.page.bare
+
+
+    #   -------------filterout--------------- 
+    #  $(filter-out `toRemove^, `elemList^)   
+
+
+
+$(filter-out toRemove, elemList)
+
+$(filter-out toRemove_TYPED, elemList_TYPED) b
+
+`$(filter-out toRemove, elemList)^
+
+a $(filter-out toRemove, elemList)
+
+
+    #   -------------ifeq--------------- 
+    #  ifeq (`what^, `with^)             
+    #          `job^                     
+    #  ``else...`                        
+    #  {{^else                           
+    #          `cursor^                  
+    #  `}}^endif                         
+
+
+
+ifeq (what, with)
+	# job
+else
+	
+endif
+
+ifeq (what_TYPED, with_TYPED)
+	job_TYPED
+else_TYPED
+endif b
+
+`ifeq (what, with)
+	# job
+else
+	
+endif^
+
+a ifeq (what, with)
+	# job
+else
+	
+endif
+
+
+    #   -------------ifneq--------------- 
+    #  ifneq (`what^, `with^)             
+    #          `job^                      
+    #  ``else...`                         
+    #  {{^else                            
+    #          `cursor^                   
+    #  `}}^endif                          
+
+
+
+ifneq (what, with)
+	job
+else
+	
+endif
+
+ifneq (what_TYPED, with_TYPED)
+	job_TYPED
+else_TYPED
+endif b
+
+`ifneq (what, with)
+	job
+else
+	
+endif^
+
+a ifneq (what, with)
+	job
+else
+	
+endif
+
+
+    #   -------------patsubst---------------                       
+    #  $(patsubst `sourcePattern^%.c^,  `destPattern^%.o^, `list^) 
+
+
+
+$(patsubst %.c,  %.o, list)
+
+$(patsubst sourcePattern_TYPED,  destPattern_TYPED, list_TYPED) b
+
+`$(patsubst %.c,  %.o, list)^
+
+a $(patsubst %.c,  %.o, list)
+
+
+    #   -------------shell--------------- 
+    #  $(shell `command^)                 
+
+
+
+$(shell command)
+
+$(shell command_TYPED) b
+
+`$(shell command)^
+
+a $(shell command)
+
+
+    #   -------------subst---------------              
+    #  $(subst `sourceString^, `destString^, `string^) 
+
+
+
+$(subst sourceString, destString, string)
+
+$(subst sourceString_TYPED, destString_TYPED, string_TYPED) b
+
+`$(subst sourceString, destString, string)^
+
+a $(subst sourceString, destString, string)
+
+
+    #   -------------wildcard--------------- 
+    #  $(wildcard `globpattern^)             
+
+
+
+$(wildcard globpattern)
+
+$(wildcard globpattern_TYPED) b
+
+`$(wildcard globpattern)^
+
+a $(wildcard globpattern)
+
+
+    #   -------------{_--------------- 
+    #  {`w^}                           
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

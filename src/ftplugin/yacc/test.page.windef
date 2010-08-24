@@ -1,0 +1,1396 @@
+
+
+
+    /*  -------------"_--------------- */
+    /* "`w^"                           */
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    /*  -------------#if--------------- */
+    /* #if `0^                          */
+    /* `cursor^                         */
+    /* #endif                           */
+
+
+
+#if 0
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif
+
+#if 0_TYPED
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif b
+
+`#if 0
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif^
+
+a #if 0
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif
+
+
+    /*  -------------#ifdef--------------- */
+    /* #ifdef `symbol^                     */
+    /* `cursor^                            */
+    /* #endif `$CL^ `symbol^ `$CR^         */
+
+
+
+#ifdef SYMBOL
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* SYMBOL */
+
+#ifdef SYMBOL_TYPED
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* SYMBOL_TYPED */ b
+
+`#ifdef SYMBOL
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* SYMBOL */^
+
+a #ifdef SYMBOL
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* SYMBOL */
+
+
+    /*  -------------#ifndef--------------- */
+    /* #ifndef `symbol^                     */
+    /* `cursor^                             */
+    /* #endif `$CL^ `symbol^ `$CR^          */
+
+
+
+#ifndef SYMBOL
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* SYMBOL */
+
+#ifndef SYMBOL_TYPED
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* SYMBOL_TYPED */ b
+
+`#ifndef SYMBOL
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* SYMBOL */^
+
+a #ifndef SYMBOL
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* SYMBOL */
+
+
+    /*  -------------#inc--------------- */
+    /* #include <`^.h>                   */
+
+
+
+#include <.h>
+
+#include <_TYPED.h> b
+
+`#include <.h>^
+
+a #include <.h>
+
+
+    /*  -------------#include_user--------------- */
+    /* #include "`me^.h"                          */
+
+
+
+#include "test.page.h"
+
+#include "me_TYPED.h" b
+
+`#include "test.page.h"^
+
+a #include "test.page.h"
+
+
+    /*  -------------#ind--------------- */
+    /* #include "`me^.h"                 */
+
+
+
+#include "test.page.h"
+
+#include "me_TYPED.h" b
+
+`#include "test.page.h"^
+
+a #include "test.page.h"
+
+
+    /*  -------------'_--------------- */
+    /* '`w^'                           */
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    /*  -------------(_--------------- */
+    /* (`w^)                           */
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`w^>                           */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`w^]                           */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``w^\`                         */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    /*  -------------assert---------------            */
+    /* assert(`$SPop^`isTrue^,`$SPop^"`text^"`$SPop^) */
+
+
+
+assert( isTrue, "text" )
+
+assert( isTrue_TYPED, "text_TYPED" ) b
+
+`assert( isTrue, "text" )^
+
+a assert( isTrue, "text" )
+
+
+    /*  -------------Author--------------- */
+    /* `$author^                           */
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    /*  -------------call--------------- */
+    /* `name^(`$SPop^`param^`$SPop^)     */
+
+
+
+name( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )
+
+name_TYPED( WRAPPED_TEXT
+WRAPPED_TEXT_line2 ) b
+
+`name( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )^
+
+a name( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )
+
+
+    /*  -------------case--------------- */
+    /* case `constant^`$SPcmd^:          */
+    /*         `cursor^                  */
+    /*         break;                    */
+
+
+
+case constant :
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	break;
+
+case constant_TYPED :
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	break; b
+
+`case constant :
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	break;^
+
+a case constant :
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	break;
+
+
+    /*  -------------comment--------------- */
+    /* `$CL^ `what^^ `$CR^`^                */
+
+
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */ b
+
+`/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */^
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
+
+
+    /*  -------------commentBlock--------------- */
+    /* `$_xCommentLeftWithoutMid^`$CM `cursor^   */
+    /* `$_xCommentMidIndent$CR^                  */
+
+
+
+/* WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */
+
+/* WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */ b
+
+`/* WRAPPED_TEXT
+  * WRAPPED_TEXT_line2
+ */^
+
+a /* WRAPPED_TEXT
+   * WRAPPED_TEXT_line2
+ */
+
+
+    /*  -------------commentDoc--------------- */
+    /* `$CL^`$CM^                              */
+    /* `$_xCommentMidIndent$CM `cursor^        */
+    /* `$_xCommentMidIndent$CR^                */
+
+
+
+/**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */
+
+/**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */ b
+
+`/**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */^
+
+a /**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */
+
+
+    /*  -------------commentLine--------------- */
+    /* `$CL `what` $CR^`^                       */
+
+
+
+/* WRAPPED_TEXT */
+/* WRAPPED_TEXT_line2 */
+
+/* WRAPPED_TEXT */
+/* WRAPPED_TEXT_line2 */ b
+
+`/* WRAPPED_TEXT */
+ /* WRAPPED_TEXT_line2 */^
+
+a /* WRAPPED_TEXT */
+  /* WRAPPED_TEXT_line2 */
+
+
+    /*  -------------default--------------- */
+    /* default:                             */
+    /*         `cursor^                     */
+
+
+
+default:
+	
+
+default:
+	 b
+
+`default:
+	^
+
+a default:
+	
+
+
+    /*  -------------do---------------                       */
+    /* do`$BRloop^{                                          */
+    /*         `cursor^                                      */
+    /* }`$BRloop^while`$SPcmd^(`$SParg^`condition^`$SParg^); */
+
+
+
+do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( condition );
+
+do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( condition_TYPED ); b
+
+`do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( condition );^
+
+a do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( condition );
+
+
+    /*  -------------elif--------------- */
+    /* else `Include:_if^                */
+
+
+
+else if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+else if ( condition_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`else if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a else if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------else--------------- */
+    /* else`$BRif^{                      */
+    /*         `cursor^                  */
+    /* }                                 */
+
+
+
+else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    /*  -------------enum--------------- */
+    /* enum `name^`$BRstc^{              */
+    /*         `^                        */
+    /* }                                 */
+
+
+
+enum name {
+	
+}
+
+enum name_TYPED {
+	_TYPED
+} b
+
+`enum name {
+	
+}^
+
+a enum name {
+	
+}
+
+
+    /*  -------------fcomment--------------- */
+    /* _CMT_*                                */
+    /*  * @author : `$author^ | `$email^     */
+    /*  * @description                       */
+    /*  *     `cursor^                       */
+    /*  * @return {`int^} `desc^             */
+    /*  _cmt_                                */
+
+
+
+/**
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @description
+ *     
+ * @return {int} desc
+ */
+
+/**
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @description
+ *     
+ * @return {int_TYPED} desc_TYPED
+ */ b
+
+`/**
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @description
+ *     
+ * @return {int} desc
+ */^
+
+a /**
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @description
+ *     
+ * @return {int} desc
+ */
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+test.page.bare
+
+test.page.bare b
+
+`test.page.bare^
+
+a test.page.bare
+
+
+    /*  -------------filehead---------------                                  */
+    /* _CMT_*-------------------------/// `sum^ \\\--------------------------- */
+    /*  *                                                                     */
+    /*  * <b>`function^</b>                                                   */
+    /*  * @version : `1.0^                                                    */
+    /*  * @since : `strftime("%Y %b %d")^                                     */
+    /*  *                                                                     */
+    /*  * @description :                                                      */
+    /*  *     `cursor^                                                        */
+    /*  * @usage :                                                            */
+    /*  *                                                                     */
+    /*  * @author : `$author^ | `$email^                                      */
+    /*  * @copyright `.com.cn^                                                */
+    /*  * @TODO :                                                             */
+    /*  *                                                                     */
+    /*  *--------------------------\\\ `sum^ ///---------------------------_cmt_ */
+
+
+
+/**-------------------------/// sum \\\---------------------------
+ *
+ * <b>function</b>
+ * @version : 1.0
+ * @since : 2009 Oct 08
+ *
+ * @description :
+ *     
+ * @usage :
+ *
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @copyright .com.cn
+ * @TODO :
+ *
+ *--------------------------\\\ sum ///---------------------------*/
+
+
+/**-------------------------/// sum_TYPED \\\---------------------------
+ *
+ * <b>function_TYPED</b>
+ * @version : 10_TYPED
+ * @since : 2009 Oct 08
+ *
+ * @description :
+ *     
+ * @usage :
+ *
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @copyright comcn_TYPED
+ * @TODO :
+ *
+ *--------------------------\\\ sum_TYPED ///---------------------------*/
+ b
+
+`/**-------------------------/// sum \\\---------------------------
+ *
+ * <b>function</b>
+ * @version : 1.0
+ * @since : 2009 Oct 08
+ *
+ * @description :
+ *     
+ * @usage :
+ *
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @copyright .com.cn
+ * @TODO :
+ *
+ *--------------------------\\\ sum ///---------------------------*/
+^
+
+a /**-------------------------/// sum \\\---------------------------
+ *
+ * <b>function</b>
+ * @version : 1.0
+ * @since : 2009 Oct 08
+ *
+ * @description :
+ *     
+ * @usage :
+ *
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @copyright .com.cn
+ * @TODO :
+ *
+ *--------------------------\\\ sum ///---------------------------*/
+
+
+
+    /*  -------------for---------------                                                                                  */
+    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{ */
+    /*         `cursor^                                                                                                  */
+    /* }                                                                                                                 */
+
+
+
+for ( i = 0; i < len; i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+for ( i_TYPED = 0_TYPED; i_TYPED < len_TYPED; i_TYPED++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`for ( i = 0; i < len; i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a for ( i = 0; i < len; i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------forever--------------- */
+    /* for`$SPcmd^(;;) `cursor^             */
+
+
+
+for (;;) 
+
+for (;;)  b
+
+`for (;;) ^
+
+a for (;;) 
+
+
+    /*  -------------fornn---------------                                                                                                */
+    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`ptr^`$SPop^=`$SPop^`init^; `$NULL^`$SPop^!=`$SPop^`ptr^; `^R('ptr')^`$SParg^)`$BRloop^{ */
+    /*         `cursor^                                                                                                                  */
+    /* }                                                                                                                                 */
+
+
+
+for ( ptr = init; NULL != ptr; ptr ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+for ( ptr_TYPED = init_TYPED; NULL != ptr_TYPED; _TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`for ( ptr = init; NULL != ptr; ptr ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a for ( ptr = init; NULL != ptr; ptr ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------forr---------------                                                                                 */
+    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^++`$SParg^)`$BRloop^{ */
+    /*         `cursor^                                                                                                  */
+    /* }                                                                                                                 */
+
+
+
+for ( i = 0; i >= end; i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+for ( i_TYPED = 0_TYPED; i_TYPED >= end_TYPED; i_TYPED++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`for ( i = 0; i >= end; i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a for ( i = 0; i >= end; i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------fprintf---------------                   */
+    /* fprintf(`$SPop^`stream^,`$SPop^`:_printfElts:^`$SPop^) */
+
+
+
+fprintf( stream, "pattern" )
+
+fprintf( stream_TYPED, "pattern_TYPED" ) b
+
+`fprintf( stream, "pattern" )^
+
+a fprintf( stream, "pattern" )
+
+
+    /*  -------------fun---------------                                        */
+    /* `c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`param^)`$BRfun^{ */
+    /*         `cursor^                                                        */
+    /* }                                                                       */
+
+
+
+int name() {
+	
+}
+
+int_TYPED name_TYPED(param_TYPED) {
+	
+} b
+
+`int name() {
+	
+}^
+
+a int name() {
+	
+}
+
+
+    /*  -------------if--------------- */
+    /* `Include:_if^                   */
+
+
+
+if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( condition_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------if0--------------- */
+    /* `Include:_if^                    */
+
+
+
+if ( 0 == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( 0 == var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( 0 == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( 0 == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------ifee---------------                              */
+    /* `:_if:^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ */
+
+
+
+if ( condition ) {
+	
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+
+if ( condition_TYPED ) {
+	_TYPED
+} else_if_TYPED b
+
+`if ( condition ) {
+	
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}^
+
+a if ( condition ) {
+	
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+
+
+    /*  -------------ifn--------------- */
+    /* `Include:_if^                    */
+
+
+
+if ( NULL == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( NULL == var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( NULL == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( NULL == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------ifn0--------------- */
+    /* `Include:_if^                     */
+
+
+
+if ( 0 != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( 0 != var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( 0 != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( 0 != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------ifnn--------------- */
+    /* `Include:_if^                     */
+
+
+
+if ( NULL != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( NULL != var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( NULL != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( NULL != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------main---------------                                                 */
+    /* `c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv)`$BRfun^{ */
+    /*         `cursor^                                                                  */
+    /*         return 0;                                                                 */
+    /* }                                                                                 */
+
+
+
+int main(int argc, char **argv) {
+	
+	return 0;
+}
+
+int main(int argc, char **argv) {
+	
+	return 0;
+} b
+
+`int main(int argc, char **argv) {
+	
+	return 0;
+}^
+
+a int main(int argc, char **argv) {
+	
+	return 0;
+}
+
+
+    /*  -------------once--------------- */
+    /* #ifndef `symbol^                  */
+    /* #     define `symbol^             */
+    /*                                   */
+    /* `cursor^                          */
+    /* #endif `$CL^ `symbol^ `$CR^       */
+
+
+
+#ifndef __TEST_PAGE_BARE__
+#     define __TEST_PAGE_BARE__
+
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* __TEST_PAGE_BARE__ */
+
+#ifndef SYMBOL_TYPED
+#     define SYMBOL_TYPED
+
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* SYMBOL_TYPED */ b
+
+`#ifndef __TEST_PAGE_BARE__
+#     define __TEST_PAGE_BARE__
+
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* __TEST_PAGE_BARE__ */^
+
+a #ifndef __TEST_PAGE_BARE__
+#     define __TEST_PAGE_BARE__
+
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* __TEST_PAGE_BARE__ */
+
+
+    /*  -------------printf---------------   */
+    /* printf(`$SPop^`:_printfElts:^`$SPop^) */
+
+
+
+printf( "pattern" )
+
+printf( "pattern_TYPED" ) b
+
+`printf( "pattern" )^
+
+a printf( "pattern" )
+
+
+    /*  -------------prio--------------- */
+    /* %left   '`op*^'` `...^            */
+    /* %left   '`op*^'` `...^            */
+
+
+
+%left   ''
+%left   ''
+
+%left   'op_TYPED' 'op_TYPED' 'op_TYPED' _TYPED b
+
+`%left   ''
+%left   ''^
+
+a %left   ''
+%left   ''
+
+
+    /*  -------------rule---------------     */
+    /* `ruleName^: `pattern^   { `action^ }  */
+    /* `        `...`                        */
+    /* {{^        | `pattern^   { `action^ } */
+    /* `        `...`                        */
+    /* ^`}}^        ;                        */
+
+
+
+ruleName: pattern   { action }
+	...
+        ;
+
+ruleName_TYPED: pattern_TYPED   { action_TYPED }
+	..._TYPED        ; b
+
+`ruleName: pattern   { action }
+	...
+        ;^
+
+a ruleName: pattern   { action }
+	...
+        ;
+
+
+    /*  -------------snprintf---------------                              */
+    /* snprintf(`$SPop^`str^,`$SPop^`size^,`$SPop^`:_printfElts:^`$SPop^) */
+
+
+
+snprintf( str, size, "pattern" )
+
+snprintf( str_TYPED, size_TYPED, "pattern_TYPED" ) b
+
+`snprintf( str, size, "pattern" )^
+
+a snprintf( str, size, "pattern" )
+
+
+    /*  -------------sprintf---------------                */
+    /* sprintf(`$SPop^`str^,`$SPop^`:_printfElts:^`$SPop^) */
+
+
+
+sprintf( str, "pattern" )
+
+sprintf( str_TYPED, "pattern_TYPED" ) b
+
+`sprintf( str, "pattern" )^
+
+a sprintf( str, "pattern" )
+
+
+    /*  -------------struct--------------- */
+    /* struct `structName^`$BRstc^{        */
+    /*         `^                          */
+    /* }                                   */
+
+
+
+struct structName {
+	
+}
+
+struct structName_TYPED {
+	_TYPED
+} b
+
+`struct structName {
+	
+}^
+
+a struct structName {
+	
+}
+
+
+    /*  -------------switch---------------    */
+    /* switch (`$SParg^`var^`$SParg^)`$BRif^{ */
+    /*         `Include:case^                 */
+    /* }                                      */
+
+
+
+switch ( var ) {
+	case constant :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+}
+
+switch ( var_TYPED ) {
+	case constant_TYPED :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+} b
+
+`switch ( var ) {
+	case constant :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+}^
+
+a switch ( var ) {
+	case constant :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+}
+
+
+    /*  -------------tok--------------- */
+    /* %token                           */
+
+
+
+%token 
+
+%token  b
+
+`%token ^
+
+a %token 
+
+
+    /*  -------------while---------------                   */
+    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
+    /*         `cursor^                                     */
+    /* }                                                    */
+
+
+
+while ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+while ( condition_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`while ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a while ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------while0---------------                   */
+    /* do`$BRloop^{                                          */
+    /*         `cursor^                                      */
+    /* }`$BRloop^while`$SPcmd^(`$SParg^`condition^`$SParg^); */
+
+
+
+do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( 0 );
+
+do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( 0 ); b
+
+`do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( 0 );^
+
+a do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( 0 );
+
+
+    /*  -------------while1---------------                  */
+    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
+    /*         `cursor^                                     */
+    /* }                                                    */
+
+
+
+while ( 1 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+while ( 1 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`while ( 1 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a while ( 1 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------whilenn---------------                 */
+    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
+    /*         `cursor^                                     */
+    /* }                                                    */
+
+
+
+while ( NULL != x ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+while ( NULL != x_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`while ( NULL != x ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a while ( NULL != x ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------yacc--------------- */
+    /* %{                                */
+    /* _CMT_ includes _cmt_              */
+    /* %}                                */
+    /* _CMT_ options _cmt_               */
+    /* %%                                */
+    /* _CMT_ grammar rules _cmt_         */
+    /* %%                                */
+    /* _CMT_ C code _cmt_                */
+
+
+
+%{
+/* includes */
+%}
+/* options */
+%%
+/* grammar rules */
+%%
+/* C code */
+
+%{
+/* includes */
+%}
+/* options */
+%%
+/* grammar rules */
+%%
+/* C code */ b
+
+`%{
+/* includes */
+%}
+/* options */
+%%
+/* grammar rules */
+%%
+/* C code */^
+
+a %{
+/* includes */
+%}
+/* options */
+%%
+/* grammar rules */
+%%
+/* C code */
+
+
+    /*  -------------{_--------------- */
+    /* {`w^}                           */
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

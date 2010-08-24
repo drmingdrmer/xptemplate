@@ -1,0 +1,916 @@
+
+
+
+    #  -------------"_--------------- 
+    # "`w^"                           
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    #  -------------'_--------------- 
+    # '`w^'                           
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    #  -------------(_--------------- 
+    # (`w^)                           
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    #  -------------<_--------------- 
+    # <`w^>                           
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    #  -------------[_--------------- 
+    # [`w^]                           
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    #  -------------`_--------------- 
+    # \``w^\`                         
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    #  -------------Author--------------- 
+    # `$author^                           
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    `drdr.xp^
+
+    a drdr.xp
+
+
+    #  -------------comment--------------- 
+    # `$CS `cursor^                        
+
+
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
+
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+
+ a # WRAPPED_TEXT
+   # WRAPPED_TEXT_line2
+
+
+    #  -------------commentBlock--------------- 
+    # `$CS `cursor^                             
+
+
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
+
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+
+ a # WRAPPED_TEXT
+   # WRAPPED_TEXT_line2
+
+
+    #  -------------commentDoc--------------- 
+    # `$CS^                                   
+    # `$CS `cursor^                           
+    # `$CS^                                   
+
+
+
+#
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+#
+
+#
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+# b
+
+`#
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+#^
+
+a #
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+#
+
+
+    #  -------------commentLine--------------- 
+    # `$CS `cursor^                            
+
+
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
+
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+
+ a # WRAPPED_TEXT
+   # WRAPPED_TEXT_line2
+
+
+    #  -------------do---------------                       
+    # do`$BRloop^{                                          
+    #         `cursor^                                      
+    # }`$BRloop^while`$SPcmd^(`$SParg^`condition^`$SParg^); 
+
+
+
+do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( condition );
+
+do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( condition_TYPED ); b
+
+`do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( condition );^
+
+a do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( condition );
+
+
+    #  -------------Email--------------- 
+    # `$email^                           
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    `drdr.xp@gmail.com^
+
+    a drdr.xp@gmail.com
+
+
+    #  -------------eval---------------      
+    # eval`$BRif^{                           
+    #         `risky^                        
+    # };                                     
+    # if`$SPcmd^(`$SParg^$@`$SParg^)`$BRif^{ 
+    #         `handle^                       
+    # }                                      
+
+
+
+eval {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+};
+if ( $@ ) {
+	handle
+}
+
+eval {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+};
+if ( $@ ) {
+	handle_TYPED
+} b
+
+`eval {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+};
+if ( $@ ) {
+	handle
+}^
+
+a eval {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+};
+if ( $@ ) {
+	handle
+}
+
+
+    #  -------------File--------------- 
+    # `file()^                          
+
+
+
+    test.page.bare
+
+    test.page.bare b
+
+    `test.page.bare^
+
+    a test.page.bare
+
+
+    #  -------------for---------------                                                                                  
+    # for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{ 
+    #         `cursor^                                                                                                  
+    # }                                                                                                                 
+
+
+
+for ( my $i = 0; $i < len; $i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+for ( my $i_TYPED = 0_TYPED; $i_TYPED < len_TYPED; $i_TYPED++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`for ( my $i = 0; $i < len; $i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a for ( my $i = 0; $i < len; $i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    #  -------------foreach---------------                          
+    # foreach`$SPcmd^my $`var^ (`$SParg^@`array^`$SParg^)`$BRloop^{ 
+    #         `cursor^                                              
+    # }                                                             
+
+
+
+    foreach my $var ( @array ) {
+	    
+    }
+
+    foreach my $var_TYPED ( @array_TYPED ) {
+	    
+    } b
+
+    `foreach my $var ( @array ) {
+	    
+    }^
+
+    a foreach my $var ( @array ) {
+	    
+    }
+
+
+    #  -------------forever--------------- 
+    # for`$SPcmd^(;;) `cursor^             
+
+
+
+    for (;;) 
+
+    for (;;)  b
+
+    `for (;;) ^
+
+    a for (;;) 
+
+
+    #  -------------forkeys---------------                               
+    # foreach`$SPcmd^my $`var^ (`$SParg^keys @`array^`$SParg^)`$BRloop^{ 
+    #         `cursor^                                                   
+    # }                                                                  
+
+
+
+    foreach my $var ( keys @array ) {
+	    
+    }
+
+    foreach my $var_TYPED ( keys @array_TYPED ) {
+	    
+    } b
+
+    `foreach my $var ( keys @array ) {
+	    
+    }^
+
+    a foreach my $var ( keys @array ) {
+	    
+    }
+
+
+    #  -------------forr---------------                                                                                 
+    # for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^++`$SParg^)`$BRloop^{ 
+    #         `cursor^                                                                                                  
+    # }                                                                                                                 
+
+
+
+for ( my $i = 0; $i >= end; $i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+for ( my $i_TYPED = 0_TYPED; $i_TYPED >= end_TYPED; $i_TYPED++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`for ( my $i = 0; $i >= end; $i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a for ( my $i = 0; $i >= end; $i++ ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    #  -------------forvalues---------------                               
+    # foreach`$SPcmd^my $`var^ (`$SParg^values @`array^`$SParg^)`$BRloop^{ 
+    #         `cursor^                                                     
+    # }                                                                    
+
+
+
+    foreach my $var ( values @array ) {
+	    
+    }
+
+    foreach my $var_TYPED ( values @array_TYPED ) {
+	    
+    } b
+
+    `foreach my $var ( values @array ) {
+	    
+    }^
+
+    a foreach my $var ( values @array ) {
+	    
+    }
+
+
+    #  -------------if---------------                                 
+    # if`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{                      
+    #         `job^                                                   
+    # }`                                                              
+    # `elsif...^`$BRel^elsif`$SPcmd^(`$SParg^`cond2^`$SParg^)`$BRif^{ 
+    #         `job^                                                   
+    # }`                                                              
+    # `elsif...^`                                                     
+    # `else...{{^`$BRel^else`$BRif^{                                  
+    #         `cursor^                                                
+    # }`}}^                                                           
+
+
+
+if ( cond ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+elsif ( cond2 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+elsif ( cond2 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+elsif ( cond2 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+else {
+	
+}
+
+if ( cond_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+elsif_TYPED
+else_TYPED b
+
+`if ( cond ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+elsif ( cond2 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+elsif ( cond2 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+elsif ( cond2 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+else {
+	
+}^
+
+a if ( cond ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+elsif ( cond2 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+elsif ( cond2 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+elsif ( cond2 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+else {
+	
+}
+
+
+    #  -------------package---------------       
+    # package `className^;                       
+    #                                            
+    # use base qw(`parent^);                     
+    #                                            
+    # sub new`$BRfun^{                           
+    #         my $class = shift;                 
+    #         $class = ref $class if ref $class; 
+    #         my $self = bless {}, $class;       
+    #         $self;                             
+    # }                                          
+    #                                            
+    # 1;                                         
+
+
+
+    package className;
+    
+    use base qw(parent);
+    
+    sub new {
+	    my $class = shift;
+	    $class = ref $class if ref $class;
+	    my $self = bless {}, $class;
+	    $self;
+    }
+    
+    1;
+    
+
+    package className_TYPED;
+    
+    use base qw(parent_TYPED);
+    
+    sub new {
+	    my $class = shift;
+	    $class = ref $class if ref $class;
+	    my $self = bless {}, $class;
+	    $self;
+    }
+    
+    1;
+     b
+
+     `package className;
+     
+     use base qw(parent);
+     
+     sub new {
+	     my $class = shift;
+	     $class = ref $class if ref $class;
+	     my $self = bless {}, $class;
+	     $self;
+     }
+     
+     1;
+     ^
+
+     a package className;
+     
+     use base qw(parent);
+     
+     sub new {
+	     my $class = shift;
+	     $class = ref $class if ref $class;
+	     my $self = bless {}, $class;
+	     $self;
+     }
+     
+     1;
+     
+
+
+    #  -------------perl--------------- 
+    # _CMT_!/usr/bin/env perl           
+
+
+
+    #!/usr/bin/env perl
+    
+
+    #!/usr/bin/env perl
+     b
+
+     `#!/usr/bin/env perl
+     ^
+
+     a #!/usr/bin/env perl
+     
+
+
+    #  -------------sub--------------- 
+    # sub `fun_name^`$BRfun^{          
+    #         `cursor^                 
+    # }                                
+
+
+
+    sub fun_name {
+	    
+    }
+
+    sub fun_name_TYPED {
+	    
+    } b
+
+    `sub fun_name {
+	    
+    }^
+
+    a sub fun_name {
+	    
+    }
+
+
+    #  -------------try---------------       
+    # eval`$BRif^{                           
+    #         `risky^                        
+    # };                                     
+    # if`$SPcmd^(`$SParg^$@`$SParg^)`$BRif^{ 
+    #         `handle^                       
+    # }                                      
+
+
+
+eval {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+};
+if ( $@ ) {
+	handle
+}
+
+eval {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+};
+if ( $@ ) {
+	handle_TYPED
+} b
+
+`eval {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+};
+if ( $@ ) {
+	handle
+}^
+
+a eval {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+};
+if ( $@ ) {
+	handle
+}
+
+
+    #  -------------unless---------------            
+    # unless`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{ 
+    #         `cursor^                               
+    # }                                              
+
+
+
+    unless ( cond ) {
+	    
+    }
+
+    unless ( cond_TYPED ) {
+	    
+    } b
+
+    `unless ( cond ) {
+	    
+    }^
+
+    a unless ( cond ) {
+	    
+    }
+
+
+    #  -------------while---------------                   
+    # while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ 
+    #         `cursor^                                     
+    # }                                                    
+
+
+
+while ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+while ( condition_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`while ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a while ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    #  -------------while0---------------                   
+    # do`$BRloop^{                                          
+    #         `cursor^                                      
+    # }`$BRloop^while`$SPcmd^(`$SParg^`condition^`$SParg^); 
+
+
+
+do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( 0 );
+
+do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( 0 ); b
+
+`do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( 0 );^
+
+a do {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} while ( 0 );
+
+
+    #  -------------while1---------------                  
+    # while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ 
+    #         `cursor^                                     
+    # }                                                    
+
+
+
+while ( 1 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+while ( 1 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`while ( 1 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a while ( 1 ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    #  -------------whileeach---------------                                                                           
+    # while`$SPcmd^(`$SParg^(`$SParg^$`key^,`$SPop^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRloop^{ 
+    #         `cursor^                                                                                                 
+    # }                                                                                                                
+
+
+
+    while ( ( $key, $val ) = each( %array ) ) {
+	    
+    }
+
+    while ( ( $key_TYPED, $val_TYPED ) = each( %array_TYPED ) ) {
+	    
+    } b
+
+    `while ( ( $key, $val ) = each( %array ) ) {
+	    
+    }^
+
+    a while ( ( $key, $val ) = each( %array ) ) {
+	    
+    }
+
+
+    #  -------------whileline---------------                                                            
+    # while`$SPcmd^(`$SParg^defined(`$SParg^$`line^`$SPop^=`$SPop^<`STDIN^>`$SParg^)`$SParg^)`$BRloop^{ 
+    #         `cursor^                                                                                  
+    # }                                                                                                 
+
+
+
+    while ( defined( $line = <STDIN> ) ) {
+	    
+    }
+
+    while ( defined( $line_TYPED = <STDIN_TYPED> ) ) {
+	    
+    } b
+
+    `while ( defined( $line = <STDIN> ) ) {
+	    
+    }^
+
+    a while ( defined( $line = <STDIN> ) ) {
+	    
+    }
+
+
+    #  -------------xforeach--------------- 
+    # `expr^ foreach @`array^;              
+
+
+
+    expr foreach @array;
+
+    expr_TYPED foreach @array_TYPED; b
+
+    `expr foreach @array;^
+
+    a expr foreach @array;
+
+
+    #  -------------xif--------------- 
+    # `expr^ if `cond^;                
+
+
+
+    expr if cond;
+
+    expr_TYPED if cond_TYPED; b
+
+    `expr if cond;^
+
+    a expr if cond;
+
+
+    #  -------------xunless--------------- 
+    # `expr^ unless `cond^;                
+
+
+
+    expr unless cond;
+
+    expr_TYPED unless cond_TYPED; b
+
+    `expr unless cond;^
+
+    a expr unless cond;
+
+
+    #  -------------xwhile--------------- 
+    # `expr^ while `cond^;                
+
+
+
+    expr while cond;
+
+    expr_TYPED while cond_TYPED; b
+
+    `expr while cond;^
+
+    a expr while cond;
+
+
+    #  -------------{_--------------- 
+    # {`w^}                           
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

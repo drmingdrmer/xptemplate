@@ -1,0 +1,816 @@
+
+
+
+    "  -------------_CMT__--------------- 
+    " _CMT_`w^_CMT_                   
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    "  -------------'_--------------- 
+    " '`w^'                           
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    "  -------------(_--------------- 
+    " (`w^)                           
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    "  -------------<_--------------- 
+    " <`w^>                           
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    "  -------------[_--------------- 
+    " [`w^]                           
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    "  -------------`_--------------- 
+    " \``w^\`                         
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    "  -------------Author--------------- 
+    " `$author^                           
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    `drdr.xp^
+
+    a drdr.xp
+
+
+    "  -------------call--------------- 
+    " `name^(`$SParg^`param^`$SParg^)   
+
+
+
+name( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )
+
+name_TYPED( WRAPPED_TEXT
+WRAPPED_TEXT_line2 ) b
+
+`name( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )^
+
+a name( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )
+
+
+    "  -------------catch--------------- 
+    " catch /`exception^/                
+    "         `cursor^                   
+
+
+
+    catch /.*/
+	    
+
+	    catch /exception_TYPED/
+		     b
+
+		     `catch /.*/
+			     ^
+
+			     a catch /.*/
+				     
+
+
+    "  -------------comment--------------- 
+    " `$CS `cursor^                        
+
+
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2 b
+
+`" WRAPPED_TEXT
+ " WRAPPED_TEXT_line2^
+
+ a " WRAPPED_TEXT
+   " WRAPPED_TEXT_line2
+
+
+    "  -------------commentBlock--------------- 
+    " `$CS `cursor^                             
+
+
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2 b
+
+`" WRAPPED_TEXT
+ " WRAPPED_TEXT_line2^
+
+ a " WRAPPED_TEXT
+   " WRAPPED_TEXT_line2
+
+
+    "  -------------commentDoc--------------- 
+    " `$CS^                                   
+    " `$CS `cursor^                           
+    " `$CS^                                   
+
+
+
+"
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+"
+
+"
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+" b
+
+`"
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+"^
+
+a "
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+"
+
+
+    "  -------------commentLine--------------- 
+    " `$CS `cursor^                            
+
+
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2 b
+
+`" WRAPPED_TEXT
+ " WRAPPED_TEXT_line2^
+
+ a " WRAPPED_TEXT
+   " WRAPPED_TEXT_line2
+
+
+    "  -------------else--------------- 
+    " else                              
+    "         `cursor^                  
+
+
+
+    else
+	    
+
+	    else
+		     b
+
+		     `else
+			     ^
+
+			     a else
+				     
+
+
+    "  -------------Email--------------- 
+    " `$email^                           
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    `drdr.xp@gmail.com^
+
+    a drdr.xp@gmail.com
+
+
+    "  -------------File--------------- 
+    " `file()^                          
+
+
+
+    test.page.bare
+
+    test.page.bare b
+
+    `test.page.bare^
+
+    a test.page.bare
+
+
+    "  -------------filehead---------------                                           
+    " _CMT_ File Description {{{                                                      
+    " _CMT_ ============================================================================= 
+    " _CMT_ `cursor^                                                                  
+    " _CMT_                                                  by `$author^             
+    " _CMT_                                                     `$email^              
+    " _CMT_ Usage :                                                                   
+    " _CMT_                                                                           
+    " _CMT_ ============================================================================= 
+    " _CMT_ }}}                                                                       
+
+
+
+    " File Description {{{
+    " =============================================================================
+    " 
+    "                                                  by drdr.xp
+    "                                                     drdr.xp@gmail.com
+    " Usage :
+    "
+    " =============================================================================
+    " }}}
+
+    " File Description {{{
+    " =============================================================================
+    " 
+    "                                                  by drdr.xp
+    "                                                     drdr.xp@gmail.com
+    " Usage :
+    "
+    " =============================================================================
+    " }}} b
+
+    `" File Description {{{
+    " =============================================================================
+    " 
+    "                                                  by drdr.xp
+    "                                                     drdr.xp@gmail.com
+    " Usage :
+    "
+    " =============================================================================
+    " }}}^
+
+    a " File Description {{{
+    " =============================================================================
+    " 
+    "                                                  by drdr.xp
+    "                                                     drdr.xp@gmail.com
+    " Usage :
+    "
+    " =============================================================================
+    " }}}
+
+
+    "  -------------finally--------------- 
+    " finally                              
+    "         `cursor^                     
+
+
+
+    finally
+	    
+
+	    finally
+		     b
+
+		     `finally
+			     ^
+
+			     a finally
+				     
+
+
+    "  -------------foreach--------------- 
+    " for `value^ in `list^                
+    "         `cursor^                     
+    " endfor                               
+
+
+
+for value in list
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor
+
+for value_TYPED in list_TYPED
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor b
+
+`for value in list
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor^
+
+a for value in list
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor
+
+
+    "  -------------forin--------------- 
+    " for `value^ in `list^              
+    "         `cursor^                   
+    " endfor                             
+
+
+
+for value in list
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor
+
+for value_TYPED in list_TYPED
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor b
+
+`for value in list
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor^
+
+a for value in list
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor
+
+
+    "  -------------fun---------------    
+    " fun! `name^`$SPfun^(`:_args:^) _CMT_{{{ 
+    "         `cursor^                    
+    " endfunction _CMT_}}}                
+
+
+
+fun! name() "{{{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfunction "}}}
+
+fun! name_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ) "{{{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfunction "}}} b
+
+`fun! name() "{{{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfunction "}}}^
+
+a fun! name() "{{{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfunction "}}}
+
+
+    "  -------------if--------------- 
+    " if `cond^                       
+    "         `cursor^                
+    " endif                           
+
+
+
+if cond
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endif
+
+if cond_TYPED
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endif b
+
+`if cond
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endif^
+
+a if cond
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endif
+
+
+    "  -------------member---------------      
+    " fun! `name^`$SPfun^(`:_args:^) dict _CMT_{{{ 
+    "         `cursor^                         
+    " endfunction _CMT_}}}                     
+
+
+
+fun! name() dict "{{{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfunction "}}}
+
+fun! name_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ) dict "{{{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfunction "}}} b
+
+`fun! name() dict "{{{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfunction "}}}^
+
+a fun! name() dict "{{{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfunction "}}}
+
+
+    "  -------------once---------------    
+    " if exists(`$SParg^_CMT_`g^:`i^_CMT_`$SParg^) 
+    "         finish                       
+    " endif                                
+    " let `g^:`i^`$SPop^=`$SPop^1          
+    " `cursor^                             
+
+
+
+    if exists( "g:__TEST_PAGE_BARE__" )
+	    finish
+    endif
+    let g:__TEST_PAGE_BARE__ = 1
+    
+
+    if exists( "g_TYPED:i_TYPED" )
+	    finish
+    endif
+    let g_TYPED:i_TYPED = 1
+     b
+
+     `if exists( "g:__TEST_PAGE_BARE__" )
+	     finish
+     endif
+     let g:__TEST_PAGE_BARE__ = 1
+     ^
+
+     a if exists( "g:__TEST_PAGE_BARE__" )
+	     finish
+     endif
+     let g:__TEST_PAGE_BARE__ = 1
+     
+
+
+    "  -------------printf---------------       
+    " printf(`$SParg^_CMT_`pattern^_CMT_`elts^`$SParg^) 
+
+
+
+    printf( "pattern" )
+
+    printf( "pattern_TYPED" ) b
+
+    `printf( "pattern" )^
+
+    a printf( "pattern" )
+
+
+    "  -------------self--------------- 
+    " self.                             
+
+
+
+    self.
+
+    self. b
+
+    `self.^
+
+    a self.
+
+
+    "  -------------sid---------------                                                                
+    " exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg(_CMT_<Plug>xsid_CMT_), _CMT_\\d\\+__CMT_)|unmap <Plug>xsid' 
+
+
+
+    exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
+    
+
+    exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
+     b
+
+     `exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
+     ^
+
+     a exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
+     
+
+
+    "  -------------string---------------   
+    " `$_xSnipName^(`$SParg`param?`$SParg^) 
+
+
+
+string( WRAPPED_TEXT 
+        WRAPPED_TEXT_line2 )
+
+	string( WRAPPED_TEXT 
+	        WRAPPED_TEXT_line2 ) b
+
+		`string( WRAPPED_TEXT 
+			 WRAPPED_TEXT_line2 )^
+
+			 a string( WRAPPED_TEXT 
+				   WRAPPED_TEXT_line2 )
+
+
+    "  -------------try--------------- 
+    " try                              
+    "         `job^                    
+    " `:catch:^                        
+    " endtry                           
+
+
+
+try
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+catch /.*/
+	
+endtry
+
+try
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+catch /exception_TYPED/
+	_TYPED
+endtry b
+
+`try
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+catch /.*/
+	
+endtry^
+
+a try
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+catch /.*/
+	
+endtry
+
+
+    "  -------------varconf---------------          
+    " if !exists(`$SParg^_CMT_`g^:`varname^_CMT_`$SParg^) 
+    "         let `g^:`varname^`$SPop^=`$SPop^`val^ 
+    " endif                                         
+
+
+
+    if !exists( "g:varname" )
+	    let g:varname = val
+    endif
+
+    if !exists( "g_TYPED:varname_TYPED" )
+	    let g_TYPED:varname_TYPED = val_TYPED
+    endif b
+
+    `if !exists( "g:varname" )
+	    let g:varname = val
+    endif^
+
+    a if !exists( "g:varname" )
+	    let g:varname = val
+    endif
+
+
+    "  -------------version---------------                                 
+    " if exists(`$SParg^_CMT_`g^:`i^_CMT_`$SParg^) && `g^:`i^`$SPop^>=`$SPop^`ver^ 
+    "         finish                                                       
+    " endif                                                                
+    " let ``g^:``i^`$SPop^=`$SPop^``ver^                                   
+    " `cursor^                                                             
+
+
+
+    if exists( "g:__TEST_PAGE_BARE__" ) && g:__TEST_PAGE_BARE__ >= 1
+	    finish
+    endif
+    let g:__TEST_PAGE_BARE__ = 1
+    
+
+    if exists( "g_TYPED:i_TYPED" ) && g_TYPED:i_TYPED >= ver_TYPED
+	    finish
+    endif
+    let g_TYPED:i_TYPED = ver_TYPED
+     b
+
+     `if exists( "g:__TEST_PAGE_BARE__" ) && g:__TEST_PAGE_BARE__ >= 1
+	     finish
+     endif
+     let g:__TEST_PAGE_BARE__ = 1
+     ^
+
+     a if exists( "g:__TEST_PAGE_BARE__" ) && g:__TEST_PAGE_BARE__ >= 1
+	     finish
+     endif
+     let g:__TEST_PAGE_BARE__ = 1
+     
+
+
+    "  -------------vimformat---------------                     
+    " _CMT_ vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}} 
+
+
+
+    " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}
+
+    " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}} b
+
+    `" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}^
+
+    a " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}
+
+
+    "  -------------while--------------- 
+    " while `cond^                       
+    "         `cursor^                   
+    " endwhile                           
+
+
+
+while cond
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile
+
+while cond_TYPED
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile b
+
+`while cond
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile^
+
+a while cond
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile
+
+
+    "  -------------while1--------------- 
+    " while `cond^                        
+    "         `cursor^                    
+    " endwhile                            
+
+
+
+while 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile
+
+while 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile b
+
+`while 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile^
+
+a while 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile
+
+
+    "  -------------whilei---------------                                                                              
+    " let [`$SParg^`i^,`$SPop^`len^`$SParg^] = [`$SParg^`0^`$SPop^-`$SPop^1,`$SPop^`len_expr^`$SPop^-`$SPop^1`$SParg^] 
+    " while `i^`$SPop^<`$SPop^`len^ | let `i^`$SPop^+=`$SPop^1                                                         
+    "         `cursor^                                                                                                 
+    " endwhile                                                                                                         
+
+
+
+let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+while i < len | let i += 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile
+
+let [ i_TYPED, len_TYPED ] = [ 0_TYPED - 1, len_expr_TYPED - 1 ]
+while i_TYPED < len_TYPED | let i_TYPED += 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile b
+
+`let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+while i < len | let i += 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile^
+
+a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+while i < len | let i += 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile
+
+
+    "  -------------{_--------------- 
+    " {`w^}                           
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

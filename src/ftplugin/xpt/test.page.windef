@@ -1,0 +1,1565 @@
+
+
+
+    /*  -------------"_--------------- */
+    /* "`w^"                           */
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    /*  -------------'_--------------- */
+    /* '`w^'                           */
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    /*  -------------(_--------------- */
+    /* (`w^)                           */
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`w^>                           */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`w^]                           */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``w^\`                         */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    /*  -------------Author--------------- */
+    /* `$author^                           */
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    /*  -------------buildifeq--------------- */
+    /* \``name^{{\^`cursor^\`}}\^             */
+
+
+
+`name{{^`}}^
+
+`name_TYPED{{^`}}^ b
+
+``name{{^`}}^^
+
+a `name{{^`}}^
+
+
+    /*  -------------call--------------- */
+    /* `name^(`$SParg^`param^`$SParg^)   */
+
+
+
+name( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )
+
+name_TYPED( WRAPPED_TEXT
+WRAPPED_TEXT_line2 ) b
+
+`name( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )^
+
+a name( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )
+
+
+    /*  -------------catch--------------- */
+    /* catch /`exception^/                */
+    /*         `cursor^                   */
+
+
+
+catch /.*/
+	
+
+catch /exception_TYPED/
+	 b
+
+`catch /.*/
+	^
+
+a catch /.*/
+	
+
+
+    /*  -------------comment--------------- */
+    /* `$CS `cursor^                        */
+
+
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2 b
+
+`" WRAPPED_TEXT
+ " WRAPPED_TEXT_line2^
+
+a " WRAPPED_TEXT
+  " WRAPPED_TEXT_line2
+
+
+    /*  -------------commentBlock--------------- */
+    /* `$CS `cursor^                             */
+
+
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2 b
+
+`" WRAPPED_TEXT
+ " WRAPPED_TEXT_line2^
+
+a " WRAPPED_TEXT
+  " WRAPPED_TEXT_line2
+
+
+    /*  -------------commentDoc--------------- */
+    /* `$CS^                                   */
+    /* `$CS `cursor^                           */
+    /* `$CS^                                   */
+
+
+
+"
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+"
+
+"
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+" b
+
+`"
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+"^
+
+a "
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+"
+
+
+    /*  -------------commentLine--------------- */
+    /* `$CS `cursor^                            */
+
+
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2 b
+
+`" WRAPPED_TEXT
+ " WRAPPED_TEXT_line2^
+
+a " WRAPPED_TEXT
+  " WRAPPED_TEXT_line2
+
+
+    /*  -------------container--------------- */
+    /* let s:f = g:XPTfuncs()                 */
+
+
+
+let s:f = g:XPTfuncs()
+
+let s:f = g:XPTfuncs() b
+
+`let s:f = g:XPTfuncs()^
+
+a let s:f = g:XPTfuncs()
+
+
+    /*  -------------else--------------- */
+    /* else                              */
+    /*         `cursor^                  */
+
+
+
+else
+	
+
+else
+	 b
+
+`else
+	^
+
+a else
+	
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+test.page.bare
+
+test.page.bare b
+
+`test.page.bare^
+
+a test.page.bare
+
+
+    /*  -------------filehead---------------                                           */
+    /* " File Description {{{                                                          */
+    /* " ============================================================================= */
+    /* " `cursor^                                                                      */
+    /* "                                                  by `$author^                 */
+    /* "                                                     `$email^                  */
+    /* " Usage :                                                                       */
+    /* "                                                                               */
+    /* " ============================================================================= */
+    /* " }}}                                                                           */
+
+
+
+" File Description {{{
+" =============================================================================
+" 
+"                                                  by drdr.xp
+"                                                     drdr.xp@gmail.com
+" Usage :
+"
+" =============================================================================
+" }}}
+
+" File Description {{{
+" =============================================================================
+" 
+"                                                  by drdr.xp
+"                                                     drdr.xp@gmail.com
+" Usage :
+"
+" =============================================================================
+" }}} b
+
+`" File Description {{{
+" =============================================================================
+" 
+"                                                  by drdr.xp
+"                                                     drdr.xp@gmail.com
+" Usage :
+"
+" =============================================================================
+" }}}^
+
+a " File Description {{{
+" =============================================================================
+" 
+"                                                  by drdr.xp
+"                                                     drdr.xp@gmail.com
+" Usage :
+"
+" =============================================================================
+" }}}
+
+
+    /*  -------------finally--------------- */
+    /* finally                              */
+    /*         `cursor^                     */
+
+
+
+finally
+	
+
+finally
+	 b
+
+`finally
+	^
+
+a finally
+	
+
+
+    /*  -------------foreach--------------- */
+    /* for `value^ in `list^                */
+    /*         `cursor^                     */
+    /* endfor                               */
+
+
+
+for value in list
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor
+
+for value_TYPED in list_TYPED
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor b
+
+`for value in list
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor^
+
+a for value in list
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor
+
+
+    /*  -------------forin--------------- */
+    /* for `value^ in `list^              */
+    /*         `cursor^                   */
+    /* endfor                             */
+
+
+
+for value in list
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor
+
+for value_TYPED in list_TYPED
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor b
+
+`for value in list
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor^
+
+a for value in list
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfor
+
+
+    /*  -------------ftpfile--------------- */
+    /* `path^/`name^                        */
+
+
+
+dot/dot
+
+dot/dot b
+
+`dot/dot^
+
+a dot/dot
+
+
+    /*  -------------fun---------------         */
+    /* fun! `s:f.`name^(`$SParg`param?`$SParg^) */
+    /*         `cursor^                         */
+    /* endfunction                              */
+
+
+
+fun! s:f.name()
+	
+endfunction
+
+fun! s:f.name_TYPED( param_TYPED )
+	
+endfunction b
+
+`fun! s:f.name()
+	
+endfunction^
+
+a fun! s:f.name()
+	
+endfunction
+
+
+    /*  -------------if--------------- */
+    /* if `cond^                       */
+    /*         `cursor^                */
+    /* endif                           */
+
+
+
+if cond
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endif
+
+if cond_TYPED
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endif b
+
+`if cond
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endif^
+
+a if cond
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endif
+
+
+    /*  -------------inc--------------- */
+    /* \`:`name^:\^                     */
+
+
+
+`:name:^
+
+`:name_TYPED:^ b
+
+``:name:^^
+
+a `:name:^
+
+
+    /*  -------------incfile--------------- */
+    /* XPTinclude                           */
+    /*           \ _common/common           */
+    /*           \ `:ftpfile:^              */
+
+
+
+XPTinclude
+	  \ _common/common
+	  \ dot/dot
+
+XPTinclude
+	  \ _common/common
+	  \ dot/dot b
+
+`XPTinclude
+	  \ _common/common
+	  \ dot/dot^
+
+a XPTinclude
+	  \ _common/common
+	  \ dot/dot
+
+
+    /*  -------------include--------------- */
+    /* \`Include:`name^\^                   */
+
+
+
+`Include:name^
+
+`Include:name_TYPED^ b
+
+``Include:name^^
+
+a `Include:name^
+
+
+    /*  -------------member---------------      */
+    /* fun! `name^`$SPfun^(`:_args:^) dict "{{{ */
+    /*         `cursor^                         */
+    /* endfunction "}}}                         */
+
+
+
+fun! name() dict "{{{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfunction "}}}
+
+fun! name_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ) dict "{{{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfunction "}}} b
+
+`fun! name() dict "{{{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfunction "}}}^
+
+a fun! name() dict "{{{
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endfunction "}}}
+
+
+    /*  -------------once---------------    */
+    /* if exists(`$SParg^"`g^:`i^"`$SParg^) */
+    /*         finish                       */
+    /* endif                                */
+    /* let `g^:`i^`$SPop^=`$SPop^1          */
+    /* `cursor^                             */
+
+
+
+if exists( "g:__TEST_PAGE_BARE__" )
+	finish
+endif
+let g:__TEST_PAGE_BARE__ = 1
+
+
+if exists( "g_TYPED:i_TYPED" )
+	finish
+endif
+let g_TYPED:i_TYPED = 1
+ b
+
+`if exists( "g:__TEST_PAGE_BARE__" )
+	finish
+endif
+let g:__TEST_PAGE_BARE__ = 1
+^
+
+a if exists( "g:__TEST_PAGE_BARE__" )
+	finish
+endif
+let g:__TEST_PAGE_BARE__ = 1
+
+
+
+    /*  -------------printf---------------       */
+    /* printf(`$SParg^"`pattern^"`elts^`$SParg^) */
+
+
+
+printf( "pattern" )
+
+printf( "pattern_TYPED" ) b
+
+`printf( "pattern" )^
+
+a printf( "pattern" )
+
+
+    /*  -------------self--------------- */
+    /* self.                             */
+
+
+
+self.
+
+self. b
+
+`self.^
+
+a self.
+
+
+    /*  -------------sid---------------                                                                */
+    /* exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid' */
+
+
+
+exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
+
+
+exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
+ b
+
+`exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
+^
+
+a exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
+
+
+
+    /*  -------------skeleton---------------                  */
+    /* " Save this file as ~/.vim/ftplugin/c/hello.xpt.vim(or */
+    /* " ~/vimfiles/ftplugin/c/hello.xpt.vim).                */
+    /* " Then you can use it in C language file:              */
+    /* "     vim xpt.c                                        */
+    /* " And type:                                            */
+    /* "     helloxpt<C-\>                                    */
+    /* "                                                      */
+    /* XPTemplate priority=personal+                          */
+    /*                                                        */
+    /*                                                        */
+    /*                                                        */
+    /* XPT helloxpt " tips about what this snippet do         */
+    /* Say hello to \`xpt^.                                   */
+    /* \`xpt^ says hello.                                     */
+
+
+
+" Save this file as ~/.vim/ftplugin/c/hello.xpt.vim(or
+" ~/vimfiles/ftplugin/c/hello.xpt.vim).
+" Then you can use it in C language file:
+"     vim xpt.c
+" And type:
+"     helloxpt<C-\>
+"
+XPTemplate priority=personal+
+
+
+
+XPT helloxpt " tips about what this snippet do
+Say hello to `xpt^.
+`xpt^ says hello.
+
+" Save this file as ~/.vim/ftplugin/c/hello.xpt.vim(or
+" ~/vimfiles/ftplugin/c/hello.xpt.vim).
+" Then you can use it in C language file:
+"     vim xpt.c
+" And type:
+"     helloxpt<C-\>
+"
+XPTemplate priority=personal+
+
+
+
+XPT helloxpt " tips about what this snippet do
+Say hello to `xpt^.
+`xpt^ says hello. b
+
+`" Save this file as ~/.vim/ftplugin/c/hello.xpt.vim(or
+" ~/vimfiles/ftplugin/c/hello.xpt.vim).
+" Then you can use it in C language file:
+"     vim xpt.c
+" And type:
+"     helloxpt<C-\>
+"
+XPTemplate priority=personal+
+
+
+
+XPT helloxpt " tips about what this snippet do
+Say hello to `xpt^.
+`xpt^ says hello.^
+
+a " Save this file as ~/.vim/ftplugin/c/hello.xpt.vim(or
+" ~/vimfiles/ftplugin/c/hello.xpt.vim).
+" Then you can use it in C language file:
+"     vim xpt.c
+" And type:
+"     helloxpt<C-\>
+"
+XPTemplate priority=personal+
+
+
+
+XPT helloxpt " tips about what this snippet do
+Say hello to `xpt^.
+`xpt^ says hello.
+
+
+    /*  -------------snip--------------- */
+    /* XPT `name^` " `tips^              */
+    /* `cursor^                          */
+
+
+
+XPT name " tips
+
+
+XPT name_TYPED " tips_TYPED
+ b
+
+`XPT name " tips
+^
+
+a XPT name " tips
+
+
+
+    /*  -------------sparg--------------- */
+    /* \`$SParg\^                         */
+
+
+
+`$SParg^
+
+`$SParg^ b
+
+``$SParg^^
+
+a `$SParg^
+
+
+    /*  -------------spcmd--------------- */
+    /* \`$SPcmd\^                         */
+
+
+
+`$SPcmd^
+
+`$SPcmd^ b
+
+``$SPcmd^^
+
+a `$SPcmd^
+
+
+    /*  -------------spfun--------------- */
+    /* \`$SPfun\^                         */
+
+
+
+`$SPfun^
+
+`$SPfun^ b
+
+``$SPfun^^
+
+a `$SPfun^
+
+
+    /*  -------------spop--------------- */
+    /* \`$SPop\^                         */
+
+
+
+`$SPop^
+
+`$SPop^ b
+
+``$SPop^^
+
+a `$SPop^
+
+
+    /*  -------------string---------------   */
+    /* `$_xSnipName^(`$SParg`param?`$SParg^) */
+
+
+
+string( WRAPPED_TEXT 
+        WRAPPED_TEXT_line2 )
+
+string( WRAPPED_TEXT 
+        WRAPPED_TEXT_line2 ) b
+
+`string( WRAPPED_TEXT 
+	 WRAPPED_TEXT_line2 )^
+
+a string( WRAPPED_TEXT 
+	  WRAPPED_TEXT_line2 )
+
+
+    /*  -------------tmpl--------------- */
+    /* XPT `name^` " `tips^              */
+    /* `cursor^                          */
+
+
+
+XPT name " tips
+
+
+XPT name_TYPED " tips_TYPED
+ b
+
+`XPT name " tips
+^
+
+a XPT name " tips
+
+
+
+    /*  -------------try--------------- */
+    /* try                              */
+    /*         `job^                    */
+    /* `:catch:^                        */
+    /* endtry                           */
+
+
+
+try
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+catch /.*/
+	
+endtry
+
+try
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+catch /exception_TYPED/
+	_TYPED
+endtry b
+
+`try
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+catch /.*/
+	
+endtry^
+
+a try
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+catch /.*/
+	
+endtry
+
+
+    /*  -------------var--------------- */
+    /* XPTvar $`name^ `cursor^          */
+
+
+
+XPTvar $name 
+
+XPTvar $name_TYPED  b
+
+`XPTvar $name ^
+
+a XPTvar $name 
+
+
+    /*  -------------varComment1--------------- */
+    /* XPTvar $CS    `cursor^                   */
+
+
+
+XPTvar $CS    
+
+XPTvar $CS     b
+
+`XPTvar $CS    ^
+
+a XPTvar $CS    
+
+
+    /*  -------------varComment2--------------- */
+    /* XPTvar $CL    `left sign^                */
+    /* XPTvar $CM    `cursor^                   */
+    /* XPTvar $CR    `right sign^               */
+
+
+
+XPTvar $CL    left sign
+XPTvar $CM    
+XPTvar $CR    right sign
+
+XPTvar $CL    leftsign_TYPED
+XPTvar $CM    
+XPTvar $CR    rightsign_TYPED b
+
+`XPTvar $CL    left sign
+XPTvar $CM    
+XPTvar $CR    right sign^
+
+a XPTvar $CL    left sign
+XPTvar $CM    
+XPTvar $CR    right sign
+
+
+    /*  -------------varconf---------------          */
+    /* if !exists(`$SParg^"`g^:`varname^"`$SParg^)   */
+    /*         let `g^:`varname^`$SPop^=`$SPop^`val^ */
+    /* endif                                         */
+
+
+
+if !exists( "g:varname" )
+	let g:varname = val
+endif
+
+if !exists( "g_TYPED:varname_TYPED" )
+	let g_TYPED:varname_TYPED = val_TYPED
+endif b
+
+`if !exists( "g:varname" )
+	let g:varname = val
+endif^
+
+a if !exists( "g:varname" )
+	let g:varname = val
+endif
+
+
+    /*  -------------varConst--------------- */
+    /* XPTvar $TRUE          1               */
+    /* XPTvar $FALSE         0               */
+    /* XPTvar $NULL          NULL            */
+    /* XPTvar $UNDEFINED     NULL            */
+
+
+
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL b
+
+`XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL^
+
+a XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+
+
+    /*  -------------varFormat--------------- */
+    /* " if () ** {                           */
+    /* " else ** {                            */
+    /* XPTvar $BRif     ' '                   */
+    /*                                        */
+    /* " } ** else {                          */
+    /* XPTvar $BRel     \n                    */
+    /*                                        */
+    /* " for () ** {                          */
+    /* " while () ** {                        */
+    /* " do ** {                              */
+    /* XPTvar $BRloop   ' '                   */
+    /*                                        */
+    /* " struct name ** {                     */
+    /* XPTvar $BRstc    ' '                   */
+    /*                                        */
+    /* " int fun() ** {                       */
+    /* " class name ** {                      */
+    /* XPTvar $BRfun    ' '                   */
+
+
+
+" if () ** {
+" else ** {
+XPTvar $BRif     ' '
+
+" } ** else {
+XPTvar $BRel     \n
+
+" for () ** {
+" while () ** {
+" do ** {
+XPTvar $BRloop   ' '
+
+" struct name ** {
+XPTvar $BRstc    ' '
+
+" int fun() ** {
+" class name ** {
+XPTvar $BRfun    ' '
+
+" if () ** {
+" else ** {
+XPTvar $BRif     ' '
+
+" } ** else {
+XPTvar $BRel     \n
+
+" for () ** {
+" while () ** {
+" do ** {
+XPTvar $BRloop   ' '
+
+" struct name ** {
+XPTvar $BRstc    ' '
+
+" int fun() ** {
+" class name ** {
+XPTvar $BRfun    ' ' b
+
+`" if () ** {
+" else ** {
+XPTvar $BRif     ' '
+
+" } ** else {
+XPTvar $BRel     \n
+
+" for () ** {
+" while () ** {
+" do ** {
+XPTvar $BRloop   ' '
+
+" struct name ** {
+XPTvar $BRstc    ' '
+
+" int fun() ** {
+" class name ** {
+XPTvar $BRfun    ' '^
+
+a " if () ** {
+" else ** {
+XPTvar $BRif     ' '
+
+" } ** else {
+XPTvar $BRel     \n
+
+" for () ** {
+" while () ** {
+" do ** {
+XPTvar $BRloop   ' '
+
+" struct name ** {
+XPTvar $BRstc    ' '
+
+" int fun() ** {
+" class name ** {
+XPTvar $BRfun    ' '
+
+
+    /*  -------------varHelper--------------- */
+    /* XPTvar $VOID_LINE                      */
+    /* XPTvar $CURSOR_PH                      */
+
+
+
+XPTvar $VOID_LINE      
+XPTvar $CURSOR_PH      
+
+XPTvar $VOID_LINE      
+XPTvar $CURSOR_PH       b
+
+`XPTvar $VOID_LINE      
+XPTvar $CURSOR_PH      ^
+
+a XPTvar $VOID_LINE      
+XPTvar $CURSOR_PH      
+
+
+    /*  -------------varLang--------------- */
+    /* " variable prefix                    */
+    /* XPTvar $VAR_PRE                      */
+
+
+
+" variable prefix
+XPTvar $VAR_PRE            
+
+" variable prefix
+XPTvar $VAR_PRE             b
+
+`" variable prefix
+XPTvar $VAR_PRE            ^
+
+a " variable prefix
+XPTvar $VAR_PRE            
+
+
+    /*  -------------varSpaces--------------- */
+    /* " int fun ** (                         */
+    /* " class name ** (                      */
+    /* XPTvar $SPfun      ''                  */
+    /*                                        */
+    /* " int fun( ** arg ** )                 */
+    /* " if ( ** condition ** )               */
+    /* " for ( ** statement ** )              */
+    /* " [ ** a, b ** ]                       */
+    /* " { ** 'k' : 'v' ** }                  */
+    /* XPTvar $SParg      ' '                 */
+    /*                                        */
+    /* " if ** (                              */
+    /* " while ** (                           */
+    /* " for ** (                             */
+    /* XPTvar $SPcmd      ' '                 */
+    /*                                        */
+    /* " a ** = ** a ** + ** 1                */
+    /* " (a, ** b, ** )                       */
+    /* XPTvar $SPop       ' '                 */
+
+
+
+" int fun ** (
+" class name ** (
+XPTvar $SPfun      ''
+
+" int fun( ** arg ** )
+" if ( ** condition ** )
+" for ( ** statement ** )
+" [ ** a, b ** ]
+" { ** 'k' : 'v' ** }
+XPTvar $SParg      ' '
+
+" if ** (
+" while ** (
+" for ** (
+XPTvar $SPcmd      ' '
+
+" a ** = ** a ** + ** 1
+" (a, ** b, ** )
+XPTvar $SPop       ' '
+
+" int fun ** (
+" class name ** (
+XPTvar $SPfun      ''
+
+" int fun( ** arg ** )
+" if ( ** condition ** )
+" for ( ** statement ** )
+" [ ** a, b ** ]
+" { ** 'k' : 'v' ** }
+XPTvar $SParg      ' '
+
+" if ** (
+" while ** (
+" for ** (
+XPTvar $SPcmd      ' '
+
+" a ** = ** a ** + ** 1
+" (a, ** b, ** )
+XPTvar $SPop       ' ' b
+
+`" int fun ** (
+" class name ** (
+XPTvar $SPfun      ''
+
+" int fun( ** arg ** )
+" if ( ** condition ** )
+" for ( ** statement ** )
+" [ ** a, b ** ]
+" { ** 'k' : 'v' ** }
+XPTvar $SParg      ' '
+
+" if ** (
+" while ** (
+" for ** (
+XPTvar $SPcmd      ' '
+
+" a ** = ** a ** + ** 1
+" (a, ** b, ** )
+XPTvar $SPop       ' '^
+
+a " int fun ** (
+" class name ** (
+XPTvar $SPfun      ''
+
+" int fun( ** arg ** )
+" if ( ** condition ** )
+" for ( ** statement ** )
+" [ ** a, b ** ]
+" { ** 'k' : 'v' ** }
+XPTvar $SParg      ' '
+
+" if ** (
+" while ** (
+" for ** (
+XPTvar $SPcmd      ' '
+
+" a ** = ** a ** + ** 1
+" (a, ** b, ** )
+XPTvar $SPop       ' '
+
+
+    /*  -------------version---------------                                 */
+    /* if exists(`$SParg^"`g^:`i^"`$SParg^) && `g^:`i^`$SPop^>=`$SPop^`ver^ */
+    /*         finish                                                       */
+    /* endif                                                                */
+    /* let ``g^:``i^`$SPop^=`$SPop^``ver^                                   */
+    /* `cursor^                                                             */
+
+
+
+if exists( "g:__TEST_PAGE_BARE__" ) && g:__TEST_PAGE_BARE__ >= 1
+	finish
+endif
+let g:__TEST_PAGE_BARE__ = 1
+
+
+if exists( "g_TYPED:i_TYPED" ) && g_TYPED:i_TYPED >= ver_TYPED
+	finish
+endif
+let g_TYPED:i_TYPED = ver_TYPED
+ b
+
+`if exists( "g:__TEST_PAGE_BARE__" ) && g:__TEST_PAGE_BARE__ >= 1
+	finish
+endif
+let g:__TEST_PAGE_BARE__ = 1
+^
+
+a if exists( "g:__TEST_PAGE_BARE__" ) && g:__TEST_PAGE_BARE__ >= 1
+	finish
+endif
+let g:__TEST_PAGE_BARE__ = 1
+
+
+
+    /*  -------------vimformat---------------                     */
+    /* " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}} */
+
+
+
+" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}
+
+" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}} b
+
+`" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}^
+
+a " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}
+
+
+    /*  -------------while--------------- */
+    /* while `cond^                       */
+    /*         `cursor^                   */
+    /* endwhile                           */
+
+
+
+while cond
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile
+
+while cond_TYPED
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile b
+
+`while cond
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile^
+
+a while cond
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile
+
+
+    /*  -------------while1--------------- */
+    /* while `cond^                        */
+    /*         `cursor^                    */
+    /* endwhile                            */
+
+
+
+while 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile
+
+while 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile b
+
+`while 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile^
+
+a while 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile
+
+
+    /*  -------------whilei---------------                                                                              */
+    /* let [`$SParg^`i^,`$SPop^`len^`$SParg^] = [`$SParg^`0^`$SPop^-`$SPop^1,`$SPop^`len_expr^`$SPop^-`$SPop^1`$SParg^] */
+    /* while `i^`$SPop^<`$SPop^`len^ | let `i^`$SPop^+=`$SPop^1                                                         */
+    /*         `cursor^                                                                                                 */
+    /* endwhile                                                                                                         */
+
+
+
+let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+while i < len | let i += 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile
+
+let [ i_TYPED, len_TYPED ] = [ 0_TYPED - 1, len_expr_TYPED - 1 ]
+while i_TYPED < len_TYPED | let i_TYPED += 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile b
+
+`let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+while i < len | let i += 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile^
+
+a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+while i < len | let i += 1
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+endwhile
+
+
+    /*  -------------xpt---------------       */
+    /* XPTemplate priority=`prio^             */
+    /*                                        */
+    /* let s:f = g:XPTfuncs()                 */
+    /*                                        */
+    /* `Include:varConst^                     */
+    /*                                        */
+    /* `Include:varFormat^                    */
+    /*                                        */
+    /* `XPTinclude...{{^`Include:incfile^`}}^ */
+    /*                                        */
+    /*                                        */
+    /*                                        */
+    /* `cursor^                               */
+
+
+
+XPTemplate priority=all
+
+let s:f = g:XPTfuncs()
+
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+
+" if () ** {
+" else ** {
+XPTvar $BRif     ' '
+
+" } ** else {
+XPTvar $BRel     \n
+
+" for () ** {
+" while () ** {
+" do ** {
+XPTvar $BRloop   ' '
+
+" struct name ** {
+XPTvar $BRstc    ' '
+
+" int fun() ** {
+" class name ** {
+XPTvar $BRfun    ' '
+
+XPTinclude
+	  \ _common/common
+	  \ dot/dot
+
+
+
+
+
+
+XPTemplate priority=all
+
+let s:f = g:XPTfuncs()
+
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+
+" if () ** {
+" else ** {
+XPTvar $BRif     ' '
+
+" } ** else {
+XPTvar $BRel     \n
+
+" for () ** {
+" while () ** {
+" do ** {
+XPTvar $BRloop   ' '
+
+" struct name ** {
+XPTvar $BRstc    ' '
+
+" int fun() ** {
+" class name ** {
+XPTvar $BRfun    ' '
+
+XPTinclude_TYPED
+
+
+
+
+ b
+
+`XPTemplate priority=all
+
+let s:f = g:XPTfuncs()
+
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+
+" if () ** {
+" else ** {
+XPTvar $BRif     ' '
+
+" } ** else {
+XPTvar $BRel     \n
+
+" for () ** {
+" while () ** {
+" do ** {
+XPTvar $BRloop   ' '
+
+" struct name ** {
+XPTvar $BRstc    ' '
+
+" int fun() ** {
+" class name ** {
+XPTvar $BRfun    ' '
+
+XPTinclude
+	  \ _common/common
+	  \ dot/dot
+
+
+
+
+^
+
+a XPTemplate priority=all
+
+let s:f = g:XPTfuncs()
+
+XPTvar $TRUE          1
+XPTvar $FALSE         0
+XPTvar $NULL          NULL
+XPTvar $UNDEFINED     NULL
+
+" if () ** {
+" else ** {
+XPTvar $BRif     ' '
+
+" } ** else {
+XPTvar $BRel     \n
+
+" for () ** {
+" while () ** {
+" do ** {
+XPTvar $BRloop   ' '
+
+" struct name ** {
+XPTvar $BRstc    ' '
+
+" int fun() ** {
+" class name ** {
+XPTvar $BRfun    ' '
+
+XPTinclude
+	  \ _common/common
+	  \ dot/dot
+
+
+
+
+
+
+
+    /*  -------------{_--------------- */
+    /* {`w^}                           */
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
