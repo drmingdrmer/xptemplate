@@ -204,8 +204,8 @@ fun! XPTtestPseudoDate(...) "{{{
 endfunction "}}}
 
 let s:toTest = []
-fun! s:XPTtestAll( ... )
-    let s:toTest += a:000
+fun! s:XPTtestAll( fts )
+    let s:toTest += split( a:fts, '\V\s\+' )
 
     let ft = remove( s:toTest, 0 )
 
@@ -521,7 +521,7 @@ fun! s:FillinTemplate() "{{{
 endfunction "}}}
 
 
-com -nargs=+ XPTtestAll call <SID>XPTtestAll(<f-args>)
+com -nargs=+ XPTtestAll call <SID>XPTtestAll(<q-args>)
 com -nargs=1 XPTtest call <SID>XPTtest(<f-args>)
 com XPTtestEnd call <SID>TestFinish()
 
