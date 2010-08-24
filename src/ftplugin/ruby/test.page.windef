@@ -1241,13 +1241,13 @@ end
 
 
 
-    test.page.bare
+    test.page.windef
 
-    test.page.bare b
+    test.page.windef b
 
-    `test.page.bare^
+    `test.page.windef^
 
-    a test.page.bare
+    a test.page.windef
 
 
     #   -------------fin--------------- 

@@ -337,13 +337,13 @@ a except Exception, e:
 
 
 
-test.page.bare
+test.page.windef
 
-test.page.bare b
+test.page.windef b
 
-`test.page.bare^
+`test.page.windef^
 
-a test.page.bare
+a test.page.windef
 
 
     #  -------------filehead--------------- 
@@ -359,7 +359,7 @@ a test.page.bare
 
 
 '''
-File    : test.page.bare
+File    : test.page.windef
 Author  : drdr.xp
 Contact : drdr.xp@gmail.com
 Date    : 2009 Oct 08
@@ -368,7 +368,7 @@ Description :
 '''
 
 '''
-File    : test.page.bare
+File    : test.page.windef
 Author  : drdr.xp
 Contact : drdr.xp@gmail.com
 Date    : 2009 Oct 08
@@ -377,7 +377,7 @@ Description :
 ''' b
 
 `'''
-File    : test.page.bare
+File    : test.page.windef
 Author  : drdr.xp
 Contact : drdr.xp@gmail.com
 Date    : 2009 Oct 08
@@ -386,7 +386,7 @@ Description :
 '''^
 
 a '''
-File    : test.page.bare
+File    : test.page.windef
 Author  : drdr.xp
 Contact : drdr.xp@gmail.com
 Date    : 2009 Oct 08
