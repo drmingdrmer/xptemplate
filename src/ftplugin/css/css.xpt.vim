@@ -30,7 +30,6 @@ endfunction
 
 " ================================= Snippets ===================================
 
-
 XPT padding " padding:
 padding: `v^`v^AutoCmpl( 1, 'auto', '0px' )^;
 

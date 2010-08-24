@@ -39,7 +39,7 @@ com! -nargs=* XPTemplate
       \ |     finish
       \ | endif
 
-com! -nargs=* XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | finish
+com! -nargs=* XPTemplateDef echom "XPTemplateDef is NOT needed any more. It is just OK to remove it."
 com! -nargs=* XPT           call s:XPTstartSnippetPart(expand("<sfile>")) | finish
 com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
 " TODO rename me to XSET
@@ -52,48 +52,65 @@ com! -nargs=+ XPTembed      call XPTembed(<f-args>)
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
 fun! s:AssignSnipFT( filename ) "{{{
+
     let x = b:xptemplateData
 
     let filename = substitute( a:filename, '\\', '/', 'g' )
 
-    if filename =~ 'unknown.xpt.vim$'
+    if filename =~ '\Vunknown.xpt.vimc\?\$'
         return 'unknown'
     endif
 
 
     let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
     if empty( x.snipFileScopeStack )
-        " Top Level
-        "
-        " All cross filetype inclusion must be done through XPTinclude or
-        " XPTembed, 'runtime' command is disabled for inclusion or embed
 
-        if &filetype !~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim'
-            return 'not allowed'
-        else
+        " Top Level snippet
+        "
+        " All cross filetype inclusions must be done with XPTinclude or
+        " XPTembed.
+        " But 'runtime' command is not allowed for inclusion or embed
+
+        if &filetype =~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim'
             let ft =  &filetype
+        else
+            return 'NOT_ALLOWED'
         endif
 
     else
-        " XPTinclude or XPTembed
+
         if x.snipFileScopeStack[ -1 ].inheritFT
                 \ || ftFolder =~ '^_'
 
-            if !has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
+            " Snippet is loaded with XPTinclude
+            " or it is an general snippet like "_common/common.xpt.vim"
+
+            if ! has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
+
                 " no parent snippet file
                 " maybe parent snippet file has no XPTemplate command called
+
                 throw 'parent may has no XPTemplate command called :' . a:filename
+
             endif
 
             let ft = x.snipFileScopeStack[ -1 ].filetype
+
         else
+
+            " Snippet is loaded with XPTembed which uses an independent
+            " filetype.
+
             let ft = ftFolder
+
         endif
+
     endif
 
     call s:log.Log( "filename=" . filename . 'filetype=' . &filetype . " ft=" . ft )
 
     return ft
+
 endfunction "}}}
 
 
@@ -112,15 +129,15 @@ fun! s:LoadOtherFTPlugins( ft ) "{{{
 
     endfor
 
-
     call XPTsnipScopePop()
+
 endfunction "}}}
 
-" XXX test removed
-fun! XPTsnippetFileInit( filename, ... ) "{{{
+fun! DoSnippetFileInit( filename, ... ) "{{{
 
-    " This function is called before 'BufEnter' event triggered which
+    " This function is called before 'BufEnter' event which
     " initialize XPTemplate
+
     if !exists("b:xptemplateData")
         call XPTemplateInit()
     endif
@@ -132,13 +149,15 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
     let snipScope.filetype = s:AssignSnipFT( a:filename )
 
 
-    if snipScope.filetype == 'not allowed'
-        " TODO
-        call s:log.Info(  "not allowed:" . a:filename )
+    if snipScope.filetype == 'NOT_ALLOWED'
+        call s:log.Info(  "NOT_ALLOWED:" . a:filename )
         return 'finish'
     endif
 
-    let filetypes[ snipScope.filetype ] = get( filetypes, snipScope.filetype, g:FiletypeScope.New() )
+    if ! has_key( filetypes, snipScope.filetype )
+        let filetypes[ snipScope.filetype ] = g:FiletypeScope.New()
+    endif
+
     let ftScope = filetypes[ snipScope.filetype ]
 
 
@@ -151,18 +170,12 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
     " let snipScope = x.snipFileScope
 
 
-
     for pair in a:000
 
-        " protect last '='
-        let kv = split( pair . ';', '=' )
-        if len( kv ) == 1
-            let kv += [ '' ]
-        endif
+        let kv = split( pair, '=', 1 )
 
         let key = kv[ 0 ]
-        " remove last ';'
-        let val = join( kv[ 1 : ], '=' )[ : -2 ]
+        let val = join( kv[ 1 : ], '=' )
 
         call s:log.Log( "init:key=" . key . ' val=' . val )
 
@@ -172,14 +185,32 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
         elseif key =~ 'mark'
             call XPTemplateMark( val[ 0 : 0 ], val[ 1 : 1 ] )
 
-        elseif key =~ 'key\%[word]'
-            call XPTemplateKeyword(val)
+        " elseif key =~ 'key\%[word]'
+        "     call XPTemplateKeyword(val)
 
         endif
 
     endfor
 
     return 'doit'
+
+endfunction "}}}
+
+fun! XPTsnippetFileInit( filename, ... ) "{{{
+
+    if a:filename =~ '\V.xpt.vim\$'
+
+        call xpt#parser#Compile( a:filename )
+        exe 'runtime' a:filename . 'c'
+
+        return 'finish'
+
+    else
+
+        return call( function( 'DoSnippetFileInit' ), [ a:filename . 'c' ] + a:000 )
+
+    endif
+
 endfunction "}}}
 
 fun! XPTsnipSet( dictNameValue ) "{{{
@@ -196,11 +227,14 @@ fun! XPTsnipSet( dictNameValue ) "{{{
 endfunction "}}}
 
 fun! XPTsetVar( nameSpaceValue ) "{{{
+
     let x = b:xptemplateData
     let ftScope = g:GetSnipFileFtScope()
 
     call s:log.Debug( 'xpt var raw data=' . string( a:nameSpaceValue ) )
+
     let name = matchstr(a:nameSpaceValue, '^\S\+\ze')
+
     if name == ''
         return
     endif
@@ -219,20 +253,25 @@ fun! XPTsetVar( nameSpaceValue ) "{{{
     call s:log.Log("name=".name.' value='.val.' priority='.priority)
 
 
-    if !has_key( ftScope.varPriority, name ) || priority < ftScope.varPriority[ name ]
+    if !has_key( ftScope.varPriority, name ) || priority =< ftScope.varPriority[ name ]
         let [ ftScope.funcs[ name ], ftScope.varPriority[ name ] ] = [ val, priority ]
     endif
 
 endfunction "}}}
 
 fun! XPTinclude(...) "{{{
-    let scope = XPTsnipScope()
+
+    let scope = b:xptemplateData.snipFileScope
+
     let scope.inheritFT = 1
+
     for v in a:000
         if type(v) == type([])
+
             for s in v
                 call XPTinclude(s)
             endfor
+
         elseif type(v) == type('')
 
             if b:xptemplateData.filetypes[ scope.filetype ].IsSnippetLoaded( v )
@@ -248,21 +287,27 @@ fun! XPTinclude(...) "{{{
 endfunction "}}}
 
 fun! XPTembed(...) "{{{
-    let scope = XPTsnipScope()
+
+    let scope = b:xptemplateData.snipFileScope
+
     let scope.inheritFT = 0
+
     for v in a:000
         if type(v) == type([])
+
             for s in v
                 call XPTinclude(s)
             endfor
+
         elseif type(v) == type('')
+
             call XPTsnipScopePush()
             exe 'runtime! ftplugin/' . v . '.xpt.vim'
             call XPTsnipScopePop()
+
         endif
     endfor
 endfunction "}}}
-
 
 
 " TODO refine me
@@ -272,7 +317,7 @@ fun! s:XPTstartSnippetPart( fn ) "{{{
 
     let lines = readfile(a:fn)
 
-    call xpt#parser#Compile( a:fn )
+    " call xpt#parser#Compile( a:fn )
 
 
     " Now that XPT can not start at first line
