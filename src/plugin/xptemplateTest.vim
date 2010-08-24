@@ -203,7 +203,18 @@ fun! XPTtestPseudoDate(...) "{{{
     return "2009 Oct 08"
 endfunction "}}}
 
-fun! s:XPTtest(ft) "{{{
+let s:toTest = []
+fun! s:XPTtestAll( ... )
+    let s:toTest += a:000
+
+    let ft = remove( s:toTest, 0 )
+
+    exe 'XPTtest' ft
+
+endfunction
+
+fun! s:XPTtest( ftype ) "{{{
+
     let g:xpt_post_action = "\<C-r>=TestProcess()\<cr>"
     augroup XPTtestGroup
         au!
@@ -216,7 +227,7 @@ fun! s:XPTtest(ft) "{{{
         AcpLock
     endif
 
-    call s:NewTestFile(a:ft)
+    call s:NewTestFile(a:ftype)
 
     let b:currentTmpl    = {}
     let b:testProcessing = 0
@@ -288,7 +299,13 @@ fun s:TestFinish() "{{{
         au!
     augroup END
 
-    exe 'wqa'
+    exe 'w'
+    exe 'bw'
+
+    if ! empty( s:toTest )
+        let ft = remove( s:toTest, 0 )
+        exe 'XPTtest' ft
+    endif
 
     return
 
@@ -504,6 +521,7 @@ fun! s:FillinTemplate() "{{{
 endfunction "}}}
 
 
+com -nargs=+ XPTtestAll call <SID>XPTtestAll(<f-args>)
 com -nargs=1 XPTtest call <SID>XPTtest(<f-args>)
 com XPTtestEnd call <SID>TestFinish()
 
