@@ -83,6 +83,7 @@
 " "}}}
 "
 " Log of This version:
+"   fix: slowly loading *.xpt.vim
 "   fix: mistakely using $SPop in brackets snippet. It should be $SParg
 "   fix: bug pre-parsing spaces
 "   fix: bug that non-key place holder does not clear  '`' and '^'
