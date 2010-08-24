@@ -1,3 +1,3 @@
 #!/bin/sh
 
-. xpt.testall.bat
+. ./xpt.testall.bat
