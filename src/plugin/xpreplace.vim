@@ -154,8 +154,11 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
 
     " remove old
     call cursor( a:start )
+    silent! normal! zO
+    call cursor( a:start )
 
     if a:start != a:end
+
         silent! normal! v
         call cursor( a:end )
         silent! normal! dzO

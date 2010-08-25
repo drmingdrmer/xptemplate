@@ -1,0 +1,1474 @@
+
+
+
+    /*  -------------"_--------------- */
+    /* "`w^"                           */
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    /*  -------------'_--------------- */
+    /* '`w^'                           */
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    /*  -------------(_--------------- */
+    /* (`w^)                           */
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`w^>                           */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`w^]                           */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``w^\`                         */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    /*  -------------Author--------------- */
+    /* `$author^                           */
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    /*  -------------azimuth--------------- */
+    /* azimuth: `azim^;                     */
+
+
+
+azimuth: left-side;
+
+azimuth: left-side; b
+
+`azimuth: left-side;^
+
+a azimuth: left-side;
+
+
+    /*  -------------background--------------- */
+    /* background:` `selec^;                   */
+
+
+
+background: url();
+
+background: url(_TYPED); b
+
+`background: url();^
+
+a background: url();
+
+
+    /*  -------------backgroundattachment--------------- */
+    /* background-attachment: `selec^;                   */
+
+
+
+background-attachment: scroll;
+
+background-attachment: scroll; b
+
+`background-attachment: scroll;^
+
+a background-attachment: scroll;
+
+
+    /*  -------------backgroundcolor--------------- */
+    /* background-color:` `selec^;                  */
+
+
+
+background-color: transparent;
+
+background-color: transparent; b
+
+`background-color: transparent;^
+
+a background-color: transparent;
+
+
+    /*  -------------backgroundimage--------------- */
+    /* background-image:` `selec^;                  */
+
+
+
+background-image: url();
+
+background-image: url(_TYPED); b
+
+`background-image: url();^
+
+a background-image: url();
+
+
+    /*  -------------backgroundrepeat--------------- */
+    /* background-repeat: `selec^;                   */
+
+
+
+background-repeat: repeat;
+
+background-repeat: repeat; b
+
+`background-repeat: repeat;^
+
+a background-repeat: repeat;
+
+
+    /*  -------------backpos---------------     */
+    /* background-position:` `vert`^` `horiz`^; */
+
+
+
+background-position: top left;
+
+background-position: top left; b
+
+`background-position: top left;^
+
+a background-position: top left;
+
+
+    /*  -------------backrep--------------- */
+    /* background-repeat: `rep^;            */
+
+
+
+background-repeat: repeat;
+
+background-repeat: repeat; b
+
+`background-repeat: repeat;^
+
+a background-repeat: repeat;
+
+
+    /*  -------------border---------------     */
+    /* border`pos^:` `thick^` `kind^` `color^; */
+
+
+
+border-top: thin none rgb();
+
+border-top: thin none rgb(_TYPED); b
+
+`border-top: thin none rgb();^
+
+a border-top: thin none rgb();
+
+
+    /*  -------------borderbottomcolor--------------- */
+    /* border-bottom-color:` `col^;                   */
+
+
+
+border-bottom-color: rgb();
+
+border-bottom-color: rgb(_TYPED); b
+
+`border-bottom-color: rgb();^
+
+a border-bottom-color: rgb();
+
+
+    /*  -------------borderbottomstyle--------------- */
+    /* border-bottom-style: `col^;                    */
+
+
+
+border-bottom-style: none;
+
+border-bottom-style: none; b
+
+`border-bottom-style: none;^
+
+a border-bottom-style: none;
+
+
+    /*  -------------borderbottomwidth--------------- */
+    /* border-bottom-width: `col^;                    */
+
+
+
+border-bottom-width: thin;
+
+border-bottom-width: thin; b
+
+`border-bottom-width: thin;^
+
+a border-bottom-width: thin;
+
+
+    /*  -------------bordercollapse--------------- */
+    /* border-collapse: `selec^;                   */
+
+
+
+border-collapse: collapse;
+
+border-collapse: collapse; b
+
+`border-collapse: collapse;^
+
+a border-collapse: collapse;
+
+
+    /*  -------------bordercolor--------------- */
+    /* border-color:` `selec^;                  */
+
+
+
+border-color: rgb();
+
+border-color: rgb(_TYPED); b
+
+`border-color: rgb();^
+
+a border-color: rgb();
+
+
+    /*  -------------borderleftcolor--------------- */
+    /* border-left-color:` `col^;                   */
+
+
+
+border-left-color: rgb();
+
+border-left-color: rgb(_TYPED); b
+
+`border-left-color: rgb();^
+
+a border-left-color: rgb();
+
+
+    /*  -------------borderleftstyle--------------- */
+    /* border-left-style: `col^;                    */
+
+
+
+border-left-style: none;
+
+border-left-style: none; b
+
+`border-left-style: none;^
+
+a border-left-style: none;
+
+
+    /*  -------------borderleftwidth--------------- */
+    /* border-left-width: `col^;                    */
+
+
+
+border-left-width: thin;
+
+border-left-width: thin; b
+
+`border-left-width: thin;^
+
+a border-left-width: thin;
+
+
+    /*  -------------borderrightcolor--------------- */
+    /* border-right-color:` `col^;                   */
+
+
+
+border-right-color: rgb();
+
+border-right-color: rgb(_TYPED); b
+
+`border-right-color: rgb();^
+
+a border-right-color: rgb();
+
+
+    /*  -------------borderrightstyle--------------- */
+    /* border-right-style: `col^;                    */
+
+
+
+border-right-style: none;
+
+border-right-style: none; b
+
+`border-right-style: none;^
+
+a border-right-style: none;
+
+
+    /*  -------------borderrightwidth--------------- */
+    /* border-right-width: `col^;                    */
+
+
+
+border-right-width: thin;
+
+border-right-width: thin; b
+
+`border-right-width: thin;^
+
+a border-right-width: thin;
+
+
+    /*  -------------borderspacing--------------- */
+    /* border-spacing: `select^;                  */
+
+
+
+border-spacing: select;
+
+border-spacing: select_TYPED; b
+
+`border-spacing: select;^
+
+a border-spacing: select;
+
+
+    /*  -------------borderstyle--------------- */
+    /* border-style: `selec^;                   */
+
+
+
+border-style: none;
+
+border-style: none; b
+
+`border-style: none;^
+
+a border-style: none;
+
+
+    /*  -------------bordertopcolor--------------- */
+    /* border-top-color:` `col^;                   */
+
+
+
+border-top-color: rgb();
+
+border-top-color: rgb(_TYPED); b
+
+`border-top-color: rgb();^
+
+a border-top-color: rgb();
+
+
+    /*  -------------bordertopstyle--------------- */
+    /* border-top-style: `col^;                    */
+
+
+
+border-top-style: none;
+
+border-top-style: none; b
+
+`border-top-style: none;^
+
+a border-top-style: none;
+
+
+    /*  -------------bordertopwidth--------------- */
+    /* border-top-width:` `col^;                   */
+
+
+
+border-top-width: rgb();
+
+border-top-width: rgb(_TYPED); b
+
+`border-top-width: rgb();^
+
+a border-top-width: rgb();
+
+
+    /*  -------------borderwidth--------------- */
+    /* border-width: `selec^;                   */
+
+
+
+border-width: thin;
+
+border-width: thin; b
+
+`border-width: thin;^
+
+a border-width: thin;
+
+
+    /*  -------------bottom--------------- */
+    /* bottom: `selec^;                    */
+
+
+
+bottom: auto;
+
+bottom: selec_TYPED; b
+
+`bottom: auto;^
+
+a bottom: auto;
+
+
+    /*  -------------captionside--------------- */
+    /* caption-side: `selec^;                   */
+
+
+
+caption-side: top;
+
+caption-side: top; b
+
+`caption-side: top;^
+
+a caption-side: top;
+
+
+    /*  -------------clear--------------- */
+    /* clear: `selec^;                    */
+
+
+
+clear: none;
+
+clear: none; b
+
+`clear: none;^
+
+a clear: none;
+
+
+    /*  -------------clip--------------- */
+    /* clip: `selec^;                    */
+
+
+
+clip: auto;
+
+clip: auto; b
+
+`clip: auto;^
+
+a clip: auto;
+
+
+    /*  -------------color--------------- */
+    /* color:` `selec^;                   */
+
+
+
+color: rgb();
+
+color: rgb(_TYPED); b
+
+`color: rgb();^
+
+a color: rgb();
+
+
+    /*  -------------comment--------------- */
+    /* `$CL^ `what^^ `$CR^`^                */
+
+
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */ b
+
+`/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */^
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
+
+
+    /*  -------------commentBlock--------------- */
+    /* `$_xCommentLeftWithoutMid^`$CM `cursor^   */
+    /* `$_xCommentMidIndent$CR^                  */
+
+
+
+/* WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */
+
+/* WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */ b
+
+`/* WRAPPED_TEXT
+  * WRAPPED_TEXT_line2
+ */^
+
+a /* WRAPPED_TEXT
+   * WRAPPED_TEXT_line2
+ */
+
+
+    /*  -------------commentDoc--------------- */
+    /* `$CL^`$CM^                              */
+    /* `$_xCommentMidIndent$CM `cursor^        */
+    /* `$_xCommentMidIndent$CR^                */
+
+
+
+/**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */
+
+/**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */ b
+
+`/**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */^
+
+a /**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */
+
+
+    /*  -------------commentLine--------------- */
+    /* `$CL `what` $CR^`^                       */
+
+
+
+/* WRAPPED_TEXT */
+/* WRAPPED_TEXT_line2 */
+
+/* WRAPPED_TEXT */
+/* WRAPPED_TEXT_line2 */ b
+
+`/* WRAPPED_TEXT */
+ /* WRAPPED_TEXT_line2 */^
+
+a /* WRAPPED_TEXT */
+  /* WRAPPED_TEXT_line2 */
+
+
+    /*  -------------content--------------- */
+    /* content: `selec^;                    */
+
+
+
+content: normal;
+
+content: normal; b
+
+`content: normal;^
+
+a content: normal;
+
+
+    /*  -------------cursor--------------- */
+    /* cursor:` `selec^;                   */
+
+
+
+cursor: url();
+
+cursor: url(_TYPED); b
+
+`cursor: url();^
+
+a cursor: url();
+
+
+    /*  -------------direction--------------- */
+    /* direction: `selec^;                    */
+
+
+
+direction: ltr;
+
+direction: ltr; b
+
+`direction: ltr;^
+
+a direction: ltr;
+
+
+    /*  -------------display--------------- */
+    /* display: `selec^;                    */
+
+
+
+display: inline;
+
+display: inline; b
+
+`display: inline;^
+
+a display: inline;
+
+
+    /*  -------------elevation--------------- */
+    /* elevation: `selec^;                    */
+
+
+
+elevation: below;
+
+elevation: below; b
+
+`elevation: below;^
+
+a elevation: below;
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    /*  -------------emptycells--------------- */
+    /* empty-cells: `selec^;                   */
+
+
+
+empty-cells: show;
+
+empty-cells: show; b
+
+`empty-cells: show;^
+
+a empty-cells: show;
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+test.page.windef
+
+test.page.windef b
+
+`test.page.windef^
+
+a test.page.windef
+
+
+    /*  -------------float--------------- */
+    /* float: `selec^;                    */
+
+
+
+float: left;
+
+float: left; b
+
+`float: left;^
+
+a float: left;
+
+
+    /*  -------------font--------------- */
+    /* font:` `kind`^` `size`^` `font`^; */
+
+
+
+font: normal xx-small sans-serif;
+
+font: normal xx-small sans-serif; b
+
+`font: normal xx-small sans-serif;^
+
+a font: normal xx-small sans-serif;
+
+
+    /*  -------------fontfamily--------------- */
+    /* font-family: `selec^;                   */
+
+
+
+font-family: sans-serif;
+
+font-family: sans-serif; b
+
+`font-family: sans-serif;^
+
+a font-family: sans-serif;
+
+
+    /*  -------------fontsize--------------- */
+    /* font-size: `selec^;                   */
+
+
+
+font-size: xx-small;
+
+font-size: xx-small; b
+
+`font-size: xx-small;^
+
+a font-size: xx-small;
+
+
+    /*  -------------fontstyle--------------- */
+    /* font-style: `selec^;                   */
+
+
+
+font-style: normal;
+
+font-style: normal; b
+
+`font-style: normal;^
+
+a font-style: normal;
+
+
+    /*  -------------fontvariant--------------- */
+    /* font-variant: `selec^;                   */
+
+
+
+font-variant: normal;
+
+font-variant: normal; b
+
+`font-variant: normal;^
+
+a font-variant: normal;
+
+
+    /*  -------------fontweight--------------- */
+    /* font-weight: `selec^;                   */
+
+
+
+font-weight: normal;
+
+font-weight: normal; b
+
+`font-weight: normal;^
+
+a font-weight: normal;
+
+
+    /*  -------------height--------------- */
+    /* height: `^;                         */
+
+
+
+height: ;
+
+height: _TYPED; b
+
+`height: ;^
+
+a height: ;
+
+
+    /*  -------------letterspacing--------------- */
+    /* letter-spacing: `selec^;                   */
+
+
+
+letter-spacing: normal;
+
+letter-spacing: selec_TYPED; b
+
+`letter-spacing: normal;^
+
+a letter-spacing: normal;
+
+
+    /*  -------------lineheight--------------- */
+    /* line-height: `selec^;                   */
+
+
+
+line-height: normal;
+
+line-height: selec_TYPED; b
+
+`line-height: normal;^
+
+a line-height: normal;
+
+
+    /*  -------------liststyleimage--------------- */
+    /* list-style-image:` `selec^;                 */
+
+
+
+list-style-image: url();
+
+list-style-image: url(_TYPED); b
+
+`list-style-image: url();^
+
+a list-style-image: url();
+
+
+    /*  -------------liststyleposition--------------- */
+    /* list-style-position: `selec^;                  */
+
+
+
+list-style-position: inside;
+
+list-style-position: inside; b
+
+`list-style-position: inside;^
+
+a list-style-position: inside;
+
+
+    /*  -------------liststyletype--------------- */
+    /* list-style-type: `selec^;                  */
+
+
+
+list-style-type: disc;
+
+list-style-type: disc; b
+
+`list-style-type: disc;^
+
+a list-style-type: disc;
+
+
+    /*  -------------margin--------------- */
+    /* margin: `selec^;                    */
+
+
+
+margin: auto;
+
+margin: selec_TYPED; b
+
+`margin: auto;^
+
+a margin: auto;
+
+
+    /*  -------------maxheight--------------- */
+    /* max-height: `selec^;                   */
+
+
+
+max-height: auto;
+
+max-height: selec_TYPED; b
+
+`max-height: auto;^
+
+a max-height: auto;
+
+
+    /*  -------------maxwidth--------------- */
+    /* max-width: `selec^;                   */
+
+
+
+max-width: none;
+
+max-width: selec_TYPED; b
+
+`max-width: none;^
+
+a max-width: none;
+
+
+    /*  -------------minheight--------------- */
+    /* min-height: `selec^;                   */
+
+
+
+min-height: none;
+
+min-height: selec_TYPED; b
+
+`min-height: none;^
+
+a min-height: none;
+
+
+    /*  -------------minwidth--------------- */
+    /* min-width: `selec^;                   */
+
+
+
+min-width: none;
+
+min-width: selec_TYPED; b
+
+`min-width: none;^
+
+a min-width: none;
+
+
+    /*  -------------outline---------------    */
+    /* outline:` `width`^` `style`^` `color`^; */
+
+
+
+outline: thin none rgb();
+
+outline: thin none rgb(_TYPED); b
+
+`outline: thin none rgb();^
+
+a outline: thin none rgb();
+
+
+    /*  -------------outlinecolor--------------- */
+    /* outline-color:` `selec^;                  */
+
+
+
+outline-color: rgb();
+
+outline-color: rgb(_TYPED); b
+
+`outline-color: rgb();^
+
+a outline-color: rgb();
+
+
+    /*  -------------outlinestyle--------------- */
+    /* outline-style: `selec^;                   */
+
+
+
+outline-style: none;
+
+outline-style: none; b
+
+`outline-style: none;^
+
+a outline-style: none;
+
+
+    /*  -------------outlinewidth--------------- */
+    /* outline-width: `selec^;                   */
+
+
+
+outline-width: thin;
+
+outline-width: thin; b
+
+`outline-width: thin;^
+
+a outline-width: thin;
+
+
+    /*  -------------overflow--------------- */
+    /* overflow: `selec^;                    */
+
+
+
+overflow: visible;
+
+overflow: visible; b
+
+`overflow: visible;^
+
+a overflow: visible;
+
+
+    /*  -------------padding---------------          */
+    /* padding: `v^`v^AutoCmpl( 1, 'auto', '0px' )^; */
+
+
+
+padding: v;
+
+padding: v_TYPED; b
+
+`padding: v;^
+
+a padding: v;
+
+
+    /*  -------------pagebreakafter--------------- */
+    /* page-break-after: `what^;                   */
+
+
+
+page-break-after: auto;
+
+page-break-after: auto; b
+
+`page-break-after: auto;^
+
+a page-break-after: auto;
+
+
+    /*  -------------pagebreakbefore--------------- */
+    /* page-break-before: `what^;                   */
+
+
+
+page-break-before: auto;
+
+page-break-before: auto; b
+
+`page-break-before: auto;^
+
+a page-break-before: auto;
+
+
+    /*  -------------pagebreakinside--------------- */
+    /* page-break-inside: `selec^;                  */
+
+
+
+page-break-inside: auto;
+
+page-break-inside: auto; b
+
+`page-break-inside: auto;^
+
+a page-break-inside: auto;
+
+
+    /*  -------------pitch--------------- */
+    /* pitch: `selec^;                    */
+
+
+
+pitch: x-low;
+
+pitch: x-low; b
+
+`pitch: x-low;^
+
+a pitch: x-low;
+
+
+    /*  -------------playduring--------------- */
+    /* play-during:` `selec^;                  */
+
+
+
+play-during: url();
+
+play-during: url(_TYPED); b
+
+`play-during: url();^
+
+a play-during: url();
+
+
+    /*  -------------position--------------- */
+    /* position: `selec^;                    */
+
+
+
+position: static;
+
+position: static; b
+
+`position: static;^
+
+a position: static;
+
+
+    /*  -------------quotes--------------- */
+    /* quotes: `selec^;                    */
+
+
+
+quotes: none;
+
+quotes: selec_TYPED; b
+
+`quotes: none;^
+
+a quotes: none;
+
+
+    /*  -------------speak--------------- */
+    /* speak: `selec^;                    */
+
+
+
+speak: normal;
+
+speak: normal; b
+
+`speak: normal;^
+
+a speak: normal;
+
+
+    /*  -------------speakheader--------------- */
+    /* speak-header: `selec^;                   */
+
+
+
+speak-header: once;
+
+speak-header: once; b
+
+`speak-header: once;^
+
+a speak-header: once;
+
+
+    /*  -------------speaknumeral--------------- */
+    /* speak-numeral: `selec^;                   */
+
+
+
+speak-numeral: digits;
+
+speak-numeral: digits; b
+
+`speak-numeral: digits;^
+
+a speak-numeral: digits;
+
+
+    /*  -------------speakpunctuation--------------- */
+    /* speak-punctuation: `selec^;                   */
+
+
+
+speak-punctuation: code;
+
+speak-punctuation: code; b
+
+`speak-punctuation: code;^
+
+a speak-punctuation: code;
+
+
+    /*  -------------speechrate--------------- */
+    /* speech-rate: `selec^;                   */
+
+
+
+speech-rate: x-slow;
+
+speech-rate: x-slow; b
+
+`speech-rate: x-slow;^
+
+a speech-rate: x-slow;
+
+
+    /*  -------------tablelayout--------------- */
+    /* table-layout: `selec^;                   */
+
+
+
+table-layout: auto;
+
+table-layout: auto; b
+
+`table-layout: auto;^
+
+a table-layout: auto;
+
+
+    /*  -------------textalign--------------- */
+    /* text-align: `selec^;                   */
+
+
+
+text-align: left;
+
+text-align: left; b
+
+`text-align: left;^
+
+a text-align: left;
+
+
+    /*  -------------textdecoration--------------- */
+    /* text-decoration: `selec^;                   */
+
+
+
+text-decoration: none;
+
+text-decoration: none; b
+
+`text-decoration: none;^
+
+a text-decoration: none;
+
+
+    /*  -------------textindent--------------- */
+    /* text-indent: `^;`cursor^                */
+
+
+
+text-indent: ;
+
+text-indent: _TYPED; b
+
+`text-indent: ;^
+
+a text-indent: ;
+
+
+    /*  -------------texttransform--------------- */
+    /* text-transform: `selec^;                   */
+
+
+
+text-transform: capitalize;
+
+text-transform: capitalize; b
+
+`text-transform: capitalize;^
+
+a text-transform: capitalize;
+
+
+    /*  -------------top--------------- */
+    /* top: `selec^;                    */
+
+
+
+top: auto;
+
+top: selec_TYPED; b
+
+`top: auto;^
+
+a top: auto;
+
+
+    /*  -------------unicodebidi--------------- */
+    /* unicode-bidi: `selec^;                   */
+
+
+
+unicode-bidi: normal;
+
+unicode-bidi: normal; b
+
+`unicode-bidi: normal;^
+
+a unicode-bidi: normal;
+
+
+    /*  -------------verticalalign--------------- */
+    /* vertical-align: `selec^;                   */
+
+
+
+vertical-align: baseline;
+
+vertical-align: baseline; b
+
+`vertical-align: baseline;^
+
+a vertical-align: baseline;
+
+
+    /*  -------------visibility--------------- */
+    /* visibility: `selec^;                    */
+
+
+
+visibility: visible;
+
+visibility: visible; b
+
+`visibility: visible;^
+
+a visibility: visible;
+
+
+    /*  -------------volume--------------- */
+    /* volume: `selec^;                    */
+
+
+
+volume: silent;
+
+volume: silent; b
+
+`volume: silent;^
+
+a volume: silent;
+
+
+    /*  -------------whitespace--------------- */
+    /* white-space: `selec^;                   */
+
+
+
+white-space: normal;
+
+white-space: normal; b
+
+`white-space: normal;^
+
+a white-space: normal;
+
+
+    /*  -------------width--------------- */
+    /* width: `^;                         */
+
+
+
+width: ;
+
+width: _TYPED; b
+
+`width: ;^
+
+a width: ;
+
+
+    /*  -------------wordspacing--------------- */
+    /* word-spacing: `selec^;                   */
+
+
+
+word-spacing: normal;
+
+word-spacing: selec_TYPED; b
+
+`word-spacing: normal;^
+
+a word-spacing: normal;
+
+
+    /*  -------------zindex--------------- */
+    /* z-index: `selec^;                   */
+
+
+
+z-index: auto;
+
+z-index: selec_TYPED; b
+
+`z-index: auto;^
+
+a z-index: auto;
+
+
+    /*  -------------{_--------------- */
+    /* {`w^}                           */
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

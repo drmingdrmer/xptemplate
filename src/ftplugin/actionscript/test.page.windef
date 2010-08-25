@@ -1,0 +1,665 @@
+
+
+
+    /*  -------------"_--------------- */
+    /* "`w^"                           */
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    /*  -------------'_--------------- */
+    /* '`w^'                           */
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    /*  -------------(_--------------- */
+    /* (`w^)                           */
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`w^>                           */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`w^]                           */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``w^\`                         */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    /*  -------------Author--------------- */
+    /* `$author^                           */
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    /*  -------------case--------------- */
+    /* case `constant^`$SPcmd^:          */
+    /*         `cursor^                  */
+    /*         break;                    */
+
+
+
+case constant :
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	break;
+
+case constant_TYPED :
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	break; b
+
+`case constant :
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	break;^
+
+a case constant :
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	break;
+
+
+    /*  -------------comment--------------- */
+    /* `$CS `cursor^                        */
+
+
+
+// WRAPPED_TEXT
+// WRAPPED_TEXT_line2
+
+// WRAPPED_TEXT
+// WRAPPED_TEXT_line2 b
+
+`// WRAPPED_TEXT
+ // WRAPPED_TEXT_line2^
+
+a // WRAPPED_TEXT
+  // WRAPPED_TEXT_line2
+
+
+    /*  -------------commentBlock--------------- */
+    /* `$CS `cursor^                             */
+
+
+
+// WRAPPED_TEXT
+// WRAPPED_TEXT_line2
+
+// WRAPPED_TEXT
+// WRAPPED_TEXT_line2 b
+
+`// WRAPPED_TEXT
+ // WRAPPED_TEXT_line2^
+
+a // WRAPPED_TEXT
+  // WRAPPED_TEXT_line2
+
+
+    /*  -------------commentDoc--------------- */
+    /* `$CL^`$CM^                              */
+    /* `$_xCommentMidIndent$CM `cursor^        */
+    /* `$_xCommentMidIndent$CR^                */
+
+
+
+/**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */
+
+/**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */ b
+
+`/**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */^
+
+a /**
+ * WRAPPED_TEXT
+ * WRAPPED_TEXT_line2
+ */
+
+
+    /*  -------------commentLine--------------- */
+    /* `$CS `cursor^                            */
+
+
+
+// WRAPPED_TEXT
+// WRAPPED_TEXT_line2
+
+// WRAPPED_TEXT
+// WRAPPED_TEXT_line2 b
+
+`// WRAPPED_TEXT
+ // WRAPPED_TEXT_line2^
+
+a // WRAPPED_TEXT
+  // WRAPPED_TEXT_line2
+
+
+    /*  -------------commentLine2--------------- */
+    /* `$CL `what` $CR^`^                        */
+
+
+
+/* WRAPPED_TEXT */
+/* WRAPPED_TEXT_line2 */
+
+/* WRAPPED_TEXT */
+/* WRAPPED_TEXT_line2 */ b
+
+`/* WRAPPED_TEXT */
+ /* WRAPPED_TEXT_line2 */^
+
+a /* WRAPPED_TEXT */
+  /* WRAPPED_TEXT_line2 */
+
+
+    /*  -------------default--------------- */
+    /* default:                             */
+    /*         `cursor^                     */
+
+
+
+default:
+	
+
+default:
+	 b
+
+`default:
+	^
+
+a default:
+	
+
+
+    /*  -------------elif--------------- */
+    /* else `Include:_if^                */
+
+
+
+else if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+else if ( condition_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`else if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a else if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------else--------------- */
+    /* else`$BRif^{                      */
+    /*         `cursor^                  */
+    /* }                                 */
+
+
+
+else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+test.page.windef
+
+test.page.windef b
+
+`test.page.windef^
+
+a test.page.windef
+
+
+    /*  -------------fun--------------- */
+    /* function` `name^ (`arg*^) {      */
+    /*         `cursor^                 */
+    /* }                                */
+
+
+
+function name () {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+function name_TYPED (arg_TYPED, arg_TYPED, arg_TYPED) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`function name () {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a function name () {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------if--------------- */
+    /* `Include:_if^                   */
+
+
+
+if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( condition_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------if0--------------- */
+    /* `Include:_if^                    */
+
+
+
+if ( 0 == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( 0 == var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( 0 == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( 0 == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------ifee---------------                              */
+    /* `:_if:^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ */
+
+
+
+if ( condition ) {
+	
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+
+if ( condition_TYPED ) {
+	_TYPED
+} else_if_TYPED b
+
+`if ( condition ) {
+	
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}^
+
+a if ( condition ) {
+	
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+
+
+    /*  -------------ifn--------------- */
+    /* `Include:_if^                    */
+
+
+
+if ( NULL == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( NULL == var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( NULL == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( NULL == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------ifn0--------------- */
+    /* `Include:_if^                     */
+
+
+
+if ( 0 != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( 0 != var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( 0 != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( 0 != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------ifnn--------------- */
+    /* `Include:_if^                     */
+
+
+
+if ( NULL != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( NULL != var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( NULL != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( NULL != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------ifnu--------------- */
+    /* `Include:_if^                     */
+
+
+
+if ( undefined != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( undefined != var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( undefined != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( undefined != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------ifu--------------- */
+    /* `Include:_if^                    */
+
+
+
+if ( undefined == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( undefined == var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( undefined == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( undefined == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------switch---------------    */
+    /* switch (`$SParg^`var^`$SParg^)`$BRif^{ */
+    /*         `Include:case^                 */
+    /* }                                      */
+
+
+
+switch ( var ) {
+	case constant :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+}
+
+switch ( var_TYPED ) {
+	case constant_TYPED :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+} b
+
+`switch ( var ) {
+	case constant :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+}^
+
+a switch ( var ) {
+	case constant :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+}
+
+
+    /*  -------------{_--------------- */
+    /* {`w^}                           */
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
