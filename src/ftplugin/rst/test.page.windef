@@ -1,0 +1,58 @@
+
+
+
+
+    ..   -------------Author--------------- 
+    ..  :Author: `author^                   
+
+
+
+ :Author: author
+
+ :Author: author b
+
+ `:Author: author^
+
+ a :Author: author
+
+
+    ..   -------------Blah--------------- 
+    ..  :Blah: `baz^                      
+
+
+
+ :Blah: baz
+
+ :Blah: baz b
+
+ `:Blah: baz^
+
+ a :Blah: baz
+
+
+    ..   -------------Quux--------------- 
+    ..  Something else                    
+
+
+
+ Something else
+
+ Something else b
+
+ `Something else^
+
+ a Something else
+
+
+    ..   -------------Quux2--------------- 
+    ..  Something else                     
+
+
+
+ Something else
+
+ Something else b
+
+ `Something else^
+
+ a Something else

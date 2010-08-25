@@ -1,6 +1,7 @@
 
 
 
+
     #   -------------"_--------------- 
     #  "`w^"                           
 
@@ -1222,20 +1223,6 @@ end
     a fetch(name) { |key|  }
 
 
-    #   -------------file---------------                
-    #  File.foreach('`filename^') { |`line^| `cursor^ } 
-
-
-
-    File.foreach('filename') { |line|  }
-
-    File.foreach('filename_TYPED') { |line_TYPED|  } b
-
-    `File.foreach('filename') { |line|  }^
-
-    a File.foreach('filename') { |line|  }
-
-
     #   -------------File--------------- 
     #  `file()^                          
 
@@ -1248,6 +1235,20 @@ end
     `test.page.windef^
 
     a test.page.windef
+
+
+    #   -------------file---------------                
+    #  File.foreach('`filename^') { |`line^| `cursor^ } 
+
+
+
+    File.foreach('filename') { |line|  }
+
+    File.foreach('filename_TYPED') { |line_TYPED|  } b
+
+    `File.foreach('filename') { |line|  }^
+
+    a File.foreach('filename') { |line|  }
 
 
     #   -------------fin--------------- 
@@ -1463,32 +1464,32 @@ end
     if booleanexp_TYPED
 	    block_TYPED
     elsif_TYPED
-    else_TYPED
-     end b
+	else_TYPED
+	    end b
 
-     `if boolean exp
-	     # block
-     elsif comparison
-	     # block
-     elsif comparison
-	     # block
-     elsif comparison
-	     # block
-     else
-	     
-     end^
+	    `if boolean exp
+		    # block
+	    elsif comparison
+		    # block
+	    elsif comparison
+		    # block
+	    elsif comparison
+		    # block
+	    else
+		    
+	    end^
 
-     a if boolean exp
-	     # block
-     elsif comparison
-	     # block
-     elsif comparison
-	     # block
-     elsif comparison
-	     # block
-     else
-	     
-     end
+	    a if boolean exp
+		    # block
+	    elsif comparison
+		    # block
+	    elsif comparison
+		    # block
+	    elsif comparison
+		    # block
+	    else
+		    
+	    end
 
 
     #   -------------inj---------------                        
@@ -1701,20 +1702,20 @@ module
 	WRAPPED_TEXT_line2
 end
 
-    module TYPED
-	    WRAPPED_TEXT
-	    WRAPPED_TEXT_line2
-    end b
+module TYPED
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+end b
 
-    `module 
-	    WRAPPED_TEXT
-	    WRAPPED_TEXT_line2
-    end^
+`module 
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+end^
 
-    a module 
-	    WRAPPED_TEXT
-	    WRAPPED_TEXT_line2
-    end
+a module 
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+end
 
 
     #   -------------nam--------------- 
@@ -1892,16 +1893,16 @@ end
 
 
     #!/usr/bin/env ruby
-    # -*- encoding: utf-8 -*-
+    # -*- encoding: cp936 -*-
 
     #!/usr/bin/env ruby
     # -*- encoding: enc_TYPED -*- b
 
     `#!/usr/bin/env ruby
-    # -*- encoding: utf-8 -*-^
+    # -*- encoding: cp936 -*-^
 
     a #!/usr/bin/env ruby
-    # -*- encoding: utf-8 -*-
+    # -*- encoding: cp936 -*-
 
 
     #   -------------sb--------------- 
@@ -1911,16 +1912,16 @@ end
 
 
     #!/usr/bin/env ruby
-    # -*- encoding: utf-8 -*-
+    # -*- encoding: cp936 -*-
 
     #!/usr/bin/env ruby
     # -*- encoding: enc_TYPED -*- b
 
     `#!/usr/bin/env ruby
-    # -*- encoding: utf-8 -*-^
+    # -*- encoding: cp936 -*-^
 
     a #!/usr/bin/env ruby
-    # -*- encoding: utf-8 -*-
+    # -*- encoding: cp936 -*-
 
 
     #   -------------scan---------------        
@@ -1958,16 +1959,16 @@ end
 
 
     #!/usr/bin/env ruby
-    # -*- encoding: utf-8 -*-
+    # -*- encoding: cp936 -*-
 
     #!/usr/bin/env ruby
     # -*- encoding: enc_TYPED -*- b
 
     `#!/usr/bin/env ruby
-    # -*- encoding: utf-8 -*-^
+    # -*- encoding: cp936 -*-^
 
     a #!/usr/bin/env ruby
-    # -*- encoding: utf-8 -*-
+    # -*- encoding: cp936 -*-
 
 
     #   -------------sinc--------------- 

@@ -1,0 +1,372 @@
+
+
+
+
+    /*  -------------"_--------------- */
+    /* "`w^"                           */
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    /*  -------------'_--------------- */
+    /* '`w^'                           */
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    /*  -------------(_--------------- */
+    /* (`w^)                           */
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`w^>                           */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`w^]                           */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``w^\`                         */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    /*  -------------Author--------------- */
+    /* `$author^                           */
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    /*  -------------cursor---------------                                                           */
+    /* DECLARE @iFetchCount                    INT                                                   */
+    /* DECLARE `<CursorName>^ CURSOR STATIC                                                          */
+    /*         FOR SELECT `<Expression1>^`                                                           */
+    /*                            `Expression2...^                                                   */
+    /*         `          ,`<Expression2>^`                                                          */
+    /*                            `Expression2...^                                                   */
+    /*                         FROM `<Table>^ WITH (NOLOCK)                                          */
+    /*                         WHERE     (`<Expression3>^)`                                          */
+    /*                                   `Expression4...^                                            */
+    /*                         `      AND (`<Expression4>^)`                                         */
+    /*                                   `Expression4...^                                            */
+    /*                         ORDER BY `<Expression5>^`                                             */
+    /*                                   `Expression6...^                                            */
+    /*                         `        ,`<Expression6>^`                                            */
+    /*                                   `Expression6...^                                            */
+    /* SET @iFetchCount = 0                                                                          */
+    /* OPEN `<CursorName>^                                                                           */
+    /* FETCH NEXT                                                                                    */
+    /*         FROM `<CursorName>^                                                                   */
+    /*         INTO `<Variable1>^`                                                                   */
+    /*                  `Variable2...^                                                               */
+    /*         `    ,`<Variable2>^`                                                                  */
+    /*                  `Variable2...^                                                               */
+    /* WHILE (@@FETCH_STATUS = 0)                                                                    */
+    /* BEGIN                                                                                         */
+    /*         SET @iFetchCount = @iFetchCount + 1                                                   */
+    /*         IF ((@iFetchCount % 1000) = 0)                                                        */
+    /*         BEGIN                                                                                 */
+    /*                 SET @sMsg = '@iFetchCount = ' + ltrim(dbo.udfFormatNumber(@iFetchCount,18,0)) */
+    /*                 EXEC dbadb.dbo.uspLogMessage @sJob, @sMsg                                     */
+    /*         END                                                                                   */
+    /*         FETCH NEXT                                                                            */
+    /*                 FROM `<CursorName>^                                                           */
+    /*                 INTO `<Variable3>^`                                                           */
+    /*                          `Variable4...^                                                       */
+    /*                 `    ,`<Variable4>^`                                                          */
+    /*                          `Variable4...^                                                       */
+    /* END                                                                                           */
+    /* CLOSE `<CursorName>^                                                                          */
+    /* DEALLOCATE `<CursorName>^                                                                     */
+
+
+
+DECLARE @iFetchCount                    INT
+DECLARE <CursorName> CURSOR STATIC
+	FOR SELECT <Expression1>
+		  ,<Expression2>`
+			   
+			   	  ,<Expression2>`
+					      
+					      	  ,<Expression2>`
+								 
+			FROM <Table> WITH (NOLOCK)
+			WHERE     (<Expression3>)
+			      AND (<Expression4>)
+			      AND (<Expression4>)
+			ORDER BY <Expression5>
+				,<Expression6>`
+				  
+				  	,<Expression6>`
+					    
+SET @iFetchCount = 0
+OPEN <CursorName>
+FETCH NEXT
+	FROM <CursorName>
+	INTO <Variable1>
+	    ,<Variable2>
+	    ,<Variable2>
+WHILE (@@FETCH_STATUS = 0)
+BEGIN
+	SET @iFetchCount = @iFetchCount + 1
+	IF ((@iFetchCount % 1000) = 0)
+	BEGIN
+		SET @sMsg = '@iFetchCount = ' + ltrim(dbo.udfFormatNumber(@iFetchCount,18,0))
+		EXEC dbadb.dbo.uspLogMessage @sJob, @sMsg
+	END
+	FETCH NEXT
+		FROM <CursorName>
+		INTO <Variable3>
+		    ,<Variable4>
+		    ,<Variable4>
+END
+CLOSE <CursorName>
+DEALLOCATE <CursorName>
+
+DECLARE @iFetchCount                    INT
+DECLARE CursorName_TYPED CURSOR STATIC
+	FOR SELECT Expression1_TYPED
+			   Expression2_TYPED
+			FROM Table_TYPED WITH (NOLOCK)
+			WHERE     (Expression3_TYPED)
+				  Expression4_TYPED
+			ORDER BY Expression5_TYPED
+				  Expression6_TYPED
+SET @iFetchCount = 0
+OPEN CursorName_TYPED
+FETCH NEXT
+	FROM CursorName_TYPED
+	INTO Variable1_TYPED
+		 Variable2_TYPED
+WHILE (@@FETCH_STATUS = 0)
+BEGIN
+	SET @iFetchCount = @iFetchCount + 1
+	IF ((@iFetchCount % 1000) = 0)
+	BEGIN
+		SET @sMsg = '@iFetchCount = ' + ltrim(dbo.udfFormatNumber(@iFetchCount,18,0))
+		EXEC dbadb.dbo.uspLogMessage @sJob, @sMsg
+	END
+	FETCH NEXT
+		FROM CursorName_TYPED
+		INTO Variable3_TYPED
+			 Variable4_TYPED
+END
+CLOSE CursorName_TYPED
+DEALLOCATE CursorName_TYPED b
+
+`DECLARE @iFetchCount                    INT
+DECLARE <CursorName> CURSOR STATIC
+	FOR SELECT <Expression1>
+		  ,<Expression2>`
+			   
+			   	  ,<Expression2>`
+					      
+					      	  ,<Expression2>`
+								 
+			FROM <Table> WITH (NOLOCK)
+			WHERE     (<Expression3>)
+			      AND (<Expression4>)
+			      AND (<Expression4>)
+			ORDER BY <Expression5>
+				,<Expression6>`
+				  
+				  	,<Expression6>`
+					    
+SET @iFetchCount = 0
+OPEN <CursorName>
+FETCH NEXT
+	FROM <CursorName>
+	INTO <Variable1>
+	    ,<Variable2>
+	    ,<Variable2>
+WHILE (@@FETCH_STATUS = 0)
+BEGIN
+	SET @iFetchCount = @iFetchCount + 1
+	IF ((@iFetchCount % 1000) = 0)
+	BEGIN
+		SET @sMsg = '@iFetchCount = ' + ltrim(dbo.udfFormatNumber(@iFetchCount,18,0))
+		EXEC dbadb.dbo.uspLogMessage @sJob, @sMsg
+	END
+	FETCH NEXT
+		FROM <CursorName>
+		INTO <Variable3>
+		    ,<Variable4>
+		    ,<Variable4>
+END
+CLOSE <CursorName>
+DEALLOCATE <CursorName>^
+
+a DECLARE @iFetchCount                    INT
+DECLARE <CursorName> CURSOR STATIC
+	FOR SELECT <Expression1>
+		  ,<Expression2>`
+			   
+			   	  ,<Expression2>`
+					      
+					      	  ,<Expression2>`
+								 
+			FROM <Table> WITH (NOLOCK)
+			WHERE     (<Expression3>)
+			      AND (<Expression4>)
+			      AND (<Expression4>)
+			ORDER BY <Expression5>
+				,<Expression6>`
+				  
+				  	,<Expression6>`
+					    
+SET @iFetchCount = 0
+OPEN <CursorName>
+FETCH NEXT
+	FROM <CursorName>
+	INTO <Variable1>
+	    ,<Variable2>
+	    ,<Variable2>
+WHILE (@@FETCH_STATUS = 0)
+BEGIN
+	SET @iFetchCount = @iFetchCount + 1
+	IF ((@iFetchCount % 1000) = 0)
+	BEGIN
+		SET @sMsg = '@iFetchCount = ' + ltrim(dbo.udfFormatNumber(@iFetchCount,18,0))
+		EXEC dbadb.dbo.uspLogMessage @sJob, @sMsg
+	END
+	FETCH NEXT
+		FROM <CursorName>
+		INTO <Variable3>
+		    ,<Variable4>
+		    ,<Variable4>
+END
+CLOSE <CursorName>
+DEALLOCATE <CursorName>
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+test.page.windef
+
+test.page.windef b
+
+`test.page.windef^
+
+a test.page.windef
+
+
+    /*  -------------{_--------------- */
+    /* {`w^}                           */
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

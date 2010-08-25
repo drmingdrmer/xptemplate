@@ -1,6 +1,7 @@
 
 
 
+
     //  -------------"_--------------- 
     // "`w^"                           
 
@@ -151,12 +152,12 @@ case constant :
 				break;
 
 
-    //  -------------class---------------                   
-    // public class `className^ {                           
-    //         public `className^(` `ctorParam` ^)`$BRfun^{ 
-    //                 `cursor^                             
-    //         }                                            
-    // }                                                    
+    //  -------------class---------------                               
+    // public class `className^ {                                       
+    //         public `className^(`$SParg^`ctorParam^`$SParg^)`$BRfun^{ 
+    //                 `cursor^                                         
+    //         }                                                        
+    // }                                                                
 
 
 
@@ -445,34 +446,34 @@ test.page.windef b
 a test.page.windef
 
 
-    //  -------------for---------------                   
-    // for (`int^ `i^ = `0^; `i^ < `len^; ++`i^) `$BRif^{ 
-    //         `cursor^                                   
-    // }                                                  
+    //  -------------for---------------                  
+    // for (`int^ `i^ = `0^; `i^ < `len^; ++`i^)`$BRif^{ 
+    //         `cursor^                                  
+    // }                                                 
 
 
 
-for (int i = 0; i < len; ++i)  {
+for (int i = 0; i < len; ++i) {
 	
 }
 
-for (int_TYPED i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED)  {
+for (int_TYPED i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED) {
 	
 } b
 
-`for (int i = 0; i < len; ++i)  {
+`for (int i = 0; i < len; ++i) {
 	
 }^
 
-a for (int i = 0; i < len; ++i)  {
+a for (int i = 0; i < len; ++i) {
 	
 }
 
 
-    //  -------------foreach---------------      
-    // for ( `type^ `var^ : `inWhat^ )`$BRloop^{ 
-    //         `cursor^                          
-    // }                                         
+    //  -------------foreach---------------                    
+    // for (`$SParg^`type^ `var^ : `inWhat^`$SParg^)`$BRloop^{ 
+    //         `cursor^                                        
+    // }                                                       
 
 
 
@@ -493,26 +494,26 @@ a for ( type var : inWhat ) {
 }
 
 
-    //  -------------forr---------------                     
-    // for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^) `$BRif^{ 
-    //         `cursor^                                      
-    // }                                                     
+    //  -------------forr---------------                    
+    // for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^)`$BRif^{ 
+    //         `cursor^                                     
+    // }                                                    
 
 
 
-for (int i = n; i >= end; --i)  {
+for (int i = n; i >= end; --i) {
 	
 }
 
-for (int_TYPED i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED)  {
+for (int_TYPED i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED) {
 	
 } b
 
-`for (int i = n; i >= end; --i)  {
+`for (int i = n; i >= end; --i) {
 	
 }^
 
-a for (int i = n; i >= end; --i)  {
+a for (int i = n; i >= end; --i) {
 	
 }
 
@@ -696,10 +697,10 @@ a if ( null != var ) {
 }
 
 
-    //  -------------main---------------                 
-    // public static void main( String[] args )`$BRfun^{ 
-    //         `cursor^                                  
-    // }                                                 
+    //  -------------main---------------                               
+    // public static void main(`$SParg^String[] args`$SParg^)`$BRfun^{ 
+    //         `cursor^                                                
+    // }                                                               
 
 
 

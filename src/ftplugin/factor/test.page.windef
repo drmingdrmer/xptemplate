@@ -1,0 +1,283 @@
+
+
+
+
+    /*  -------------"_--------------- */
+    /* "`w^"                           */
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    /*  -------------'_--------------- */
+    /* '`w^'                           */
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    /*  -------------(_--------------- */
+    /* (`w^)                           */
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`w^>                           */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`w^]                           */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``w^\`                         */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    /*  -------------alias--------------- */
+    /* ALIAS: `newword^ `oldword^         */
+
+
+
+ALIAS: newword oldword
+
+ALIAS: newword_TYPED oldword b
+
+`ALIAS: newword oldword^
+
+a ALIAS: newword oldword
+
+
+    /*  -------------Author--------------- */
+    /* `$author^                           */
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    /*  -------------const--------------- */
+    /* CONSTANT: `word^ `constantValue^   */
+
+
+
+CONSTANT: word constantValue
+
+CONSTANT: word_TYPED constantValue b
+
+`CONSTANT: word constantValue^
+
+a CONSTANT: word constantValue
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+test.page.windef
+
+test.page.windef b
+
+`test.page.windef^
+
+a test.page.windef
+
+
+    /*  -------------header--------------- */
+    /* USING: `imports^ ;                  */
+    /* IN:                                 */
+
+
+
+USING: imports ;
+IN: 
+
+USING: imports_TYPED ;
+IN:  b
+
+`USING: imports ;
+IN: ^
+
+a USING: imports ;
+IN: 
+
+
+    /*  -------------if--------------- */
+    /* `cond^ [ `then^ ] [ `else^ ] if */
+
+
+
+cond [ then ] [ else ] if
+
+cond_TYPED [ then_TYPED ] [ else_TYPED ] if b
+
+`cond [ then ] [ else ] if^
+
+a cond [ then ] [ else ] if
+
+
+    /*  -------------test--------------- */
+    /* [ `ret^ ] [ `test^ ] unit-test    */
+
+
+
+[ ret ] [ test ] unit-test
+
+[ ret_TYPED ] [ test_TYPED ] unit-test b
+
+`[ ret ] [ test ] unit-test^
+
+a [ ret ] [ test ] unit-test
+
+
+    /*  -------------times--------------- */
+    /* `count^ [ `what^ ] times           */
+
+
+
+count [ what ] times
+
+count_TYPED [ what_TYPED ] times b
+
+`count [ what ] times^
+
+a count [ what ] times
+
+
+    /*  -------------word---------------              */
+    /* : `wordName^ ( `stackBefore^ -- `stackafter^ ) */
+    /*         `cursor^                               */
+    /*         ;                                      */
+
+
+
+: wordName ( stackBefore -- stackafter )
+	
+	;
+
+: wordName_TYPED ( stackBefore_TYPED -- stackafter_TYPED )
+	
+	; b
+
+`: wordName ( stackBefore -- stackafter )
+	
+	;^
+
+a : wordName ( stackBefore -- stackafter )
+	
+	;
+
+
+    /*  -------------{_--------------- */
+    /* {`w^}                           */
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
