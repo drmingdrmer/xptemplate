@@ -13,7 +13,8 @@ fun! s:f.xpt_vim_hint_escape()
 endfunction
 
 
-let s:xpt_snip = split( globpath( &rtp, "**/*.xpt.vim" ), "\n" )
+" TODO lazy load
+let s:xpt_snip = split( globpath( &rtp, "ftplugin/**/*.xpt.vim" ), "\n" )
 call map( s:xpt_snip, 'substitute(v:val, ''\V\'', ''/'', ''g'')' )
 call map( s:xpt_snip, 'matchstr(v:val, ''\Vftplugin/\zs\.\*\ze.xpt.vim'')' )
 
@@ -23,12 +24,16 @@ endfunction
 
 let s:xpts = {}
 for v in s:xpt_snip
-  let [ ft, snip ] = split( v, '/' )
-  if !has_key( s:xpts, ft )
-    let s:xpts[ ft ] = []
-  endif
+    if v == ''
+        continue
+    endif
 
-  let s:xpts[ ft ] += [ snip ]
+    let [ ft, snip ] = split( v, '/' )
+    if !has_key( s:xpts, ft )
+        let s:xpts[ ft ] = []
+    endif
+
+    let s:xpts[ ft ] += [ snip ]
 endfor
 
 
@@ -52,7 +57,6 @@ XPT ftpfile " xpt ftplugin snippet file
 XSET path=xpt_vim_path()
 XSET name=xpt_vim_name( R( 'path' ) )
 `path^/`name^
-
 
 XPT incfile " XPTinclude ...
 XPTinclude
