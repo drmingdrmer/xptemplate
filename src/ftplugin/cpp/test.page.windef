@@ -1,6 +1,7 @@
 
 
 
+
     /*  -------------"_--------------- */
     /* "`w^"                           */
 
@@ -759,6 +760,54 @@ a enum name
 }
 
 
+    /*  -------------externc--------------- */
+    /* #ifdef __cplusplus                   */
+    /* extern "C" {                         */
+    /* #endif                               */
+    /* `cursor^                             */
+    /* #ifdef __cplusplus                   */
+    /* }                                    */
+    /* #endif                               */
+
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#ifdef __cplusplus
+}
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#ifdef __cplusplus
+}
+#endif b
+
+`#ifdef __cplusplus
+extern "C" {
+#endif
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#ifdef __cplusplus
+}
+#endif^
+
+a #ifdef __cplusplus
+extern "C" {
+#endif
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#ifdef __cplusplus
+}
+#endif
+
+
     /*  -------------fcomment--------------- */
     /* _CMT_*                                */
     /*  * @author : `$author^ | `$email^     */
@@ -900,29 +949,29 @@ a test.page.windef
  
 
 
-    /*  -------------for---------------                   */
-    /* for (`int^ `i^ = `0^; `i^ < `len^; ++`i^) `$BRif^{ */
-    /*         `cursor^                                   */
-    /* }                                                  */
+    /*  -------------for---------------                  */
+    /* for (`int^ `i^ = `0^; `i^ < `len^; ++`i^)`$BRif^{ */
+    /*         `cursor^                                  */
+    /* }                                                 */
 
 
 
- for (int i = 0; i < len; ++i) 
+ for (int i = 0; i < len; ++i)
  {
 	 
  }
 
-for (int_TYPED i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED) 
+for (int_TYPED i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED)
 {
 	
 } b
 
-`for (int i = 0; i < len; ++i) 
+`for (int i = 0; i < len; ++i)
 {
 	
 }^
 
-a for (int i = 0; i < len; ++i) 
+a for (int i = 0; i < len; ++i)
 {
 	
 }
@@ -974,29 +1023,29 @@ a for ( ptr = init; NULL != ptr; ptr )
 }
 
 
-    /*  -------------forr---------------                     */
-    /* for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^) `$BRif^{ */
-    /*         `cursor^                                      */
-    /* }                                                     */
+    /*  -------------forr---------------                    */
+    /* for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^)`$BRif^{ */
+    /*         `cursor^                                     */
+    /* }                                                    */
 
 
 
-for (int i = n; i >= end; --i) 
+for (int i = n; i >= end; --i)
 {
 	
 }
 
-for (int_TYPED i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED) 
+for (int_TYPED i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED)
 {
 	
 } b
 
-`for (int i = n; i >= end; --i) 
+`for (int i = n; i >= end; --i)
 {
 	
 }^
 
-a for (int i = n; i >= end; --i) 
+a for (int i = n; i >= end; --i)
 {
 	
 }
@@ -1401,23 +1450,65 @@ main(int argc, char **argv)
 }
 
 
+    /*  -------------malloc---------------               */
+    /* (`type^int^*)malloc( sizeof( `type^ ) * `count^ ) */
+
+
+
+(int*)malloc( sizeof( int ) * count )
+
+	(type_TYPED*)malloc( sizeof( type_TYPED ) * count_TYPED ) b
+
+	`(int*)malloc( sizeof( int ) * count )^
+
+	a (int*)malloc( sizeof( int ) * count )
+
+
     /*  -------------map---------------    */
     /* std::map<`typeKey^,`val^>   `name^; */
     /* `cursor^                            */
 
 
 
-std::map<typeKey,val>   name;
+	std::map<typeKey,val>   name;
+	
+
+	std::map<typeKey_TYPED,val_TYPED>   name_TYPED;
+	 b
+
+	 `std::map<typeKey,val>   name;
+	 ^
+
+	 a std::map<typeKey,val>   name;
+	 
 
 
-std::map<typeKey_TYPED,val_TYPED>   name_TYPED;
- b
+    /*  -------------memcpy---------------                      */
+    /* memcpy( `dest^, `source^, sizeof(`type^int^) * `count^ ) */
 
- `std::map<typeKey,val>   name;
- ^
 
- a std::map<typeKey,val>   name;
- 
+
+	 memcpy( dest, source, sizeof(int) * count )
+
+	memcpy( dest_TYPED, source_TYPED, sizeof(type_TYPED) * count_TYPED ) b
+
+	`memcpy( dest, source, sizeof(int) * count )^
+
+	a memcpy( dest, source, sizeof(int) * count )
+
+
+    /*  -------------memset---------------                          */
+    /* memset( `buffer^, `what^0^, sizeof( `type^int^ ) * `count^ ) */
+
+
+
+	memset( buffer, 0, sizeof( int ) * count )
+
+	memset( buffer_TYPED, what_TYPED, sizeof( type_TYPED ) * count_TYPED ) b
+
+	`memset( buffer, 0, sizeof( int ) * count )^
+
+	a memset( buffer, 0, sizeof( int ) * count )
 
 
     /*  -------------namespace--------------- */
@@ -1428,10 +1519,10 @@ std::map<typeKey_TYPED,val_TYPED>   name_TYPED;
 
 
 
- namespace name
- {
-	 
- }
+	namespace name
+	{
+		
+	}
 
 namespace name_TYPED
 {
@@ -1458,12 +1549,12 @@ a namespace name
 
 
 
-#ifndef __TEST_PAGE_BARE__
-#     define __TEST_PAGE_BARE__
+#ifndef __TEST_PAGE_WINDEF__
+#     define __TEST_PAGE_WINDEF__
 
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* __TEST_PAGE_BARE__ */
+#endif /* __TEST_PAGE_WINDEF__ */
 
 #ifndef SYMBOL_TYPED
 #     define SYMBOL_TYPED
@@ -1472,19 +1563,19 @@ WRAPPED_TEXT
 WRAPPED_TEXT_line2
 #endif /* SYMBOL_TYPED */ b
 
-`#ifndef __TEST_PAGE_BARE__
-#     define __TEST_PAGE_BARE__
+`#ifndef __TEST_PAGE_WINDEF__
+#     define __TEST_PAGE_WINDEF__
 
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* __TEST_PAGE_BARE__ */^
+#endif /* __TEST_PAGE_WINDEF__ */^
 
-a #ifndef __TEST_PAGE_BARE__
-#     define __TEST_PAGE_BARE__
+a #ifndef __TEST_PAGE_WINDEF__
+#     define __TEST_PAGE_WINDEF__
 
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* __TEST_PAGE_BARE__ */
+#endif /* __TEST_PAGE_WINDEF__ */
 
 
     /*  -------------op---------------                  */

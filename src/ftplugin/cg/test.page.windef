@@ -1,6 +1,7 @@
 
 
 
+
     /*  -------------"_--------------- */
     /* "`w^"                           */
 
@@ -827,12 +828,12 @@ a interface interfaceName
 
 
 
-#ifndef __TEST_PAGE_BARE__
-#     define __TEST_PAGE_BARE__
+#ifndef __TEST_PAGE_WINDEF__
+#     define __TEST_PAGE_WINDEF__
 
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* __TEST_PAGE_BARE__ */
+#endif /* __TEST_PAGE_WINDEF__ */
 
 #ifndef SYMBOL_TYPED
 #     define SYMBOL_TYPED
@@ -841,19 +842,19 @@ WRAPPED_TEXT
 WRAPPED_TEXT_line2
 #endif /* SYMBOL_TYPED */ b
 
-`#ifndef __TEST_PAGE_BARE__
-#     define __TEST_PAGE_BARE__
+`#ifndef __TEST_PAGE_WINDEF__
+#     define __TEST_PAGE_WINDEF__
 
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* __TEST_PAGE_BARE__ */^
+#endif /* __TEST_PAGE_WINDEF__ */^
 
-a #ifndef __TEST_PAGE_BARE__
-#     define __TEST_PAGE_BARE__
+a #ifndef __TEST_PAGE_WINDEF__
+#     define __TEST_PAGE_WINDEF__
 
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* __TEST_PAGE_BARE__ */
+#endif /* __TEST_PAGE_WINDEF__ */
 
 
     /*  -------------pass---------------                                                                 */

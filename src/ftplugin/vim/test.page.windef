@@ -1,6 +1,7 @@
 
 
 
+
     "  -------------_CMT__--------------- 
     " _CMT_`w^_CMT_                   
 
@@ -123,15 +124,15 @@ WRAPPED_TEXT_line2`
     a drdr.xp
 
 
-    "  -------------call--------------- 
-    " `name^(`$SParg^`param^`$SParg^)   
+    "  -------------call---------------          
+    " `vim_call()`name^(`$SParg^`param^`$SParg^) 
 
 
 
-name( WRAPPED_TEXT
+call name( WRAPPED_TEXT
 WRAPPED_TEXT_line2 )
 
-name_TYPED( WRAPPED_TEXT
+call name_TYPED( WRAPPED_TEXT
 WRAPPED_TEXT_line2 ) b
 
 `name( WRAPPED_TEXT
@@ -362,34 +363,6 @@ a "
 				     
 
 
-    "  -------------foreach--------------- 
-    " for `value^ in `list^                
-    "         `cursor^                     
-    " endfor                               
-
-
-
-for value in list
-	WRAPPED_TEXT
-	WRAPPED_TEXT_line2
-endfor
-
-for value_TYPED in list_TYPED
-	WRAPPED_TEXT
-	WRAPPED_TEXT_line2
-endfor b
-
-`for value in list
-	WRAPPED_TEXT
-	WRAPPED_TEXT_line2
-endfor^
-
-a for value in list
-	WRAPPED_TEXT
-	WRAPPED_TEXT_line2
-endfor
-
-
     "  -------------forin--------------- 
     " for `value^ in `list^              
     "         `cursor^                   
@@ -511,10 +484,10 @@ endfunction "}}}
 
 
 
-    if exists( "g:__TEST_PAGE_BARE__" )
+    if exists( "g:__TEST_PAGE_WINDEF__" )
 	    finish
     endif
-    let g:__TEST_PAGE_BARE__ = 1
+    let g:__TEST_PAGE_WINDEF__ = 1
     
 
     if exists( "g_TYPED:i_TYPED" )
@@ -523,16 +496,16 @@ endfunction "}}}
     let g_TYPED:i_TYPED = 1
      b
 
-     `if exists( "g:__TEST_PAGE_BARE__" )
+     `if exists( "g:__TEST_PAGE_WINDEF__" )
 	     finish
      endif
-     let g:__TEST_PAGE_BARE__ = 1
+     let g:__TEST_PAGE_WINDEF__ = 1
      ^
 
-     a if exists( "g:__TEST_PAGE_BARE__" )
+     a if exists( "g:__TEST_PAGE_WINDEF__" )
 	     finish
      endif
-     let g:__TEST_PAGE_BARE__ = 1
+     let g:__TEST_PAGE_WINDEF__ = 1
      
 
 
@@ -670,10 +643,10 @@ endtry
 
 
 
-    if exists( "g:__TEST_PAGE_BARE__" ) && g:__TEST_PAGE_BARE__ >= 1
+    if exists( "g:__TEST_PAGE_WINDEF__" ) && g:__TEST_PAGE_WINDEF__ >= 1
 	    finish
     endif
-    let g:__TEST_PAGE_BARE__ = 1
+    let g:__TEST_PAGE_WINDEF__ = 1
     
 
     if exists( "g_TYPED:i_TYPED" ) && g_TYPED:i_TYPED >= ver_TYPED
@@ -682,16 +655,16 @@ endtry
     let g_TYPED:i_TYPED = ver_TYPED
      b
 
-     `if exists( "g:__TEST_PAGE_BARE__" ) && g:__TEST_PAGE_BARE__ >= 1
+     `if exists( "g:__TEST_PAGE_WINDEF__" ) && g:__TEST_PAGE_WINDEF__ >= 1
 	     finish
      endif
-     let g:__TEST_PAGE_BARE__ = 1
+     let g:__TEST_PAGE_WINDEF__ = 1
      ^
 
-     a if exists( "g:__TEST_PAGE_BARE__" ) && g:__TEST_PAGE_BARE__ >= 1
+     a if exists( "g:__TEST_PAGE_WINDEF__" ) && g:__TEST_PAGE_WINDEF__ >= 1
 	     finish
      endif
-     let g:__TEST_PAGE_BARE__ = 1
+     let g:__TEST_PAGE_WINDEF__ = 1
      
 
 

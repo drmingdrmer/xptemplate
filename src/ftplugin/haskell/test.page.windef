@@ -1,6 +1,7 @@
 
 
 
+
     --   -------------"_--------------- 
     --  "`w^"                           
 
@@ -838,15 +839,15 @@ a map (elem -> expr) list
 
 
 
-module .Home.Xp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.git.Src.Ftplugin.Haskell.Test.page ( 
+module C:.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell.Test.page ( 
 	) where
 
 module moduleName_TYPED exports_TYPEDwhere b
 
-`module .Home.Xp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.git.Src.Ftplugin.Haskell.Test.page ( 
+`module C:.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell.Test.page ( 
 	) where^
 
-a module .Home.Xp.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.git.Src.Ftplugin.Haskell.Test.page ( 
+a module C:.Bash.xp.Vim.xp.Plugins.extern.Xptemplate.svn.Trunk.Src.Ftplugin.Haskell.Test.page ( 
 	) where
 
 
@@ -873,12 +874,12 @@ a {-# NOINLINE funName #-}
 
 
 
-#ifndef __TEST_PAGE_BARE__
-#     define __TEST_PAGE_BARE__
+#ifndef __TEST_PAGE_WINDEF__
+#     define __TEST_PAGE_WINDEF__
 
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif $CL __TEST_PAGE_BARE__ $CR
+#endif $CL __TEST_PAGE_WINDEF__ $CR
 
 #ifndef SYMBOL_TYPED
 #     define SYMBOL_TYPED
@@ -887,19 +888,19 @@ WRAPPED_TEXT
 WRAPPED_TEXT_line2
 #endif $CL SYMBOL_TYPED $CR b
 
-`#ifndef __TEST_PAGE_BARE__
-#     define __TEST_PAGE_BARE__
+`#ifndef __TEST_PAGE_WINDEF__
+#     define __TEST_PAGE_WINDEF__
 
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif $CL __TEST_PAGE_BARE__ $CR^
+#endif $CL __TEST_PAGE_WINDEF__ $CR^
 
-a #ifndef __TEST_PAGE_BARE__
-#     define __TEST_PAGE_BARE__
+a #ifndef __TEST_PAGE_WINDEF__
+#     define __TEST_PAGE_WINDEF__
 
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif $CL __TEST_PAGE_BARE__ $CR
+#endif $CL __TEST_PAGE_WINDEF__ $CR
 
 
     --   -------------options--------------- 
