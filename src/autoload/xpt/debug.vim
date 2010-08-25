@@ -118,10 +118,10 @@ let s:loggerPrototype.Debug       = function( "<SNR>" . s:sid . "Debug"      )
 let s:loggerPrototype.LogNothing  = function( "<SNR>" . s:sid . "LogNothing" )
 
 
-if len( finddir( '~/tmp' ) ) > 0
-    let s:logLocation = finddir( '~/tmp' )
+if len( finddir( $HOME . '/tmp' ) ) > 0
+    let s:logLocation = finddir( $HOME . '/tmp' )
 else
-    let s:logLocation = '~'
+    let s:logLocation = $HOME 
 endif
 
 let s:logLocation .= '/vim.log'

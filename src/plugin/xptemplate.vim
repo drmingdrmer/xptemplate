@@ -4381,11 +4381,9 @@ fun! s:ApplyMap() " {{{
     " TODO map should distinguish between 'selection'
     " <C-v><C-v><BS> force pum to close
     exe 'inoremap <silent> <buffer>' g:xptemplate_nav_prev   '<C-v><C-v><BS><C-r>=<SID>ShiftBackward()<CR>'
-    exe 'snoremap <silent> <buffer>' g:xptemplate_nav_prev   '<Esc>`>a<C-r>=<SID>ShiftBackward()<CR>'
 
     " exe 'inoremap <silent> <buffer>' g:xptemplate_nav_next   '<C-v><C-v><BS><C-r>=<SID>ShiftForward("")<CR>'
     exe 'inoremap <silent> <buffer>' g:xptemplate_nav_next   '<C-r>=<SID>ShiftForward("")<CR>'
-    exe 'snoremap <silent> <buffer>' g:xptemplate_nav_next   '<Esc>`>a<C-r>=<SID>ShiftForward("")<CR>'
     exe 'snoremap <silent> <buffer>' g:xptemplate_nav_cancel '<Esc>i<C-r>=<SID>ShiftForward("clear")<CR>'
 
     exe 'nnoremap <silent> <buffer>' g:xptemplate_goback     'i<C-r>=<SID>Goback()<CR>'
@@ -4403,9 +4401,13 @@ fun! s:ApplyMap() " {{{
 
     if &selection == 'inclusive'
         " snoremap <silent> <buffer> <BS> <esc>`>a<BS>
+        exe 'snoremap <silent> <buffer>' g:xptemplate_nav_prev   '<Esc>`>a<C-r>=<SID>ShiftBackward()<CR>'
+	exe 'snoremap <silent> <buffer>' g:xptemplate_nav_next   '<Esc>`>a<C-r>=<SID>ShiftForward("")<CR>'
         exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>a"
     else
         " snoremap <silent> <buffer> <BS> <esc>`>i<BS>
+        exe 'snoremap <silent> <buffer>' g:xptemplate_nav_prev   '<Esc>`>i<C-r>=<SID>ShiftBackward()<CR>'
+	exe 'snoremap <silent> <buffer>' g:xptemplate_nav_next   '<Esc>`>i<C-r>=<SID>ShiftForward("")<CR>'
         exe "snoremap <silent> <buffer> ".g:xptemplate_to_right." <esc>`>i"
     endif
 
