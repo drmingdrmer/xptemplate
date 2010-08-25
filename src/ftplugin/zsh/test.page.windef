@@ -1,0 +1,767 @@
+
+
+
+
+    #   -------------"_--------------- 
+    #  "`w^"                           
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    #   -------------'_--------------- 
+    #  '`w^'                           
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    #   -------------(_--------------- 
+    #  (`w^)                           
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    #   -------------<_--------------- 
+    #  <`w^>                           
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    #   -------------[_--------------- 
+    #  [`w^]                           
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    #   -------------`_--------------- 
+    #  \``w^\`                         
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    #   -------------Author--------------- 
+    #  `$author^                           
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    `drdr.xp^
+
+    a drdr.xp
+
+
+    #   -------------bash--------------- 
+    #  #!/bin/~$_xSnipName^              
+
+
+
+    #!/bin/bash
+    
+
+    #!/bin/bash
+     b
+
+     `#!/bin/bash
+     ^
+
+     a #!/bin/bash
+     
+
+
+    #   -------------case--------------- 
+    #  case ~$~var^ in                   
+    #          ~pattern^)                
+    #          ~cursor^                  
+    #          ;;                        
+    #                                    
+    #  esac                              
+
+
+
+case $var in
+	pattern)
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	;;
+
+esac
+
+case $var_TYPED in
+	pattern_TYPED)
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	;;
+
+esac b
+
+`case $var in
+	pattern)
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	;;
+
+esac^
+
+a case $var in
+	pattern)
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	;;
+
+esac
+
+
+    #   -------------comment--------------- 
+    #  `$CS `cursor^                        
+
+
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
+
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+
+ a # WRAPPED_TEXT
+   # WRAPPED_TEXT_line2
+
+
+    #   -------------commentBlock--------------- 
+    #  `$CS `cursor^                             
+
+
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
+
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+
+ a # WRAPPED_TEXT
+   # WRAPPED_TEXT_line2
+
+
+    #   -------------commentDoc--------------- 
+    #  `$CS^                                   
+    #  `$CS `cursor^                           
+    #  `$CS^                                   
+
+
+
+#
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+#
+
+#
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+# b
+
+`#
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+#^
+
+a #
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+#
+
+
+    #   -------------commentLine--------------- 
+    #  `$CS `cursor^                            
+
+
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
+
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+
+ a # WRAPPED_TEXT
+   # WRAPPED_TEXT_line2
+
+
+    #   -------------csh--------------- 
+    #  #!/bin/~$_xSnipName^             
+
+
+
+    #!/bin/csh
+    
+
+    #!/bin/csh
+     b
+
+     `#!/bin/csh
+     ^
+
+     a #!/bin/csh
+     
+
+
+    #   -------------echodate--------------- 
+    #  echo `date~ +~fmt^`                   
+
+
+
+    echo `date +fmt`
+
+    echo `date +fmt_TYPED` b
+
+    `echo `date +fmt`^
+
+    a echo `date +fmt`
+
+
+    #   -------------elif--------------- 
+    #  elif ~:_cond:^;~$BRif^then        
+    #          ~cursor^                  
+
+
+
+elif condition; then
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+
+	elif condition_TYPED; then
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2 b
+
+		`elif condition; then
+			WRAPPED_TEXT
+			WRAPPED_TEXT_line2^
+
+			a elif condition; then
+				WRAPPED_TEXT
+				WRAPPED_TEXT_line2
+
+
+    #   -------------else--------------- 
+    #  else                              
+    #          ~cursor^                  
+
+
+
+else
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+
+	else
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2 b
+
+		`else
+			WRAPPED_TEXT
+			WRAPPED_TEXT_line2^
+
+			a else
+				WRAPPED_TEXT
+				WRAPPED_TEXT_line2
+
+
+    #   -------------Email--------------- 
+    #  `$email^                           
+
+
+
+    drdr.xp@gmail.com
+
+    drdr.xp@gmail.com b
+
+    `drdr.xp@gmail.com^
+
+    a drdr.xp@gmail.com
+
+
+    #   -------------File--------------- 
+    #  `file()^                          
+
+
+
+    test.page.windef
+
+    test.page.windef b
+
+    `test.page.windef^
+
+    a test.page.windef
+
+
+    #   -------------for---------------                  
+    #  for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$BRloop^do 
+    #          ~cursor^                                  
+    #  done                                              
+
+
+
+for ((i = 0; i < len; i++)); do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done
+
+for ((i_TYPED = 0_TYPED; i_TYPED < len_TYPED; i_TYPED++)); do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done b
+
+`for ((i = 0; i < len; i++)); do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done^
+
+a for ((i = 0; i < len; i++)); do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done
+
+
+    #   -------------forin--------------- 
+    #  for ~i^ in ~list^;~$BRloop^do      
+    #          ~cursor^                   
+    #  done                               
+
+
+
+for i in list; do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done
+
+for i_TYPED in list_TYPED; do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done b
+
+`for i in list; do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done^
+
+a for i in list; do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done
+
+
+    #   -------------forr---------------                        
+    #  for ((~i^ = ~n^; ~i^ >~=^ ~start^0^; ~i^--));~$BRloop^do 
+    #          ~cursor^                                         
+    #  done                                                     
+
+
+
+for ((i = n; i >= 0; i--)); do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done
+
+for ((i_TYPED = n_TYPED; i_TYPED >_TYPED start_TYPED; i_TYPED--)); do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done b
+
+`for ((i = n; i >= 0; i--)); do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done^
+
+a for ((i = n; i >= 0; i--)); do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done
+
+
+    #   -------------fun--------------- 
+    #  ~name^ ()~$BRfun^{               
+    #          ~cursor^                 
+    #  }                                
+
+
+
+name () {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+name_TYPED () {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`name () {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a name () {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    #   -------------here---------------        
+    #  <<~-~END^                                
+    #  ~cursor^                                 
+    #  ~END^substitute( V(), '\v\^-', '', '' )^ 
+
+
+
+<<-END
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+END
+
+<<-END_TYPED
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+END_TYPED b
+
+`<<-END
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+END^
+
+a <<-END
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+END
+
+
+    #   -------------if--------------- 
+    #  if ~:_cond:^;~$BRif^then        
+    #          ~cursor^                
+    #  fi                              
+
+
+
+if condition; then
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+fi
+
+if condition_TYPED; then
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+fi b
+
+`if condition; then
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+fi^
+
+a if condition; then
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+fi
+
+
+    #   -------------ife--------------- 
+    #  if ~:_cond:^;~$BRif^then         
+    #          ~job^                    
+    #  else                             
+    #          ~cursor^                 
+    #  fi                               
+
+
+
+if condition; then
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+else
+	
+fi
+
+if condition_TYPED; then
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+else
+	
+fi b
+
+`if condition; then
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+else
+	
+fi^
+
+a if condition; then
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+else
+	
+fi
+
+
+    #   -------------printf--------------- 
+    #  printf "~pattern^"~elts^            
+
+
+
+    printf "pattern"
+
+    printf "pattern_TYPED" b
+
+    `printf "pattern"^
+
+    a printf "pattern"
+
+
+    #   -------------sb--------------- 
+    #  #!/bin/~sh^                     
+
+
+
+    #!/bin/sh
+    
+
+    #!/bin/sh
+     b
+
+     `#!/bin/sh
+     ^
+
+     a #!/bin/sh
+     
+
+
+    #   -------------sh--------------- 
+    #  #!/bin/~$_xSnipName^            
+
+
+
+    #!/bin/sh
+    
+
+    #!/bin/sh
+     b
+
+     `#!/bin/sh
+     ^
+
+     a #!/bin/sh
+     
+
+
+    #   -------------shebang--------------- 
+    #  #!/bin/~sh^                          
+
+
+
+    #!/bin/sh
+    
+
+    #!/bin/sh
+     b
+
+     `#!/bin/sh
+     ^
+
+     a #!/bin/sh
+     
+
+
+    #   -------------until--------------- 
+    #  until ~:_cond:^;~$BRloop^;do       
+    #          ~cursor^                   
+    #  done                               
+
+
+
+until condition; ;do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done
+
+until condition_TYPED; ;do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done b
+
+`until condition; ;do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done^
+
+a until condition; ;do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done
+
+
+    #   -------------while--------------- 
+    #  while ~:_cond:^;~$BRloop^do        
+    #          ~cursor^                   
+    #  done                               
+
+
+
+while condition; do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done
+
+while condition_TYPED; do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done b
+
+`while condition; do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done^
+
+a while condition; do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done
+
+
+    #   -------------while1--------------- 
+    #  while ~:_cond:^;~$BRloop^do         
+    #          ~cursor^                    
+    #  done                                
+
+
+
+while [ 1 ]; do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done
+
+while [ 1 ]; do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done b
+
+`while [ 1 ]; do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done^
+
+a while [ 1 ]; do
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+done
+
+
+    #   -------------zsh--------------- 
+    #  #!/bin/~$_xSnipName^             
+
+
+
+    #!/bin/zsh
+    
+
+    #!/bin/zsh
+     b
+
+     `#!/bin/zsh
+     ^
+
+     a #!/bin/zsh
+     
+
+
+    #   -------------{_--------------- 
+    #  {`w^}                           
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

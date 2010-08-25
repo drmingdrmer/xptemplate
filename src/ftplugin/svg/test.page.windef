@@ -1,0 +1,431 @@
+
+
+
+
+    <!--  -------------"_--------------- -->
+    <!-- "`w^"                           -->
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    <!--  -------------'_--------------- -->
+    <!-- '`w^'                           -->
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    <!--  -------------(_--------------- -->
+    <!-- (`w^)                           -->
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    <!--  -------------<_--------------- -->
+    <!-- <`w^>                           -->
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    <!--  -------------[_--------------- -->
+    <!-- [`w^]                           -->
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    <!--  -------------`_--------------- -->
+    <!-- \``w^\`                         -->
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    <!--  -------------Author--------------- -->
+    <!-- `$author^                           -->
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    <!--  -------------cdata--------------- -->
+    <!-- <![CDATA[`cursor^]]>               -->
+
+
+
+<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>
+
+<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]> b
+
+`<![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>^
+
+a <![CDATA[WRAPPED_TEXT
+WRAPPED_TEXT_line2]]>
+
+
+    <!--  -------------circle---------------                              -->
+    <!-- <circle cx="`xCenter^" cy="`yCenter^" r="`radius^" `style...^ /> -->
+
+
+
+<circle cx="xCenter" cy="yCenter" r="radius" style="" />
+
+<circle cx="xCenter_TYPED" cy="yCenter_TYPED" r="radius_TYPED" style_TYPED /> b
+
+`<circle cx="xCenter" cy="yCenter" r="radius" style="" />^
+
+a <circle cx="xCenter" cy="yCenter" r="radius" style="" />
+
+
+    <!--  -------------comment--------------- -->
+    <!-- `$CL^ `what^^ `$CR^`^                -->
+
+
+
+<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->
+
+<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 --> b
+
+`<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->^
+
+a <!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->
+
+
+    <!--  -------------commentBlock--------------- -->
+    <!-- `$_xCommentLeftWithoutMid^`$CM `cursor^   -->
+    <!-- `$_xCommentMidIndent$CR^                  -->
+
+
+
+<!-- WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
+
+<!-- WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    --> b
+
+`<!-- WRAPPED_TEXT
+      WRAPPED_TEXT_line2
+    -->^
+
+a <!-- WRAPPED_TEXT
+       WRAPPED_TEXT_line2
+    -->
+
+
+    <!--  -------------commentDoc--------------- -->
+    <!-- `$CL^`$CM^                              -->
+    <!-- `$_xCommentMidIndent$CM `cursor^        -->
+    <!-- `$_xCommentMidIndent$CR^                -->
+
+
+
+<!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
+
+<!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    --> b
+
+`<!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->^
+
+a <!--
+     WRAPPED_TEXT
+     WRAPPED_TEXT_line2
+    -->
+
+
+    <!--  -------------commentLine--------------- -->
+    <!-- `$CL `what` $CR^`^                       -->
+
+
+
+<!-- WRAPPED_TEXT -->
+<!-- WRAPPED_TEXT_line2 -->
+
+<!-- WRAPPED_TEXT -->
+<!-- WRAPPED_TEXT_line2 --> b
+
+`<!-- WRAPPED_TEXT -->
+ <!-- WRAPPED_TEXT_line2 -->^
+
+a <!-- WRAPPED_TEXT -->
+  <!-- WRAPPED_TEXT_line2 -->
+
+
+    <!--  -------------ellipse---------------                                                               -->
+    <!-- <ellipse cx="`xCenter^" cy="`yCenter^" rx="`horizontalRadius^" ry="`verticalRadius^" `style...^ /> -->
+
+
+
+<ellipse cx="xCenter" cy="yCenter" rx="horizontalRadius" ry="verticalRadius" style="" />
+
+<ellipse cx="xCenter_TYPED" cy="yCenter_TYPED" rx="horizontalRadius_TYPED" ry="verticalRadius_TYPED" style_TYPED /> b
+
+`<ellipse cx="xCenter" cy="yCenter" rx="horizontalRadius" ry="verticalRadius" style="" />^
+
+a <ellipse cx="xCenter" cy="yCenter" rx="horizontalRadius" ry="verticalRadius" style="" />
+
+
+    <!--  -------------Email--------------- -->
+    <!-- `$email^                           -->
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    <!--  -------------File--------------- -->
+    <!-- `file()^                          -->
+
+
+
+test.page.windef
+
+test.page.windef b
+
+`test.page.windef^
+
+a test.page.windef
+
+
+    <!--  -------------line---------------                                   -->
+    <!-- <text x="`xStart^" y="`yStart^" x2="`xEnd^" y2="`yEnd^" `style...^> -->
+    <!--         `cursor^                                                    -->
+    <!-- </text>                                                             -->
+
+
+
+<text x="xStart" y="yStart" x2="xEnd" y2="yEnd" style="style">
+	
+</text>
+
+<text x="xStart_TYPED" y="yStart_TYPED" x2="xEnd_TYPED" y2="yEnd_TYPED" style_TYPED>
+	
+</text> b
+
+`<text x="xStart" y="yStart" x2="xEnd" y2="yEnd" style="style">
+	
+</text>^
+
+a <text x="xStart" y="yStart" x2="xEnd" y2="yEnd" style="style">
+	
+</text>
+
+
+    <!--  -------------polygon---------------                      -->
+    <!-- <polygon points="`x^,`y^`...^ `x^,`y^`...^" `style...^ /> -->
+
+
+
+<polygon points="x,y x,y x,y x,y" style="" />
+
+<polygon points="x_TYPED,y_TYPED_TYPED" style_TYPED /> b
+
+`<polygon points="x,y x,y x,y x,y" style="" />^
+
+a <polygon points="x,y x,y x,y x,y" style="" />
+
+
+    <!--  -------------polyline---------------                      -->
+    <!-- <polyline points="`x^,`y^`...^ `x^,`y^`...^" `style...^ /> -->
+
+
+
+<polyline points="x,y x,y x,y x,y" style="" />
+
+<polyline points="x_TYPED,y_TYPED_TYPED" style_TYPED /> b
+
+`<polyline points="x,y x,y x,y x,y" style="" />^
+
+a <polyline points="x,y x,y x,y x,y" style="" />
+
+
+    <!--  -------------rect---------------                                               -->
+    <!-- <rect x="`xStart^" y="`yStart^" width="`width^" height="`height^" `style...^ /> -->
+
+
+
+<rect x="xStart" y="yStart" width="width" height="height" style="" />
+
+<rect x="xStart_TYPED" y="yStart_TYPED" width="width_TYPED" height="height_TYPED" style_TYPED /> b
+
+`<rect x="xStart" y="yStart" width="width" height="height" style="" />^
+
+a <rect x="xStart" y="yStart" width="width" height="height" style="" />
+
+
+    <!--  -------------style---------------                      -->
+    <!-- <?xml-stylesheet type="`style^text/css^" href="`from^"> -->
+
+
+
+<?xml-stylesheet type="text/css" href="from">
+
+<?xml-stylesheet type="style_TYPED" href="from_TYPED"> b
+
+`<?xml-stylesheet type="text/css" href="from">^
+
+a <?xml-stylesheet type="text/css" href="from">
+
+
+    <!--  -------------svg---------------                                                                   -->
+    <!-- <?xml version="1.0" standalone="no"?>                                                              -->
+    <!-- <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> -->
+    <!-- <svg width="`width^100%^" height="`height^100%^" version="1.1" xmlns="http://www.w3.org/2000/svg"> -->
+    <!--         `cursor^                                                                                   -->
+    <!-- </svg>                                                                                             -->
+
+
+
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	
+</svg>
+
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="width_TYPED" height="height_TYPED" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	
+</svg> b
+
+`<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	
+</svg>^
+
+a <?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	
+</svg>
+
+
+    <!--  -------------ver---------------                    -->
+    <!-- <?xml version="`ver^1.0^" encoding="`enc^utf-8^" ?> -->
+
+
+
+<?xml version="1.0" encoding="utf-8" ?>
+
+<?xml version="ver_TYPED" encoding="enc_TYPED" ?> b
+
+`<?xml version="1.0" encoding="utf-8" ?>^
+
+a <?xml version="1.0" encoding="utf-8" ?>
+
+
+    <!--  -------------{_--------------- -->
+    <!-- {`w^}                           -->
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

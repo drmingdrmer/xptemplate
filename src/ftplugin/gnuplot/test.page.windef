@@ -1,0 +1,294 @@
+
+
+
+
+    /*  -------------"_--------------- */
+    /* "`w^"                           */
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    /*  -------------'_--------------- */
+    /* '`w^'                           */
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    /*  -------------(_--------------- */
+    /* (`w^)                           */
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`w^>                           */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`w^]                           */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``w^\`                         */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    /*  -------------Author--------------- */
+    /* `$author^                           */
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+test.page.windef
+
+test.page.windef b
+
+`test.page.windef^
+
+a test.page.windef
+
+
+    /*  -------------fun--------------- */
+    /* `funName^( `args^ )=`cursor^     */
+
+
+
+funName( args )=
+
+funName_TYPED( args_TYPED )= b
+
+`funName( args )=^
+
+a funName( args )=
+
+
+    /*  -------------label--------------- */
+    /* set xlabel "`axisLabel^"           */
+    /* set ylabel "`ordinateLabel^"       */
+
+
+
+set xlabel "axisLabel"
+set ylabel "ordinateLabel"
+
+set xlabel "axisLabel_TYPED"
+set ylabel "ordinateLabel_TYPED" b
+
+`set xlabel "axisLabel"
+set ylabel "ordinateLabel"^
+
+a set xlabel "axisLabel"
+set ylabel "ordinateLabel"
+
+
+    /*  -------------range--------------- */
+    /* set xrange [`xMin^:`xMax^]         */
+    /* set yrange [`yMin^:`yMay^]         */
+
+
+
+set xrange [xMin:xMax]
+set yrange [yMin:yMay]
+
+set xrange [xMin_TYPED:xMax_TYPED]
+set yrange [yMin_TYPED:yMay_TYPED] b
+
+`set xrange [xMin:xMax]
+set yrange [yMin:yMay]^
+
+a set xrange [xMin:xMax]
+set yrange [yMin:yMay]
+
+
+    /*  -------------skeleton---------------                                                    */
+    /* set title "`plotTitle^"                                                                  */
+    /* set xlabel "`axisLabel^"                                                                 */
+    /* set ylabel "`ordinateLabel^"                                                             */
+    /*                                                                                          */
+    /* plot "`valueFile^" title "`valueTitle^" `using...{{^using `columns^ `}}^ with linespoint */
+
+
+
+set title "plotTitle"
+set xlabel "axisLabel"
+set ylabel "ordinateLabel"
+
+plot "valueFile" title "valueTitle" using columns  with linespoint
+
+set title "plotTitle_TYPED"
+set xlabel "axisLabel_TYPED"
+set ylabel "ordinateLabel_TYPED"
+
+plot "valueFile_TYPED" title "valueTitle_TYPED" using_TYPED with linespoint b
+
+`set title "plotTitle"
+set xlabel "axisLabel"
+set ylabel "ordinateLabel"
+
+plot "valueFile" title "valueTitle" using columns  with linespoint^
+
+a set title "plotTitle"
+set xlabel "axisLabel"
+set ylabel "ordinateLabel"
+
+plot "valueFile" title "valueTitle" using columns  with linespoint
+
+
+    /*  -------------term---------------                                     */
+    /* set terminal `termMode^ enhanced`size...{{^ size `width^ `height^`}}^ */
+    /* set output "`filename^"                                               */
+
+
+
+set terminal svg enhanced size width height
+set output "filename"
+
+set terminal svg enhancedsize_TYPED
+set output "filename_TYPED" b
+
+`set terminal svg enhanced size width height
+set output "filename"^
+
+a set terminal svg enhanced size width height
+set output "filename"
+
+
+    /*  -------------tics--------------- */
+    /* set xtics `xTics^                 */
+    /* set ytics `yTics^                 */
+
+
+
+set xtics xTics
+set ytics yTics
+
+set xtics xTics_TYPED
+set ytics yTics b
+
+`set xtics xTics
+set ytics yTics^
+
+a set xtics xTics
+set ytics yTics
+
+
+    /*  -------------{_--------------- */
+    /* {`w^}                           */
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}

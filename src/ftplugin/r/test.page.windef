@@ -1,0 +1,616 @@
+
+
+
+
+    /*  -------------"_--------------- */
+    /* "`w^"                           */
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    /*  -------------'_--------------- */
+    /* '`w^'                           */
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    /*  -------------(_--------------- */
+    /* (`w^)                           */
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    /*  -------------<_--------------- */
+    /* <`w^>                           */
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    /*  -------------[_--------------- */
+    /* [`w^]                           */
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    /*  -------------`_--------------- */
+    /* \``w^\`                         */
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    /*  -------------Author--------------- */
+    /* `$author^                           */
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    /*  -------------case--------------- */
+    /* case `constant^`$SPcmd^:          */
+    /*         `cursor^                  */
+    /*         break;                    */
+
+
+
+case constant :
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	break;
+
+case constant_TYPED :
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	break; b
+
+`case constant :
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	break;^
+
+a case constant :
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+	break;
+
+
+    /*  -------------default--------------- */
+    /* default:                             */
+    /*         `cursor^                     */
+
+
+
+default:
+	
+
+default:
+	 b
+
+`default:
+	^
+
+a default:
+	
+
+
+    /*  -------------elif--------------- */
+    /* else `Include:_if^                */
+
+
+
+else if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+else if ( condition_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`else if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a else if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------else--------------- */
+    /* else`$BRif^{                      */
+    /*         `cursor^                  */
+    /* }                                 */
+
+
+
+else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a else {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------Email--------------- */
+    /* `$email^                           */
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+test.page.windef
+
+test.page.windef b
+
+`test.page.windef^
+
+a test.page.windef
+
+
+    /*  -------------for--------------- */
+    /* for (`name^ in `vec^)            */
+    /* {                                */
+    /*         `cursor^                 */
+    /* }                                */
+
+
+
+for (name in vec)
+{
+	
+}
+
+for (name_TYPED in vec_TYPED)
+{
+	
+} b
+
+`for (name in vec)
+{
+	
+}^
+
+a for (name in vec)
+{
+	
+}
+
+
+    /*  -------------fun--------------- */
+    /* `funName^ <- function( `args^ )  */
+    /* {                                */
+    /*         `cursor^                 */
+    /* }                                */
+
+
+
+funName <- function( args )
+{ 
+	
+}
+
+funName_TYPED <- function( args_TYPED )
+{ 
+	
+} b
+
+`funName <- function( args )
+{ 
+	
+}^
+
+a funName <- function( args )
+{ 
+	
+}
+
+
+    /*  -------------head--------------- */
+    /* #! /usr/bin/env Rscript           */
+
+
+
+#! /usr/bin/env Rscript
+
+#! /usr/bin/env Rscript b
+
+`#! /usr/bin/env Rscript^
+
+a #! /usr/bin/env Rscript
+
+
+    /*  -------------if--------------- */
+    /* `Include:_if^                   */
+
+
+
+if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( condition_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( condition ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------if0--------------- */
+    /* `Include:_if^                    */
+
+
+
+if ( 0 == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( 0 == var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( 0 == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( 0 == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------ifee---------------                              */
+    /* `:_if:^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ */
+
+
+
+if ( condition ) {
+	
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+
+if ( condition_TYPED ) {
+	_TYPED
+} else_if_TYPED b
+
+`if ( condition ) {
+	
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}^
+
+a if ( condition ) {
+	
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+else if ( condition ) {
+	/* cursor */
+}
+
+
+    /*  -------------ifn--------------- */
+    /* `Include:_if^                    */
+
+
+
+if ( NULL == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( NULL == var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( NULL == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( NULL == var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------ifn0--------------- */
+    /* `Include:_if^                     */
+
+
+
+if ( 0 != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( 0 != var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( 0 != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( 0 != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------ifnn--------------- */
+    /* `Include:_if^                     */
+
+
+
+if ( NULL != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+if ( NULL != var_TYPED ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+} b
+
+`if ( NULL != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}^
+
+a if ( NULL != var ) {
+	WRAPPED_TEXT
+	WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------operator--------------- */
+    /* %`funName^% <- function( `args^ )     */
+    /* {                                     */
+    /*         `cursor^                      */
+    /* }                                     */
+
+
+
+%funName% <- function( args )
+{ 
+	
+}
+
+%funName_TYPED% <- function( args_TYPED )
+{ 
+	
+} b
+
+`%funName% <- function( args )
+{ 
+	
+}^
+
+a %funName% <- function( args )
+{ 
+	
+}
+
+
+    /*  -------------switch---------------    */
+    /* switch (`$SParg^`var^`$SParg^)`$BRif^{ */
+    /*         `Include:case^                 */
+    /* }                                      */
+
+
+
+switch ( var ) {
+	case constant :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+}
+
+switch ( var_TYPED ) {
+	case constant_TYPED :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+} b
+
+`switch ( var ) {
+	case constant :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+}^
+
+a switch ( var ) {
+	case constant :
+		WRAPPED_TEXT
+		WRAPPED_TEXT_line2
+		break;
+}
+
+
+    /*  -------------while--------------- */
+    /* while ( `cond^ )                   */
+    /* {                                  */
+    /*         `cursor^                   */
+    /* }                                  */
+
+
+
+while ( cond )
+{ 
+	
+}
+
+while ( cond_TYPED )
+{ 
+	
+} b
+
+`while ( cond )
+{ 
+	
+}^
+
+a while ( cond )
+{ 
+	
+}
+
+
+    /*  -------------{_--------------- */
+    /* {`w^}                           */
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
