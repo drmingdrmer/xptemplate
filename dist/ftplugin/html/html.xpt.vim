@@ -332,6 +332,7 @@ XPT fieldset " <fieldset ..
     <legend></legend>
     `cursor^
 </fieldset>
+..XPT
 
 " XPT sdiv alias=_t
 

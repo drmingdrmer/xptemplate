@@ -63,6 +63,8 @@ fun! XPreplaceInternal(start, end, replacement, ...)
         call s:doPreJob(a:start, a:end, replacement)
     endif
     call cursor( a:start )
+    silent! normal! zO
+    call cursor( a:start )
     if a:start != a:end
         silent! normal! v
         call cursor( a:end )
