@@ -248,7 +248,15 @@ fun! s:Replace_standard( start, end, replacement ) "{{{
         " *) and if previous char is <tab>, pasting after <tab> may break tab
         " to spaces
         call cursor( a:start[0], a:start[1] - 1 )
-        let char = getline( "." )[ -1:-1 ]
+
+        " NOTE: unicode char can not be extracted with [ -1:-1 ].
+        "       The following statement breaks unicode char:
+        "           let char = getline( "." )[ -1:-1 ]
+        let char = matchstr( getline( '.' ), '\v.$' )
+
+        call s:log.Debug( 'char=' . string( char ) )
+
+
         let @" = char . replacement . ';'
         call s:log.Debug( 'at last , to append=' . @" )
         silent! normal! ""P
@@ -283,7 +291,7 @@ fun! s:Replace_standard( start, end, replacement ) "{{{
     " remove ';'
     if ifPasteAtEnd
         " last char of line start replacing, and ';'
-        call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - 1 )
+        call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - len( char ) )
 
         " if appending is occur at end of line, delete all following.
         " 'x' command expands tab and delete only 1 char
