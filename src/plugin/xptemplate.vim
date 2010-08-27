@@ -96,7 +96,6 @@
 " Log of this version:
 "   removed: hint format "hint=**" is no longer supported
 "   fix: slowly loading *.xpt.vim
-"   fix: slowly loading *.xpt.vim
 "   fix: mistakely using $SPop in brackets snippet. It should be $SParg
 "   fix: bug pre-parsing spaces
 "   fix: bug that non-key place holder does not clear  '`' and '^'
@@ -2868,6 +2867,7 @@ endfunction "}}}
 
 
 fun! s:ShiftForward( action ) " {{{
+
     let x = b:xptemplateData
 
     let renderContext = x.renderContext
