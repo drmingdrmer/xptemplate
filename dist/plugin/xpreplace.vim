@@ -89,7 +89,7 @@ fun! s:Replace_standard( start, end, replacement )
     let @" = replacement . ';'
     if ifPasteAtEnd
         call cursor( a:start[0], a:start[1] - 1 )
-        let char = getline( "." )[ -1:-1 ]
+        let char = matchstr( getline( '.' ), '\v.$' )
         let @" = char . replacement . ';'
         silent! normal! ""P
     else
@@ -106,7 +106,7 @@ fun! s:Replace_standard( start, end, replacement )
     call cursor(positionAfterReplacement)
     silent! '',.foldopen!
     if ifPasteAtEnd
-        call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - 1 )
+        call cursor( positionAfterReplacement[0], positionAfterReplacement[1] - 1 - len( char ) )
         silent! normal! DzO
     else
         call cursor( positionAfterReplacement )
