@@ -738,4 +738,4 @@ endfunction "}}}
 let &cpo = s:oldcpo
 
 
-call StartProf()
+" call StartProf()
