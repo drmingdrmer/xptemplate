@@ -113,7 +113,7 @@ fun! xpt#parser#CompileCompacted( lines ) "{{{
     let iSnipPart = match( lines, '\V\^XPT\s' )
 
     if iSnipPart < 0
-        return
+        return []
     endif
 
     if iSnipPart != 0

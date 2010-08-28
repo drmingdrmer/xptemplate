@@ -31,7 +31,7 @@ runtime plugin/xptemplate.vim
 
 
 let s:log = xpt#debug#Logger( 'warn' )
-" let s:log = xpt#debug#Logger( 'debug' )
+let s:log = xpt#debug#Logger( 'debug' )
 
 
 com! -nargs=* XPTemplate
@@ -142,6 +142,8 @@ fun! DoSnippetFileInit( filename, ... ) "{{{
         call XPTemplateInit()
     endif
 
+    call s:log.Debug( 'DoSnippetFileInit is called' )
+
     let x = b:xptemplateData
     let filetypes = x.filetypes
 
@@ -198,10 +200,14 @@ endfunction "}}}
 
 fun! XPTsnippetFileInit( filename, ... ) "{{{
 
+    call s:log.Debug( 'XPTsnippetFileInit is called. filename=' . string( a:filename ) )
+
     if a:filename =~ '\V.xpt.vim\$'
 
+        call s:log.Debug( 'original file, to compile it' )
+
         call xpt#parser#Compile( a:filename )
-        exe 'runtime' a:filename . 'c'
+        exe 'so' a:filename . 'c'
 
         return 'finish'
 
@@ -253,7 +259,7 @@ fun! XPTsetVar( nameSpaceValue ) "{{{
     call s:log.Log("name=".name.' value='.val.' priority='.priority)
 
 
-    if !has_key( ftScope.varPriority, name ) || priority =< ftScope.varPriority[ name ]
+    if !has_key( ftScope.varPriority, name ) || priority <= ftScope.varPriority[ name ]
         let [ ftScope.funcs[ name ], ftScope.varPriority[ name ] ] = [ val, priority ]
     endif
 
