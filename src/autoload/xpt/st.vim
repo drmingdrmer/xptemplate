@@ -30,6 +30,8 @@ let s:proto  = {
       \    'comeLast'         : [],
       \}
 
+let s:keyToFilter = [ 'preValues' ]
+
 
 fun! xpt#st#New() "{{{
     return deepcopy( s:proto )
@@ -37,11 +39,28 @@ endfunction "}}}
 
 fun! xpt#st#Extend( setting ) "{{{
     call extend( a:setting, deepcopy( s:proto ), 'keep' )
+
+    for pkey in s:keyToFilter
+        call extend( a:setting[ pkey ], deepcopy( s:proto[ pkey ] ), 'keep' )
+    endfor
+
+endfunction "}}}
+
+fun! xpt#st#What() "{{{
+
 endfunction "}}}
 
 fun! xpt#st#Simplify( setting ) "{{{
     " -987654 is assumed to be an pseudo NONE value
     call filter( a:setting, 'v:val!=get(s:proto,v:key,-987654)' )
+
+    for pkey in s:keyToFilter
+        let pv = s:proto[ pkey ]
+        if has_key( a:setting, pkey )
+            call filter( a:setting[ pkey ], 'v:val!=get(pv,v:key,-987654)' )
+        endif
+    endfor
+
 endfunction "}}}
 
 

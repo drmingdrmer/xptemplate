@@ -14,7 +14,8 @@ let s:log = xpt#debug#Logger( 'debug' )
 
 
 fun! xpt#snip#DefExt( name, setting, lines ) "{{{
-    let setting = a:setting
+
+    let setting = xpt#st#Extend( a:setting )
 
     call XPTdefineSnippet( a:name, setting, lines )
 endfunction "}}}
