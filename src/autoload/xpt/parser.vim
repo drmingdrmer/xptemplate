@@ -116,7 +116,7 @@ fun! xpt#parser#CompileCompacted( lines ) "{{{
         return []
     endif
 
-    if iSnipPart != 0
+    if iSnipPart > 0
         let rst += lines[ : iSnipPart - 1 ]
         let lines = lines[ iSnipPart : ]
     endif
@@ -235,7 +235,7 @@ fun! xpt#parser#CompileSnippet( lines ) "{{{
               \ string( snippetName ), string( setting.alias ), string( setting ) )
     else
         " call XPTdefineSnippet(snippetName, setting, snippetLines)
-        return printf( 'call XPTdefineSnippet(%s,%s,%s)',
+        return printf( 'call xpt#snip#DefExt(%s,%s,%s)',
               \ string( snippetName ), string( setting ), string( snippetLines ) )
     endif
 

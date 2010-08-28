@@ -447,6 +447,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
 endfunction " }}}
 
+
 fun! XPTdefineSnippet( name, setting, snip ) "{{{
 
     " TODO global shortcuts
