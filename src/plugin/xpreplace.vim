@@ -136,7 +136,9 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
     " reserved register 0
     " Assert @" == 'XPreplaceInited'
 
+
     let replacement = s:ConvertSpaceToTab( a:replacement )
+    let repLines = XPT#SpaceToTabExceptFirstLine( split( a:replacement, '\n', 1 ) )
 
 
 
@@ -152,30 +154,69 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
     call s:log.Debug( 'line at start + 1=' . string( getline( a:start[0] + 1 ) ) )
 
 
-    " remove old
-    call cursor( a:start )
-    silent! normal! zO
-    call cursor( a:start )
+    if 0
+        let [ curNrLines, finalNrLines ] = [ a:end[ 0 ] - a:start[ 0 ] + 1, len( repLines ) ]
 
-    if a:start != a:end
+        let [ s, e ] = [ 1, col( [ a:end[ 0 ], '$' ] ) ]
 
-        silent! normal! v
-        call cursor( a:end )
-        silent! normal! dzO
-        " NOTE: in some old version of vim, cursor goes back 1 char after delete. 
-        call cursor( a:start )
-    endif
+        let repLines[ 0 ] = XPT#TextInLine( a:start[ 0 ], s, a:start[ 1 ] ) . repLines[ 0 ]
+        let repLines[ -1 ] .= XPT#TextInLine( a:end[ 0 ], a:end[ 1 ], e )
+        call s:log.Debug( 'relLines=' . string( repLines ) )
 
 
-    call s:log.Log( 'after deleting content, line=' . string( getline( a:start[0] ) ) )
-    call s:log.Debug( "line at start=" . string( getline( a:start[0] ) ) )
-    call s:log.Debug( 'line at start + 1=' . string( getline( a:start[0] + 1 ) ) )
+        let positionAfterReplacement = [ a:end[ 0 ] + ( finalNrLines - curNrLines ), a:end[1] - len(getline(a:end[0])) ]
 
-    if replacement != ''
-        let positionAfterReplacement = s:Replace_standard( a:start, a:end, replacement )
-        " let positionAfterReplacement = s:Replace_gp( a:start, a:end, replacement )
+
+        if curNrLines > finalNrLines
+
+            call cursor( a:start )
+            if curNrLines > finalNrLines + 1
+                exe 'silent!' 'normal!' 'zOd' ( finalNrLines - curNrLines - 1 ) 'j'
+            else
+                silent! normal! zOdd
+            endif
+
+        elseif curNrLines < finalNrLines
+
+            call append( a:start[ 0 ], repeat( [ '' ], finalNrLines - curNrLines ) )
+
+        endif
+
+
+        call setline( a:start[ 0 ], repLines )
+
+        let positionAfterReplacement[1] += len(getline(positionAfterReplacement[0]))
+
     else
-        let positionAfterReplacement = [ line("."), col(".") ]
+
+        " remove old
+        call cursor( a:start )
+        silent! normal! zO
+        call cursor( a:start )
+
+
+        if a:start != a:end
+
+            silent! normal! v
+            call cursor( a:end )
+            silent! normal! dzO
+            " NOTE: in some old version of vim, cursor goes back 1 char after delete. 
+            call cursor( a:start )
+
+        endif
+
+
+        call s:log.Log( 'after deleting content, line=' . string( getline( a:start[0] ) ) )
+        call s:log.Debug( "line at start=" . string( getline( a:start[0] ) ) )
+        call s:log.Debug( 'line at start + 1=' . string( getline( a:start[0] + 1 ) ) )
+
+        if replacement != ''
+            let positionAfterReplacement = s:Replace_standard( a:start, a:end, replacement )
+            " let positionAfterReplacement = s:Replace_gp( a:start, a:end, replacement )
+        else
+            let positionAfterReplacement = [ line("."), col(".") ]
+        endif
+
     endif
 
 
