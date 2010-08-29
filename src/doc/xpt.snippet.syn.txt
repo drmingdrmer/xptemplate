@@ -713,7 +713,7 @@
 
 	Example : the "#ind" snippet defined as : >
 		XPT #ind
-		XSET me|def|=fileRoot()
+		XSET me|def=fileRoot()
 		#include "`me^.h"
 <	In C language, type "#ind<C-\>" you get : >
 		#include "current_file_name.h"
