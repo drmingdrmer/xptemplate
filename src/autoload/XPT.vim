@@ -125,6 +125,70 @@ fun! XPT#convertSpaceToTab( text ) "{{{
     endif
 endfunction "}}}
 
+fun! XPT#SpaceToTabExceptFirstLine( lines ) "{{{
+    " NOTE: line-break followed by space
+
+    if ! &expandtab && len( a:lines ) > 1 && match( a:lines, '\v^ ', 1 ) > -1
+
+        let line0 = a:lines[ 0 ]
+
+        let cmd = string( join( split( line, '\v^%(' . repeat( ' ',  &tabstop ) . ')', 1 ), '	' ) )
+        call map( a:lines, cmd )
+
+        let a:lines[ 0 ] = line0
+
+    endif
+
+    return a:lines
+
+endfunction "}}}
+
+fun! XPT#TextBetween( posList ) "{{{
+    return join(XPT#LinesBetween( a:posList ), "\n")
+endfunction " }}}
+
+fun! XPT#TextInLine( ln, s, e ) "{{{
+
+    if a:s >= a:e
+        return ""
+    endif
+
+    return getline(a:ln)[ a:s - 1 : a:e - 2 ]
+
+endfunction "}}}
+
+fun! XPT#LinesBetween( posList ) "{{{
+
+    let [ s, e ] = a:posList
+
+    if s[0] > e[0]
+        return ""
+    endif
+
+    if s[0] == e[0]
+        if s[1] == e[1]
+            return ""
+        else
+            call s:log.Log( "content between " . string( [s, e] ) . ' is :' . getline(s[0])[ s[1] - 1 : e[1] - 2] )
+            return getline(s[0])[ s[1] - 1 : e[1] - 2 ]
+        endif
+    endif
+
+
+    let r = [ getline(s[0])[s[1] - 1:] ] + getline(s[0]+1, e[0]-1)
+
+    if e[1] > 1
+        let r += [ getline(e[0])[:e[1] - 2] ]
+    else
+        let r += ['']
+    endif
+
+    call s:log.Log( "content between " . string( [s, e] ) . ' is :'.join( r, "\n" ) )
+
+    return r
+
+endfunction "}}}
+
 
 " OO support 
 fun! XPT#class( sid, proto ) "{{{
