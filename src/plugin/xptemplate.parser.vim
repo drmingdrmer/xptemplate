@@ -39,7 +39,7 @@ com! -nargs=* XPTemplate
       \ |     finish
       \ | endif
 
-com! -nargs=* XPTemplateDef echom "XPTemplateDef is NOT needed any more. It is just OK to remove it."
+com! -nargs=* XPTemplateDef echom expand("<sfile>") . " XPTemplateDef is NOT needed any more. All right to remove it."
 com! -nargs=* XPT           call s:XPTstartSnippetPart(expand("<sfile>")) | finish
 com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
 " TODO rename me to XSET
@@ -107,7 +107,7 @@ fun! s:AssignSnipFT( filename ) "{{{
 
     endif
 
-    call s:log.Log( "filename=" . filename . 'filetype=' . &filetype . " ft=" . ft )
+    call s:log.Log( "filename=" . filename . ' filetype=' . &filetype . " ft=" . ft )
 
     return ft
 
@@ -212,6 +212,8 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
         return 'finish'
 
     else
+
+        call s:log.Debug( 'Compiled file: ' . string( a:filename ) )
 
         return call( function( 'DoSnippetFileInit' ), [ a:filename . 'c' ] + a:000 )
 

@@ -49,7 +49,7 @@ endfunction "}}}
 
 fun! xpt#flt#Extend( inst ) "{{{
     " no reference existed in s:proto, no need to deepcopy it
-    call extend( a:setting, s:proto, 'keep' )
+    call extend( a:inst, s:proto, 'keep' )
 endfunction "}}}
 
 fun! xpt#flt#Simplify( inst ) "{{{

@@ -16,21 +16,31 @@ let g:__AL_XPT_ST_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
+
+let s:log = xpt#debug#Logger( 'warn' )
+let s:log = xpt#debug#Logger( 'debug' )
+
+
 " TODO move more init values here, comeLast for cursor, default value for cursor
 let s:proto  = {
       \    'hidden'           : 0,
       \    'variables'        : {},
-      \    'preValues'        : { 'cursor' : xpt#flt#New( 0, '$CURSOR_PH' ) },
+      \    'preValues'        : {},
       \    'defaultValues'    : {},
       \    'mappings'         : {},
       \    'ontypeFilters'    : {},
       \    'postFilters'      : {},
       \    'replacements'     : {},
+      \    'postQuoter'       : {},
       \    'comeFirst'        : [],
       \    'comeLast'         : [],
       \}
 
-let s:keyToFilter = [ 'preValues' ]
+
+let s:protoDefault = {
+      \    'preValues'        : { 'cursor' : xpt#flt#New( 0, '$CURSOR_PH' ) },
+      \    'postQuoter'       : { 'start' : '{{', 'end' : '}}' },
+      \ }
 
 
 fun! xpt#st#New() "{{{
@@ -38,10 +48,26 @@ fun! xpt#st#New() "{{{
 endfunction "}}}
 
 fun! xpt#st#Extend( setting ) "{{{
+    for k in [ 'preValues', 'defaultValues', 'ontypeFilters', 'postFilters' ]
+        if has_key( a:setting, k )
+            for val in values( a:setting[k] )
+                call xpt#flt#Extend( val )
+            endfor
+        endif
+    endfor
+
+    if has_key( a:setting, 'mappings' )
+        for phMapping in values( a:setting.mappings )
+            for mapFilter in values( phMapping.keys )
+                call xpt#flt#Extend( mapFilter )
+            endfor
+        endfor
+    endif
+
     call extend( a:setting, deepcopy( s:proto ), 'keep' )
 
-    for pkey in s:keyToFilter
-        call extend( a:setting[ pkey ], deepcopy( s:proto[ pkey ] ), 'keep' )
+    for [ k, v ] in items( s:protoDefault )
+        call extend( a:setting[ k ], deepcopy( v ), 'keep' )
     endfor
 
 endfunction "}}}
@@ -51,15 +77,9 @@ fun! xpt#st#What() "{{{
 endfunction "}}}
 
 fun! xpt#st#Simplify( setting ) "{{{
-    " -987654 is assumed to be an pseudo NONE value
-    call filter( a:setting, 'v:val!=get(s:proto,v:key,-987654)' )
 
-    for pkey in s:keyToFilter
-        let pv = s:proto[ pkey ]
-        if has_key( a:setting, pkey )
-            call filter( a:setting[ pkey ], 'v:val!=get(pv,v:key,-987654)' )
-        endif
-    endfor
+    call s:log.Debug( 'To simplify: ' . string( a:setting ) )
+    call filter( a:setting, '!has_key(s:proto,v:key) || v:val!=s:proto[v:key]' )
 
 endfunction "}}}
 

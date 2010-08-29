@@ -1,3 +1,4 @@
+finish
 if exists( "g:__FILTERVALUE_VIM__" ) && g:__FILTERVALUE_VIM__ >= XPT#ver
     finish
 endif

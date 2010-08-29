@@ -4,7 +4,6 @@ XPTinclude
     \ _common/common
 
 " ================================= Snippets
-XPTemplateDef
 XPT if " if ( cond )...
 if ( `cond^ )
     `cursor^

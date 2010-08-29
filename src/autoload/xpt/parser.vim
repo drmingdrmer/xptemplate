@@ -12,6 +12,9 @@ set cpo-=< cpo+=B
 let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
 
+" TODO make it configureable
+let g:xptemplate_always_compile = 1
+
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
 
@@ -22,12 +25,24 @@ fun! xpt#parser#Compile( fn ) "{{{
     let ctime = getftime( a:fn )
 
     if !filereadable( compiledFn ) || getftime( compiledFn ) < ctime
+          \ || g:xptemplate_always_compile
 
         let lines = readfile( a:fn )
+        " call s:log.Debug( 'Read file: ' . string( lines ) )
+
         let lines = xpt#parser#Compact( lines )
+
+        " let r = join( lines, "\n" )
+        " call s:log.Debug( 'Compated file lines: ' . r )
+
         let lines = xpt#parser#CompileCompacted( lines )
+        " call s:log.Debug( 'Compiled file lines: ' . string( lines ) )
 
         call writefile( lines, compiledFn )
+
+        call s:log.Debug( 'Compiled file has written to: ' . string( compiledFn ) )
+    else
+        call s:log.Debug( 'No need to Compile: ' . string( compiledFn ) )
 
     endif
 
@@ -113,7 +128,7 @@ fun! xpt#parser#CompileCompacted( lines ) "{{{
     let iSnipPart = match( lines, '\V\^XPT\s' )
 
     if iSnipPart < 0
-        return []
+        return lines
     endif
 
     if iSnipPart > 0
@@ -235,7 +250,9 @@ fun! xpt#parser#CompileSnippet( lines ) "{{{
               \ string( snippetName ), string( setting.alias ), string( setting ) )
     else
         " call XPTdefineSnippet(snippetName, setting, snippetLines)
-        return printf( 'call xpt#snip#DefExt(%s,%s,%s)',
+        " return printf( 'call xpt#snip#DefExt(%s,%s,%s)',
+        "       \ string( snippetName ), string( setting ), string( snippetLines ) )
+        return printf( 'call XPTdefineSnippet(%s,%s,%s)',
               \ string( snippetName ), string( setting ), string( snippetLines ) )
     endif
 
@@ -283,7 +300,8 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
         let a:setting.comeLast = xpt#util#SplitWith( a:value, ' ' )
 
     elseif a:keyname ==# 'postQuoter'
-        let a:setting.postQuoter = a:value
+        let pq = split( a:value, ',' )
+        let a:setting.postQuoter = { 'start' : pq[0], 'end' : pq[1] }
 
     elseif has_key( s:keytypeToDict, keytype )
         let dicName = s:keytypeToDict[ keytype ]

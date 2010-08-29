@@ -188,19 +188,6 @@ let s:nonsafe = '{$( '
 let s:nonsafeHint = '$('
 let s:regEval = '\V\w(\|$\w'
 
-" TODO moved to autoload/st.vim
-let g:XPTemplateSettingPrototype  = {
-      \    'hidden'           : 0,
-      \    'variables'        : {},
-      \    'preValues'        : { 'cursor' : g:FilterValue.New( 0, '$CURSOR_PH' ) },
-      \    'defaultValues'    : {},
-      \    'mappings'         : {},
-      \    'ontypeFilters'    : {},
-      \    'postFilters'      : {},
-      \    'replacements'     : {},
-      \    'comeFirst'        : [],
-      \    'comeLast'         : [],
-      \}
 
 
 fun! g:XPTapplyTemplateSettingDefaultValue( setting ) "{{{
@@ -217,7 +204,7 @@ fun! s:SetDefaultFilters( ph ) "{{{
     if !has_key( setting.postFilters, a:ph.name )
         let pfs = setting.postFilters
 
-        if a:ph.name =~ '\V\w\+?'	| let pfs[ a:ph.name ] = g:FilterValue.New( 0, "EchoIfNoChange( '' )" )
+        if a:ph.name =~ '\V\w\+?'	| let pfs[ a:ph.name ] = xpt#flt#New( 0, "EchoIfNoChange( '' )" )
         endif
     endif
 endfunction "}}}
@@ -440,7 +427,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
         return
     endif
 
-    call XPTdefineSnippet( a:name, setting, snip )
+    call xpt#snip#DefExt( a:name, setting, snip )
 
 
     call XPTsnipScopePop()
@@ -459,9 +446,10 @@ fun! XPTdefineSnippet( name, setting, snip ) "{{{
     let xp        = x.snipFileScope.ptn
 
 
-    let templateSetting = deepcopy(g:XPTemplateSettingPrototype)
-    call extend( templateSetting, a:setting, 'force' )
-    call g:XPTapplyTemplateSettingDefaultValue( templateSetting )
+    " TODO this is unnecessary if XPTdefineSnippet is always called from
+    " snippet file.
+    call xpt#st#Extend( a:setting )
+    let templateSetting = a:setting
 
 
     let prio =  has_key(templateSetting, 'priority')
@@ -532,7 +520,7 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
     if !has_key( a:tmplObj.setting.defaultValues, 'cursor' )
                 " \ || a:tmplObj.setting.defaultValues.cursor !~ 'Finish'
-        let a:tmplObj.setting.defaultValues.cursor = g:FilterValue.New( 0, 'FinishPH({"text":""})' )
+        let a:tmplObj.setting.defaultValues.cursor = xpt#flt#New( 0, 'FinishPH({"text":""})' )
     endif
 
     call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . string( a:tmplObj.setting.defaultValues.cursor ) )
@@ -1762,7 +1750,7 @@ fun! s:ParseRepetition( snipObject ) "{{{
         let symbol = matchstr(rest, rp)
         let name = substitute( symbol, '\V' . xp.lft . '\|' . xp.rt, '', 'g' )
 
-        let tmplObj.setting.postFilters[ name ] = g:FilterValue.New( -indentNr, repeatPart )
+        let tmplObj.setting.postFilters[ name ] = xpt#flt#New( -indentNr, repeatPart )
 
 
 
@@ -1880,7 +1868,7 @@ fun! s:ParseQuotedPostFilter( tmplObj ) "{{{
             let plainPostFilter = 'BuildIfNoChange(' . string( plainPostFilter ) . ')'
         endif
 
-        let postFilters[ name ] = g:FilterValue.New( -firstLineIndentNr, plainPostFilter )
+        let postFilters[ name ] = xpt#flt#New( -firstLineIndentNr, plainPostFilter )
 
         call s:log.Debug( 'name=' . name )
         call s:log.Debug( 'quoted post filter=' . string( postFilters[ name ] ) )
@@ -1912,8 +1900,8 @@ fun! s:BuildSnippet(nameStartPosition, nameEndPosition) " {{{
     if ctx.snipSetting.iswrap && x.wrap isnot ''
         let setting = ctx.snipSetting
 
-        let setting.preValues[ setting.wrap ] = g:FilterValue.New( 0, 'GetWrappedText()' )
-        let setting.defaultValues[ setting.wrap ] = g:FilterValue.New( 0, "Next()", 1 )
+        let setting.preValues[ setting.wrap ] = xpt#flt#New( 0, 'GetWrappedText()' )
+        let setting.defaultValues[ setting.wrap ] = xpt#flt#New( 0, "Next()", 1 )
 
         call insert( setting.comeFirst, setting.wrap, 0 )
     endif
@@ -2188,9 +2176,9 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
 
         if isPostFilter
-            let placeHolder.postFilter = g:FilterValue.New( -nIndent, val )
+            let placeHolder.postFilter = xpt#flt#New( -nIndent, val )
         else
-            let placeHolder.ontimeFilter = g:FilterValue.New( -nIndent, val )
+            let placeHolder.ontimeFilter = xpt#flt#New( -nIndent, val )
         endif
 
         call s:log.Debug("placeHolder post filter:key=val : " . name . "=" . val)
@@ -2682,7 +2670,7 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
     let text = ''
     if placeHolder.leftEdge != ''
 
-        let filter = g:FilterValue.New( 0, placeHolder.leftEdge )
+        let filter = xpt#flt#New( 0, placeHolder.leftEdge )
         let filter = s:EvalFilter( filter, x.renderContext.ftScope.funcs, { 'startPos' : a:nameInfo[0] } )
         let text .= get( filter, 'text', '' )
 
@@ -2690,7 +2678,7 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
 
     if placeHolder.name != ''
 
-        let filter = g:FilterValue.New( 0, placeHolder.name )
+        let filter = xpt#flt#New( 0, placeHolder.name )
         let filter = s:EvalFilter( filter, x.renderContext.ftScope.funcs, { 'startPos' : a:nameInfo[0] } )
         let text .= get( filter, 'text', '' )
 
@@ -2698,7 +2686,7 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
 
     if placeHolder.rightEdge != ''
 
-        let filter = g:FilterValue.New( 0, placeHolder.rightEdge )
+        let filter = xpt#flt#New( 0, placeHolder.rightEdge )
         let filter = s:EvalFilter( filter, x.renderContext.ftScope.funcs, { 'startPos' : a:nameInfo[0] } )
         let text .= get( filter, 'text', '' )
 
@@ -3804,7 +3792,7 @@ fun! XPTmappingEval( str ) "{{{
           \     x.renderContext.leadingPlaceHolder.mark ) )
 
 
-    let filter = g:FilterValue.New( 0, a:str )
+    let filter = xpt#flt#New( 0, a:str )
     let filter = s:EvalFilter( filter, x.renderContext.ftScope.funcs,
           \ { 'typed' : typed, 'startPos' : [ line( "." ), col( "." ) ] } )
 
@@ -4001,7 +3989,7 @@ fun! s:EvalFilter( filter, container, context ) "{{{
 
     if type( rst ) == type( '' )
         let a:filter.text = rst
-        call a:filter.AdjustIndent( a:context.startPos )
+        call xpt#flt#AdjustIndent( a:filter, a:context.startPos )
 
         return a:filter
     endif
@@ -4043,7 +4031,7 @@ fun! s:EvalFilter( filter, container, context ) "{{{
         endif
 
 
-        call a:filter.AdjustTextAction( a:context )
+        call xpt#flt#AdjustTextAction( a:filter, a:context )
 
     endif
 
@@ -4627,11 +4615,11 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
 
             elseif useGroupPost
                 let flt = copy( groupFilter )
-                call flt.AdjustIndent( phStartPos )
+                call xpt#flt#AdjustIndent( flt, phStartPos )
 
             else
-                let flt = g:FilterValue.New( -xpt#util#getIndentNr( phln, phcol ), a:contentTyped )
-                call flt.AdjustIndent( phStartPos )
+                let flt = xpt#flt#New( -xpt#util#getIndentNr( phln, phcol ), a:contentTyped )
+                call xpt#flt#AdjustIndent( flt, phStartPos )
 
             endif
 
