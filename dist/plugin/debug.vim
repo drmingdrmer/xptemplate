@@ -6,7 +6,6 @@ let s:oldcpo = &cpo
 set cpo-=<
 set cpo+=B
 let s:globalLogLevel = 'warn'
-let s:globalLogLevel = 'debug'
 com! DebugGetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 DebugGetSID
 delc DebugGetSID

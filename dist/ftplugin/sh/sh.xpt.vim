@@ -18,6 +18,7 @@ XPTvar $BRstc         ' '
 XPTvar $BRfun         ' '
 
 XPTvar $SPop          ''
+XPTvar $SParg         ''
 
 XPTinclude
       \ _common/common

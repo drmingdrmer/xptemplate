@@ -148,7 +148,7 @@ fun! s:f.bkt_finish( keyPressed )
 
     let v = self.V()
 
-    if self.GetVar( '$SPop' ) == ' '
+    if self.GetVar( '$SParg' ) == ' '
 
         if v == r.char . r.followingChar
             return self.FinishOuter( r.char . r.charRight )
