@@ -124,14 +124,14 @@ fun! xpt#util#RemoveDuplicate( list ) "{{{
 endfunction "}}}
 
 
-fun! xpt#util#ExpandTab( text ) "{{{
+fun! xpt#util#ExpandTab( text, n ) "{{{
     if stridx( a:text, "	" ) < 0
         return a:text
     endif
-    
+
     let str = "\n" . a:text
 
-    let tabspaces = repeat( ' ', &tabstop )
+    let tabspaces = repeat( ' ', a:n )
 
     let last = ''
     while str != last

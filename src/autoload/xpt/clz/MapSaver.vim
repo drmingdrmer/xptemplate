@@ -1,3 +1,4 @@
+finish
 if exists( "g:__MAPSAVER_VIM__" ) && g:__MAPSAVER_VIM__ >= XPT#ver
     finish
 endif

@@ -75,7 +75,7 @@ fun! xpt#msvr#AddList( inst, ... ) "{{{
     endif
     for item in list
         let [ mode, key ] = split( item, '^\w\zs_' )
-        call xpt#msvr#Add( inst, mode, key )
+        call xpt#msvr#Add( a:inst, mode, key )
     endfor
 
 endfunction "}}}
