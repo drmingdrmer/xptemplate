@@ -17,6 +17,17 @@ let g:xptemplate_always_compile = 1
 
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
+let s:keytypeMap = {
+      \ '_' : 'onfocus',
+      \ '_def' : 'onfocus',
+      \ }
+
+let s:keytypeToDict = {
+      \ 'pre'     : 'preValues',
+      \ 'ontype'  : 'ontypeFilters',
+      \ 'onfocus' : 'defaultValues',
+      \}
+
 
 
 fun! xpt#parser#Compile( fn ) "{{{
@@ -274,19 +285,6 @@ fun! xpt#parser#ConvertIndentToTab( snipLines ) "{{{
 
 endfunction "}}}
 
-
-
-
-let s:keytypeMap = {
-      \ '_' : 'onfocus',
-      \ '_def' : 'onfocus',
-      \ }
-
-let s:keytypeToDict = {
-      \ 'pre'     : 'preValues',
-      \ 'ontype'  : 'ontypeFilters',
-      \ 'onfocus' : 'defaultValues',
-      \}
 
 fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
 

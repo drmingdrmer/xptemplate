@@ -23,9 +23,9 @@ let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
 
-runtime plugin/classes/FiletypeScope.vim
-runtime plugin/classes/FilterValue.vim
-runtime plugin/xptemplate.util.vim
+" runtime plugin/classes/FiletypeScope.vim
+" runtime plugin/classes/FilterValue.vim
+" runtime plugin/xptemplate.util.vim
 runtime plugin/xptemplate.vim
 
 
@@ -74,13 +74,13 @@ fun! s:AssignSnipFT( filename ) "{{{
         if &filetype =~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim'
             let ft =  &filetype
         else
-            return 'NOT_ALLOWED'
+            let ft = 'NOT_ALLOWED'
         endif
 
     else
 
         if x.snipFileScopeStack[ -1 ].inheritFT
-                \ || ftFolder =~ '^_'
+                \ || ftFolder =~ '\V\^_'
 
             " Snippet is loaded with XPTinclude
             " or it is an general snippet like "_common/common.xpt.vim"
@@ -157,13 +157,13 @@ fun! DoSnippetFileInit( filename, ... ) "{{{
     endif
 
     if ! has_key( filetypes, snipScope.filetype )
-        let filetypes[ snipScope.filetype ] = g:FiletypeScope.New()
+        let filetypes[ snipScope.filetype ] = xpt#ftscp#New()
     endif
 
     let ftScope = filetypes[ snipScope.filetype ]
 
 
-    if ftScope.CheckAndSetSnippetLoaded( a:filename )
+    if xpt#ftscp#CheckAndSetSnippetLoaded( ftScope,  a:filename )
         return 'finish'
     endif
 
@@ -282,7 +282,7 @@ fun! XPTinclude(...) "{{{
 
         elseif type(v) == type('')
 
-            if b:xptemplateData.filetypes[ scope.filetype ].IsSnippetLoaded( v )
+            if xpt#ftscp#IsSnippetLoaded( b:xptemplateData.filetypes[ scope.filetype ], v )
                 continue
             endif
 

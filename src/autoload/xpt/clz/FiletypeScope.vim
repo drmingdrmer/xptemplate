@@ -1,3 +1,4 @@
+finish
 if exists( "g:__FILETYPESCOPE_VIM__" ) && g:__FILETYPESCOPE_VIM__ >= XPT#ver
     finish
 endif
