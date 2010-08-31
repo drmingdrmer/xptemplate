@@ -326,19 +326,35 @@ endfunction "}}}
 
 fun! XPTemplateAlias( name, toWhich, setting ) "{{{
 
+    let x = b:xptemplateData
+
+    " TODO simplify it
+    call xpt#st#Extend( a:setting )
+
+    let prio =  has_key(a:setting, 'priority')
+                \ ? s:ParsePriorityString(a:setting.priority)
+                \ : x.snipFileScope.priority
+
+
     let name = a:name
 
     let xptObj = b:xptemplateData
     let xt = xptObj.filetypes[ g:GetSnipFileFT() ].allTemplates
 
     if has_key( xt, a:toWhich )
+
+        if has_key( xt, a:name ) && prio > xt[ a:name ].priority
+            return
+        endif
+
+
         let toSnip = xt[ a:toWhich ]
         let xt[a:name] = {
                         \ 'name'        : a:name,
                         \ 'parsed'      : 0,
                         \ 'ftScope'     : toSnip.ftScope,
                         \ 'snipText'        : toSnip.snipText,
-                        \ 'priority'    : toSnip.priority,
+                        \ 'priority'    : prio,
                         \ 'setting'     : deepcopy(toSnip.setting),
                         \ 'ptn'         : deepcopy(toSnip.ptn),
                         \}

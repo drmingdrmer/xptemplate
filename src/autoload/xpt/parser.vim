@@ -175,7 +175,7 @@ fun! xpt#parser#CompileCompacted( lines ) "{{{
     endwhile
 
     if i > s
-        let ll = xpt#parser#CompileSnippet( lines[ s : i - 1 ] )
+        let ll = xpt#parser#CompileSnippet( lines[ s : i ] )
         let rst += [ ll ]
     endif
 
