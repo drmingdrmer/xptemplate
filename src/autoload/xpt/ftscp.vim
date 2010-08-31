@@ -20,10 +20,10 @@
 " =============================================================================
 " }}}
 
-if exists( "g:__AU_XPT_FTSCP_VIM__" ) && g:__AU_XPT_FTSCP_VIM__ >= XPT#ver
+if exists( "g:__AL_XPT_FTSCP_VIM__" ) && g:__AL_XPT_FTSCP_VIM__ >= XPT#ver
     finish
 endif
-let g:__AU_XPT_FTSCP_VIM__ = XPT#ver
+let g:__AL_XPT_FTSCP_VIM__ = XPT#ver
 
 
 
