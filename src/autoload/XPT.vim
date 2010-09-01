@@ -132,7 +132,7 @@ fun! XPT#SpaceToTabExceptFirstLine( lines ) "{{{
 
         let line0 = a:lines[ 0 ]
 
-        let cmd = string( join( split( line, '\v^%(' . repeat( ' ',  &tabstop ) . ')', 1 ), '	' ) )
+        let cmd = 'join( split( v:val, ''\v^%('' . repeat( '' '',  &tabstop ) . '')'', 1 ), ''	'' )'
         call map( a:lines, cmd )
 
         let a:lines[ 0 ] = line0
