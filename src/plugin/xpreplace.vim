@@ -138,7 +138,8 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
 
 
     let replacement = s:ConvertSpaceToTab( a:replacement )
-    let repLines = XPT#SpaceToTabExceptFirstLine( split( a:replacement, '\n', 1 ) )
+    " let repLines = XPT#SpaceToTabExceptFirstLine( split( a:replacement, '\n', 1 ) )
+    let repLines = XPT#SpaceToTab( split( a:replacement, '\n', 1 ) )
 
 
 
@@ -437,6 +438,7 @@ fun! XPreplace(start, end, replacement, ...) "{{{
         let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, option )
     catch /.*/
         call XPT#warn( v:exception )
+        call XPT#warn( v:throwpoint )
     finally
         call XPRendSession()
     endtry
