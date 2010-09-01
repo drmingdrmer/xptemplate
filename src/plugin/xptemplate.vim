@@ -1948,7 +1948,7 @@ fun! s:BuildSnippet(nameStartPosition, nameEndPosition) " {{{
     call XPMadd( ctx.marks.tmpl.end, a:nameEndPosition, g:XPMpreferRight, '\Ve\$' )
 
 
-    call b:xptemplateData.settingWrap.Switch()
+    call xpt#stsw#Switch( b:xptemplateData.settingWrap )
     call XPMsetLikelyBetween( ctx.marks.tmpl.start, ctx.marks.tmpl.end )
     call XPreplace( a:nameStartPosition, a:nameEndPosition, snippetText )
 
@@ -3086,7 +3086,7 @@ fun! s:ApplyPostFilter() "{{{
 
             call s:RemoveEditMark( leader )
 
-            call b:xptemplateData.settingWrap.Switch()
+            call xpt#stsw#Switch( b:xptemplateData.settingWrap )
 
             call XPreplace( start, end, filter.text )
             call s:log.Debug( 'after replace, marks=' . XPMallMark() )
@@ -3199,7 +3199,7 @@ fun! s:GotoNextItem() "{{{
     let action = s:DoGotoNextItem()
 
     " restore 'wrap'
-    call b:xptemplateData.settingWrap.Restore()
+    call xpt#stsw#Restore( b:xptemplateData.settingWrap )
 
     return action
 endfunction "}}}
@@ -3563,7 +3563,7 @@ fun! s:EmbedSnippetIntoLeaderPH( ctx, filter ) "{{{
     endif
 
 
-    call b:xptemplateData.settingWrap.Switch()
+    call xpt#stsw#Switch( b:xptemplateData.settingWrap )
 
 
     call XPreplace( start, end , sniptext )
@@ -3597,7 +3597,7 @@ fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
     endif
 
 
-    call b:xptemplateData.settingWrap.Switch()
+    call xpt#stsw#Switch( b:xptemplateData.settingWrap )
     " set str to key place holder or the first normal place holder
     call XPreplace( start, end, str )
 
@@ -4337,8 +4337,8 @@ fun! s:XPTinitMapping() "{{{
     " that xpmark can not track
     "
     " *<Return> reindent current line
-    let b:xptemplateData.settingSwitch = g:SettingSwitch.New()
-    call b:xptemplateData.settingSwitch.AddList(
+    let b:xptemplateData.settingSwitch = xpt#stsw#New()
+    call xpt#stsw#AddList( b:xptemplateData.settingSwitch, 
           \[ '&l:textwidth', '0' ],
           \[ '&l:indentkeys', { 'exe' : 'setl indentkeys-=*<Return>' } ],
           \[ '&l:cinkeys', { 'exe' : 'setl cinkeys-=*<Return>' } ],
@@ -4347,8 +4347,8 @@ fun! s:XPTinitMapping() "{{{
     " \[ '&l:cinkeys', { 'exe' : 'setl cinkeys-=*<Return> | setl cinkeys-=o' } ],
 
     " provent horizontal scroll when putting raw snippet onto screen before building
-    let b:xptemplateData.settingWrap = g:SettingSwitch.New()
-    call b:xptemplateData.settingWrap.Add( '&l:wrap', '1' )
+    let b:xptemplateData.settingWrap = xpt#stsw#New()
+    call xpt#stsw#Add( b:xptemplateData.settingWrap, '&l:wrap', '1' )
 
 endfunction "}}}
 
@@ -4376,7 +4376,7 @@ fun! s:ApplyMap() " {{{
     " endif
 
 
-    call b:xptemplateData.settingSwitch.Switch()
+    call xpt#stsw#Switch( b:xptemplateData.settingSwitch )
 
 
     call xpt#msvr#Save( b:mapSaver )
@@ -4426,7 +4426,7 @@ endfunction " }}}
 
 fun! s:ClearMap() " {{{
 
-    call b:xptemplateData.settingSwitch.Restore()
+    call xpt#stsw#Restore( b:xptemplateData.settingSwitch )
 
     call xpt#msvr#Restore( b:mapMask )
     call xpt#msvr#Restore( b:mapLiteral )

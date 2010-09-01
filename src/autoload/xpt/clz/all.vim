@@ -12,5 +12,5 @@ runtime autoload/xpt/clz/FiletypeScope.vim
 runtime autoload/xpt/clz/FilterValue.vim
 runtime autoload/xpt/clz/MapSaver.vim
 runtime autoload/xpt/clz/RenderContext.vim
-runtime autoload/xpt/clz/SettingSwitch.vim
+" runtime autoload/xpt/clz/SettingSwitch.vim
 runtime autoload/xpt/clz/SnippetScope.vim

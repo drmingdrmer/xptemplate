@@ -1,3 +1,4 @@
+finish
 if exists( "g:__SETTINGSWITCH_VIM__" ) && g:__SETTINGSWITCH_VIM__ >= XPT#ver
     finish
 endif

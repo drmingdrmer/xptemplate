@@ -24,8 +24,8 @@ set cpo-=< cpo+=B
 
 " TODO popup fix:select it if strictly matched
 
-runtime plugin/classes/SettingSwitch.vim
-runtime plugin/classes/MapSaver.vim
+" runtime plugin/classes/SettingSwitch.vim
+" runtime plugin/classes/MapSaver.vim
 
 
 exe XPT#let_sid
@@ -447,8 +447,8 @@ fun! s:_InitBuffer() "{{{
     " NOTE:  user-defined pum does not accept non-keywords char. pressing
     "       non-keywords char make pum disappear.
 
-    let b:_xpp_setting_switch = g:SettingSwitch.New()
-    call b:_xpp_setting_switch.AddList( 
+    let b:_xpp_setting_switch = xpt#stsw#New()
+    call xpt#stsw#AddList( b:_xpp_setting_switch, 
           \ [ '&l:cinkeys', '' ], 
           \ [ '&l:indentkeys', '' ], 
           \ [ '&completeopt', 'menu,longest,menuone' ], 
@@ -992,7 +992,7 @@ fun! s:ApplyMapAndSetting() "{{{
         au InsertEnter * call XPPend()
     augroup END
 
-    call b:_xpp_setting_switch.Switch()
+    call xpt#stsw#Switch( b:_xpp_setting_switch )
 
     if exists( ':AcpLock' )
         AcpLock
@@ -1019,7 +1019,7 @@ fun! s:ClearMapAndSetting() "{{{
 
 
     call xpt#msvr#Restore( b:_xpp_map_saver )
-    call b:_xpp_setting_switch.Restore()
+    call xpt#stsw#Restore( b:_xpp_setting_switch )
     if exists( ':AcpUnlock' )
         try
             AcpUnlock
