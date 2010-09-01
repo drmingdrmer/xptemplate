@@ -63,7 +63,7 @@ fun! XPreplaceInternal(start, end, replacement, ...)
     if option.doJobs
         call s:doPreJob(a:start, a:end, replacement)
     endif
-    if 1
+    if 0
         let [ curNrLines, finalNrLines ] = [ a:end[ 0 ] - a:start[ 0 ] + 1, len( repLines ) ]
         let [ s, e ] = [ 1, col( [ a:end[ 0 ], '$' ] ) ]
         let repLines[ 0 ] = XPT#TextInLine( a:start[ 0 ], s, a:start[ 1 ] ) . repLines[ 0 ]
