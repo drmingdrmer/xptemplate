@@ -59,11 +59,11 @@ fun! XPreplaceInternal(start, end, replacement, ...)
         call extend( option, a:1, 'force' )
     endif
     let replacement = s:ConvertSpaceToTab( a:replacement )
-    let repLines = XPT#SpaceToTabExceptFirstLine( split( a:replacement, '\n', 1 ) )
+    let repLines = XPT#SpaceToTab( split( a:replacement, '\n', 1 ) )
     if option.doJobs
         call s:doPreJob(a:start, a:end, replacement)
     endif
-    if 0
+    if 1
         let [ curNrLines, finalNrLines ] = [ a:end[ 0 ] - a:start[ 0 ] + 1, len( repLines ) ]
         let [ s, e ] = [ 1, col( [ a:end[ 0 ], '$' ] ) ]
         let repLines[ 0 ] = XPT#TextInLine( a:start[ 0 ], s, a:start[ 1 ] ) . repLines[ 0 ]
@@ -81,6 +81,8 @@ fun! XPreplaceInternal(start, end, replacement, ...)
         endif
         call setline( a:start[ 0 ], repLines )
         let positionAfterReplacement[1] += len(getline(positionAfterReplacement[0]))
+        call cursor( positionAfterReplacement )
+        silent! normal! zO
     else
         call cursor( a:start )
         silent! normal! zO
@@ -164,7 +166,8 @@ fun! XPreplace(start, end, replacement, ...)
     try
         let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, option )
     catch /.*/
-        call XPT#war( v:exception )
+        call XPT#warn( v:exception )
+        call XPT#warn( v:throwpoint )
     finally
         call XPRendSession()
     endtry
