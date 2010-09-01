@@ -139,7 +139,8 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
 
 
     let replacement = s:ConvertSpaceToTab( a:replacement )
-    let repLines = XPT#SpaceToTabExceptFirstLine( split( a:replacement, '\n', 1 ) )
+    " let repLines = XPT#SpaceToTabExceptFirstLine( split( a:replacement, '\n', 1 ) )
+    let repLines = XPT#convertSpaceToTab( split( a:replacement, '\n', 1 ) )
 
 
 
