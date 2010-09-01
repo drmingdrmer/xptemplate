@@ -125,6 +125,19 @@ fun! XPT#convertSpaceToTab( text ) "{{{
     endif
 endfunction "}}}
 
+fun! XPT#SpaceToTab( lines ) "{{{
+    " NOTE: line-break followed by space
+
+    if ! &expandtab && match( a:lines, '\v^ ' ) > -1
+
+        let cmd = 'join( split( v:val, ''\v^%('' . repeat( '' '',  &tabstop ) . '')'', 1 ), ''	'' )'
+        call map( a:lines, cmd )
+
+    endif
+
+    return a:lines
+
+endfunction "}}}
 fun! XPT#SpaceToTabExceptFirstLine( lines ) "{{{
     " NOTE: line-break followed by space
 
