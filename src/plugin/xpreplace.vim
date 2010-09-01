@@ -156,7 +156,7 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
     call s:log.Debug( 'line at start + 1=' . string( getline( a:start[0] + 1 ) ) )
 
 
-    if 1
+    if 0
         let [ curNrLines, finalNrLines ] = [ a:end[ 0 ] - a:start[ 0 ] + 1, len( repLines ) ]
 
         let [ s, e ] = [ 1, col( [ a:end[ 0 ], '$' ] ) ]
