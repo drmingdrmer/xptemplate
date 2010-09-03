@@ -16,7 +16,6 @@ let s:ep           = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
 
 
-
 " call XPT#default('g:xptemplate_show_stack'	, 1 )
 " call XPT#default('g:xptemplate_abbr_mode'	, 0 )
 " call XPT#default('g:xptemplate_crash'	, '<C-g>' )
@@ -52,7 +51,6 @@ call XPT#default('g:xptemplate_highlight'	, 'next' )
 call XPT#default('g:xptemplate_highlight_nested'	, 0 )
 call XPT#default('g:xptemplate_brace_complete'	, 1 )
 call XPT#default('g:xptemplate_strip_left'	, 1 )
-call XPT#default('g:xptemplate_fix'	, 1 )
 call XPT#default('g:xptemplate_ph_pum_accept_empty'	, 1 )
 
 
@@ -297,33 +295,6 @@ if stridx( g:xptemplate_brace_complete, '"' ) >= 0
     inoremap <silent> " <C-v><C-v><BS><C-r>=XPTtgr('"',{'noliteral':1,'k':'"'})<cr>
 endif
 
-
-
-
-" TODO noneed to check and fix settings. they have been done in SettingSwitch
-
-" check critical setting:
-"
-" backspace >2 or with start
-" nocompatible
-
-let bs=&bs
-
-if bs != 2 && bs !~ "start" 
-    if g:xptemplate_fix
-        set bs=2
-    else
-        echom "'backspace' option must be set with 'start'. set bs=2 or let g:xptemplate_fix=1 to fix it"
-    endif
-endif
-
-if &compatible == 1 
-    if g:xptemplate_fix
-        set nocompatible
-    else
-        echom "'compatible' option must be set. set compatible or let g:xptemplate_fix=1 to fix it"
-    endif
-endif
 
 let &cpo = s:oldcpo
 

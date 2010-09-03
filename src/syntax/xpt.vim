@@ -17,7 +17,7 @@ fun! s:GetMark()
 
     call cursor ( cur )
     return [ marks[0:0], marks[1:1], marks ]
-    
+
 endfunction
 
 

@@ -12,7 +12,7 @@ exe XPT#let_sid
 
 
 let s:globalLogLevel = 'warn'
-let s:globalLogLevel = 'debug'
+" let s:globalLogLevel = 'debug'
 
 let s:logLevels = {
       \ 'fatal' : 1,

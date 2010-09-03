@@ -223,7 +223,7 @@ fun! xpt#parser#CompileSnippet( lines ) "{{{
         let command = matchstr( lines[ start ], '\V\^XSETm\?\ze\s' )
         if command != ''
 
-            let [ key, val, start ] = s:getXSETkeyAndValue( lines, start )
+            let [ key, val, start ] = s:GetXSETkeyAndValue( lines, start )
             if key == ''
                 let start += 1
                 continue
@@ -268,6 +268,11 @@ fun! xpt#parser#CompileSnippet( lines ) "{{{
     endif
 
 endfunction "}}}
+
+
+
+
+
 
 
 " Converting indent to real space-chars( like spaces or tabs ) must be done at
@@ -348,7 +353,7 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
     endif
 
 endfunction "}}}
-fun! s:getXSETkeyAndValue(lines, start) "{{{
+fun! s:GetXSETkeyAndValue(lines, start) "{{{
     let start = a:start
 
     let XSETparam = matchstr(a:lines[start], '\V\^XSET\%[m]\s\+\zs\.\*')

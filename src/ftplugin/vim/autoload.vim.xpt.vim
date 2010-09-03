@@ -1,6 +1,7 @@
 if expand( "%:p:h" ) . '/' !~# '\V\[\\/]autoload\[\\/]'
     finish
 endif
+
 XPTemplate priority=lang-
 
 let s:f = g:XPTfuncs()
@@ -22,3 +23,5 @@ XPTinclude
 XPT fun alias=_fun " fun! vim_autoload_pre()#**
 XSET name|repl=vim_autoload_pre()#`name
 
+XPT ## " vim_autoload_pre\()#
+`vim_autoload_pre()^#
