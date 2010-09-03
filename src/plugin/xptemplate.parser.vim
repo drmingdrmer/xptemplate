@@ -40,7 +40,6 @@ com! -nargs=* XPTemplate
       \ | endif
 
 com! -nargs=* XPTemplateDef echom expand("<sfile>") . " XPTemplateDef is NOT needed any more. All right to remove it."
-" com! -nargs=* XPT           call s:XPTstartSnippetPart(expand("<sfile>")) | finish
 com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
 " TODO rename me to XSET
 com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
@@ -318,42 +317,6 @@ fun! XPTembed(...) "{{{
 endfunction "}}}
 
 
-" TODO refine me
-fun! s:XPTstartSnippetPart( fn ) "{{{
-
-    call s:log.Log("parse file :".a:fn)
-
-    let lines = readfile(a:fn)
-
-    " call xpt#parser#Compile( a:fn )
-
-
-    " Now that XPT can not start at first line
-    let i = match( lines, '\V\^XPT\s' ) - 1
-
-    if i < 0
-        return
-    endif
-
-    let lines = lines[ i : ]
-
-    let x = b:xptemplateData
-    let x.snippetToParse += [ { 'snipFileScope' : x.snipFileScope, 'lines' : lines, } ]
-
-    call XPTparseSnippets()
-
-    return
-
-endfunction "}}}
-
-fun! XPTparseSnippets() "{{{
-    let x = b:xptemplateData
-    for p in x.snippetToParse
-        call DoParseSnippet(p)
-    endfor
-
-    let x.snippetToParse = []
-endfunction "}}}
 
 fun! DoParseSnippet( p ) "{{{
 

@@ -955,8 +955,6 @@ endfunction "}}}
 
 fun! XPTemplateDoWrap() "{{{
 
-    call XPTparseSnippets()
-
     let x = b:xptemplateData
     let ppr = s:Popup("", x.wrapStartPos, {})
 
@@ -1049,8 +1047,6 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
     let action = ''
     " let action = "\<BS>"
-
-    call XPTparseSnippets()
 
     let x = b:xptemplateData
 
@@ -5053,7 +5049,6 @@ fun! s:GetContextFT() "{{{
     endif
 endfunction "}}}
 
-" TODO not good here to call XPTparseSnippets()
 fun! s:GetContextFTObj() "{{{
 
     let x = b:xptemplateData
@@ -5072,7 +5067,6 @@ fun! s:GetContextFTObj() "{{{
             " 'unknown' filetype.
 
             call s:LoadSnippetFile( 'unknown/unknown' )
-            call XPTparseSnippets()
 
         else
             " Some filetype is not supported yet by XPT, but "common" snippets
@@ -5083,7 +5077,6 @@ fun! s:GetContextFTObj() "{{{
             call XPTsnippetFileInit( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
             call XPTinclude( '_common/common' )
             call XPTfiletypeInit()
-            call XPTparseSnippets()
 
         endif
 
