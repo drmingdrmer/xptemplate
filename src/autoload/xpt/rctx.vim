@@ -1,20 +1,24 @@
-if exists( "g:__RENDERCONTEXT_VIM__" ) && g:__RENDERCONTEXT_VIM__ >= XPT#ver
+" File Description {{{
+" =============================================================================
+" RenderContext
+"                                                  by drdr.xp
+"                                                     drdr.xp@gmail.com
+" Usage :
+"
+" =============================================================================
+" }}}
+if exists( "g:__AL_XPT_RCTX_VIM__" ) && g:__AL_XPT_RCTX_VIM__ >= XPT#ver
     finish
 endif
-let g:__RENDERCONTEXT_VIM__ = XPT#ver
-
+let g:__AL_XPT_RCTX_VIM__ = XPT#ver
 
 
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-" runtime plugin/debug.vim
-
 " let s:log = xpt#debug#Logger( 'warn' )
 " let s:log = xpt#debug#Logger( 'debug' )
 
-
-let s:proto = {}
 
 let g:xptRenderPhase = {
       \ 'uninit'    : 'uninit'   ,
@@ -43,11 +47,11 @@ let s:phaseGraph = {
 unlet p
 
 
-fun! s:New( x ) dict "{{{
+fun! xpt#rctx#New( x ) "{{{
 
     let pre = "X" . len( a:x.stack ) . '_'
 
-    call extend( self, {
+    let inst = {
           \   'ftScope'            : {},
           \   'level'              : len( a:x.stack ),
           \   'snipObject'         : {},
@@ -72,7 +76,7 @@ fun! s:New( x ) dict "{{{
           \   'snipSetting'        : {},
           \   'tmpmappings'        : {},
           \   'oriIndentkeys'      : {},
-          \ }, 'force' )
+          \ }
 
     " for emulation of 'indentkeys'
     let indentkeysList = split( &indentkeys, ',' )
@@ -80,23 +84,20 @@ fun! s:New( x ) dict "{{{
     for k in indentkeysList
 
         " "0=" is not included
-        let self.oriIndentkeys[ k[ 2: ] ] = 1
+        let inst.oriIndentkeys[ k[ 2: ] ] = 1
     endfor
 
+    return inst
+
 endfunction "}}}
 
-fun! s:SwitchPhase( nextPhase ) dict "{{{
-    if -1 == match( s:phaseGraph[ self.phase ], '\V\<' . a:nextPhase . '\>' )
-        throw 'XPT:RenderContext:switching from [' . self.phase . '] to [' . a:nextPhase . '] is not allowed'
+fun! xpt#rctx#SwitchPhase( inst, nextPhase ) "{{{
+    if -1 == match( s:phaseGraph[ a:inst.phase ], '\V\<' . a:nextPhase . '\>' )
+        throw 'XPT:RenderContext:switching from [' . a:inst.phase . '] to [' . a:nextPhase . '] is not allowed'
     endif
 
-    let self.phase = a:nextPhase
+    let a:inst.phase = a:nextPhase
 
 endfunction "}}}
-
-
-
-exe XPT#let_sid
-let g:RenderContext = xpt#util#class( s:sid, s:proto )
 
 let &cpo = s:oldcpo

@@ -91,6 +91,7 @@ fun! XPT#SpaceToTab( lines ) "{{{
     return a:lines
 
 endfunction "}}}
+
 fun! XPT#SpaceToTabExceptFirstLine( lines ) "{{{
     " NOTE: line-break followed by space
 
