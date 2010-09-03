@@ -31,7 +31,7 @@ let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
 
-fun! xpt#ftscp#New() "{{{
+fun! xpt#ftsc#New() "{{{
 
     " inst.extensionTable:
     "
@@ -55,12 +55,12 @@ fun! xpt#ftscp#New() "{{{
 endfunction "}}}
 
 
-fun! xpt#ftscp#IsSnippetLoaded( inst, filename ) "{{{
+fun! xpt#ftsc#IsSnippetLoaded( inst, filename ) "{{{
     return has_key( a:inst.loadedSnipFiles, a:filename )
 endfunction "}}}
 
 
-fun! xpt#ftscp#SetSnippetLoaded( inst, filename ) "{{{
+fun! xpt#ftsc#SetSnippetLoaded( inst, filename ) "{{{
     let a:inst.loadedSnipFiles[ a:filename ] = 1
 
     let fn = substitute(a:filename, '\\', '/', 'g')
@@ -70,9 +70,9 @@ fun! xpt#ftscp#SetSnippetLoaded( inst, filename ) "{{{
 endfunction "}}}
 
 
-fun! xpt#ftscp#CheckAndSetSnippetLoaded( inst, filename ) "{{{
+fun! xpt#ftsc#CheckAndSetSnippetLoaded( inst, filename ) "{{{
     let loaded = has_key( a:inst.loadedSnipFiles, a:filename )
-    call xpt#ftscp#SetSnippetLoaded( a:inst, a:filename )
+    call xpt#ftsc#SetSnippetLoaded( a:inst, a:filename )
     return loaded
 endfunction "}}}
 

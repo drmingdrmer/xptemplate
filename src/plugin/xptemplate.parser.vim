@@ -157,13 +157,13 @@ fun! DoSnippetFileInit( filename, ... ) "{{{
     endif
 
     if ! has_key( filetypes, snipScope.filetype )
-        let filetypes[ snipScope.filetype ] = xpt#ftscp#New()
+        let filetypes[ snipScope.filetype ] = xpt#ftsc#New()
     endif
 
     let ftScope = filetypes[ snipScope.filetype ]
 
 
-    if xpt#ftscp#CheckAndSetSnippetLoaded( ftScope,  a:filename )
+    if xpt#ftsc#CheckAndSetSnippetLoaded( ftScope,  a:filename )
         return 'finish'
     endif
 
@@ -282,7 +282,7 @@ fun! XPTinclude(...) "{{{
 
         elseif type(v) == type('')
 
-            if xpt#ftscp#IsSnippetLoaded( b:xptemplateData.filetypes[ scope.filetype ], v )
+            if xpt#ftsc#IsSnippetLoaded( b:xptemplateData.filetypes[ scope.filetype ], v )
                 continue
             endif
 
