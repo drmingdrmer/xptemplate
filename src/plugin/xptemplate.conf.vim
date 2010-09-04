@@ -107,6 +107,7 @@ let s:path = substitute( s:path, '\', '/', 'g' )
 let s:path = matchstr( s:path, '\V\.\*\ze/plugin/' . s:filename )
 
 let &runtimepath .= ',' . s:path . '/personal'
+let &runtimepath .= ',' . s:path . '/personal'
 
 for s:path in g:xptemplate_snippet_folders
     let &runtimepath .= ',' . s:path
@@ -277,7 +278,7 @@ augroup XPTftInit
 augroup END
 
 
-" <C-v><C-v><BS> force pum to close
+" <C-v><C-v><BS> forces pum to close
 
 if stridx( g:xptemplate_brace_complete, '(' ) >= 0
     inoremap <silent> ( <C-v><C-v><BS><C-r>=XPTtgr('(',{'noliteral':1,'k':'('})<cr>
