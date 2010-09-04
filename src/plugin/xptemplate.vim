@@ -4452,36 +4452,6 @@ let s:snipScopePrototype = {
       \ 'inheritFT' : 0,
       \}
 
-fun! XPTnewSnipScope( filename )
-  let x = b:xptemplateData
-  let x.snipFileScope = deepcopy( s:snipScopePrototype )
-  let x.snipFileScope.filename = a:filename
-
-  call s:RedefinePattern()
-
-  return x.snipFileScope
-endfunction
-
-fun! XPTsnipScope()
-  return b:xptemplateData.snipFileScope
-endfunction
-
-fun! XPTsnipScopePush()
-    let x = b:xptemplateData
-    let x.snipFileScopeStack += [x.snipFileScope]
-
-    unlet x.snipFileScope
-endfunction
-
-fun! XPTsnipScopePop()
-    let x = b:xptemplateData
-    if len(x.snipFileScopeStack) > 0
-        let x.snipFileScope = x.snipFileScopeStack[ -1 ]
-        call remove( x.snipFileScopeStack, -1 )
-    else
-        throw "snipFileScopeStack is empty"
-    endif
-endfunction
 
 fun! XPTemplateInit() "{{{
 
