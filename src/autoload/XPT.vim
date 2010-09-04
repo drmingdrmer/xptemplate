@@ -14,12 +14,16 @@ let XPT#let_sid = 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"),
 
 let XPT#nullDict = {}
 let XPT#nullList = []
+
 let XPT#nonEscaped =
       \   '\%('
       \ .     '\%(\[^\\]\|\^\)'
       \ .     '\%(\\\\\)\*'
       \ . '\)'
       \ . '\@<='
+let XPT#regEval     = '\V\w(\|$\w'
+let XPT#nonsafe     = '{$( '
+let XPT#nonsafeHint = '$('
 
 
 

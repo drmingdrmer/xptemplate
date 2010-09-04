@@ -115,6 +115,58 @@ fun! xpt#st#Merge( toSettings, fromSettings ) "{{{
 
 endfunction "}}}
 
+fun! xpt#st#Parse( setting, snipObject ) "{{{
+    " TODO keyword parsing should be here so that Alias can use non-keyword char
+
+    let setting = a:setting
+
+
+    let wraponly = get( setting, 'wraponly', 0 )
+
+    let wrap = get( setting, 'wrap', wraponly )
+    let wrap = wrap is 1 ? 'cursor' : wrap
+
+
+    let setting.iswrap = wrap isnot 0
+    let setting.wraponly = wraponly isnot 0
+    let setting.wrap = wrap
+
+
+
+    " Note: empty means nothing, "" means something that can override others
+    if has_key(setting, 'rawHint')
+
+        if setting.rawHint !~  s:regEval
+
+            let setting.hint = xpt#util#UnescapeChar( setting.rawHint, s:nonsafe )
+
+        else
+
+            " TODO bad code. To make xpt#eval#Eval() be able to use snippet-related
+            " variables like $_xSnipName
+            let x = b:xptemplateData
+            let x.renderContext.snipObject = a:snipObject
+
+            let setting.hint = xpt#eval#Eval( setting.rawHint,
+                  \ x.filetypes[ x.snipFileScope.filetype ].funcs,
+                  \ { 'variables' : setting.variables } )
+
+        endif
+
+    endif
+
+
+    call xpt#st#ParsePostQuoter( setting )
+
+
+    if has_key( setting, 'extension' )
+        let ext = setting.extension
+        let a:snipObject.ftScope.extensionTable[ ext ] = get( a:snipObject.ftScope.extensionTable, ext, [] )
+        let a:snipObject.ftScope.extensionTable[ ext ]  += [ a:snipObject.name ]
+    endif
+
+endfunction "}}}
+
 fun! xpt#st#ParsePostQuoter( setting ) "{{{
     if !has_key( a:setting, 'postQuoter' )
           \ || type( a:setting.postQuoter ) == type( {} )

@@ -175,16 +175,10 @@ endfunction "}}}
 let s:repetitionPattern     = '\w\*...\w\*'
 let s:nullDict = {}
 let s:nullList = []
-let s:nonEscaped =
-      \   '\%('
-      \ .     '\%(\[^\\]\|\^\)'
-      \ .     '\%(\\\\\)\*'
-      \ . '\)'
-      \ . '\@<='
 
-let s:nonsafe = '{$( '
-let s:nonsafeHint = '$('
-let s:regEval = '\V\w(\|$\w'
+let s:nonEscaped  = XPT#nonEscaped
+let s:regEval     = XPT#regEval
+let s:nonsafe     = XPT#nonsafe
 
 
 
@@ -356,7 +350,7 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
 
         call xpt#util#DeepExtend( xt[ a:name ].setting, a:setting )
 
-        call s:ParseTemplateSetting( xt[ a:name ] )
+        call xpt#st#Parse( xt[ a:name ].setting, xt[ a:name ] )
 
         if get( xt[ name ].setting, 'abbr', 0 )
             call s:Abbr( name )
@@ -504,7 +498,7 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
     " TODO error occured once: no key :"setting )"
 
-    call s:ParseTemplateSetting( a:tmplObj )
+    call xpt#st#Parse( a:tmplObj.setting, a:tmplObj )
 
 
     call s:log.Debug( 'create template name=' . a:tmplObj.name . ' snipText=' . a:tmplObj.snipText )
@@ -632,57 +626,6 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor ) "{{{
 
 endfunction "}}}
 
-fun! s:ParseTemplateSetting( snipObject ) "{{{
-    " TODO keyword parsing should be here so that Alias can use non-keyword char
-
-    let setting = a:snipObject.setting
-
-
-    let wraponly = get( setting, 'wraponly', 0 )
-
-    let wrap = get( setting, 'wrap', wraponly )
-    let wrap = wrap is 1 ? 'cursor' : wrap
-
-
-    let setting.iswrap = wrap isnot 0
-    let setting.wraponly = wraponly isnot 0
-    let setting.wrap = wrap
-
-
-
-    " Note: empty means nothing, "" means something that can override others
-    if has_key(setting, 'rawHint')
-
-        if setting.rawHint !~  s:regEval
-
-            let setting.hint = xpt#util#UnescapeChar( setting.rawHint, s:nonsafe )
-
-        else
-
-            " TODO bad code. To make Eval() be able to use snippet-related
-            " variables like $_xSnipName
-            let x = b:xptemplateData
-            let x.renderContext.snipObject = a:snipObject
-
-            let setting.hint = s:Eval( setting.rawHint,
-                  \ x.filetypes[ x.snipFileScope.filetype ].funcs,
-                  \ { 'variables' : setting.variables } )
-
-        endif
-
-    endif
-
-
-    call xpt#st#ParsePostQuoter( setting )
-
-
-    if has_key( setting, 'extension' )
-        let ext = setting.extension
-        let a:snipObject.ftScope.extensionTable[ ext ] = get( a:snipObject.ftScope.extensionTable, ext, [] )
-        let a:snipObject.ftScope.extensionTable[ ext ]  += [ a:snipObject.name ]
-    endif
-
-endfunction "}}}
 
 
 fun! s:AddCursorToComeLast(setting) "{{{
@@ -1479,7 +1422,7 @@ fun! s:ParseSpaces( snipObject ) "{{{
 
         let raw = text[ start + 1 : end - 1 ]
 
-        let expr = s:CachedCompileExpr( raw, renderContext.ftScope.funcs )
+        let expr = xpt#eval#Compile( raw, renderContext.ftScope.funcs )
 
         if substitute( expr, 'GetVar', '', 'g' ) =~ '\V\<xfunc.\w\+('
             let start = end
@@ -1487,7 +1430,7 @@ fun! s:ParseSpaces( snipObject ) "{{{
             continue
         endif
 
-        let str = s:Eval( raw, renderContext.ftScope.funcs, { 'variables' : a:snipObject.setting.variables } )
+        let str = xpt#eval#Eval( raw, renderContext.ftScope.funcs, { 'variables' : a:snipObject.setting.variables } )
         if raw == str
             let start = end
             let lastMark = text[ end ]
@@ -2422,7 +2365,7 @@ fun! s:EvaluateEdge( xp, item, ph ) "{{{
     endif
 
     if a:ph.leftEdge =~ '\V' . a:xp.item_var . '\|' . a:xp.item_func
-        let ledge = s:Eval( a:ph.leftEdge, x.renderContext.ftScope.funcs )
+        let ledge = xpt#eval#Eval( a:ph.leftEdge, x.renderContext.ftScope.funcs )
         " call XPRstartSession()
         try
             call XPreplaceByMarkInternal( a:ph.mark.start, a:ph.editMark.start, ledge )
@@ -2436,7 +2379,7 @@ fun! s:EvaluateEdge( xp, item, ph ) "{{{
 
 
     if a:ph.rightEdge =~ '\V' . a:xp.item_var . '\|' . a:xp.item_func
-        let redge = s:Eval( a:ph.rightEdge, x.renderContext.ftScope.funcs )
+        let redge = xpt#eval#Eval( a:ph.rightEdge, x.renderContext.ftScope.funcs )
         " call XPRstartSession()
         try
             call XPreplaceByMarkInternal( a:ph.editMark.end, a:ph.mark.end, redge )
@@ -3717,8 +3660,6 @@ fun! s:ClearItemMapping( rctx ) "{{{
 
 endfunction "}}}
 
-
-
 fun! s:SelectCurrent() "{{{
     let ph = b:xptemplateData.renderContext.leadingPlaceHolder
     let marks = ph.innerMarks
@@ -3751,62 +3692,11 @@ fun! s:SelectCurrent() "{{{
 
 endfunction "}}}
 
-fun! s:CreateStringMask( str ) "{{{
-
-    if a:str == ''
-        return ''
-    endif
-
-    if has_key( b:_xpeval.strMaskCache, a:str )
-        return b:_xpeval.strMaskCache[ a:str ]
-    endif
-
-    " non-escaped prefix
-
-    " non-escaped quotation
-    let dqe = '\V\('. s:nonEscaped . '"\)'
-    let sqe = '\V\('. s:nonEscaped . "'\\)"
-
-    let dptn = dqe.'\_.\{-}\1'
-
-    " let sptn = sqe.'\_.\{-}\1'
-    " Note: only ' is escaped by doubling it: ''
-    " let sptn = sqe.'\_.\{-}\%(\^\|\[^'']\)\(''''\)\*'''
-    let sptn = sqe.'\%(\_[^'']\)\{-}'''
-
-    " create mask hiding all string literal with space
-    let mask = substitute(a:str, '[ *]', '+', 'g')
-    while 1 "{{{
-        let d = match(mask, dptn)
-        let s = match(mask, sptn)
-
-        if d == -1 && s == -1
-            break
-        endif
-
-        if d > -1 && (d < s || s == -1)
-            let sub = matchstr(mask, dptn)
-            let sub = repeat(' ', len(sub))
-            let mask = substitute(mask, dptn, sub, '')
-        elseif s > -1
-            let sub = matchstr(mask, sptn)
-            let sub = repeat(' ', len(sub))
-            let mask = substitute(mask, sptn, sub, '')
-        endif
-
-    endwhile "}}}
-
-    let b:_xpeval.strMaskCache[ a:str ] = mask
-
-    return mask
-
-endfunction "}}}
-
 fun! s:EvalFilter( filter, container, context ) "{{{
 
     let a:filter.rc = 1
 
-    let rst = s:Eval( a:filter.text, a:container, a:context )
+    let rst = xpt#eval#Eval( a:filter.text, a:container, a:context )
 
 
     if type( rst ) == type( 0 )
@@ -3867,177 +3757,6 @@ fun! s:EvalFilter( filter, container, context ) "{{{
 endfunction "}}}
 
 
-
-fun! s:Eval(str, container, ...) "{{{
-    " @param a:1    key         desc
-    "               'typed'     what user typed
-
-    " TODO if expression compiled in loading phase, Variable not found can
-    "       not be found any more in runtime phase.
-    if a:str == ''
-        return ''
-    endif
-
-    let renderContext = b:xptemplateData.renderContext
-
-
-    " TODO simplify me
-    let a:container.renderContext = renderContext
-
-    let opt = a:0 == 1 ? a:1 : {}
-    let typed = get( opt, 'typed', '' )
-    let variables = get( opt, 'variables', {} )
-
-    let renderContext.evalCtx = { 'userInput' : renderContext.processing ? typed : '',
-          \                       'variables' : variables, }
-
-
-    let expr = s:CachedCompileExpr( a:str, a:container )
-
-    try
-        let xfunc = a:container
-        return eval(expr)
-    catch /.*/
-        call s:log.Warn(expr . "\n" . v:exception)
-        return ''
-    endtry
-
-endfunction "}}}
-
-
-fun! s:CachedCompileExpr( s, xfunc ) "{{{
-
-    let expr = get( b:_xpeval.evalCache, a:s, 0 )
-
-    if expr is 0
-        let expr = s:CompileExpr( a:s, a:xfunc )
-        if a:s != ''
-            echom a:s . ' ' . expr
-            let b:_xpeval.evalCache[ a:s ] = expr
-        endif
-    endif
-
-    return expr
-
-endfunction "}}}
-
-fun! s:CompileExpr(s, xfunc) "{{{
-
-    " non-escaped prefix
-
-
-    " TODO bug:() can not be evaluated
-    " TODO how to add '$' ?
-    " TODO \$ inside func or ( ) can not be parsed correctly
-    let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . s:nonEscaped . '{\w\+(\[^($]\{-})}'
-    let vptn = '\V' . s:nonEscaped . '$\w\+' . '\|' . s:nonEscaped . '{$\w\+}'
-    let sptn = '\V' . s:nonEscaped . '(\[^($]\{-})'
-
-    let patternVarOrFunc = fptn . '\|' . vptn . '\|' . sptn
-
-    " simple test
-    if a:s !~  s:regEval
-        return string(xpt#util#UnescapeChar(a:s, s:nonsafe))
-    endif
-
-    let stringMask = s:CreateStringMask( a:s )
-
-    if stringMask !~ patternVarOrFunc
-        return string(xpt#util#UnescapeChar(a:s, s:nonsafe))
-    endif
-
-    call s:log.Debug( 'string =' . a:s, 'strmask=' . stringMask )
-
-
-
-
-
-    let str = a:s
-    let evalMask = repeat('-', len(stringMask))
-
-
-    while 1
-
-        let matchedIndex = match(stringMask, patternVarOrFunc)
-        if matchedIndex == -1
-            break
-        endif
-
-
-        let matchedLen = len(matchstr(stringMask, patternVarOrFunc))
-        let matched = str[matchedIndex : matchedIndex + matchedLen - 1]
-
-
-        if matched =~ '^{.*}$'
-            let matched = matched[1:-2]
-        endif
-
-
-        if matched[0:0] == '(' && matched[-1:-1] == ')'
-            " ignore it
-            let contextedMatchedLen = len(matched)
-            let spaces = repeat(' ', contextedMatchedLen)
-            let stringMask = (matchedIndex == 0 ? "" : stringMask[:matchedIndex-1])
-                        \ . spaces
-                        \ . stringMask[matchedIndex + matchedLen :]
-
-            continue
-
-        elseif matched[-1:] == ')' && has_key(a:xfunc, matchstr(matched, '^\w\+'))
-            let matched = "xfunc." . matched
-
-        elseif matched[0:0] == '$'
-            let matched = 'xfunc.GetVar(' . string( matched ) . ')'
-
-        endif
-
-
-        let contextedMatchedLen = len(matched)
-
-        let spaces = repeat(' ', contextedMatchedLen)
-
-        let evalMask = (matchedIndex == 0 ? "" : evalMask[:matchedIndex-1])
-                    \ . '+' . spaces[1:]
-                    \ . evalMask[matchedIndex + matchedLen :]
-
-        let stringMask = (matchedIndex == 0 ? "" : stringMask[:matchedIndex-1])
-                    \ . spaces
-                    \ . stringMask[matchedIndex + matchedLen :]
-
-        let str  = (matchedIndex == 0 ? "" :  str[:matchedIndex-1])
-                    \ . matched
-                    \ . str[matchedIndex + matchedLen :]
-
-    endwhile
-
-
-    let idx = 0
-    let expr = "''"
-    while 1
-        let matches = matchlist( evalMask, '\V\(-\*\)\(+ \*\)\?', idx )
-        if '' == matches[0]
-            break
-        endif
-
-        if '' != matches[1]
-            let part = str[ idx : idx + len(matches[1]) - 1 ]
-            let part = xpt#util#UnescapeChar(part, '{$( ')
-            let expr .= '.' . string(part)
-        endif
-
-        if '' != matches[2]
-            let expr .= '.' . str[ idx + len(matches[1]) : idx + len(matches[0]) - 1 ]
-        endif
-
-        let idx += len(matches[0])
-    endwhile
-
-    let expr = matchstr(expr, "\\V\\^''.\\zs\\.\\*")
-    call s:log.Log('expression to evaluate=' . string(expr))
-
-    return expr
-
-endfunction "}}}
 
 
 
@@ -4264,8 +3983,6 @@ fun! XPTemplateInit() "{{{
     call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
 
     call s:XPTinitMapping()
-
-    let b:_xpeval = { 'strMaskCache' : {}, 'evalCache' : {} }
 
     let b:_xptSnipCache = {
           \ 'conditions' : [],
