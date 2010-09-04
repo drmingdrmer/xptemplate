@@ -113,7 +113,7 @@
 	snippet-scope setting, duplication load check, etc.
 
 	Format : >
-	XPTemplate [priority=lang] [keyword=#] [mark=`^]
+	XPTemplate [priority=lang] [mark=`^]
 <
 	There are 3 optional settings for 'XPTemplate' :
 
