@@ -210,6 +210,8 @@ endfunction "}}}
 
 let s:priorities = {'all' : 64, 'spec' : 48, 'like' : 32, 'lang' : 16, 'sub' : 8, 'personal' : 0}
 
+let g:xpt_priorities = s:priorities
+
 let g:XPT_RC = {
       \   'ok' : {},
       \   'canceled' : {},
@@ -319,7 +321,8 @@ fun! XPTmark() "{{{
 endfunction "}}}
 
 fun! g:XPTfuncs() "{{{
-    return g:GetSnipFileFtScope().funcs
+    let x = b:xptemplateData
+    return x.filetypes[ x.snipFileScope.filetype ].funcs
 endfunction "}}}
 
 fun! XPTemplateAlias( name, toWhich, setting ) "{{{
@@ -337,7 +340,7 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
     let name = a:name
 
     let xptObj = b:xptemplateData
-    let xt = xptObj.filetypes[ g:GetSnipFileFT() ].allTemplates
+    let xt = xptObj.filetypes[ x.snipFileScope.filetype ].allTemplates
 
     if has_key( xt, a:toWhich )
 
@@ -376,20 +379,9 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
 
 endfunction "}}}
 
-fun! g:GetSnipFileFT() "{{{
-    let x = b:xptemplateData
-    return x.snipFileScope.filetype
-endfunction "}}}
-
-" TODO bad name
-fun! g:GetSnipFileFtScope() "{{{
-    let x = b:xptemplateData
-    return x.filetypes[ x.snipFileScope.filetype ]
-endfunction "}}}
-
 fun! s:GetTempSnipScope( x, ft ) "{{{
     if !has_key( a:x, '__tmp_snip_scope' )
-        let sc          = XPTnewSnipScope( '' )
+        let sc          = xpt#snipf#New( '' )
         let sc.priority = 0
 
         let a:x.__tmp_snip_scope = sc
@@ -403,7 +395,7 @@ endfunction "}}}
 " ********* XXX *********
 fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
-    call XPTsnipScopePush()
+    call xpt#snipf#Push()
     " @param String name			tempalte name
     " @param String context			[optional] context syntax name
     " @param String|List|FunCRef str		template string
@@ -444,7 +436,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     call xpt#snip#DefExt( a:name, setting, snip )
 
 
-    call XPTsnipScopePop()
+    call xpt#snipf#Pop()
 
 endfunction " }}}
 
@@ -4444,13 +4436,6 @@ endfunction "}}}
 
 
 
-let s:snipScopePrototype = {
-      \ 'filename'  : '',
-      \ 'ptn'       : {'l':'`', 'r':'^'},
-      \ 'priority'  : s:priorities.lang,
-      \ 'filetype'  : '',
-      \ 'inheritFT' : 0,
-      \}
 
 
 fun! XPTemplateInit() "{{{
@@ -4499,6 +4484,10 @@ fun! XPTemplateInit() "{{{
 
 endfunction "}}}
 
+fun! RedefinePattern() "{{{
+    return s:RedefinePattern()
+endfunction "}}}
+" TODO optimize it with cache
 fun! s:RedefinePattern() "{{{
     let xp = b:xptemplateData.snipFileScope.ptn
 
@@ -5045,7 +5034,7 @@ fun! s:GetContextFTObj() "{{{
             " We load "common" snippets by creating a fake snippet file.
 
             call XPTsnippetFileInit( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
-            call XPTinclude( '_common/common' )
+            call xpt#parser#Include( '_common/common' )
             call XPTfiletypeInit()
 
         endif

@@ -21,24 +21,31 @@ set cpo-=< cpo+=B
 let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
 
-fun! XPTnewSnipScope( filename )
-  let x = b:xptemplateData
-  let x.snipFileScope = deepcopy( s:snipScopePrototype )
-  let x.snipFileScope.filename = a:filename
 
-  call s:RedefinePattern()
+fun! xpt#snipf#New( filename ) "{{{
 
-  return x.snipFileScope
-endfunction
+  let b:xptemplateData.snipFileScope = {
+      \ 'filename'  : a:filename,
+      \ 'ptn'       : {'l':'`', 'r':'^'},
+      \ 'priority'  : g:xpt_priorities.lang,
+      \ 'filetype'  : '',
+      \ 'inheritFT' : 0,
+      \}
 
-fun! XPTsnipScopePush()
+  " TODO move this function out
+  call RedefinePattern()
+
+  return b:xptemplateData.snipFileScope
+endfunction "}}}
+
+fun! xpt#snipf#Push() "{{{
     let x = b:xptemplateData
     let x.snipFileScopeStack += [x.snipFileScope]
 
     unlet x.snipFileScope
-endfunction
+endfunction "}}}
 
-fun! XPTsnipScopePop()
+fun! xpt#snipf#Pop() "{{{
     let x = b:xptemplateData
     if len(x.snipFileScopeStack) > 0
         let x.snipFileScope = x.snipFileScopeStack[ -1 ]
@@ -46,13 +53,7 @@ fun! XPTsnipScopePop()
     else
         throw "snipFileScopeStack is empty"
     endif
-endfunction
-
-
-
-
-
-
+endfunction "}}}
 
 
 let &cpo = s:oldcpo
