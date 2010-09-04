@@ -32,6 +32,7 @@ fun! xpt#snip#New( name, ftScope, snipText, prio, setting, patterns ) "{{{
           \ 'setting'     : a:setting,
           \ 'ptn'         : a:patterns,
           \ }
+
 endfunction "}}}
 
 

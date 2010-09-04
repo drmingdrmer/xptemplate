@@ -473,7 +473,7 @@ fun! XPTdefineSnippet( name, setting, snip ) "{{{
 
 
     let templates[ a:name ] = xpt#snip#New( a:name, ftScope, snip, prio,
-          \ templateSetting, deepcopy(b:xptemplateData.snipFileScope.ptn) )
+          \ templateSetting, deepcopy(x.snipFileScope.ptn) )
 
 
     call s:InitTemplateObject( x, templates[ a:name ] )
@@ -534,7 +534,7 @@ fun! s:ParsePHReplacements( snipObject ) "{{{
     let repls = a:snipObject.setting.replacements
 
     if repls != {}
-        let a:snipObject.snipText = s:ReplacePHofSubSnip( a:snipObject, a:snipObject, repls )
+        let a:snipObject.snipText = s:ReplacePHofSubSnip( a:snipObject, repls )
     endif
 
 endfunction "}}}
@@ -600,7 +600,7 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor ) "{{{
             let incTmplObject = a:tmplDict[ incName ]
             call s:MergeSetting( a:tmplObject.setting, incTmplObject.setting )
 
-            let incSnip = s:ReplacePHofSubSnip( a:tmplObject, incTmplObject, params )
+            let incSnip = s:ReplacePHofSubSnip( incTmplObject, params )
             let incSnip = substitute( incSnip, '\n', '&' . indent, 'g' )
 
 
@@ -632,9 +632,9 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor ) "{{{
 
 endfunction "}}}
 
-fun! s:ReplacePHofSubSnip( snipObject, subSnipObject, params ) "{{{
+fun! s:ReplacePHofSubSnip( snipObject, params ) "{{{
     let xp = a:snipObject.ptn
-    let incSnip = a:subSnipObject.snipText
+    let incSnip = a:snipObject.snipText
 
     let incSnipPieces = split( incSnip, '\V' . xp.rt, 1 )
 
@@ -2583,7 +2583,7 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
 
     call s:MergeSetting( renderContext.snipSetting, incTmplObject.setting )
 
-    let incSnip = s:ReplacePHofSubSnip( renderContext.snipObject, incTmplObject, params )
+    let incSnip = s:ReplacePHofSubSnip( incTmplObject, params )
     let incSnip = s:AdjustIndentAt( incSnip, nameInfo[0] )
 
     let valueInfo[-1][1] += 1
