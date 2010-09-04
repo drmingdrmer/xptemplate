@@ -673,7 +673,7 @@ fun! s:ParseTemplateSetting( snipObject ) "{{{
     endif
 
 
-    call s:ParsePostQuoter( setting )
+    call xpt#st#ParsePostQuoter( setting )
 
 
     if has_key( setting, 'extension' )
@@ -684,20 +684,6 @@ fun! s:ParseTemplateSetting( snipObject ) "{{{
 
 endfunction "}}}
 
-fun! s:ParsePostQuoter( setting ) "{{{
-    if !has_key( a:setting, 'postQuoter' )
-          \ || type( a:setting.postQuoter ) == type( {} )
-        return
-    endif
-
-
-    let quoters = split( a:setting.postQuoter, ',' )
-    if len( quoters ) < 2
-        throw 'postQuoter must be separated with ","! :' . a:setting.postQuoter
-    endif
-
-    let a:setting.postQuoter = { 'start' : quoters[0], 'end' : quoters[1] }
-endfunction "}}}
 
 fun! s:AddCursorToComeLast(setting) "{{{
 
@@ -1267,7 +1253,7 @@ fun! s:RenderSnippet() "{{{
     call s:log.Debug("post action =".action)
     call s:log.Debug("mode:".mode())
 
-    call s:log.Debug( "tmpl:", s:TextBetween( XPMposStartEnd( ctx.marks.tmpl ) ) )
+    call s:log.Debug( "tmpl:", XPT#TextBetween( XPMposStartEnd( ctx.marks.tmpl ) ) )
 
     call s:CallPlugin( 'start', 'after' )
 
@@ -1954,9 +1940,9 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
 
     " 1 is length of left mark
-    let leftEdge  = s:TextBetween( a:nameInfo[ 0 : 1 ] )
-    let name      = s:TextBetween( a:nameInfo[ 1 : 2 ] )
-    let rightEdge = s:TextBetween( a:nameInfo[ 2 : 3 ] )
+    let leftEdge  = XPT#TextBetween( a:nameInfo[ 0 : 1 ] )
+    let name      = XPT#TextBetween( a:nameInfo[ 1 : 2 ] )
+    let rightEdge = XPT#TextBetween( a:nameInfo[ 2 : 3 ] )
 
     let [ leftEdge, name, rightEdge ] = [ leftEdge[1 : ], name[1 : ], rightEdge[1 : ] ]
 
@@ -2008,7 +1994,7 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
         let isPostFilter = a:valueInfo[1][0] == a:valueInfo[2][0]
                     \&& a:valueInfo[1][1] + 1 == a:valueInfo[2][1]
 
-        let val = s:TextBetween( a:valueInfo[ 0 : 1 ] )
+        let val = XPT#TextBetween( a:valueInfo[ 0 : 1 ] )
         let val = val[1:]
         let val = xpt#util#UnescapeChar( val, xp.l . xp.r )
 
@@ -2853,14 +2839,14 @@ fun! s:ApplyPostFilter() "{{{
 
     let renderContext.phase = 'post'
 
-    let typed = s:TextBetween( XPMposStartEnd( marks ) )
+    let typed = XPT#TextBetween( XPMposStartEnd( marks ) )
 
     " NOTE: some post filter need the typed value
     if renderContext.item.name != ''
         let renderContext.namedStep[renderContext.item.name] = typed
     endif
 
-    call s:log.Log("before post filtering, tmpl:\n" . s:TextBetween( XPMposStartEnd( renderContext.marks.tmpl ) ) )
+    call s:log.Log("before post filtering, tmpl:\n" . XPT#TextBetween( XPMposStartEnd( renderContext.marks.tmpl ) ) )
 
 
 
@@ -3540,7 +3526,7 @@ fun! s:InitItem() " {{{
     let currentItem = renderContext.item
     let leaderMark = renderContext.leadingPlaceHolder.innerMarks
 
-    let currentItem.initValue = s:TextBetween( XPMposStartEnd( leaderMark ) )
+    let currentItem.initValue = XPT#TextBetween( XPMposStartEnd( leaderMark ) )
 
     call xpt#rctx#SwitchPhase( renderContext, g:xptRenderPhase.iteminit )
 
@@ -3553,7 +3539,7 @@ fun! s:InitItem() " {{{
 
     " NOTE: InitItem() may change current item to next one
     if renderContext.processing && currentItem == renderContext.item
-        let renderContext.item.initValue = s:TextBetween( XPMposStartEnd( leaderMark ) )
+        let renderContext.item.initValue = XPT#TextBetween( XPMposStartEnd( leaderMark ) )
     endif
 
     if renderContext.phase == g:xptRenderPhase.iteminit
@@ -3628,7 +3614,7 @@ fun! XPTmappingEval( str ) "{{{
 
     let x = b:xptemplateData
 
-    let typed = s:TextBetween(
+    let typed = XPT#TextBetween(
           \ XPMposStartEnd(
           \     x.renderContext.leadingPlaceHolder.mark ) )
 
@@ -3926,6 +3912,7 @@ fun! s:CachedCompileExpr( s, xfunc ) "{{{
     if expr is 0
         let expr = s:CompileExpr( a:s, a:xfunc )
         if a:s != ''
+            echom a:s . ' ' . expr
             let b:_xpeval.evalCache[ a:s ] = expr
         endif
     endif
@@ -3933,7 +3920,6 @@ fun! s:CachedCompileExpr( s, xfunc ) "{{{
     return expr
 
 endfunction "}}}
-
 
 fun! s:CompileExpr(s, xfunc) "{{{
 
@@ -4053,36 +4039,7 @@ fun! s:CompileExpr(s, xfunc) "{{{
 
 endfunction "}}}
 
-fun! s:TextBetween( posList ) "{{{
 
-    let [ s, e ] = a:posList
-
-    if s[0] > e[0]
-        return ""
-    endif
-
-    if s[0] == e[0]
-        if s[1] == e[1]
-            return ""
-        else
-            call s:log.Log( "content between " . string( [s, e] ) . ' is :' . getline(s[0])[ s[1] - 1 : e[1] - 2] )
-            return getline(s[0])[ s[1] - 1 : e[1] - 2 ]
-        endif
-    endif
-
-
-    let r = [ getline(s[0])[s[1] - 1:] ] + getline(s[0]+1, e[0]-1)
-
-    if e[1] > 1
-        let r += [ getline(e[0])[:e[1] - 2] ]
-    else
-        let r += ['']
-    endif
-
-    call s:log.Log( "content between " . string( [s, e] ) . ' is :'.join( r, "\n" ) )
-    return join(r, "\n")
-
-endfunction "}}}
 
 fun! s:Goback() "{{{
     let renderContext = b:xptemplateData.renderContext
@@ -4390,12 +4347,12 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
 
 
             " TODO replace only when filter applied or filter.text has line break
-            let text = s:TextBetween( XPMposStartEnd( ph.mark ) )
+            let text = XPT#TextBetween( XPMposStartEnd( ph.mark ) )
             if text !=# flt.text
                 call XPreplaceByMarkInternal( ph.mark.start, ph.mark.end, flt.text )
             endif
 
-            call s:log.Debug( 'after update 1 place holder:', s:TextBetween( XPMposStartEnd( renderContext.marks.tmpl ) ) )
+            call s:log.Debug( 'after update 1 place holder:', XPT#TextBetween( XPMposStartEnd( renderContext.marks.tmpl ) ) )
         endfor
     catch /.*/
         call XPT#error( v:exception )
@@ -4471,7 +4428,7 @@ fun! s:HandleOntypeFilter( filter ) "{{{
     let renderContext = b:xptemplateData.renderContext
     let leader = renderContext.leadingPlaceHolder
     let [ start, end ] = XPMposStartEnd( leader.mark )
-    let contentTyped = s:TextBetween( [ start, end ] )
+    let contentTyped = XPT#TextBetween( [ start, end ] )
 
     call s:EvalFilter( a:filter, renderContext.ftScope.funcs, { 'typed' : contentTyped, 'startPos' : start } )
 
@@ -4661,7 +4618,7 @@ fun! s:DoUpdate( renderContext, changeType ) "{{{
 
     let renderContext = a:renderContext
 
-    let contentTyped = s:TextBetween( XPMposStartEnd( renderContext.leadingPlaceHolder.mark ) )
+    let contentTyped = XPT#TextBetween( XPMposStartEnd( renderContext.leadingPlaceHolder.mark ) )
 
     if contentTyped ==# renderContext.lastContent
         call s:log.Log( "nothing different typed" )
@@ -4679,7 +4636,7 @@ fun! s:DoUpdate( renderContext, changeType ) "{{{
 
     call s:log.Log( "-----------------------")
     call s:log.Log( 'current line=' . string( getline( "." ) ) )
-    call s:log.Log( "tmpl:", s:TextBetween( XPMposStartEnd( renderContext.marks.tmpl ) ) )
+    call s:log.Log( "tmpl:", XPT#TextBetween( XPMposStartEnd( renderContext.marks.tmpl ) ) )
     call s:log.Log( "lastContent=".renderContext.lastContent )
     call s:log.Log( "contentTyped=".contentTyped )
 

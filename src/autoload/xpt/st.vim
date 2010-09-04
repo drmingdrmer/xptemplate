@@ -115,5 +115,19 @@ fun! xpt#st#Merge( toSettings, fromSettings ) "{{{
 
 endfunction "}}}
 
+fun! xpt#st#ParsePostQuoter( setting ) "{{{
+    if !has_key( a:setting, 'postQuoter' )
+          \ || type( a:setting.postQuoter ) == type( {} )
+        return
+    endif
+
+
+    let quoters = split( a:setting.postQuoter, ',' )
+    if len( quoters ) < 2
+        throw 'postQuoter must be separated with ","! :' . a:setting.postQuoter
+    endif
+
+    let a:setting.postQuoter = { 'start' : quoters[0], 'end' : quoters[1] }
+endfunction "}}}
 
 let &cpo = s:oldcpo
