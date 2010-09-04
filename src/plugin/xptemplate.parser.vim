@@ -40,7 +40,7 @@ com! -nargs=* XPTemplate
       \ | endif
 
 com! -nargs=* XPTemplateDef echom expand("<sfile>") . " XPTemplateDef is NOT needed any more. All right to remove it."
-com! -nargs=* XPT           call s:XPTstartSnippetPart(expand("<sfile>")) | finish
+" com! -nargs=* XPT           call s:XPTstartSnippetPart(expand("<sfile>")) | finish
 com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
 " TODO rename me to XSET
 com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
@@ -215,7 +215,7 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
 
         call s:log.Debug( 'Compiled file: ' . string( a:filename ) )
 
-        return call( function( 'DoSnippetFileInit' ), [ a:filename . 'c' ] + a:000 )
+        return call( function( 'DoSnippetFileInit' ), [ a:filename ] + a:000 )
 
     endif
 
@@ -442,11 +442,6 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
     endif
 
 
-    " if hint != ''
-    "     let setting.rawHint = hint
-    " endif
-
-
     let [ x, snippetName; snippetParameters ] = split(lines[0], '\V'.s:nonEscaped.'\s\+')
 
     for pair in snippetParameters
@@ -538,22 +533,6 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 
 
 endfunction "}}}
-
-" fun! s:GetSnipCommentHint(str) "{{{
-"     " let pos = match(a:str, '\V' . s:nonEscaped . '\shint=')
-"     " if pos != -1
-"     "     return [ a:str[ pos + 6 : ], a:str[ : pos - 1 ] ]
-"     " endif
-
-"     let pos = match( a:str, '\VXPT\s\+\S\+\.\{-}\zs\s' . s:nonEscaped . '"' )
-"     if pos == -1
-"         return [ '', a:str ]
-"     else
-"         " skip space, '"'
-"         return [ matchstr( a:str[ pos + 1 + 1 : ], '\v\S.*' ), a:str[ : pos ] ]
-"     endif
-" endfunction "}}}
-
 
 
 " TODO convert indent in runtime
