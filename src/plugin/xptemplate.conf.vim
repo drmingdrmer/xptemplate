@@ -106,7 +106,7 @@ let s:filename = 'xptemplate.conf.vim'
 let s:path = substitute( s:path, '\', '/', 'g' )
 let s:path = matchstr( s:path, '\V\.\*\ze/plugin/' . s:filename )
 
-let &runtimepath .= ',' . s:path . '/personal'
+let &runtimepath .= ',' . s:path . '/xptsnippets'
 let &runtimepath .= ',' . s:path . '/personal'
 
 for s:path in g:xptemplate_snippet_folders
