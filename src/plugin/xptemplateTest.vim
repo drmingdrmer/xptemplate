@@ -234,8 +234,6 @@ fun! s:XPTtest( ftype ) "{{{
     let b:testPhase      = s:phases[ b:phaseIndex ]
 
 
-    call XPTparseSnippets()
-
     let tmpls = XPTgetAllTemplates()
 
     let x = XPTbufData()
