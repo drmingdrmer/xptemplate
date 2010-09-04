@@ -221,7 +221,7 @@ fun! g:XPTaddBundle(ft, bundle) "{{{
     let g:xptBundle[ a:ft ][ a:bundle ] = 1
 
     " TODO NOTE: problem: last snipFileScop is used in XPTembed. any side effect?
-    call XPTembed( a:ft . '/' . a:bundle )
+    call xpt#parser#Embed( a:ft . '/' . a:bundle )
 endfunction "}}}
 
 fun! g:XPTloadBundle(ft, bundle) "{{{
