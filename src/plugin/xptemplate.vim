@@ -529,15 +529,15 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
 endfunction "}}}
 
-fun! s:ParsePHReplacements( snipObject ) "{{{
+" fun! s:ParsePHReplacements( snipObject ) "{{{
 
-    let repls = a:snipObject.setting.replacements
+"     let repls = a:snipObject.setting.replacements
 
-    if repls != {}
-        let a:snipObject.snipText = xpt#snip#ReplacePH( a:snipObject, repls )
-    endif
+"     if repls != {}
+"         let a:snipObject.snipText = xpt#snip#ReplacePH( a:snipObject, repls )
+"     endif
 
-endfunction "}}}
+" endfunction "}}}
 
 fun! s:ParseInclusion( tmplDict, tmplObject ) "{{{
     if type( a:tmplObject.snipText ) == type( function( 'tr' ) )
@@ -585,7 +585,7 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor ) "{{{
         call s:log.Debug( 'inclusion line:' . matching )
         call s:log.Debug( 'indent=' . string( indent ) )
 
-        let [ incName, params ] = s:ParseInclusionStatement( a:tmplObject, incName )
+        let [ incName, params ] = xpt#snip#ParseInclusionStatement( a:tmplObject, incName )
 
         if has_key( a:tmplDict, incName )
             if has_key( included, incName ) && included[ incName ] > 20
@@ -598,7 +598,7 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor ) "{{{
             let ph = matchstr( matching, a:pattern.ph )
 
             let incTmplObject = a:tmplDict[ incName ]
-            call s:MergeSetting( a:tmplObject.setting, incTmplObject.setting )
+            call xpt#st#Merge( a:tmplObject.setting, incTmplObject.setting )
 
             let incSnip = xpt#snip#ReplacePH( incTmplObject, params )
             let incSnip = substitute( incSnip, '\n', '&' . indent, 'g' )
@@ -631,65 +631,6 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor ) "{{{
     let a:tmplObject.snipText = snip[1:]
 
 endfunction "}}}
-
-fun! s:ParseInclusionStatement( snipObject, st ) "{{{
-
-    let xp = a:snipObject.ptn
-
-
-    let ptn = '\V\^\[^(]\{-}('
-    let st = a:st
-
-    if st =~ ptn && st[ -1 : -1 ] == ')'
-
-        let name = matchstr( st, ptn )[ : -2 ]
-        let paramStr = st[ len( name ) + 1 : -2 ]
-
-        call s:log.Debug( 'name=' . string( name ) )
-        call s:log.Debug( 'paramStr' . string( paramStr ) )
-
-        let paramStr = xpt#util#UnescapeChar( paramStr, xp.l . xp.r )
-        let params = {}
-        try
-            let params = eval( paramStr )
-        catch /.*/
-            XPT#warn( 'XPT: Invalid parameter: ' . string( paramStr ) . ' Error=' . v:exception )
-        endtry
-
-        call s:log.Debug( 'params=' . string( params ) )
-
-        return [ name, params ]
-
-    else
-        return [ st, {} ]
-    endif
-
-endfunction "}}}
-
-fun! s:MergeSetting( toSettings, fromSettings ) "{{{
-
-    let a:toSettings.comeFirst += a:fromSettings.comeFirst
-    let a:toSettings.comeLast = a:fromSettings.comeLast + a:toSettings.comeLast
-    call s:InitItemOrderList( a:toSettings )
-
-    call extend( a:toSettings.preValues, a:fromSettings.preValues, 'keep' )
-    call extend( a:toSettings.defaultValues, a:fromSettings.defaultValues, 'keep' )
-    call extend( a:toSettings.postFilters, a:fromSettings.postFilters, 'keep' )
-    call extend( a:toSettings.variables, a:fromSettings.variables, 'keep' )
-
-    for key in keys( a:fromSettings.mappings )
-        if !has_key( a:toSettings.mappings, key )
-            let a:toSettings.mappings[ key ] =
-                  \ { 'saver' : xpt#msvr#New( 1 ), 'keys' : {} }
-        endif
-        for keystroke in keys( a:fromSettings.mappings[ key ].keys )
-            let a:toSettings.mappings[ key ].keys[ keystroke ] = a:fromSettings.mappings[ key ].keys[ keystroke ]
-            call xpt#msvr#Add( a:toSettings.mappings[ key ].saver, 'i', keystroke )
-        endfor
-    endfor
-
-endfunction "}}}
-
 
 fun! s:ParseTemplateSetting( snipObject ) "{{{
     " TODO keyword parsing should be here so that Alias can use non-keyword char
@@ -1235,23 +1176,26 @@ fun! s:NewRenderContext( ftScope, tmplName ) "{{{
     let renderContext.snipObject  = s:GetContextFTObj().allTemplates[ a:tmplName ]
     let renderContext.ftScope = a:ftScope
 
+    let so = renderContext.snipObject
 
-    if !renderContext.snipObject.parsed
 
-        call s:ParsePHReplacements( renderContext.snipObject )
+    if !so.parsed
 
-        call s:ParseInclusion( renderContext.ftScope.allTemplates, renderContext.snipObject )
+        " call s:ParsePHReplacements( renderContext.snipObject )
+        let so.snipText = xpt#snip#ReplacePH( so, so.setting.replacements )
 
-        let renderContext.snipObject.snipText = s:ParseSpaces( renderContext.snipObject )
-        let renderContext.snipObject.snipText = s:ParseQuotedPostFilter( renderContext.snipObject )
-        let renderContext.snipObject.snipText = s:ParseRepetition( renderContext.snipObject )
+        call s:ParseInclusion( renderContext.ftScope.allTemplates, so )
 
-        let renderContext.snipObject.parsed = 1
+        let so.snipText = s:ParseSpaces( so )
+        let so.snipText = s:ParseQuotedPostFilter( so )
+        let so.snipText = s:ParseRepetition( so )
+
+        let so.parsed = 1
 
     endif
 
 
-    let renderContext.snipSetting = copy( renderContext.snipObject.setting )
+    let renderContext.snipSetting = copy( so.setting )
 
     let setting = renderContext.snipSetting
 
@@ -2531,7 +2475,7 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
 
     call s:log.Debug( 'buildtime inclusion' )
 
-    let [ incName, params ] = s:ParseInclusionStatement( renderContext.snipObject, placeHolder.include )
+    let [ incName, params ] = xpt#snip#ParseInclusionStatement( renderContext.snipObject, placeHolder.include )
 
     if !has_key( tmplDict, incName )
         call XPT#warn( "unknown inclusion :" . incName )
@@ -2542,7 +2486,7 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
 
     let incTmplObject = tmplDict[ incName ]
 
-    call s:MergeSetting( renderContext.snipSetting, incTmplObject.setting )
+    call xpt#st#Merge( renderContext.snipSetting, incTmplObject.setting )
 
     let incSnip = xpt#snip#ReplacePH( incTmplObject, params )
     let incSnip = s:AdjustIndentAt( incSnip, nameInfo[0] )

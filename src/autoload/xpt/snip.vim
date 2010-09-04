@@ -38,6 +38,9 @@ endfunction "}}}
 
 
 fun! xpt#snip#ReplacePH( snipObject, params ) "{{{
+
+    if params == {} | return | endif
+
     let xp = a:snipObject.ptn
     let incSnip = a:snipObject.snipText
 
@@ -76,7 +79,39 @@ fun! xpt#snip#ReplacePH( snipObject, params ) "{{{
     return incSnip
 endfunction "}}}
 
+fun! xpt#snip#ParseInclusionStatement( snipObject, statement ) "{{{
 
+    let xp = a:snipObject.ptn
+
+
+    let ptn = '\V\^\[^(]\{-}('
+    let statement = a:statement
+
+    if statement =~ ptn && statement[ -1 : -1 ] == ')'
+
+        let name = matchstr( statement, ptn )[ : -2 ]
+        let paramStr = statement[ len( name ) + 1 : -2 ]
+
+        call s:log.Debug( 'name=' . string( name ) )
+        call s:log.Debug( 'paramStr' . string( paramStr ) )
+
+        let paramStr = xpt#util#UnescapeChar( paramStr, xp.l . xp.r )
+        let params = {}
+        try
+            let params = eval( paramStr )
+        catch /.*/
+            XPT#warn( 'XPT: Invalid parameter: ' . string( paramStr ) . ' Error=' . v:exception )
+        endtry
+
+        call s:log.Debug( 'params=' . string( params ) )
+
+        return [ name, params ]
+
+    else
+        return [ statement, {} ]
+    endif
+
+endfunction "}}}
 
 
 
