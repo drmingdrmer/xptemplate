@@ -235,8 +235,8 @@ a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
 
 
-    /*  -------------assert---------------            */
-    /* assert(`$SPop^`isTrue^,`$SPop^"`text^"`$SPop^) */
+    /*  -------------assert---------------              */
+    /* assert(`$SParg^`isTrue^,`$SPop^"`text^"`$SParg^) */
 
 
 
@@ -264,7 +264,7 @@ a drdr.xp
 
 
     /*  -------------call--------------- */
-    /* `name^(`$SPop^`param^`$SPop^)     */
+    /* `name^(`$SParg^`param^`$SParg^)   */
 
 
 
@@ -774,8 +774,8 @@ a for ( i = 0; i >= end; i++ ) {
 }
 
 
-    /*  -------------fprintf---------------                   */
-    /* fprintf(`$SPop^`stream^,`$SPop^`:_printfElts:^`$SPop^) */
+    /*  -------------fprintf---------------                     */
+    /* fprintf(`$SParg^`stream^,`$SPop^`:_printfElts:^`$SParg^) */
 
 
 
@@ -1116,8 +1116,8 @@ WRAPPED_TEXT_line2
 #endif /* __TEST_PAGE__ */
 
 
-    /*  -------------printf---------------   */
-    /* printf(`$SPop^`:_printfElts:^`$SPop^) */
+    /*  -------------printf---------------     */
+    /* printf(`$SParg^`:_printfElts:^`$SParg^) */
 
 
 
@@ -1130,8 +1130,8 @@ printf( "pattern_TYPED" ) b
 a printf( "pattern" )
 
 
-    /*  -------------snprintf---------------                              */
-    /* snprintf(`$SPop^`str^,`$SPop^`size^,`$SPop^`:_printfElts:^`$SPop^) */
+    /*  -------------snprintf---------------                                */
+    /* snprintf(`$SParg^`str^,`$SPop^`size^,`$SPop^`:_printfElts:^`$SParg^) */
 
 
 
@@ -1144,8 +1144,8 @@ snprintf( str_TYPED, size_TYPED, "pattern_TYPED" ) b
 a snprintf( str, size, "pattern" )
 
 
-    /*  -------------sprintf---------------                */
-    /* sprintf(`$SPop^`str^,`$SPop^`:_printfElts:^`$SPop^) */
+    /*  -------------sprintf---------------                  */
+    /* sprintf(`$SParg^`str^,`$SPop^`:_printfElts:^`$SParg^) */
 
 
 

@@ -20,6 +20,7 @@ set cpo-=< cpo+=B
 let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
 
+exe XPT#importConst
 
 " TODO move more init values here, comeLast for cursor, default value for cursor
 let s:proto  = {
@@ -87,7 +88,7 @@ fun! xpt#st#Merge( toSettings, fromSettings ) "{{{
 
     let a:toSettings.comeFirst += a:fromSettings.comeFirst
     let a:toSettings.comeLast = a:fromSettings.comeLast + a:toSettings.comeLast
-    call s:InitItemOrderList( a:toSettings )
+    call xpt#st#InitItemOrderList( a:toSettings )
 
     call extend( a:toSettings.preValues, a:fromSettings.preValues, 'keep' )
     call extend( a:toSettings.defaultValues, a:fromSettings.defaultValues, 'keep' )
@@ -180,6 +181,14 @@ fun! xpt#st#ParsePostQuoter( setting ) "{{{
     endif
 
     let a:setting.postQuoter = { 'start' : quoters[0], 'end' : quoters[1] }
+endfunction "}}}
+
+fun! xpt#st#InitItemOrderList( setting ) "{{{
+    " TODO move me to template creation phase
+
+    let a:setting.comeFirst = xpt#util#RemoveDuplicate( a:setting.comeFirst )
+    let a:setting.comeLast  = xpt#util#RemoveDuplicate( a:setting.comeLast )
+
 endfunction "}}}
 
 let &cpo = s:oldcpo

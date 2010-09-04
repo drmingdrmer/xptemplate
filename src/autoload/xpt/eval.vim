@@ -20,11 +20,7 @@ set cpo-=< cpo+=B
 let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
 
-let s:nonEscaped  = XPT#nonEscaped
-let s:regEval     = XPT#regEval
-let s:nonsafe     = XPT#nonsafe
-let s:nonsafeHint = XPT#nonsafeHint
-
+exe XPT#importConst
 
 " TODO consistent cache
 let s:_xpeval = { 'strMaskCache' : {}, 'evalCache' : {} }
@@ -73,7 +69,7 @@ fun! xpt#eval#Compile( s, xfunc ) "{{{
     if expr is 0
         let expr = s:DoCompile( a:s, a:xfunc )
         if a:s != ''
-            echom a:s . ' ' . expr
+            " echom a:s . ' ' . expr
             let s:_xpeval.evalCache[ a:s ] = expr
         endif
     endif

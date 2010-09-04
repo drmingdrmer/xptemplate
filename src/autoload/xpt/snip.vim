@@ -39,7 +39,7 @@ endfunction "}}}
 
 fun! xpt#snip#ReplacePH( snipObject, params ) "{{{
 
-    if params == {} | return | endif
+    if a:params == {} | return a:snipObject.snipText | endif
 
     let xp = a:snipObject.ptn
     let incSnip = a:snipObject.snipText

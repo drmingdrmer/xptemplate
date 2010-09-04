@@ -8,6 +8,7 @@ let g:__XPT_VIM__ = 1
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
+
 let XPT#ver = 3
 
 let XPT#let_sid = 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
@@ -25,6 +26,13 @@ let XPT#regEval     = '\V\w(\|$\w'
 let XPT#nonsafe     = '{$( '
 let XPT#nonsafeHint = '$('
 
+
+let XPT#importConst = 'let s:nonEscaped = XPT#nonEscaped | '
+      \ . 'let s:regEval = XPT#regEval | '
+      \ . 'let s:nonsafe = XPT#nonsafe | '
+      \ . 'let s:nonsafeHint = XPT#nonsafeHint | '
+      \ . 'let s:nullDict = XPT#nullDict | '
+      \ . 'let s:nullList = XPT#nullList'
 
 
 fun! XPT#default(k, v) "{{{
@@ -133,15 +141,15 @@ fun! XPT#LinesBetween( posList ) "{{{
     let [ s, e ] = a:posList
 
     if s[0] > e[0]
-        return ""
+        return [ "" ]
     endif
 
     if s[0] == e[0]
         if s[1] == e[1]
-            return ""
+            return [ "" ]
         else
-            call s:log.Log( "content between " . string( [s, e] ) . ' is :' . getline(s[0])[ s[1] - 1 : e[1] - 2] )
-            return getline(s[0])[ s[1] - 1 : e[1] - 2 ]
+            " call s:log.Log( "content between " . string( [s, e] ) . ' is :' . getline(s[0])[ s[1] - 1 : e[1] - 2] )
+            return [ getline(s[0])[ s[1] - 1 : e[1] - 2 ] ]
         endif
     endif
 
@@ -154,7 +162,7 @@ fun! XPT#LinesBetween( posList ) "{{{
         let r += ['']
     endif
 
-    call s:log.Log( "content between " . string( [s, e] ) . ' is :'.join( r, "\n" ) )
+    " call s:log.Log( "content between " . string( [s, e] ) . ' is :'.join( r, "\n" ) )
 
     return r
 

@@ -135,7 +135,6 @@ let g:XPTact = {
 
 
 runtime plugin/xptemplate.conf.vim
-runtime plugin/xptemplate.util.vim
 runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
 runtime plugin/xpopup.vim
@@ -173,12 +172,8 @@ fun! XPTmarkCompare( o, markToAdd, existedMark ) "{{{
 endfunction "}}}
 
 let s:repetitionPattern     = '\w\*...\w\*'
-let s:nullDict = {}
-let s:nullList = []
 
-let s:nonEscaped  = XPT#nonEscaped
-let s:regEval     = XPT#regEval
-let s:nonsafe     = XPT#nonsafe
+exe XPT#importConst
 
 
 
@@ -504,7 +499,7 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
     call s:log.Debug( 'create template name=' . a:tmplObj.name . ' snipText=' . a:tmplObj.snipText )
 
     call s:AddCursorToComeLast(a:tmplObj.setting)
-    call s:InitItemOrderList( a:tmplObj.setting )
+    call xpt#st#InitItemOrderList( a:tmplObj.setting )
 
 
     if !has_key( a:tmplObj.setting.defaultValues, 'cursor' )
@@ -638,13 +633,6 @@ fun! s:AddCursorToComeLast(setting) "{{{
 
 endfunction "}}}
 
-fun! s:InitItemOrderList( setting ) "{{{
-    " TODO move me to template creation phase
-
-    let a:setting.comeFirst = xpt#util#RemoveDuplicate( a:setting.comeFirst )
-    let a:setting.comeLast  = xpt#util#RemoveDuplicate( a:setting.comeLast )
-
-endfunction "}}}
 
 fun! XPTreload() "{{{
 
@@ -682,7 +670,7 @@ fun! XPTemplatePreWrap( wrap ) "{{{
     let x.wrap = substitute( x.wrap, '\V\n\$', '', '' )
 
 
-    let x.wrap = xpt#util#ExpandTab( x.wrap, &tabspaces )
+    let x.wrap = xpt#util#ExpandTab( x.wrap, &tabstop )
 
 
     if ( g:xptemplate_strip_left || x.wrap =~ '\n' )
