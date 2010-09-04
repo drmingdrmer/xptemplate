@@ -83,7 +83,37 @@ fun! xpt#st#Simplify( setting ) "{{{
 
 endfunction "}}}
 
+fun! xpt#st#Merge( toSettings, fromSettings ) "{{{
 
+    let a:toSettings.comeFirst += a:fromSettings.comeFirst
+    let a:toSettings.comeLast = a:fromSettings.comeLast + a:toSettings.comeLast
+    call s:InitItemOrderList( a:toSettings )
+
+    call extend( a:toSettings.preValues, a:fromSettings.preValues, 'keep' )
+    call extend( a:toSettings.defaultValues, a:fromSettings.defaultValues, 'keep' )
+    call extend( a:toSettings.postFilters, a:fromSettings.postFilters, 'keep' )
+    call extend( a:toSettings.variables, a:fromSettings.variables, 'keep' )
+
+    for key in keys( a:fromSettings.mappings )
+
+        if !has_key( a:toSettings.mappings, key )
+
+            let a:toSettings.mappings[ key ] =
+                  \ { 'saver' : xpt#msvr#New( 1 ), 'keys' : {} }
+
+        endif
+
+        for keystroke in keys( a:fromSettings.mappings[ key ].keys )
+
+            let a:toSettings.mappings[ key ].keys[ keystroke ] = a:fromSettings.mappings[ key ].keys[ keystroke ]
+
+            call xpt#msvr#Add( a:toSettings.mappings[ key ].saver, 'i', keystroke )
+
+        endfor
+
+    endfor
+
+endfunction "}}}
 
 
 let &cpo = s:oldcpo
