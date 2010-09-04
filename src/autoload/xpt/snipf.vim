@@ -22,20 +22,21 @@ let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
 
 
+let s:noEsp   = XPT#nonEscaped
+
+
 fun! xpt#snipf#New( filename ) "{{{
 
   let b:xptemplateData.snipFileScope = {
       \ 'filename'  : a:filename,
-      \ 'ptn'       : {'l':'`', 'r':'^'},
+      \ 'ptn'       : xpt#snipf#GenPattern( {'l':'`', 'r':'^'} ),
       \ 'priority'  : g:xpt_priorities.lang,
       \ 'filetype'  : '',
       \ 'inheritFT' : 0,
       \}
 
-  " TODO move this function out
-  call RedefinePattern()
-
   return b:xptemplateData.snipFileScope
+
 endfunction "}}}
 
 fun! xpt#snipf#Push() "{{{
@@ -55,5 +56,25 @@ fun! xpt#snipf#Pop() "{{{
     endif
 endfunction "}}}
 
+
+
+
+fun! xpt#snipf#GenPattern( xp ) "{{{
+    " Sample:
+    "   let b:xptemplateData.snipFileScope.ptn = xpt#snipf#GenPattern( b:xptemplateData.snipFileScope.ptn )
+
+    " TODO ptn.item may not be used
+    return {
+          \    'l'                 : a:xp.l,
+          \    'r'                 : a:xp.r,
+          \    'lft'               : '\V' . s:noEsp . a:xp.l,
+          \    'rt'                : '\V' . s:noEsp . a:xp.r,
+          \    'item_var'          : '\V' . '$\w\+',
+          \    'item_qvar'         : '\V' . '{$\w\+}',
+          \    'item_func'         : '\V' . '\w\+(\.\*)',
+          \    'item_qfunc'        : '\V' . '{\w\+(\.\*)}',
+          \    'item'              : '\V' . s:noEsp . a:xp.l . '\%(' . '\_.\{-}' . '\)' . s:noEsp . a:xp.r,
+          \ }
+endfunction "}}}
 
 let &cpo = s:oldcpo

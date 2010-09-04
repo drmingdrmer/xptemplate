@@ -100,4 +100,18 @@ fun! xpt#rctx#SwitchPhase( inst, nextPhase ) "{{{
 
 endfunction "}}}
 
+fun! xpt#rctx#Push() "{{{
+    let x = b:xptemplateData
+
+    call add( x.stack, x.renderContext )
+    let x.renderContext = xpt#rctx#New( x )
+endfunction "}}}
+
+fun! xpt#rctx#Pop() "{{{
+    let x = b:xptemplateData
+
+    let x.renderContext = x.stack[-1]
+    call remove(x.stack, -1)
+endfunction "}}}
+
 let &cpo = s:oldcpo

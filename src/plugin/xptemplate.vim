@@ -188,13 +188,6 @@ let s:regEval = '\V\w(\|$\w'
 
 
 
-fun! g:XPTapplyTemplateSettingDefaultValue( setting ) "{{{
-    let s = a:setting
-    let s.postQuoter        = get( s,           'postQuoter',   { 'start' : '{{', 'end' : '}}' } )
-    let s.preValues.cursor  = get( s.preValues, 'cursor',       '$CURSOR_PH' )
-endfunction "}}}
-
-
 fun! s:SetDefaultFilters( ph ) "{{{
     let setting = b:xptemplateData.renderContext.snipSetting
 
@@ -202,7 +195,8 @@ fun! s:SetDefaultFilters( ph ) "{{{
     if !has_key( setting.postFilters, a:ph.name )
         let pfs = setting.postFilters
 
-        if a:ph.name =~ '\V\w\+?'	| let pfs[ a:ph.name ] = xpt#flt#New( 0, "EchoIfNoChange( '' )" )
+        if a:ph.name =~ '\V\w\+?'
+            let pfs[ a:ph.name ] = xpt#flt#New( 0, "EchoIfNoChange( '' )" )
         endif
     endif
 endfunction "}}}
@@ -311,7 +305,8 @@ fun! XPTemplateMark(sl, sr) "{{{
     let xp = b:xptemplateData.snipFileScope.ptn
     let xp.l = a:sl
     let xp.r = a:sr
-    call s:RedefinePattern()
+
+    let b:xptemplateData.snipFileScope.ptn = xpt#snipf#GenPattern( b:xptemplateData.snipFileScope.ptn )
 endfunction "}}}
 
 fun! XPTmark() "{{{
@@ -1262,8 +1257,6 @@ fun! s:GetSnippetExtension( line ) "{{{
 
 endfunction "}}}
 
-" TODO simplify with split
-let s:priPtn = 'all\|spec\|like\|lang\|sub\|personal\|\d\+'
 fun! s:ParsePriorityString(s) "{{{
     let x = b:xptemplateData
 
@@ -1273,51 +1266,6 @@ fun! s:ParsePriorityString(s) "{{{
         return x.snipFileScope.priority
     endif
 
-    let newPrio = s:ParsePriority( a:s )
-    return newPrio
-
-
-
-    " let prio = 0
-
-    " let p = matchlist(pstr, '\V\^\(' . s:priPtn . '\)' . '\%(' . '\(\[+-]\)' . '\(\d\+\)\?\)\?\$')
-
-    " let base   = 0
-    " let r      = 1
-    " let offset = 0
-
-    " if p[1] != ""
-    "     if has_key(s:priorities, p[1])
-    "         let base = s:priorities[p[1]]
-    "     elseif p[1] =~ '^\d\+$'
-    "         let base = 0 + p[1]
-    "     else
-    "         let base = 0
-    "     endif
-    " else
-    "     let base = 0
-    " endif
-
-    " let r = p[2] == '+'
-    "       \ ? 1
-    "       \ : ( p[2] == '-' ? -1 : 0 )
-
-    " if p[3] != ""
-    "     let offset = 0 + p[3]
-    " else
-    "     let offset = 1
-    " endif
-
-    " let prio = base + offset * r
-
-
-    " call s:log.Log("parse priority : str=".a:s." value=".prio)
-
-    " return prio
-endfunction "}}}
-
-fun! s:ParsePriority( pstr ) "{{{
-    let pstr = a:pstr
     if pstr =~ '\V\[+-]\$'
         let pstr .= '1'
     endif
@@ -1327,6 +1275,7 @@ fun! s:ParsePriority( pstr ) "{{{
 
     let prioParts[ 0 ] = get( s:priorities, prioParts[ 0 ], prioParts[ 0 ] - 0 )
     return eval( join( prioParts, '' ) )
+
 endfunction "}}}
 
 fun! s:NewRenderContext( ftScope, tmplName ) "{{{
@@ -1334,7 +1283,7 @@ fun! s:NewRenderContext( ftScope, tmplName ) "{{{
     let x = b:xptemplateData
 
     if x.renderContext.processing
-        call s:PushRenderContext()
+        call xpt#rctx#Push()
     endif
 
     let renderContext = xpt#rctx#New( x )
@@ -1472,7 +1421,6 @@ fun! s:FinishRendering(...) "{{{
 
     let x = b:xptemplateData
     let renderContext = x.renderContext
-    let xp = renderContext.snipObject.ptn
 
     call XPMremoveMarkStartWith( renderContext.markNamePre )
 
@@ -1486,7 +1434,6 @@ fun! s:FinishRendering(...) "{{{
         call s:ClearMap()
 
 
-
         call XPMflushWithHistory()
 
         let @" = x.savedReg
@@ -1495,9 +1442,8 @@ fun! s:FinishRendering(...) "{{{
 
     else
 
-        call s:PopRenderContext()
+        call xpt#rctx#Pop()
         call s:CallPlugin( 'finishSnippet', 'after' )
-        let renderContext = x.renderContext
     endif
 
     return ''
@@ -1629,8 +1575,10 @@ fun! s:AddIndent( text, nIndent ) "{{{
 endfunction "}}}
 
 fun! s:ParseSpaces( snipObject ) "{{{
+
     " variables are pre-evaled. so that variable can not be
     " recursivelyrecursively evaled
+
     let xp = a:snipObject.ptn
     let text = a:snipObject.snipText
 
@@ -2143,10 +2091,10 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
     " in name but not edge.
     if name =~ '\V' . xp.item_var . '\|' . xp.item_func
         " that is only a instant place holder
-        return { 'value' : fullname,
-              \     'leftEdge'  : leftEdge,
-              \     'name'  : name,
-              \     'rightEdge' : rightEdge,
+        return { 'value'     : fullname,
+              \  'leftEdge'  : leftEdge,
+              \  'name'      : name,
+              \  'rightEdge' : rightEdge,
               \ }
     endif
 
@@ -4484,49 +4432,6 @@ fun! XPTemplateInit() "{{{
 
 endfunction "}}}
 
-fun! RedefinePattern() "{{{
-    return s:RedefinePattern()
-endfunction "}}}
-" TODO optimize it with cache
-fun! s:RedefinePattern() "{{{
-    let xp = b:xptemplateData.snipFileScope.ptn
-
-    let xp.lft = s:nonEscaped . xp.l
-    let xp.rt  = s:nonEscaped . xp.r
-
-    " for search
-    let xp.lft_e = s:nonEscaped . '\\'.xp.l
-    let xp.rt_e  = s:nonEscaped . '\\'.xp.r
-
-    let xp.item_var          = '$\w\+'
-    let xp.item_qvar         = '{$\w\+}'
-    let xp.item_func         = '\w\+(\.\*)'
-    let xp.item_qfunc        = '{\w\+(\.\*)}'
-    let xp.itemContent       = '\_.\{-}'
-    let xp.item              = xp.lft . '\%(' . xp.itemContent . '\)' . xp.rt
-
-
-    " let xp.cursorPattern     = xp.lft . '\%('.s:cursorName.'\)' . xp.rt
-
-    for [k, v] in items(xp)
-        if k != "l" && k != "r"
-            let xp[k] = '\V' . v
-        endif
-    endfor
-
-endfunction "}}}
-
-fun! s:PushRenderContext() "{{{
-    let x = b:xptemplateData
-
-    call add( x.stack, b:xptemplateData.renderContext )
-    let x.renderContext = xpt#rctx#New( x )
-endfunction "}}}
-fun! s:PopRenderContext() "{{{
-    let x = b:xptemplateData
-    let x.renderContext = x.stack[-1]
-    call remove(x.stack, -1)
-endfunction "}}}
 
 fun! s:SynNameStack(l, c) "{{{
     if exists( '*synstack' )
@@ -4643,23 +4548,7 @@ fun! s:Crash(...) "{{{
     return ''
 endfunction "}}}
 
-" fun! s:SkipSpecialBuf() "{{{
-"     if bufname( '%' ) == "[Command Line]"
-"         return 1
-"     endif
-
-"     if &buftype == 'quickfix'
-"         return 1
-"     endif
-
-"     return 0
-" endfunction "}}}
-
 fun! s:XPTupdateTyping() "{{{
-
-    " if s:SkipSpecialBuf()
-        " return 0
-    " endif
 
     let rc = s:XPTupdate()
 
