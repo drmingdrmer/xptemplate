@@ -327,9 +327,7 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
     " TODO simplify it
     call xpt#st#Extend( a:setting )
 
-    let prio =  has_key(a:setting, 'priority')
-                \ ? s:ParsePriorityString(a:setting.priority)
-                \ : x.snipFileScope.priority
+    let prio = x.snipFileScope.priority
 
 
     let name = a:name
@@ -345,15 +343,8 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
 
 
         let toSnip = xt[ a:toWhich ]
-        let xt[a:name] = {
-                        \ 'name'        : a:name,
-                        \ 'parsed'      : 0,
-                        \ 'ftScope'     : toSnip.ftScope,
-                        \ 'snipText'        : toSnip.snipText,
-                        \ 'priority'    : prio,
-                        \ 'setting'     : deepcopy(toSnip.setting),
-                        \ 'ptn'         : deepcopy(toSnip.ptn),
-                        \}
+        let xt[ a:name ] = xpt#snip#New( a:name, toSnip.ftScope, toSnip.snipText, prio,
+              \ deepcopy(toSnip.setting), deepcopy(toSnip.ptn) )
 
 
         if has_key( toSnip.setting, 'rawHint' )
@@ -453,9 +444,12 @@ fun! XPTdefineSnippet( name, setting, snip ) "{{{
     let templateSetting = a:setting
 
 
-    let prio =  has_key(templateSetting, 'priority')
-                \ ? s:ParsePriorityString(templateSetting.priority)
-                \ : x.snipFileScope.priority
+    if has_key( templateSetting, 'priority' )
+        " debug
+        echom a:name
+    endif
+
+    let prio = x.snipFileScope.priority
 
 
     " Existed template has the same priority is overrided.
@@ -476,15 +470,10 @@ fun! XPTdefineSnippet( name, setting, snip ) "{{{
     let snip = xpt#util#ExpandTab( snip, &shiftwidth )
 
     call s:log.Log( "tmpl :name=" . a:name . " priority=" . prio )
-    let templates[ a:name ] = {
-                \ 'name'        : a:name,
-                \ 'parsed'      : 0,
-                \ 'ftScope'     : ftScope,
-                \ 'snipText'    : snip,
-                \ 'priority'    : prio,
-                \ 'setting'     : templateSetting,
-                \ 'ptn'         : deepcopy(b:xptemplateData.snipFileScope.ptn),
-                \}
+
+
+    let templates[ a:name ] = xpt#snip#New( a:name, ftScope, snip, prio,
+          \ templateSetting, deepcopy(b:xptemplateData.snipFileScope.ptn) )
 
 
     call s:InitTemplateObject( x, templates[ a:name ] )
@@ -502,6 +491,7 @@ fun! s:Abbr( name ) "{{{
         exe 'inoreabbr <silent> <buffer> ' name '<C-v><C-v>' . "<BS>\<C-r>=XPTtgr(" . string( name ) . ",{'k':''})\<CR>"
     catch /.*/
         " key sequence is not allowed as abbr name
+        let x = b:xptemplateData
         let n = matchstr( name, '\v\w+$' )
         let pre = name[ : -len( n ) - 1 ]
         let x.abbrPrefix[ n ] = get( x.abbrPrefix, n, {} )
@@ -524,21 +514,16 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
 
     if !has_key( a:tmplObj.setting.defaultValues, 'cursor' )
-                " \ || a:tmplObj.setting.defaultValues.cursor !~ 'Finish'
         let a:tmplObj.setting.defaultValues.cursor = xpt#flt#New( 0, 'FinishPH({"text":""})' )
     endif
 
     call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . string( a:tmplObj.setting.defaultValues.cursor ) )
 
-    if len( a:tmplObj.name ) == 1
-          \ && 0 " diabled
 
-    else
-        let nonWordChar = substitute( a:tmplObj.name, '\w', '', 'g' )
-        if nonWordChar != ''
-            if !( a:tmplObj.setting.wraponly || a:tmplObj.setting.hidden )
-                call XPTemplateKeyword( nonWordChar )
-            endif
+    let nonWordChar = substitute( a:tmplObj.name, '\w', '', 'g' )
+    if nonWordChar != ''
+        if !( a:tmplObj.setting.wraponly || a:tmplObj.setting.hidden )
+            call XPTemplateKeyword( nonWordChar )
         endif
     endif
 
@@ -744,9 +729,6 @@ fun! s:MergeSetting( toSettings, fromSettings ) "{{{
 
 endfunction "}}}
 
-" fun! s:ParseSettingWrap( snipObject ) "{{{
-"     let setting = a:snipObject.setting
-" endfunction "}}}
 
 fun! s:ParseTemplateSetting( snipObject ) "{{{
     " TODO keyword parsing should be here so that Alias can use non-keyword char
@@ -754,7 +736,6 @@ fun! s:ParseTemplateSetting( snipObject ) "{{{
     let setting = a:snipObject.setting
 
 
-    " call s:ParseSettingWrap( a:snipObject )
     let wraponly = get( setting, 'wraponly', 0 )
 
     let wrap = get( setting, 'wrap', wraponly )
@@ -803,7 +784,7 @@ endfunction "}}}
 
 fun! s:ParsePostQuoter( setting ) "{{{
     if !has_key( a:setting, 'postQuoter' )
-                \ || type( a:setting.postQuoter ) == type( {} )
+          \ || type( a:setting.postQuoter ) == type( {} )
         return
     endif
 

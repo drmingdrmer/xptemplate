@@ -21,6 +21,18 @@ fun! xpt#snip#DefExt( name, setting, lines ) "{{{
 
 endfunction "}}}
 
+fun! xpt#snip#New( name, ftScope, snipText, prio, setting, patterns ) "{{{
+    return {
+          \ 'name'        : a:name,
+          \ 'parsed'      : 0,
+          \ 'ftScope'     : a:ftScope,
+          \ 'rawSnipText' : a:snipText,
+          \ 'snipText'    : a:snipText,
+          \ 'priority'    : a:prio,
+          \ 'setting'     : a:setting,
+          \ 'ptn'         : a:patterns,
+          \ }
+endfunction "}}}
 
 
 
