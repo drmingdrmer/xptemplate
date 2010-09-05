@@ -263,7 +263,9 @@ endfunction "}}}
 " ===================================================
 
 " which letter can be used in template name other than 'iskeyword'
+" TODO filetype scope
 fun! XPTemplateKeyword(val) "{{{
+
     let x = b:xptemplateData
 
     " word characters are already valid.
@@ -278,7 +280,6 @@ fun! XPTemplateKeyword(val) "{{{
 
 
     let x.keyword = '\w\|\[' . escape( join( x.keywordList, '' ), '\]' ) . ']'
-
 
 endfunction "}}}
 
@@ -332,7 +333,9 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
 
 
         let toSnip = xt[ a:toWhich ]
-        let xt[ a:name ] = xpt#snip#New( a:name, toSnip.ftScope, toSnip.snipText, prio,
+
+        let xt[ a:name ] = xpt#snip#New(
+              \ a:name, toSnip.ftScope, toSnip.snipText, prio,
               \ deepcopy(toSnip.setting), deepcopy(toSnip.ptn) )
 
 
@@ -395,12 +398,14 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
         let snip = a:1
         let setting = a:str_or_ctx
+
     endif
 
     if x.snipFileScope.filetype == 'unknown'
-                \&& !has_key(x.filetypes, 'unknown')
+          \ && !has_key(x.filetypes, 'unknown')
 
         call s:LoadSnippetFile( 'unknown/unknown' )
+
     endif
 
     if !has_key( x.filetypes, x.snipFileScope.filetype )
@@ -408,8 +413,7 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
         return
     endif
 
-    call xpt#snip#DefExt( a:name, setting, snip )
-
+    call XPTdefineSnippet( a:name, setting, snip )
 
     call xpt#snipf#Pop()
 
@@ -498,7 +502,6 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
     call s:log.Debug( 'create template name=' . a:tmplObj.name . ' snipText=' . a:tmplObj.snipText )
 
-    call s:AddCursorToComeLast(a:tmplObj.setting)
     call xpt#st#InitItemOrderList( a:tmplObj.setting )
 
 
@@ -517,16 +520,6 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
     endif
 
 endfunction "}}}
-
-" fun! s:ParsePHReplacements( snipObject ) "{{{
-
-"     let repls = a:snipObject.setting.replacements
-
-"     if repls != {}
-"         let a:snipObject.snipText = xpt#snip#ReplacePH( a:snipObject, repls )
-"     endif
-
-" endfunction "}}}
 
 fun! s:ParseInclusion( tmplDict, tmplObject ) "{{{
     if type( a:tmplObject.snipText ) == type( function( 'tr' ) )
@@ -622,22 +615,9 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor ) "{{{
 endfunction "}}}
 
 
-
-fun! s:AddCursorToComeLast(setting) "{{{
-
-    if match( a:setting.comeLast, 'cursor' ) < 0
-        call add( a:setting.comeLast, 'cursor' )
-    endif
-
-    call s:log.Debug( 'has cursor item?:' . string( a:setting.comeLast ) )
-
-endfunction "}}}
-
-
 fun! XPTreload() "{{{
 
   try
-    " unlet b:__xpt_loaded
     unlet b:xptemplateData
   catch /.*/
   endtry
@@ -833,7 +813,6 @@ endfunction "}}}
 fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
     let action = ''
-    " let action = "\<BS>"
 
     let x = b:xptemplateData
 
@@ -1052,7 +1031,6 @@ fun! s:GetSnippetExtension( line ) "{{{
 
     let x.currentExt = ext
 
-
     return ext
 
 endfunction "}}}
@@ -1078,7 +1056,7 @@ fun! s:ParsePriorityString(s) "{{{
 
 endfunction "}}}
 
-fun! s:NewRenderContext( ftScope, tmplName ) "{{{
+fun! s:InitRenderContext( ftScope, tmplName ) "{{{
 
     let x = b:xptemplateData
 
@@ -1098,7 +1076,6 @@ fun! s:NewRenderContext( ftScope, tmplName ) "{{{
 
     if !so.parsed
 
-        " call s:ParsePHReplacements( renderContext.snipObject )
         let so.snipText = xpt#snip#ReplacePH( so, so.setting.replacements )
 
         call s:ParseInclusion( renderContext.ftScope.allTemplates, so )
@@ -1118,7 +1095,9 @@ fun! s:NewRenderContext( ftScope, tmplName ) "{{{
 
     for k in [ 'variables', 'preValues', 'defaultValues'
           \  , 'ontypeFilters', 'postFilters', 'comeFirst', 'comeLast' ]
+
         let setting[ k ] = copy( setting[ k ] )
+
     endfor
 
     " TODO 
@@ -1157,7 +1136,7 @@ fun! s:RenderSnippet() "{{{
     let cursorColumn = col(".")
     let tmplname = sess.matched
 
-    let ctx = s:NewRenderContext( sess.data.ftScope, tmplname )
+    let ctx = s:InitRenderContext( sess.data.ftScope, tmplname )
 
 
     call s:BuildSnippet([ lineNr, column ], [ lineNr, cursorColumn ])
@@ -1716,6 +1695,7 @@ fun! s:BuildSnippet(nameStartPosition, nameEndPosition) " {{{
 endfunction " }}}
 
 fun! s:GenerateSnipTextToShow( startPos ) "{{{
+
     let ctx = b:xptemplateData.renderContext
 
     let snippetText = ctx.snipObject.snipText
@@ -1725,29 +1705,29 @@ fun! s:GenerateSnipTextToShow( startPos ) "{{{
     let currentNIndent = xpt#util#getIndentNr( a:startPos[ 0 ], a:startPos[ 1 ] )
 
 
-    let nIndent = -1
+    let prefered = -1
     if len( matchstr( curline, '\V\^\s\*' ) ) == a:startPos[ 1 ] - 1
         " snippet name starts as the first non-space char
 
         " TODO test with the first word of snippet text is better
         if has_key( ctx.oriIndentkeys, ctx.snipObject.name )
-            let nIndent = xpt#util#getPreferedIndentNr( a:startPos[ 0 ] )
+            let prefered = xpt#util#GetPreferedIndentNr( a:startPos[ 0 ] )
         endif
 
     endif
 
 
-    if nIndent >= 0
+    if prefered >= 0
 
-        let nIndentToAdd = nIndent
+        let nIndentToAdd = prefered
 
-        if nIndent > currentNIndent
+        if prefered > currentNIndent
 
-            let snippetText = repeat( ' ', nIndent - currentNIndent ) . snippetText
+            let snippetText = repeat( ' ', prefered - currentNIndent ) . snippetText
 
-        elseif nIndent < currentNIndent
+        elseif prefered < currentNIndent
 
-            let snippetText = repeat( ' ', nIndent ) . snippetText
+            let snippetText = repeat( ' ', prefered ) . snippetText
             let a:startPos[ 1 ] = 1
 
         endif
@@ -4484,13 +4464,12 @@ fun! s:GetContextFTObj() "{{{
 
 endfunction "}}}
 
-fun! s:LoadSnippetFile(snip) "{{{
+fun! s:LoadSnippetFile( snipname ) "{{{
 
-    exe 'runtime! ftplugin/' . a:snip . '.xpt.vim'
+    exe 'runtime! ftplugin/' . a:snipname . '.xpt.vim'
     call XPTfiletypeInit()
 
 endfunction "}}}
-
 
 " TODO When to init?
 fun! s:XPTbufferInit() "{{{

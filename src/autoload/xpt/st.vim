@@ -84,31 +84,31 @@ fun! xpt#st#Simplify( setting ) "{{{
 
 endfunction "}}}
 
-fun! xpt#st#Merge( toSettings, fromSettings ) "{{{
+fun! xpt#st#Merge( setting, fromSettings ) "{{{
 
-    let a:toSettings.comeFirst += a:fromSettings.comeFirst
-    let a:toSettings.comeLast = a:fromSettings.comeLast + a:toSettings.comeLast
-    call xpt#st#InitItemOrderList( a:toSettings )
+    let a:setting.comeFirst += a:fromSettings.comeFirst
+    let a:setting.comeLast = a:fromSettings.comeLast + a:setting.comeLast
+    call xpt#st#InitItemOrderList( a:setting )
 
-    call extend( a:toSettings.preValues, a:fromSettings.preValues, 'keep' )
-    call extend( a:toSettings.defaultValues, a:fromSettings.defaultValues, 'keep' )
-    call extend( a:toSettings.postFilters, a:fromSettings.postFilters, 'keep' )
-    call extend( a:toSettings.variables, a:fromSettings.variables, 'keep' )
+    call extend( a:setting.preValues, a:fromSettings.preValues, 'keep' )
+    call extend( a:setting.defaultValues, a:fromSettings.defaultValues, 'keep' )
+    call extend( a:setting.postFilters, a:fromSettings.postFilters, 'keep' )
+    call extend( a:setting.variables, a:fromSettings.variables, 'keep' )
 
     for key in keys( a:fromSettings.mappings )
 
-        if !has_key( a:toSettings.mappings, key )
+        if !has_key( a:setting.mappings, key )
 
-            let a:toSettings.mappings[ key ] =
+            let a:setting.mappings[ key ] =
                   \ { 'saver' : xpt#msvr#New( 1 ), 'keys' : {} }
 
         endif
 
         for keystroke in keys( a:fromSettings.mappings[ key ].keys )
 
-            let a:toSettings.mappings[ key ].keys[ keystroke ] = a:fromSettings.mappings[ key ].keys[ keystroke ]
+            let a:setting.mappings[ key ].keys[ keystroke ] = a:fromSettings.mappings[ key ].keys[ keystroke ]
 
-            call xpt#msvr#Add( a:toSettings.mappings[ key ].saver, 'i', keystroke )
+            call xpt#msvr#Add( a:setting.mappings[ key ].saver, 'i', keystroke )
 
         endfor
 
@@ -186,6 +186,11 @@ endfunction "}}}
 fun! xpt#st#InitItemOrderList( setting ) "{{{
     " TODO move me to template creation phase
 
+    if match( a:setting.comeLast, 'cursor' ) < 0
+        call add( a:setting.comeLast, 'cursor' )
+    endif
+
+    call s:log.Debug( 'has cursor item?:' . string( a:setting.comeLast ) )
     let a:setting.comeFirst = xpt#util#RemoveDuplicate( a:setting.comeFirst )
     let a:setting.comeLast  = xpt#util#RemoveDuplicate( a:setting.comeLast )
 

@@ -191,7 +191,7 @@ fun! xpt#util#getIndentNr( ln, col ) "{{{
 
 endfunction "}}}
 
-fun! xpt#util#getPreferedIndentNr( ln ) "{{{
+fun! xpt#util#GetPreferedIndentNr( ln ) "{{{
     if &indentexpr == ''
         return -1
     else
