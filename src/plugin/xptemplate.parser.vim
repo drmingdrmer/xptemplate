@@ -22,7 +22,7 @@ com! -nargs=* XPTemplate
       \ |     finish
       \ | endif
 
-com! -nargs=* XPTemplateDef echom expand("<sfile>") . " XPTemplateDef is NOT needed any more. All right to remove it."
+com! -nargs=* XPTemplateDef echom expand("<sfile>") . " XPTemplateDef is NOT needed any more. Remove it."
 com! -nargs=* XPTvar        call xpt#parser#SetVar( <q-args> )
 
 " TODO rename me to XSET

@@ -20,6 +20,9 @@ exe XPT#importConst
 " call XPT#default('g:xptemplate_nav_clear_next'	, '<cr>' )
 " call XPT#default('g:xptemplate_map'	, '' )
 
+" TODO make it configureable
+let g:xptemplate_always_compile = 1
+
 call XPT#default('g:xptemplate_key'	, '<C-\>' )
 call XPT#default('g:xptemplate_key_force_pum'	, '<C-r>' . g:xptemplate_key )
 call XPT#default('g:xptemplate_key_pum_only'	, '<C-r><C-r>' . g:xptemplate_key )
@@ -234,6 +237,32 @@ fun! g:XPTloadBundle(ft, bundle) "{{{
 endfunction "}}}
 
 
+
+fun! s:LoadSnippets() "{{{
+    let fts = split( &filetype, '\V.', 1 )
+    call filter( fts, 'v:val!=""' )
+
+    let snipfiles = []
+    for ft in fts
+        echom ft
+        let snipfiles += [ globpath( &runtimepath, 'ftplugin/' . ft . '/*.xpt.vim' ) ]
+    endfor
+
+    for fn in snipfiles
+
+        let compiled = fn . 'c'
+
+        if !filereadable( compiled ) || getftime( compiled ) < ctime
+              \ || g:xptemplate_always_compile
+        endif
+    endfor
+
+    return snipfiles
+endfunction "}}}
+
+fun! SS() "{{{
+    return s:LoadSnippets()
+endfunction "}}}
 
 fun! XPTfiletypeInit() "{{{
 

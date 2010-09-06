@@ -33,8 +33,6 @@ set cpo-=< cpo+=B
 let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
 
-" TODO make it configureable
-let g:xptemplate_always_compile = 1
 
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
@@ -58,11 +56,7 @@ fun! xpt#parser#Compile( fn ) "{{{
     if !filereadable( compiledFn ) || getftime( compiledFn ) < ctime
           \ || g:xptemplate_always_compile
 
-        let lines = readfile( a:fn )
-        let lines = xpt#parser#Compact( lines )
-        let lines = xpt#parser#CompileCompacted( lines )
-
-        call writefile( lines, compiledFn )
+        call s:CompileSnippetFile( a:fn )
 
         call s:log.Debug( 'Compiled file has written to: ' . string( compiledFn ) )
     else
@@ -70,6 +64,19 @@ fun! xpt#parser#Compile( fn ) "{{{
 
     endif
 
+endfunction "}}}
+
+fun s:CompileSnippetFile( fn ) "{{{
+    if a:fn =~ '\V.xpt.vimc\$'
+        return
+    endif
+
+    let lines = readfile( a:fn )
+    let lines = xpt#parser#Compact( lines )
+    let lines = xpt#parser#CompileCompacted( lines )
+
+    call writefile( lines, a:fn . 'c' )
+    
 endfunction "}}}
 
 fun! xpt#parser#Compact( lines ) "{{{
