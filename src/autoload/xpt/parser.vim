@@ -48,6 +48,19 @@ let s:keytypeToDict = {
       \}
 
 
+fun s:CompileSnippetFile( fn ) "{{{
+    if a:fn =~ '\V.xpt.vimc\$' || !filereadable( a:fn )
+        return
+    endif
+
+    let lines = readfile( a:fn )
+    let lines = xpt#parser#Compact( lines )
+    let lines = xpt#parser#CompileCompacted( lines )
+
+    call writefile( lines, a:fn . 'c' )
+
+endfunction "}}}
+
 fun! xpt#parser#Compile( fn ) "{{{
 
     let compiledFn = a:fn . 'c'
@@ -64,19 +77,6 @@ fun! xpt#parser#Compile( fn ) "{{{
 
     endif
 
-endfunction "}}}
-
-fun s:CompileSnippetFile( fn ) "{{{
-    if a:fn =~ '\V.xpt.vimc\$'
-        return
-    endif
-
-    let lines = readfile( a:fn )
-    let lines = xpt#parser#Compact( lines )
-    let lines = xpt#parser#CompileCompacted( lines )
-
-    call writefile( lines, a:fn . 'c' )
-    
 endfunction "}}}
 
 fun! xpt#parser#Compact( lines ) "{{{
@@ -143,10 +143,6 @@ fun! xpt#parser#Compact( lines ) "{{{
     if s != -1
         let compacted += a:lines[ s : min([lastNonblank, i]) ]
     endif
-
-    " for l in compacted
-    "     echom l
-    " endfor
 
     return compacted
 endfunction "}}}
@@ -311,6 +307,7 @@ fun! xpt#parser#Include(...) "{{{
 
             call xpt#snipf#Push()
             exe 'runtime! ftplugin/' . v . '.xpt.vim'
+            call xpt#parser#LoadFTSnippets(v)
             call xpt#snipf#Pop()
 
         endif
@@ -334,6 +331,7 @@ fun! xpt#parser#Embed(...) "{{{
 
             call xpt#snipf#Push()
             exe 'runtime! ftplugin/' . v . '.xpt.vim'
+            call xpt#parser#LoadFTSnippets(v)
             call xpt#snipf#Pop()
 
         endif
@@ -512,6 +510,13 @@ fun! xpt#parser#SnippetFileInit( filename, ... ) "{{{
 
     call s:log.Debug( 'xpt#parser#SnippetFileInit is called. filename=' . string( a:filename ) )
 
+    if !filereadable( a:filename )
+        " Just init the pseudo snippet file.
+        " In most of these cases, a pseudo snippet file is used to initialize
+        " a context for inclusion, etc.
+        return call( function( 'XPTDoSnippetFileInit' ), [ a:filename ] + a:000 )
+    endif
+
     if a:filename =~ '\V.xpt.vim\$'
 
         call s:log.Debug( 'original file, to compile it' )
@@ -529,6 +534,53 @@ fun! xpt#parser#SnippetFileInit( filename, ... ) "{{{
 
     endif
 
+endfunction "}}}
+
+
+
+fun! xpt#parser#LoadSnippets() "{{{
+    let fts = split( &filetype, '\V.', 1 )
+    call filter( fts, 'v:val!=""' )
+
+    let rtpath = s:RTP()
+
+    for ft in fts
+        call xpt#parser#LoadFTSnippets( ft )
+    endfor
+
+endfunction "}}}
+
+fun! s:RTP() "{{{
+    let rtps = split( &runtimepath, ',' )
+    call filter( rtps, 'v:val!=""' )
+
+    let rtps += [ g:XPT_PATH . '/xptsnippets',
+          \       g:XPT_PATH . '/personal' ]
+
+    let rtpath = join( rtps, ',' )
+    return rtpath
+endfunction "}}}
+
+fun! xpt#parser#LoadFTSnippets( ft ) "{{{
+
+    let namePattern = a:ft =~ '/' ? a:ft . '.xpt.vim' : a:ft . '/*.xpt.vim'
+
+    let rtpath = s:RTP()
+
+    let snipfiles = split( globpath( rtpath, 'ftplugin/' . namePattern ), "\n" )
+    for fn in snipfiles
+
+        let compiled = fn . 'c'
+
+        if !filereadable( compiled ) || getftime( compiled ) < getftime( fn )
+              \ || g:xptemplate_always_compile
+
+            call xpt#parser#Compile( fn )
+            exe 'so' compiled
+
+        endif
+
+    endfor
 endfunction "}}}
 
 

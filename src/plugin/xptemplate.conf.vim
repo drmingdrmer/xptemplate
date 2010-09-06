@@ -11,6 +11,7 @@ set cpo-=< cpo+=B
 exe XPT#importConst
 
 
+let g:xptemplate_always_compile = 1
 
 
 
@@ -20,8 +21,8 @@ exe XPT#importConst
 " call XPT#default('g:xptemplate_nav_clear_next'	, '<cr>' )
 " call XPT#default('g:xptemplate_map'	, '' )
 
-" TODO make it configureable
-let g:xptemplate_always_compile = 1
+" TODO doc it
+call XPT#default('g:xptemplate_always_compile'	, 1 )
 
 call XPT#default('g:xptemplate_key'	, '<C-\>' )
 call XPT#default('g:xptemplate_key_force_pum'	, '<C-r>' . g:xptemplate_key )
@@ -102,19 +103,15 @@ endif
 
 " Setup other snippets folder {{{
 
-let s:path = expand( "<sfile>" )
+let g:XPT_PATH = expand( "<sfile>" )
 let s:filename = 'xptemplate.conf.vim'
-let s:path = substitute( s:path, '\', '/', 'g' )
-let s:path = matchstr( s:path, '\V\.\*\ze/plugin/' . s:filename )
+let g:XPT_PATH = substitute( g:XPT_PATH, '\', '/', 'g' )
+let g:XPT_PATH = matchstr( g:XPT_PATH, '\V\.\*\ze/plugin/' . s:filename )
 
-let &runtimepath .= ',' . s:path . '/xptsnippets'
-let &runtimepath .= ',' . s:path . '/personal'
-
-for s:path in g:xptemplate_snippet_folders
-    let &runtimepath .= ',' . s:path
+for g:XPT_PATH in g:xptemplate_snippet_folders
+    let &runtimepath .= ',' . g:XPT_PATH
 endfor
 
-unlet s:path
 unlet s:filename
 
 " }}}
@@ -238,31 +235,6 @@ endfunction "}}}
 
 
 
-fun! s:LoadSnippets() "{{{
-    let fts = split( &filetype, '\V.', 1 )
-    call filter( fts, 'v:val!=""' )
-
-    let snipfiles = []
-    for ft in fts
-        echom ft
-        let snipfiles += [ globpath( &runtimepath, 'ftplugin/' . ft . '/*.xpt.vim' ) ]
-    endfor
-
-    for fn in snipfiles
-
-        let compiled = fn . 'c'
-
-        if !filereadable( compiled ) || getftime( compiled ) < ctime
-              \ || g:xptemplate_always_compile
-        endif
-    endfor
-
-    return snipfiles
-endfunction "}}}
-
-fun! SS() "{{{
-    return s:LoadSnippets()
-endfunction "}}}
 
 fun! XPTfiletypeInit() "{{{
 
@@ -270,6 +242,8 @@ fun! XPTfiletypeInit() "{{{
     if !exists( 'b:xptemplateData' )
         call XPTemplateInit()
     endif
+
+    call xpt#parser#LoadSnippets()
 
     let x = b:xptemplateData
 

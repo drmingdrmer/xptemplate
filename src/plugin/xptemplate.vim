@@ -4450,7 +4450,7 @@ fun! s:GetContextFTObj() "{{{
             "
             " We load "common" snippets by creating a fake snippet file.
 
-            call XPTsnippetFileInit( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
+            call xpt#parser#SnippetFileInit( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
             call xpt#parser#Include( '_common/common' )
             call XPTfiletypeInit()
 
