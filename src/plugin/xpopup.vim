@@ -24,8 +24,6 @@ set cpo-=< cpo+=B
 
 " TODO popup fix:select it if strictly matched
 
-" runtime plugin/classes/SettingSwitch.vim
-" runtime plugin/classes/MapSaver.vim
 
 
 exe XPT#let_sid

@@ -4467,6 +4467,7 @@ endfunction "}}}
 fun! s:LoadSnippetFile( snipname ) "{{{
 
     exe 'runtime! ftplugin/' . a:snipname . '.xpt.vim'
+    call xpt#parser#LoadFTSnippets( a:snipname )
     call XPTfiletypeInit()
 
 endfunction "}}}
