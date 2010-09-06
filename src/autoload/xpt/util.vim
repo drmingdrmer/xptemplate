@@ -25,9 +25,7 @@ let s:log = xpt#debug#Logger( 'warn' )
 
 
 
-let s:unescapeHead          = '\v(\\*)\1\\?\V'
-
-
+exe XPT#importConst
 
 
 fun! xpt#util#SplitWith( str, char ) "{{{

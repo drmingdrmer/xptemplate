@@ -3,20 +3,6 @@ if exists( "g:__XPTEMPLATE_PARSER_VIM__" ) && g:__XPTEMPLATE_PARSER_VIM__ >= XPT
 endif
 let g:__XPTEMPLATE_PARSER_VIM__ = XPT#ver
 
-
-"
-" Special XSET[m] Keys
-"   ComeFirst   : item names which come first before any other
-"               // XSET ComeFirst=i,len
-"
-"   ComeLast    : item names which come last after any other
-"               // XSET ComeLast=i,len
-"
-"   postQuoter  : Quoter to define repetition
-"               // XSET postQuoter=<{[,]}>
-"               // defulat : {{,}}
-"
-"
 "
 
 let s:oldcpo = &cpo

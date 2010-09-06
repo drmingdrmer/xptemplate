@@ -1,3 +1,24 @@
+" File Description {{{
+" =============================================================================
+" Snippet file parser
+"                                                  by drdr.xp
+"                                                     drdr.xp@gmail.com
+" Usage :
+"
+" =============================================================================
+" }}}
+"
+" Special XSET[m] Keys
+"   ComeFirst   : item names which come first before any other
+"               // XSET ComeFirst=i,len
+"
+"   ComeLast    : item names which come last after any other
+"               // XSET ComeLast=i,len
+"
+"   postQuoter  : Quoter to define repetition
+"               // XSET postQuoter=<{[,]}>
+"               // defulat : {{,}}
+"
 if exists( "g:__AL_XPT_PARSER_VIM__" ) && g:__AL_XPT_PARSER_VIM__ >= XPT#ver
     finish
 endif
@@ -38,15 +59,8 @@ fun! xpt#parser#Compile( fn ) "{{{
           \ || g:xptemplate_always_compile
 
         let lines = readfile( a:fn )
-        " call s:log.Debug( 'Read file: ' . string( lines ) )
-
         let lines = xpt#parser#Compact( lines )
-
-        " let r = join( lines, "\n" )
-        " call s:log.Debug( 'Compated file lines: ' . r )
-
         let lines = xpt#parser#CompileCompacted( lines )
-        " call s:log.Debug( 'Compiled file lines: ' . string( lines ) )
 
         call writefile( lines, compiledFn )
 

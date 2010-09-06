@@ -8,10 +8,8 @@ let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
 
+exe XPT#importConst
 
-let s:escapeHead   = '\v(\\*)\V'
-let s:unescapeHead = '\v(\\*)\1\\?\V'
-let s:ep           = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
 
 
@@ -179,7 +177,7 @@ endif
 
 
 " parse personal variable
-let s:pvs = split(g:xptemplate_vars, '\V'.s:ep.'&')
+let s:pvs = split(g:xptemplate_vars, '\V'.s:nonEscaped.'&')
 
 for s:v in s:pvs
   let s:key = matchstr(s:v, '\V\^\[^=]\*\ze=')

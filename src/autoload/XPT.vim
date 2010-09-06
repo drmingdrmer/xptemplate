@@ -16,6 +16,8 @@ let XPT#let_sid = 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"),
 let XPT#nullDict = {}
 let XPT#nullList = []
 
+let XPT#escapeHead   = '\v(\\*)\V'
+let XPT#unescapeHead = '\v(\\*)\1\\?\V'
 let XPT#nonEscaped =
       \   '\%('
       \ .     '\%(\[^\\]\|\^\)'
@@ -27,12 +29,15 @@ let XPT#nonsafe     = '{$( '
 let XPT#nonsafeHint = '$('
 
 
-let XPT#importConst = 'let s:nonEscaped = XPT#nonEscaped | '
+let XPT#importConst = ''
+      \ . 'let s:escapeHead = XPT#escapeHead | '
+      \ . 'let s:unescapeHead = XPT#unescapeHead | '
+      \ . 'let s:nonEscaped = XPT#nonEscaped | '
       \ . 'let s:regEval = XPT#regEval | '
       \ . 'let s:nonsafe = XPT#nonsafe | '
       \ . 'let s:nonsafeHint = XPT#nonsafeHint | '
       \ . 'let s:nullDict = XPT#nullDict | '
-      \ . 'let s:nullList = XPT#nullList'
+      \ . 'let s:nullList = XPT#nullList | '
 
 
 fun! XPT#default(k, v) "{{{
