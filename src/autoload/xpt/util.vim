@@ -214,39 +214,83 @@ fun! xpt#util#getCmdOutput( cmd ) "{{{
 endfunction "}}}
 
 
+fun! xpt#util#SpaceToTab( lines ) "{{{
+    " NOTE: line-break followed by space
 
+    if ! &expandtab && match( a:lines, '\v^ ' ) > -1
 
+        let cmd = 'join( split( v:val, ''\v^%('' . repeat( '' '',  &tabstop ) . '')'', 1 ), ''	'' )'
+        call map( a:lines, cmd )
 
-" OO support 
-fun! xpt#util#class( sid, proto ) "{{{
-    let clz = deepcopy( a:proto )
+    endif
 
-    let funcs = split( xpt#util#getCmdOutput( 'silent function /' . a:sid ), "\n" )
-    call map( funcs, 'matchstr( v:val, "' . a:sid . '\\zs.*\\ze(" )' )
+    return a:lines
 
-    for name in funcs
-        if name !~ '\V\^_'
-            let clz[ name ] = function( '<SNR>' . a:sid . name )
+endfunction "}}}
+
+fun! xpt#util#SpaceToTabExceptFirstLine( lines ) "{{{
+    " NOTE: line-break followed by space
+
+    if ! &expandtab && len( a:lines ) > 1 && match( a:lines, '\v^ ', 1 ) > -1
+
+        let line0 = a:lines[ 0 ]
+
+        let cmd = 'join( split( v:val, ''\v^%('' . repeat( '' '',  &tabstop ) . '')'', 1 ), ''	'' )'
+        call map( a:lines, cmd )
+
+        let a:lines[ 0 ] = line0
+
+    endif
+
+    return a:lines
+
+endfunction "}}}
+
+fun! xpt#util#TextBetween( posList ) "{{{
+    return join(xpt#util#LinesBetween( a:posList ), "\n")
+endfunction " }}}
+
+fun! xpt#util#TextInLine( ln, s, e ) "{{{
+
+    if a:s >= a:e
+        return ""
+    endif
+
+    return getline(a:ln)[ a:s - 1 : a:e - 2 ]
+
+endfunction "}}}
+
+fun! xpt#util#LinesBetween( posList ) "{{{
+
+    let [ s, e ] = a:posList
+
+    if s[0] > e[0]
+        return [ "" ]
+    endif
+
+    if s[0] == e[0]
+        if s[1] == e[1]
+            return [ "" ]
+        else
+            " call s:log.Log( "content between " . string( [s, e] ) . ' is :' . getline(s[0])[ s[1] - 1 : e[1] - 2] )
+            return [ getline(s[0])[ s[1] - 1 : e[1] - 2 ] ]
         endif
-    endfor
+    endif
 
-    " wrapper
-    let clz.__init__ = get( clz, 'New', function( 'xpt#util#classVoidInit' ) )
-    let clz.New = function( 'xpt#util#classNew' )
 
-    return clz
+    let r = [ getline(s[0])[s[1] - 1:] ] + getline(s[0]+1, e[0]-1)
+
+    if e[1] > 1
+        let r += [ getline(e[0])[:e[1] - 2] ]
+    else
+        let r += ['']
+    endif
+
+    " call s:log.Log( "content between " . string( [s, e] ) . ' is :'.join( r, "\n" ) )
+
+    return r
+
 endfunction "}}}
-
-fun! xpt#util#classNew( ... ) dict "{{{
-    let inst = copy( self )
-    call call( inst.__init__, a:000, inst )
-    let inst.__class__ = self
-    return inst
-endfunction "}}}
-
-fun! xpt#util#classVoidInit( ... ) dict "{{{
-endfunction "}}}
-
 
 
 let &cpo = s:oldcpo

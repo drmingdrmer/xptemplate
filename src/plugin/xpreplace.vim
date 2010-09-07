@@ -137,8 +137,8 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
 
 
     let replacement = s:ConvertSpaceToTab( a:replacement )
-    " let repLines = XPT#SpaceToTabExceptFirstLine( split( a:replacement, '\n', 1 ) )
-    let repLines = XPT#SpaceToTab( split( a:replacement, '\n', 1 ) )
+    " let repLines = xpt#util#SpaceToTabExceptFirstLine( split( a:replacement, '\n', 1 ) )
+    let repLines = xpt#util#SpaceToTab( split( a:replacement, '\n', 1 ) )
 
 
 
@@ -159,8 +159,8 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
 
         let [ s, e ] = [ 1, col( [ a:end[ 0 ], '$' ] ) ]
 
-        let repLines[ 0 ] = XPT#TextInLine( a:start[ 0 ], s, a:start[ 1 ] ) . repLines[ 0 ]
-        let repLines[ -1 ] .= XPT#TextInLine( a:end[ 0 ], a:end[ 1 ], e )
+        let repLines[ 0 ] = xpt#util#TextInLine( a:start[ 0 ], s, a:start[ 1 ] ) . repLines[ 0 ]
+        let repLines[ -1 ] .= xpt#util#TextInLine( a:end[ 0 ], a:end[ 1 ], e )
         call s:log.Debug( 'relLines=' . string( repLines ) )
 
 
