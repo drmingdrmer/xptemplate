@@ -94,6 +94,7 @@
 "
 "
 " Log of this version:
+"
 "   removed: hint format "hint=**" is no longer supported
 "   fix: slowly loading *.xpt.vim
 "   fix: mistakely using $SPop in brackets snippet. It should be $SParg
@@ -104,6 +105,8 @@
 "
 "   add: g:xptemplate_highlight_nested
 "   add: g:xptemplate_minimal_prefix_nested
+"   TODO doc it
+"   add: zen-code style snippet: supported with snippet-extention.
 "
 "   improve: critical: do not update 'k' and 'l' marks of xpmark if no marks defined
 "
@@ -469,7 +472,7 @@ fun! XPTdefineSnippet( name, setting, snip ) "{{{
           \ templateSetting, deepcopy(x.snipFileScope.ptn) )
 
 
-    call s:InitTemplateObject( x, templates[ a:name ] )
+    call s:InitSnipObject( x, templates[ a:name ] )
 
     if get( templates[ name ].setting, 'abbr', 0 )
         call s:Abbr( name )
@@ -493,7 +496,7 @@ fun! s:Abbr( name ) "{{{
     endtry
 endfunction "}}}
 
-fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
+fun! s:InitSnipObject( xptObj, tmplObj ) "{{{
 
     " TODO error occured once: no key :"setting )"
 
@@ -1257,7 +1260,7 @@ fun! s:Popup(pref, coln, opt) "{{{
 
     let snipDict = ftScope.allTemplates
 
-    let synNames = s:SynNameStack(line("."), a:coln)
+    let synNames = xpt#util#SynNameStack(line("."), a:coln)
 
     call s:log.Log("Popup, pref and coln=".a:pref." ".a:coln)
 
@@ -3736,6 +3739,7 @@ fun! s:Goback() "{{{
     return s:SelectCurrent()
 endfunction "}}}
 
+" TODO move away
 fun! s:XPTinitMapping() "{{{
     let disabledKeys = [
         \ 's_[%',
@@ -3896,24 +3900,15 @@ fun! s:ClearMap() " {{{
     call xpt#msvr#Restore( b:mapLiteral )
     call xpt#msvr#Restore( b:mapSaver )
 
-    " if exists( ':AcpUnlock' )
-    "     try
-    "         AcpUnlock
-    "     catch /.*/
-    "     endtry
-    " endif
-
 endfunction " }}}
 
+" TODO move away
 fun! XPTbufData() "{{{
     if !exists( 'b:xptemplateData' )
         call XPTemplateInit()
     endif
     return b:xptemplateData
 endfunction "}}}
-
-
-
 
 
 fun! XPTemplateInit() "{{{
@@ -3959,28 +3954,6 @@ fun! XPTemplateInit() "{{{
           \ }
 
 endfunction "}}}
-
-
-fun! s:SynNameStack(l, c) "{{{
-    if exists( '*synstack' )
-        let ids = synstack(a:l, a:c)
-
-        if empty(ids)
-            return []
-        endif
-
-        let names = []
-        for id in ids
-            let names = names + [synIDattr(id, "name")]
-        endfor
-        return names
-
-    else
-        return [synIDattr( synID( a:l, a:c, 0 ), "name" )]
-
-    endif
-endfunction "}}}
-
 
 fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
 
@@ -4379,7 +4352,7 @@ fun! s:BreakUndo() "{{{
 endfunction "}}}
 
 
-" TODO using mark
+" TODO using mark may be better? Or not..
 fun! s:RecordRelativePosToMark( pos, mark ) "{{{
     let p = XPMpos( a:mark )
     if a:pos[0] == p[0]
@@ -4415,6 +4388,7 @@ fun! s:XPTcheck() "{{{
 
 endfunction "}}}
 
+" TODO move away
 fun! s:GetContextFT() "{{{
     if exists( 'b:XPTfiletypeDetect' )
         return b:XPTfiletypeDetect()
@@ -4425,6 +4399,7 @@ fun! s:GetContextFT() "{{{
     endif
 endfunction "}}}
 
+" TODO move away
 fun! s:GetContextFTObj() "{{{
 
     let x = b:xptemplateData
@@ -4548,36 +4523,6 @@ com! XPTreload call XPTreload()
 com! XPTcrash call <SID>Crash()
 
 
-" " acp hack to detect if acp is showing
-" let scriptnames = xpt#util#getCmdOutput( 'silent scriptnames' )
-" let scrs = split( scriptnames, "\n" )
-" for s in scrs
-"     if s =~ '\V/autoload/acp.vim\$'
-"         let acpline = s
-"         break
-"     endif
-" endfor
-
-" let acpsid = matchstr( acpline, '\V\s\*\zs\d\+' )
-
-" let SS = function( '<SNR>' . acpsid . '_setTempOption' )
-
-
-" fun! XPTwhat(x)
-"     let s:acp_tempOptionSet = a:x
-"     let a:x[ 0 ] = {}
-"     return ''
-" endfunction
-
-
-" try
-"     call SS( 0, 'readonly.XPTwhat(s:tempOptionSet)', &readonly )
-" catch /.*/
-" endtry
-
-" echom string( s:acp_tempOptionSet )
-
-" echom string( xpt#clz#FiletypeScope )
 let &cpo = s:oldcpo
 
 

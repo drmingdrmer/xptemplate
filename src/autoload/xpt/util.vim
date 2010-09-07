@@ -27,23 +27,13 @@ let s:log = xpt#debug#Logger( 'warn' )
 
 exe XPT#importConst
 
+let s:charsPatternTable = {}
+
+
 
 fun! xpt#util#SplitWith( str, char ) "{{{
     let s = split( a:str, '\V' . s:nonEscaped . a:char, 1 )
     return s
-endfunction "}}}
-
-
-let s:charsPatternTable = {}
-fun! s:GetUnescapeCharPattern( chars ) "{{{
-    " remove all '\'.
-    let chars = substitute( a:chars, '\\', '', 'g' )
-
-    " let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]-^' ) . ']\)'
-    let pattern = s:unescapeHead . '\ze\[' . escape( chars, '\]-^' ) . ']'
-    let s:charsPatternTable[ a:chars ] = pattern
-
-    return pattern
 endfunction "}}}
 
 fun! xpt#util#UnescapeChar( str, chars ) "{{{
@@ -87,27 +77,6 @@ fun! xpt#util#DeepExtend( to, from ) "{{{
     endfor
 endfunction "}}}
 
-fun! xpt#util#NearestSynName() "{{{
-    let pos = [ line( "." ), col( "." ) ]
-    let synName = synIDattr(synID(pos[0], pos[1], 1), "name")
-
-    if synName == ''
-        let prevPos = searchpos( '\S', 'bWn' )
-        if prevPos == [0, 0]
-            return synName
-        endif
-
-        let synName = synIDattr(synID(prevPos[0], prevPos[1], 1), "name")
-        if synName == ''
-            " an empty syntax char
-            return &filetype
-        endif
-    endif
-
-    return synName
-
-endfunction "}}}
-
 fun! xpt#util#RemoveDuplicate( list ) "{{{
     let dict = {}
     let newList = []
@@ -120,6 +89,7 @@ fun! xpt#util#RemoveDuplicate( list ) "{{{
 
     return newList
 endfunction "}}}
+
 
 
 fun! xpt#util#ExpandTab( text, n ) "{{{
@@ -161,59 +131,6 @@ fun! xpt#util#convertSpaceToTab( text ) "{{{
     endif
 endfunction "}}}
 
-fun! xpt#util#Fallback( fbs ) "{{{
-    let fbs = a:fbs
-    if len( fbs ) > 0
-        let [ key, flag ] = fbs[ 0 ]
-        call remove( fbs, 0 )
-        if flag == 'feed'
-            call feedkeys( key, 'mt' )
-            return ''
-        else
-            " flag == 'expr'
-            return key
-        endif
-    else
-        return ''
-    endif
-endfunction "}}}
-
-fun! xpt#util#getIndentNr( ln, col ) "{{{
-
-    let line = matchstr( getline(a:ln), '\V\^\s\*' )
-    let line = ( a:col == 1 ) ? '' : line[ 0 : a:col - 1 - 1 ]
-
-    let tabspaces = repeat( ' ', &l:tabstop )
-
-    return len( substitute( line, '	', tabspaces, 'g' ) )
-
-endfunction "}}}
-
-fun! xpt#util#GetPreferedIndentNr( ln ) "{{{
-    if &indentexpr == ''
-        return -1
-    else
-        let indentexpr = substitute( &indentexpr, '\Vv:lnum', a:ln, '' )
-        try
-            return  eval( indentexpr )
-        catch /.*/
-            return -1
-        endtry
-    endif
-    
-endfunction "}}}
-
-fun! xpt#util#getCmdOutput( cmd ) "{{{
-    let l:a = ""
-
-    redir => l:a
-    exe a:cmd
-    redir END
-
-    return l:a
-endfunction "}}}
-
-
 fun! xpt#util#SpaceToTab( lines ) "{{{
     " NOTE: line-break followed by space
 
@@ -245,6 +162,33 @@ fun! xpt#util#SpaceToTabExceptFirstLine( lines ) "{{{
     return a:lines
 
 endfunction "}}}
+
+fun! xpt#util#getIndentNr( ln, col ) "{{{
+
+    let line = matchstr( getline(a:ln), '\V\^\s\*' )
+    let line = ( a:col == 1 ) ? '' : line[ 0 : a:col - 1 - 1 ]
+
+    let tabspaces = repeat( ' ', &l:tabstop )
+
+    return len( substitute( line, '	', tabspaces, 'g' ) )
+
+endfunction "}}}
+
+fun! xpt#util#GetPreferedIndentNr( ln ) "{{{
+    if &indentexpr == ''
+        return -1
+    else
+        let indentexpr = substitute( &indentexpr, '\Vv:lnum', a:ln, '' )
+        try
+            return  eval( indentexpr )
+        catch /.*/
+            return -1
+        endtry
+    endif
+    
+endfunction "}}}
+
+
 
 fun! xpt#util#TextBetween( posList ) "{{{
     return join(xpt#util#LinesBetween( a:posList ), "\n")
@@ -290,6 +234,92 @@ fun! xpt#util#LinesBetween( posList ) "{{{
 
     return r
 
+endfunction "}}}
+
+
+
+fun! xpt#util#SynNameStack(l, c) "{{{
+    if exists( '*synstack' )
+        let ids = synstack(a:l, a:c)
+
+        if empty(ids)
+            return []
+        endif
+
+        let names = []
+        for id in ids
+            let names = names + [synIDattr(id, "name")]
+        endfor
+        return names
+
+    else
+        return [synIDattr( synID( a:l, a:c, 0 ), "name" )]
+
+    endif
+endfunction "}}}
+
+fun! xpt#util#NearestSynName() "{{{
+    let pos = [ line( "." ), col( "." ) ]
+    let synName = synIDattr(synID(pos[0], pos[1], 1), "name")
+
+    if synName == ''
+        let prevPos = searchpos( '\S', 'bWn' )
+        if prevPos == [0, 0]
+            return synName
+        endif
+
+        let synName = synIDattr(synID(prevPos[0], prevPos[1], 1), "name")
+        if synName == ''
+            " an empty syntax char
+            return &filetype
+        endif
+    endif
+
+    return synName
+
+endfunction "}}}
+
+
+
+fun! s:GetUnescapeCharPattern( chars ) "{{{
+    " remove all '\'.
+    let chars = substitute( a:chars, '\\', '', 'g' )
+
+    " let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]-^' ) . ']\)'
+    let pattern = s:unescapeHead . '\ze\[' . escape( chars, '\]-^' ) . ']'
+    let s:charsPatternTable[ a:chars ] = pattern
+
+    return pattern
+endfunction "}}}
+
+
+
+
+fun! xpt#util#getCmdOutput( cmd ) "{{{
+    let l:a = ""
+
+    redir => l:a
+    exe a:cmd
+    redir END
+
+    return l:a
+endfunction "}}}
+
+fun! xpt#util#Fallback( fbs ) "{{{
+    let fbs = a:fbs
+    if len( fbs ) > 0
+        let [ key, flag ] = fbs[ 0 ]
+        call remove( fbs, 0 )
+        if flag == 'feed'
+            call feedkeys( key, 'mt' )
+            return ''
+        else
+            " flag == 'expr'
+            return key
+        endif
+    else
+        return ''
+    endif
 endfunction "}}}
 
 
