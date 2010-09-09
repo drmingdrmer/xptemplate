@@ -39,13 +39,10 @@ let s:topFT = 'html'
 
 fun! XPT_htmldjangoFiletypeDetect() "{{{
 
-    echom 'called'
 
     let pos = [ line( "." ), col( "." ) ]
 
     let synName = xpt#util#NearestSynName()
-
-    echom 'synName=' . string( synName )
 
     if synName == ''
 

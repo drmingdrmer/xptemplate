@@ -339,6 +339,7 @@ fun! xpt#parser#Embed(...) "{{{
 endfunction "}}}
 
 fun! xpt#parser#SetVar( nameSpaceValue ) "{{{
+    
 
     let x = b:xptemplateData
     let ftScope = x.filetypes[ x.snipFileScope.filetype ]
@@ -350,6 +351,7 @@ fun! xpt#parser#SetVar( nameSpaceValue ) "{{{
     if name == ''
         return
     endif
+
 
     " TODO use s:nonEscaped to detect escape
     let val  = matchstr(a:nameSpaceValue, '\s\+\zs.*')
