@@ -39,6 +39,8 @@ let XPT#importConst = ''
       \ . 'let s:nullDict = XPT#nullDict | '
       \ . 'let s:nullList = XPT#nullList | '
 
+let XPT#priorities = {'all' : 192, 'spec' : 160, 'like' : 128, 'lang' : 96, 'sub' : 64, 'personal' : 32}
+let XPT#skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "\\vstring|comment"'
 
 fun! XPT#default(k, v) "{{{
     if !exists( a:k )
@@ -46,7 +48,7 @@ fun! XPT#default(k, v) "{{{
     endif
 endfunction "}}}
 
-" Some information utils
+" Some informative utils
 fun! XPT#warn( msg ) "{{{
     echohl WarningMsg
     echom a:msg

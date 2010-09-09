@@ -1,10 +1,7 @@
-if exists("b:__ERUBY_FTDETECT_VIM__")
-    finish
-endif
-let b:__ERUBY_FTDETECT_VIM__ = 1
+XPTemplate priority=lang-2
 
 
-if &filetype !~ 'eruby'
+if &filetype !~ '\v^eruby$'
     finish
 endif
 
@@ -64,8 +61,4 @@ fun! XPT_erubyFiletypeDetect() "{{{
 
 endfunction "}}}
 
-if exists( 'b:XPTfiletypeDetect' )
-    unlet b:XPTfiletypeDetect
-endif
-let b:XPTfiletypeDetect = function( 'XPT_erubyFiletypeDetect' )
-
+call xpt#ng#SetFiletypeDetector( 'XPT_erubyFiletypeDetect' )

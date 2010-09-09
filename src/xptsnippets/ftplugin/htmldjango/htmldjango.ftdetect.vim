@@ -1,11 +1,7 @@
-if exists( "g:__HTMLDJANGO_FTDETECT_VIM__" )
-    finish
-endif
-let g:__HTMLDJANGO_FTDETECT_VIM__ = 1
+XPTemplate priority=lang-2
 
 
-
-if &filetype !~ 'htmldjango'
+if &filetype !~ '\v^htmldjango$'
     finish
 endif
 
@@ -42,9 +38,14 @@ let s:pattern = {
 let s:topFT = 'html'
 
 fun! XPT_htmldjangoFiletypeDetect() "{{{
+
+    echom 'called'
+
     let pos = [ line( "." ), col( "." ) ]
 
     let synName = xpt#util#NearestSynName()
+
+    echom 'synName=' . string( synName )
 
     if synName == ''
 
@@ -55,9 +56,12 @@ fun! XPT_htmldjangoFiletypeDetect() "{{{
         for [ name, ftPattern ] in items( s:pattern )
             let pos = searchpairpos( ftPattern.start, ftPattern.mid, ftPattern.end, 'nbW', ftPattern.skip )
             if pos != [0, 0]
+                echom 'matched:' . string( [ pos, name ] )
                 return name
             endif
         endfor
+
+        echom 'no pair:' . synName
 
         if synName =~ '\v^\cjavascript'
             return 'javascript'
@@ -71,8 +75,4 @@ fun! XPT_htmldjangoFiletypeDetect() "{{{
 
 endfunction "}}}
 
-if exists( 'b:XPTfiletypeDetect' )
-    unlet b:XPTfiletypeDetect
-endif
-let b:XPTfiletypeDetect = function( 'XPT_htmldjangoFiletypeDetect' )
-
+call xpt#ng#SetFiletypeDetector( 'XPT_htmldjangoFiletypeDetect' )

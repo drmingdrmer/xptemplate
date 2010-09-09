@@ -21,8 +21,10 @@ set cpo-=< cpo+=B
 let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
 
+let s:priorities = XPT#priorities
 
 let s:noEsp   = XPT#nonEscaped
+
 
 
 fun! xpt#snipf#New( filename ) "{{{
@@ -30,7 +32,7 @@ fun! xpt#snipf#New( filename ) "{{{
   let b:xptemplateData.snipFileScope = {
       \ 'filename'  : a:filename,
       \ 'ptn'       : xpt#snipf#GenPattern( {'l':'`', 'r':'^'} ),
-      \ 'priority'  : g:xpt_priorities.lang,
+      \ 'priority'  : s:priorities.lang,
       \ 'filetype'  : '',
       \ 'inheritFT' : 0,
       \}

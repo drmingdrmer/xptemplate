@@ -1,17 +1,14 @@
-if exists("b:__HTML_FTDETECT_VIM__")
-    finish
-endif
-let b:__HTML_FTDETECT_VIM__ = 1
+XPTemplate priority=lang-
 
 
 " TODO xhtml support
 
-if &filetype !~ 'html'
+if &filetype !~ '\v^.?html$'
     finish
 endif
 
 
-let s:skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "\\vstring|comment"'
+let s:skipPattern = XPT#skipPattern
 let s:pattern = {
             \   'javascript'    : {
             \       'start' : '\V\c<script\_[^>]\*>',
@@ -56,8 +53,5 @@ fun! XPT_htmlFiletypeDetect() "{{{
 
 endfunction "}}}
 
-if exists( 'b:XPTfiletypeDetect' )
-    unlet b:XPTfiletypeDetect
-endif
-let b:XPTfiletypeDetect = function( 'XPT_htmlFiletypeDetect' )
+call xpt#ng#SetFiletypeDetector( 'XPT_htmlFiletypeDetect' )
 

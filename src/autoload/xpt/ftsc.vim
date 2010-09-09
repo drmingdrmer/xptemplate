@@ -35,11 +35,13 @@ fun! xpt#ftsc#New() "{{{
 
     " inst.extensionTable:
     "
-    " Some snippet can have extension pattern. Extensions are meant for
+    " Some snippet has extension pattern. Extensions are meant for
     " zencode-like snippet.
-    " But extensions can be very little as well as snippets using a same
-    " extension can be many. So thisionary stores extension-to-snippet
-    " name table.
+    "
+    " But extensions can be very few as there could be relatively many
+    " snippets which share these few extensions.
+    "
+    " Thus this dictionary represents a extension-to-snippet-name mapping.
 
     let inst = {
           \ 'filetype'        : '',
@@ -65,7 +67,9 @@ fun! xpt#ftsc#SetSnippetLoaded( inst, filename ) "{{{
 
     let fn = substitute(a:filename, '\\', '/', 'g')
     let shortname = matchstr(fn, '\Vftplugin\/\zs\w\+\/\.\*\ze.xpt.vim')
-    let a:inst.loadedSnipFiles[shortname] = 1
+    if shortname != ''
+        let a:inst.loadedSnipFiles[shortname] = 1
+    endif
 
 endfunction "}}}
 

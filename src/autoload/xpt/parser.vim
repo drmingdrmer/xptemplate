@@ -542,9 +542,8 @@ fun! xpt#parser#LoadSnippets() "{{{
     let fts = split( &filetype, '\V.', 1 )
     call filter( fts, 'v:val!=""' )
 
-    let rtpath = s:RTP()
-
     for ft in fts
+        " call xpt#parser#LoadFtDetectors( ft )
         call xpt#parser#LoadFTSnippets( ft )
     endfor
 
@@ -561,13 +560,30 @@ fun! s:RTP() "{{{
     return rtpath
 endfunction "}}}
 
-fun! xpt#parser#LoadFTSnippets( ft ) "{{{
-
-    let namePattern = a:ft =~ '/' ? a:ft . '.xpt.vim' : a:ft . '/*.xpt.vim'
-
+fun! xpt#parser#LoadFtDetectors( ft ) "{{{
+    let namePattern = a:ft =~ '/' ? a:ft : a:ft . '/*'
     let rtpath = s:RTP()
 
-    let snipfiles = split( globpath( rtpath, 'ftplugin/' . namePattern ), "\n" )
+    let ftdetectfiles = split( globpath( rtpath, 'ftplugin/' . namePattern . '.ftdetect.vim' ), "\n" )
+    for fn in ftdetectfiles
+        exe 'so' fn
+    endfor
+
+endfunction "}}}
+
+fun! xpt#parser#LoadFTSnippets( ft ) "{{{
+
+    let namePattern = a:ft =~ '/' ? a:ft : a:ft . '/*'
+    let rtpath = s:RTP()
+
+
+    let ftdetectfiles = split( globpath( rtpath, 'ftplugin/' . namePattern . '.ftdetect.vim' ), "\n" )
+    for fn in ftdetectfiles
+        exe 'so' fn
+    endfor
+
+
+    let snipfiles = split( globpath( rtpath, 'ftplugin/' . namePattern . '.xpt.vim' ), "\n" )
     for fn in snipfiles
 
         let compiled = fn . 'c'

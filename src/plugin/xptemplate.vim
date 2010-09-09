@@ -95,7 +95,7 @@
 "
 " Log of this version:
 "
-"   removed: hint format "hint=**" is no longer supported
+"   removed: hint format "hint=**" is no longer supported. Instead use quote. See more in doc
 "   fix: slowly loading *.xpt.vim
 "   fix: mistakely using $SPop in brackets snippet. It should be $SParg
 "   fix: bug pre-parsing spaces
@@ -107,6 +107,7 @@
 "   add: g:xptemplate_minimal_prefix_nested
 "   TODO doc it
 "   add: zen-code style snippet: supported with snippet-extention.
+"   change: symbolic priority value changed. See more info in doc
 "
 "   improve: critical: do not update 'k' and 'l' marks of xpmark if no marks defined
 "
@@ -175,6 +176,7 @@ fun! XPTmarkCompare( o, markToAdd, existedMark ) "{{{
 endfunction "}}}
 
 let s:repetitionPattern     = '\w\*...\w\*'
+let s:priorities = XPT#priorities
 
 exe XPT#importConst
 
@@ -194,9 +196,6 @@ fun! s:SetDefaultFilters( ph ) "{{{
 endfunction "}}}
 
 
-let s:priorities = {'all' : 64, 'spec' : 48, 'like' : 32, 'lang' : 16, 'sub' : 8, 'personal' : 0}
-
-let g:xpt_priorities = s:priorities
 
 let g:XPT_RC = {
       \   'ok' : {},
@@ -1038,7 +1037,7 @@ fun! s:GetSnippetExtension( line ) "{{{
 
 endfunction "}}}
 
-fun! s:ParsePriorityString(s) "{{{
+fun! s:ParsePriorityString( s ) "{{{
     let x = b:xptemplateData
 
     let pstr = a:s
@@ -1054,6 +1053,7 @@ fun! s:ParsePriorityString(s) "{{{
     let reg = '\V\(\w\+\|\[+-]\)\zs'
     let prioParts = split( pstr, reg )
 
+    " get from priority table or convert string to int
     let prioParts[ 0 ] = get( s:priorities, prioParts[ 0 ], prioParts[ 0 ] - 0 )
     return eval( join( prioParts, '' ) )
 
@@ -3910,6 +3910,9 @@ fun! XPTbufData() "{{{
     return b:xptemplateData
 endfunction "}}}
 
+fun! XPTdefaultFtDetector() "{{{
+    return &filetype
+endfunction "}}}
 
 fun! XPTemplateInit() "{{{
 
@@ -3925,6 +3928,8 @@ fun! XPTemplateInit() "{{{
           \     'snippetToParse'    : [],
           \     'abbrPrefix'        : {},
           \     'fallbacks'         : [],
+          \     'ftdetector'        : { 'priority' : s:priorities.lang,
+          \                             'func' : function( 'XPTdefaultFtDetector' ) },
           \ }
 
     let b:xptemplateData.posStack = []
@@ -4390,13 +4395,15 @@ endfunction "}}}
 
 " TODO move away
 fun! s:GetContextFT() "{{{
-    if exists( 'b:XPTfiletypeDetect' )
-        return b:XPTfiletypeDetect()
-    elseif &filetype == ''
+
+    let ft = b:xptemplateData.ftdetector.func()
+
+    if ft == ''
         return 'unknown'
     else
-        return &filetype
+        return ft
     endif
+
 endfunction "}}}
 
 " TODO move away
