@@ -22,6 +22,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO bug: in *.css: type: "* {<CR>" prodcues another "* }" at the next line.
 " TODO duplicate snippet name check
 " in future
 " TODO efficiently loading long snippet file
