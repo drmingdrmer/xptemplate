@@ -11,6 +11,9 @@ XPTinclude
 XPT msg " [to ...]
 [`to^ `msg^`...^ `argName^:`argVal^`...^]
 
+XPT import " #import "..."
+#import "`hfile^"
+
 XPT #import " #import <...>
 #import <`hfile^>
 
@@ -36,6 +39,9 @@ XPT catimplem " @implementation ... (...) ... @end
 @implementation `existingClass^ (`categorieName^)
 `cursor^
 @end
+
+XPT alloc " [[... alloc] ...]
+[[`className^ alloc] `cursor^]
 
 XPT method " - (...) ....: ...
 - (`retType^void^) `methodName^`args...{{^`...^ (`type^)name`...^`}}^;
