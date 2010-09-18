@@ -23,7 +23,7 @@
 "
 " TODOLIST: "{{{
 " in 0.4.8:
-" TODO maintain compatibility such as g:FilterValue, XPTemplate()
+" TODO move out all functions out of common.xpt.vim
 " TODO in php, starting with empty file, { <CR> does not create indent.
 " TODO finish ActionFinish
 " TODO check super tab or other pum plugin before jump to next.
@@ -427,7 +427,6 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
 endfunction " }}}
 
-
 fun! XPTdefineSnippet( name, setting, snip ) "{{{
 
     " TODO global shortcuts
@@ -436,7 +435,6 @@ fun! XPTdefineSnippet( name, setting, snip ) "{{{
     let x         = b:xptemplateData
     let ftScope   = x.filetypes[ x.snipFileScope.filetype ]
     let templates = ftScope.allTemplates
-    let xp        = x.snipFileScope.ptn
 
 
     " TODO this is unnecessary if XPTdefineSnippet is always called from
@@ -485,6 +483,45 @@ fun! XPTdefineSnippet( name, setting, snip ) "{{{
 
 endfunction "}}}
 
+fun! XPTdefineSnippetInternal( name, setting, snip ) "{{{
+
+    " TODO global shortcuts
+    let name = a:name
+
+    let x         = b:xptemplateData
+    let ftScope   = x.filetypes[ x.snipFileScope.filetype ]
+    let templates = ftScope.allTemplates
+
+
+    let prio = x.snipFileScope.priority
+
+
+    " Existed template has the same priority is overrided.
+    if has_key(templates, a:name)
+          \ && templates[a:name].priority < prio
+        return
+    endif
+
+
+    " TODO 
+    " snippet is splitted by units of indent
+    let snip = join( a:snip, repeat( ' ', &shiftwidth ) )
+
+    call s:log.Log( "tmpl :name=" . a:name . " priority=" . prio )
+
+
+    let templates[ a:name ] = xpt#snip#New( a:name, ftScope, snip, prio,
+          \ a:setting, deepcopy(x.snipFileScope.ptn) )
+
+
+    call s:InitSnipObject( x, templates[ a:name ] )
+
+    if get( templates[ name ].setting, 'abbr', 0 )
+        call s:Abbr( name )
+    endif
+
+endfunction "}}}
+
 " TODO parse snippets first
 fun! s:Abbr( name ) "{{{
     let name = a:name
@@ -511,13 +548,6 @@ fun! s:InitSnipObject( xptObj, tmplObj ) "{{{
     call s:log.Debug( 'create template name=' . a:tmplObj.name . ' snipText=' . a:tmplObj.snipText )
 
     call xpt#st#InitItemOrderList( a:tmplObj.setting )
-
-
-    if !has_key( a:tmplObj.setting.defaultValues, 'cursor' )
-        let a:tmplObj.setting.defaultValues.cursor = xpt#flt#New( 0, 'FinishPH({"text":""})' )
-    endif
-
-    call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . string( a:tmplObj.setting.defaultValues.cursor ) )
 
 
     let nonWordChar = substitute( a:tmplObj.name, '\w', '', 'g' )
@@ -1840,100 +1870,7 @@ fun! s:GetValueInfo( end ) "{{{
     return [r0, r1, r2]
 endfunction "}}}
 
-" XSET name|def=
-" XSET name|post=
-"
-" `name^ per-item post-filter ^^
 
-
-fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
-
-    " 1) Place holder with edge is the editable place holder. Or the key place holder
-    "
-    " 2) If none of place holders of one item has edge. The first place
-    " holder is the key place holder.
-    "
-    " 3) if more than one place holders set with edge, the first
-    " one is the key place holder.
-
-    let xp = a:ctx.snipObject.ptn
-
-
-    " 1 is length of left mark
-    let leftEdge  = xpt#util#TextBetween( a:nameInfo[ 0 : 1 ] )
-    let name      = xpt#util#TextBetween( a:nameInfo[ 1 : 2 ] )
-    let rightEdge = xpt#util#TextBetween( a:nameInfo[ 2 : 3 ] )
-
-    let [ leftEdge, name, rightEdge ] = [ leftEdge[1 : ], name[1 : ], rightEdge[1 : ] ]
-
-    let fullname  = leftEdge . name . rightEdge
-
-    call s:log.Log( "item is :" . string( [ leftEdge, name, rightEdge ] ) )
-
-
-    " NOTE: inclusion comes first
-    let incPattern = '\V\^:\zs\.\*\ze:\$\|\^Include:\zs\.\*\$'
-    if name =~ incPattern
-        " build-time inclusion for XSET
-        return { 'include' : matchstr( name, incPattern ) }
-    endif
-
-    " TODO quoted pattern
-    " if a place holder need to be evalueated, the evaluate part must be all
-    " in name but not edge.
-    if name =~ '\V' . xp.item_var . '\|' . xp.item_func
-        " that is only a instant place holder
-        return { 'value'     : fullname,
-              \  'leftEdge'  : leftEdge,
-              \  'name'      : name,
-              \  'rightEdge' : rightEdge,
-              \ }
-    endif
-
-
-
-
-    " PlaceHolder.item is set by caller.
-    " After this step, to which item this placeHolder belongs has not been set.
-    let placeHolder = {
-                \ 'name'        : name,
-                \ 'isKey'       : (a:nameInfo[0] != a:nameInfo[1]),
-                \ }
-
-
-    if placeHolder.isKey
-        call extend( placeHolder, {
-                    \     'leftEdge'  : leftEdge,
-                    \     'rightEdge' : rightEdge,
-                    \     'fullname'  : fullname,
-                    \ }, 'force' )
-    endif
-
-    " TODO support of group post filter and ph post filter
-    if a:valueInfo[1] != a:valueInfo[0]
-        let isPostFilter = a:valueInfo[1][0] == a:valueInfo[2][0]
-                    \&& a:valueInfo[1][1] + 1 == a:valueInfo[2][1]
-
-        let val = xpt#util#TextBetween( a:valueInfo[ 0 : 1 ] )
-        let val = val[1:]
-        let val = xpt#util#UnescapeChar( val, xp.l . xp.r )
-
-        " NOTE: problem indent() returns indent without no mark consideration
-        let nIndent = indent( a:valueInfo[0][0] )
-
-
-        if isPostFilter
-            let placeHolder.postFilter = xpt#flt#New( -nIndent, val )
-        else
-            let placeHolder.ontimeFilter = xpt#flt#New( -nIndent, val )
-        endif
-
-        call s:log.Debug("placeHolder post filter:key=val : " . name . "=" . val)
-    endif
-
-    return placeHolder
-
-endfunction "}}}
 
 
 " TODO move me to where I should be
@@ -2173,7 +2110,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
         call s:log.Log("got nameinfo, valueinfo:".string([nameInfo, valueInfo]))
 
 
-        let placeHolder = s:CreatePlaceHolder(renderContext, nameInfo, valueInfo)
+        let placeHolder = xpt#ph#CreateFromScreen( snipObj, nameInfo, valueInfo )
         let rc = 1
 
         call s:log.Log( 'built placeHolder=' . string( placeHolder ) )

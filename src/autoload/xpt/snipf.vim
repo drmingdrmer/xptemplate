@@ -51,8 +51,7 @@ endfunction "}}}
 fun! xpt#snipf#Pop() "{{{
     let x = b:xptemplateData
     if len(x.snipFileScopeStack) > 0
-        let x.snipFileScope = x.snipFileScopeStack[ -1 ]
-        call remove( x.snipFileScopeStack, -1 )
+        let x.snipFileScope = remove( x.snipFileScopeStack, -1 )
     else
         throw "snipFileScopeStack is empty"
     endif
@@ -61,21 +60,21 @@ endfunction "}}}
 
 
 
-fun! xpt#snipf#GenPattern( xp ) "{{{
+fun! xpt#snipf#GenPattern( marks ) "{{{
     " Sample:
     "   let b:xptemplateData.snipFileScope.ptn = xpt#snipf#GenPattern( b:xptemplateData.snipFileScope.ptn )
 
     " TODO ptn.item may not be used
     return {
-          \    'l'                 : a:xp.l,
-          \    'r'                 : a:xp.r,
-          \    'lft'               : '\V' . s:noEsp . a:xp.l,
-          \    'rt'                : '\V' . s:noEsp . a:xp.r,
+          \    'l'                 : a:marks.l,
+          \    'r'                 : a:marks.r,
+          \    'lft'               : '\V' . s:noEsp . a:marks.l,
+          \    'rt'                : '\V' . s:noEsp . a:marks.r,
           \    'item_var'          : '\V' . '$\w\+',
           \    'item_qvar'         : '\V' . '{$\w\+}',
           \    'item_func'         : '\V' . '\w\+(\.\*)',
           \    'item_qfunc'        : '\V' . '{\w\+(\.\*)}',
-          \    'item'              : '\V' . s:noEsp . a:xp.l . '\%(' . '\_.\{-}' . '\)' . s:noEsp . a:xp.r,
+          \    'item'              : '\V' . s:noEsp . a:marks.l . '\%(' . '\_.\{-}' . '\)' . s:noEsp . a:marks.r,
           \ }
 endfunction "}}}
 

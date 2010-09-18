@@ -40,6 +40,7 @@ let s:proto  = {
 
 let s:protoDefault = {
       \    'preValues'        : { 'cursor' : xpt#flt#New( 0, '$CURSOR_PH' ) },
+      \    'defaultValues'    : { 'cursor' : xpt#flt#New( 0, 'FinishPH({"text":""})' ) }, 
       \    'postQuoter'       : { 'start' : '{{', 'end' : '}}' },
       \ }
 
