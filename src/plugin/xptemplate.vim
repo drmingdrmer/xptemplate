@@ -23,6 +23,7 @@
 "
 " TODOLIST: "{{{
 " in 0.4.8:
+" TODO maintain compatibility such as g:FilterValue, XPTemplate()
 " TODO in php, starting with empty file, { <CR> does not create indent.
 " TODO finish ActionFinish
 " TODO check super tab or other pum plugin before jump to next.
@@ -151,6 +152,11 @@ call XPRaddPreJob( 'XPMupdateCursorStat' )
 call XPRaddPostJob( 'XPMupdateSpecificChangedRange' )
 call XPMsetUpdateStrategy( 'normalMode' )
 
+
+" XXX Compatibility Maintaining "{{{
+let g:FilterValue = {}
+let g:FilterValue.New = function( 'xpt#flt#New' )
+"}}}
 
 fun! XPTmarkCompare( o, markToAdd, existedMark ) "{{{
     call s:log.Log( 'compare : ' . a:markToAdd . ' and ' . a:existedMark )
