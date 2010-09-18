@@ -12,6 +12,8 @@ set cpo-=< cpo+=B
 let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
 
+exe XPT#importConst
+
 
 fun! xpt#snip#DefExt( name, setting, lines ) "{{{
 
@@ -36,6 +38,144 @@ fun! xpt#snip#New( name, ftScope, snipText, prio, setting, patterns ) "{{{
 endfunction "}}}
 
 
+fun! xpt#snip#Compile( snipObject ) "{{{
+
+    let snipPattern = a:snipObject.ptn
+    let [ lptn, rptn ] = [ '\V\^' . snipPattern.lft, '\V\^' . snipPattern.rt ]
+    let [ l, r ] = [ snipPattern.l, snipPattern.r ]
+
+    let delimiter = '\V\ze' . snipPattern.lft . '\|\ze' . snipPattern.rt
+
+
+    let lines0 = split( a:snipObject.snipText, "\n" )
+    let lines = []
+
+    for line in lines0
+        call add( lines, split( line, delimiter ) )
+        " echom string( lines[ -1 ] )
+    endfor
+
+    " TODO empty check
+
+    " TODO create indents
+
+    let lines[ -1 ] += [ l ]
+    let [ i, j, nlines, nitems ] = [ 0, 0, len( lines ), len( lines[ 0 ] ) ]
+
+    let [ st ] = [ 'LeftEdge' ]
+
+    let nIndent = 0
+    let pieces  = ['']
+    let rst     = []
+
+    while 1
+
+        let elt = lines[ i ][ j ]
+        let e = matchstr( elt, '\v.' )
+
+        if e != l && e != r
+            let pieces[ -1 ] .= lines[ i ][ j ]
+        endif
+
+        if st == 'LeftEdge'
+
+            if e == l
+                let [ st ] = [ 'Name' ]
+                let rst += pieces
+                let pieces = [ nIndent, elt[ 1 : ] ]
+            endif
+
+        elseif st == 'Name'
+
+            if e == l
+                call add( pieces, elt[ 1 : ] )
+            elseif e == r
+                let [ st ] = [ 'Filter' ]
+                continue
+            endif
+
+        elseif st == 'Filter'
+
+            if e == l
+            elseif e == r
+                let [ st ] = [ 'FilterEnd' ]
+                call add( pieces, elt )
+            endif
+
+        elseif st == 'FilterEnd'
+
+            if e == l
+                let [ st ] = [ 'LeftEdge' ]
+
+                " TODO do add PH
+                let followingText = pieces[ -1 ][ 1 : ]
+                let pieces[ -1 ] = pieces[ -1 ][ 0 : 0 ]
+                let rst += [ s:CreatePH( a:snipObject, pieces ) ]
+                let pieces = [ followingText ]
+
+                continue
+
+            elseif e == r
+                call add( pieces, elt )
+                let [ st ] = [ 'FilterEnd2' ]
+            endif
+
+        elseif st == 'FilterEnd2'
+
+            if e == l
+                let [ st ] = [ 'LeftEdge' ]
+
+                " TODO do add PH
+                let followingText = pieces[ -1 ][ 1 : ]
+                let pieces[ -1 ] = pieces[ -1 ][ 0 : 0 ]
+                let rst += [ s:CreatePH( a:snipObject, pieces ) ]
+                let pieces = [ followingText ]
+
+                continue
+            elseif e == r
+                call add( pieces, elt )
+                let [ st ] = [ 'FilterEnd2' ]
+            endif
+
+        endif
+
+
+        let j += 1
+
+        if j >= nitems
+            let [ i, j ] = [ i + 1, 0 ]
+            if i >= nlines
+                break
+            endif
+            let pieces[ -1 ] .= "\n"
+            let nIndent = len( matchstr( lines[ i ][ 0 ], '\V\^\s\*' ) )
+            let nitems = len( lines[ i ] )
+        endif
+
+    endwhile
+
+    " echom string( rst )
+endfunction "}}}
+
+fun! s:CreatePH( snipObject, pieces ) "{{{
+    let indent = remove( a:pieces, 0 )
+    let iFilter = match( a:pieces, '\V\^' . a:snipObject.ptn.r )
+    let filterParts = a:pieces[ iFilter ][ 1: ]
+
+    let isKey = iFilter > 1
+    if isKey
+        let ph ={ 'leftEdge' : a:pieces[ 0 ], 'name' : a:pieces[ 1 ], 'rightEdge' :iFilter > 2 ? a:pieces[ 2 ] : '', 'isKey' : isKey } 
+    else
+        let ph ={ 'leftEdge' : '', 'name' : a:pieces[ 0 ], 'rightEdge' :'', 'isKey' : isKey } 
+    endif
+
+    if len( a:pieces ) - iFilter > 1
+        let filterParts .= a:snipObject.ptn.r
+    endif
+
+    return xpt#ph#New( a:snipObject, ph, { 'text' : filterParts, 'indent' : indent } )
+
+endfunction "}}}
 
 fun! xpt#snip#ReplacePH( snipObject, params ) "{{{
 

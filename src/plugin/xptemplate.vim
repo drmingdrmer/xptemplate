@@ -1115,6 +1115,8 @@ fun! s:InitRenderContext( ftScope, tmplName ) "{{{
 
     if !so.parsed
 
+        call xpt#snip#Compile( so )
+
         let so.snipText = xpt#snip#ReplacePH( so, so.setting.replacements )
 
         call s:ParseInclusion( renderContext.ftScope.allTemplates, so )

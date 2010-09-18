@@ -63,15 +63,16 @@ fun! xpt#ph#CreateFromScreen( snipObject, nameInfo, valueInfo ) "{{{
     endif
 
 
-    return s:CreatePH( a:snipObject, 
-          \ { 'leftEdge' : leftEdge,
-          \   'name' : name,
+    return xpt#ph#New( a:snipObject, 
+          \ { 'leftEdge'  : leftEdge,
+          \   'name'      : name,
           \   'rightEdge' : rightEdge,
-          \   'isKey' : ( a:nameInfo[0] != a:nameInfo[1] ), }, phFilter )
+          \   'isKey' : a:nameInfo[0] != a:nameInfo[1], }, phFilter )
 
 endfunction "}}}
 
-fun! s:CreatePH( snipObject, ph, phFilter ) "{{{
+
+fun! xpt#ph#New( snipObject, ph, phFilter ) "{{{
 
     let snipPattern = a:snipObject.ptn
 
