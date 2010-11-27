@@ -40,15 +40,15 @@ if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
 }
 
 
-XPT if wrap=cursor " if ( .. ) { .. }
+XPT if wrap " if ( .. ) { .. }
 `Include:_if^
 
 
-XPT elif wrap=cursor " else if ( .. ) { .. }
+XPT elif wrap " else if ( .. ) { .. }
 else `Include:_if^
 
 
-XPT else wrap=cursor " else { ... }
+XPT else wrap " else { ... }
 else`$BRif^{
     `cursor^
 }
@@ -74,13 +74,13 @@ XPT ifee		" if (..) {..} else if...
 `:_if:^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^
 
 
-XPT switch wrap=cursor	" switch (..) {case..}
+XPT switch wrap	" switch (..) {case..}
 switch (`$SParg^`var^`$SParg^)`$BRif^{
     `Include:case^
 }
 ..XPT
 
-XPT case wrap=cursor	" case ..:
+XPT case wrap	" case ..:
 case `constant^`$SPcmd^:
     `cursor^
     break;
