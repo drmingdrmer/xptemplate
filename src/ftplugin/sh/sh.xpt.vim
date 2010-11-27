@@ -112,7 +112,7 @@ printf "~pattern^"~elts^
 
 
 
-XPT forin wrap=cursor " for .. in ..; do
+XPT forin wrap " for .. in ..; do
 for ~i^ in ~list^;~$BRloop^do
     ~cursor^
 done
