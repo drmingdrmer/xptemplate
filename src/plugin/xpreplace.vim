@@ -39,6 +39,7 @@ fun! s:InitBuffer() "{{{
     " NOTE: bug! if 'virtualedit'=all, and 'selection'=exclusive, visual mode
     " deletion leaves the last char in selection
     call b:__xpr_init.settingSwitch.AddList( 
+          \ [ '&l:textwidth', '0' ],
           \ [ '&l:virtualedit', 'onemore' ],
           \ [ '&l:whichwrap'  , 'b,s,h,l,<,>,~,[,]' ],
           \ [ '&l:selection'  , 'exclusive' ],
