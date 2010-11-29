@@ -1,6 +1,7 @@
 
 
 
+
     #  -------------"_--------------- 
     # "`w^"                           
 
@@ -395,28 +396,28 @@ a for ( my $i = 0; $i < len; $i++ ) {
 
 
     #  -------------forr---------------                                                                                 
-    # for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^++`$SParg^)`$BRloop^{ 
+    # for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^--`$SParg^)`$BRloop^{ 
     #     `cursor^                                                                                                      
     # }                                                                                                                 
 
 
 
-for ( my $i = 0; $i >= end; $i++ ) {
+for ( my $i = 0; $i >= end; $i-- ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
-for ( my $i_TYPED = 0_TYPED; $i_TYPED >= end_TYPED; $i_TYPED++ ) {
+for ( my $i_TYPED = 0_TYPED; $i_TYPED >= end_TYPED; $i_TYPED-- ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 } b
 
-`for ( my $i = 0; $i >= end; $i++ ) {
+`for ( my $i = 0; $i >= end; $i-- ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }^
 
-a for ( my $i = 0; $i >= end; $i++ ) {
+a for ( my $i = 0; $i >= end; $i-- ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }

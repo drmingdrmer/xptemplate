@@ -115,46 +115,13 @@ WRAPPED_TEXT_line2`
 
 
 
-drdr.xp
+    drdr.xp
 
-drdr.xp b
+    drdr.xp b
 
-`drdr.xp^
+    `drdr.xp^
 
-a drdr.xp
-
-
-    /*  -------------bb--------------- */
-    /* what `a^ `cursor^               */
-    /* XPT                             */
-
-
-
-what a 123
-XPT
-
-what a_TYPED cursor_TYPED
-XPT b
-
-`what a 123
-XPT^
-
-a what a 123
-XPT
-
-
-    /*  -------------e--------------- */
-    /* #{ `^ }                        */
-
-
-
-#{  }
-
-#{ _TYPED } b
-
-`#{  }^
-
-a #{  }
+    a drdr.xp
 
 
     /*  -------------Email--------------- */
@@ -162,13 +129,13 @@ a #{  }
 
 
 
-drdr.xp@gmail.com
+    drdr.xp@gmail.com
 
-drdr.xp@gmail.com b
+    drdr.xp@gmail.com b
 
-`drdr.xp@gmail.com^
+    `drdr.xp@gmail.com^
 
-a drdr.xp@gmail.com
+    a drdr.xp@gmail.com
 
 
     /*  -------------File--------------- */
@@ -176,109 +143,41 @@ a drdr.xp@gmail.com
 
 
 
-test.page
+    test.page
 
-test.page b
+    test.page b
 
-`test.page^
+    `test.page^
 
-a test.page
-
-
-    /*  -------------pp--------------- */
-    /* `...^                           */
-    /* - Let's repeat `this^           */
-    /* `...^                           */
+    a test.page
 
 
-
-
-- Let's repeat this
-
-- Let's repeat this
-
-- Let's repeat this
-
-
-_TYPED b
-
-`
-- Let's repeat this
-
-- Let's repeat this
-
-- Let's repeat this
-^
-
-a 
-- Let's repeat this
-
-- Let's repeat this
-
-- Let's repeat this
+    /*  -------------if--------------- */
+    /* if ( `cond^ )                   */
+    /*     `cursor^                    */
+    /* `else...{{^else( `cond^ )       */
+    /* `}}^endif( `cond^ )             */
 
 
 
-    /*  -------------q--------------- */
-    /* `p`{$a}`p^-`p^                 */
+    if ( cond )
+        
+    else( cond )
+    endif( cond )
 
+    if ( cond_TYPED )
+        
+        else_TYPEDendif( cond_TYPED ) b
 
+        `if ( cond )
+            
+        else( cond )
+        endif( cond )^
 
-p3p-p
-
-p3_TYPEDp-p b
-
-`p3p-p^
-
-a p3p-p
-
-
-    /*  -------------t--------------- */
-    /* `:x:^fjkdls                    */
-    /* fjksl                          */
-    /*                                */
-    /*                                */
-    /* fd                             */
-
-
-
-ppp-3fjkdls
-fjksl
-
-
-fd
-
-pp_TYPEDp-3fjkdls
-fjksl
-
-
-fd b
-
-`ppp-3fjkdls
-fjksl
-
-
-fd^
-
-a ppp-3fjkdls
-fjksl
-
-
-fd
-
-
-    /*  -------------x--------------- */
-    /* `p`p`p^-`$a^                   */
-
-
-
-ppp-3
-
-pp_TYPEDp-3 b
-
-`ppp-3^
-
-a ppp-3
+        a if ( cond )
+            
+        else( cond )
+        endif( cond )
 
 
     /*  -------------{_--------------- */

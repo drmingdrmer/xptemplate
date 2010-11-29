@@ -1,6 +1,7 @@
 
 
 
+
     //  -------------"_--------------- 
     // "`w^"                           
 
@@ -17,20 +18,6 @@ WRAPPED_TEXT_line2"^
 
 a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
-
-
-    //  -------------$---------------                          
-    // $(`$SParg^`e^`e^CmplQuoter_pre()^`, `context?^`$SParg^) 
-
-
-
-    $( e )
-
-    $( e_TYPED, context_TYPED ) b
-
-    `$( e )^
-
-    a $( e )
 
 
     //  -------------'_--------------- 
@@ -123,272 +110,6 @@ a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
 
 
-    //  -------------ac---------------   
-    // addClass(`$SParg^`class^`$SParg^) 
-
-
-
-    addClass( class )
-
-    addClass( class_TYPED ) b
-
-    `addClass( class )^
-
-    a addClass( class )
-
-
-    //  -------------add--------------- 
-    // add`:expr:^                      
-
-
-
-    add( expr )
-
-    add( expr_TYPED ) b
-
-    `add( expr )^
-
-    a add( expr )
-
-
-    //  -------------af--------------- 
-    // after`:expr:^                   
-
-
-
-    after( expr )
-
-    after( expr_TYPED ) b
-
-    `after( expr )^
-
-    a after( expr )
-
-
-    //  -------------ag---------------                                                                                 
-    // `$JQ^.get(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SParg^) 
-
-
-
-    $.get( url, data, callback, "xml" )
-
-    $.get( url_TYPED, data_TYPED, callback_TYPED, "xml" ) b
-
-    `$.get( url, data, callback, "xml" )^
-
-    a $.get( url, data, callback, "xml" )
-
-
-    //  -------------agj---------------                                                 
-    // `$JQ^.getJSON(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`, `callback^`$SParg^) 
-
-
-
-    $.getJSON( url, data, callback )
-
-    $.getJSON( url_TYPED, data_TYPED, callback_TYPED ) b
-
-    `$.getJSON( url, data, callback )^
-
-    a $.getJSON( url, data, callback )
-
-
-    //  -------------ags---------------                                          
-    // `$JQ^.getScript(`$SParg^`url^`url^CmplQuoter_pre()^`, `callback^`$SParg^) 
-
-
-
-    $.getScript( url, callback )
-
-    $.getScript( url_TYPED, callback_TYPED ) b
-
-    `$.getScript( url, callback )^
-
-    a $.getScript( url, callback )
-
-
-    //  -------------aj---------------   
-    // `$JQ^.ajax(`$SParg^`opt^`$SParg^) 
-
-
-
-    $.ajax( opt )
-
-    $.ajax( opt_TYPED ) b
-
-    `$.ajax( opt )^
-
-    a $.ajax( opt )
-
-
-    //  -------------ajaxComplete---------------                                                                         
-    // ajaxComplete(`$SParg^`fun...{{^function (`$SParg^`event^`, `xhr^`, `ajaxOption^`$SParg^){ `cursor^ }`}}^`$SParg^) 
-
-
-
-    ajaxComplete( function ( event, xhr, ajaxOption ){  } )
-
-    ajaxComplete( fun_TYPED ) b
-
-    `ajaxComplete( function ( event, xhr, ajaxOption ){  } )^
-
-    a ajaxComplete( function ( event, xhr, ajaxOption ){  } )
-
-
-    //  -------------ajaxError---------------                                                                                 
-    // ajaxError(`$SParg^`fun...{{^function (`$SParg^`event^`, `xhr^`, `ajaxOption^`, `err^`$SParg^){ `cursor^ }`}}^`$SParg^) 
-
-
-
-    ajaxError( function ( event, xhr, ajaxOption, err ){  } )
-
-    ajaxError( fun_TYPED ) b
-
-    `ajaxError( function ( event, xhr, ajaxOption, err ){  } )^
-
-    a ajaxError( function ( event, xhr, ajaxOption, err ){  } )
-
-
-    //  -------------ajaxSend---------------                                                                         
-    // ajaxSend(`$SParg^`fun...{{^function (`$SParg^`event^`, `xhr^`, `ajaxOption^`$SParg^){ `cursor^ }`}}^`$SParg^) 
-
-
-
-    ajaxSend( function ( event, xhr, ajaxOption ){  } )
-
-    ajaxSend( fun_TYPED ) b
-
-    `ajaxSend( function ( event, xhr, ajaxOption ){  } )^
-
-    a ajaxSend( function ( event, xhr, ajaxOption ){  } )
-
-
-    //  -------------ajaxStart---------------             
-    // ajaxStart(`$SParg^`fun...{{^`:_fun0:^`}}^`$SParg^) 
-
-
-
-    ajaxStart( function() {  } )
-
-    ajaxStart( fun_TYPED ) b
-
-    `ajaxStart( function() {  } )^
-
-    a ajaxStart( function() {  } )
-
-
-    //  -------------ajaxStop---------------             
-    // ajaxStop(`$SParg^`fun...{{^`:_fun0:^`}}^`$SParg^) 
-
-
-
-    ajaxStop( function() {  } )
-
-    ajaxStop( fun_TYPED ) b
-
-    `ajaxStop( function() {  } )^
-
-    a ajaxStop( function() {  } )
-
-
-    //  -------------ajaxSuccess---------------                                                                         
-    // ajaxSuccess(`$SParg^`fun...{{^function (`$SParg^`event^`, `xhr^`, `ajaxOption^`$SParg^){ `cursor^ }`}}^`$SParg^) 
-
-
-
-    ajaxSuccess( function ( event, xhr, ajaxOption ){  } )
-
-    ajaxSuccess( fun_TYPED ) b
-
-    `ajaxSuccess( function ( event, xhr, ajaxOption ){  } )^
-
-    a ajaxSuccess( function ( event, xhr, ajaxOption ){  } )
-
-
-    //  -------------ani---------------            
-    // animate(`$SParg^`params^`, `param^`$SParg^) 
-
-
-
-    animate( params, param )
-
-    animate( params_TYPED, param_TYPED ) b
-
-    `animate( params, param )^
-
-    a animate( params, param )
-
-
-    //  -------------ap--------------- 
-    // append`:expr:^                  
-
-
-
-    append( expr )
-
-    append( expr_TYPED ) b
-
-    `append( expr )^
-
-    a append( expr )
-
-
-    //  -------------apost---------------                                                                               
-    // `$JQ^.post(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `callback^`:_aj_type:^`$SParg^) 
-
-
-
-    $.post( url, data, callback, "xml" )
-
-    $.post( url_TYPED, data_TYPED, callback_TYPED, "xml" ) b
-
-    `$.post( url, data, callback, "xml" )^
-
-    a $.post( url, data, callback, "xml" )
-
-
-    //  -------------apt--------------- 
-    // appendTo`:expr:^                 
-
-
-
-    appendTo( expr )
-
-    appendTo( expr_TYPED ) b
-
-    `appendTo( expr )^
-
-    a appendTo( expr )
-
-
-    //  -------------as--------------- 
-    // andSelf()                       
-
-
-
-    andSelf()
-
-    andSelf() b
-
-    `andSelf()^
-
-    a andSelf()
-
-
-    //  -------------asetup---------------    
-    // `$JQ^.ajaxSetup(`$SParg^`opt^`$SParg^) 
-
-
-
-    $.ajaxSetup( opt )
-
-    $.ajaxSetup( opt_TYPED ) b
-
-    `$.ajaxSetup( opt )^
-
-    a $.ajaxSetup( opt )
-
-
     //  -------------asoe--------------- 
     // assertObjectEquals(`mess^         
     //                   , `arr^         
@@ -413,20 +134,6 @@ WRAPPED_TEXT_line2`
                                                                 , expr)
 
 
-    //  -------------attr--------------- 
-    // attr(`$SParg^`name^`$SParg^)      
-
-
-
-    attr( name )
-
-    attr( name_TYPED ) b
-
-    `attr( name )^
-
-    a attr( name )
-
-
     //  -------------Author--------------- 
     // `$author^                           
 
@@ -439,20 +146,6 @@ WRAPPED_TEXT_line2`
     `drdr.xp^
 
     a drdr.xp
-
-
-    //  -------------bd--------------- 
-    // bind`:_ev_arg:^                 
-
-
-
-    bind( type, data, function ( ev ) {  } )
-
-    bind( type_TYPED, data_TYPED, fun_TYPED ) b
-
-    `bind( type, data, function ( ev ) {  } )^
-
-    a bind( type, data, function ( ev ) {  } )
 
 
     //  -------------bench--------------- 
@@ -561,34 +254,6 @@ var t1 = new Date().getTime();
 console.log(t1-t0);
 
 
-    //  -------------bf--------------- 
-    // before`:expr:^                  
-
-
-
-    before( expr )
-
-    before( expr_TYPED ) b
-
-    `before( expr )^
-
-    a before( expr )
-
-
-    //  -------------bl--------------- 
-    // blur`:_ev_arg_fun:^             
-
-
-
-    blur( function ( ev ) {  } )
-
-    blur( fun_TYPED ) b
-
-    `blur( function ( ev ) {  } )^
-
-    a blur( function ( ev ) {  } )
-
-
     //  -------------case--------------- 
     // case `constant^`$SPcmd^:          
     //     `cursor^                      
@@ -615,76 +280,6 @@ case constant :
                 WRAPPED_TEXT
                 WRAPPED_TEXT_line2
                 break;
-
-
-    //  -------------ch--------------- 
-    // change`:_ev_arg_fun:^           
-
-
-
-    change( function ( ev ) {  } )
-
-    change( fun_TYPED ) b
-
-    `change( function ( ev ) {  } )^
-
-    a change( function ( ev ) {  } )
-
-
-    //  -------------chd--------------- 
-    // children`:optionalExpr:^         
-
-
-
-    children(  )
-
-    children( expr_TYPED ) b
-
-    `children(  )^
-
-    a children(  )
-
-
-    //  -------------cl--------------- 
-    // cloen`:optionalExpr:^           
-
-
-
-    cloen(  )
-
-    cloen( expr_TYPED ) b
-
-    `cloen(  )^
-
-    a cloen(  )
-
-
-    //  -------------clk--------------- 
-    // click`:_ev_arg_fun:^             
-
-
-
-    click( function ( ev ) {  } )
-
-    click( fun_TYPED ) b
-
-    `click( function ( ev ) {  } )^
-
-    a click( function ( ev ) {  } )
-
-
-    //  -------------cls--------------- 
-    // closest`:expr:^                  
-
-
-
-    closest( expr )
-
-    closest( expr_TYPED ) b
-
-    `closest( expr )^
-
-    a closest( expr )
 
 
     //  -------------cmt--------------- 
@@ -813,20 +408,6 @@ a /**
    /* WRAPPED_TEXT_line2 */
 
 
-    //  -------------con--------------- 
-    // content()                        
-
-
-
-    content()
-
-    content() b
-
-    `content()^
-
-    a content()
-
-
     //  -------------cpr--------------- 
     // @param {`Object^} `name^ `desc^  
 
@@ -839,48 +420,6 @@ a /**
     `@param {Object} name desc^
 
     a @param {Object} name desc
-
-
-    //  -------------css--------------- 
-    // css`:optionalVal:^               
-
-
-
-    css()
-
-    css( val_TYPED ) b
-
-    `css()^
-
-    a css()
-
-
-    //  -------------da---------------         
-    // data(`$SParg^`name^`, `value?^`$SParg^) 
-
-
-
-    data( name )
-
-    data( name_TYPED, value_TYPED ) b
-
-    `data( name )^
-
-    a data( name )
-
-
-    //  -------------dclk--------------- 
-    // dbclick`:_ev_arg_fun:^            
-
-
-
-    dbclick( function ( ev ) {  } )
-
-    dbclick( fun_TYPED ) b
-
-    `dbclick( function ( ev ) {  } )^
-
-    a dbclick( function ( ev ) {  } )
 
 
     //  -------------default--------------- 
@@ -900,48 +439,6 @@ a /**
 
                  a default:
                      
-
-
-    //  -------------die---------------                           
-    // die(`$SParg^`type^`type^CmplQuoter_pre()^`, `fun^`$SParg^) 
-
-
-
-    die( type, fun )
-
-    die( type_TYPED, fun_TYPED ) b
-
-    `die( type, fun )^
-
-    a die( type, fun )
-
-
-    //  -------------dq--------------- 
-    // dequeue(`$SParg^`name^`$SParg^) 
-
-
-
-    dequeue( name )
-
-    dequeue( name_TYPED ) b
-
-    `dequeue( name )^
-
-    a dequeue( name )
-
-
-    //  -------------each--------------- 
-    // each`:maybeFunction:^             
-
-
-
-    each( function(i) {  } )
-
-    each( function_TYPED ) b
-
-    `each( function(i) {  } )^
-
-    a each( function(i) {  } )
 
 
     //  -------------elif--------------- 
@@ -1010,62 +507,6 @@ a else {
     `drdr.xp@gmail.com^
 
     a drdr.xp@gmail.com
-
-
-    //  -------------emp--------------- 
-    // empty()                          
-
-
-
-    empty()
-
-    empty() b
-
-    `empty()^
-
-    a empty()
-
-
-    //  -------------end--------------- 
-    // end()                            
-
-
-
-    end()
-
-    end() b
-
-    `end()^
-
-    a end()
-
-
-    //  -------------eq--------------- 
-    // eq(`$SParg^`^`$SParg^)          
-
-
-
-    eq(  )
-
-    eq( _TYPED ) b
-
-    `eq(  )^
-
-    a eq(  )
-
-
-    //  -------------err--------------- 
-    // error`:_ev_arg_fun:^             
-
-
-
-    error( function ( ev ) {  } )
-
-    error( fun_TYPED ) b
-
-    `error( function ( ev ) {  } )^
-
-    a error( function ( ev ) {  } )
 
 
     //  -------------fcmt---------------                                      
@@ -1152,34 +593,6 @@ a else {
      *--------------------------\\\ sum ///---------------------------*/
 
 
-    //  -------------fd--------------- 
-    // find`:expr:^                    
-
-
-
-    find( expr )
-
-    find( expr_TYPED ) b
-
-    `find( expr )^
-
-    a find( expr )
-
-
-    //  -------------fi--------------- 
-    // fadeIn`:_ef_arg:^               
-
-
-
-    fadeIn( speed, function() {  } )
-
-    fadeIn( speed_TYPED, fun_TYPED ) b
-
-    `fadeIn( speed, function() {  } )^
-
-    a fadeIn( speed, function() {  } )
-
-
     //  -------------File--------------- 
     // `file()^                          
 
@@ -1192,48 +605,6 @@ a else {
     `test.page^
 
     a test.page
-
-
-    //  -------------flt--------------- 
-    // filter`:maybeFunction:^          
-
-
-
-    filter( function(i) {  } )
-
-    filter( function_TYPED ) b
-
-    `filter( function(i) {  } )^
-
-    a filter( function(i) {  } )
-
-
-    //  -------------fo--------------- 
-    // fadeOut`:_ef_arg:^              
-
-
-
-    fadeOut( speed, function() {  } )
-
-    fadeOut( speed_TYPED, fun_TYPED ) b
-
-    `fadeOut( speed, function() {  } )^
-
-    a fadeOut( speed, function() {  } )
-
-
-    //  -------------foc--------------- 
-    // focus`:_ev_arg_fun:^             
-
-
-
-    focus( function ( ev ) {  } )
-
-    focus( fun_TYPED ) b
-
-    `focus( function ( ev ) {  } )^
-
-    a focus( function ( ev ) {  } )
 
 
     //  -------------for---------------                                                                                  
@@ -1314,67 +685,53 @@ a for ( var i = 0; i < len; i++ ) {
 
 
 
-for ( var ptr = init; NULL != ptr; ptr ) {
+for ( var ptr = init; null != ptr; ptr ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
-for ( var ptr_TYPED = init_TYPED; NULL != ptr_TYPED; _TYPED ) {
+for ( var ptr_TYPED = init_TYPED; null != ptr_TYPED; _TYPED ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 } b
 
-`for ( var ptr = init; NULL != ptr; ptr ) {
+`for ( var ptr = init; null != ptr; ptr ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }^
 
-a for ( var ptr = init; NULL != ptr; ptr ) {
+a for ( var ptr = init; null != ptr; ptr ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
 
     //  -------------forr---------------                                                                                 
-    // for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^++`$SParg^)`$BRloop^{ 
+    // for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^--`$SParg^)`$BRloop^{ 
     //     `cursor^                                                                                                      
     // }                                                                                                                 
 
 
 
-for ( var i = 0; i >= end; i++ ) {
+for ( var i = 0; i >= end; i-- ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
-for ( var i_TYPED = 0_TYPED; i_TYPED >= end_TYPED; i_TYPED++ ) {
+for ( var i_TYPED = 0_TYPED; i_TYPED >= end_TYPED; i_TYPED-- ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 } b
 
-`for ( var i = 0; i >= end; i++ ) {
+`for ( var i = 0; i >= end; i-- ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }^
 
-a for ( var i = 0; i >= end; i++ ) {
+a for ( var i = 0; i >= end; i-- ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
-
-
-    //  -------------ft---------------                                                                                           
-    // fadeTo(`$SParg^`speed^`speed^CmplQuoter_pre()^`, `opacity^`opacity^CmplQuoter_pre()^`, `fun...{{^, `:_fun0:^`}}^`$SParg^) 
-
-
-
-    fadeTo( speed, opacity, function() {  } )
-
-    fadeTo( speed_TYPED, opacity_TYPED, fun_TYPED ) b
-
-    `fadeTo( speed, opacity, function() {  } )^
-
-    a fadeTo( speed, opacity, function() {  } )
 
 
     //  -------------fun--------------- 
@@ -1399,90 +756,6 @@ a for ( var i = 0; i >= end; i++ ) {
     a function name () {
         
     }
-
-
-    //  -------------get--------------- 
-    // get(`$SParg^`^`$SParg^)          
-
-
-
-    get(  )
-
-    get( _TYPED ) b
-
-    `get(  )^
-
-    a get(  )
-
-
-    //  -------------hc---------------   
-    // hasClass(`$SParg^`class^`$SParg^) 
-
-
-
-    hasClass( class )
-
-    hasClass( class_TYPED ) b
-
-    `hasClass( class )^
-
-    a hasClass( class )
-
-
-    //  -------------hd--------------- 
-    // hide`:_ef_arg:^                 
-
-
-
-    hide( speed, function() {  } )
-
-    hide( speed_TYPED, fun_TYPED ) b
-
-    `hide( speed, function() {  } )^
-
-    a hide( speed, function() {  } )
-
-
-    //  -------------ho---------------                                                    
-    // hover(`$SParg^`over...{{^, `:_ev_fun_a:^`}}^`, `out..{{^, `:_ev_fun:^`}}^`$SParg^) 
-
-
-
-    hover( , function ( ev ) { /* void */ }, function ( ev ) {  } )
-
-    hover( over_TYPED, out_TYPED ) b
-
-    `hover( , function ( ev ) { /* void */ }, function ( ev ) {  } )^
-
-    a hover( , function ( ev ) { /* void */ }, function ( ev ) {  } )
-
-
-    //  -------------ht--------------- 
-    // height`:optionalVal:^           
-
-
-
-    height()
-
-    height( val_TYPED ) b
-
-    `height()^
-
-    a height()
-
-
-    //  -------------html--------------- 
-    // html`:optionalVal:^               
-
-
-
-    html()
-
-    html( val_TYPED ) b
-
-    `html()^
-
-    a html()
 
 
     //  -------------if--------------- 
@@ -1591,22 +864,22 @@ a if ( 0 == var ) {
 
 
 
-if ( NULL == var ) {
+if ( null == var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
-if ( NULL == var_TYPED ) {
+if ( null == var_TYPED ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 } b
 
-`if ( NULL == var ) {
+`if ( null == var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }^
 
-a if ( NULL == var ) {
+a if ( null == var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
@@ -1643,22 +916,22 @@ a if ( 0 != var ) {
 
 
 
-if ( NULL != var ) {
+if ( null != var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
-if ( NULL != var_TYPED ) {
+if ( null != var_TYPED ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 } b
 
-`if ( NULL != var ) {
+`if ( null != var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }^
 
-a if ( NULL != var ) {
+a if ( null != var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
@@ -1669,22 +942,22 @@ a if ( NULL != var ) {
 
 
 
-if ( NULL != var ) {
+if ( undefined != var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
-if ( NULL != var_TYPED ) {
+if ( undefined != var_TYPED ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 } b
 
-`if ( NULL != var ) {
+`if ( undefined != var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }^
 
-a if ( NULL != var ) {
+a if ( undefined != var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
@@ -1695,333 +968,25 @@ a if ( NULL != var ) {
 
 
 
-if ( NULL == var ) {
+if ( undefined == var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
-if ( NULL == var_TYPED ) {
+if ( undefined == var_TYPED ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 } b
 
-`if ( NULL == var ) {
+`if ( undefined == var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }^
 
-a if ( NULL == var ) {
+a if ( undefined == var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
-
-
-    //  -------------ih--------------- 
-    // innerHeight()                   
-
-
-
-    innerHeight()
-
-    innerHeight() b
-
-    `innerHeight()^
-
-    a innerHeight()
-
-
-    //  -------------ind--------------- 
-    // index(`$SParg^`^`$SParg^)        
-
-
-
-    index(  )
-
-    index( _TYPED ) b
-
-    `index(  )^
-
-    a index(  )
-
-
-    //  -------------insa--------------- 
-    // insertAfter`:expr:^               
-
-
-
-    insertAfter( expr )
-
-    insertAfter( expr_TYPED ) b
-
-    `insertAfter( expr )^
-
-    a insertAfter( expr )
-
-
-    //  -------------insb--------------- 
-    // insertBefore`:expr:^              
-
-
-
-    insertBefore( expr )
-
-    insertBefore( expr_TYPED ) b
-
-    `insertBefore( expr )^
-
-    a insertBefore( expr )
-
-
-    //  -------------is--------------- 
-    // is`:expr:^                      
-
-
-
-    is( expr )
-
-    is( expr_TYPED ) b
-
-    `is( expr )^
-
-    a is( expr )
-
-
-    //  -------------iw--------------- 
-    // innerWidth()                    
-
-
-
-    innerWidth()
-
-    innerWidth() b
-
-    `innerWidth()^
-
-    a innerWidth()
-
-
-    //  -------------jq---------------                              
-    // jQuery(`$SParg^`e^`e^CmplQuoter_pre()^`, `context?^`$SParg^) 
-
-
-
-    jQuery( e )
-
-    jQuery( e_TYPED, context_TYPED ) b
-
-    `jQuery( e )^
-
-    a jQuery( e )
-
-
-    //  -------------kdown--------------- 
-    // keydown`:_ev_arg_fun:^             
-
-
-
-    keydown( function ( ev ) {  } )
-
-    keydown( fun_TYPED ) b
-
-    `keydown( function ( ev ) {  } )^
-
-    a keydown( function ( ev ) {  } )
-
-
-    //  -------------kpress--------------- 
-    // keypress`:_ev_arg_fun:^             
-
-
-
-    keypress( function ( ev ) {  } )
-
-    keypress( fun_TYPED ) b
-
-    `keypress( function ( ev ) {  } )^
-
-    a keypress( function ( ev ) {  } )
-
-
-    //  -------------kup--------------- 
-    // keyup`:_ev_arg_fun:^             
-
-
-
-    keyup( function ( ev ) {  } )
-
-    keyup( fun_TYPED ) b
-
-    `keyup( function ( ev ) {  } )^
-
-    a keyup( function ( ev ) {  } )
-
-
-    //  -------------ld--------------- 
-    // load`:_ev_arg_fun:^             
-
-
-
-    load( function ( ev ) {  } )
-
-    load( fun_TYPED ) b
-
-    `load( function ( ev ) {  } )^
-
-    a load( function ( ev ) {  } )
-
-
-    //  -------------load---------------                                                                                         
-    // load(`$SParg^`url^`url^CmplQuoter_pre()^`, `data^`data^CmplQuoter_pre()^`, `function...{{^, `:_ld_callback:^`}}^`$SParg^) 
-
-
-
-    load( url, data, function( resText, textStatus, xhr ) {  } )
-
-    load( url_TYPED, data_TYPED, function_TYPED ) b
-
-    `load( url, data, function( resText, textStatus, xhr ) {  } )^
-
-    a load( url, data, function( resText, textStatus, xhr ) {  } )
-
-
-    //  -------------lv--------------- 
-    // live`:_ev_arg:^                 
-
-
-
-    live( type, data, function ( ev ) {  } )
-
-    live( type_TYPED, data_TYPED, fun_TYPED ) b
-
-    `live( type, data, function ( ev ) {  } )^
-
-    a live( type, data, function ( ev ) {  } )
-
-
-    //  -------------map--------------- 
-    // map`:maybeFunction:^             
-
-
-
-    map( function(i) {  } )
-
-    map( function_TYPED ) b
-
-    `map( function(i) {  } )^
-
-    a map( function(i) {  } )
-
-
-    //  -------------mdown--------------- 
-    // mousedown`:_ev_arg_fun:^           
-
-
-
-    mousedown( function ( ev ) {  } )
-
-    mousedown( fun_TYPED ) b
-
-    `mousedown( function ( ev ) {  } )^
-
-    a mousedown( function ( ev ) {  } )
-
-
-    //  -------------menter--------------- 
-    // mouseenter`:_ev_arg_fun:^           
-
-
-
-    mouseenter( function ( ev ) {  } )
-
-    mouseenter( fun_TYPED ) b
-
-    `mouseenter( function ( ev ) {  } )^
-
-    a mouseenter( function ( ev ) {  } )
-
-
-    //  -------------mleave--------------- 
-    // mouseleave`:_ev_arg_fun:^           
-
-
-
-    mouseleave( function ( ev ) {  } )
-
-    mouseleave( fun_TYPED ) b
-
-    `mouseleave( function ( ev ) {  } )^
-
-    a mouseleave( function ( ev ) {  } )
-
-
-    //  -------------mmove--------------- 
-    // mousemove`:_ev_arg_fun:^           
-
-
-
-    mousemove( function ( ev ) {  } )
-
-    mousemove( fun_TYPED ) b
-
-    `mousemove( function ( ev ) {  } )^
-
-    a mousemove( function ( ev ) {  } )
-
-
-    //  -------------mout--------------- 
-    // mouseout`:_ev_arg_fun:^           
-
-
-
-    mouseout( function ( ev ) {  } )
-
-    mouseout( fun_TYPED ) b
-
-    `mouseout( function ( ev ) {  } )^
-
-    a mouseout( function ( ev ) {  } )
-
-
-    //  -------------mup--------------- 
-    // mouseup`:_ev_arg_fun:^           
-
-
-
-    mouseup( function ( ev ) {  } )
-
-    mouseup( fun_TYPED ) b
-
-    `mouseup( function ( ev ) {  } )^
-
-    a mouseup( function ( ev ) {  } )
-
-
-    //  -------------na--------------- 
-    // nextAll`:optionalExpr:^         
-
-
-
-    nextAll(  )
-
-    nextAll( expr_TYPED ) b
-
-    `nextAll(  )^
-
-    a nextAll(  )
-
-
-    //  -------------ne--------------- 
-    // next`:optionalExpr:^            
-
-
-
-    next(  )
-
-    next( expr_TYPED ) b
-
-    `next(  )^
-
-    a next(  )
 
 
     //  -------------new---------------          
@@ -2036,160 +1001,6 @@ a if ( NULL == var ) {
     `var instant = new Constructor()^
 
     a var instant = new Constructor()
-
-
-    //  -------------not--------------- 
-    // not`:expr:^                      
-
-
-
-    not( expr )
-
-    not( expr_TYPED ) b
-
-    `not( expr )^
-
-    a not( expr )
-
-
-    //  -------------oh---------------       
-    // outerHeight(`$SParg^`margin^`$SParg^) 
-
-
-
-    outerHeight( margin )
-
-    outerHeight( margin_TYPED ) b
-
-    `outerHeight( margin )^
-
-    a outerHeight( margin )
-
-
-    //  -------------one--------------- 
-    // one`:_ev_arg:^                   
-
-
-
-    one( type, data, function ( ev ) {  } )
-
-    one( type_TYPED, data_TYPED, fun_TYPED ) b
-
-    `one( type, data, function ( ev ) {  } )^
-
-    a one( type, data, function ( ev ) {  } )
-
-
-    //  -------------os--------------- 
-    // offset()                        
-
-
-
-    offset()
-
-    offset() b
-
-    `offset()^
-
-    a offset()
-
-
-    //  -------------osp--------------- 
-    // offsetParent()                   
-
-
-
-    offsetParent()
-
-    offsetParent() b
-
-    `offsetParent()^
-
-    a offsetParent()
-
-
-    //  -------------ow---------------      
-    // outerWidth(`$SParg^`margin^`$SParg^) 
-
-
-
-    outerWidth( margin )
-
-    outerWidth( margin_TYPED ) b
-
-    `outerWidth( margin )^
-
-    a outerWidth( margin )
-
-
-    //  -------------pos--------------- 
-    // position()                       
-
-
-
-    position()
-
-    position() b
-
-    `position()^
-
-    a position()
-
-
-    //  -------------pp--------------- 
-    // prepend`:expr:^                 
-
-
-
-    prepend( expr )
-
-    prepend( expr_TYPED ) b
-
-    `prepend( expr )^
-
-    a prepend( expr )
-
-
-    //  -------------ppt--------------- 
-    // prependTo`:expr:^                
-
-
-
-    prependTo( expr )
-
-    prependTo( expr_TYPED ) b
-
-    `prependTo( expr )^
-
-    a prependTo( expr )
-
-
-    //  -------------pr--------------- 
-    // parent`:optionalExpr:^          
-
-
-
-    parent(  )
-
-    parent( expr_TYPED ) b
-
-    `parent(  )^
-
-    a parent(  )
-
-
-    //  -------------pra--------------- 
-    // prevAll`:optionalExpr:^          
-
-
-
-    prevAll(  )
-
-    prevAll( expr_TYPED ) b
-
-    `prevAll(  )^
-
-    a prevAll(  )
 
 
     //  -------------proto---------------                     
@@ -2216,230 +1027,6 @@ a if ( NULL == var ) {
     }
 
 
-    //  -------------prs--------------- 
-    // parents`:optionalExpr:^          
-
-
-
-    parents(  )
-
-    parents( expr_TYPED ) b
-
-    `parents(  )^
-
-    a parents(  )
-
-
-    //  -------------prv--------------- 
-    // prev`:optionalExpr:^             
-
-
-
-    prev(  )
-
-    prev( expr_TYPED ) b
-
-    `prev(  )^
-
-    a prev(  )
-
-
-    //  -------------qu---------------          
-    // queue(`$SParg^`name^`, `toAdd?^`$SParg^) 
-
-
-
-    queue( name )
-
-    queue( name_TYPED, toAdd_TYPED ) b
-
-    `queue( name )^
-
-    a queue( name )
-
-
-    //  -------------rd---------------                
-    // ready(`$SParg^`fun...{{^`:_fun0:^`}}^`$SParg^) 
-
-
-
-    ready( function() {  } )
-
-    ready( fun_TYPED ) b
-
-    `ready( function() {  } )^
-
-    a ready( function() {  } )
-
-
-    //  -------------rep--------------- 
-    // replaceWith`:expr:^              
-
-
-
-    replaceWith( expr )
-
-    replaceWith( expr_TYPED ) b
-
-    `replaceWith( expr )^
-
-    a replaceWith( expr )
-
-
-    //  -------------repa--------------- 
-    // replaceAll`:expr:^                
-
-
-
-    replaceAll( expr )
-
-    replaceAll( expr_TYPED ) b
-
-    `replaceAll( expr )^
-
-    a replaceAll( expr )
-
-
-    //  -------------res--------------- 
-    // resize`:_ev_arg_fun:^            
-
-
-
-    resize( function ( ev ) {  } )
-
-    resize( fun_TYPED ) b
-
-    `resize( function ( ev ) {  } )^
-
-    a resize( function ( ev ) {  } )
-
-
-    //  -------------rm--------------- 
-    // remove`:optionalExpr:^          
-
-
-
-    remove(  )
-
-    remove( expr_TYPED ) b
-
-    `remove(  )^
-
-    a remove(  )
-
-
-    //  -------------rma---------------   
-    // removeAttr(`$SParg^`name^`$SParg^) 
-
-
-
-    removeAttr( name )
-
-    removeAttr( name_TYPED ) b
-
-    `removeAttr( name )^
-
-    a removeAttr( name )
-
-
-    //  -------------rmd---------------   
-    // removeData(`$SParg^`name^`$SParg^) 
-
-
-
-    removeData( name )
-
-    removeData( name_TYPED ) b
-
-    `removeData( name )^
-
-    a removeData( name )
-
-
-    //  -------------scr--------------- 
-    // scroll`:_ev_arg_fun:^            
-
-
-
-    scroll( function ( ev ) {  } )
-
-    scroll( fun_TYPED ) b
-
-    `scroll( function ( ev ) {  } )^
-
-    a scroll( function ( ev ) {  } )
-
-
-    //  -------------scrl--------------- 
-    // scrollLeft`:optionalVal:^         
-
-
-
-    scrollLeft()
-
-    scrollLeft( val_TYPED ) b
-
-    `scrollLeft()^
-
-    a scrollLeft()
-
-
-    //  -------------scrt--------------- 
-    // scrollTop`:optionalVal:^          
-
-
-
-    scrollTop()
-
-    scrollTop( val_TYPED ) b
-
-    `scrollTop()^
-
-    a scrollTop()
-
-
-    //  -------------sel--------------- 
-    // select`:_ev_arg_fun:^            
-
-
-
-    select( function ( ev ) {  } )
-
-    select( fun_TYPED ) b
-
-    `select( function ( ev ) {  } )^
-
-    a select( function ( ev ) {  } )
-
-
-    //  -------------ser--------------- 
-    // serialize()                      
-
-
-
-    serialize()
-
-    serialize() b
-
-    `serialize()^
-
-    a serialize()
-
-
-    //  -------------sera--------------- 
-    // serializeArray()                  
-
-
-
-    serializeArray()
-
-    serializeArray() b
-
-    `serializeArray()^
-
-    a serializeArray()
-
-
     //  -------------setTimeout---------------          
     // setTimeout(function() { `job^ }, `milliseconds^) 
 
@@ -2452,118 +1039,6 @@ a if ( NULL == var ) {
     `setTimeout(function() { /* void */; }, milliseconds)^
 
     a setTimeout(function() { /* void */; }, milliseconds)
-
-
-    //  -------------sh--------------- 
-    // show`:_ef_arg:^                 
-
-
-
-    show( speed, function() {  } )
-
-    show( speed_TYPED, fun_TYPED ) b
-
-    `show( speed, function() {  } )^
-
-    a show( speed, function() {  } )
-
-
-    //  -------------sib--------------- 
-    // sibling`:optionalExpr:^          
-
-
-
-    sibling(  )
-
-    sibling( expr_TYPED ) b
-
-    `sibling(  )^
-
-    a sibling(  )
-
-
-    //  -------------slc---------------        
-    // slice(`$SParg^`start^`, `end?^`$SParg^) 
-
-
-
-    slice( start )
-
-    slice( start_TYPED, end_TYPED ) b
-
-    `slice( start )^
-
-    a slice( start )
-
-
-    //  -------------sld--------------- 
-    // slideDown`:_ef_arg:^             
-
-
-
-    slideDown( speed, function() {  } )
-
-    slideDown( speed_TYPED, fun_TYPED ) b
-
-    `slideDown( speed, function() {  } )^
-
-    a slideDown( speed, function() {  } )
-
-
-    //  -------------slt--------------- 
-    // slideToggle`:_ef_arg:^           
-
-
-
-    slideToggle( speed, function() {  } )
-
-    slideToggle( speed_TYPED, fun_TYPED ) b
-
-    `slideToggle( speed, function() {  } )^
-
-    a slideToggle( speed, function() {  } )
-
-
-    //  -------------slu--------------- 
-    // slideUp`:_ef_arg:^               
-
-
-
-    slideUp( speed, function() {  } )
-
-    slideUp( speed_TYPED, fun_TYPED ) b
-
-    `slideUp( speed, function() {  } )^
-
-    a slideUp( speed, function() {  } )
-
-
-    //  -------------stop--------------- 
-    // stop()                            
-
-
-
-    stop()
-
-    stop() b
-
-    `stop()^
-
-    a stop()
-
-
-    //  -------------sub--------------- 
-    // submit`:_ev_arg_fun:^            
-
-
-
-    submit( function ( ev ) {  } )
-
-    submit( fun_TYPED ) b
-
-    `submit( function ( ev ) {  } )^
-
-    a submit( function ( ev ) {  } )
 
 
     //  -------------switch---------------    
@@ -2600,90 +1075,6 @@ a switch ( var ) {
         WRAPPED_TEXT_line2
         break;
 }
-
-
-    //  -------------sz--------------- 
-    // size()                          
-
-
-
-    size()
-
-    size() b
-
-    `size()^
-
-    a size()
-
-
-    //  -------------tc---------------                  
-    // toggleClass(`$SParg^`class^`, `switch?^`$SParg^) 
-
-
-
-    toggleClass( class )
-
-    toggleClass( class_TYPED, switch_TYPED ) b
-
-    `toggleClass( class )^
-
-    a toggleClass( class )
-
-
-    //  -------------text--------------- 
-    // text`:optionalVal:^               
-
-
-
-    text()
-
-    text( val_TYPED ) b
-
-    `text()^
-
-    a text()
-
-
-    //  -------------tg---------------                                                     
-    // toggle(`$SParg^`fn1...{{^, `:_ev_fun_a:^`}}^`, `fn2...{{^, `:_ev_fun:^`}}^`$SParg^) 
-
-
-
-    toggle( , function ( ev ) { /* void */ }, function ( ev ) {  } )
-
-    toggle( fn1_TYPED, fn2_TYPED ) b
-
-    `toggle( , function ( ev ) { /* void */ }, function ( ev ) {  } )^
-
-    a toggle( , function ( ev ) { /* void */ }, function ( ev ) {  } )
-
-
-    //  -------------tr--------------- 
-    // trigger`:_ev_tr_arg:^           
-
-
-
-    trigger( ev, data )
-
-    trigger( ev_TYPED, data_TYPED ) b
-
-    `trigger( ev, data )^
-
-    a trigger( ev, data )
-
-
-    //  -------------trh--------------- 
-    // triggerHandler`:_ev_tr_arg:^     
-
-
-
-    triggerHandler( ev, data )
-
-    triggerHandler( ev_TYPED, data_TYPED ) b
-
-    `triggerHandler( ev, data )^
-
-    a triggerHandler( ev, data )
 
 
     //  -------------try--------------- 
@@ -2771,104 +1162,6 @@ catch (err) {
 finally {
     
 }
-
-
-    //  -------------ub---------------                               
-    // unbind(`$SParg^`type^`type^CmplQuoter_pre()^`, `fun^`$SParg^) 
-
-
-
-    unbind( type, fun )
-
-    unbind( type_TYPED, fun_TYPED ) b
-
-    `unbind( type, fun )^
-
-    a unbind( type, fun )
-
-
-    //  -------------unl--------------- 
-    // unload`:_ev_arg_fun:^            
-
-
-
-    unload( function ( ev ) {  } )
-
-    unload( fun_TYPED ) b
-
-    `unload( function ( ev ) {  } )^
-
-    a unload( function ( ev ) {  } )
-
-
-    //  -------------val--------------- 
-    // val`:optionalVal:^               
-
-
-
-    val()
-
-    val( val_TYPED ) b
-
-    `val()^
-
-    a val()
-
-
-    //  -------------wr--------------- 
-    // wrap`:expr:^                    
-
-
-
-    wrap( expr )
-
-    wrap( expr_TYPED ) b
-
-    `wrap( expr )^
-
-    a wrap( expr )
-
-
-    //  -------------wra--------------- 
-    // wrapAll`:expr:^                  
-
-
-
-    wrapAll( expr )
-
-    wrapAll( expr_TYPED ) b
-
-    `wrapAll( expr )^
-
-    a wrapAll( expr )
-
-
-    //  -------------wri--------------- 
-    // wrapInner`:expr:^                
-
-
-
-    wrapInner( expr )
-
-    wrapInner( expr_TYPED ) b
-
-    `wrapInner( expr )^
-
-    a wrapInner( expr )
-
-
-    //  -------------wth--------------- 
-    // width`:optionalVal:^             
-
-
-
-    width()
-
-    width( val_TYPED ) b
-
-    `width()^
-
-    a width()
 
 
     //  -------------{_--------------- 

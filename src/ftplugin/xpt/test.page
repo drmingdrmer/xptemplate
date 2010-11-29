@@ -1,6 +1,7 @@
 
 
 
+
     /*  -------------"_--------------- */
     /* "`w^"                           */
 
@@ -137,15 +138,15 @@ a drdr.xp
 a `name{{^`}}^
 
 
-    /*  -------------call--------------- */
-    /* `name^(`$SParg^`param^`$SParg^)   */
+    /*  -------------call---------------          */
+    /* `vim_call()`name^(`$SParg^`param^`$SParg^) */
 
 
 
-name( WRAPPED_TEXT
+call name( WRAPPED_TEXT
 WRAPPED_TEXT_line2 )
 
-name_TYPED( WRAPPED_TEXT
+call name_TYPED( WRAPPED_TEXT
 WRAPPED_TEXT_line2 ) b
 
 `name( WRAPPED_TEXT
@@ -390,34 +391,6 @@ a "
                           
 
 
-    /*  -------------foreach--------------- */
-    /* for `value^ in `list^                */
-    /*     `cursor^                         */
-    /* endfor                               */
-
-
-
-for value in list
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endfor
-
-for value_TYPED in list_TYPED
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endfor b
-
-`for value in list
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endfor^
-
-a for value in list
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endfor
-
-
     /*  -------------forin--------------- */
     /* for `value^ in `list^              */
     /*     `cursor^                       */
@@ -468,19 +441,23 @@ a dot/dot
 
 
 fun! s:f.name()
-    
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 endfunction
 
 fun! s:f.name_TYPED( param_TYPED )
-    
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 endfunction b
 
 `fun! s:f.name()
-    
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 endfunction^
 
 a fun! s:f.name()
-    
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 endfunction
 
 
@@ -682,8 +659,6 @@ let g_TYPED:i_TYPED = 1
     /* "                                                      */
     /* XPTemplate priority=personal+                          */
     /*                                                        */
-    /*                                                        */
-    /*                                                        */
     /* XPT helloxpt " tips about what this snippet do         */
     /* Say hello to \`xpt^.                                   */
     /* \`xpt^ says hello.                                     */
@@ -699,8 +674,6 @@ let g_TYPED:i_TYPED = 1
   "
   XPTemplate priority=personal+
   
-  
-  
   XPT helloxpt " tips about what this snippet do
   Say hello to `xpt^.
   `xpt^ says hello.
@@ -713,8 +686,6 @@ let g_TYPED:i_TYPED = 1
   "     helloxpt<C-\>
   "
   XPTemplate priority=personal+
-  
-  
   
   XPT helloxpt " tips about what this snippet do
   Say hello to `xpt^.
@@ -729,8 +700,6 @@ let g_TYPED:i_TYPED = 1
   "
   XPTemplate priority=personal+
   
-  
-  
   XPT helloxpt " tips about what this snippet do
   Say hello to `xpt^.
   `xpt^ says hello.^
@@ -743,8 +712,6 @@ let g_TYPED:i_TYPED = 1
   "     helloxpt<C-\>
   "
   XPTemplate priority=personal+
-  
-  
   
   XPT helloxpt " tips about what this snippet do
   Say hello to `xpt^.
@@ -1383,20 +1350,25 @@ while i < len | let i += 1
 endwhile
 
 
-    /*  -------------xpt---------------       */
-    /* XPTemplate priority=`prio^             */
-    /*                                        */
-    /* let s:f = g:XPTfuncs()                 */
-    /*                                        */
-    /* `Include:varConst^                     */
-    /*                                        */
-    /* `Include:varFormat^                    */
-    /*                                        */
-    /* `XPTinclude...{{^`Include:incfile^`}}^ */
-    /*                                        */
-    /*                                        */
-    /*                                        */
-    /* `cursor^                               */
+    /*  -------------xpt---------------                           */
+    /* XPTemplate priority=`prio^                                 */
+    /*                                                            */
+    /* let s:f = g:XPTfuncs()                                     */
+    /*                                                            */
+    /* " use snippet 'varConst' to generate contant variables     */
+    /* " use snippet 'varFormat' to generate formatting variables */
+    /* " use snippet 'varSpaces' to generate spacing variables    */
+    /*                                                            */
+    /*                                                            */
+    /* XPTinclude                                                 */
+    /*       \ _common/common                                     */
+    /*                                                            */
+    /*                                                            */
+    /* XPT helloxpt " tips about what this snippet does           */
+    /* Say hello to \`xpt\^.                                      */
+    /* \`xpt\^ says hello.                                        */
+    /*                                                            */
+    /* `cursor^                                                   */
 
 
 
@@ -1404,147 +1376,81 @@ XPTemplate priority=all
 
 let s:f = g:XPTfuncs()
 
-XPTvar $TRUE          1
-XPTvar $FALSE         0
-XPTvar $NULL          NULL
-XPTvar $UNDEFINED     NULL
+" use snippet 'varConst' to generate contant variables
+" use snippet 'varFormat' to generate formatting variables
+" use snippet 'varSpaces' to generate spacing variables
 
-" if () ** {
-" else ** {
-XPTvar $BRif     ' '
-
-" } ** else {
-XPTvar $BRel     \n
-
-" for () ** {
-" while () ** {
-" do ** {
-XPTvar $BRloop   ' '
-
-" struct name ** {
-XPTvar $BRstc    ' '
-
-" int fun() ** {
-" class name ** {
-XPTvar $BRfun    ' '
 
 XPTinclude
       \ _common/common
-      \ dot/dot
+
+
+XPT helloxpt " tips about what this snippet does
+Say hello to `xpt^.
+`xpt^ says hello.
 
 
 
 
+XPTemplate priority=all
+
+let s:f = g:XPTfuncs()
+
+" use snippet 'varConst' to generate contant variables
+" use snippet 'varFormat' to generate formatting variables
+" use snippet 'varSpaces' to generate spacing variables
 
 
-      XPTemplate priority=all
-      
-      let s:f = g:XPTfuncs()
-      
-      XPTvar $TRUE          1
-      XPTvar $FALSE         0
-      XPTvar $NULL          NULL
-      XPTvar $UNDEFINED     NULL
-      
-      " if () ** {
-      " else ** {
-      XPTvar $BRif     ' '
-      
-      " } ** else {
-      XPTvar $BRel     \n
-      
-      " for () ** {
-      " while () ** {
-      " do ** {
-      XPTvar $BRloop   ' '
-      
-      " struct name ** {
-      XPTvar $BRstc    ' '
-      
-      " int fun() ** {
-      " class name ** {
-      XPTvar $BRfun    ' '
-      
-      XPTinclude_TYPED
-      
-      
-      
-      
-       b
+XPTinclude
+      \ _common/common
 
-       `XPTemplate priority=all
-       
-       let s:f = g:XPTfuncs()
-       
-       XPTvar $TRUE          1
-       XPTvar $FALSE         0
-       XPTvar $NULL          NULL
-       XPTvar $UNDEFINED     NULL
-       
-       " if () ** {
-       " else ** {
-       XPTvar $BRif     ' '
-       
-       " } ** else {
-       XPTvar $BRel     \n
-       
-       " for () ** {
-       " while () ** {
-       " do ** {
-       XPTvar $BRloop   ' '
-       
-       " struct name ** {
-       XPTvar $BRstc    ' '
-       
-       " int fun() ** {
-       " class name ** {
-       XPTvar $BRfun    ' '
-       
-       XPTinclude
-             \ _common/common
-             \ dot/dot
-       
-       
-       
-       
-       ^
 
-       a XPTemplate priority=all
-       
-       let s:f = g:XPTfuncs()
-       
-       XPTvar $TRUE          1
-       XPTvar $FALSE         0
-       XPTvar $NULL          NULL
-       XPTvar $UNDEFINED     NULL
-       
-       " if () ** {
-       " else ** {
-       XPTvar $BRif     ' '
-       
-       " } ** else {
-       XPTvar $BRel     \n
-       
-       " for () ** {
-       " while () ** {
-       " do ** {
-       XPTvar $BRloop   ' '
-       
-       " struct name ** {
-       XPTvar $BRstc    ' '
-       
-       " int fun() ** {
-       " class name ** {
-       XPTvar $BRfun    ' '
-       
-       XPTinclude
-             \ _common/common
-             \ dot/dot
-       
-       
-       
-       
-       
+XPT helloxpt " tips about what this snippet does
+Say hello to `xpt^.
+`xpt^ says hello.
+
+
+ b
+
+ `XPTemplate priority=all
+ 
+ let s:f = g:XPTfuncs()
+ 
+ " use snippet 'varConst' to generate contant variables
+ " use snippet 'varFormat' to generate formatting variables
+ " use snippet 'varSpaces' to generate spacing variables
+ 
+ 
+ XPTinclude
+       \ _common/common
+ 
+ 
+ XPT helloxpt " tips about what this snippet does
+ Say hello to `xpt^.
+ `xpt^ says hello.
+ 
+ 
+ ^
+
+ a XPTemplate priority=all
+ 
+ let s:f = g:XPTfuncs()
+ 
+ " use snippet 'varConst' to generate contant variables
+ " use snippet 'varFormat' to generate formatting variables
+ " use snippet 'varSpaces' to generate spacing variables
+ 
+ 
+ XPTinclude
+       \ _common/common
+ 
+ 
+ XPT helloxpt " tips about what this snippet does
+ Say hello to `xpt^.
+ `xpt^ says hello.
+ 
+ 
+ 
 
 
     /*  -------------{_--------------- */

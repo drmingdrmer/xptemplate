@@ -1,6 +1,7 @@
 
 
 
+
     /*  -------------"_--------------- */
     /* "`w^"                           */
 
@@ -496,28 +497,28 @@ a for ( $ptr = init; null != $ptr; $ptr ) {
 
 
     /*  -------------forr---------------                                                                                 */
-    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^++`$SParg^)`$BRloop^{ */
+    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^--`$SParg^)`$BRloop^{ */
     /*     `cursor^                                                                                                      */
     /* }                                                                                                                 */
 
 
 
-for ( $i = 0; $i >= end; $i++ ) {
+for ( $i = 0; $i >= end; $i-- ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
 
-for ( $i_TYPED = 0_TYPED; $i_TYPED >= end_TYPED; $i_TYPED++ ) {
+for ( $i_TYPED = 0_TYPED; $i_TYPED >= end_TYPED; $i_TYPED-- ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 } b
 
-`for ( $i = 0; $i >= end; $i++ ) {
+`for ( $i = 0; $i >= end; $i-- ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }^
 
-a for ( $i = 0; $i >= end; $i++ ) {
+a for ( $i = 0; $i >= end; $i-- ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }

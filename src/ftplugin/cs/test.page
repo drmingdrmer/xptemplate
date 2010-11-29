@@ -1,6 +1,7 @@
 
 
 
+
     /*  -------------"_--------------- */
     /* "`w^"                           */
 
@@ -740,29 +741,29 @@ a test.page
  
 
 
-    /*  -------------for---------------                   */
-    /* for (`int^ `i^ = `0^; `i^ < `len^; ++`i^) `$BRif^{ */
-    /*     `cursor^                                       */
-    /* }                                                  */
+    /*  -------------for---------------                  */
+    /* for (`int^ `i^ = `0^; `i^ < `len^; ++`i^)`$BRif^{ */
+    /*     `cursor^                                      */
+    /* }                                                 */
 
 
 
- for (int i = 0; i < len; ++i) 
+ for (int i = 0; i < len; ++i)
  {
      
  }
 
-for (int_TYPED i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED) 
+for (int_TYPED i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED)
 {
     
 } b
 
-`for (int i = 0; i < len; ++i) 
+`for (int i = 0; i < len; ++i)
 {
     
 }^
 
-a for (int i = 0; i < len; ++i) 
+a for (int i = 0; i < len; ++i)
 {
     
 }
@@ -842,29 +843,29 @@ a for ( ptr = init; null != ptr; ptr )
 }
 
 
-    /*  -------------forr---------------                     */
-    /* for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^) `$BRif^{ */
-    /*     `cursor^                                          */
-    /* }                                                     */
+    /*  -------------forr---------------                    */
+    /* for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^)`$BRif^{ */
+    /*     `cursor^                                         */
+    /* }                                                    */
 
 
 
-for (int i = n; i >= end; --i) 
+for (int i = n; i >= end; --i)
 {
     
 }
 
-for (int_TYPED i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED) 
+for (int_TYPED i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED)
 {
     
 } b
 
-`for (int i = n; i >= end; --i) 
+`for (int i = n; i >= end; --i)
 {
     
 }^
 
-a for (int i = n; i >= end; --i) 
+a for (int i = n; i >= end; --i)
 {
     
 }
@@ -1157,6 +1158,48 @@ a public static void Main( string[] args )
 }
 
 
+    /*  -------------malloc---------------               */
+    /* (`type^int^*)malloc( sizeof( `type^ ) * `count^ ) */
+
+
+
+(int*)malloc( sizeof( int ) * count )
+
+    (type_TYPED*)malloc( sizeof( type_TYPED ) * count_TYPED ) b
+
+    `(int*)malloc( sizeof( int ) * count )^
+
+    a (int*)malloc( sizeof( int ) * count )
+
+
+    /*  -------------memcpy---------------                      */
+    /* memcpy( `dest^, `source^, sizeof(`type^int^) * `count^ ) */
+
+
+
+    memcpy( dest, source, sizeof(int) * count )
+
+    memcpy( dest_TYPED, source_TYPED, sizeof(type_TYPED) * count_TYPED ) b
+
+    `memcpy( dest, source, sizeof(int) * count )^
+
+    a memcpy( dest, source, sizeof(int) * count )
+
+
+    /*  -------------memset---------------                          */
+    /* memset( `buffer^, `what^0^, sizeof( `type^int^ ) * `count^ ) */
+
+
+
+    memset( buffer, 0, sizeof( int ) * count )
+
+    memset( buffer_TYPED, what_TYPED, sizeof( type_TYPED ) * count_TYPED ) b
+
+    `memset( buffer, 0, sizeof( int ) * count )^
+
+    a memset( buffer, 0, sizeof( int ) * count )
+
+
     /*  -------------namespace--------------- */
     /* namespace `name^                       */
     /* {                                      */
@@ -1165,10 +1208,10 @@ a public static void Main( string[] args )
 
 
 
-namespace name
-{
-    
-}
+    namespace name
+    {
+        
+    }
 
 namespace name_TYPED
 {

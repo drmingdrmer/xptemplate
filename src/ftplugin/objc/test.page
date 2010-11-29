@@ -104,6 +104,20 @@ WRAPPED_TEXT_line2
 #endif /* SYMBOL */
 
 
+    /*  -------------#import--------------- */
+    /* #import <`hfile^>                    */
+
+
+
+#import <hfile>
+
+#import <hfile_TYPED> b
+
+`#import <hfile>^
+
+a #import <hfile>
+
+
     /*  -------------#inc--------------- */
     /* #include <`^.h>                   */
 
@@ -294,20 +308,68 @@ case constant :
     WRAPPED_TEXT_line2
     break;
 
-case constant_TYPED :
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-    break; b
+    case constant_TYPED :
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+        break; b
 
-`case constant :
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-    break;^
+        `case constant :
+            WRAPPED_TEXT
+            WRAPPED_TEXT_line2
+            break;^
 
-a case constant :
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-    break;
+            a case constant :
+                WRAPPED_TEXT
+                WRAPPED_TEXT_line2
+                break;
+
+
+    /*  -------------categorie---------------       */
+    /* @interface `existingClass^ (`categorieName^) */
+    /* `cursor^                                     */
+    /* @end                                         */
+
+
+
+                @interface existingClass (categorieName)
+                
+                @end
+
+                @interface existingClass_TYPED (categorieName_TYPED)
+                
+                @end b
+
+                `@interface existingClass (categorieName)
+                
+                @end^
+
+                a @interface existingClass (categorieName)
+                
+                @end
+
+
+    /*  -------------catimplem---------------            */
+    /* @implementation `existingClass^ (`categorieName^) */
+    /* `cursor^                                          */
+    /* @end                                              */
+
+
+
+                @implementation existingClass (categorieName)
+                
+                @end
+
+                @implementation existingClass_TYPED (categorieName_TYPED)
+                
+                @end b
+
+                `@implementation existingClass (categorieName)
+                
+                @end^
+
+                a @implementation existingClass (categorieName)
+                
+                @end
 
 
     /*  -------------comment--------------- */
@@ -318,14 +380,14 @@ a case constant :
 /* WRAPPED_TEXT
 WRAPPED_TEXT_line2 */
 
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */ b
+                /* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */ b
 
-`/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */^
+                `/* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */^
 
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
+                a /* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */
 
 
     /*  -------------commentBlock--------------- */
@@ -338,17 +400,17 @@ WRAPPED_TEXT_line2 */
  * WRAPPED_TEXT_line2
  */
 
-/* WRAPPED_TEXT
- * WRAPPED_TEXT_line2
- */ b
+                /* WRAPPED_TEXT
+                 * WRAPPED_TEXT_line2
+                 */ b
 
-`/* WRAPPED_TEXT
-  * WRAPPED_TEXT_line2
- */^
+                `/* WRAPPED_TEXT
+                  * WRAPPED_TEXT_line2
+                 */^
 
-a /* WRAPPED_TEXT
-   * WRAPPED_TEXT_line2
- */
+                a /* WRAPPED_TEXT
+                   * WRAPPED_TEXT_line2
+                 */
 
 
     /*  -------------commentDoc--------------- */
@@ -363,20 +425,20 @@ a /* WRAPPED_TEXT
  * WRAPPED_TEXT_line2
  */
 
-/**
- * WRAPPED_TEXT
- * WRAPPED_TEXT_line2
- */ b
+                /**
+                 * WRAPPED_TEXT
+                 * WRAPPED_TEXT_line2
+                 */ b
 
-`/**
- * WRAPPED_TEXT
- * WRAPPED_TEXT_line2
- */^
+                `/**
+                 * WRAPPED_TEXT
+                 * WRAPPED_TEXT_line2
+                 */^
 
-a /**
- * WRAPPED_TEXT
- * WRAPPED_TEXT_line2
- */
+                a /**
+                 * WRAPPED_TEXT
+                 * WRAPPED_TEXT_line2
+                 */
 
 
     /*  -------------commentLine--------------- */
@@ -387,14 +449,14 @@ a /**
 /* WRAPPED_TEXT */
 /* WRAPPED_TEXT_line2 */
 
-/* WRAPPED_TEXT */
-/* WRAPPED_TEXT_line2 */ b
+                /* WRAPPED_TEXT */
+                /* WRAPPED_TEXT_line2 */ b
 
-`/* WRAPPED_TEXT */
- /* WRAPPED_TEXT_line2 */^
+                `/* WRAPPED_TEXT */
+                 /* WRAPPED_TEXT_line2 */^
 
-a /* WRAPPED_TEXT */
-  /* WRAPPED_TEXT_line2 */
+                 a /* WRAPPED_TEXT */
+                   /* WRAPPED_TEXT_line2 */
 
 
     /*  -------------default--------------- */
@@ -403,17 +465,17 @@ a /* WRAPPED_TEXT */
 
 
 
-default:
-    
+                 default:
+                     
 
-default:
-     b
+                 default:
+                      b
 
-`default:
-    ^
+                      `default:
+                          ^
 
-a default:
-    
+                          a default:
+                              
 
 
     /*  -------------do---------------                       */
@@ -642,39 +704,39 @@ a test.page
  *--------------------------\\\ sum_TYPED ///---------------------------*/
  b
 
-`/**-------------------------/// sum \\\---------------------------
- *
- * <b>function</b>
- * @version : 1.0
- * @since : 2009 Oct 08
- *
- * @description :
- *     
- * @usage :
- *
- * @author : drdr.xp | drdr.xp@gmail.com
- * @copyright .com.cn
- * @TODO :
- *
- *--------------------------\\\ sum ///---------------------------*/
-^
+ `/**-------------------------/// sum \\\---------------------------
+  *
+  * <b>function</b>
+  * @version : 1.0
+  * @since : 2009 Oct 08
+  *
+  * @description :
+  *     
+  * @usage :
+  *
+  * @author : drdr.xp | drdr.xp@gmail.com
+  * @copyright .com.cn
+  * @TODO :
+  *
+  *--------------------------\\\ sum ///---------------------------*/
+ ^
 
-a /**-------------------------/// sum \\\---------------------------
- *
- * <b>function</b>
- * @version : 1.0
- * @since : 2009 Oct 08
- *
- * @description :
- *     
- * @usage :
- *
- * @author : drdr.xp | drdr.xp@gmail.com
- * @copyright .com.cn
- * @TODO :
- *
- *--------------------------\\\ sum ///---------------------------*/
-
+ a /**-------------------------/// sum \\\---------------------------
+  *
+  * <b>function</b>
+  * @version : 1.0
+  * @since : 2009 Oct 08
+  *
+  * @description :
+  *     
+  * @usage :
+  *
+  * @author : drdr.xp | drdr.xp@gmail.com
+  * @copyright .com.cn
+  * @TODO :
+  *
+  *--------------------------\\\ sum ///---------------------------*/
+ 
 
 
     /*  -------------for---------------                                                                                  */
@@ -796,19 +858,27 @@ a fprintf( stream, "pattern" )
 
 
 
-int name() {
+    int
+name()
+{
     
 }
 
-int_TYPED name_TYPED(param_TYPED) {
+    int_TYPED
+name_TYPED(param_TYPED)
+{
     
 } b
 
-`int name() {
+`    int
+name()
+{
     
 }^
 
-a int name() {
+a     int
+name()
+{
     
 }
 
@@ -992,6 +1062,93 @@ a if ( NULL != var ) {
 }
 
 
+    /*  -------------implementation--------------- */
+    /* @implementation `className^                 */
+    /* `cursor^                                    */
+    /* @end                                        */
+
+
+
+@implementation className
+
+@end
+
+@implementation className_TYPED
+
+@end b
+
+`@implementation className
+
+@end^
+
+a @implementation className
+
+@end
+
+
+    /*  -------------implmethod--------------- */
+    /* - (`retType^) `methodName^ {            */
+    /*     `cursor^                            */
+    /* }                                       */
+
+
+
+- (retType) methodName {
+    
+}
+
+- (retType_TYPED) methodName_TYPED {
+    
+} b
+
+`- (retType) methodName {
+    
+}^
+
+a - (retType) methodName {
+    
+}
+
+
+    /*  -------------interface---------------                     */
+    /* @interface `interfaceName^ `inherit...{{^ : `father^ `}}^{ */
+    /*     // put instances variable here                         */
+    /*     `cursor^                                               */
+    /* }                                                          */
+    /* // put methods here                                        */
+    /* @end                                                       */
+
+
+
+@interface interfaceName  : father {
+    // put instances variable here
+    
+}
+// put methods here
+@end
+
+@interface interfaceName_TYPED inherit_TYPED{
+    // put instances variable here
+    
+}
+// put methods here
+@end b
+
+`@interface interfaceName  : father {
+    // put instances variable here
+    
+}
+// put methods here
+@end^
+
+a @interface interfaceName  : father {
+    // put instances variable here
+    
+}
+// put methods here
+@end
+
+
     /*  -------------main---------------                                                 */
     /* `c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv)`$BRfun^{ */
     /*     `cursor^                                                                      */
@@ -1000,22 +1157,30 @@ a if ( NULL != var ) {
 
 
 
-int main(int argc, char **argv) {
+    int
+main(int argc, char **argv)
+{
     
     return 0;
 }
 
-int main(int argc, char **argv) {
+    int
+main(int argc, char **argv)
+{
     
     return 0;
 } b
 
-`int main(int argc, char **argv) {
+`    int
+main(int argc, char **argv)
+{
     
     return 0;
 }^
 
-a int main(int argc, char **argv) {
+a     int
+main(int argc, char **argv)
+{
     
     return 0;
 }
@@ -1028,11 +1193,11 @@ a int main(int argc, char **argv) {
 
 (int*)malloc( sizeof( int ) * count )
 
-(type_TYPED*)malloc( sizeof( type_TYPED ) * count_TYPED ) b
+    (type_TYPED*)malloc( sizeof( type_TYPED ) * count_TYPED ) b
 
-`(int*)malloc( sizeof( int ) * count )^
+    `(int*)malloc( sizeof( int ) * count )^
 
-a (int*)malloc( sizeof( int ) * count )
+    a (int*)malloc( sizeof( int ) * count )
 
 
     /*  -------------memcpy---------------                      */
@@ -1040,13 +1205,13 @@ a (int*)malloc( sizeof( int ) * count )
 
 
 
-memcpy( dest, source, sizeof(int) * count )
+    memcpy( dest, source, sizeof(int) * count )
 
-memcpy( dest_TYPED, source_TYPED, sizeof(type_TYPED) * count_TYPED ) b
+    memcpy( dest_TYPED, source_TYPED, sizeof(type_TYPED) * count_TYPED ) b
 
-`memcpy( dest, source, sizeof(int) * count )^
+    `memcpy( dest, source, sizeof(int) * count )^
 
-a memcpy( dest, source, sizeof(int) * count )
+    a memcpy( dest, source, sizeof(int) * count )
 
 
     /*  -------------memset---------------                          */
@@ -1054,13 +1219,41 @@ a memcpy( dest, source, sizeof(int) * count )
 
 
 
-memset( buffer, 0, sizeof( int ) * count )
+    memset( buffer, 0, sizeof( int ) * count )
 
-memset( buffer_TYPED, what_TYPED, sizeof( type_TYPED ) * count_TYPED ) b
+    memset( buffer_TYPED, what_TYPED, sizeof( type_TYPED ) * count_TYPED ) b
 
-`memset( buffer, 0, sizeof( int ) * count )^
+    `memset( buffer, 0, sizeof( int ) * count )^
 
-a memset( buffer, 0, sizeof( int ) * count )
+    a memset( buffer, 0, sizeof( int ) * count )
+
+
+    /*  -------------method---------------                                    */
+    /* - (`retType^void^) `methodName^`args...{{^`...^ (`type^)name`...^`}}^; */
+
+
+
+    - (void) methodName... (type)name...;
+
+    - (retType_TYPED) methodName_TYPEDargs_TYPED; b
+
+    `- (void) methodName... (type)name...;^
+
+    a - (void) methodName... (type)name...;
+
+
+    /*  -------------msg---------------          */
+    /* [`to^ `msg^`...^ `argName^:`argVal^`...^] */
+
+
+
+    [to msg argName:argVal argName:argVal argName:argVal]
+
+    [to_TYPED msg_TYPED_TYPED] b
+
+    `[to msg argName:argVal argName:argVal argName:argVal]^
+
+    a [to msg argName:argVal argName:argVal argName:argVal]
 
 
     /*  -------------once--------------- */
@@ -1113,56 +1306,6 @@ printf( "pattern_TYPED" ) b
 `printf( "pattern" )^
 
 a printf( "pattern" )
-
-
-    /*  -------------prio--------------- */
-    /* %left   '`op*^'` `...^            */
-    /* %left   '`op*^'` `...^            */
-
-
-
-%left   ''
-%left   ''
-
-%left   'op_TYPED' 'op_TYPED' 'op_TYPED' _TYPED b
-
-`%left   ''
-%left   ''^
-
-a %left   ''
-%left   ''
-
-
-    /*  -------------rule---------------     */
-    /* `ruleName^: `pattern^   { `action^ }  */
-    /* `        `...`                        */
-    /* {{^        | `pattern^   { `action^ } */
-    /* `        `...`                        */
-    /* ^`}}^        ;                        */
-
-
-
-ruleName: pattern   { action }
-        | pattern   { action }
-        | pattern   { action }
-        | pattern   { action }
-        ;
-
-ruleName_TYPED: pattern_TYPED   { action_TYPED }
-        _TYPED
-        ; b
-
-`ruleName: pattern   { action }
-        | pattern   { action }
-        | pattern   { action }
-        | pattern   { action }
-        ;^
-
-a ruleName: pattern   { action }
-        | pattern   { action }
-        | pattern   { action }
-        | pattern   { action }
-        ;
 
 
     /*  -------------snprintf---------------                              */
@@ -1251,20 +1394,6 @@ a switch ( var ) {
         WRAPPED_TEXT_line2
         break;
 }
-
-
-    /*  -------------tok--------------- */
-    /* %token                           */
-
-
-
-%token 
-
-%token  b
-
-`%token ^
-
-a %token 
 
 
     /*  -------------while---------------                   */
@@ -1377,55 +1506,6 @@ a while ( NULL != x ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
-
-
-    /*  -------------yacc--------------- */
-    /* %{                                */
-    /* _CMT_ includes _cmt_              */
-    /* %}                                */
-    /* _CMT_ options _cmt_               */
-    /* %%                                */
-    /* _CMT_ grammar rules _cmt_         */
-    /* %%                                */
-    /* _CMT_ C code _cmt_                */
-
-
-
-%{
-/* includes */
-%}
-/* options */
-%%
-/* grammar rules */
-%%
-/* C code */
-
-%{
-/* includes */
-%}
-/* options */
-%%
-/* grammar rules */
-%%
-/* C code */ b
-
-`%{
-/* includes */
-%}
-/* options */
-%%
-/* grammar rules */
-%%
-/* C code */^
-
-a %{
-/* includes */
-%}
-/* options */
-%%
-/* grammar rules */
-%%
-/* C code */
 
 
     /*  -------------{_--------------- */

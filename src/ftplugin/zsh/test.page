@@ -2,8 +2,8 @@
 
 
 
-    #  -------------"_--------------- 
-    # "`w^"                           
+    #   -------------"_--------------- 
+    #  "`w^"                           
 
 
 
@@ -20,8 +20,8 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
-    #  -------------'_--------------- 
-    # '`w^'                           
+    #   -------------'_--------------- 
+    #  '`w^'                           
 
 
 
@@ -38,8 +38,8 @@ a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
-    #  -------------(_--------------- 
-    # (`w^)                           
+    #   -------------(_--------------- 
+    #  (`w^)                           
 
 
 
@@ -56,8 +56,8 @@ a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
-    #  -------------<_--------------- 
-    # <`w^>                           
+    #   -------------<_--------------- 
+    #  <`w^>                           
 
 
 
@@ -74,8 +74,8 @@ a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
-    #  -------------[_--------------- 
-    # [`w^]                           
+    #   -------------[_--------------- 
+    #  [`w^]                           
 
 
 
@@ -92,8 +92,8 @@ a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
-    #  -------------`_--------------- 
-    # \``w^\`                         
+    #   -------------`_--------------- 
+    #  \``w^\`                         
 
 
 
@@ -110,8 +110,8 @@ a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
 
 
-    #  -------------Author--------------- 
-    # `$author^                           
+    #   -------------Author--------------- 
+    #  `$author^                           
 
 
 
@@ -124,8 +124,8 @@ WRAPPED_TEXT_line2`
     a drdr.xp
 
 
-    #  -------------bash--------------- 
-    # _CMT_!/bin/~$_xSnipName^          
+    #   -------------bash--------------- 
+    #  #!/bin/~$_xSnipName^              
 
 
 
@@ -142,13 +142,13 @@ WRAPPED_TEXT_line2`
      
 
 
-    #  -------------case--------------- 
-    # case ~$~var^ in                   
-    #     ~pattern^)                    
-    #     ~cursor^                      
-    #     ;;                            
-    #                                   
-    # esac                              
+    #   -------------case--------------- 
+    #  case ~$~var^ in                   
+    #      ~pattern^)                    
+    #      ~cursor^                      
+    #      ;;                            
+    #                                    
+    #  esac                              
 
 
 
@@ -185,8 +185,8 @@ a case $var in
 esac
 
 
-    #  -------------comment--------------- 
-    # `$CS `cursor^                        
+    #   -------------comment--------------- 
+    #  `$CS `cursor^                        
 
 
 
@@ -203,8 +203,8 @@ esac
    # WRAPPED_TEXT_line2
 
 
-    #  -------------commentBlock--------------- 
-    # `$CS `cursor^                             
+    #   -------------commentBlock--------------- 
+    #  `$CS `cursor^                             
 
 
 
@@ -221,10 +221,10 @@ esac
    # WRAPPED_TEXT_line2
 
 
-    #  -------------commentDoc--------------- 
-    # `$CS^                                   
-    # `$CS `cursor^                           
-    # `$CS^                                   
+    #   -------------commentDoc--------------- 
+    #  `$CS^                                   
+    #  `$CS `cursor^                           
+    #  `$CS^                                   
 
 
 
@@ -249,8 +249,8 @@ a #
 #
 
 
-    #  -------------commentLine--------------- 
-    # `$CS `cursor^                            
+    #   -------------commentLine--------------- 
+    #  `$CS `cursor^                            
 
 
 
@@ -267,8 +267,8 @@ a #
    # WRAPPED_TEXT_line2
 
 
-    #  -------------csh--------------- 
-    # _CMT_!/bin/~$_xSnipName^         
+    #   -------------csh--------------- 
+    #  #!/bin/~$_xSnipName^             
 
 
 
@@ -285,8 +285,8 @@ a #
      
 
 
-    #  -------------echodate--------------- 
-    # echo `date~ +~fmt^`                   
+    #   -------------echodate--------------- 
+    #  echo `date~ +~fmt^`                   
 
 
 
@@ -299,9 +299,9 @@ a #
     a echo `date +fmt`
 
 
-    #  -------------elif--------------- 
-    # elif ~:_cond:^;~$BRif^then        
-    #     ~cursor^                      
+    #   -------------elif--------------- 
+    #  elif ~:_cond:^;~$BRif^then        
+    #      ~cursor^                      
 
 
 
@@ -322,9 +322,9 @@ elif condition; then
                 WRAPPED_TEXT_line2
 
 
-    #  -------------else--------------- 
-    # else                              
-    #     ~cursor^                      
+    #   -------------else--------------- 
+    #  else                              
+    #      ~cursor^                      
 
 
 
@@ -345,8 +345,8 @@ else
                 WRAPPED_TEXT_line2
 
 
-    #  -------------Email--------------- 
-    # `$email^                           
+    #   -------------Email--------------- 
+    #  `$email^                           
 
 
 
@@ -359,8 +359,8 @@ else
     a drdr.xp@gmail.com
 
 
-    #  -------------File--------------- 
-    # `file()^                          
+    #   -------------File--------------- 
+    #  `file()^                          
 
 
 
@@ -373,10 +373,10 @@ else
     a test.page
 
 
-    #  -------------for---------------                  
-    # for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$BRloop^do 
-    #     ~cursor^                                      
-    # done                                              
+    #   -------------for---------------                  
+    #  for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$BRloop^do 
+    #      ~cursor^                                      
+    #  done                                              
 
 
 
@@ -401,10 +401,10 @@ a for ((i = 0; i < len; i++)); do
 done
 
 
-    #  -------------forin--------------- 
-    # for ~i^ in ~list^;~$BRloop^do      
-    #     ~cursor^                       
-    # done                               
+    #   -------------forin--------------- 
+    #  for ~i^ in ~list^;~$BRloop^do      
+    #      ~cursor^                       
+    #  done                               
 
 
 
@@ -429,10 +429,10 @@ a for i in list; do
 done
 
 
-    #  -------------forr---------------                        
-    # for ((~i^ = ~n^; ~i^ >~=^ ~start^0^; ~i^--));~$BRloop^do 
-    #     ~cursor^                                             
-    # done                                                     
+    #   -------------forr---------------                        
+    #  for ((~i^ = ~n^; ~i^ >~=^ ~start^0^; ~i^--));~$BRloop^do 
+    #      ~cursor^                                             
+    #  done                                                     
 
 
 
@@ -457,10 +457,10 @@ a for ((i = n; i >= 0; i--)); do
 done
 
 
-    #  -------------fun--------------- 
-    # ~name^ ()~$BRfun^{               
-    #     ~cursor^                     
-    # }                                
+    #   -------------fun--------------- 
+    #  ~name^ ()~$BRfun^{               
+    #      ~cursor^                     
+    #  }                                
 
 
 
@@ -485,10 +485,10 @@ a name () {
 }
 
 
-    #  -------------here---------------        
-    # <<~-~END^                                
-    # ~cursor^                                 
-    # ~END^substitute( V(), '\v\^-', '', '' )^ 
+    #   -------------here---------------        
+    #  <<~-~END^                                
+    #  ~cursor^                                 
+    #  ~END^substitute( V(), '\v\^-', '', '' )^ 
 
 
 
@@ -513,10 +513,10 @@ WRAPPED_TEXT_line2
 END
 
 
-    #  -------------if--------------- 
-    # if ~:_cond:^;~$BRif^then        
-    #     ~cursor^                    
-    # fi                              
+    #   -------------if--------------- 
+    #  if ~:_cond:^;~$BRif^then        
+    #      ~cursor^                    
+    #  fi                              
 
 
 
@@ -541,12 +541,12 @@ a if condition; then
 fi
 
 
-    #  -------------ife--------------- 
-    # if ~:_cond:^;~$BRif^then         
-    #     ~job^                        
-    # else                             
-    #     ~cursor^                     
-    # fi                               
+    #   -------------ife--------------- 
+    #  if ~:_cond:^;~$BRif^then         
+    #      ~job^                        
+    #  else                             
+    #      ~cursor^                     
+    #  fi                               
 
 
 
@@ -579,8 +579,8 @@ else
 fi
 
 
-    #  -------------printf--------------- 
-    # printf "~pattern^"~elts^            
+    #   -------------printf--------------- 
+    #  printf "~pattern^"~elts^            
 
 
 
@@ -593,8 +593,8 @@ fi
     a printf "pattern"
 
 
-    #  -------------sb--------------- 
-    # _CMT_!/bin/~sh^                 
+    #   -------------sb--------------- 
+    #  #!/bin/~sh^                     
 
 
 
@@ -611,8 +611,8 @@ fi
      
 
 
-    #  -------------sh--------------- 
-    # _CMT_!/bin/~$_xSnipName^        
+    #   -------------sh--------------- 
+    #  #!/bin/~$_xSnipName^            
 
 
 
@@ -629,8 +629,8 @@ fi
      
 
 
-    #  -------------shebang--------------- 
-    # _CMT_!/bin/~sh^                      
+    #   -------------shebang--------------- 
+    #  #!/bin/~sh^                          
 
 
 
@@ -647,10 +647,10 @@ fi
      
 
 
-    #  -------------until--------------- 
-    # until ~:_cond:^;~$BRloop^;do       
-    #     ~cursor^                       
-    # done                               
+    #   -------------until--------------- 
+    #  until ~:_cond:^;~$BRloop^;do       
+    #      ~cursor^                       
+    #  done                               
 
 
 
@@ -675,10 +675,10 @@ a until condition; ;do
 done
 
 
-    #  -------------while--------------- 
-    # while ~:_cond:^;~$BRloop^do        
-    #     ~cursor^                       
-    # done                               
+    #   -------------while--------------- 
+    #  while ~:_cond:^;~$BRloop^do        
+    #      ~cursor^                       
+    #  done                               
 
 
 
@@ -703,10 +703,10 @@ a while condition; do
 done
 
 
-    #  -------------while1--------------- 
-    # while ~:_cond:^;~$BRloop^do         
-    #     ~cursor^                        
-    # done                                
+    #   -------------while1--------------- 
+    #  while ~:_cond:^;~$BRloop^do         
+    #      ~cursor^                        
+    #  done                                
 
 
 
@@ -731,8 +731,8 @@ a while [ 1 ]; do
 done
 
 
-    #  -------------zsh--------------- 
-    # _CMT_!/bin/~$_xSnipName^         
+    #   -------------zsh--------------- 
+    #  #!/bin/~$_xSnipName^             
 
 
 
@@ -749,8 +749,8 @@ done
      
 
 
-    #  -------------{_--------------- 
-    # {`w^}                           
+    #   -------------{_--------------- 
+    #  {`w^}                           
 
 
 
