@@ -1,4 +1,7 @@
 tags
 *.xpt.vimc
 .*.un~
+*~
 dist/
+.svn/
+
