@@ -23,19 +23,19 @@ XPTinclude
 
 
 
-XPT for wrap=cursor " for (..;..;++)
+XPT for wrap " for (..;..;++)
 for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
-XPT forr wrap=cursor " for (..;..;--)
-for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^++`$SParg^)`$BRloop^{
+XPT forr wrap " for (..;..;--)
+for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^--`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
-XPT fornn wrap=cursor " for (..; $NULL != var; .. )
+XPT fornn wrap " for (..; $NULL != var; .. )
 for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`ptr^`$SPop^=`$SPop^`init^; `$NULL^`$SPop^!=`$SPop^`ptr^; `^R('ptr')^`$SParg^)`$BRloop^{
     `cursor^
 }

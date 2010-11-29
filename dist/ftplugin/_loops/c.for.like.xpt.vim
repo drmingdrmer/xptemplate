@@ -21,13 +21,13 @@ XPTvar $SPop       ' '
 
 
 
-XPT for wrap=cursor " for (..;..;++)
+XPT for wrap " for (..;..;++)
 for`$SPcmd^(`$SParg^`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
-XPT forr wrap=cursor " for (..;..;--)
+XPT forr wrap " for (..;..;--)
 for`$SPcmd^(`$SParg^`i^`$SPop^=`$SPop^`n^; `i^`$SPop^>`=$SPop`0^; `i^--`$SParg^)`$BRloop^{
     `cursor^
 }

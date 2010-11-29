@@ -389,6 +389,9 @@ fun! s:ParseTemplateSetting( tmpl )
     endif
     let setting.iswrap = has_key( setting, 'wrap' )
     let setting.wraponly = get( setting, 'wraponly', 0 )
+    if has_key( setting, 'wrap' ) && setting.wrap is 1
+        let setting.wrap = 'cursor'
+    endif
     let x.renderContext.snipObject = a:tmpl
     if has_key(setting, 'rawHint')
         let setting.hint = s:Eval( setting.rawHint,

@@ -23,7 +23,7 @@ XPTinclude
 
 " ================================= Snippets ===================================
 
-XPT fun wrap=cursor " function ..( .. ) {..}
+XPT fun wrap " function ..( .. ) {..}
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 function` `name^ (`arg*^) {
     `cursor^

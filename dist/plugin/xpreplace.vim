@@ -15,6 +15,7 @@ fun! s:InitBuffer()
     endif
     let b:__xpr_init = { 'settingSwitch' : g:SettingSwitch.New() }
     call b:__xpr_init.settingSwitch.AddList( 
+          \ [ '&l:textwidth', '0' ],
           \ [ '&l:virtualedit', 'onemore' ],
           \ [ '&l:whichwrap'  , 'b,s,h,l,<,>,~,[,]' ],
           \ [ '&l:selection'  , 'exclusive' ],

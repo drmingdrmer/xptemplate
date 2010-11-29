@@ -268,7 +268,7 @@ XPT fulltable hidden " create a full table
 `createTable()^
 
 
-XPT a wrap=cursor " <a href...
+XPT a wrap " <a href...
 <a href="`href^">`cursor^</a>
 ..XPT
 
@@ -300,7 +300,7 @@ XSET att?=Embed( 'name="`name^"' )
 
 
 " TODO enctype list : application/x-www-form-urlencoded
-XPT form wrap=cursor " <form ..>..</form>
+XPT form wrap " <form ..>..</form>
 XSET method=ChooseStr( 'GET', 'POST' )
 <form action="`action^" method="`method^" accept-charset="`html_enc()^" enctype="multipart/form-data">
     `cursor^

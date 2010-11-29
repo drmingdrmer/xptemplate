@@ -76,17 +76,17 @@ if !exists(`$SParg^"`g^:`varname^"`$SParg^)
     let `g^:`varname^`$SPop^=`$SPop^`val^
 endif
 
-XPT fun wrap=cursor " fun! ..(..) .. endfunction
+XPT fun wrap " fun! ..(..) .. endfunction
 fun! `name^`$SPfun^(`:_args:^) "{{{
     `cursor^
 endfunction "}}}
 
-XPT member wrap=cursor " tips
+XPT member wrap " tips
 fun! `name^`$SPfun^(`:_args:^) dict "{{{
     `cursor^
 endfunction "}}}
 
-XPT while wrap=cursor " while .. .. endwhile
+XPT while wrap " while .. .. endwhile
 while `cond^
     `cursor^
 endwhile
@@ -94,13 +94,13 @@ endwhile
 XPT while1 alias=while
 XSET cond=Embed( $TRUE )
 
-XPT whilei wrap=cursor " while i | let i += 1
+XPT whilei wrap " while i | let i += 1
 let [`$SParg^`i^,`$SPop^`len^`$SParg^] = [`$SParg^`0^`$SPop^-`$SPop^1,`$SPop^`len_expr^`$SPop^-`$SPop^1`$SParg^]
 while `i^`$SPop^<`$SPop^`len^ | let `i^`$SPop^+=`$SPop^1
     `cursor^
 endwhile
 
-XPT forin wrap=cursor " for .. in ..
+XPT forin wrap " for .. in ..
 for `value^ in `list^
     `cursor^
 endfor
@@ -120,7 +120,7 @@ XPT finally " finally ..
 finally
     `cursor^
 
-XPT if wrap=cursor " if .. else ..
+XPT if wrap " if .. else ..
 if `cond^
     `cursor^
 endif

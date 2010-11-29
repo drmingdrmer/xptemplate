@@ -14,12 +14,12 @@ XPTvar $SPop       ' '
 
 
 
-XPT while wrap=cursor " while ( .. )
+XPT while wrap " while ( .. )
 while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{
     `cursor^
 }
 
-XPT do wrap=cursor " do { .. } while ( .. )
+XPT do wrap " do { .. } while ( .. )
 do`$BRloop^{
     `cursor^
 }`$BRloop^while`$SPcmd^(`$SParg^`condition^`$SParg^);

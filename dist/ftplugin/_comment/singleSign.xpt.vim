@@ -6,20 +6,20 @@ XPTinclude
 
 
 
-XPT _s_comment hidden wrap=cursor		" $CS ..
+XPT _s_comment hidden wrap		" $CS ..
 `$CS `cursor^
 
 
-XPT _s_commentBlock hidden wrap=cursor	" $CS ..
+XPT _s_commentBlock hidden wrap	" $CS ..
 `$CS `cursor^
 
 
-XPT _s_commentDoc hidden wrap=cursor	" $CS ..
+XPT _s_commentDoc hidden wrap	" $CS ..
 `$CS^
 `$CS `cursor^
 `$CS^
 
-XPT _s_commentLine hidden wrap=cursor	" $CS ..
+XPT _s_commentLine hidden wrap	" $CS ..
 `$CS `cursor^
 
 
