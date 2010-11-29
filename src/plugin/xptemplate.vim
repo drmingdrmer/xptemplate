@@ -727,6 +727,10 @@ fun! s:ParseTemplateSetting( tmpl ) "{{{
     let setting.iswrap = has_key( setting, 'wrap' )
     let setting.wraponly = get( setting, 'wraponly', 0 )
 
+    if has_key( setting, 'wrap' ) && setting.wrap is 1
+        let setting.wrap = 'cursor'
+    endif
+
 
     " TODO bad code
     let x.renderContext.snipObject = a:tmpl
