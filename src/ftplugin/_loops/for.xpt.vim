@@ -30,7 +30,7 @@ for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPo
 
 
 XPT forr wrap " for (..;..;--)
-for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^++`$SParg^)`$BRloop^{
+for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^--`$SParg^)`$BRloop^{
     `cursor^
 }
 
