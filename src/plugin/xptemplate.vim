@@ -3667,9 +3667,22 @@ fun! s:SelectCurrent() "{{{
 
         normal! v
 
+        " Because it feed keys. make sure it is the last step of rendering
+        " thus no more key sequences generated
+        if &selectmode =~ 'cmd'
+            call feedkeys( "\<esc>gv", 'nt' )
+        else
+            call feedkeys( "\<esc>gv\<C-g>", 'nt' )
+        endif
+        return ''
 
-        " Weird, but that's only way to select content
-        return "\<esc>gv\<C-g>"
+        " NOTE: Using <C-R>= output special chars like \<esc> \<C-v> cause
+        " gvim7.3 on ubuntu 10.10 amd64 become lagger each time expanding a
+        " snippet.
+        " Now use feedkeys instead.
+
+        " " Weird, but that's only way to select content
+        " return "\<esc>gv\<C-g>"
     endif
 
 endfunction "}}}
