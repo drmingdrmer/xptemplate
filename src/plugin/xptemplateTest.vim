@@ -19,9 +19,6 @@ endif
 
 let s:fn = 'test.page' . g:xptmode
 
-" TODO indent test 
-
-" test suite support
 
 let s:phases = [ 1, 2, 3, 4 ]
 let [ s:DEFAULT, s:TYPED, s:CHAR_AROUND, s:NESTED ] = s:phases
@@ -50,15 +47,15 @@ fun! s:Feedkeys( text, mode )
     return feedkeys( a:text, a:mode )
 endfunction
 
-fun s:XPTtrigger(name) "{{{
+fun! s:XPTtrigger(name) "{{{
     call s:Feedkeys(a:name, 'nt')
     call s:Feedkeys( eval('"\' . g:xptemplate_key . '"' ), 'mt' )
     " call s:Feedkeys("", 'mt')
 endfunction "}}}
-fun s:XPTtype(...) "{{{
+fun! s:XPTtype(...) "{{{
     let ln = line( '.' )
     let lns = [ ln - 10, ln + 10 ]
-    if lns[0] < 1 
+    if lns[0] < 1
         let lns[0] = 1
     endif
     call s:log.Debug( 'lines context=' . join( getline( lns[0], lns[1] ), "\n" ) )
@@ -79,22 +76,22 @@ fun! s:XPTchoosePum( ... ) "{{{
             call s:Feedkeys("\<TAB>", 'mt')
         endif
     endfor
-    
+
 endfunction "}}}
-fun s:XPTcancel(...) "{{{
+fun! s:XPTcancel(...) "{{{
     call s:Feedkeys("\<cr>", 'mt')
 endfunction "}}}
 fun! s:LastLine() "{{{
     let @q = "\n"
     call s:Feedkeys("\<C-c>G\"qpG", 'nt')
 endfunction "}}}
-fun s:XPTnew(name, preinput) "{{{
+fun! s:XPTnew(name, preinput) "{{{
     " 'S' for indent test. it takes the indent from line above
     call s:Feedkeys("S", 'nt')
     call s:Feedkeys(a:preinput, 'nt')
     call s:XPTtrigger(a:name)
 endfunction "}}}
-fun s:XPTwrapNew(name, preinput) "{{{
+fun! s:XPTwrapNew(name, preinput) "{{{
 
     " virtualedit need to be set to correct pasting
     let ve = &virtualedit
@@ -153,25 +150,15 @@ fun! s:NewTestFile(ft) "{{{
 
     let tempPath = globpath(&rtp, 'ftplugin/_common/common.xpt.vim')
     let tempPath = split(tempPath, "\n")[0]
-    let tempPath = matchstr(tempPath, '.*\ze[\\/]_common[\\/]common.xpt.vim') . '/' . subft 
+    let tempPath = matchstr(tempPath, '.*\ze[\\/]_common[\\/]common.xpt.vim') . '/' . subft
     " . '/.test'
 
-    " try
-    "     call mkdir(tempPath, 'p')
-    " catch /.*/
-    " endtry
 
     let s:tempPath = tempPath
 
     exe 'e ' . tempPath . '/' . s:fn
     exe '0,$d'
 
-    " set buftype=nofile
-
-    " " standard test setting
-    " setlocal tabstop=8
-    " setlocal shiftwidth=4
-    " setlocal softtabstop=4
 
 
 
@@ -204,24 +191,17 @@ fun! XPTtestPseudoDate(...) "{{{
 endfunction "}}}
 
 let s:toTest = []
-fun! s:XPTtestAll( fts )
+fun! s:XPTtestAll( fts ) "{{{
     let s:toTest += split( a:fts, '\V\s\+' )
 
     let ft = remove( s:toTest, 0 )
 
     exe 'XPTtest' ft
 
-endfunction
+endfunction "}}}
 
 fun! s:XPTtest( ftype ) "{{{
 
-    let g:xpt_post_action = "\<C-r>=TestProcess()\<cr>"
-    augroup XPTtestGroup
-        au!
-        au CursorHoldI * call TestProcess()
-        au CursorMoved * call TestProcess()
-        au CursorMovedI * call TestProcess()
-    augroup END
 
     if exists( ':AcpLock' )
         AcpLock
@@ -258,14 +238,6 @@ fun! s:XPTtest( ftype ) "{{{
 
     call filter( tmpls, '!has_key(v:val.setting, "hidden") || !v:val.setting.hidden' )
 
-    " call filter( tmpls, 'v:val.name =~ "^comment"' )
-
-    
-    " for [k, v] in items(tmpls)
-        " if k != '"'
-            " unlet tmpls[k]
-        " endif
-    " endfor
 
     let tmplList = values(tmpls)
     call filter( tmplList, '!has_key(v:val.setting, "syn")' )
@@ -274,48 +246,58 @@ fun! s:XPTtest( ftype ) "{{{
 
     let b:tmplToTest = tmplList
 
-    " let b:tmplToTest = []
-    " for v in tmplList
-        " if v.item.name =~ 'invoke_' 
-            " let b:tmplToTest += [ v ]
-            " break
-        " endif
-    " endfor
-    
 
     " trigger test to start
     normal o
+
+    augroup XPTtestGroup
+        au!
+        au CursorHold * call TestProcess('CursorHold')
+        " au CursorHoldI * call TestProcess('CursorHoldI')
+        " au CursorMoved * call TestProcess('CursorMoved')
+        " au CursorMovedI * call TestProcess('CursorMovedI')
+    augroup END
+    set statusline+=%{TestProcess()}
+    " TODO use rulerformat too
 
     call TestProcess()
 
 endfunction "}}}
 
-fun s:TestFinish() "{{{
+fun! s:TestFinish() "{{{
+
+    " TODO why?
     augroup XPT
         au!
     augroup END
+
+    let &statusline = substitute( &l:statusline, '\V%{TestProcess()}', '', 'g' )
 
     augroup XPTtestGroup
         au!
     augroup END
 
-    exe 'w'
-    exe 'bw'
+    call feedkeys( ":w\<CR>:bw\<CR>", 'nt' )
+
 
     if ! empty( s:toTest )
         let ft = remove( s:toTest, 0 )
-        exe 'XPTtest' ft
+        call feedkeys( ":XPTtest " . ft . "\<CR>", 'nt' )
     endif
 
     return
 
 endfunction "}}}
 
+fun! TestProcess(...) "{{{
 
-fun! TestProcess() "{{{
+    if !exists( 'b:testProcessing' )
+        return ''
+    endif
+
     XPTSlow
 
-    call s:log.Debug( "TestProcess" )
+    call s:log.Debug( "TestProcess " . string( a:000 ) )
 
     if b:testProcessing == 0
         call s:log.Log("processing = 0, to start new")
@@ -336,8 +318,8 @@ fun! TestProcess() "{{{
         " Insert mode or select mode.
         " If it is in normal mode, maybe something else is going. In normal mode,
         " just ignore it
-        
-        " call s:log.Log("processing, mode=".mode())
+
+        call s:log.Log("processing, mode=".mode())
         if mode() =~? "[is]"
             call s:FillinTemplate()
         endif
@@ -356,7 +338,7 @@ fun! s:StartNewTemplate() "{{{
 
     let b:itemSteps = []
 
-    if len(b:tmplToTest) == 0 
+    if len(b:tmplToTest) == 0
         call s:TestFinish()
         return
     endif
@@ -376,7 +358,7 @@ fun! s:StartNewTemplate() "{{{
     if b:testPhase == s:FIRST_PHASE && b:cms != ['', '']
         " first time rendering the template, show original template definition
 
-        let tmpl0 = [ ' ' . '-------------' . b:currentTmpl.name . '---------------' ] 
+        let tmpl0 = [ ' ' . '-------------' . b:currentTmpl.name . '---------------' ]
                     \+ split( b:currentTmpl.snipText , "\n" )
 
         let maxLength = 0
@@ -394,7 +376,7 @@ fun! s:StartNewTemplate() "{{{
             endif
 
             let line2 = ''
-            let line2 .= b:cms[0] . ' ' . line                      " content 
+            let line2 .= b:cms[0] . ' ' . line                      " content
             let line2 .= repeat( ' ', maxLength - len( line ) )     " padding
             let line2 .= ' ' . b:cms[ 1 ]                           " eend
 
@@ -454,7 +436,7 @@ fun! s:FillinTemplate() "{{{
     call s:log.Log( 'item=' . string( ctx.item ) )
 
 
-    if ctx.phase == 'fillin' 
+    if ctx.phase == 'fillin'
 
         XPTSlow
 
@@ -463,7 +445,7 @@ fun! s:FillinTemplate() "{{{
             let b:itemSteps += [ ctx.item.name ]
 
             " keep at most 5 steps
-            if len( b:itemSteps ) > 8 
+            if len( b:itemSteps ) > 8
                 call remove(b:itemSteps, 0)
             endif
         endif
@@ -473,11 +455,11 @@ fun! s:FillinTemplate() "{{{
             call s:XPTchoosePum( "\<C-n>" )
 
 
-        elseif len( b:itemSteps ) >= 4 
-                    \&& ( b:itemSteps[-3] == ctx.item.name 
+        elseif len( b:itemSteps ) >= 4
+                    \&& ( b:itemSteps[-3] == ctx.item.name
                     \    || b:itemSteps[ -4 ] == ctx.item.name )
             call s:log.Log( "too many repetition done, cancel it" )
-            " too many repetition 
+            " too many repetition
             call s:XPTcancel()
 
         elseif b:testPhase == s:DEFAULT

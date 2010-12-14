@@ -3670,6 +3670,9 @@ fun! s:SelectCurrent() "{{{
 
         " Because it feed keys. make sure it is the last step of rendering
         " thus no more key sequences generated
+        "
+        " CursorMoved called before feedkeys. thus test script can not be
+        " aware of mode switched to select mode thus it does not go.
         if &selectmode =~ 'cmd'
             call feedkeys( "\<esc>gv", 'nt' )
         else
