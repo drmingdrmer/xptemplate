@@ -1,7 +1,6 @@
 
 
 
-
     /*  -------------"_--------------- */
     /* "`w^"                           */
 
@@ -201,19 +200,19 @@ WRAPPED_TEXT_line2`
           (else \))
 
           (cond ([condition_TYPED] expr1_TYPED) _TYPED
-              el(else \)) b
+           else_(else \)) b
 
-              `(cond ([condition] expr1)
-                    ([condition] exprn)
-                    ([condition] exprn)
-                    ([condition] exprn)
-                    (else \))^
+           `(cond ([condition] expr1)
+                 ([condition] exprn)
+                 ([condition] exprn)
+                 ([condition] exprn)
+                 (else \))^
 
-                    a (cond ([condition] expr1)
-                          ([condition] exprn)
-                          ([condition] exprn)
-                          ([condition] exprn)
-                          (else \))
+                 a (cond ([condition] expr1)
+                       ([condition] exprn)
+                       ([condition] exprn)
+                       ([condition] exprn)
+                       (else \))
 
 
     /*  -------------def--------------- */
@@ -503,3 +502,4 @@ WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}
+

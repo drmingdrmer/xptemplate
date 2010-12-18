@@ -1,7 +1,6 @@
 
 
 
-
     --   -------------"_--------------- 
     --  "`w^"                           
 
@@ -839,15 +838,15 @@ WRAPPED_TEXT_line2`
 
 
 
-    module .Data.Mybash.Vim.xp.Plugins.extern.Xpt.gitsvn.Src.Ftplugin.Haskell.Test ( 
+    module .Home.Xp.VCS.Hg.Bash.xp.Vim.xp.Plugins.extern.Xpt.gitsvn.Src.Ftplugin.Haskell.Test ( 
         ) where
 
     module moduleName_TYPED exports_TYPEDwhere b
 
-    `module .Data.Mybash.Vim.xp.Plugins.extern.Xpt.gitsvn.Src.Ftplugin.Haskell.Test ( 
+    `module .Home.Xp.VCS.Hg.Bash.xp.Vim.xp.Plugins.extern.Xpt.gitsvn.Src.Ftplugin.Haskell.Test ( 
         ) where^
 
-    a module .Data.Mybash.Vim.xp.Plugins.extern.Xpt.gitsvn.Src.Ftplugin.Haskell.Test ( 
+    a module .Home.Xp.VCS.Hg.Bash.xp.Vim.xp.Plugins.extern.Xpt.gitsvn.Src.Ftplugin.Haskell.Test ( 
         ) where
 
 
@@ -986,3 +985,4 @@ WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}
+
