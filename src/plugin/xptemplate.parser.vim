@@ -440,7 +440,12 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 
 
     if has_key( snipScope.loadedSnip, snippetName )
-        XPT#warn( "XPT: warn : duplicate snippet:" . snippetName . ' in file:' . snipScope.filename )
+        " NOTE: XPT#warn behaves like raising an error which breaks :XPT
+        " command( or XPTstartSnippetPart() ) and causes VIM trying to execute
+        " following command "finish" in function.
+        "
+        " But "finish" is not allowed in function. So I use XPT#info.
+        call XPT#info( "XPT: warn : duplicate snippet:" . snippetName . ' in file:' . snipScope.filename )
     endif
 
     let snipScope.loadedSnip[ snippetName ] = 1
