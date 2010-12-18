@@ -231,10 +231,15 @@ fun! s:XPTtest( ftype ) "{{{
         unlet b:XPTfiletypeDetect
     endif
 
-
     " remove 'Path' and 'Date' template0
-    unlet tmpls.Path
-    unlet tmpls.Date
+    try
+        unlet tmpls.Path
+    catch /.*/
+    endtry
+    try
+        unlet tmpls.Date
+    catch /.*/
+    endtry
 
     call filter( tmpls, '!has_key(v:val.setting, "hidden") || !v:val.setting.hidden' )
 
@@ -250,6 +255,7 @@ fun! s:XPTtest( ftype ) "{{{
     " trigger test to start
     normal o
 
+    let g:xpt_post_action = "\<C-r>=TestProcess()\<cr>"
     augroup XPTtestGroup
         au!
         au CursorHold * call TestProcess('CursorHold')
@@ -289,7 +295,20 @@ fun! s:TestFinish() "{{{
 
 endfunction "}}}
 
+" NOTE: statusline trigger sometime breaks into other function. A such
+" case is that if complete() called to show pum. statusline update will be
+" invoked. and thus statusline callback breaks in
 fun! TestProcess(...) "{{{
+
+    " Check if this function breaks into other function by checking the top
+    " function name of call stack.
+    try
+        throw ''
+    catch /.*/
+        if v:throwpoint !~ '\V\^function TestProcess'
+            return
+        endif
+    endtry
 
     if !exists( 'b:testProcessing' )
         return ''
