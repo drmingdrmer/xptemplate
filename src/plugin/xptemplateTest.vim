@@ -231,10 +231,15 @@ fun! s:XPTtest( ftype ) "{{{
         unlet b:XPTfiletypeDetect
     endif
 
-
     " remove 'Path' and 'Date' template0
-    unlet tmpls.Path
-    unlet tmpls.Date
+    try
+        unlet tmpls.Path
+    catch /.*/
+    endtry
+    try
+        unlet tmpls.Date
+    catch /.*/
+    endtry
 
     call filter( tmpls, '!has_key(v:val.setting, "hidden") || !v:val.setting.hidden' )
 
