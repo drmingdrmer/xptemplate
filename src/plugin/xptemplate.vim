@@ -156,6 +156,7 @@ fun! XPTmarkCompare( o, markToAdd, existedMark ) "{{{
 endfunction "}}}
 
 let s:repetitionPattern     = '\w\*...\w\*'
+let s:expandablePattern     = '\V\S\+...\$'
 let s:nullDict = {}
 let s:nullList = []
 let s:nonEscaped =
@@ -2020,6 +2021,14 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
 
         if isPostFilter
+            " NOTE: not a good solution.
+            " TODO make the "..." ended ph standard.
+            if name =~ s:expandablePattern
+
+                " it is converted to string, thus escaped chars are safe now
+                let val = g:xptutil.UnescapeChar( val, '{$( ' )
+                let val = 'BuildIfNoChange(' . string( val ) . ')'
+            endif
             let placeHolder.postFilter = g:FilterValue.New( -nIndent, val )
         else
             let placeHolder.ontimeFilter = g:FilterValue.New( -nIndent, val )
