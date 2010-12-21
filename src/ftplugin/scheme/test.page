@@ -152,11 +152,11 @@ WRAPPED_TEXT_line2`
        (todon))
 
 
-    /*  -------------case---------------     */
-    /* (case (`of^)                          */
-    /*       ({`match^} `expr1^)` `...^      */
-    /*       ({`matchn^} `exprn^)` `...^     */
-    /*       `else...^\(else \`cursor\^\)^^) */
+    /*  -------------case---------------    */
+    /* (case (`of^)                         */
+    /*       ({`match^} `expr1^)` `...^     */
+    /*       ({`matchn^} `exprn^)` `...^    */
+    /*       `else...^\(else \`cursor\^)^^) */
 
 
 
@@ -165,54 +165,54 @@ WRAPPED_TEXT_line2`
           ({matchn} exprn)
           ({matchn} exprn)
           ({matchn} exprn)
-          (else \))
+          (else ))
 
-          (case (of_TYPED)
-                ({match_TYPED} expr1_TYPED) _TYPED
-                (else \)) b
+    (case (of_TYPED)
+          ({match_TYPED} expr1_TYPED) _TYPED
+          else_TYPED) b
 
-                `(case (of)
-                      ({match} expr1)
-                      ({matchn} exprn)
-                      ({matchn} exprn)
-                      ({matchn} exprn)
-                      (else \))^
+    `(case (of)
+          ({match} expr1)
+          ({matchn} exprn)
+          ({matchn} exprn)
+          ({matchn} exprn)
+          (else ))^
 
-                      a (case (of)
-                            ({match} expr1)
-                            ({matchn} exprn)
-                            ({matchn} exprn)
-                            ({matchn} exprn)
-                            (else \))
+    a (case (of)
+          ({match} expr1)
+          ({matchn} exprn)
+          ({matchn} exprn)
+          ({matchn} exprn)
+          (else ))
 
 
     /*  -------------cond---------------     */
     /* (cond ([`condition^] `expr1^)` `...^  */
     /* `      ([`condition^] `exprn^)` `...^ */
-    /*       `else...^\(else \`cursor\^\)^^) */
+    /*       `else...^\(else \`cursor\^)^^)  */
 
 
 
-    (cond ([condition] expr1)
-          ([condition] exprn)
-          ([condition] exprn)
-          ([condition] exprn)
-          (else \))
+                                       (cond ([condition] expr1)
+                                             ([condition] exprn)
+                                             ([condition] exprn)
+                                             ([condition] exprn)
+                                             (else ))
 
-          (cond ([condition_TYPED] expr1_TYPED) _TYPED
-           else_(else \)) b
+                                       (cond ([condition_TYPED] expr1_TYPED) _TYPED
+                                        else_TYPED) b
 
-           `(cond ([condition] expr1)
-                 ([condition] exprn)
-                 ([condition] exprn)
-                 ([condition] exprn)
-                 (else \))^
+                                       `(cond ([condition] expr1)
+                                             ([condition] exprn)
+                                             ([condition] exprn)
+                                             ([condition] exprn)
+                                             (else ))^
 
-                 a (cond ([condition] expr1)
-                       ([condition] exprn)
-                       ([condition] exprn)
-                       ([condition] exprn)
-                       (else \))
+                                       a (cond ([condition] expr1)
+                                             ([condition] exprn)
+                                             ([condition] exprn)
+                                             ([condition] exprn)
+                                             (else ))
 
 
     /*  -------------def--------------- */
