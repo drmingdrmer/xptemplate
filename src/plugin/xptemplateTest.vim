@@ -516,6 +516,13 @@ fun! s:FillinTemplate() "{{{
 
     if ctx.phase == 'fillin'
 
+        if has_key( ctx.item, 'xptTested' )
+            return ''
+        else
+            let ctx.item.xptTested = 1
+        endif
+
+
         XPTSlow
 
         " repitition, expandable or super repetition
