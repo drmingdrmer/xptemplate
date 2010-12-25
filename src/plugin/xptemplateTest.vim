@@ -255,7 +255,7 @@ fun! s:XPTtest( ftype ) "{{{
     " trigger test to start
     normal o
 
-    let g:xpt_post_action = "\<C-r>=TestProcess()\<cr>"
+    let g:xpt_post_action = "\<C-r>=TestProcess(3)\<cr>"
     augroup XPTtestGroup
         au!
         au CursorHold * call TestProcess('CursorHold')
@@ -263,10 +263,11 @@ fun! s:XPTtest( ftype ) "{{{
         " au CursorMoved * call TestProcess('CursorMoved')
         " au CursorMovedI * call TestProcess('CursorMovedI')
     augroup END
-    set statusline+=%{TestProcess()}
+    set statusline+=%{TestProcess(1)}
+    set rulerformat+=%{TestProcess(2)}
     " TODO use rulerformat too
 
-    call TestProcess()
+    call TestProcess(0)
 
 endfunction "}}}
 
@@ -277,7 +278,8 @@ fun! s:TestFinish() "{{{
         au!
     augroup END
 
-    let &statusline = substitute( &l:statusline, '\V%{TestProcess()}', '', 'g' )
+    let &statusline = substitute( &statusline, '\V%{TestProcess(1)}', '', 'g' )
+    let &rulerformat = substitute( &rulerformat, '\V%{TestProcess(2)}', '', 'g' )
 
     augroup XPTtestGroup
         au!
@@ -295,6 +297,44 @@ fun! s:TestFinish() "{{{
 
 endfunction "}}}
 
+fun! s:TextBetween( posList ) "{{{
+
+    let [ s, e ] = a:posList
+
+    if s[0] > e[0]
+        return ""
+    endif
+
+    if s[0] == e[0]
+        if s[1] == e[1]
+            return ""
+        else
+            return getline(s[0])[ s[1] - 1 : e[1] - 2 ]
+        endif
+    endif
+
+
+    let r = [ getline(s[0])[s[1] - 1:] ] + getline(s[0]+1, e[0]-1)
+
+    if e[1] > 1
+        let r += [ getline(e[0])[:e[1] - 2] ]
+    else
+        let r += ['']
+    endif
+
+    return join(r, "\n")
+
+endfunction "}}}
+
+" NOTE: if nolazyredraw set, rulerformat or statusline triggers more than one
+" times for each time focused on PH. To avoid duplicated input emulation, use
+" cursor position and mode together to detect.
+let s:lastSt = ''
+
+let s:typeMap = { '1' : 'statusline',
+      \ '2' : 'rulerformat',
+      \ '3' : 'postaction' }
+
 " NOTE: statusline trigger sometime breaks into other function. A such
 " case is that if complete() called to show pum. statusline update will be
 " invoked. and thus statusline callback breaks in
@@ -306,7 +346,7 @@ fun! TestProcess(...) "{{{
         throw ''
     catch /.*/
         if v:throwpoint !~ '\V\^function TestProcess'
-            return
+            return ''
         endif
     endtry
 
@@ -314,9 +354,24 @@ fun! TestProcess(...) "{{{
         return ''
     endif
 
+    let st = string( [ line( "." ), col( "." ), mode() ] )
+    if st == s:lastSt
+        return
+    endif
+    let s:lastSt = st
+
+    call s:log.Debug( 'st=' . string( s:lastSt ) )
+    " call s:log.Debug( s:TextBetween( [ [ line( "." )-5, 1 ],[ line( "." )+5,1 ] ] ) )
+
     XPTSlow
 
-    call s:log.Debug( "TestProcess " . string( a:000 ) )
+    if a:0 > 0 && type( a:1 ) == type( 1 )
+        call s:log.Debug( "TestProcess " . string( get( s:typeMap, a:1, 'unknown' ) ) )
+    else
+        call s:log.Debug( "TestProcess " . string( a:000 ) )
+    endif
+
+    call s:log.Debug( "rulerformat=" . string( &rulerformat ) )
 
     if b:testProcessing == 0
         call s:log.Log("processing = 0, to start new")
@@ -332,7 +387,7 @@ fun! TestProcess(...) "{{{
         if ctx.phase == 'uninit' || ctx.phase == 'popup'
             return ""
         endif
-        call s:log.Log("processing = 1, handle action")
+        call s:log.Log("processing = 1, handle action, ctx.phase=" . ctx.phase)
 
         " Insert mode or select mode.
         " If it is in normal mode, maybe something else is going. In normal mode,
@@ -361,6 +416,10 @@ fun! s:StartNewTemplate() "{{{
         call s:TestFinish()
         return
     endif
+
+    " initial phase so that it TestProcess will not execute before snippet rendered
+    let x = XPTbufData()
+    let x.renderContext.phase = 'uninit'
 
 
     " Each template is rendered multi times.
@@ -456,6 +515,13 @@ fun! s:FillinTemplate() "{{{
 
 
     if ctx.phase == 'fillin'
+
+        if has_key( ctx.item, 'xptTested' )
+            return ''
+        else
+            let ctx.item.xptTested = 1
+        endif
+
 
         XPTSlow
 
