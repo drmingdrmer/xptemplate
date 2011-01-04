@@ -28,14 +28,12 @@ XPT #if wrap " #if ..
 
 
 XPT #ifdef wrap " #ifdef ..
-XSET symbol|post=UpperCase(V())
 #ifdef `symbol^
 `cursor^
 #endif `$CL^ `symbol^ `$CR^
 
 
 XPT #ifndef wrap	" #ifndef ..
-XSET symbol|post=UpperCase(V())
 #ifndef `symbol^
 `cursor^
 #endif `$CL^ `symbol^ `$CR^
@@ -43,7 +41,6 @@ XSET symbol|post=UpperCase(V())
 
 XPT once wrap	" #ifndef .. #define ..
 XSET symbol=headerSymbol()
-XSET symbol|post=UpperCase(V())
 #ifndef `symbol^
 #     define `symbol^
 
