@@ -11,7 +11,7 @@ set cpo-=< cpo+=B
 
 runtime plugin/debug.vim
 let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'debug' )
 
 if !exists( 'g:xptmode' )
     let g:xptmode = ''
@@ -259,7 +259,7 @@ fun! s:XPTtest( ftype ) "{{{
     augroup XPTtestGroup
         au!
         au CursorHold * call TestProcess('CursorHold')
-        " au CursorHoldI * call TestProcess('CursorHoldI')
+        au CursorHoldI * call TestProcess('CursorHoldI')
         " au CursorMoved * call TestProcess('CursorMoved')
         " au CursorMovedI * call TestProcess('CursorMovedI')
     augroup END
