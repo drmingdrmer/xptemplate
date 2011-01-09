@@ -1,2 +1,3 @@
 test from 'factor'
 what's the right "test" snippet in 'factor'
+during rendering <CR> does not work the way super-tab setup, which is closing pum only.
