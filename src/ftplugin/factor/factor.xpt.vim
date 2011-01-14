@@ -33,9 +33,6 @@ XPT if "... [ ... ] [ ... ] if
 XPT times "... [ ... ] times
 `count^ [ `what^ ] times
 
-XPT test "[ ... ] [ ... ] unit-test
-[ `ret^ ] [ `test^ ] unit-test
-
 XPT mod " USING: ... IN: ...
 XSET moduleName=ModuleName()
 USING: kernel sequences accessors ;
