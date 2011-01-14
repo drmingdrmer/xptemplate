@@ -54,25 +54,25 @@ WRAPPED_TEXT_line2
 
 
 
-#ifdef SYMBOL
+#ifdef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif $CL SYMBOL $CR
+#endif $CL symbol $CR
 
-#ifdef SYMBOL_TYPED
+#ifdef symbol_TYPED
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif $CL SYMBOL_TYPED $CR b
+#endif $CL symbol_TYPED $CR b
 
-`#ifdef SYMBOL
+`#ifdef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif $CL SYMBOL $CR^
+#endif $CL symbol $CR^
 
-a #ifdef SYMBOL
+a #ifdef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif $CL SYMBOL $CR
+#endif $CL symbol $CR
 
 
     --   -------------#ifndef--------------- 
@@ -82,25 +82,25 @@ WRAPPED_TEXT_line2
 
 
 
-#ifndef SYMBOL
+#ifndef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif $CL SYMBOL $CR
+#endif $CL symbol $CR
 
-#ifndef SYMBOL_TYPED
+#ifndef symbol_TYPED
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif $CL SYMBOL_TYPED $CR b
+#endif $CL symbol_TYPED $CR b
 
-`#ifndef SYMBOL
+`#ifndef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif $CL SYMBOL $CR^
+#endif $CL symbol $CR^
 
-a #ifndef SYMBOL
+a #ifndef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif $CL SYMBOL $CR
+#endif $CL symbol $CR
 
 
     --   -------------#inc--------------- 
@@ -880,12 +880,12 @@ WRAPPED_TEXT
 WRAPPED_TEXT_line2
 #endif $CL __TEST_PAGE__ $CR
 
-#ifndef SYMBOL_TYPED
-#     define SYMBOL_TYPED
+#ifndef symbol_TYPED
+#     define symbol_TYPED
 
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif $CL SYMBOL_TYPED $CR b
+#endif $CL symbol_TYPED $CR b
 
 `#ifndef __TEST_PAGE__
 #     define __TEST_PAGE__

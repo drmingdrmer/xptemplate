@@ -116,21 +116,21 @@ WRAPPED_TEXT_line2`
 
 
 
-    assertObjectEquals(mess
-                      , arr
-                      , expr)
+assertObjectEquals(mess
+                  , arr
+                  , expr)
 
-                  assertObjectEquals(mess_TYPED
-                                    , arr_TYPED
-                                    , expr_TYPED) b
+assertObjectEquals(mess_TYPED
+                  , arr_TYPED
+                  , expr_TYPED) b
 
-                                `assertObjectEquals(mess
-                                                  , arr
-                                                  , expr)^
+`assertObjectEquals(mess
+                  , arr
+                  , expr)^
 
-                                              a assertObjectEquals(mess
-                                                                , arr
-                                                                , expr)
+a assertObjectEquals(mess
+                  , arr
+                  , expr)
 
 
     //  -------------Author--------------- 
@@ -138,13 +138,13 @@ WRAPPED_TEXT_line2`
 
 
 
-    drdr.xp
+drdr.xp
 
-    drdr.xp b
+drdr.xp b
 
-    `drdr.xp^
+`drdr.xp^
 
-    a drdr.xp
+a drdr.xp
 
 
     //  -------------bench--------------- 
@@ -161,53 +161,53 @@ WRAPPED_TEXT_line2`
 
 
 
-    var t0 = new Date().getTime();
-    for (var i = 0; i < times; ++i){
-        /* void */;
-    }
-    var t1 = new Date().getTime();
-    for (var i = 0; i < times; ++i){
-        /* void */;
-    }
-    var t2 = new Date().getTime();
-    console.log(t1-t0, t2-t1);
-    
+var t0 = new Date().getTime();
+for (var i = 0; i < times; ++i){
+    /* void */;
+}
+var t1 = new Date().getTime();
+for (var i = 0; i < times; ++i){
+    /* void */;
+}
+var t2 = new Date().getTime();
+console.log(t1-t0, t2-t1);
 
-    var t0 = new Date().getTime();
-    for (var i = 0; i < times_TYPED; ++i){
-        job_TYPED
-    }
-    var t1 = new Date().getTime();
-    for (var i = 0; i < times_TYPED; ++i){
-        jobn_TYPED
-    }
-    var t2 = new Date().getTime();
-    log_TYPED(t1-t0, t2-t1);
-     b
 
-     `var t0 = new Date().getTime();
-     for (var i = 0; i < times; ++i){
-         /* void */;
-     }
-     var t1 = new Date().getTime();
-     for (var i = 0; i < times; ++i){
-         /* void */;
-     }
-     var t2 = new Date().getTime();
-     console.log(t1-t0, t2-t1);
-     ^
+var t0 = new Date().getTime();
+for (var i = 0; i < times_TYPED; ++i){
+    job_TYPED
+}
+var t1 = new Date().getTime();
+for (var i = 0; i < times_TYPED; ++i){
+    jobn_TYPED
+}
+var t2 = new Date().getTime();
+log_TYPED(t1-t0, t2-t1);
+ b
 
-     a var t0 = new Date().getTime();
-     for (var i = 0; i < times; ++i){
-         /* void */;
-     }
-     var t1 = new Date().getTime();
-     for (var i = 0; i < times; ++i){
-         /* void */;
-     }
-     var t2 = new Date().getTime();
-     console.log(t1-t0, t2-t1);
-     
+ `var t0 = new Date().getTime();
+ for (var i = 0; i < times; ++i){
+     /* void */;
+ }
+ var t1 = new Date().getTime();
+ for (var i = 0; i < times; ++i){
+     /* void */;
+ }
+ var t2 = new Date().getTime();
+ console.log(t1-t0, t2-t1);
+ ^
+
+ a var t0 = new Date().getTime();
+ for (var i = 0; i < times; ++i){
+     /* void */;
+ }
+ var t1 = new Date().getTime();
+ for (var i = 0; i < times; ++i){
+     /* void */;
+ }
+ var t2 = new Date().getTime();
+ console.log(t1-t0, t2-t1);
+ 
 
 
     //  -------------bench_--------------- 
@@ -291,33 +291,33 @@ case constant :
 
 
 
-    /**
-    * @author : drdr.xp | drdr.xp@gmail.com
-    * @description
-    *     
-    * @return {Object} desc
-    */
+                /**
+                * @author : drdr.xp | drdr.xp@gmail.com
+                * @description
+                *     
+                * @return {Object} desc
+                */
 
-    /**
-    * @author : author_TYPED | email_TYPED
-    * @description
-    *     
-    * @return {Object_TYPED} desc_TYPED
-    */ b
+                /**
+                * @author : author_TYPED | email_TYPED
+                * @description
+                *     
+                * @return {Object_TYPED} desc_TYPED
+                */ b
 
-    `/**
-    * @author : drdr.xp | drdr.xp@gmail.com
-    * @description
-    *     
-    * @return {Object} desc
-    */^
+                `/**
+                * @author : drdr.xp | drdr.xp@gmail.com
+                * @description
+                *     
+                * @return {Object} desc
+                */^
 
-    a /**
-    * @author : drdr.xp | drdr.xp@gmail.com
-    * @description
-    *     
-    * @return {Object} desc
-    */
+                a /**
+                * @author : drdr.xp | drdr.xp@gmail.com
+                * @description
+                *     
+                * @return {Object} desc
+                */
 
 
     //  -------------comment--------------- 
@@ -328,14 +328,14 @@ case constant :
 /* WRAPPED_TEXT
 WRAPPED_TEXT_line2 */
 
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */ b
+                /* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */ b
 
-`/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */^
+                `/* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */^
 
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
+                a /* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */
 
 
     //  -------------commentBlock--------------- 
@@ -348,17 +348,17 @@ WRAPPED_TEXT_line2 */
  * WRAPPED_TEXT_line2
  */
 
-/* WRAPPED_TEXT
- * WRAPPED_TEXT_line2
- */ b
+                /* WRAPPED_TEXT
+                 * WRAPPED_TEXT_line2
+                 */ b
 
-`/* WRAPPED_TEXT
-  * WRAPPED_TEXT_line2
- */^
+                `/* WRAPPED_TEXT
+                  * WRAPPED_TEXT_line2
+                 */^
 
-a /* WRAPPED_TEXT
-   * WRAPPED_TEXT_line2
- */
+                a /* WRAPPED_TEXT
+                   * WRAPPED_TEXT_line2
+                 */
 
 
     //  -------------commentDoc--------------- 
@@ -373,20 +373,20 @@ a /* WRAPPED_TEXT
  * WRAPPED_TEXT_line2
  */
 
-/**
- * WRAPPED_TEXT
- * WRAPPED_TEXT_line2
- */ b
+                /**
+                 * WRAPPED_TEXT
+                 * WRAPPED_TEXT_line2
+                 */ b
 
-`/**
- * WRAPPED_TEXT
- * WRAPPED_TEXT_line2
- */^
+                `/**
+                 * WRAPPED_TEXT
+                 * WRAPPED_TEXT_line2
+                 */^
 
-a /**
- * WRAPPED_TEXT
- * WRAPPED_TEXT_line2
- */
+                a /**
+                 * WRAPPED_TEXT
+                 * WRAPPED_TEXT_line2
+                 */
 
 
     //  -------------commentLine--------------- 
@@ -397,14 +397,14 @@ a /**
 /* WRAPPED_TEXT */
 /* WRAPPED_TEXT_line2 */
 
-/* WRAPPED_TEXT */
-/* WRAPPED_TEXT_line2 */ b
+                /* WRAPPED_TEXT */
+                /* WRAPPED_TEXT_line2 */ b
 
-`/* WRAPPED_TEXT */
- /* WRAPPED_TEXT_line2 */^
+                `/* WRAPPED_TEXT */
+                 /* WRAPPED_TEXT_line2 */^
 
- a /* WRAPPED_TEXT */
-   /* WRAPPED_TEXT_line2 */
+                 a /* WRAPPED_TEXT */
+                   /* WRAPPED_TEXT_line2 */
 
 
     //  -------------cpr--------------- 
@@ -412,13 +412,13 @@ a /**
 
 
 
-    @param {Object} name desc
+                 @param {Object} name desc
 
-    @param {Object_TYPED} name_TYPED desc b
+                 @param {Object_TYPED} name_TYPED desc b
 
-    `@param {Object} name desc^
+                 `@param {Object} name desc^
 
-    a @param {Object} name desc
+                 a @param {Object} name desc
 
 
     //  -------------default--------------- 
@@ -427,17 +427,17 @@ a /**
 
 
 
-    default:
-        
-
-        default:
-             b
-
-             `default:
-                 ^
-
-                 a default:
+                 default:
                      
+
+                 default:
+                      b
+
+                      `default:
+                          ^
+
+                          a default:
+                              
 
 
     //  -------------elif--------------- 
@@ -499,13 +499,13 @@ a else {
 
 
 
-    drdr.xp@gmail.com
+drdr.xp@gmail.com
 
-    drdr.xp@gmail.com b
+drdr.xp@gmail.com b
 
-    `drdr.xp@gmail.com^
+`drdr.xp@gmail.com^
 
-    a drdr.xp@gmail.com
+a drdr.xp@gmail.com
 
 
     //  -------------fcmt---------------                                      
@@ -527,69 +527,69 @@ a else {
 
 
 
-    /**-------------------------/// sum \\\---------------------------
-     *
-     * <b>function</b>
-     * @version : 1.0
-     * @since : date
-     *
-     * @description :
-     *   
-     * @usage :
-     *
-     * @author : drdr.xp | drdr.xp@gmail.com
-     * @copyright :
-     * @TODO :
-     *
-     *--------------------------\\\ sum ///---------------------------*/
+/**-------------------------/// sum \\\---------------------------
+ *
+ * <b>function</b>
+ * @version : 1.0
+ * @since : date
+ *
+ * @description :
+ *   
+ * @usage :
+ *
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @copyright :
+ * @TODO :
+ *
+ *--------------------------\\\ sum ///---------------------------*/
 
-    /**-------------------------/// sum_TYPED \\\---------------------------
-     *
-     * <b>function_TYPED</b>
-     * @version : 10_TYPED
-     * @since : date_TYPED
-     *
-     * @description :
-     *   
-     * @usage :
-     *
-     * @author : drdr.xp | drdr.xp@gmail.com
-     * @copyright :
-     * @TODO :
-     *
-     *--------------------------\\\ sum_TYPED ///---------------------------*/ b
+/**-------------------------/// sum_TYPED \\\---------------------------
+ *
+ * <b>function_TYPED</b>
+ * @version : 10_TYPED
+ * @since : date_TYPED
+ *
+ * @description :
+ *   
+ * @usage :
+ *
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @copyright :
+ * @TODO :
+ *
+ *--------------------------\\\ sum_TYPED ///---------------------------*/ b
 
-    `/**-------------------------/// sum \\\---------------------------
-     *
-     * <b>function</b>
-     * @version : 1.0
-     * @since : date
-     *
-     * @description :
-     *   
-     * @usage :
-     *
-     * @author : drdr.xp | drdr.xp@gmail.com
-     * @copyright :
-     * @TODO :
-     *
-     *--------------------------\\\ sum ///---------------------------*/^
+`/**-------------------------/// sum \\\---------------------------
+ *
+ * <b>function</b>
+ * @version : 1.0
+ * @since : date
+ *
+ * @description :
+ *   
+ * @usage :
+ *
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @copyright :
+ * @TODO :
+ *
+ *--------------------------\\\ sum ///---------------------------*/^
 
-    a /**-------------------------/// sum \\\---------------------------
-     *
-     * <b>function</b>
-     * @version : 1.0
-     * @since : date
-     *
-     * @description :
-     *   
-     * @usage :
-     *
-     * @author : drdr.xp | drdr.xp@gmail.com
-     * @copyright :
-     * @TODO :
-     *
-     *--------------------------\\\ sum ///---------------------------*/
+a /**-------------------------/// sum \\\---------------------------
+ *
+ * <b>function</b>
+ * @version : 1.0
+ * @since : date
+ *
+ * @description :
+ *   
+ * @usage :
+ *
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @copyright :
+ * @TODO :
+ *
+ *--------------------------\\\ sum ///---------------------------*/
 
 
     //  -------------File--------------- 
@@ -597,13 +597,13 @@ a else {
 
 
 
-    test.page
+test.page
 
-    test.page b
+test.page b
 
-    `test.page^
+`test.page^
 
-    a test.page
+a test.page
 
 
     //  -------------for---------------                                                                                  
@@ -639,13 +639,13 @@ a for ( var i = 0; i < len; i++ ) {
 
 
 
-    for (;;) 
+for (;;) 
 
-        for (;;)  b
+for (;;)  b
 
-    `for (;;) ^
+`for (;;) ^
 
-    a for (;;) 
+a for (;;) 
 
 
     //  -------------forin---------------   
@@ -656,25 +656,25 @@ a for ( var i = 0; i < len; i++ ) {
 
 
 
-    for ( var i in array ) {
-        var e = array[i];
-        
-    }
+for ( var i in array ) {
+    var e = array[i];
+    
+}
 
-    for ( var i_TYPED in array_TYPED ) {
-        var e_TYPED = array_TYPED[i_TYPED];
-        
-    } b
+for ( var i_TYPED in array_TYPED ) {
+    var e_TYPED = array_TYPED[i_TYPED];
+    
+} b
 
-    `for ( var i in array ) {
-        var e = array[i];
-        
-    }^
+`for ( var i in array ) {
+    var e = array[i];
+    
+}^
 
-    a for ( var i in array ) {
-        var e = array[i];
-        
-    }
+a for ( var i in array ) {
+    var e = array[i];
+    
+}
 
 
     //  -------------fornn---------------                                                                                                
@@ -740,21 +740,21 @@ a for ( var i = 0; i >= end; i-- ) {
 
 
 
-    function name () {
-        
-    }
+function name () {
+    
+}
 
-    function name_TYPED (arg_TYPED, arg_TYPED, arg_TYPED) {
-        
-    } b
+function name_TYPED (arg_TYPED, arg_TYPED, arg_TYPED) {
+    
+} b
 
-    `function name () {
-        
-    }^
+`function name () {
+    
+}^
 
-    a function name () {
-        
-    }
+a function name () {
+    
+}
 
 
     //  -------------if--------------- 
@@ -814,48 +814,48 @@ a if ( 0 == var ) {
 
 
 
-    if ( condition ) {
-        
-    }
-    else if ( condition ) {
-        /* cursor */
-    }
-    else if ( condition ) {
-        /* cursor */
-    }
-    else if ( condition ) {
-        /* cursor */
-    }
+if ( condition ) {
+    
+}
+else if ( condition ) {
+    /* cursor */
+}
+else if ( condition ) {
+    /* cursor */
+}
+else if ( condition ) {
+    /* cursor */
+}
 
-    if ( condition_TYPED ) {
-        _TYPED
-    } else_if_TYPED b
+if ( condition_TYPED ) {
+    _TYPED
+} else_if_TYPED b
 
-    `if ( condition ) {
-        
-    }
-    else if ( condition ) {
-        /* cursor */
-    }
-    else if ( condition ) {
-        /* cursor */
-    }
-    else if ( condition ) {
-        /* cursor */
-    }^
+`if ( condition ) {
+    
+}
+else if ( condition ) {
+    /* cursor */
+}
+else if ( condition ) {
+    /* cursor */
+}
+else if ( condition ) {
+    /* cursor */
+}^
 
-    a if ( condition ) {
-        
-    }
-    else if ( condition ) {
-        /* cursor */
-    }
-    else if ( condition ) {
-        /* cursor */
-    }
-    else if ( condition ) {
-        /* cursor */
-    }
+a if ( condition ) {
+    
+}
+else if ( condition ) {
+    /* cursor */
+}
+else if ( condition ) {
+    /* cursor */
+}
+else if ( condition ) {
+    /* cursor */
+}
 
 
     //  -------------ifn--------------- 
@@ -993,7 +993,7 @@ a if ( undefined == var ) {
 
 
 
-    var instant = new Constructor()
+var instant = new Constructor()
 
     var instant_TYPED = new Constructor_TYPED(arg_TYPED, arg_TYPED, arg_TYPED) b
 
@@ -1013,17 +1013,17 @@ a if ( undefined == var ) {
     
     }
 
-    Class_TYPED.prototype.method_TYPED = function(arg_TYPED, arg_TYPED, arg_TYPED) {
-    
-    } b
+Class_TYPED.prototype.method_TYPED = function(arg_TYPED, arg_TYPED, arg_TYPED) {
 
-    `Class.prototype.method = function() {
-    
-    }^
+} b
 
-    a Class.prototype.method = function() {
-    
-    }
+`Class.prototype.method = function() {
+
+}^
+
+a Class.prototype.method = function() {
+
+}
 
 
     //  -------------setTimeout---------------          
@@ -1031,13 +1031,13 @@ a if ( undefined == var ) {
 
 
 
-    setTimeout(function() { /* void */; }, milliseconds)
+setTimeout(function() { /* void */; }, milliseconds)
 
-    setTimeout(function() { job_TYPED }, milliseconds_TYPED) b
+setTimeout(function() { job_TYPED }, milliseconds_TYPED) b
 
-    `setTimeout(function() { /* void */; }, milliseconds)^
+`setTimeout(function() { /* void */; }, milliseconds)^
 
-    a setTimeout(function() { /* void */; }, milliseconds)
+a setTimeout(function() { /* void */; }, milliseconds)
 
 
     //  -------------switch---------------    
