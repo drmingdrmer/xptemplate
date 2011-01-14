@@ -2913,7 +2913,7 @@ fun! s:ApplyPostFilter() "{{{
 
         " TODO do not replace if no change made
         call XPMsetLikelyBetween( marks.start, marks.end )
-        if filter.text !=# typed
+        if filter.rc != 0 && filter.text !=# typed
             call s:log.Debug( 'before replace, marks=' . XPMallMark() )
 
             call s:RemoveEditMark( leader )
@@ -2988,6 +2988,10 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
     call s:log.Log("post_value:\n", string(a:filter))
 
     let a:filter.toBuild = 0
+    if a:filter.rc == 0
+        return
+    endif
+
     if has_key( a:filter, 'action' )
         let act = a:filter.action
 
@@ -3009,7 +3013,7 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
             " let res = [ post. ]
         else
             " unknown action
-            let a:filter.text = get( post, 'text', '' )
+            " let a:filter.text = get( post, 'text', '' )
         endif
 
     elseif has_key( a:filter, 'text' )
