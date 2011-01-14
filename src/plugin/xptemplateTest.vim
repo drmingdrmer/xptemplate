@@ -284,6 +284,8 @@ fun! s:TestFinish() "{{{
     augroup XPTtestGroup
         au!
     augroup END
+    let g:xpt_post_action = ""
+
 
     call feedkeys( ":w\<CR>:bw\<CR>", 'nt' )
 
