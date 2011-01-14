@@ -57,3 +57,11 @@ for`$SPcmd^(;;) `cursor^
 " for`$SPcmd`$(`$FOR_SCOPE``i`$=`0; `i`$>`$e`end; `i++`$)`$BRloop{
 " ^
 " ..XPT
+"
+" for`SP(`SP`FOR_SCOPE`i`SP=`SP`0;`SP`i`SP>`SP`end;`SP`i++`SP)`SP{
+"
+" for$ ($ $FOR_SCOPE$i$ =$ $0;$ $i$ >$ $end;$ $i++$ )$ {
+"
+" for$ ($ $FOR_SCOPE${$VAR_PRE `i`}$ =$ $0;$ $i$ >$ $end;$ $i++$ )$ {
+"
+" for` (` `FOR_SCOPE`{$VAR_PRE `i`}` =` `0;` `{i/\v(\S+)$/\1/}` >` `{end:0::post=::focus=::live=};` `i++` )` {
