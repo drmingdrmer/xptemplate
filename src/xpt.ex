@@ -1,5 +1,25 @@
 #!/bin/bash
 
+case $1 in
+    gentest)
+        cd ftplugin/
+        langs=`ls -d * | grep -v "^_" | awk '{printf($1" ");}'`
+        cd -
+
+        echo "vim -c \"XPTtestAll $langs\"" >test.bat
+        exit
+        ;;
+    "")
+        echo "export"
+        ;;
+    *)
+        echo "error"
+        exit -1
+        ;;
+
+esac
+
+
 CurrentDir=${PWD##*/}
 ParentDir=${PWD%/*}
 DistDir=$ParentDir/dist
