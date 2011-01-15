@@ -200,7 +200,7 @@ WRAPPED_TEXT_line2`
                                              (else ))
 
                                        (cond ([condition_TYPED] expr1_TYPED) _TYPED
-                                        else_TYPED) b
+                                               else_TYPED) b
 
                                        `(cond ([condition] expr1)
                                              ([condition] exprn)

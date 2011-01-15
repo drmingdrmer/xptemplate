@@ -752,38 +752,32 @@ a test.page
  
 
 
-    /*  -------------for--------------- */
-    /* for (                            */
-    /*     `i^ = 0;                     */
-    /*     `i^ < `len^;                 */
-    /*     ++`i;                        */
-    /* )                                */
+    /*  -------------for---------------                                                                                  */
+    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                                                                                      */
+    /* }                                                                                                                 */
 
 
 
- for (
-     i = 0;
-     i < len;
-     ++`i;
- )
+for ( i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
- for (
-     i_TYPED = 0;
-     i_TYPED < len_TYPED;
-     ++`i;
- ) b
+for ( i_TYPED = 0_TYPED; i_TYPED < len_TYPED; i_TYPED++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
 
- `for (
-     i = 0;
-     i < len;
-     ++`i;
- )^
+`for ( i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
 
- a for (
-     i = 0;
-     i < len;
-     ++`i;
- )
+a for ( i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
 
     /*  -------------forever--------------- */
@@ -791,13 +785,13 @@ a test.page
 
 
 
- for (;;) 
+for (;;) 
 
- for (;;)  b
+for (;;)  b
 
- `for (;;) ^
+`for (;;) ^
 
- a for (;;) 
+a for (;;) 
 
 
     /*  -------------fornn---------------                                                                                                */
@@ -1525,20 +1519,6 @@ a while ( NULL != x ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
-
-
-    /*  -------------www--------------- */
-    /* www                              */
-
-
-
-www
-
-www b
-
-`www^
-
-a www
 
 
     /*  -------------{_--------------- */
