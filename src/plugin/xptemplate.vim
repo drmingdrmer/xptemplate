@@ -2498,6 +2498,18 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
 
     let incTmplObject = tmplDict[ incName ]
 
+    if !incTmplObject.parsed
+
+        call s:ParseInclusion( renderContext.ftScope.allTemplates, incTmplObject )
+
+        let incTmplObject.snipText = s:ParseSpaces( incTmplObject )
+        let incTmplObject.snipText = s:ParseQuotedPostFilter( incTmplObject )
+        let incTmplObject.snipText = s:ParseRepetition( incTmplObject )
+
+        let incTmplObject.parsed = 1
+
+    endif
+
     call s:MergeSetting( renderContext.snipSetting, incTmplObject.setting )
 
     let incSnip = s:ReplacePHInSubSnip( renderContext.snipObject, incTmplObject, params )
