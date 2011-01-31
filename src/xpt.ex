@@ -1,5 +1,15 @@
 #!/bin/bash
 
+doCommit=0
+
+while getopts "c" opname; do
+    case "$opname" in
+        c) doCommit=1 ;;
+        # e) existenceCheck=$OPTARG ;;
+        [?]) usage; exit ;;
+    esac
+done
+
 case $1 in
     gentest)
         cd ftplugin/
@@ -31,19 +41,14 @@ vim -c 'helptags doc|qa'
 VCS=svn
 
 if [ -d ../.git ]; then
-
     VCS=git
-
     if git log -1 | fgrep 'git-svn-id'; then
         VCS=gitsvn
     fi
-
 fi
 
 
 echo "VCS=$VCS"
-
-
 ver=`grep VERSION plugin/xptemplate.vim | awk '{print $3}'`
 
 rev=r
@@ -54,7 +59,7 @@ elif [ "$VCS" = "gitsvn" ]; then
 fi
 
 
-echo export "$CurrentDir" to "$DistDir" 
+echo export "$CurrentDir" to "$DistDir"
 
 
 # remove old files those may not exist in src
@@ -114,29 +119,31 @@ cd $DistDir
 
 echo "\" GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz" >> plugin/xptemplate.vim
 
-if [ "$VCS" = "svn" ]; then
-    svn ci -m "dist"
-elif [ "$VCS" = "git" -o "$VCS" == "gitsvn" ]; then
-    git commit -a -m "dist"
+if [ "$doCommit" == "1" ]; then
+    if [ "$VCS" = "svn" ]; then
+        svn ci -m "dist"
+    elif [ "$VCS" = "git" -o "$VCS" == "gitsvn" ]; then
+        git commit -a -m "dist"
+    fi
+
+    cd $ParentDir
+
+    rm -rf xpt
+    if [ "$VCS" = "svn" ]; then
+        svn export dist xpt
+    elif [ "$VCS" = "git" -o "$VCS" == "gitsvn" ]; then
+        cp -R dist xpt
+    fi
+
+
+    cd xpt
+    tar -czf ../xpt-$ver-$rev.tgz *
+    cd -
+
+
+    ls xpt-*.tgz
 fi
 
-
-cd $ParentDir
-
-rm -rf xpt
-if [ "$VCS" = "svn" ]; then
-    svn export dist xpt
-elif [ "$VCS" = "git" -o "$VCS" == "gitsvn" ]; then
-    cp -R dist xpt
-fi
-
-
-cd xpt
-tar -czf ../xpt-$ver-$rev.tgz *
-cd -
-
-
-ls xpt-*.tgz
 
 
 # vim: set ts=64 :
