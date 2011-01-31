@@ -36,6 +36,7 @@ fun! XPTmarkCompare( o, markToAdd, existedMark )
     return 1
 endfunction 
 let s:repetitionPattern     = '\w\*...\w\*'
+let s:expandablePattern     = '\V\S\+...\$'
 let s:nullDict = {}
 let s:nullList = []
 let s:nonEscaped =
@@ -1104,6 +1105,10 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo )
         let val = g:xptutil.UnescapeChar( val, xp.l . xp.r )
         let nIndent = indent( a:valueInfo[0][0] )
         if isPostFilter
+            if name =~ s:expandablePattern
+                let val = g:xptutil.UnescapeChar( val, '{$( ' )
+                let val = 'BuildIfNoChange(' . string( val ) . ')'
+            endif
             let placeHolder.postFilter = g:FilterValue.New( -nIndent, val )
         else
             let placeHolder.ontimeFilter = g:FilterValue.New( -nIndent, val )
@@ -1336,6 +1341,13 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo )
         return
     endif
     let incTmplObject = tmplDict[ incName ]
+    if !incTmplObject.parsed
+        call s:ParseInclusion( renderContext.ftScope.allTemplates, incTmplObject )
+        let incTmplObject.snipText = s:ParseSpaces( incTmplObject )
+        let incTmplObject.snipText = s:ParseQuotedPostFilter( incTmplObject )
+        let incTmplObject.snipText = s:ParseRepetition( incTmplObject )
+        let incTmplObject.parsed = 1
+    endif
     call s:MergeSetting( renderContext.snipSetting, incTmplObject.setting )
     let incSnip = s:ReplacePHInSubSnip( renderContext.snipObject, incTmplObject, params )
     let incSnip = s:AddIndent( incSnip, nameInfo[0] )
@@ -1550,7 +1562,7 @@ fun! s:ApplyPostFilter()
         let oriFilter = copy( filter )
         let [ start, end ] = XPMposStartEnd( marks )
         call XPMsetLikelyBetween( marks.start, marks.end )
-        if filter.text !=# typed
+        if filter.rc != 0 && filter.text !=# typed
             call s:RemoveEditMark( leader )
             call b:xptemplateData.settingWrap.Switch()
             call XPreplace( start, end, filter.text )
@@ -1594,6 +1606,9 @@ fun! s:EvalPostFilter( filter, typed, leader )
     call s:EvalFilter( a:filter, renderContext.ftScope.funcs, {
           \ 'typed' : a:typed, 'startPos' : startMark.pos } )
     let a:filter.toBuild = 0
+    if a:filter.rc == 0
+        return
+    endif
     if has_key( a:filter, 'action' )
         let act = a:filter.action
         if act.name == 'build'
@@ -1601,7 +1616,6 @@ fun! s:EvalPostFilter( filter, typed, leader )
         elseif act.name == 'keepIndent'
             let a:filter.nIndent = 0
         else
-            let a:filter.text = get( post, 'text', '' )
         endif
     elseif has_key( a:filter, 'text' )
         let a:filter.toBuild = 1
@@ -1973,7 +1987,12 @@ fun! s:SelectCurrent()
             endif
         endif
         normal! v
-        return "\<esc>gv\<C-g>"
+        if &selectmode =~ 'cmd'
+            call feedkeys( "\<esc>gv", 'nt' )
+        else
+            call feedkeys( "\<esc>gv\<C-g>", 'nt' )
+        endif
+        return ''
     endif
 endfunction 
 fun! s:CreateStringMask( str ) 

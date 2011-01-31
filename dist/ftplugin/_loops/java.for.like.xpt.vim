@@ -12,12 +12,12 @@ XPTvar $VOID_LINE /* void */;
 " ================================= Snippets ===================================
 
 XPT for " for i++
-for (`int^ `i^ = `0^; `i^ < `len^; ++`i^)`$BRif^{
+for`$SPcmd^(`$SParg^`int^ `i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; ++`i^`$SParg^)`$BRloop^{
     `cursor^
 }
 
 XPT forr "for i--
-for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^)`$BRif^{
+for`$SPcmd^(`$SParg^`int^ `i^`$SPop^=`$SPop^`n^; `i^`$SPop^>`=^`$SPop^`end^; --`i^`$SParg^)`$BRloop^{
     `cursor^
 }
 

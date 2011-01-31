@@ -45,3 +45,5 @@ XPT implmethod " - (...) ... {  ... }
     `cursor^
 }
 
+XPT alloc " [[...  alloc] ...]
+[[`className^  alloc] `cursor^]

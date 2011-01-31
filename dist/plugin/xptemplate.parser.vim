@@ -247,7 +247,7 @@ fun! s:XPTemplateParseSnippet(lines)
         call XPTdefineSnippet(snippetName, setting, snippetLines)
     endif
     if has_key( snipScope.loadedSnip, snippetName )
-        XPT#warn( "XPT: warn : duplicate snippet:" . snippetName . ' in file:' . snipScope.filename )
+        call XPT#info( "XPT: warn : duplicate snippet:" . snippetName . ' in file:' . snipScope.filename )
     endif
     let snipScope.loadedSnip[ snippetName ] = 1
     if has_key( setting, 'synonym' )
