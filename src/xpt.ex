@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# rsync -Rrvc --delete --exclude=.git/ --exclude=.svn/  ././ ../xptemplate.svn/trunk/./ 
+
 doCommit=0
 
 while getopts "c" opname; do
