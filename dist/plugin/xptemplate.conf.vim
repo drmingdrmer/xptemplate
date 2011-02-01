@@ -27,7 +27,7 @@ call XPT#setIfNotExist('g:xptemplate_pum_tab_nav'	, 0 )
 call XPT#setIfNotExist('g:xptemplate_strict'	, 2 )
 call XPT#setIfNotExist('g:xptemplate_highlight'	, 'next' )
 call XPT#setIfNotExist('g:xptemplate_highlight_nested'	, 0 )
-call XPT#setIfNotExist('g:xptemplate_brace_complete'	, 1 )
+call XPT#setIfNotExist('g:xptemplate_brace_complete'	, 0 )
 call XPT#setIfNotExist('g:xptemplate_strip_left'	, 1 )
 call XPT#setIfNotExist('g:xptemplate_fix'	, 1 )
 call XPT#setIfNotExist('g:xptemplate_ph_pum_accept_empty'	, 1 )
@@ -73,17 +73,17 @@ unlet s:path
 unlet s:filename
 let g:XPTpvs = {}
 let g:XPTmappings = {
-      \ 'popup_old'     : "<C-v><C-v><BS><C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 
-      \ 'trigger_old'   : "<C-v><C-v><BS><C-r>=XPTemplateStart(0)<cr>", 
-      \ 'popup'         : "<C-r>=XPTemplateStart(0,{'k':'%s','popupOnly':1})<cr>", 
-      \ 'force_pum'     : "<C-r>=XPTemplateStart(0,{'k':'%s','forcePum':1})<cr>", 
-      \ 'trigger'       : "<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>", 
-      \ 'wrapTrigger'   : "\"0s<C-r>=XPTemplatePreWrap(@0)<cr>", 
-      \ 'incSelTrigger' : "<C-c>`>a<C-r>=XPTemplateStart(0)<cr>", 
-      \ 'excSelTrigger' : "<C-c>`>i<C-r>=XPTemplateStart(0)<cr>", 
+      \ 'popup_old'     : "<C-v><C-v><BS><C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>",
+      \ 'trigger_old'   : "<C-v><C-v><BS><C-r>=XPTemplateStart(0)<cr>",
+      \ 'popup'         : "<C-r>=XPTemplateStart(0,{'k':'%s','popupOnly':1})<cr>",
+      \ 'force_pum'     : "<C-r>=XPTemplateStart(0,{'k':'%s','forcePum':1})<cr>",
+      \ 'trigger'       : "<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>",
+      \ 'wrapTrigger'   : "\"0s<C-r>=XPTemplatePreWrap(@0)<cr>",
+      \ 'incSelTrigger' : "<C-c>`>a<C-r>=XPTemplateStart(0)<cr>",
+      \ 'excSelTrigger' : "<C-c>`>i<C-r>=XPTemplateStart(0)<cr>",
       \ 'selTrigger'    : (&selection == 'inclusive') ?
-      \                       "<C-c>`>a<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>" 
-      \                     : "<C-c>`>i<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>", 
+      \                       "<C-c>`>a<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>"
+      \                     : "<C-c>`>i<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>",
       \ }
 if g:xptemplate_fallback =~ '\V\^nore:'
     let g:xptemplate_fallback = g:xptemplate_fallback[ 5: ]
@@ -187,15 +187,51 @@ endif
 if stridx( g:xptemplate_brace_complete, '"' ) >= 0
     inoremap <silent> " <C-v><C-v><BS><C-r>=XPTtgr('"',{'noliteral':1,'k':'"'})<cr>
 endif
+fun! XPTinfo() 
+    if !exists( 'b:xptemplateData' )
+        return 0
+    endif
+    let x = b:xptemplateData
+    if !x.renderContext.processing
+        return  0
+    endif
+    let st = x.stack
+    let st = st + [ x.renderContext ]
+    call map( st, '{"$snipname":v:val.snipObject.name, "$phname":v:val.item.name}' )
+    return st
+endfunction 
+fun! XPTinfoStr( ... ) 
+    let data = XPTinfo()
+    if data is 0
+        return ''
+    endif
+    let fmt = a:000
+    if len( fmt ) == 0
+        let fmt = [ "$snipname.$phname", " > " ]
+    elseif len( fmt ) == 1
+        call add( fmt, " > " )
+    else
+        let fmt = fmt[ 0 : 1 ]
+    endif
+    let rst = []
+    for e in data
+        let elt = fmt[ 0 ]
+        for k in [ "$snipname", "$phname" ]
+            let elt = substitute( elt, '\V' . k, e[ k ], 'g' )
+        endfor
+        call add( rst, elt )
+    endfor
+    return join( rst, fmt[ 1 ] )
+endfunction 
 let bs=&bs
-if bs != 2 && bs !~ "start" 
+if bs != 2 && bs !~ "start"
     if g:xptemplate_fix
         set bs=2
     else
         echom "'backspace' option must be set with 'start'. set bs=2 or let g:xptemplate_fix=1 to fix it"
     endif
 endif
-if &compatible == 1 
+if &compatible == 1
     if g:xptemplate_fix
         set nocompatible
     else
