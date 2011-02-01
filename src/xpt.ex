@@ -103,6 +103,8 @@ rm -rf	\
     doc/tags	\
     xpt.files.txt	\
     bench.vim	\
+    test.bat	\
+    test.sh	\
     todo
 
 
