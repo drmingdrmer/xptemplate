@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# rsync -Rrvc --delete --exclude=.git/ --exclude=.svn/  ././ ../xptemplate.svn/trunk/./ 
 
 doCommit=0
 
@@ -19,6 +18,22 @@ case $1 in
         cd -
 
         echo "vim -c \"XPTtestAll $langs\"" >test.bat
+        exit
+        ;;
+    tosvndry)
+        rsync -Rrvc --delete \
+            --exclude=.git/ --exclude=.svn/ \
+            --exclude=*.xpt.vimc \
+            .././ \
+            ../../xptemplate.svn/trunk/./ --dry-run
+        exit
+        ;;
+    tosvn)
+        rsync -Rrvc --delete \
+            --exclude=.git/ --exclude=.svn/ \
+            --exclude=*.xpt.vimc \
+            .././ \
+            ../../xptemplate.svn/trunk/./
         exit
         ;;
     "")
