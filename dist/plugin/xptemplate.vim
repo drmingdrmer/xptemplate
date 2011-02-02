@@ -422,6 +422,10 @@ fun! s:InitItemOrderList( setting )
     let a:setting.comeLast  = g:xptutil.RemoveDuplicate( a:setting.comeLast )
 endfunction 
 fun! XPTreload() 
+    try
+        call s:Crash()
+    catch /.*/
+    endtry
   try
     unlet b:xptemplateData
   catch /.*/
@@ -2226,6 +2230,7 @@ fun! s:XPTinitMapping()
     let b:xptemplateData.settingSwitch = g:SettingSwitch.New()
     call b:xptemplateData.settingSwitch.AddList(
           \[ '&l:textwidth', '0' ],
+          \[ '&l:lazyredraw', '1' ],
           \[ '&l:indentkeys', { 'exe' : 'setl indentkeys-=*<Return>' } ],
           \[ '&l:cinkeys', { 'exe' : 'setl cinkeys-=*<Return>' } ],
           \)
