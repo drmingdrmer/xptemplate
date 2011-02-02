@@ -783,6 +783,10 @@ fun! s:InitItemOrderList( setting ) "{{{
 endfunction "}}}
 
 fun! XPTreload() "{{{
+    try
+        call s:Crash()
+    catch /.*/
+    endtry
 
   try
     " unlet b:__xpt_loaded
@@ -4090,6 +4094,7 @@ fun! s:XPTinitMapping() "{{{
     let b:xptemplateData.settingSwitch = g:SettingSwitch.New()
     call b:xptemplateData.settingSwitch.AddList(
           \[ '&l:textwidth', '0' ],
+          \[ '&l:lazyredraw', '1' ],
           \[ '&l:indentkeys', { 'exe' : 'setl indentkeys-=*<Return>' } ],
           \[ '&l:cinkeys', { 'exe' : 'setl cinkeys-=*<Return>' } ],
           \)
