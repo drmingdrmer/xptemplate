@@ -1174,11 +1174,16 @@ fun! s:BuildMarksOfPlaceHolder( item, placeHolder, nameInfo, valueInfo )
 endfunction 
 fun! s:AddItemToRenderContext( ctx, item ) 
     let [ctx, item] = [ a:ctx, a:item ]
+    let exist = has_key( ctx.itemDict, item.name )
     if item.name != ''
         let ctx.itemDict[ item.name ] = item
     endif
     if ctx.phase != 'rendering'
         call add( ctx.firstList, item )
+        call filter( ctx.itemList, 'v:val isnot item' )
+        return
+    endif
+    if exist
         return
     endif
     if item.name == ''
@@ -1423,13 +1428,18 @@ fun! s:BuildItemForPlaceHolder( placeHolder )
                     \'keyPH'        : s:nullDict,
                     \'behavior'     : {},
                     \}
-        call s:AddItemToRenderContext( renderContext, item )
     endif
+    let inPrevBuild = ( index( renderContext.itemList, item ) >= 0 )
+    call s:AddItemToRenderContext( renderContext, item )
     if a:placeHolder.isKey
         let item.keyPH = a:placeHolder
         let item.fullname = a:placeHolder.fullname
     else
-        call add( item.placeHolders, a:placeHolder )
+        if renderContext.phase != 'rendering' && inPrevBuild
+            call insert( item.placeHolders, a:placeHolder )
+        else
+            call add( item.placeHolders, a:placeHolder )
+        endif
     endif
     return item
 endfunction 
