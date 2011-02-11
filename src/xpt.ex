@@ -47,9 +47,11 @@ case $1 in
 esac
 
 
+DistName=dist
+DistName=dist-sub
 CurrentDir=${PWD##*/}
 ParentDir=${PWD%/*}
-DistDir=$ParentDir/dist
+DistDir=$ParentDir/$DistName
 
 
 vim -c 'helptags doc|qa'
@@ -105,6 +107,7 @@ rm -rf	\
     bench.vim	\
     test.bat	\
     test.sh	\
+    tags	\
     todo
 
 
@@ -149,9 +152,9 @@ if [ "$doCommit" == "1" ]; then
 
     rm -rf xpt
     if [ "$VCS" = "svn" ]; then
-        svn export dist xpt
+        svn export $DistName xpt
     elif [ "$VCS" = "git" -o "$VCS" == "gitsvn" ]; then
-        cp -R dist xpt
+        cp -R $DistName xpt
     fi
 
 
