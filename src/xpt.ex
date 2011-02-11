@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 doCommit=0
 
 while getopts "c" opname; do
@@ -23,6 +22,7 @@ case $1 in
     tosvndry)
         rsync -Rrvc --delete \
             --exclude=.git/ --exclude=.svn/ \
+            --exclude=dist-sub/ \
             --exclude=*.xpt.vimc \
             .././ \
             ../../xptemplate.svn/trunk/./ --dry-run
@@ -31,6 +31,7 @@ case $1 in
     tosvn)
         rsync -Rrvc --delete \
             --exclude=.git/ --exclude=.svn/ \
+            --exclude=dist-sub/ \
             --exclude=*.xpt.vimc \
             .././ \
             ../../xptemplate.svn/trunk/./
@@ -46,100 +47,59 @@ case $1 in
 
 esac
 
-
-DistName=dist
-DistName=dist-sub
 CurrentDir=${PWD##*/}
 ParentDir=${PWD%/*}
-DistDir=$ParentDir/$DistName
+
+dodist () {
+    DistName=$1
+    DistDir=$ParentDir/$DistName
+    vim -c 'helptags doc|qa'
+    ver=`grep VERSION plugin/xptemplate.vim | awk '{print $3}'`
+
+    # TODO
+    rev=r
+
+    echo export "$CurrentDir" to "$DistDir"
+
+    # remove old files those may not exist in src
+    cd $DistDir
+    find -name "*.vim" | xargs rm -f
 
 
-vim -c 'helptags doc|qa'
-
-
-VCS=svn
-
-if [ -d ../.git ]; then
-    VCS=git
-    if git log -1 | fgrep 'git-svn-id'; then
-        VCS=gitsvn
-    fi
-fi
-
-
-echo "VCS=$VCS"
-ver=`grep VERSION plugin/xptemplate.vim | awk '{print $3}'`
-
-rev=r
-if [ "$VCS" = "svn" ]; then
-    rev=r`svn info | grep Revision | awk '{print $2}'`
-elif [ "$VCS" = "gitsvn" ]; then
-    rev=r`git svn info | grep Revision | awk '{print $2}'`
-fi
-
-
-echo export "$CurrentDir" to "$DistDir"
-
-
-# remove old files those may not exist in src
-cd $DistDir
-find -name "*.vim" | xargs rm -f
-
-
-cd $ParentDir
-if [ "$VCS" = "svn" ]; then
-    svn export --force $CurrentDir $DistDir
-elif [ "$VCS" = "git" -o "$VCS" = "gitsvn" ]; then
+    cd $ParentDir
     cp -R $CurrentDir/* $DistDir/
-fi
 
 
-cd $DistDir
-rm -rf	\
-    plugin/xptemplateTest.vim	\
-    plugin/xptTestKey.vim	\
-    plugin/xptemplate.importer.vim	\
-    xpt.testall.*	\
-    xpt.ex	\
-    genfile.vim	\
-    doc/tags	\
-    xpt.files.txt	\
-    bench.vim	\
-    test.bat	\
-    test.sh	\
-    tags	\
-    todo
+    cd $DistDir
+    rm -rf `cat $0 | awk '/^# Remove/,/^# Remove END/{ if ( $1 != "#" ) print $0; }'`
 
-
-
-if [ "$1" = "no" ]; then
-    echo
-else
     find -name "test.page*" | xargs rm
-fi
+
+    for file in `find plugin/ -name *.vim`;do
+
+        if [[ $file == "debug.vim" ]];then
+            continue
+        fi
+
+        echo remove Logs/Comments/Empty_Lines from $file
+
+        grep -v "call s:log.\(Log\|Debug\)(" $file |\
+            grep -v "^\s*Assert " |\
+            grep -v "^\s*\"" |\
+            grep -v "^\s*$" |\
+            sed 's/"\s*{{{//; s/"\s*}}}//' > .tmp
+
+        mv .tmp $file
+    done
 
 
-for file in `find plugin/ -name *.vim`;do
+    cd $DistDir
+    echo "\" GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz" >> plugin/xptemplate.vim
 
-    if [[ $file == "debug.vim" ]];then
-        continue
-    fi
+}
 
-    echo remove Logs/Comments/Empty_Lines from $file
-
-    grep -v "call s:log.\(Log\|Debug\)(" $file |\
-        grep -v "^\s*Assert " |\
-        grep -v "^\s*\"" |\
-        grep -v "^\s*$" |\
-        sed 's/"\s*{{{//; s/"\s*}}}//' > .tmp
-
-    mv .tmp $file
-done
-
-
-cd $DistDir
-
-echo "\" GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz" >> plugin/xptemplate.vim
+dodist dist
+dodist dist-sub
 
 if [ "$doCommit" == "1" ]; then
     if [ "$VCS" = "svn" ]; then
@@ -167,5 +127,21 @@ if [ "$doCommit" == "1" ]; then
 fi
 
 
+exit
 
 # vim: set ts=64 :
+# Remove
+plugin/xptemplateTest.vim
+plugin/xptTestKey.vim
+plugin/xptemplate.importer.vim
+xpt.testall.*
+xpt.ex
+genfile.vim
+doc/tags
+xpt.files.txt
+bench.vim
+test.bat
+test.sh
+tags
+todo
+# Remove END
