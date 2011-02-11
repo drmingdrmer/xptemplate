@@ -2155,6 +2155,8 @@ fun! s:AddItemToRenderContext( ctx, item ) "{{{
 
     let [ctx, item] = [ a:ctx, a:item ]
 
+    let exist = has_key( ctx.itemDict, item.name )
+
     if item.name != ''
         let ctx.itemDict[ item.name ] = item
     endif
@@ -2162,6 +2164,7 @@ fun! s:AddItemToRenderContext( ctx, item ) "{{{
     " TODO to be precise phase, do not use false condition
     if ctx.phase != 'rendering'
         call add( ctx.firstList, item )
+        call filter( ctx.itemList, 'v:val isnot item' )
 
         call s:log.Log( 'item insert to the head of itemList:' . string( item ) )
         return
@@ -2169,6 +2172,9 @@ fun! s:AddItemToRenderContext( ctx, item ) "{{{
     endif
 
     " rendering phase
+    if exist
+        return
+    endif
 
     if item.name == ''
 
@@ -2647,17 +2653,25 @@ fun! s:BuildItemForPlaceHolder( placeHolder ) "{{{
                     \'behavior'     : {},
                     \}
 
-        call s:AddItemToRenderContext( renderContext, item )
 
     endif
 
 
+    let inPrevBuild = ( index( renderContext.itemList, item ) >= 0 )
+
+    " NOTE: No matter new or old, always try to add. during render-time,
+    " dynamically generated PH need to be resorted
+    call s:AddItemToRenderContext( renderContext, item )
 
     if a:placeHolder.isKey
         let item.keyPH = a:placeHolder
         let item.fullname = a:placeHolder.fullname
     else
-        call add( item.placeHolders, a:placeHolder )
+        if renderContext.phase != 'rendering' && inPrevBuild
+            call insert( item.placeHolders, a:placeHolder )
+        else
+            call add( item.placeHolders, a:placeHolder )
+        endif
     endif
 
     call s:log.Log( 'item built=' . string( item ) )
