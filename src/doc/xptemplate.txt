@@ -80,7 +80,7 @@
 	Navigate forward and backward		|xpt-key-navigate|
 	Popup hint				|xpt-popup|
 						|xpt-snippet-hint|
-	Ordered place holders			|xpt-snippet-ComeFist|
+	Ordered place holders			|xpt-snippet-ComeFirst|
 	Embedded functions and variables	|xpt-snippet-function|
 	Repeatable snippet generation		|xpt-repetition|
 	Nested snippets				|xpt-nested|
