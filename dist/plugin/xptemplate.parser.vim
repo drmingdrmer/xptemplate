@@ -29,6 +29,9 @@ fun! s:AssignSnipFT( filename )
     endif
     let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
     if empty( x.snipFileScopeStack ) 
+        if filename =~ '\V\<pseudo\>/'
+            return ftFolder
+        endif
         if &filetype !~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim' 
             return 'not allowed'
         else

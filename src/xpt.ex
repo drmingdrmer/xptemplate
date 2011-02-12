@@ -9,20 +9,13 @@ case $1 in
         echo "vim -c \"XPTtestAll $langs\"" >test.bat
         exit
         ;;
-    tosvndry)
-        rsync -Rrvc --delete \
-            --exclude=.git/ --exclude=.svn/ \
-            --exclude=dist-sub/ \
-            --exclude=*.xpt.vimc \
-            .././ \
-            ../../xptemplate.svn/trunk/./ --dry-run
-        exit
-        ;;
     tosvn)
         rsync -Rrvc --delete \
             --exclude=.git/ --exclude=.svn/ \
             --exclude=dist-sub/ \
+            --exclude=.gitmodules \
             --exclude=*.xpt.vimc \
+            --exclude-from=../.gitignore \
             .././ \
             ../../xptemplate.svn/trunk/./
         exit
