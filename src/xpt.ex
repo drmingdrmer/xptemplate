@@ -37,22 +37,23 @@ case $1 in
 
 esac
 
-CurrentDir=${PWD##*/}
+CurrentDir=$PWD
 ParentDir=${PWD%/*}
+ver=`cat VERSION`.`date +%y%m%d`
 
 dodist () {
     DistName=$1
     DistDir=$ParentDir/$DistName
     vim -c 'helptags doc|qa'
-    ver=`cat VERSION`
 
     # remove old files those may not exist in src
     cd $DistDir && find -name "*.vim" | xargs rm -f
+
     cp -R $CurrentDir/* $DistDir/
 
 
     cd $DistDir
-    rm -rf `cat $0 | awk '/^# Remove/,/^# Remove END/{ if ( $1 != "#" ) print $0; }'`
+    rm -rf `cat $CurrentDir/$0 | awk '/^# __TO_REMOVE__/,/^# __TO_REMOVE__ END/{ if ( $1 != "#" ) print $0; }'`
 
     find -name "test.page*" | xargs rm
 
@@ -75,12 +76,12 @@ dodist () {
 
 
     cd $DistDir
-    cat > plugin/__ <<-END
+    cat > __ <<-END
 	" GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
 	" VERSION: $ver
 	END
-    cat plugin/xptemplate.vim >> plugin/__
-    mv plugin/__ plugin/xptemplate.vim
+    cat $DistDir/plugin/xptemplate.vim >> __
+    mv __ $DistDir/plugin/xptemplate.vim
 
 
     cd $ParentDir
@@ -102,7 +103,7 @@ dodist dist-sub
 exit
 
 # vim: set ts=64 :
-# Remove
+# __TO_REMOVE__
 plugin/xptemplateTest.vim
 plugin/xptTestKey.vim
 plugin/xptemplate.importer.vim
@@ -116,4 +117,4 @@ test.bat
 test.sh
 tags
 todo
-# Remove END
+# __TO_REMOVE__ END
