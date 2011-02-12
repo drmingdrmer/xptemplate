@@ -67,6 +67,14 @@ fun! s:AssignSnipFT( filename ) "{{{
         "
         " All cross filetype inclusion must be done through XPTinclude or
         " XPTembed, 'runtime' command is disabled for inclusion or embed
+        "
+        " Unless it is a pseudo filename, which is for loading "_common"(or
+        " anything independent ) snippet into unsupported filetype.
+
+
+        if filename =~ '\V\<pseudo\>/'
+            return ftFolder
+        endif
 
         if &filetype !~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim' 
             return 'not allowed'
