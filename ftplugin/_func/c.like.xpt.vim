@@ -25,7 +25,6 @@ XPTinclude
 
 fun! s:f.c_fun_type_indent()
     if self[ '$BRfun' ] == "\n"
-        " let sts = &softtabstop == 0 ? &tabstop : &softtabstop
         return repeat( ' ', &shiftwidth )
     else
         return ""
@@ -34,7 +33,6 @@ endfunction
 
 fun! s:f.c_fun_body_indent()
     if self[ '$BRfun' ] == "\n"
-        " let sts = &softtabstop == 0 ? &tabstop : &softtabstop
         return self.ResetIndent( -&shiftwidth, "\n" )
     else
         return " "
