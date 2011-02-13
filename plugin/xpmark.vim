@@ -8,13 +8,10 @@ let g:__XPMARK_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-com! XPMgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
-XPMgetSID
-delc XPMgetSID
+exe XPT#let_sid
 
-runtime plugin/debug.vim
-let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
+" let s:log = xpt#debug#Logger( 'debug' )
 
 
 " probe mark
@@ -63,7 +60,7 @@ fun! XPMcheckStatusline() "{{{
     else
         call s:SetupStatusline()
     endif
-endfunction
+endfunction "}}}
 
 fun! s:SetupStatusline() "{{{
     if &statusline == ""
@@ -125,6 +122,102 @@ fun! XPMadd( name, pos, prefer, ... ) "{{{
     let d.marks[ a:name ] = a:pos + [ len( getline( a:pos[0] ) ), prefer ]
 
     call d.addMarkOrder( a:name, get( a:000, 0, 0 ) )
+
+
+endfunction "}}}
+
+fun! XPMaddSeq( markArgs ) "{{{
+
+    " @param name       mark name
+    "
+    " @param pos        list of [ line, column ]
+    "
+    " @param prefer     'l' or 'r' to indicate this mark is left-prefered or
+    "                   right-prefered. Typing on a left-prefered mark add text
+    "                   after mark, before mark for right-prefered.
+    "                   Default : 'l' left-prefered
+    "
+    " @param a:1        Mark name the mark to add Before.
+
+    if empty( a:markArgs )
+        return 
+    endif
+
+    call XPMcheckStatusline()
+
+    let d = s:BufData()
+
+    
+
+    if empty( d.orderedMarks )
+        " just initiate an empty mark list: do it very simple
+        call XPMaddSeqSimple( a:markArgs )
+    endif
+
+    " Or find the first mark's place, and add the others one by one. Thus
+    " sequently added marks stay as close as possible.
+
+    let n = 0
+
+    for marg in a:markArgs
+
+        if len( marg ) == 3
+            call add( marg, 0 )
+        endif
+
+        let [ name, pos, prefer, beforeWhat ] = marg
+
+
+        call s:log.Log( "add mark of name " . string( name ) . ' at ' . string( pos ) )
+
+        let prefer = prefer == 'l' ? 0 : 1
+
+
+        if has_key( d.marks, name )
+            call d.removeMark( name )
+        endif
+
+        let mo = pos + [ len( getline( pos[0] ) ), prefer ]
+        let d.marks[ name ] = mo
+
+        let n = d.addMarkOrder( name, beforeWhat, n ) + 1
+
+    endfor
+
+
+endfunction "}}}
+
+fun! XPMaddSeqSimple( markArgs ) "{{{
+
+    call XPMcheckStatusline()
+
+    let d = s:BufData()
+
+    for marg in a:markArgs
+
+        if len( marg ) == 3
+            call add( marg, 0 )
+        endif
+
+        let [ name, pos, prefer, beforeWhat ] = marg
+
+
+        call s:log.Log( "add mark of name " . string( name ) . ' at ' . string( pos ) )
+
+        let prefer = prefer == 'l' ? 0 : 1
+
+
+        " NOTE: This check is still necessary that prevent duplicate names in markArgs
+        if has_key( d.marks, name )
+            call d.removeMark( name )
+        endif
+
+        let mo = pos + [ len( getline( pos[0] ) ), prefer ]
+        let d.marks[ name ] = mo
+
+        call add( d.orderedMarks, name )
+
+    endfor
 
 endfunction "}}}
 
@@ -1236,17 +1329,24 @@ fun! s:removeMark(name) dict "{{{
 endfunction "}}}
 
 " TODO simplify
-fun! s:addMarkOrder( name, beforeWhich ) dict "{{{
+fun! s:addMarkOrder( name, beforeWhich, ... ) dict "{{{
 
     call s:log.Log( 'likely mark is:' . string( self.changeLikelyBetween ) )
+
+
+    let iFrom = a:0 == 0 ? -1 : a:1 - 1
     let markToAdd = self.marks[ a:name ]
 
     let nPos = markToAdd[0] * 10000 + markToAdd[1]
 
-    let i = -1
-    for n in self.orderedMarks
+    let i = iFrom
+    let l = len( self.orderedMarks )
+
+    while i + 1 < l
+    " for n in self.orderedMarks
 
         let i += 1
+        let n = self.orderedMarks[ i ]
         let mark = self.marks[ n ]
         let nMark = mark[0] * 10000 + mark[1]
 
@@ -1259,7 +1359,7 @@ fun! s:addMarkOrder( name, beforeWhich ) dict "{{{
             if a:beforeWhich isnot 0 && n =~ a:beforeWhich
 
                 call insert( self.orderedMarks, a:name, i )
-                return
+                return i
 
             else
 
@@ -1275,7 +1375,7 @@ fun! s:addMarkOrder( name, beforeWhich ) dict "{{{
                     " cmp < 0 
 
                     call insert( self.orderedMarks, a:name, i )
-                    return
+                    return i
 
                 endif
             endif
@@ -1283,15 +1383,16 @@ fun! s:addMarkOrder( name, beforeWhich ) dict "{{{
 
         elseif nPos < nMark
             call s:log.Debug( 'small than' . n )
-            
+
             call insert( self.orderedMarks, a:name, i )
-            return
+            return i
 
         endif
 
-    endfor
+    endwhile
 
     call add ( self.orderedMarks, a:name )
+    return len( self.orderedMarks ) - 1
 
 endfunction "}}}
 
@@ -1405,9 +1506,6 @@ elseif !&ruler
 
 endif
 
-" if &statusline == ""
-    " set statusline=%17(%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P%)
-" endif
 
 " Always enable ruler so that if statusline disabled, update can be done
 " through rulerformat
