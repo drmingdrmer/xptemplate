@@ -92,7 +92,7 @@ while `cond^
 endwhile
 
 XPT while1 alias=while
-XSET cond=Embed( $TRUE )
+XSET cond|repl=$TRUE
 
 XPT whilei wrap " while i | let i += 1
 let [`$SParg^`i^,`$SPop^`len^`$SParg^] = [`$SParg^`0^`$SPop^-`$SPop^1,`$SPop^`len_expr^`$SPop^-`$SPop^1`$SParg^]
