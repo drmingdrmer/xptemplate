@@ -41,17 +41,15 @@ XPT title synonym=h1 " === ... ===
 XSET title|post=ExpandRstTitle()
 ~title^
 
-
 XPT section synonym=h2 " ... ====
 XSET sectionName|post=ExpandRstSection('=')
 ~sectionName^
 
-XPT subsection synonym=h3 " .... -------
+XPT subsection " .... -------
 XSET sectionName|post=ExpandRstSection('-')
 ~sectionName^
 
-
-XPT code " ```...```
+XPT code " ``...``
 ``~cursor^``
 
 XPT italic " *...*
