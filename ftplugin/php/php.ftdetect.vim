@@ -1,10 +1,7 @@
-if exists("b:__PHP_FTDETECT_VIM__")
-    finish
-endif
-let b:__PHP_FTDETECT_VIM__ = 1
+XPTemplate priority=lang-2
 
 
-if &filetype !~ 'php'
+if &filetype !~ '\v^php$'
     finish
 endif
 
@@ -41,7 +38,7 @@ let s:topFT = 'html'
 fun! XPT_phpFiletypeDetect() "{{{
     let pos = [ line( "." ), col( "." ) ]
 
-    let synName = g:xptutil.XPTgetCurrentOrPreviousSynName()
+    let synName = xpt#util#NearestSynName()
 
     if synName == ''
         " top level ft is html
@@ -68,8 +65,4 @@ fun! XPT_phpFiletypeDetect() "{{{
 
 endfunction "}}}
 
-if exists( 'b:XPTfiletypeDetect' )
-    unlet b:XPTfiletypeDetect
-endif
-let b:XPTfiletypeDetect = function( 'XPT_phpFiletypeDetect' )
-
+call xpt#ng#SetFiletypeDetector( 'XPT_phpFiletypeDetect' )
