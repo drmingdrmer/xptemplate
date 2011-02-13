@@ -42,13 +42,18 @@ build_branch=master
 compact() {
     local file=$1
 
-    echo remove Logs/Comments/Empty_Lines from $file
+    echo Join splitted lines
+    echo Remove Logs/Comments/Empty_Lines from $file
 
     grep -v "call s:log.\(Log\|Debug\)(" $file |\
         grep -v "^ *Assert " |\
         grep -v "^ *\"" |\
         grep -v "^ *$" |\
-        sed 's/ *" *{{{//; s/ *" *}}}//' > .tmp
+        sed 's/ *" *{{{//; s/ *" *}}}//' |\
+        gawk -f _script/build-d/cleanspace.awk |\
+        gawk -f _script/build-d/joinlines.awk |\
+        gawk -f _script/build-d/formatindent.awk \
+        > .tmp
 
     mv .tmp $file
 }
@@ -62,9 +67,9 @@ create_tgz() {
 build_for_release () {
     check_cur_branch \
         && create_build_branch \
+        && compact_files \
         && clean_files \
         && remove_tests \
-        && compact_files \
         && generate_version \
         && commit_build \
         && create_tgz \
@@ -75,8 +80,8 @@ build_for_release () {
 build_for_test () {
     check_cur_branch \
         && git checkout $githash \
-        && clean_files \
         && compact_files \
+        && clean_files \
         && generate_version \
         && commit_build \
         && vim -c 'call xpt#unittest#Runall() | call getchar() | qa' \
@@ -156,7 +161,6 @@ fi
 exit
 
 # __TO_REMOVE__
-xpt.ex
 plugin/xptemplateTest.vim
 plugin/xptTestKey.vim
 plugin/xptemplate.importer.vim
