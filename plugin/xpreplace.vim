@@ -7,9 +7,7 @@ let g:__XPREPLACE_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-runtime plugin/debug.vim
 runtime plugin/xpmark.vim
-runtime plugin/classes/SettingSwitch.vim
 
 " TODO xpreplace line start with <tab> leaving a ';', ada:beg snippet
 " TODO use gp to paste and leave cursor after pasted content
@@ -25,8 +23,8 @@ runtime plugin/classes/SettingSwitch.vim
 "
 
 
-let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
+" let s:log = xpt#debug#Logger( 'debug' )
 
 
 
@@ -35,10 +33,10 @@ fun! s:InitBuffer() "{{{
         return
     endif
 
-    let b:__xpr_init = { 'settingSwitch' : g:SettingSwitch.New() }
+    let b:__xpr_init = { 'settingSwitch' : xpt#stsw#New() }
     " NOTE: bug! if 'virtualedit'=all, and 'selection'=exclusive, visual mode
     " deletion leaves the last char in selection
-    call b:__xpr_init.settingSwitch.AddList( 
+    call xpt#stsw#AddList( b:__xpr_init.settingSwitch, 
           \ [ '&l:textwidth', '0' ],
           \ [ '&l:virtualedit', 'onemore' ],
           \ [ '&l:whichwrap'  , 'b,s,h,l,<,>,~,[,]' ],
@@ -60,7 +58,7 @@ fun! XPRstartSession() "{{{
 
     let b:_xpr_session = {}
 
-    call b:__xpr_init.settingSwitch.Switch()
+    call xpt#stsw#Switch( b:__xpr_init.settingSwitch )
 
     let b:_xpr_session.savedReg = @"
     let @" = 'XPreplaceInited'
@@ -75,7 +73,7 @@ fun! XPRendSession() "{{{
 
     let @" = b:_xpr_session.savedReg
 
-    call b:__xpr_init.settingSwitch.Restore()
+    call xpt#stsw#Restore( b:__xpr_init.settingSwitch )
     
     unlet b:_xpr_session
 endfunction "}}}
@@ -102,7 +100,7 @@ endfunction "}}}
 
 
 fun! s:ConvertSpaceToTab( text ) "{{{
-    return XPT#convertSpaceToTab( a:text )
+    return xpt#util#convertSpaceToTab( a:text )
 endfunction "}}}
 
 
@@ -140,8 +138,8 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
 
 
     let replacement = s:ConvertSpaceToTab( a:replacement )
-    " let repLines = XPT#SpaceToTabExceptFirstLine( split( a:replacement, '\n', 1 ) )
-    let repLines = XPT#SpaceToTab( split( a:replacement, '\n', 1 ) )
+    " let repLines = xpt#util#SpaceToTabExceptFirstLine( split( a:replacement, '\n', 1 ) )
+    let repLines = xpt#util#SpaceToTab( split( a:replacement, '\n', 1 ) )
 
 
 
@@ -157,13 +155,13 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
     call s:log.Debug( 'line at start + 1=' . string( getline( a:start[0] + 1 ) ) )
 
 
-    if 0
+    if 1
         let [ curNrLines, finalNrLines ] = [ a:end[ 0 ] - a:start[ 0 ] + 1, len( repLines ) ]
 
         let [ s, e ] = [ 1, col( [ a:end[ 0 ], '$' ] ) ]
 
-        let repLines[ 0 ] = XPT#TextInLine( a:start[ 0 ], s, a:start[ 1 ] ) . repLines[ 0 ]
-        let repLines[ -1 ] .= XPT#TextInLine( a:end[ 0 ], a:end[ 1 ], e )
+        let repLines[ 0 ] = xpt#util#TextInLine( a:start[ 0 ], s, a:start[ 1 ] ) . repLines[ 0 ]
+        let repLines[ -1 ] .= xpt#util#TextInLine( a:end[ 0 ], a:end[ 1 ], e )
         call s:log.Debug( 'relLines=' . string( repLines ) )
 
 
