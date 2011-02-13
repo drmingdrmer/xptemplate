@@ -1,10 +1,7 @@
-if exists( "g:__HTMLDJANGO_FTDETECT_VIM__" )
-    finish
-endif
-let g:__HTMLDJANGO_FTDETECT_VIM__ = 1
+XPTemplate priority=lang-2
 
 
-if &filetype !~ 'htmldjango'
+if &filetype !~ '\v^htmldjango$'
     finish
 endif
 
@@ -43,7 +40,7 @@ let s:topFT = 'htmldjango'
 fun! XPT_htmldjangoFiletypeDetect() "{{{
     let pos = [ line( "." ), col( "." ) ]
 
-    let synName = g:xptutil.XPTgetCurrentOrPreviousSynName()
+    let synName = xpt#util#NearestSynName()
 
     if synName == ''
 
@@ -70,8 +67,4 @@ fun! XPT_htmldjangoFiletypeDetect() "{{{
 
 endfunction "}}}
 
-if exists( 'b:XPTfiletypeDetect' )
-    unlet b:XPTfiletypeDetect
-endif
-let b:XPTfiletypeDetect = function( 'XPT_htmldjangoFiletypeDetect' )
-
+call xpt#ng#SetFiletypeDetector( 'XPT_htmldjangoFiletypeDetect' )
