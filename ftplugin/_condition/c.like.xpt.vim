@@ -63,7 +63,7 @@ XSET condition=Embed('`$NULL^`$SPop^!=`$SPop^`var^')
 
 
 XPT if0  alias=if	" if (0 == ..) {..} else...
-XSET condition=Embed('0`$SPop^==`$SPop^`var^')
+XSET condition=Inline('0`$SPop^==`$SPop^`var^')
 
 
 XPT ifn0 alias=if	" if (0 != ..) {..} else...
