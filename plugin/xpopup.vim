@@ -24,15 +24,13 @@ set cpo-=< cpo+=B
 
 " TODO popup fix:select it if strictly matched
 
-runtime plugin/debug.vim
-runtime plugin/classes/SettingSwitch.vim
 
 
 exe XPT#let_sid
 
 
-let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
+" let s:log = xpt#debug#Logger( 'debug' )
 
 fun! s:SetIfNotExist(k, v) "{{{
     if !exists(a:k)
@@ -455,15 +453,14 @@ fun! s:_InitBuffer() "{{{
     " NOTE:  user-defined pum does not accept non-keywords char. pressing
     "       non-keywords char make pum disappear.
 
-    let b:_xpp_setting_switch = g:SettingSwitch.New()
-
     let co = {"menu":1, "menuone":1, "longest":1}
     for k in split(&completeopt, ',')
         let co[k] = 1
     endfor
     let new_completeopt = join( keys(co), ',' )
 
-    call b:_xpp_setting_switch.AddList( 
+    let b:_xpp_setting_switch = xpt#stsw#New()
+    call xpt#stsw#AddList( b:_xpp_setting_switch, 
           \ [ '&l:cinkeys', '' ], 
           \ [ '&l:indentkeys', '' ], 
           \ [ '&completeopt', new_completeopt ],
@@ -1011,7 +1008,7 @@ fun! s:ApplyMapAndSetting() "{{{
         au InsertEnter * call XPPend()
     augroup END
 
-    call b:_xpp_setting_switch.Switch()
+    call xpt#stsw#Switch( b:_xpp_setting_switch )
 
     if exists( ':AcpLock' )
         AcpLock
@@ -1038,7 +1035,7 @@ fun! s:ClearMapAndSetting() "{{{
 
 
     call xpt#msvr#Restore( b:_xpp_map_saver )
-    call b:_xpp_setting_switch.Restore()
+    call xpt#stsw#Restore( b:_xpp_setting_switch )
     if exists( ':AcpUnlock' )
         try
             AcpUnlock
