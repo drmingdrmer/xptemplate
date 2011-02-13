@@ -173,10 +173,8 @@ XPT include " `Include:^
 \`Include:`name^\^
 
 
-XPT fun wrap " fun! s:f.**
-fun! `s:f.`name^(`$SParg`param?`$SParg^)
-    `cursor^
-endfunction
+XPT fun alias=_fun " fun! s:f.**
+XSET name|repl=s:f.`name
 
 
 XPT skeleton " very simple snippet file skeleton
