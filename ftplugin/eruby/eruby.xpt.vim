@@ -4,6 +4,7 @@ XPTinclude
     \ _common/common
     \ html/html
     \ html/eruby*
+    \ html/for.eruby*
 
 XPTembed
     \ ruby/ruby
