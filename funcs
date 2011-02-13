@@ -1,0 +1,11 @@
+            phs         snip        prebuild        runtime     nested
+Inc/Snip                *           *               *                     `:name:^  XSET ph|*=Inc()
+Embed/Piece *                       *               *                     `(foo)^   XSET ph|*=Piece()
+Trigger     *           *                           *           *         `??^
+
+
+            pre         onfocus     live            post        
+                                                                               
+                                                                               
+`a^Inc()^               *
+`a^Foo()^               *
