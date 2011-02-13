@@ -18,6 +18,18 @@ endfunction
 
 
 
+XPT _params
+`in^` `var^` `dt^
+XPT _params_2
+`, `in^` `var^` `dt^
+
+XPT foo
+XSET in|def=Choose( [ "IN", "OUT", "INOUT" ], 'acceptEmpty' )
+XSET in|post=Echo( V() !~ '\vIN|OUT|INNOUT' ? '' : V() )
+XSET var|def=Echo( R( 'in' ) !~ '\vIN|OUT|INNOUT' ? Remove() : '-fill-' )
+XSET dt|def=Echo( R( 'in' ) !~ '\vIN|OUT|INNOUT' ? Remove() : Choose( [ "whatever", "foo" ], 'acceptEmpty' ) )
+XSET dt|post=Echo( V() =~ '\v^\s*$' ? V() : Build( V() . '`:_params_2:^' ) )
+doit:`:_params:^ foo
 
 
 XPT aa syn=43w
