@@ -78,7 +78,7 @@ fun! s:PatternOfNext( ctx ) "{{{
 
     let r = ''
 
-    for item in a:ctx.itemList
+    for item in a:ctx.groupList
         if item.keyPH != {}
             let r .= '\|' . s:MarkRange( item.keyPH.innerMarks )
         else
@@ -86,7 +86,7 @@ fun! s:PatternOfNext( ctx ) "{{{
         endif
     endfor
 
-    if a:ctx.itemList == [] || 'cursor' != item.name
+    if a:ctx.groupList == [] || 'cursor' != item.name
         let pos = XPMposList( a:ctx.marks.tmpl.end, a:ctx.marks.tmpl.end )
         let r .= '\|' . XPTgetStaticRange( pos[0], [ pos[1][0], pos[1][1] + 1 ] )
 
