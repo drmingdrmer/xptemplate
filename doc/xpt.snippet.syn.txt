@@ -54,7 +54,8 @@
 	|xpt-snippet-expression|
 	|xpt-snippet-instant-value|
 	|xpt-snippet-preset-value|
-	|xpt-snippet-default-value|
+	|xpt-snippet-repl|
+	|xpt-snippet-onfocus|	also known as |xpt-snippet-default-value|
 	|xpt-snippet-post-filter|
 		|xpt-snippet-default-post-filter|
 			|xpt-placeholder-optional-ph|
@@ -71,7 +72,7 @@
 		XPTemplate priority=lang keyword=$	| |xpt-snippet-header|
 
 		let s:f = XPTfuncs()			| |xpt-snippet-function|
-		 
+
 		XPTvar $TRUE          true		| |xpt-snippet-variable|
 		XPTvar $FALSE         false             |
 		XPTvar $NULL          null              |
@@ -92,10 +93,10 @@
 		endfunction                             |
 
 
-		XPT cmt hint=/**\ @auth...\ */		| |xpt-snippet|
+		XPT cmt " /** @auth... */		| |xpt-snippet|
 		XSET author=$author                     | |xpt-snippet-XSET|
 		XSET email=$email                       | |xpt-snippet-XSET|
-		/**                                     |\ 
+		/**                                     |\
 		* @author : `author^ | `email^          | \
 		* @description                          |  +|xpt-snippet-body|
 		*     `cursor^                          | /
@@ -103,7 +104,7 @@
 		*/
 
 
-		XPT for hint=for\ (var..;..;++)	
+		XPT for " for (var..;..;++)
 		for ( i=0; i<`len^; ++i ) { `cursor^ }
 <
 
@@ -112,7 +113,7 @@
 	snippet-scope setting, duplication load check, etc.
 
 	Format : >
-	XPTemplate [priority=lang] [keyword=#] [mark=`^]
+	XPTemplate [priority=lang] [mark=`^]
 <
 	There are 3 optional settings for 'XPTemplate' :
 
@@ -130,14 +131,14 @@
 	Priorities can be in the range from 0 to +oo. 0 is the highest
 	priority. Some predefined symbols stand for numeric priority
 	values : >
-		all		: 64
-		spec		: 48
-		like		: 32
-		lang		: 16
-		sub		: 8
-		personal	: 0
-<	Default priority is "lang" or 16. 
-	
+		all		: 192
+		spec		: 160
+		like		: 128
+		lang		: 96
+		sub		: 64
+		personal	: 32
+<	Default priority is "lang" or 96.
+
 	You can set priority for each snippet by using |xpt-priority-format|.
 	Or set priority for all templates in the current file with
 	|XPTemplatePriority()|.
@@ -146,10 +147,10 @@
 	Priority setting format : "priority[+/-[offset]]".
 	Following formats are all valid : >
 	3		3
-	lang		16
-	like+4		36 // like=32
-	all-		63 // all=64
-	all-1		63 // all=64
+	lang		96
+	like+4		132 // like=128
+	all-		191 // all=192
+	all-1		191 // all=192
 <
 							 *xpt-snippet-keyword*
 	|xpt-snippet-keyword| defines what characters other than word chars
@@ -221,7 +222,7 @@
 						      *xpt-snippet-XPTinclude*
 	Syntax : >
 		XPTinclude <folder_name_in_ftplugin>/<filename>
-<	The <filename> is only the file root, without ".xpt.vim". 
+<	The <filename> is only the file root, without ".xpt.vim".
 	XPTinclude can include several snippets at one time.
 
 	NOTE do NOT use |:runtime| to include other snippet files. XPTinclude
@@ -303,48 +304,41 @@
 		| #if           #if ...           |
 		| #ifdef        #if ...           |
 		| #ifndef       #ifndef ..        |
-<	
+<
 	Syntax to set up hints: >
-		XPT for hint=for\ (..;..;++)
-<	Or : >
 		XPT for " for (..;..;++)
 <	The quote-hint must be at the end of |xpt-snippet| declaration.
 
-	Some characters( space, left quote and "$" ) need to be escaped in
+	Some characters( left quote and "$" ) need to be escaped in
 	hint text: >
-				<space>	(	$
-		hint=		yes	yes	yes
-		"		no	yes	yes
+		(	$
 <
-	With only the 'hint=' way:
-		space needs to be escaped.
+	"(" needs to be escaped if you do NOT want it to be evaluated as a
+	function call.
 
-	With both these two ways :
-		"(" needs to be escaped if you do NOT want it to be evaluated
-		as a function call.
-		"$" needs to be escaped if you do NOT want it to be evaluated
-		as variable.
+	"$" needs to be escaped if you do NOT want it to be evaluated as
+	variable.
 
 
 							  *xpt-snippet-hidden*
 	Set to 1 to prevent the snippet from being triggered by the user, but
 	it CAN be triggered from internal API, or included by other snippet.
 	Syntax: >
-		XPT for hidden=1 hint=...
+		XPT for hidden=1
 <	Or: >
-		XPT for hidden hint=...
+		XPT for hidden
 <
 	See |xpt-snippet-include| and |xpt-api|.
 
 
 							   *xpt-snippet-alias*
 	Make the snippet an alias to another snippet. Syntax : >
-		XPT forin hint=for\ ..\ in\ ..\ ..\ endfor
+		XPT forin
 		for `value^ in `list^
 		    `cursor^
 		endfor
 
-		XPT foreach alias=forin hint=for\ ..\ in\ ..\ ..\ endfor
+		XPT foreach alias=forin
 <	This makes "forin" and "foreach" the same, but with possible different
 	settings.
 
@@ -355,7 +349,7 @@
 	Syntax : >
 		XPT snippetName synonym=a|b|c...
 <	Where a, b and c are all the names of this snippet. For example : >
-		XPT forin synonym=fin|fi hint=for\ ..\ in\ ..\ ..\ endfor
+		XPT forin synonym=fin|fi
 		for `value^ in `list^
 		    `cursor^
 		endfor
@@ -376,7 +370,7 @@
 		if (`condition^){
 		    `job^
 		}
-<	
+<
 	Wrapping can be block-wise or line-wise. Wrapper place holder with
 	|xpt-placeholder-edge| is line-wise, or it is block-wise.
 
@@ -394,10 +388,10 @@
 
 
 							*xpt-snippet-wraponly*
-	Normally, wrapper snippet can also be triggered in insert-mode, unless
-	"wraponly" declared. For example: >
-				________/------------| wrap only
-		XPT if wrap=job wraponly
+	Normally, wrapper snippet can also be triggered in insert-mode with
+	"wrap" place holder as a normal one. If wrapper is declared with
+	"wraponly", snippet can only be used as wrapper. For example: >
+		XPT if wraponly=job
 		if (`condition^){
 		    `job^
 		}
@@ -414,7 +408,7 @@
 
 							    *xpt-snippet-body*
 	<snippet body> is all the OTHER text except the first line : >
-		XPT for hint=for\ (..;..;++)
+		XPT for
 		for (`i^ = `0^; `i^ < `len^; ++`i^) { |
 		    `cursor^                          | snippet body
 		}                                     |
@@ -463,11 +457,11 @@
 		    `job^
 		}
 
-		XPT if hint=if\ (..)\ {..}\ else...
+		XPT if
 		`:_if:^` `else...{{^ `Include:else^`}}^
 
 <	The real "if" includes the "_if" and "else" snippets.
-	
+
 	NOTE	Inclusion is literal, so that snippets with different
 		|xpt-snippet-mark| can not include each other.
 
@@ -485,7 +479,7 @@
 
 
 							    *xpt-snippet-XSET*
-	In |xpt-snippet-body| XSET commands can be used anywhere to set : 
+	In |xpt-snippet-body| XSET commands can be used anywhere to set :
 		|xpt-snippet-preset-value|
 		|xpt-snippet-default-value|
 		|xpt-snippet-post-filter|
@@ -498,7 +492,7 @@
 <	XSET syntax to set |xpt-snippet-post-filter|: >
 		XSET itemname|post=<expression>
 <	<expression> is |xpt-snippet-expression|. For example : >
-		XPT #include_user	hint=include\ ""
+		XPT #include_user
 		XSET me=fileRoot()
 		#include "`me^.h"
 <	Item "me" is set to the file name without extension.
@@ -507,12 +501,12 @@
 	"XSETm" is similar to |xpt-snippet-XSET| except it uses "\n" instead
 	of "=" in |xpt-snippet-XSET| and ends with "XSETm END". For
 	example : >
-		XPT if		hint=if\ (..)\ {..}\ else...
-		if (`condition^) { 
+		XPT if
+		if (`condition^) {
 		    `job^
 		}` `else...^
 		XSETm else...|post
-		else { 
+		else {
 		    `cursor^
 		}
 		XSETm END
@@ -523,7 +517,7 @@
 	Special XSET keys "ComeFirst" and "ComeLast" specify the item render
 	order. Their value is a list of place holder names separated by space.
 	For example : >
-		XPT for hint=for\ (..;..;++)
+		XPT for
 		XSET ComeFirst=0 len
 		for (`i^ = `0^; `i^ < `len^; ++`i^)`$BRloop^{
 		    `cursor^
@@ -537,7 +531,7 @@
 							    *xpt-snippet-item*
 	In one snippet a group of |xpt-snippet-placeholder|s with the same
 	name is an "item". For example : >
-		XPT for hint=for\ (..;..;++)
+		XPT for
 		for (`i^ = `0^; `i^ < `len^; ++`i^) {
 		    `cursor^
 		}
@@ -552,13 +546,13 @@
 
 	The place holders are defined by |xpt-placeholder-mark|, by default
 	|`| and |^| are used. For example : >
-		XPT for hint=for\ (..;..;++)
+		XPT for
 		for (`i^ = `0^; `i^ < `len^; ++`i^) {
 		    `cursor^
 		}
 <	Sequentially, the place holders in this snippet are : >
 		i, 0, i, len, i, cursor
-< 
+<
 	Note The placeholder can't contain any backslashes (\). If the default
 	value should contain any items which need to be escaped (like brackets
 	or you want to use backslashes directly), use the following syntax
@@ -625,7 +619,7 @@
 
 				 *xpt-{}* *xpt-mixed* *xpt-snippet-expression*
 	Expression is a mixture of plain text, |xpt-snippet-variable| and
-	|xpt-snippet-function|. 
+	|xpt-snippet-function|.
 	Expression is used as the value of
 		|xpt-snippet-instant-value|
 		|xpt-snippet-preset-value|
@@ -651,7 +645,7 @@
 		\$author
 <	is evaluated to : >
 		$author
-<	
+<
 	Escaping the "{}" : >
 		\{S("abc", '.', '\u&')}
 <	is evaluated to : >
@@ -660,7 +654,7 @@
 		{S("abc", '.', '\u&')}
 <	is evaluated to : >
 		ABC
-<	
+<
 	Another example, supposing you are editing a file named
 	"your_file_name.ext" : >
 		__{S(E("%:t"),".","\\u&")}__
@@ -670,7 +664,7 @@
 		this is S($author,".","-&")-
 <	is evaluated to : >
 		this is -d-r-d-r-.-x-p-
-<	See also: 
+<	See also:
 		|xpt-snippet-function|
 		|xpt-snippet-variable|
 
@@ -691,26 +685,63 @@
 	is displayed on the screen.
 	To define preset values: >
 		XSET the_name|pre=<expression>
-<	
- 						   *xpt-snippet-default-value*
-	By default place holders use their name as the default value but you
-	can choose another text as default value by using : >
-		XSET the_name|def=<expression>
-<	
-	So that before cursor jumps to leading place holder of name
-	"the_name", the <expression> evaluated and applied to the place
-	holder.
+<
+							    *xpt-snippet-repl*
+	You can tell some place holder to replace its name with something
+	else, LITERALLY, By using: >
+		XSET ph_name|repl=<text>
+<
+	This usefull when you want to make alias of other snippet but still
+	want to take some minor changes to it.
 
-	Example : the "#ind" snippet defined as : >
+	For example: >
+		XPT foo
+		`I^ am Bob.
+
+		XPT bar alias=foo
+		XSET I|repl=`I` am not
+<	Snippet "bar" extends "foo" and changes place holder "I".
+	Thus snippet "bar" becomes : >
+		XPT bar
+		``I` am not^ am Bob.
+<	Notice that replacement is taken totally literally!
+
+	Now typing "bar<C-\>" results in : >
+			 ___| " am not" is right edge here.
+		 _______/
+		I am not Bob
+		`\
+		  \_________| "I" is selected.
+<
+
+							 *xpt-snippet-onfocus*
+ 						   *xpt-snippet-default-value*
+	NOTE	This is known as old |xpt-snippet-default-value|, which is
+		deprecated.
+
+	By default place holders use their name as the text selected when you
+	focus on it. You can set the text to select to something else by using
+	: >
+		XSET itemName|onfocus=<expression>
+		or
+		XSET itemName=<expression>
+		or
+		XSET itemName|def=<expression>  // deprecated
+<
+	Thus when cursor moves to the leading place holder of item "itemName",
+	the <expression> is evaluated and result text is applied to all place
+	holders of this item.
+
+	Example : the "#ind" snippet: >
 		XPT #ind
 		XSET me|def=fileRoot()
 		#include "`me^.h"
-<	In C language, type "#ind<C-\>" you get : >
+<	In C language, type "#ind<C-\>" and you will get : >
 		#include "current_file_name.h"
-<	
-	NOTE : if default value expression contains only plain string and
-	|xpt-snippet-variable|, it is used as |xpt-snippet-preset-value|, too;
-	for better looking without any side-effect.
+<
+	NOTE	if onfocus expression contains only plain text and
+		|xpt-snippet-variable|( without |xpt-snippet-function| ), it
+		will be also used as |xpt-snippet-preset-value|.
 
 
 						    *xpt-snippet-post-filter*
@@ -718,7 +749,7 @@
 	typed text. To define a post filter use : >
 		XSET the_name|post=<expression>
 <	Or use |xpt-snippet-postQuoter| : >
-		XPT enum hint=enum\ {\ ..\ }
+		XPT enum
 		enum `name^`$BRstc^{
 		    `elt^;`
 		    `...{{^
@@ -727,19 +758,19 @@
 		}` `var^;
 <
 	Some usually-used post filter functions are defined in
-	ftplugin/_common/common.xpt.vim. 
+	ftplugin/_common/common.xpt.vim.
 
 	For example for c language, "#ifndef" snippet is defined as follows : >
-		XPT #ifndef	hint=#ifndef\ ..
+		XPT #ifndef
 		XSET symbol=S(fileRoot(),'\.','_','g')
 		XSET symbol|post=UpperCase(V())
 		#ifndef `symbol^
 		#     define `symbol^
-		
-		`cursor^ 
+
+		`cursor^
 		#endif `$CL^ `symbol^ `$CR^
 		..XPT
-<	
+<
 	When you pressing <tab> from the first item "symbol", typed content are
 	converted to upper case. Before <tab> pressed : >
 		#ifndef __gnu__
@@ -764,8 +795,8 @@
 
 						 *xpt-placeholder-optional-ph*
 	If a place holder name matches pattern '\V\w\+?', "EchoIfNoChange('')"
-	is assigned as its post filter. 
-	This makes the place holder optional. 
+	is assigned as its post filter.
+	This makes the place holder optional.
 
 	For example a snippet defined as below: >
 		fun(`arg^`, `context?^)
@@ -775,7 +806,7 @@
 				 \__ selected
 <	Pressing <Tab> clears it, and snippet becomes: >
 		fun(arg)
-<	
+<
 
 
 						 *xpt-placeholder-post-filter*
@@ -787,7 +818,7 @@
 <	Press <Tab>, this snippet results in : >
 		lower : text
 		upper : TEXT
-<	
+<
 	NOTE If both |xpt-snippet-post-filter| and
 	|xpt-placeholder-post-filter| are set, the place holder filter takes
 	effect.
@@ -809,7 +840,7 @@
 	Sometimes you want to create an additional piece of snippet other than
 	the original snippet. For example, add another "else" after an "if"
 	block. To do this use expandable : >
-		XPT if 
+		XPT if
 		if `cond^
 		    `job^
 		`else...{{^else
@@ -822,11 +853,11 @@
 	Another way to define expandable is by using XSET command to define a
 	post filter: >
 		XPT if
-		if (`condition^)`$BRif^{ 
+		if (`condition^)`$BRif^{
 		    `job^
 		}` `else...^
 		XSETm else...|post
-		else { 
+		else {
 		    `cursor^
 		}
 		XSETm END
@@ -846,7 +877,7 @@
 		    `^             |
 		    break;         |
 		  `...^            |
-		
+
 		  default:
 		    `^
 		}
@@ -899,7 +930,7 @@
 		    `^             |
 		    break;         |
 		  `case...^        |
-		
+
 		  default:
 		    `^
 		}
