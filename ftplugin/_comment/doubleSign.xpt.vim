@@ -9,48 +9,19 @@ XPTinclude
       \ _common/common
 
 
-fun! s:f._xCommentMidIndent()
-    let l = self.GetVar( '$CL' )
-    let m = self.GetVar( '$CM' )
-    
-    if len( l ) <= len( m )
-        return ''
-    else
-        return '      '[ : len( l ) - len( m ) - 1 ]
-    endif
-endfunction
-
-
-fun! s:f._xCommentLeftWithoutMid()
-    let l = self.GetVar( '$CL' )
-    let m = self.GetVar( '$CM' )
-
-    if l == '' || m == ''
-        return l
-    endif
-
-    if l[ -len( m ) : ] == m
-        return l[ : -len( m ) -1 ]
-    else
-        return l
-    endif
-endfunction
-
-
-
 XPT _d_comment hidden wrap=what		" $CL .. $CR
 `$CL^ `what^^ `$CR^`^
 
 
-XPT _d_commentBlock hidden wrap	" $CL ..
-`$_xCommentLeftWithoutMid^`$CM `cursor^
-`$_xCommentMidIndent$CR^
+XPT _d_commentBlock hidden wrap		" $CL ..
+`$CL_STRIP^`$CM `cursor^
+`$_xOFFSET$CM_OFFSET$CR^
 
 
-XPT _d_commentDoc hidden wrap	" $CL$CM ..
+XPT _d_commentDoc hidden wrap		" $CL$CM ..
 `$CL^`$CM^
-`$_xCommentMidIndent$CM `cursor^
-`$_xCommentMidIndent$CR^
+`$_xOFFSET^`$CM_OFFSET$CM `cursor^
+`$_xOFFSET^`$CM_OFFSET$CR^
 
 
 XPT _d_commentLine hidden wrap=what	" $CL .. $CR
