@@ -9,9 +9,8 @@ let g:__XPTEMPLATETEST_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-runtime plugin/debug.vim
-let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
+" let s:log = xpt#debug#Logger( 'debug' )
 
 if !exists( 'g:xptmode' )
     let g:xptmode = ''
@@ -19,6 +18,9 @@ endif
 
 let s:fn = 'test.page' . g:xptmode
 
+" TODO indent test
+
+" test suite support
 
 let s:phases = [ 1, 2, 3, 4 ]
 let [ s:DEFAULT, s:TYPED, s:CHAR_AROUND, s:NESTED ] = s:phases
@@ -148,7 +150,8 @@ endfunction "}}}
 fun! s:NewTestFile(ft) "{{{
     let subft = matchstr(a:ft, '[^.]*')
 
-    let tempPath = globpath(&rtp, 'ftplugin/_common/common.xpt.vim')
+    let tempPath = globpath(&rtp, 'xptsnippets/ftplugin/_common/common.xpt.vim')
+    echom tempPath
     let tempPath = split(tempPath, "\n")[0]
     let tempPath = matchstr(tempPath, '.*\ze[\\/]_common[\\/]common.xpt.vim') . '/' . subft
     " . '/.test'
@@ -215,7 +218,8 @@ fun! s:XPTtest( ftype ) "{{{
     let b:testPhase      = s:phases[ b:phaseIndex ]
 
 
-    call XPTparseSnippets()
+    " " TODO is it needed?
+    " call XPTparseSnippets()
 
     let tmpls = XPTgetAllTemplates()
 
@@ -363,7 +367,6 @@ fun! TestProcess(...) "{{{
     let s:lastSt = st
 
     call s:log.Debug( 'st=' . string( s:lastSt ) )
-    " call s:log.Debug( s:TextBetween( [ [ line( "." )-5, 1 ],[ line( "." )+5,1 ] ] ) )
 
     XPTSlow
 
@@ -395,7 +398,7 @@ fun! TestProcess(...) "{{{
         " If it is in normal mode, maybe something else is going. In normal mode,
         " just ignore it
 
-        call s:log.Log("processing, mode=".mode())
+        " call s:log.Log("processing, mode=".mode())
         if mode() =~? "[is]"
             call s:FillinTemplate()
         endif
@@ -512,7 +515,7 @@ fun! s:FillinTemplate() "{{{
     call s:log.Log( "mode=".mode()." popup=".pumvisible() )
     call s:log.Log( "render phase:" . ctx.phase)
     call s:log.Log( 'b:testPhase=' . b:testPhase )
-    call s:log.Log( 'itemList=' . string( ctx.itemList ) )
+    call s:log.Log( 'groupList=' . string( ctx.groupList ) )
     call s:log.Log( 'item=' . string( ctx.item ) )
 
 
