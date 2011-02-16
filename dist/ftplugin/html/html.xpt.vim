@@ -315,6 +315,22 @@ XSET att?=Embed( 'type="`type^" name="`name^" value="`value^"' )
 XSET type=ChooseStr( 'text', 'password', 'checkbox', 'radio', 'submit', 'reset', 'file', 'hidden', 'image', 'button' )
 
 
+" TODO other optional attribute like "checked", "readonly"
+XPT _input_tmpl hidden " <input type=Echo($_xSnipName[1:]) ... />
+<input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" />
+
+XPT itext     alias=_input_tmpl
+XPT ipassword alias=_input_tmpl
+XPT icheckbox alias=_input_tmpl
+XPT iradio    alias=_input_tmpl
+XPT isubmit   alias=_input_tmpl
+XPT ireset    alias=_input_tmpl
+XPT ifile     alias=_input_tmpl
+XPT ihidden   alias=_input_tmpl
+XPT iimage    alias=_input_tmpl
+XPT ibutton   alias=_input_tmpl
+
+
 XPT label alias=_tagAttr
 XSET att?=Embed( 'for="`which^"' )
 

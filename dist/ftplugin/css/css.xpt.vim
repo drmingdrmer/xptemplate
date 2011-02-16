@@ -31,6 +31,48 @@ endfunction
 " ================================= Snippets ===================================
 
 
+XPT globalcn " global css from Sina
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div{margin:0;padding:0;border:0;}
+body{background:#fff;color:#333;font-size:12px; margin-top:5px;font-family:"宋体";}
+
+ul,ol{list-style-type:none;}
+select,input,img,select{vertical-align:middle;}
+
+a{text-decoration:underline;}
+a:link{color:#009;}
+a:visited{color:#800080;}
+a:hover,a:active,a:focus{color:#c00;}
+
+.clearit{clear:both;}
+
+XPT globalen " global css from Yahoo
+html{color:#000;background:#FFF}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}
+table{border-collapse:collapse;border-spacing:0}
+fieldset,img{border:0}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}
+li{list-style:none}
+caption,th{text-align:left}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}
+q:before,q:after{content:''}
+abbr,acronym{border:0;font-variant:normal}
+sup{vertical-align:text-top}
+sub{vertical-align:text-bottom}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}
+input,textarea,select{*font-size:100%}
+legend{color:#000}
+
+body{font:13px/1.231 arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small}
+select,input,button,textarea{font:99% arial,helvetica,clean,sans-serif}
+table{font-size:inherit;font:100%}
+pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%}
+
+a{text-decoration:none}
+a:hover,a:focus{text-decoration:underline}
+strong{font-weight:bold}
+input[type=submit]{cursor:pointer}
+button{cursor:pointer}
+
 XPT padding " padding:
 padding: `v^`v^AutoCmpl( 1, 'auto', '0px' )^;
 

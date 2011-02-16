@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.8.110212
+" VERSION: 0.4.8.110216
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
     finish
 endif
@@ -1214,6 +1214,7 @@ fun! s:BuildPlaceHolders( markRange )
     let snipObj = renderContext.snipObject
     let setting = snipObj.setting
     let xp = renderContext.snipObject.ptn
+    let renderContext.itemDict = {}
     let current = [ renderContext.item, renderContext.leadingPlaceHolder ]
     let renderContext.action = 'build'
     if renderContext.firstList == []
@@ -1479,9 +1480,6 @@ fun! s:PushBackItem()
         call insert( item.placeHolders, renderContext.leadingPlaceHolder, 0 )
     endif
     call insert( renderContext.itemList, item, 0 )
-    if item.name != ''
-        let renderContext.itemDict[ item.name ] = item
-    endif
     let item.processed = 1
 endfunction 
 fun! s:ShiftForward( action ) 
@@ -1703,9 +1701,6 @@ fun! s:ExtractOneItem()
     endif
     let item = itemList[ 0 ]
     let renderContext.itemList = renderContext.itemList[ 1 : ]
-    if item.name != '' && has_key( renderContext.itemDict, item.name )
-        unlet renderContext.itemDict[ item.name ]
-    endif
     let renderContext.item = item
     if empty( item.placeHolders ) && item.keyPH == s:nullDict
         call XPT#warn( "item without placeholders!" )
