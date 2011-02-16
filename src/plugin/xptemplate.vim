@@ -2220,6 +2220,13 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
     let setting = snipObj.setting
     let xp = renderContext.snipObject.ptn
 
+    " NOTE: every time building PHs, empty itemDict, thus PHs with the same
+    " name of another PH from a previous Building are dealt with as a new PH.
+    "
+    " This avoids problem with expandable nested in expandable with a same
+    " trigger PH like "else...".
+    let renderContext.itemDict = {}
+
     " to apply preset value or else, item and leadingPlaceHolder can change
     " through building process
     let current = [ renderContext.item, renderContext.leadingPlaceHolder ]
@@ -2729,9 +2736,6 @@ fun! s:PushBackItem() "{{{
     endif
 
     call insert( renderContext.itemList, item, 0 )
-    if item.name != ''
-        let renderContext.itemDict[ item.name ] = item
-    endif
 
     let item.processed = 1
 
@@ -3190,11 +3194,6 @@ fun! s:ExtractOneItem() "{{{
     let item = itemList[ 0 ]
 
     let renderContext.itemList = renderContext.itemList[ 1 : ]
-
-    " TODO expanded part contains multiple items with the same name, and maybe removed twice
-    if item.name != '' && has_key( renderContext.itemDict, item.name )
-        unlet renderContext.itemDict[ item.name ]
-    endif
 
     let renderContext.item = item
 
