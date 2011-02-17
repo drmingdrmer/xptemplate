@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.8.110216
+" VERSION: 0.4.8.110217
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
     finish
 endif
@@ -117,10 +117,11 @@ fun! XPTemplateKeyword(val)
     let x = b:xptemplateData
     let val = substitute(a:val, '\w', '', 'g')
     let val = string( val )[ 1 : -2 ]
-    let keyFilter = 'v:val !~ ''\V\[' . escape(val, '\]') . ']'' '
-    call filter( x.keywordList, keyFilter )
-    let x.keywordList += split( val, '\s*' )
-    let x.keyword = '\w\|\[' . escape( join( x.keywordList, '' ), '\]' ) . ']'
+    let needEscape = '^\]-'
+    let x.keywordList += split( val, '\v\s*' )
+    call sort( x.keywordList )
+    let x.keywordList = split( substitute( join( x.keywordList, '' ), '\v(.)\1+', '\1', 'g' ), '\v\s*' )
+    let x.keyword = '\w\|\[' . escape( join( x.keywordList, '' ), needEscape ) . ']'
 endfunction 
 fun! XPTemplatePriority(...) 
     let x = b:xptemplateData
