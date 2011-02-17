@@ -276,16 +276,15 @@ fun! XPTemplateKeyword(val) "{{{
     " word characters are already valid.
     let val = substitute(a:val, '\w', '', 'g')
     let val = string( val )[ 1 : -2 ]
-
-    let keyFilter = 'v:val !~ ''\V\[' . escape(val, '\]') . ']'' '
-
-
-    call filter( x.keywordList, keyFilter )
-    let x.keywordList += split( val, '\s*' )
+    let needEscape = '^\]-'
 
 
-    let x.keyword = '\w\|\[' . escape( join( x.keywordList, '' ), '\]' ) . ']'
+    let x.keywordList += split( val, '\v\s*' )
+    call sort( x.keywordList )
+    let x.keywordList = split( substitute( join( x.keywordList, '' ), '\v(.)\1+', '\1', 'g' ), '\v\s*' )
 
+
+    let x.keyword = '\w\|\[' . escape( join( x.keywordList, '' ), needEscape ) . ']'
 
 endfunction "}}}
 
