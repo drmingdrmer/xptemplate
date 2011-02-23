@@ -289,18 +289,30 @@
 	When |xpt-key-trigger| key pressed, XPT search for snippet name from
 	cursor position backwards.
 
-	If character before cursor is a word char, XPT search backwards for
-	longest continuous sequence of word char or char defined in
-	|xpt-snippet-keyword|.
+	XPT search for longest matching of any snippet prefixes without
+	breaking any continous words.
 
-	If character before cursor is non word char but included in
-	|xpt-snippet-keyword|, XPT search backwards for longest continuous
-	sequence of |xpt-snippet-keyword|.
-
-	In another word, non word char can not be placed at end of a snippet
-	name.
-
-
+	For example there are 4 snippets defined: >
+		XPT a
+		-a
+		XPT *
+		-*
+		XPT a*
+		-a*
+		XPT *a
+		-*a
+<       Then what typed and what got is as below: >
+		a<C-\>		-a
+		*<C-\>		-*
+		a*<C-\>		-a*
+		*a<C-\>		-*a
+		*a<C-\>		-*a
+		xa<C-\>		// Nothing matched. Because to match "a"
+				   word "xa" must be broken.
+		xa*<C-\>	xa-*
+		x*a<C-\>	x-*a
+		x*a*<C-\>	x*-a*
+<
 							 *xpt-snippet-setting*
 	The 'name=value' defines snippet settings, including
 		|xpt-snippet-hint|
