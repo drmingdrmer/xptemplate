@@ -504,34 +504,6 @@ fun! XPTdefineSnippet( name, setting, snip ) "{{{
 
 endfunction "}}}
 
-fun! s:UpdateNamePrefixDict( ftScope, name ) "{{{
-    if !has_key( a:ftScope, 'namePrefix' )
-        let a:ftScope.namePrefix = {}
-    endif
-
-    let [ n, pre ] = [ a:name, a:ftScope.namePrefix ]
-    while n != '' && !has_key( pre, n )
-        let pre[ n ] = 1
-        let n = n[ : -2 ]
-    endwhile
-endfunction "}}}
-
-" TODO parse snippets first
-fun! s:Abbr( name ) "{{{
-    let name = a:name
-    try
-        exe 'inoreabbr <silent> <buffer> ' name '<C-v><C-v>' . "<BS>\<C-r>=XPTtgr(" . string( name ) . ",{'k':''})\<CR>"
-    catch /.*/
-        " key sequence is not allowed as abbr name
-        let x = b:xptemplateData
-        let n = matchstr( name, '\v\w+$' )
-        let pre = name[ : -len( n ) - 1 ]
-        let x.abbrPrefix[ n ] = get( x.abbrPrefix, n, {} )
-        let x.abbrPrefix[ n ][ pre ] = 1
-        exe 'inoreabbr <silent> <buffer> ' n printf( "\<C-r>=XPTabbr(%s)\<CR>", string( n ) )
-    endtry
-endfunction "}}}
-
 fun! XPTdefineSnippetInternal( name, setting, snip ) "{{{
 
     " TODO global shortcuts
@@ -569,6 +541,34 @@ fun! XPTdefineSnippetInternal( name, setting, snip ) "{{{
         call s:Abbr( name )
     endif
 
+endfunction "}}}
+
+fun! s:UpdateNamePrefixDict( ftScope, name ) "{{{
+    if !has_key( a:ftScope, 'namePrefix' )
+        let a:ftScope.namePrefix = {}
+    endif
+
+    let [ n, pre ] = [ a:name, a:ftScope.namePrefix ]
+    while n != '' && !has_key( pre, n )
+        let pre[ n ] = 1
+        let n = n[ : -2 ]
+    endwhile
+endfunction "}}}
+
+" TODO parse snippets first
+fun! s:Abbr( name ) "{{{
+    let name = a:name
+    try
+        exe 'inoreabbr <silent> <buffer> ' name '<C-v><C-v>' . "<BS>\<C-r>=XPTtgr(" . string( name ) . ",{'k':''})\<CR>"
+    catch /.*/
+        " key sequence is not allowed as abbr name
+        let x = b:xptemplateData
+        let n = matchstr( name, '\v\w+$' )
+        let pre = name[ : -len( n ) - 1 ]
+        let x.abbrPrefix[ n ] = get( x.abbrPrefix, n, {} )
+        let x.abbrPrefix[ n ][ pre ] = 1
+        exe 'inoreabbr <silent> <buffer> ' n printf( "\<C-r>=XPTabbr(%s)\<CR>", string( n ) )
+    endtry
 endfunction "}}}
 
 fun! s:InitSnipObject( xptObj, tmplObj ) "{{{
