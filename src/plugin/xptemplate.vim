@@ -2772,7 +2772,7 @@ fun! s:ShiftForward( action ) " {{{
         else
 
             if g:xptemplate_move_even_with_pum
-                " nothing todo
+                return "\<C-v>\<C-v>\<BS>\<C-r>" . '=XPTforceForward(' . string( a:action ) . ")\<CR>"
             else
                 if x.canNavFallback
                     let x.fallbacks = [ [ "\<Plug>XPTnavFallback", 'feed' ],
