@@ -173,7 +173,7 @@ XPT include " `Include:^
 \`Include:`name^\^
 
 
-XPT fun wrap=cursor " fun! s:f.**
+XPT fun wrap " fun! s:f.**
 fun! `s:f.`name^(`$SParg`param?`$SParg^)
     `cursor^
 endfunction

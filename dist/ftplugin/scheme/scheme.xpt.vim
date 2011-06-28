@@ -24,14 +24,13 @@ XPT case " (case (of) ((match) (expr)) ..)
 (case (`of^)
       ({`match^} `expr1^)` `...^
       ({`matchn^} `exprn^)` `...^
-      `else...^\(else \`cursor\^\)^^)
-
+      `else...^\(else \`cursor\^)^^)
 
 
 XPT cond " (cond ([condi] (expr)) ..)
 (cond ([`condition^] `expr1^)` `...^
 `      ([`condition^] `exprn^)` `...^
-      `else...^\(else \`cursor\^\)^^)
+      `else...^\(else \`cursor\^)^^)
 
 
 XPT let " (let [(var (val)) ..] (body))

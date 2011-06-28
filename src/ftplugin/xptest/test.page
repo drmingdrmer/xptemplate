@@ -184,6 +184,40 @@ test.page b
 a test.page
 
 
+    /*  -------------pp--------------- */
+    /* `...^                           */
+    /* - Let's repeat `this^           */
+    /* `...^                           */
+
+
+
+
+- Let's repeat this
+
+- Let's repeat this
+
+- Let's repeat this
+
+
+_TYPED b
+
+`
+- Let's repeat this
+
+- Let's repeat this
+
+- Let's repeat this
+^
+
+a 
+- Let's repeat this
+
+- Let's repeat this
+
+- Let's repeat this
+
+
+
     /*  -------------q--------------- */
     /* `p`{$a}`p^-`p^                 */
 
@@ -262,3 +296,4 @@ WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}
+

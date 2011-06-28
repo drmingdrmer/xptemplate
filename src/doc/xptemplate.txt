@@ -80,7 +80,7 @@
 	Navigate forward and backward		|xpt-key-navigate|
 	Popup hint				|xpt-popup|
 						|xpt-snippet-hint|
-	Ordered place holders			|xpt-snippet-ComeFist|
+	Ordered place holders			|xpt-snippet-ComeFirst|
 	Embedded functions and variables	|xpt-snippet-function|
 	Repeatable snippet generation		|xpt-repetition|
 	Nested snippets				|xpt-nested|
@@ -745,11 +745,11 @@
 
 						*g:xptemplate_snippet_folders*
 								  {default:[]}
-	Deprecated
-	NOTE:	This setting changes 'runtimepath' and is less recommended to
-		use than 'runtimepath'. As you may already know well about
-		'runtimepath' and 'ftplugin', it is better for you to organize
-		snippet files yourself, with 'runtimepath'.
+	NOTE:	Unless you really want XPTemplate to touch your 'runtimepath',
+		do NOT use this. This setting changes 'runtimepath' and is
+		less recommended to use than 'runtimepath'. As you may already
+		know well about 'runtimepath' and 'ftplugin', it is better for
+		you to organize snippet files yourself, with 'runtimepath'.
 
 	A list to specify which other folders are used as snippet folders.
 	For example: >

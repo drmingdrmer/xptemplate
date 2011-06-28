@@ -18,6 +18,8 @@ XPTemplateTrigger()	xpt.api.txt	/*XPTemplateTrigger()*
 XPTfollowingPH	xptemplate.txt	/*XPTfollowingPH*
 XPTfuncs()	xpt.api.txt	/*XPTfuncs()*
 XPTinclude	xpt.snippet.syn.txt	/*XPTinclude*
+XPTinfo()	xpt.api.txt	/*XPTinfo()*
+XPTinfoStr([fmt,[sep]])	xpt.api.txt	/*XPTinfoStr([fmt,[sep]])*
 XPTnextItem	xptemplate.txt	/*XPTnextItem*
 XPTtgr()	xpt.api.txt	/*XPTtgr()*
 XPTvar	xpt.snippet.syn.txt	/*XPTvar*

@@ -42,12 +42,12 @@ XPT _d_comment hidden wrap=what		" $CL .. $CR
 `$CL^ `what^^ `$CR^`^
 
 
-XPT _d_commentBlock hidden wrap=cursor	" $CL ..
+XPT _d_commentBlock hidden wrap	" $CL ..
 `$_xCommentLeftWithoutMid^`$CM `cursor^
 `$_xCommentMidIndent$CR^
 
 
-XPT _d_commentDoc hidden wrap=cursor	" $CL$CM ..
+XPT _d_commentDoc hidden wrap	" $CL$CM ..
 `$CL^`$CM^
 `$_xCommentMidIndent$CM `cursor^
 `$_xCommentMidIndent$CR^

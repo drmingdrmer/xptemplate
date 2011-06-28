@@ -54,25 +54,25 @@ WRAPPED_TEXT_line2
 
 
 
-#ifdef SYMBOL
+#ifdef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL */
+#endif /* symbol */
 
-#ifdef SYMBOL_TYPED
+#ifdef symbol_TYPED
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL_TYPED */ b
+#endif /* symbol_TYPED */ b
 
-`#ifdef SYMBOL
+`#ifdef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL */^
+#endif /* symbol */^
 
-a #ifdef SYMBOL
+a #ifdef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL */
+#endif /* symbol */
 
 
     /*  -------------#ifndef--------------- */
@@ -82,25 +82,25 @@ WRAPPED_TEXT_line2
 
 
 
-#ifndef SYMBOL
+#ifndef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL */
+#endif /* symbol */
 
-#ifndef SYMBOL_TYPED
+#ifndef symbol_TYPED
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL_TYPED */ b
+#endif /* symbol_TYPED */ b
 
-`#ifndef SYMBOL
+`#ifndef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL */^
+#endif /* symbol */^
 
-a #ifndef SYMBOL
+a #ifndef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL */
+#endif /* symbol */
 
 
     /*  -------------#inc--------------- */
@@ -249,8 +249,8 @@ v.begin(), v.end(),
         a v.begin(), v.end(), 
 
 
-    /*  -------------assert---------------            */
-    /* assert(`$SPop^`isTrue^,`$SPop^"`text^"`$SPop^) */
+    /*  -------------assert---------------              */
+    /* assert(`$SParg^`isTrue^,`$SPop^"`text^"`$SParg^) */
 
 
 
@@ -278,7 +278,7 @@ v.begin(), v.end(),
 
 
     /*  -------------call--------------- */
-    /* `name^(`$SPop^`param^`$SPop^)     */
+    /* `name^(`$SParg^`param^`$SParg^)   */
 
 
 
@@ -759,6 +759,54 @@ a enum name
 }
 
 
+    /*  -------------externc--------------- */
+    /* #ifdef __cplusplus                   */
+    /* extern "C" {                         */
+    /* #endif                               */
+    /* `cursor^                             */
+    /* #ifdef __cplusplus                   */
+    /* }                                    */
+    /* #endif                               */
+
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#ifdef __cplusplus
+}
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#ifdef __cplusplus
+}
+#endif b
+
+`#ifdef __cplusplus
+extern "C" {
+#endif
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#ifdef __cplusplus
+}
+#endif^
+
+a #ifdef __cplusplus
+extern "C" {
+#endif
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#ifdef __cplusplus
+}
+#endif
+
+
     /*  -------------fcomment--------------- */
     /* _CMT_*                                */
     /*  * @author : `$author^ | `$email^     */
@@ -900,29 +948,29 @@ a test.page
  
 
 
-    /*  -------------for---------------                   */
-    /* for (`int^ `i^ = `0^; `i^ < `len^; ++`i^) `$BRif^{ */
-    /*     `cursor^                                       */
-    /* }                                                  */
+    /*  -------------for---------------                                                                   */
+    /* for`$SPcmd^(`$SParg^`int^ `i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; ++`i^`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                                                                       */
+    /* }                                                                                                  */
 
 
 
- for (int i = 0; i < len; ++i) 
+ for ( int i = 0; i < len; ++i )
  {
      
  }
 
-for (int_TYPED i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED) 
+for ( int_TYPED i_TYPED = 0_TYPED; i_TYPED < len_TYPED; ++i_TYPED )
 {
     
 } b
 
-`for (int i = 0; i < len; ++i) 
+`for ( int i = 0; i < len; ++i )
 {
     
 }^
 
-a for (int i = 0; i < len; ++i) 
+a for ( int i = 0; i < len; ++i )
 {
     
 }
@@ -974,36 +1022,36 @@ a for ( ptr = init; NULL != ptr; ptr )
 }
 
 
-    /*  -------------forr---------------                     */
-    /* for (`int^ `i^ = `n^; `i^ >`=^ `end^; --`i^) `$BRif^{ */
-    /*     `cursor^                                          */
-    /* }                                                     */
+    /*  -------------forr---------------                                                                     */
+    /* for`$SPcmd^(`$SParg^`int^ `i^`$SPop^=`$SPop^`n^; `i^`$SPop^>`=^`$SPop^`end^; --`i^`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                                                                          */
+    /* }                                                                                                     */
 
 
 
-for (int i = n; i >= end; --i) 
+for ( int i = n; i >= end; --i )
 {
     
 }
 
-for (int_TYPED i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED) 
+for ( int_TYPED i_TYPED = n_TYPED; i_TYPED >_TYPED end_TYPED; --i_TYPED )
 {
     
 } b
 
-`for (int i = n; i >= end; --i) 
+`for ( int i = n; i >= end; --i )
 {
     
 }^
 
-a for (int i = n; i >= end; --i) 
+a for ( int i = n; i >= end; --i )
 {
     
 }
 
 
-    /*  -------------fprintf---------------                   */
-    /* fprintf(`$SPop^`stream^,`$SPop^`:_printfElts:^`$SPop^) */
+    /*  -------------fprintf---------------                     */
+    /* fprintf(`$SParg^`stream^,`$SPop^`:_printfElts:^`$SParg^) */
 
 
 
@@ -1016,10 +1064,10 @@ fprintf( stream_TYPED, "pattern_TYPED" ) b
 a fprintf( stream, "pattern" )
 
 
-    /*  -------------fun---------------                                        */
-    /* `c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`param^)`$BRfun^{ */
-    /*     `cursor^                                                            */
-    /* }                                                                       */
+    /*  -------------fun---------------                                                       */
+    /* `c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`$SParg`param?`$SParg^)`$BRfun^{ */
+    /*     `cursor^                                                                           */
+    /* }                                                                                      */
 
 
 
@@ -1030,7 +1078,7 @@ name()
 }
 
     int_TYPED
-name_TYPED(param_TYPED)
+name_TYPED( param_TYPED )
 {
     
 } b
@@ -1364,41 +1412,55 @@ a type operator opName ( args )
 }
 
 
-    /*  -------------main---------------                                                 */
-    /* `c_fun_type_indent()^int`c_fun_body_indent()^main(int argc, char **argv)`$BRfun^{ */
-    /*     `cursor^                                                                      */
-    /*     return 0;                                                                     */
-    /* }                                                                                 */
+    /*  -------------main---------------                                                                       */
+    /* `c_fun_type_indent()^int`c_fun_body_indent()^main(`$SParg^int argc,`$SPop^char **argv`$SParg^)`$BRfun^{ */
+    /*     `cursor^                                                                                            */
+    /*     return 0;                                                                                           */
+    /* }                                                                                                       */
 
 
 
     int
-main(int argc, char **argv)
+main( int argc, char **argv )
 {
     
     return 0;
 }
 
     int
-main(int argc, char **argv)
+main( int argc, char **argv )
 {
     
     return 0;
 } b
 
 `    int
-main(int argc, char **argv)
+main( int argc, char **argv )
 {
     
     return 0;
 }^
 
 a     int
-main(int argc, char **argv)
+main( int argc, char **argv )
 {
     
     return 0;
 }
+
+
+    /*  -------------malloc---------------                                                       */
+    /* (`type^int^*)malloc(`$SParg^sizeof(`$SParg^`type^`$SParg^)`$SPop^*`$SPop^`count^`$SParg^) */
+
+
+
+(int*)malloc( sizeof( int ) * count )
+
+    (type_TYPED*)malloc( sizeof( type_TYPED ) * count_TYPED ) b
+
+    `(int*)malloc( sizeof( int ) * count )^
+
+    a (int*)malloc( sizeof( int ) * count )
 
 
     /*  -------------map---------------    */
@@ -1407,17 +1469,45 @@ main(int argc, char **argv)
 
 
 
-std::map<typeKey,val>   name;
+    std::map<typeKey,val>   name;
+    
+
+    std::map<typeKey_TYPED,val_TYPED>   name_TYPED;
+     b
+
+     `std::map<typeKey,val>   name;
+     ^
+
+     a std::map<typeKey,val>   name;
+     
 
 
-std::map<typeKey_TYPED,val_TYPED>   name_TYPED;
- b
+    /*  -------------memcpy---------------                                                            */
+    /* memcpy(`$SParg^`dest^,`$SPop^`source^,`$SPop^sizeof(`type^int^)`$SPop^*`$SPop^`count^`$SParg^) */
 
- `std::map<typeKey,val>   name;
- ^
 
- a std::map<typeKey,val>   name;
- 
+
+     memcpy( dest, source, sizeof(int) * count )
+
+    memcpy( dest_TYPED, source_TYPED, sizeof(type_TYPED) * count_TYPED ) b
+
+    `memcpy( dest, source, sizeof(int) * count )^
+
+    a memcpy( dest, source, sizeof(int) * count )
+
+
+    /*  -------------memset---------------                                                                              */
+    /* memset(`$SParg^`buffer^,`$SPop^`what^0^,`$SPop^sizeof(`$SParg^`type^int^`$SParg^)`$SPop^*`$SPop^`count^`$SParg^) */
+
+
+
+    memset( buffer, 0, sizeof( int ) * count )
+
+    memset( buffer_TYPED, what_TYPED, sizeof( type_TYPED ) * count_TYPED ) b
+
+    `memset( buffer, 0, sizeof( int ) * count )^
+
+    a memset( buffer, 0, sizeof( int ) * count )
 
 
     /*  -------------namespace--------------- */
@@ -1428,10 +1518,10 @@ std::map<typeKey_TYPED,val_TYPED>   name_TYPED;
 
 
 
- namespace name
- {
-     
- }
+    namespace name
+    {
+        
+    }
 
 namespace name_TYPED
 {
@@ -1465,12 +1555,12 @@ WRAPPED_TEXT
 WRAPPED_TEXT_line2
 #endif /* __TEST_PAGE__ */
 
-#ifndef SYMBOL_TYPED
-#     define SYMBOL_TYPED
+#ifndef symbol_TYPED
+#     define symbol_TYPED
 
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL_TYPED */ b
+#endif /* symbol_TYPED */ b
 
 `#ifndef __TEST_PAGE__
 #     define __TEST_PAGE__
@@ -1521,8 +1611,8 @@ type className::operator opName ( args )
 }
 
 
-    /*  -------------printf---------------   */
-    /* printf(`$SPop^`:_printfElts:^`$SPop^) */
+    /*  -------------printf---------------     */
+    /* printf(`$SParg^`:_printfElts:^`$SParg^) */
 
 
 
@@ -1535,8 +1625,8 @@ printf( "pattern_TYPED" ) b
 a printf( "pattern" )
 
 
-    /*  -------------snprintf---------------                              */
-    /* snprintf(`$SPop^`str^,`$SPop^`size^,`$SPop^`:_printfElts:^`$SPop^) */
+    /*  -------------snprintf---------------                                */
+    /* snprintf(`$SParg^`str^,`$SPop^`size^,`$SPop^`:_printfElts:^`$SParg^) */
 
 
 
@@ -1549,8 +1639,8 @@ snprintf( str_TYPED, size_TYPED, "pattern_TYPED" ) b
 a snprintf( str, size, "pattern" )
 
 
-    /*  -------------sprintf---------------                */
-    /* sprintf(`$SPop^`str^,`$SPop^`:_printfElts:^`$SPop^) */
+    /*  -------------sprintf---------------                  */
+    /* sprintf(`$SParg^`str^,`$SPop^`:_printfElts:^`$SParg^) */
 
 
 
@@ -1986,3 +2076,4 @@ WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}
+

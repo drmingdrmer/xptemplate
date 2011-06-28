@@ -10,14 +10,19 @@ if &filetype !~ 'htmldjango'
 endif
 
 
-" TODO !!!!!!!!!!!
-
+" TODO use array instead of dict because of duplicated key could be possible
 let s:skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "\\vstring|comment"'
 let s:pattern = {
-            \   'ruby'    : {
-            \       'start' : '\V\c<%',
+            \   'django'    : {
+            \       'start' : '\V\c{%',
             \       'mid'   : '',
-            \       'end'   : '\V\c%>',
+            \       'end'   : '\V\c%}',
+            \       'skip'  : s:skipPattern,
+            \   },
+            \   'django_expr'    : {
+            \       'start' : '\V\c{{',
+            \       'mid'   : '',
+            \       'end'   : '\V\c}}',
             \       'skip'  : s:skipPattern,
             \   },
             \   'javascript'    : {
@@ -54,9 +59,9 @@ fun! XPT_htmldjangoFiletypeDetect() "{{{
             endif
         endfor
 
-        if synName =~ '^\cjavascript'
+        if synName =~ '\v^\cjavascript'
             return 'javascript'
-        elseif synName =~ '^\ccss'
+        elseif synName =~ '\v^\ccss'
             return 'css'
         endif
 

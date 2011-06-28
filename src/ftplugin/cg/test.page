@@ -54,25 +54,25 @@ WRAPPED_TEXT_line2
 
 
 
-#ifdef SYMBOL
+#ifdef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL */
+#endif /* symbol */
 
-#ifdef SYMBOL_TYPED
+#ifdef symbol_TYPED
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL_TYPED */ b
+#endif /* symbol_TYPED */ b
 
-`#ifdef SYMBOL
+`#ifdef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL */^
+#endif /* symbol */^
 
-a #ifdef SYMBOL
+a #ifdef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL */
+#endif /* symbol */
 
 
     /*  -------------#ifndef--------------- */
@@ -82,25 +82,25 @@ WRAPPED_TEXT_line2
 
 
 
-#ifndef SYMBOL
+#ifndef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL */
+#endif /* symbol */
 
-#ifndef SYMBOL_TYPED
+#ifndef symbol_TYPED
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL_TYPED */ b
+#endif /* symbol_TYPED */ b
 
-`#ifndef SYMBOL
+`#ifndef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL */^
+#endif /* symbol */^
 
-a #ifndef SYMBOL
+a #ifndef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL */
+#endif /* symbol */
 
 
     /*  -------------#inc--------------- */
@@ -834,12 +834,12 @@ WRAPPED_TEXT
 WRAPPED_TEXT_line2
 #endif /* __TEST_PAGE__ */
 
-#ifndef SYMBOL_TYPED
-#     define SYMBOL_TYPED
+#ifndef symbol_TYPED
+#     define symbol_TYPED
 
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
-#endif /* SYMBOL_TYPED */ b
+#endif /* symbol_TYPED */ b
 
 `#ifndef __TEST_PAGE__
 #     define __TEST_PAGE__
@@ -1183,3 +1183,4 @@ WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}
+

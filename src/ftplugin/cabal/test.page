@@ -229,27 +229,27 @@ Executable execName
                         Synopsis:   synop_TYPED
                         Build-Type: Simple_TYPED
                         Cabal-Version: >= ver_TYPED
-                                                Description_TYPED
-                                                                        Author_TYPED
-                                                                                                Maintainer_TYPED b
+                        Description_TYPED
+                        Author_TYPED
+                        Maintainer_TYPED b
 
-                                                                                                `Name:       name
-                                                                                                Version:    version
-                                                                                                Synopsis:   synop
-                                                                                                Build-Type: Simple
-                                                                                                Cabal-Version: >= 1.2
-                                                                                                Description: _
-                                                                                                Author: _
-                                                                                                Maintainer: _^
+                        `Name:       name
+                        Version:    version
+                        Synopsis:   synop
+                        Build-Type: Simple
+                        Cabal-Version: >= 1.2
+                        Description: _
+                        Author: _
+                        Maintainer: _^
 
-                                                                                                a Name:       name
-                                                                                                Version:    version
-                                                                                                Synopsis:   synop
-                                                                                                Build-Type: Simple
-                                                                                                Cabal-Version: >= 1.2
-                                                                                                Description: _
-                                                                                                Author: _
-                                                                                                Maintainer: _
+                        a Name:       name
+                        Version:    version
+                        Synopsis:   synop
+                        Build-Type: Simple
+                        Cabal-Version: >= 1.2
+                        Description: _
+                        Author: _
+                        Maintainer: _
 
 
     /*  -------------lib---------------                */
@@ -264,31 +264,31 @@ Executable execName
 
 
 
-                                                                                                library
-                                                                                                  Exposed-Modules: job
-                                                                                                                   job
-                                                                                                                   job
-                                                                                                                   job
-                                                                                                  Build-Depends: base >= 2.0
+                        library
+                          Exposed-Modules: job
+                                           job
+                                           job
+                                           job
+                          Build-Depends: base >= 2.0
 
-                                                                                                  library
-                                                                                                    Exposed-Modules: job_TYPED
-                                                                                                                                                                                                                       more_TYPED
-                                                                                                    Build-Depends: base >= ver_TYPED, another_TYPED, another_TYPED b
+                          library
+                            Exposed-Modules: job_TYPED
+                                             more_TYPED
+                            Build-Depends: base >= ver_TYPED, another_TYPED, another_TYPED b
 
-                                                                                                    `library
-                                                                                                      Exposed-Modules: job
-                                                                                                                       job
-                                                                                                                       job
-                                                                                                                       job
-                                                                                                      Build-Depends: base >= 2.0^
+                            `library
+                              Exposed-Modules: job
+                                               job
+                                               job
+                                               job
+                              Build-Depends: base >= 2.0^
 
-                                                                                                      a library
-                                                                                                        Exposed-Modules: job
-                                                                                                                         job
-                                                                                                                         job
-                                                                                                                         job
-                                                                                                        Build-Depends: base >= 2.0
+                              a library
+                                Exposed-Modules: job
+                                                 job
+                                                 job
+                                                 job
+                                Build-Depends: base >= 2.0
 
 
     /*  -------------{_--------------- */
@@ -307,3 +307,4 @@ WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}
+

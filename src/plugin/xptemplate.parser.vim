@@ -67,6 +67,14 @@ fun! s:AssignSnipFT( filename ) "{{{
         "
         " All cross filetype inclusion must be done through XPTinclude or
         " XPTembed, 'runtime' command is disabled for inclusion or embed
+        "
+        " Unless it is a pseudo filename, which is for loading "_common"(or
+        " anything independent ) snippet into unsupported filetype.
+
+
+        if filename =~ '\V\<pseudo\>/'
+            return ftFolder
+        endif
 
         if &filetype !~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim' 
             return 'not allowed'
@@ -440,7 +448,12 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
 
 
     if has_key( snipScope.loadedSnip, snippetName )
-        XPT#warn( "XPT: warn : duplicate snippet:" . snippetName . ' in file:' . snipScope.filename )
+        " NOTE: XPT#warn behaves like raising an error which breaks :XPT
+        " command( or XPTstartSnippetPart() ) and causes VIM trying to execute
+        " following command "finish" in function.
+        "
+        " But "finish" is not allowed in function. So I use XPT#info.
+        call XPT#info( "XPT: warn : duplicate snippet:" . snippetName . ' in file:' . snipScope.filename )
     endif
 
     let snipScope.loadedSnip[ snippetName ] = 1

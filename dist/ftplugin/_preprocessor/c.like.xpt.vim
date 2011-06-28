@@ -21,29 +21,26 @@ XSET me=fileRoot()
 XPT #ind alias=#include_user
 
 
-XPT #if wrap=cursor " #if ..
+XPT #if wrap " #if ..
 #if `0^
 `cursor^
 #endif
 
 
-XPT #ifdef wrap=cursor " #ifdef ..
-XSET symbol|post=UpperCase(V())
+XPT #ifdef wrap " #ifdef ..
 #ifdef `symbol^
 `cursor^
 #endif `$CL^ `symbol^ `$CR^
 
 
-XPT #ifndef wrap=cursor	" #ifndef ..
-XSET symbol|post=UpperCase(V())
+XPT #ifndef wrap	" #ifndef ..
 #ifndef `symbol^
 `cursor^
 #endif `$CL^ `symbol^ `$CR^
 
 
-XPT once wrap=cursor	" #ifndef .. #define ..
+XPT once wrap	" #ifndef .. #define ..
 XSET symbol=headerSymbol()
-XSET symbol|post=UpperCase(V())
 #ifndef `symbol^
 #     define `symbol^
 

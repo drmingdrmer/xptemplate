@@ -686,23 +686,23 @@ with  exc -> rez
      WRAPPED_TEXT_line2
      with  exc_TYPED -> rez_TYPED
           _TYPED
-           b
+      b
 
-           `try WRAPPED_TEXT
-           WRAPPED_TEXT_line2
-           with  exc -> rez
-                | exc2 -> rez2
-                | exc2 -> rez2
-                | exc2 -> rez2
-           ^
+      `try WRAPPED_TEXT
+      WRAPPED_TEXT_line2
+      with  exc -> rez
+           | exc2 -> rez2
+           | exc2 -> rez2
+           | exc2 -> rez2
+      ^
 
-           a try WRAPPED_TEXT
-           WRAPPED_TEXT_line2
-           with  exc -> rez
-                | exc2 -> rez2
-                | exc2 -> rez2
-                | exc2 -> rez2
-           
+      a try WRAPPED_TEXT
+      WRAPPED_TEXT_line2
+      with  exc -> rez
+           | exc2 -> rez2
+           | exc2 -> rez2
+           | exc2 -> rez2
+      
 
 
     (*  -------------ty--------------- *)
@@ -710,13 +710,13 @@ with  exc -> rez
 
 
 
-                t -> t2 -> t2 -> t2
+           t -> t2 -> t2 -> t2
 
-                t_TYPED_TYPED b
+           t_TYPED_TYPED b
 
-                `t -> t2 -> t2 -> t2^
+           `t -> t2 -> t2 -> t2^
 
-                a t -> t2 -> t2 -> t2
+           a t -> t2 -> t2 -> t2
 
 
     (*  -------------typerecord--------------- *)
@@ -909,3 +909,4 @@ WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}
+

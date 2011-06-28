@@ -330,13 +330,13 @@ WRAPPED_TEXT_line2`
         
     } b
 
-    `BEGIN {
-        
-    }^
+        `BEGIN {
+            
+        }^
 
-    a BEGIN {
-        
-    }
+        a BEGIN {
+            
+        }
 
 
     #   -------------begin--------------- 
@@ -370,11 +370,11 @@ WRAPPED_TEXT_line2`
         
     end
 
-    begin
-        expr_TYPED
-    rescue_TYPED
-    else_TYPED
-    ensure_TYPED
+        begin
+            expr_TYPED
+        rescue_TYPED
+        else_TYPED
+        ensure_TYPED
         end b
 
         `begin
@@ -444,37 +444,37 @@ end
         rescue_TYPED
         else_TYPED
         ensure_TYPED
-                end b
+        end b
 
-                `begin
-                    WRAPPED_TEXT
-                    WRAPPED_TEXT_line2
-                rescue Exception => e
-                    # block
-                rescue Exception => e
-                    # block
-                rescue Exception => e
-                    # block
-                else
-                    # block
-                ensure
-                    
-                end^
+        `begin
+            WRAPPED_TEXT
+            WRAPPED_TEXT_line2
+        rescue Exception => e
+            # block
+        rescue Exception => e
+            # block
+        rescue Exception => e
+            # block
+        else
+            # block
+        ensure
+            
+        end^
 
-                a begin
-                    WRAPPED_TEXT
-                    WRAPPED_TEXT_line2
-                rescue Exception => e
-                    # block
-                rescue Exception => e
-                    # block
-                rescue Exception => e
-                    # block
-                else
-                    # block
-                ensure
-                    
-                end
+        a begin
+            WRAPPED_TEXT
+            WRAPPED_TEXT_line2
+        rescue Exception => e
+            # block
+        rescue Exception => e
+            # block
+        rescue Exception => e
+            # block
+        else
+            # block
+        ensure
+            
+        end
 
 
     #   -------------bm--------------- 
@@ -544,33 +544,33 @@ end
         block_TYPED
     when_TYPED
     else_TYPED
-        end b
+    end b
 
-        `case target
-        when comparison
-            # block
-        when comparison
-            # block
-        when comparison
-            # block
-        when comparison
-            # block
-        else
-            
-        end^
+    `case target
+    when comparison
+        # block
+    when comparison
+        # block
+    when comparison
+        # block
+    when comparison
+        # block
+    else
+        
+    end^
 
-        a case target
-        when comparison
-            # block
-        when comparison
-            # block
-        when comparison
-            # block
-        when comparison
-            # block
-        else
-            
-        end
+    a case target
+    when comparison
+        # block
+    when comparison
+        # block
+    when comparison
+        # block
+    when comparison
+        # block
+    else
+        
+    end
 
 
     #   -------------cfy---------------  
@@ -708,7 +708,7 @@ end
         def initialize(arg_TYPED, narg_TYPED, narg_TYPED)
             init_TYPED
         end
-            def_TYPED
+        def_TYPED
     end b
 
     `class ClassName
@@ -1464,31 +1464,31 @@ end
         block_TYPED
     elsif_TYPED
     else_TYPED
-        end b
+    end b
 
-        `if boolean exp
-            # block
-        elsif comparison
-            # block
-        elsif comparison
-            # block
-        elsif comparison
-            # block
-        else
-            
-        end^
+    `if boolean exp
+        # block
+    elsif comparison
+        # block
+    elsif comparison
+        # block
+    elsif comparison
+        # block
+    else
+        
+    end^
 
-        a if boolean exp
-            # block
-        elsif comparison
-            # block
-        elsif comparison
-            # block
-        elsif comparison
-            # block
-        else
-            
-        end
+    a if boolean exp
+        # block
+    elsif comparison
+        # block
+    elsif comparison
+        # block
+    elsif comparison
+        # block
+    else
+        
+    end
 
 
     #   -------------inj---------------                        
@@ -2137,8 +2137,8 @@ end
         def test_name_TYPED
             deft_TYPED
         end
-        
-            deft_TYPED
+    
+        deft_TYPED
     end b
 
     `require "test/unit"
@@ -2470,3 +2470,4 @@ WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}
+

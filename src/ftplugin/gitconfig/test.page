@@ -1,0 +1,240 @@
+
+
+
+    ;   -------------"_--------------- 
+    ;  "`w^"                           
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    ;   -------------'_--------------- 
+    ;  '`w^'                           
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    ;   -------------(_--------------- 
+    ;  (`w^)                           
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    ;   -------------<_--------------- 
+    ;  <`w^>                           
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    ;   -------------[_--------------- 
+    ;  [`w^]                           
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    ;   -------------`_--------------- 
+    ;  \``w^\`                         
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    ;   -------------Author--------------- 
+    ;  `$author^                           
+
+
+
+drdr.xp
+
+drdr.xp b
+
+`drdr.xp^
+
+a drdr.xp
+
+
+    ;   -------------branch---------------      
+    ;  [branch "`branchName^"]`remote...{{^     
+    ;      remote = `remote^`}}^`merge...{{^    
+    ;      merge = refs/heads/`branchName^`}}^  
+
+
+
+[branch "branchName"]
+    remote = remote
+    merge = refs/heads/branchName 
+
+[branch "branchName_TYPED"]remote_TYPEDmerge_TYPED  b
+
+    `[branch "branchName"]
+        remote = remote
+        merge = refs/heads/branchName ^
+
+a [branch "branchName"]
+    remote = remote
+    merge = refs/heads/branchName 
+
+
+    ;   -------------Email--------------- 
+    ;  `$email^                           
+
+
+
+drdr.xp@gmail.com
+
+drdr.xp@gmail.com b
+
+`drdr.xp@gmail.com^
+
+a drdr.xp@gmail.com
+
+
+    ;   -------------File--------------- 
+    ;  `file()^                          
+
+
+
+test.page
+
+test.page b
+
+`test.page^
+
+a test.page
+
+
+    ;   -------------remote--------------- 
+    ;  [remote "`remoteName^"]             
+    ;      url = `fetchUrl^                
+    ;      fetch = `fetchRef^              
+
+
+
+[remote "remoteName"]
+    url = fetchUrl
+    fetch = fetchRef 
+
+[remote "remoteName_TYPED"]
+    url = fetchUrl_TYPED
+    fetch = fetchRef_TYPED  b
+
+`[remote "remoteName"]
+    url = fetchUrl
+    fetch = fetchRef ^
+
+a [remote "remoteName"]
+    url = fetchUrl
+    fetch = fetchRef 
+
+
+    ;   -------------user--------------- 
+    ;  [user]                            
+    ;      name = `$Author^              
+    ;      email = `$Email^              
+
+
+
+[user]
+    name = $Author
+    email = $Email
+
+[user]
+    name = $Author
+    email = $Email b
+
+`[user]
+    name = $Author
+    email = $Email^
+
+a [user]
+    name = $Author
+    email = $Email
+
+
+    ;   -------------{_--------------- 
+    ;  {`w^}                           
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+

@@ -176,7 +176,7 @@ catch ( `except^ )
     `cursor^
 }
 
-XPT externc wrap=cursor " #ifdef C++.... extern "c"...
+XPT externc wrap " #ifdef C++.... extern "c"...
 #ifdef __cplusplus
 extern "C" {
 #endif

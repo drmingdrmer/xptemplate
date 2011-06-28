@@ -1,0 +1,1 @@
+vim -c "XPTtestAll actionscript ada c cabal cg cmake cpp cs css dot erlang eruby factor gitconfig gnuplot haskell help html htmldjango java javascript json lex lua make markdown objc ocaml ocaml.revised perl php ps1 python r rst ruby scheme sh sql svg tcl tex unknown vim xhtml xml xpt xptest xslt yacc zsh "

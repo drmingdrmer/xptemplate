@@ -112,32 +112,32 @@ printf "~pattern^"~elts^
 
 
 
-XPT forin wrap=cursor " for .. in ..; do
+XPT forin wrap " for .. in ..; do
 for ~i^ in ~list^;~$BRloop^do
     ~cursor^
 done
 
-XPT for wrap=cursor " for (( i=0; i<len; i++ )); do
+XPT for wrap " for (( i=0; i<len; i++ )); do
 for ((~i^ = ~0^; ~i^ < ~len^; ~i^++));~$BRloop^do
     ~cursor^
 done
 
-XPT forr wrap=cursor " for (( i=n; i>=start; i++ )); do
+XPT forr wrap " for (( i=n; i>=start; i++ )); do
 for ((~i^ = ~n^; ~i^ >~=^ ~start^0^; ~i^--));~$BRloop^do
     ~cursor^
 done
 
-XPT here wrap=cursor " << END ..
+XPT here wrap " << END ..
 <<~-~END^
 ~cursor^
 ~END^substitute( V(), '\v\^-', '', '' )^
 
-XPT until wrap=cursor " until ..; do
+XPT until wrap " until ..; do
 until ~:_cond:^;~$BRloop^;do
     ~cursor^
 done
 
-XPT while wrap=cursor " while ..; do
+XPT while wrap " while ..; do
 while ~:_cond:^;~$BRloop^do
     ~cursor^
 done
@@ -145,7 +145,7 @@ done
 XPT while1 alias=while " while [ 1 ]; do
 XSET condition=Next( '[ ~$TRUE^ ]' )
 
-XPT case wrap=cursor " case .. in ..
+XPT case wrap " case .. in ..
 case ~$~var^ in
     ~pattern^)
     ~cursor^
@@ -153,12 +153,12 @@ case ~$~var^ in
 
 esac
 
-XPT if wrap=cursor " if ..; then
+XPT if wrap " if ..; then
 if ~:_cond:^;~$BRif^then
     ~cursor^
 fi
 
-XPT else wrap=cursor " else ..
+XPT else wrap " else ..
 else
     ~cursor^
 
@@ -169,11 +169,11 @@ else
     ~cursor^
 fi
 
-XPT elif wrap=cursor " elif .. ; then
+XPT elif wrap " elif .. ; then
 elif ~:_cond:^;~$BRif^then
     ~cursor^
 
-XPT fun wrap=cursor " .. () { .. }
+XPT fun wrap " .. () { .. }
 ~name^ ()~$BRfun^{
     ~cursor^
 }

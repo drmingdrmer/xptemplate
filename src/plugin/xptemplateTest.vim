@@ -11,7 +11,7 @@ set cpo-=< cpo+=B
 
 runtime plugin/debug.vim
 let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = CreateLogger( 'debug' )
 
 if !exists( 'g:xptmode' )
     let g:xptmode = ''
@@ -19,9 +19,6 @@ endif
 
 let s:fn = 'test.page' . g:xptmode
 
-" TODO indent test 
-
-" test suite support
 
 let s:phases = [ 1, 2, 3, 4 ]
 let [ s:DEFAULT, s:TYPED, s:CHAR_AROUND, s:NESTED ] = s:phases
@@ -50,15 +47,15 @@ fun! s:Feedkeys( text, mode )
     return feedkeys( a:text, a:mode )
 endfunction
 
-fun s:XPTtrigger(name) "{{{
+fun! s:XPTtrigger(name) "{{{
     call s:Feedkeys(a:name, 'nt')
     call s:Feedkeys( eval('"\' . g:xptemplate_key . '"' ), 'mt' )
     " call s:Feedkeys("", 'mt')
 endfunction "}}}
-fun s:XPTtype(...) "{{{
+fun! s:XPTtype(...) "{{{
     let ln = line( '.' )
     let lns = [ ln - 10, ln + 10 ]
-    if lns[0] < 1 
+    if lns[0] < 1
         let lns[0] = 1
     endif
     call s:log.Debug( 'lines context=' . join( getline( lns[0], lns[1] ), "\n" ) )
@@ -79,22 +76,22 @@ fun! s:XPTchoosePum( ... ) "{{{
             call s:Feedkeys("\<TAB>", 'mt')
         endif
     endfor
-    
+
 endfunction "}}}
-fun s:XPTcancel(...) "{{{
+fun! s:XPTcancel(...) "{{{
     call s:Feedkeys("\<cr>", 'mt')
 endfunction "}}}
 fun! s:LastLine() "{{{
     let @q = "\n"
     call s:Feedkeys("\<C-c>G\"qpG", 'nt')
 endfunction "}}}
-fun s:XPTnew(name, preinput) "{{{
+fun! s:XPTnew(name, preinput) "{{{
     " 'S' for indent test. it takes the indent from line above
     call s:Feedkeys("S", 'nt')
     call s:Feedkeys(a:preinput, 'nt')
     call s:XPTtrigger(a:name)
 endfunction "}}}
-fun s:XPTwrapNew(name, preinput) "{{{
+fun! s:XPTwrapNew(name, preinput) "{{{
 
     " virtualedit need to be set to correct pasting
     let ve = &virtualedit
@@ -153,25 +150,15 @@ fun! s:NewTestFile(ft) "{{{
 
     let tempPath = globpath(&rtp, 'ftplugin/_common/common.xpt.vim')
     let tempPath = split(tempPath, "\n")[0]
-    let tempPath = matchstr(tempPath, '.*\ze[\\/]_common[\\/]common.xpt.vim') . '/' . subft 
+    let tempPath = matchstr(tempPath, '.*\ze[\\/]_common[\\/]common.xpt.vim') . '/' . subft
     " . '/.test'
 
-    " try
-    "     call mkdir(tempPath, 'p')
-    " catch /.*/
-    " endtry
 
     let s:tempPath = tempPath
 
     exe 'e ' . tempPath . '/' . s:fn
     exe '0,$d'
 
-    " set buftype=nofile
-
-    " " standard test setting
-    " setlocal tabstop=8
-    " setlocal shiftwidth=4
-    " setlocal softtabstop=4
 
 
 
@@ -204,24 +191,17 @@ fun! XPTtestPseudoDate(...) "{{{
 endfunction "}}}
 
 let s:toTest = []
-fun! s:XPTtestAll( fts )
+fun! s:XPTtestAll( fts ) "{{{
     let s:toTest += split( a:fts, '\V\s\+' )
 
     let ft = remove( s:toTest, 0 )
 
     exe 'XPTtest' ft
 
-endfunction
+endfunction "}}}
 
 fun! s:XPTtest( ftype ) "{{{
 
-    let g:xpt_post_action = "\<C-r>=TestProcess()\<cr>"
-    augroup XPTtestGroup
-        au!
-        au CursorHoldI * call TestProcess()
-        au CursorMoved * call TestProcess()
-        au CursorMovedI * call TestProcess()
-    augroup END
 
     if exists( ':AcpLock' )
         AcpLock
@@ -251,21 +231,18 @@ fun! s:XPTtest( ftype ) "{{{
         unlet b:XPTfiletypeDetect
     endif
 
-
     " remove 'Path' and 'Date' template0
-    unlet tmpls.Path
-    unlet tmpls.Date
+    try
+        unlet tmpls.Path
+    catch /.*/
+    endtry
+    try
+        unlet tmpls.Date
+    catch /.*/
+    endtry
 
     call filter( tmpls, '!has_key(v:val.setting, "hidden") || !v:val.setting.hidden' )
 
-    " call filter( tmpls, 'v:val.name =~ "^comment"' )
-
-    
-    " for [k, v] in items(tmpls)
-        " if k != '"'
-            " unlet tmpls[k]
-        " endif
-    " endfor
 
     let tmplList = values(tmpls)
     call filter( tmplList, '!has_key(v:val.setting, "syn")' )
@@ -274,48 +251,129 @@ fun! s:XPTtest( ftype ) "{{{
 
     let b:tmplToTest = tmplList
 
-    " let b:tmplToTest = []
-    " for v in tmplList
-        " if v.item.name =~ 'invoke_' 
-            " let b:tmplToTest += [ v ]
-            " break
-        " endif
-    " endfor
-    
 
     " trigger test to start
     normal o
 
-    call TestProcess()
+    let g:xpt_post_action = "\<C-r>=TestProcess(3)\<cr>"
+    augroup XPTtestGroup
+        au!
+        au CursorHold * call TestProcess('CursorHold')
+        au CursorHoldI * call TestProcess('CursorHoldI')
+        " au CursorMoved * call TestProcess('CursorMoved')
+        " au CursorMovedI * call TestProcess('CursorMovedI')
+    augroup END
+    set statusline+=%{TestProcess(1)}
+    set rulerformat+=%{TestProcess(2)}
+    " TODO use rulerformat too
+
+    call TestProcess(0)
 
 endfunction "}}}
 
-fun s:TestFinish() "{{{
+fun! s:TestFinish() "{{{
+
+    " TODO why?
     augroup XPT
         au!
     augroup END
 
+    let &statusline = substitute( &statusline, '\V%{TestProcess(1)}', '', 'g' )
+    let &rulerformat = substitute( &rulerformat, '\V%{TestProcess(2)}', '', 'g' )
+
     augroup XPTtestGroup
         au!
     augroup END
+    let g:xpt_post_action = ""
 
-    exe 'w'
-    exe 'bw'
+
+    call feedkeys( ":w\<CR>:bw\<CR>", 'nt' )
+
 
     if ! empty( s:toTest )
         let ft = remove( s:toTest, 0 )
-        exe 'XPTtest' ft
+        call feedkeys( ":XPTtest " . ft . "\<CR>", 'nt' )
     endif
 
     return
 
 endfunction "}}}
 
+fun! s:TextBetween( posList ) "{{{
 
-fun! TestProcess() "{{{
+    let [ s, e ] = a:posList
+
+    if s[0] > e[0]
+        return ""
+    endif
+
+    if s[0] == e[0]
+        if s[1] == e[1]
+            return ""
+        else
+            return getline(s[0])[ s[1] - 1 : e[1] - 2 ]
+        endif
+    endif
+
+
+    let r = [ getline(s[0])[s[1] - 1:] ] + getline(s[0]+1, e[0]-1)
+
+    if e[1] > 1
+        let r += [ getline(e[0])[:e[1] - 2] ]
+    else
+        let r += ['']
+    endif
+
+    return join(r, "\n")
+
+endfunction "}}}
+
+" NOTE: if nolazyredraw set, rulerformat or statusline triggers more than one
+" times for each time focused on PH. To avoid duplicated input emulation, use
+" cursor position and mode together to detect.
+let s:lastSt = ''
+
+let s:typeMap = { '1' : 'statusline',
+      \ '2' : 'rulerformat',
+      \ '3' : 'postaction' }
+
+" NOTE: statusline trigger sometime breaks into other function. A such
+" case is that if complete() called to show pum. statusline update will be
+" invoked. and thus statusline callback breaks in
+fun! TestProcess(...) "{{{
+
+    " Check if this function breaks into other function by checking the top
+    " function name of call stack.
+    try
+        throw ''
+    catch /.*/
+        if v:throwpoint !~ '\V\^function TestProcess'
+            return ''
+        endif
+    endtry
+
+    if !exists( 'b:testProcessing' )
+        return ''
+    endif
+
+    let st = string( [ line( "." ), col( "." ), mode() ] )
+    if st == s:lastSt
+        return
+    endif
+    let s:lastSt = st
+
+    call s:log.Debug( 'st=' . string( s:lastSt ) )
+    " call s:log.Debug( s:TextBetween( [ [ line( "." )-5, 1 ],[ line( "." )+5,1 ] ] ) )
+
     XPTSlow
 
-    call s:log.Debug( "TestProcess" )
+    if a:0 > 0 && type( a:1 ) == type( 1 )
+        call s:log.Debug( "TestProcess " . string( get( s:typeMap, a:1, 'unknown' ) ) )
+    else
+        call s:log.Debug( "TestProcess " . string( a:000 ) )
+    endif
+
+    call s:log.Debug( "rulerformat=" . string( &rulerformat ) )
 
     if b:testProcessing == 0
         call s:log.Log("processing = 0, to start new")
@@ -331,13 +389,13 @@ fun! TestProcess() "{{{
         if ctx.phase == 'uninit' || ctx.phase == 'popup'
             return ""
         endif
-        call s:log.Log("processing = 1, handle action")
+        call s:log.Log("processing = 1, handle action, ctx.phase=" . ctx.phase)
 
         " Insert mode or select mode.
         " If it is in normal mode, maybe something else is going. In normal mode,
         " just ignore it
-        
-        " call s:log.Log("processing, mode=".mode())
+
+        call s:log.Log("processing, mode=".mode())
         if mode() =~? "[is]"
             call s:FillinTemplate()
         endif
@@ -356,10 +414,14 @@ fun! s:StartNewTemplate() "{{{
 
     let b:itemSteps = []
 
-    if len(b:tmplToTest) == 0 
+    if len(b:tmplToTest) == 0
         call s:TestFinish()
         return
     endif
+
+    " initial phase so that it TestProcess will not execute before snippet rendered
+    let x = XPTbufData()
+    let x.renderContext.phase = 'uninit'
 
 
     " Each template is rendered multi times.
@@ -376,7 +438,7 @@ fun! s:StartNewTemplate() "{{{
     if b:testPhase == s:FIRST_PHASE && b:cms != ['', '']
         " first time rendering the template, show original template definition
 
-        let tmpl0 = [ ' ' . '-------------' . b:currentTmpl.name . '---------------' ] 
+        let tmpl0 = [ ' ' . '-------------' . b:currentTmpl.name . '---------------' ]
                     \+ split( b:currentTmpl.snipText , "\n" )
 
         let maxLength = 0
@@ -394,7 +456,7 @@ fun! s:StartNewTemplate() "{{{
             endif
 
             let line2 = ''
-            let line2 .= b:cms[0] . ' ' . line                      " content 
+            let line2 .= b:cms[0] . ' ' . line                      " content
             let line2 .= repeat( ' ', maxLength - len( line ) )     " padding
             let line2 .= ' ' . b:cms[ 1 ]                           " eend
 
@@ -454,7 +516,14 @@ fun! s:FillinTemplate() "{{{
     call s:log.Log( 'item=' . string( ctx.item ) )
 
 
-    if ctx.phase == 'fillin' 
+    if ctx.phase == 'fillin'
+
+        if has_key( ctx.item, 'xptTested' )
+            return ''
+        else
+            let ctx.item.xptTested = 1
+        endif
+
 
         XPTSlow
 
@@ -463,7 +532,7 @@ fun! s:FillinTemplate() "{{{
             let b:itemSteps += [ ctx.item.name ]
 
             " keep at most 5 steps
-            if len( b:itemSteps ) > 8 
+            if len( b:itemSteps ) > 8
                 call remove(b:itemSteps, 0)
             endif
         endif
@@ -473,11 +542,11 @@ fun! s:FillinTemplate() "{{{
             call s:XPTchoosePum( "\<C-n>" )
 
 
-        elseif len( b:itemSteps ) >= 4 
-                    \&& ( b:itemSteps[-3] == ctx.item.name 
+        elseif len( b:itemSteps ) >= 4
+                    \&& ( b:itemSteps[-3] == ctx.item.name
                     \    || b:itemSteps[ -4 ] == ctx.item.name )
             call s:log.Log( "too many repetition done, cancel it" )
-            " too many repetition 
+            " too many repetition
             call s:XPTcancel()
 
         elseif b:testPhase == s:DEFAULT

@@ -1,0 +1,482 @@
+
+
+
+    ..   -------------"_--------------- 
+    ..  "`w^"                           
+
+
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+"WRAPPED_TEXT
+WRAPPED_TEXT_line2" b
+
+`"WRAPPED_TEXT
+WRAPPED_TEXT_line2"^
+
+a "WRAPPED_TEXT
+WRAPPED_TEXT_line2"
+
+
+    ..   -------------'_--------------- 
+    ..  '`w^'                           
+
+
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+'WRAPPED_TEXT
+WRAPPED_TEXT_line2' b
+
+`'WRAPPED_TEXT
+WRAPPED_TEXT_line2'^
+
+a 'WRAPPED_TEXT
+WRAPPED_TEXT_line2'
+
+
+    ..   -------------(_--------------- 
+    ..  (`w^)                           
+
+
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+(WRAPPED_TEXT
+WRAPPED_TEXT_line2) b
+
+`(WRAPPED_TEXT
+WRAPPED_TEXT_line2)^
+
+a (WRAPPED_TEXT
+WRAPPED_TEXT_line2)
+
+
+    ..   -------------<_--------------- 
+    ..  <`w^>                           
+
+
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+<WRAPPED_TEXT
+WRAPPED_TEXT_line2> b
+
+`<WRAPPED_TEXT
+WRAPPED_TEXT_line2>^
+
+a <WRAPPED_TEXT
+WRAPPED_TEXT_line2>
+
+
+    ..   -------------[_--------------- 
+    ..  [`w^]                           
+
+
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+[WRAPPED_TEXT
+WRAPPED_TEXT_line2] b
+
+`[WRAPPED_TEXT
+WRAPPED_TEXT_line2]^
+
+a [WRAPPED_TEXT
+WRAPPED_TEXT_line2]
+
+
+    ..   -------------`_--------------- 
+    ..  \``w^\`                         
+
+
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+`WRAPPED_TEXT
+WRAPPED_TEXT_line2` b
+
+``WRAPPED_TEXT
+WRAPPED_TEXT_line2`^
+
+a `WRAPPED_TEXT
+WRAPPED_TEXT_line2`
+
+
+    ..   -------------Author--------------- 
+    ..  `$author^                           
+
+
+
+ drdr.xp
+
+ drdr.xp b
+
+ `drdr.xp^
+
+ a drdr.xp
+
+
+    ..   -------------bold--------------- 
+    ..  **~cursor^**                      
+
+
+
+ ****
+
+ **** b
+
+ `****^
+
+ a ****
+
+
+    ..   -------------code--------------- 
+    ..  ``~cursor^``                      
+
+
+
+ ````
+
+ ```` b
+
+ `````^
+
+ a ````
+
+
+    ..   -------------Email--------------- 
+    ..  `$email^                           
+
+
+
+ drdr.xp@gmail.com
+
+ drdr.xp@gmail.com b
+
+ `drdr.xp@gmail.com^
+
+ a drdr.xp@gmail.com
+
+
+    ..   -------------File--------------- 
+    ..  `file()^                          
+
+
+
+ test.page
+
+ test.page b
+
+ `test.page^
+
+ a test.page
+
+
+    ..   -------------func--------------- 
+    ..  _CMT_function:: ~funDesc^         
+    ..                                    
+    ..      ~cursor^                      
+
+
+
+ .. function:: funDesc
+ 
+     
+
+ .. function:: funDesc_TYPED
+ 
+      b
+
+      `.. function:: funDesc
+      
+          ^
+
+          a .. function:: funDesc
+          
+              
+
+
+    ..   -------------h1--------------- 
+    ..  ~title^                         
+
+
+
+ =====
+ title
+ =====
+ 
+
+ ===========
+ title_TYPED
+ ===========
+  b
+
+  `=====
+  title
+  =====
+  ^
+
+  a =====
+  title
+  =====
+  
+
+
+    ..   -------------h2--------------- 
+    ..  ~sectionName^                   
+
+
+
+ sectionName
+ ===========
+ 
+
+ sectionName_TYPED
+ =================
+  b
+
+  `sectionName
+  ===========
+  ^
+
+  a sectionName
+  ===========
+  
+
+
+    ..   -------------h3--------------- 
+    ..  ~sectionName^                   
+
+
+
+ sectionName
+ -----------
+ 
+
+ sectionName_TYPED
+ -----------------
+  b
+
+  `sectionName
+  -----------
+  ^
+
+  a sectionName
+  -----------
+  
+
+
+    ..   -------------index--------------- 
+    ..  ~sectionName^                      
+    ..                                     
+    ..  Contents:                          
+    ..                                     
+    ..  _CMT_toctree::                     
+    ..     :maxdepth: 2                    
+    ..     :numbered:                      
+    ..     ~cursor^                        
+    ..                                     
+    ..  Indices and tables                 
+    ..  ==================                 
+    ..                                     
+    ..  * :ref:`genindex`                  
+    ..  * :ref:`modindex`                  
+    ..  * :ref:`search`                    
+
+
+
+ sectionName
+ ===========
+ 
+ 
+ Contents:
+ 
+ .. toctree::
+    :maxdepth: 2
+    :numbered:
+    
+ 
+ Indices and tables
+ ==================
+ 
+ * :ref:`genindex`
+ * :ref:`modindex`
+ * :ref:`search`
+
+ sectionName_TYPED
+ =================
+ 
+ 
+ Contents:
+ 
+ .. toctree::
+    :maxdepth: 2
+    :numbered:
+    
+ 
+ Indices and tables
+ ==================
+ 
+ * :ref:`genindex`
+ * :ref:`modindex`
+ * :ref:`search` b
+
+ `sectionName
+ ===========
+ 
+ 
+ Contents:
+ 
+ .. toctree::
+    :maxdepth: 2
+    :numbered:
+    
+ 
+ Indices and tables
+ ==================
+ 
+ * :ref:`genindex`
+ * :ref:`modindex`
+ * :ref:`search`^
+
+ a sectionName
+ ===========
+ 
+ 
+ Contents:
+ 
+ .. toctree::
+    :maxdepth: 2
+    :numbered:
+    
+ 
+ Indices and tables
+ ==================
+ 
+ * :ref:`genindex`
+ * :ref:`modindex`
+ * :ref:`search`
+
+
+    ..   -------------italic--------------- 
+    ..  *~cursor^*                          
+
+
+
+ **
+
+ ** b
+
+ `**^
+
+ a **
+
+
+    ..   -------------link--------------- 
+    ..  _CMT__a link: ~url^               
+
+
+
+ .. _a link: url
+
+ .. _a link: url b
+
+ `.. _a link: url^
+
+ a .. _a link: url
+
+
+    ..   -------------section--------------- 
+    ..  ~sectionName^                        
+
+
+
+ sectionName
+ ===========
+ 
+
+ sectionName_TYPED
+ =================
+  b
+
+  `sectionName
+  ===========
+  ^
+
+  a sectionName
+  ===========
+  
+
+
+    ..   -------------subsection--------------- 
+    ..  ~sectionName^                           
+
+
+
+ sectionName
+ -----------
+ 
+
+ sectionName_TYPED
+ -----------------
+  b
+
+  `sectionName
+  -----------
+  ^
+
+  a sectionName
+  -----------
+  
+
+
+    ..   -------------title--------------- 
+    ..  ~title^                            
+
+
+
+ =====
+ title
+ =====
+ 
+
+ ===========
+ title_TYPED
+ ===========
+  b
+
+  `=====
+  title
+  =====
+  ^
+
+  a =====
+  title
+  =====
+  
+
+
+    ..   -------------{_--------------- 
+    ..  {`w^}                           
+
+
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+
+{WRAPPED_TEXT
+WRAPPED_TEXT_line2} b
+
+`{WRAPPED_TEXT
+WRAPPED_TEXT_line2}^
+
+a {WRAPPED_TEXT
+WRAPPED_TEXT_line2}
+

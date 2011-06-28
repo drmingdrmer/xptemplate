@@ -1,6 +1,5 @@
 " XPTEMPLATE ENGIE:
 "   snippet template engine
-" VERSION: 0.4.8
 " BY: drdr.xp | drdr.xp@gmail.com
 "
 "
@@ -22,6 +21,7 @@
 " "}}}
 "
 " TODOLIST: "{{{
+" TODO bug: in *.css: type: "* {<CR>" prodcues another "* }" at the next line.
 " TODO duplicate snippet name check
 " in future
 " TODO efficiently loading long snippet file
@@ -156,6 +156,7 @@ fun! XPTmarkCompare( o, markToAdd, existedMark ) "{{{
 endfunction "}}}
 
 let s:repetitionPattern     = '\w\*...\w\*'
+let s:expandablePattern     = '\V\S\+...\$'
 let s:nullDict = {}
 let s:nullList = []
 let s:nonEscaped =
@@ -781,6 +782,10 @@ fun! s:InitItemOrderList( setting ) "{{{
 endfunction "}}}
 
 fun! XPTreload() "{{{
+    try
+        call s:Crash()
+    catch /.*/
+    endtry
 
   try
     " unlet b:__xpt_loaded
@@ -2020,6 +2025,14 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
 
         if isPostFilter
+            " NOTE: not a good solution.
+            " TODO make the "..." ended ph standard.
+            if name =~ s:expandablePattern
+
+                " it is converted to string, thus escaped chars are safe now
+                let val = g:xptutil.UnescapeChar( val, '{$( ' )
+                let val = 'BuildIfNoChange(' . string( val ) . ')'
+            endif
             let placeHolder.postFilter = g:FilterValue.New( -nIndent, val )
         else
             let placeHolder.ontimeFilter = g:FilterValue.New( -nIndent, val )
@@ -2142,6 +2155,8 @@ fun! s:AddItemToRenderContext( ctx, item ) "{{{
 
     let [ctx, item] = [ a:ctx, a:item ]
 
+    let exist = has_key( ctx.itemDict, item.name )
+
     if item.name != ''
         let ctx.itemDict[ item.name ] = item
     endif
@@ -2149,6 +2164,7 @@ fun! s:AddItemToRenderContext( ctx, item ) "{{{
     " TODO to be precise phase, do not use false condition
     if ctx.phase != 'rendering'
         call add( ctx.firstList, item )
+        call filter( ctx.itemList, 'v:val isnot item' )
 
         call s:log.Log( 'item insert to the head of itemList:' . string( item ) )
         return
@@ -2156,6 +2172,9 @@ fun! s:AddItemToRenderContext( ctx, item ) "{{{
     endif
 
     " rendering phase
+    if exist
+        return
+    endif
 
     if item.name == ''
 
@@ -2489,6 +2508,18 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
 
     let incTmplObject = tmplDict[ incName ]
 
+    if !incTmplObject.parsed
+
+        call s:ParseInclusion( renderContext.ftScope.allTemplates, incTmplObject )
+
+        let incTmplObject.snipText = s:ParseSpaces( incTmplObject )
+        let incTmplObject.snipText = s:ParseQuotedPostFilter( incTmplObject )
+        let incTmplObject.snipText = s:ParseRepetition( incTmplObject )
+
+        let incTmplObject.parsed = 1
+
+    endif
+
     call s:MergeSetting( renderContext.snipSetting, incTmplObject.setting )
 
     let incSnip = s:ReplacePHInSubSnip( renderContext.snipObject, incTmplObject, params )
@@ -2622,17 +2653,25 @@ fun! s:BuildItemForPlaceHolder( placeHolder ) "{{{
                     \'behavior'     : {},
                     \}
 
-        call s:AddItemToRenderContext( renderContext, item )
 
     endif
 
 
+    let inPrevBuild = ( index( renderContext.itemList, item ) >= 0 )
+
+    " NOTE: No matter new or old, always try to add. during render-time,
+    " dynamically generated PH need to be resorted
+    call s:AddItemToRenderContext( renderContext, item )
 
     if a:placeHolder.isKey
         let item.keyPH = a:placeHolder
         let item.fullname = a:placeHolder.fullname
     else
-        call add( item.placeHolders, a:placeHolder )
+        if renderContext.phase != 'rendering' && inPrevBuild
+            call insert( item.placeHolders, a:placeHolder )
+        else
+            call add( item.placeHolders, a:placeHolder )
+        endif
     endif
 
     call s:log.Log( 'item built=' . string( item ) )
@@ -2904,7 +2943,7 @@ fun! s:ApplyPostFilter() "{{{
 
         " TODO do not replace if no change made
         call XPMsetLikelyBetween( marks.start, marks.end )
-        if filter.text !=# typed
+        if filter.rc != 0 && filter.text !=# typed
             call s:log.Debug( 'before replace, marks=' . XPMallMark() )
 
             call s:RemoveEditMark( leader )
@@ -2979,6 +3018,10 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
     call s:log.Log("post_value:\n", string(a:filter))
 
     let a:filter.toBuild = 0
+    if a:filter.rc == 0
+        return
+    endif
+
     if has_key( a:filter, 'action' )
         let act = a:filter.action
 
@@ -3000,7 +3043,7 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
             " let res = [ post. ]
         else
             " unknown action
-            let a:filter.text = get( post, 'text', '' )
+            " let a:filter.text = get( post, 'text', '' )
         endif
 
     elseif has_key( a:filter, 'text' )
@@ -3667,9 +3710,25 @@ fun! s:SelectCurrent() "{{{
 
         normal! v
 
+        " Because it feed keys. make sure it is the last step of rendering
+        " thus no more key sequences generated
+        "
+        " CursorMoved called before feedkeys. thus test script can not be
+        " aware of mode switched to select mode thus it does not go.
+        if &selectmode =~ 'cmd'
+            call feedkeys( "\<esc>gv", 'nt' )
+        else
+            call feedkeys( "\<esc>gv\<C-g>", 'nt' )
+        endif
+        return ''
 
-        " Weird, but that's only way to select content
-        return "\<esc>gv\<C-g>"
+        " NOTE: Using <C-R>= output special chars like \<esc> \<C-v> cause
+        " gvim7.3 on ubuntu 10.10 amd64 become lagger each time expanding a
+        " snippet.
+        " Now use feedkeys instead.
+
+        " " Weird, but that's only way to select content
+        " return "\<esc>gv\<C-g>"
     endif
 
 endfunction "}}}
@@ -4048,6 +4107,7 @@ fun! s:XPTinitMapping() "{{{
     let b:xptemplateData.settingSwitch = g:SettingSwitch.New()
     call b:xptemplateData.settingSwitch.AddList(
           \[ '&l:textwidth', '0' ],
+          \[ '&l:lazyredraw', '1' ],
           \[ '&l:indentkeys', { 'exe' : 'setl indentkeys-=*<Return>' } ],
           \[ '&l:cinkeys', { 'exe' : 'setl cinkeys-=*<Return>' } ],
           \)

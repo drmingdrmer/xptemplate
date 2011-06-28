@@ -496,28 +496,20 @@ a ( func for elem in seq )
 
     #  -------------if--------------- 
     # `:_if:^                         
-    # `else...{{^`:else:^`}}^         
 
 
 
 if cond:
     pass
-else:
-    
 
-    if cond_TYPED:
-        pass_TYPED
-    else_TYPED b
+if cond_TYPED:
+    pass b
 
 `if cond:
-    pass
-else:
-    ^
+    pass^
 
 a if cond:
     pass
-else:
-    
 
 
     #  -------------ifmain---------------    
@@ -711,6 +703,24 @@ a #!/usr/bin/env python
 
 
 
+    #  -------------str--------------- 
+    # str(`$SParg^`s^`$SParg^)         
+
+
+
+str( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )
+
+str( WRAPPED_TEXT
+WRAPPED_TEXT_line2 ) b
+
+`str( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )^
+
+a str( WRAPPED_TEXT
+WRAPPED_TEXT_line2 )
+
+
     #  -------------super---------------                                                                            
     # super(`$SParg^`clz^python_find_class('Me')^,`$SPop^self`$SParg^).`method^python_find_func('what')^(`:_args:^) 
 
@@ -811,3 +821,4 @@ WRAPPED_TEXT_line2}^
 
 a {WRAPPED_TEXT
 WRAPPED_TEXT_line2}
+
