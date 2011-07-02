@@ -9,17 +9,6 @@ case $1 in
         echo "vim -c \"XPTtestAll $langs\"" >test.bat
         exit
         ;;
-    tosvn)
-        rsync -Rrvc --delete \
-            --exclude=.git/ --exclude=.svn/ \
-            --exclude=dist-sub/ \
-            --exclude=.gitmodules \
-            --exclude=*.xpt.vimc \
-            --exclude-from=../.gitignore \
-            .././ \
-            ../../xptemplate.svn/trunk/./
-        exit
-        ;;
     "")
         echo "export"
         ;;
@@ -30,6 +19,9 @@ case $1 in
 
 esac
 
+
+
+
 CurrentDir=$PWD
 ParentDir=${PWD%/*}
 ver=`cat VERSION`.`date +%y%m%d`
@@ -37,24 +29,16 @@ ver=`cat VERSION`.`date +%y%m%d`
 dodist () {
     DistName=$1
     DistDir=$ParentDir/$DistName
+
     vim -c 'helptags doc|qa'
 
-    # remove old files those may not exist in src
-    cd $DistDir && find -name "*.vim" | xargs rm -f
+    git branch disttmp && git checkout disttmp
 
-    cp -R $CurrentDir/* $DistDir/
+    # rm -rf `cat $CurrentDir/$0 | awk '/^# __TO_REMOVE__/,/^# __TO_REMOVE__ END/{ if ( $1 != "#" ) print $0; }'`
+    # find -name "test.page*" | xargs rm
 
 
-    cd $DistDir
-    rm -rf `cat $CurrentDir/$0 | awk '/^# __TO_REMOVE__/,/^# __TO_REMOVE__ END/{ if ( $1 != "#" ) print $0; }'`
-
-    find -name "test.page*" | xargs rm
-
-    for file in `find plugin/ -name *.vim`;do
-
-        if [[ $file == "debug.vim" ]];then
-            continue
-        fi
+    for file in `find plugin/ -name *.vim | grep -v "/debug\.vim$"`;do
 
         echo remove Logs/Comments/Empty_Lines from $file
 
@@ -67,41 +51,33 @@ dodist () {
         mv .tmp $file
     done
 
-
-    cd $DistDir
-    cat > __ <<-END
+    cat > .tmp <<-END
 	" GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
 	" VERSION: $ver
 	END
-    cat $DistDir/plugin/xptemplate.vim >> __
-    mv __ $DistDir/plugin/xptemplate.vim
+    cat plugin/xptemplate.vim >> .tmp
+    mv .tmp plugin/xptemplate.vim
 
 
     cd $ParentDir
     rm -rf xpt
     cp -R $DistName xpt
 
-    cd xpt
-    tar -czf ../xpt-$ver.tgz *
+    cd xpt && tar -czf ../xpt-$ver.tgz *
 
     cd $CurrentDir
 }
 
 dodist dist
-dodist dist-sub
-
-
-
-
 exit
 
 # vim: set ts=64 :
 # __TO_REMOVE__
+xpt.ex
 plugin/xptemplateTest.vim
 plugin/xptTestKey.vim
 plugin/xptemplate.importer.vim
 xpt.testall.*
-xpt.ex
 genfile.vim
 doc/tags
 xpt.files.txt
