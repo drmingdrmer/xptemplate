@@ -52,7 +52,7 @@ dodist () {
 
     git branch $distname && git checkout $distname || { echo "Failed to create branch $distname"; exit 1; }
 
-    cat $CurrentDir/$0 | awk '/^# __TO_REMOVE__/,/^# __TO_REMOVE__ END/{ if ( $1 != "#" ) print $0; }' | while read f; do git rm $f; done
+    cat $CurrentDir/$0 | awk '/^# __TO_REMOVE__/,/^# __TO_REMOVE__ END/{ if ( $1 != "#" ) print $0; }' | while read f; do git rm -rf $f; done
     git rm `find . -name "test.page*"`
 
 
@@ -98,4 +98,5 @@ test.bat
 test.sh
 tags
 todo
+resource/
 # __TO_REMOVE__ END
