@@ -332,20 +332,6 @@ a except Exception, e:
     
 
 
-    #  -------------File--------------- 
-    # `file()^                          
-
-
-
-test.page
-
-test.page b
-
-`test.page^
-
-a test.page
-
-
     #  -------------filehead--------------- 
     # `$PYTHON_DOC_MARK^                    
     # File    : `file()^                    
@@ -395,6 +381,20 @@ Description :
 '''
 
 
+    #  -------------File--------------- 
+    # `file()^                          
+
+
+
+test.page
+
+test.page b
+
+`test.page^
+
+a test.page
+
+
     #  -------------finally--------------- 
     # finally:                             
     #     `cursor^                         
@@ -411,25 +411,6 @@ finally:
     ^
 
 a finally:
-    
-
-
-    #  -------------for---------------           
-    # for `var^ in `seq^`seq^python_seq_cmpl()^: 
-    #     `cursor^                               
-
-
-
-for var in seq:
-    
-
-    for var_TYPED in seq_TYPED:
-         b
-
-`for var in seq:
-    ^
-
-a for var in seq:
     
 
 
@@ -452,18 +433,23 @@ a for i in range( end ):
     
 
 
-    #  -------------from---------------       
-    # from `module^ import `item^` as `name?^ 
+    #  -------------for---------------           
+    # for `var^ in `seq^`seq^python_seq_cmpl()^: 
+    #     `cursor^                               
 
 
 
-from module import item
+for var in seq:
+    
 
-from module_TYPED import item_TYPED as name_TYPED b
+    for var_TYPED in seq_TYPED:
+         b
 
-`from module import item^
+`for var in seq:
+    ^
 
-a from module import item
+a for var in seq:
+    
 
 
     #  -------------fromfuture--------------- 
@@ -478,6 +464,20 @@ from __future__ import name b
 `from __future__ import name^
 
 a from __future__ import name
+
+
+    #  -------------from---------------       
+    # from `module^ import `item^` as `name?^ 
+
+
+
+from module import item
+
+from module_TYPED import item_TYPED as name_TYPED b
+
+`from module import item^
+
+a from module import item
 
 
     #  -------------genExp--------------- 
@@ -643,20 +643,6 @@ range( 0_TYPED, end_TYPED ) b
 a range( end )
 
 
-    #  -------------s--------------- 
-    # self.                          
-
-
-
-self.
-
-self. b
-
-`self.^
-
-a self.
-
-
     #  -------------sb--------------- 
     # _CMT_!`$PYTHON_EXC^             
     # _CMT_ coding: `encoding^        
@@ -733,6 +719,20 @@ super( clz_TYPED, self ).method_TYPED( arg_TYPED, arg_TYPED, arg_TYPED ) b
 `super( Me, self ).what()^
 
 a super( Me, self ).what()
+
+
+    #  -------------s--------------- 
+    # self.                          
+
+
+
+self.
+
+self. b
+
+`self.^
+
+a self.
 
 
     #  -------------try--------------- 

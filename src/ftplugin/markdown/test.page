@@ -1,8 +1,8 @@
 
 
 
-    /*  -------------"_--------------- */
-    /* "`w^"                           */
+    >   -------------"_--------------- 
+    >  "`w^"                           
 
 
 
@@ -19,8 +19,8 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
-    /*  -------------'_--------------- */
-    /* '`w^'                           */
+    >   -------------'_--------------- 
+    >  '`w^'                           
 
 
 
@@ -37,8 +37,8 @@ a 'WRAPPED_TEXT
 WRAPPED_TEXT_line2'
 
 
-    /*  -------------(_--------------- */
-    /* (`w^)                           */
+    >   -------------(_--------------- 
+    >  (`w^)                           
 
 
 
@@ -55,8 +55,8 @@ a (WRAPPED_TEXT
 WRAPPED_TEXT_line2)
 
 
-    /*  -------------<_--------------- */
-    /* <`w^>                           */
+    >   -------------<_--------------- 
+    >  <`w^>                           
 
 
 
@@ -73,8 +73,8 @@ a <WRAPPED_TEXT
 WRAPPED_TEXT_line2>
 
 
-    /*  -------------[_--------------- */
-    /* [`w^]                           */
+    >   -------------[_--------------- 
+    >  [`w^]                           
 
 
 
@@ -91,8 +91,8 @@ a [WRAPPED_TEXT
 WRAPPED_TEXT_line2]
 
 
-    /*  -------------`_--------------- */
-    /* \``w^\`                         */
+    >   -------------`_--------------- 
+    >  \``w^\`                         
 
 
 
@@ -109,126 +109,126 @@ a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
 
 
-    /*  -------------Author--------------- */
-    /* `$author^                           */
+    >   -------------Author--------------- 
+    >  `$author^                           
 
 
 
-drdr.xp
+    drdr.xp
 
-drdr.xp b
+    drdr.xp b
 
-`drdr.xp^
+    `drdr.xp^
 
-a drdr.xp
-
-
-    /*  -------------Email--------------- */
-    /* `$email^                           */
+    a drdr.xp
 
 
-
-drdr.xp@gmail.com
-
-drdr.xp@gmail.com b
-
-`drdr.xp@gmail.com^
-
-a drdr.xp@gmail.com
-
-
-    /*  -------------File--------------- */
-    /* `file()^                          */
+    >   -------------Email--------------- 
+    >  `$email^                           
 
 
 
-test.page
+    drdr.xp@gmail.com
 
-test.page b
+    drdr.xp@gmail.com b
 
-`test.page^
+    `drdr.xp@gmail.com^
 
-a test.page
-
-
-    /*  -------------h1--------------- */
-    /* ~sectionName^                   */
+    a drdr.xp@gmail.com
 
 
-
-sectionName
-===========
-
-
-sectionName_TYPED
-=================
- b
-
- `sectionName
- ===========
- ^
-
- a sectionName
- ===========
- 
-
-
-    /*  -------------h2--------------- */
-    /* ~sectionName^                   */
+    >   -------------File--------------- 
+    >  `file()^                          
 
 
 
- sectionName
- -----------
- 
+    test.page
 
- sectionName_TYPED
- -----------------
-  b
+    test.page b
 
-  `sectionName
-  -----------
-  ^
+    `test.page^
 
-  a sectionName
-  -----------
-  
+    a test.page
 
 
-    /*  -------------h3--------------- */
-    /* ~sectionName^                   */
+    >   -------------h1--------------- 
+    >  ~sectionName^                   
 
 
 
-  ### sectionName
+    sectionName
+    ===========
+    
 
-  ### sectionName_TYPED b
+    sectionName_TYPED
+    =================
+     b
 
-  `### sectionName^
+     `sectionName
+     ===========
+     ^
 
-  a ### sectionName
-
-
-    /*  -------------hr---------------         */
-    /* --------------------------------------- */
-
-
-
-  ---------------------------------------
-
-  --------------------------------------- b
-
-  `---------------------------------------^
-
-  a ---------------------------------------
+     a sectionName
+     ===========
+     
 
 
-    /*  -------------img---------------              */
-    /* ![~alt text^](~url^~ title...{{^ ~title^~}}^) */
+    >   -------------h2--------------- 
+    >  ~sectionName^                   
 
 
 
-  ![alt text](url title)
+    sectionName
+    -----------
+    
+
+    sectionName_TYPED
+    -----------------
+     b
+
+     `sectionName
+     -----------
+     ^
+
+     a sectionName
+     -----------
+     
+
+
+    >   -------------h3--------------- 
+    >  ~sectionName^                   
+
+
+
+    ### sectionName
+
+    ### sectionName_TYPED b
+
+    `### sectionName^
+
+    a ### sectionName
+
+
+    >   -------------hr---------------         
+    >  --------------------------------------- 
+
+
+
+    ---------------------------------------
+
+    --------------------------------------- b
+
+    `---------------------------------------^
+
+    a ---------------------------------------
+
+
+    >   -------------img---------------              
+    >  ![~alt text^](~url^~ title...{{^ ~title^~}}^) 
+
+
+
+    ![alt text](url title)
 
     ![alttext_TYPED](url_TYPEDtitle_TYPED) b
 
@@ -237,8 +237,8 @@ sectionName_TYPED
     a ![alt text](url title)
 
 
-    /*  -------------link---------------            */
-    /* [~textLink^](~url^~ title...{{^ ~title^~}}^) */
+    >   -------------link---------------            
+    >  [~textLink^](~url^~ title...{{^ ~title^~}}^) 
 
 
 
@@ -251,8 +251,8 @@ sectionName_TYPED
     a [textLink](url title)
 
 
-    /*  -------------lnk---------------             */
-    /* [~textLink^](~url^~ title...{{^ ~title^~}}^) */
+    >   -------------lnk---------------             
+    >  [~textLink^](~url^~ title...{{^ ~title^~}}^) 
 
 
 
@@ -265,8 +265,8 @@ sectionName_TYPED
     a [textLink](url title)
 
 
-    /*  -------------ref---------------                        */
-    /* [~text^][~refId^]~url^~ title...{{^ ~title^~}}^~cursor^ */
+    >   -------------ref---------------                        
+    >  [~text^][~refId^]~url^~ title...{{^ ~title^~}}^~cursor^ 
 
 
 
@@ -283,80 +283,80 @@ a [text][refId] \n
 [refId]: <url> "title"
 
 
-    /*  -------------ruler---------------      */
-    /* --------------------------------------- */
+    >   -------------ruler---------------      
+    >  --------------------------------------- 
 
 
 
----------------------------------------
+    ---------------------------------------
 
---------------------------------------- b
+    --------------------------------------- b
 
-`---------------------------------------^
+    `---------------------------------------^
 
-a ---------------------------------------
-
-
-    /*  -------------section--------------- */
-    /* ~sectionName^                        */
+    a ---------------------------------------
 
 
-
-sectionName
------------
-
-
-sectionName_TYPED
------------------
- b
-
- `sectionName
- -----------
- ^
-
- a sectionName
- -----------
- 
-
-
-    /*  -------------subsection--------------- */
-    /* ~sectionName^                           */
+    >   -------------section--------------- 
+    >  ~sectionName^                        
 
 
 
- ### sectionName
+    sectionName
+    -----------
+    
 
- ### sectionName_TYPED b
+    sectionName_TYPED
+    -----------------
+     b
 
- `### sectionName^
+     `sectionName
+     -----------
+     ^
 
- a ### sectionName
-
-
-    /*  -------------title--------------- */
-    /* ~sectionName^                      */
-
-
-
- sectionName
- ===========
- 
-
- sectionName_TYPED
- =================
-  b
-
-  `sectionName
-  ===========
-  ^
-
-  a sectionName
-  ===========
-  
+     a sectionName
+     -----------
+     
 
 
-    /*  -------------{_--------------- */
-    /* {`w^}                           */
+    >   -------------subsection--------------- 
+    >  ~sectionName^                           
+
+
+
+    ### sectionName
+
+    ### sectionName_TYPED b
+
+    `### sectionName^
+
+    a ### sectionName
+
+
+    >   -------------title--------------- 
+    >  ~sectionName^                      
+
+
+
+    sectionName
+    ===========
+    
+
+    sectionName_TYPED
+    =================
+     b
+
+     `sectionName
+     ===========
+     ^
+
+     a sectionName
+     ===========
+     
+
+
+    >   -------------{_--------------- 
+    >  {`w^}                           
 
 
 

@@ -370,35 +370,6 @@ WRAPPED_TEXT_line2`
             ())
 
 
-    /*  -------------let---------------    */
-    /* (let [(`newVar^ `value^` `...^)     */
-    /* `      (`newVarn^ `valuen^` `...^)] */
-    /*      (`cursor^))                    */
-
-
-
-    (let [(newVar value)
-          (newVarn valuen)
-          (newVarn valuen)
-          (newVarn valuen)]
-         ())
-
-    (let [(newVar_TYPED value_TYPED _TYPED)]
-         ()) b
-
-    `(let [(newVar value)
-          (newVarn valuen)
-          (newVarn valuen)
-          (newVarn valuen)]
-         ())^
-
-    a (let [(newVar value)
-          (newVarn valuen)
-          (newVarn valuen)
-          (newVarn valuen)]
-         ())
-
-
     /*  -------------letrec---------------    */
     /* (letrec [(`newVar^ `value^` `...^)     */
     /* `         (`newVarn^ `valuen^` `...^)] */
@@ -425,6 +396,35 @@ WRAPPED_TEXT_line2`
              (newVarn valuen)
              (newVarn valuen)
              (newVarn valuen)]
+         ())
+
+
+    /*  -------------let---------------    */
+    /* (let [(`newVar^ `value^` `...^)     */
+    /* `      (`newVarn^ `valuen^` `...^)] */
+    /*      (`cursor^))                    */
+
+
+
+    (let [(newVar value)
+          (newVarn valuen)
+          (newVarn valuen)
+          (newVarn valuen)]
+         ())
+
+    (let [(newVar_TYPED value_TYPED _TYPED)]
+         ()) b
+
+    `(let [(newVar value)
+          (newVarn valuen)
+          (newVarn valuen)
+          (newVarn valuen)]
+         ())^
+
+    a (let [(newVar value)
+          (newVarn valuen)
+          (newVarn valuen)
+          (newVarn valuen)]
          ())
 
 

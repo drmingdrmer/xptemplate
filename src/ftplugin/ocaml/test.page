@@ -147,35 +147,6 @@ a begin
 end
 
 
-    (*  -------------class--------------- *)
-    (* class `_^^ `name^ =                *)
-    (* object (self)                      *)
-    (*     `cursor^                       *)
-    (* end                                *)
-
-
-
-class  name =
-object (self)
-    
-end
-
-class __TYPED name_TYPED =
-object (self)
-    
-end b
-
-`class  name =
-object (self)
-    
-end^
-
-a class  name =
-object (self)
-    
-end
-
-
     (*  -------------classtype--------------- *)
     (* class type `name^ =                    *)
     (* object                                 *)
@@ -271,6 +242,35 @@ object
    method field : type
    (**  *)
    method field : type
+end
+
+
+    (*  -------------class--------------- *)
+    (* class `_^^ `name^ =                *)
+    (* object (self)                      *)
+    (*     `cursor^                       *)
+    (* end                                *)
+
+
+
+class  name =
+object (self)
+    
+end
+
+class __TYPED name_TYPED =
+object (self)
+    
+end b
+
+`class  name =
+object (self)
+    
+end^
+
+a class  name =
+object (self)
+    
 end
 
 
@@ -616,30 +616,6 @@ fun args ->
                                                    | what -> with
 
 
-    (*  -------------module--------------- *)
-    (* module `name^ `^ = struct           *)
-    (*     `cursor^                        *)
-    (* end                                 *)
-
-
-
-                                                   module Name  = struct
-                                                       
-                                                   end
-
-                                                   module Name_TYPED _TYPED = struct
-                                                       
-                                                   end b
-
-                                                   `module Name  = struct
-                                                       
-                                                   end^
-
-                                                   a module Name  = struct
-                                                       
-                                                   end
-
-
     (*  -------------moduletype--------------- *)
     (* module type `name^ `^ = sig             *)
     (*     `cursor^                            *)
@@ -647,19 +623,43 @@ fun args ->
 
 
 
-module type name  = sig
+                                                   module type name  = sig
+                                                       
+                                                   end
+
+                                                   module type name_TYPED _TYPED = sig
+                                                       
+                                                   end b
+
+                                                   `module type name  = sig
+                                                       
+                                                   end^
+
+                                                   a module type name  = sig
+                                                       
+                                                   end
+
+
+    (*  -------------module--------------- *)
+    (* module `name^ `^ = struct           *)
+    (*     `cursor^                        *)
+    (* end                                 *)
+
+
+
+module Name  = struct
     
 end
 
-module type name_TYPED _TYPED = sig
+module Name_TYPED _TYPED = struct
     
 end b
 
-`module type name  = sig
+`module Name  = struct
     
 end^
 
-a module type name  = sig
+a module Name  = struct
     
 end
 
@@ -719,37 +719,6 @@ with  exc -> rez
            a t -> t2 -> t2 -> t2
 
 
-    (*  -------------typerecord--------------- *)
-    (* type `typename^` `typeParams?^ =        *)
-    (*     { `recordField^ : `fType^` `...^    *)
-    (*     ; `recordField^ : `fType^` `...^    *)
-    (*     }                                   *)
-
-
-
-                                         type typename =
-                                             { recordField : fType
-                                             ; recordField : fType
-                                             ; recordField : fType
-                                             }
-
-                                             type typename_TYPED typeParams_TYPED =
-                                                 { recordField_TYPED : fType_TYPED _TYPED
-                                                 } b
-
-                                                 `type typename =
-                                                     { recordField : fType
-                                                     ; recordField : fType
-                                                     ; recordField : fType
-                                                     }^
-
-                                                     a type typename =
-                                                         { recordField : fType
-                                                         ; recordField : fType
-                                                         ; recordField : fType
-                                                         }
-
-
     (*  -------------typerecordcom---------------            *)
     (* _CMT_* `type_descr^ _cmt_                             *)
     (* type `typename^ `_^^=                                 *)
@@ -759,34 +728,65 @@ with  exc -> rez
 
 
 
-                                             (** type_descr *)
-                                             type typename =
-                                                 { recordField : fType (** desc *)
-                                                 ; otherfield : othertype (** desc *)
-                                                 ; otherfield : othertype (** desc *)
-                                                 ; otherfield : othertype (** desc *)
-                                                 }
+                                         (** type_descr *)
+                                         type typename =
+                                             { recordField : fType (** desc *)
+                                             ; otherfield : othertype (** desc *)
+                                             ; otherfield : othertype (** desc *)
+                                             ; otherfield : othertype (** desc *)
+                                             }
 
-                                                 (** type_descr_TYPED *)
-                                                 type typename_TYPED __TYPED=
-                                                     { recordField_TYPED : fType_TYPED (** desc_TYPED *) _TYPED
-                                                     } b
+                                             (** type_descr_TYPED *)
+                                             type typename_TYPED __TYPED=
+                                                 { recordField_TYPED : fType_TYPED (** desc_TYPED *) _TYPED
+                                                 } b
 
-                                                     `(** type_descr *)
+                                                 `(** type_descr *)
+                                                 type typename =
+                                                     { recordField : fType (** desc *)
+                                                     ; otherfield : othertype (** desc *)
+                                                     ; otherfield : othertype (** desc *)
+                                                     ; otherfield : othertype (** desc *)
+                                                     }^
+
+                                                     a (** type_descr *)
                                                      type typename =
                                                          { recordField : fType (** desc *)
                                                          ; otherfield : othertype (** desc *)
                                                          ; otherfield : othertype (** desc *)
                                                          ; otherfield : othertype (** desc *)
-                                                         }^
+                                                         }
 
-                                                         a (** type_descr *)
-                                                         type typename =
-                                                             { recordField : fType (** desc *)
-                                                             ; otherfield : othertype (** desc *)
-                                                             ; otherfield : othertype (** desc *)
-                                                             ; otherfield : othertype (** desc *)
-                                                             }
+
+    (*  -------------typerecord--------------- *)
+    (* type `typename^` `typeParams?^ =        *)
+    (*     { `recordField^ : `fType^` `...^    *)
+    (*     ; `recordField^ : `fType^` `...^    *)
+    (*     }                                   *)
+
+
+
+                                                     type typename =
+                                                         { recordField : fType
+                                                         ; recordField : fType
+                                                         ; recordField : fType
+                                                         }
+
+                                                         type typename_TYPED typeParams_TYPED =
+                                                             { recordField_TYPED : fType_TYPED _TYPED
+                                                             } b
+
+                                                             `type typename =
+                                                                 { recordField : fType
+                                                                 ; recordField : fType
+                                                                 ; recordField : fType
+                                                                 }^
+
+                                                                 a type typename =
+                                                                     { recordField : fType
+                                                                     ; recordField : fType
+                                                                     ; recordField : fType
+                                                                     }
 
 
     (*  -------------typesum--------------- *)

@@ -103,20 +103,6 @@ WRAPPED_TEXT_line2
 #endif /* symbol */
 
 
-    /*  -------------#inc--------------- */
-    /* #include <`^.h>                   */
-
-
-
-#include <.h>
-
-#include <_TYPED.h> b
-
-`#include <.h>^
-
-a #include <.h>
-
-
     /*  -------------#include_user--------------- */
     /* #include "`me^.h"                          */
 
@@ -129,6 +115,20 @@ a #include <.h>
 `#include "test.h"^
 
 a #include "test.h"
+
+
+    /*  -------------#inc--------------- */
+    /* #include <`^.h>                   */
+
+
+
+#include <.h>
+
+#include <_TYPED.h> b
+
+`#include <.h>^
+
+a #include <.h>
 
 
     /*  -------------#ind--------------- */
@@ -309,24 +309,6 @@ a case constant :
     break;
 
 
-    /*  -------------comment--------------- */
-    /* `$CL^ `what^^ `$CR^`^                */
-
-
-
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
-
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */ b
-
-`/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */^
-
-a /* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
-
-
     /*  -------------commentBlock--------------- */
     /* `$_xCommentLeftWithoutMid^`$CM `cursor^   */
     /* `$_xCommentMidIndent$CR^                  */
@@ -394,6 +376,24 @@ a /**
 
 a /* WRAPPED_TEXT */
   /* WRAPPED_TEXT_line2 */
+
+
+    /*  -------------comment--------------- */
+    /* `$CL^ `what^^ `$CR^`^                */
+
+
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */ b
+
+`/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */^
+
+a /* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
 
 
     /*  -------------default--------------- */
@@ -676,34 +676,6 @@ a /**-------------------------/// sum \\\---------------------------
 
 
 
-    /*  -------------for---------------                                                                                  */
-    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{ */
-    /*     `cursor^                                                                                                      */
-    /* }                                                                                                                 */
-
-
-
-for ( i = 0; i < len; i++ ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-for ( i_TYPED = 0_TYPED; i_TYPED < len_TYPED; i_TYPED++ ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`for ( i = 0; i < len; i++ ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a for ( i = 0; i < len; i++ ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
     /*  -------------forever--------------- */
     /* for`$SPcmd^(;;) `cursor^             */
 
@@ -769,6 +741,34 @@ for ( i_TYPED = 0_TYPED; i_TYPED >= end_TYPED; i_TYPED-- ) {
 }^
 
 a for ( i = 0; i >= end; i-- ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------for---------------                                                                                  */
+    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                                                                                      */
+    /* }                                                                                                                 */
+
+
+
+for ( i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+for ( i_TYPED = 0_TYPED; i_TYPED < len_TYPED; i_TYPED++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`for ( i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a for ( i = 0; i < len; i++ ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
@@ -1266,34 +1266,6 @@ a switch ( var ) {
 a %token 
 
 
-    /*  -------------while---------------                   */
-    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
-    /*     `cursor^                                         */
-    /* }                                                    */
-
-
-
-while ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-while ( condition_TYPED ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`while ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a while ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
     /*  -------------while0---------------                   */
     /* do`$BRloop^{                                          */
     /*     `cursor^                                          */
@@ -1373,6 +1345,34 @@ while ( NULL != x_TYPED ) {
 }^
 
 a while ( NULL != x ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------while---------------                   */
+    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                         */
+    /* }                                                    */
+
+
+
+while ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+while ( condition_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`while ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a while ( condition ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
