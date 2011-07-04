@@ -72,15 +72,20 @@ fun! s:New( x ) dict "{{{
           \   'snipSetting'        : {},
           \   'tmpmappings'        : {},
           \   'oriIndentkeys'      : {},
+          \   'leadingCharToReindent' : {},
           \ }, 'force' )
 
     " for emulation of 'indentkeys'
     let indentkeysList = split( &indentkeys, ',' )
-    call filter( indentkeysList, 'v:val=~''\V\^0=''' )
+    call filter( indentkeysList, 'v:val=~''\V\^0''' )
     for k in indentkeysList
 
-        " "0=" is not included
-        let self.oriIndentkeys[ k[ 2: ] ] = 1
+        " "0" is not included
+        if k[ 1 ] == '='
+            let self.oriIndentkeys[ k[ 2: ] ] = 1
+        else
+            let self.leadingCharToReindent[ k[ 1: ] ] = 1
+        endif
     endfor
 
 endfunction "}}}
