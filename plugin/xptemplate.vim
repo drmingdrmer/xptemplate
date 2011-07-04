@@ -1819,8 +1819,27 @@ fun! s:BuildSnippet(nameStartPosition, nameEndPosition) " {{{
         " snippet name starts as the first non-space char
 
         if has_key( ctx.oriIndentkeys, ctx.snipObject.name )
+              \ || has_key( ctx.leadingCharToReindent, ctx.snipObject.name )
+
+            " TODO
+            "       For correct indentexpr, we have to place snippet name first on
+            "       screen and then clear it.
+            "
+            "       This is a dirty fix. Better way is to place the snippet name out
+            "       of this function.
+
+            if a:nameStartPosition == a:nameEndPosition
+                call XPreplace( a:nameStartPosition, a:nameEndPosition,
+                      \ ctx.snipObject.name, { 'doJobs' : 0 } )
+            endif
 
             let nIndent = XPT#getPreferedIndentNr( a:nameStartPosition[ 0 ] )
+
+            if a:nameStartPosition == a:nameEndPosition
+                call XPreplace( a:nameStartPosition, [ a:nameEndPosition[ 0 ],
+                      \     a:nameEndPosition[ 1 ] + len( ctx.snipObject.name ) ],
+                      \ '', { 'doJobs' : 0 } )
+            endif
 
         endif
 
