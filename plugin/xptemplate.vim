@@ -331,7 +331,7 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
                         \ 'setting'     : deepcopy(toSnip.setting),
                         \ 'ptn'         : deepcopy(toSnip.ptn),
                         \}
-        
+        call s:UpdateNamePrefixDict( toSnip.ftScope, a:name )
 
         if has_key( toSnip.setting, 'rawHint' )
               \ && !has_key( a:setting, 'rawHint' )
