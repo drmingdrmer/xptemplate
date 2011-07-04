@@ -618,32 +618,6 @@ else if ( condition ) {
 }
 
 
-    //  -------------ifn--------------- 
-    // `Include:_if^                    
-
-
-
-if ( null == var ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-if ( null == var_TYPED ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`if ( null == var ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a if ( null == var ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
     //  -------------ifn0--------------- 
     // `Include:_if^                     
 
@@ -665,6 +639,32 @@ if ( 0 != var_TYPED ) {
 }^
 
 a if ( 0 != var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    //  -------------ifn--------------- 
+    // `Include:_if^                    
+
+
+
+if ( null == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+if ( null == var_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`if ( null == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a if ( null == var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }

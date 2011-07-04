@@ -184,24 +184,6 @@ a case $var in
 esac
 
 
-    #  -------------comment--------------- 
-    # `$CS `cursor^                        
-
-
-
-# WRAPPED_TEXT
-# WRAPPED_TEXT_line2
-
-# WRAPPED_TEXT
-# WRAPPED_TEXT_line2 b
-
-`# WRAPPED_TEXT
- # WRAPPED_TEXT_line2^
-
- a # WRAPPED_TEXT
-   # WRAPPED_TEXT_line2
-
-
     #  -------------commentBlock--------------- 
     # `$CS `cursor^                             
 
@@ -250,6 +232,24 @@ a #
 
     #  -------------commentLine--------------- 
     # `$CS `cursor^                            
+
+
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2
+
+# WRAPPED_TEXT
+# WRAPPED_TEXT_line2 b
+
+`# WRAPPED_TEXT
+ # WRAPPED_TEXT_line2^
+
+ a # WRAPPED_TEXT
+   # WRAPPED_TEXT_line2
+
+
+    #  -------------comment--------------- 
+    # `$CS `cursor^                        
 
 
 
@@ -512,34 +512,6 @@ WRAPPED_TEXT_line2
 END
 
 
-    #  -------------if--------------- 
-    # if ~:_cond:^;~$BRif^then        
-    #     ~cursor^                    
-    # fi                              
-
-
-
-if condition; then
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-fi
-
-if condition_TYPED; then
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-fi b
-
-`if condition; then
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-fi^
-
-a if condition; then
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-fi
-
-
     #  -------------ife--------------- 
     # if ~:_cond:^;~$BRif^then         
     #     ~job^                        
@@ -575,6 +547,34 @@ a if condition; then
     WRAPPED_TEXT_line2
 else
     
+fi
+
+
+    #  -------------if--------------- 
+    # if ~:_cond:^;~$BRif^then        
+    #     ~cursor^                    
+    # fi                              
+
+
+
+if condition; then
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+fi
+
+if condition_TYPED; then
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+fi b
+
+`if condition; then
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+fi^
+
+a if condition; then
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
 fi
 
 

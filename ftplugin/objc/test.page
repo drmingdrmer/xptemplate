@@ -117,20 +117,6 @@ WRAPPED_TEXT_line2
 a #import <hfile>
 
 
-    /*  -------------#inc--------------- */
-    /* #include <`^.h>                   */
-
-
-
-#include <.h>
-
-#include <_TYPED.h> b
-
-`#include <.h>^
-
-a #include <.h>
-
-
     /*  -------------#include_user--------------- */
     /* #include "`me^.h"                          */
 
@@ -143,6 +129,20 @@ a #include <.h>
 `#include "test.h"^
 
 a #include "test.h"
+
+
+    /*  -------------#inc--------------- */
+    /* #include <`^.h>                   */
+
+
+
+#include <.h>
+
+#include <_TYPED.h> b
+
+`#include <.h>^
+
+a #include <.h>
 
 
     /*  -------------#ind--------------- */
@@ -752,46 +752,18 @@ a test.page
  
 
 
-    /*  -------------for---------------                                                                                  */
-    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{ */
-    /*     `cursor^                                                                                                      */
-    /* }                                                                                                                 */
-
-
-
-for ( i = 0; i < len; i++ ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-for ( i_TYPED = 0_TYPED; i_TYPED < len_TYPED; i_TYPED++ ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`for ( i = 0; i < len; i++ ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a for ( i = 0; i < len; i++ ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
     /*  -------------forever--------------- */
     /* for`$SPcmd^(;;) `cursor^             */
 
 
 
-for (;;) 
+ for (;;) 
 
-for (;;)  b
+ for (;;)  b
 
-`for (;;) ^
+ `for (;;) ^
 
-a for (;;) 
+ a for (;;) 
 
 
     /*  -------------fornn---------------                                                                                                */
@@ -850,6 +822,34 @@ a for ( i = 0; i >= end; i-- ) {
 }
 
 
+    /*  -------------for---------------                                                                                  */
+    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                                                                                      */
+    /* }                                                                                                                 */
+
+
+
+for ( i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+for ( i_TYPED = 0_TYPED; i_TYPED < len_TYPED; i_TYPED++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`for ( i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a for ( i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
     /*  -------------fprintf---------------                     */
     /* fprintf(`$SParg^`stream^,`$SPop^`:_printfElts:^`$SParg^) */
 
@@ -893,6 +893,55 @@ a     int
 name()
 {
     
+}
+
+
+    /*  -------------ifee---------------                              */
+    /* `:_if:^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ */
+
+
+
+if ( condition ) {
+    
+}
+else if ( condition ) {
+    /* cursor */
+}
+else if ( condition ) {
+    /* cursor */
+}
+else if ( condition ) {
+    /* cursor */
+}
+
+if ( condition_TYPED ) {
+    _TYPED
+} else_if_TYPED b
+
+`if ( condition ) {
+    
+}
+else if ( condition ) {
+    /* cursor */
+}
+else if ( condition ) {
+    /* cursor */
+}
+else if ( condition ) {
+    /* cursor */
+}^
+
+a if ( condition ) {
+    
+}
+else if ( condition ) {
+    /* cursor */
+}
+else if ( condition ) {
+    /* cursor */
+}
+else if ( condition ) {
+    /* cursor */
 }
 
 
@@ -945,55 +994,6 @@ if ( 0 == var_TYPED ) {
 a if ( 0 == var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
-}
-
-
-    /*  -------------ifee---------------                              */
-    /* `:_if:^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ */
-
-
-
-if ( condition ) {
-    
-}
-else if ( condition ) {
-    /* cursor */
-}
-else if ( condition ) {
-    /* cursor */
-}
-else if ( condition ) {
-    /* cursor */
-}
-
-if ( condition_TYPED ) {
-    _TYPED
-} else_if_TYPED b
-
-`if ( condition ) {
-    
-}
-else if ( condition ) {
-    /* cursor */
-}
-else if ( condition ) {
-    /* cursor */
-}
-else if ( condition ) {
-    /* cursor */
-}^
-
-a if ( condition ) {
-    
-}
-else if ( condition ) {
-    /* cursor */
-}
-else if ( condition ) {
-    /* cursor */
-}
-else if ( condition ) {
-    /* cursor */
 }
 
 

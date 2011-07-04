@@ -330,13 +330,13 @@ WRAPPED_TEXT_line2`
         
     } b
 
-        `BEGIN {
-            
-        }^
+    `BEGIN {
+        
+    }^
 
-        a BEGIN {
-            
-        }
+    a BEGIN {
+        
+    }
 
 
     #   -------------begin--------------- 
@@ -370,40 +370,40 @@ WRAPPED_TEXT_line2`
         
     end
 
-        begin
-            expr_TYPED
-        rescue_TYPED
-        else_TYPED
-        ensure_TYPED
-        end b
+    begin
+        expr_TYPED
+    rescue_TYPED
+    else_TYPED
+    ensure_TYPED
+    end b
 
-        `begin
-            expr
-        rescue Exception => e
-            # block
-        rescue Exception => e
-            # block
-        rescue Exception => e
-            # block
-        else
-            # block
-        ensure
-            
-        end^
+    `begin
+        expr
+    rescue Exception => e
+        # block
+    rescue Exception => e
+        # block
+    rescue Exception => e
+        # block
+    else
+        # block
+    ensure
+        
+    end^
 
-        a begin
-            expr
-        rescue Exception => e
-            # block
-        rescue Exception => e
-            # block
-        rescue Exception => e
-            # block
-        else
-            # block
-        ensure
-            
-        end
+    a begin
+        expr
+    rescue Exception => e
+        # block
+    rescue Exception => e
+        # block
+    rescue Exception => e
+        # block
+    else
+        # block
+    ensure
+        
+    end
 
 
     #   -------------begin_--------------- 
@@ -438,43 +438,43 @@ ensure
     
 end
 
-        begin
-            WRAPPED_TEXT
-            WRAPPED_TEXT_line2
-        rescue_TYPED
-        else_TYPED
-        ensure_TYPED
-        end b
+    begin
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+    rescue_TYPED
+    else_TYPED
+    ensure_TYPED
+    end b
 
-        `begin
-            WRAPPED_TEXT
-            WRAPPED_TEXT_line2
-        rescue Exception => e
-            # block
-        rescue Exception => e
-            # block
-        rescue Exception => e
-            # block
-        else
-            # block
-        ensure
-            
-        end^
+    `begin
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+    rescue Exception => e
+        # block
+    rescue Exception => e
+        # block
+    rescue Exception => e
+        # block
+    else
+        # block
+    ensure
+        
+    end^
 
-        a begin
-            WRAPPED_TEXT
-            WRAPPED_TEXT_line2
-        rescue Exception => e
-            # block
-        rescue Exception => e
-            # block
-        rescue Exception => e
-            # block
-        else
-            # block
-        ensure
-            
-        end
+    a begin
+        WRAPPED_TEXT
+        WRAPPED_TEXT_line2
+    rescue Exception => e
+        # block
+    rescue Exception => e
+        # block
+    rescue Exception => e
+        # block
+    else
+        # block
+    ensure
+        
+    end
 
 
     #   -------------bm--------------- 
@@ -587,30 +587,6 @@ end
     a classify { |element|  }
 
 
-    #   -------------cl--------------- 
-    #  class `ClassName^               
-    #      `cursor^                    
-    #  end                             
-
-
-
-    class ClassName
-        
-    end
-
-    class ClassNameTYPED
-        
-    end b
-
-    `class ClassName
-        
-    end^
-
-    a class ClassName
-        
-    end
-
-
     #   -------------class_--------------- 
     #  class `_^                           
     #      `wrapped^                       
@@ -623,20 +599,20 @@ class
     WRAPPED_TEXT_line2
 end
 
-    class TYPED
-        WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-    end b
+class TYPED
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+end b
 
-    `class 
-        WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-    end^
+`class 
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+end^
 
-    a class 
-        WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-    end
+a class 
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+end
 
 
     #   -------------cld---------------                 
@@ -658,29 +634,53 @@ end
         end
     end
 
-    class ClassNameTYPED < DelegateClass(ParentClassTYPED)
-        def initialize(arg_TYPED, narg_TYPED, narg_TYPED)
-            super(delegateobject_TYPED)
-    
-            
-        end
-    end b
+class ClassNameTYPED < DelegateClass(ParentClassTYPED)
+    def initialize(arg_TYPED, narg_TYPED, narg_TYPED)
+        super(delegateobject_TYPED)
 
-    `class ClassName < DelegateClass(ParentClass)
-        def initialize
-            super(delegate object)
-    
-            
-        end
-    end^
-
-    a class ClassName < DelegateClass(ParentClass)
-        def initialize
-            super(delegate object)
-    
-            
-        end
+        
     end
+end b
+
+`class ClassName < DelegateClass(ParentClass)
+    def initialize
+        super(delegate object)
+
+        
+    end
+end^
+
+a class ClassName < DelegateClass(ParentClass)
+    def initialize
+        super(delegate object)
+
+        
+    end
+end
+
+
+    #   -------------cl--------------- 
+    #  class `ClassName^               
+    #      `cursor^                    
+    #  end                             
+
+
+
+    class ClassName
+        
+    end
+
+class ClassNameTYPED
+    
+end b
+
+`class ClassName
+    
+end^
+
+a class ClassName
+    
+end
 
 
     #   -------------cli--------------- 
@@ -704,31 +704,51 @@ end
         end
     end
 
-    class ClassNameTYPED
-        def initialize(arg_TYPED, narg_TYPED, narg_TYPED)
-            init_TYPED
-        end
-        def_TYPED
-    end b
+class ClassNameTYPED
+    def initialize(arg_TYPED, narg_TYPED, narg_TYPED)
+        init_TYPED
+    end
+    def_TYPED
+end b
 
-    `class ClassName
-        def initialize
-            
-        end
-    
-        def method
-            
-        end
+`class ClassName
+    def initialize
+        
+    end
+
+    def method
+        
+    end
+end^
+
+a class ClassName
+    def initialize
+        
+    end
+
+    def method
+        
+    end
+end
+
+
+    #   -------------clstr---------------            
+    #  `ClassName^ = Struct.new`(:`attr*`)^` `do...^ 
+
+
+
+    ClassName = Struct.new do
+        
+    end
+
+    ClassNameTYPED = Struct.new(:attr_TYPED, :nattr_TYPED, :nattr_TYPED) do_TYPED b
+
+    `ClassName = Struct.new do
+        
     end^
 
-    a class ClassName
-        def initialize
-            
-        end
-    
-        def method
-            
-        end
+    a ClassName = Struct.new do
+        
     end
 
 
@@ -752,26 +772,6 @@ end
     end^
 
     a class << self
-        
-    end
-
-
-    #   -------------clstr---------------            
-    #  `ClassName^ = Struct.new`(:`attr*`)^` `do...^ 
-
-
-
-    ClassName = Struct.new do
-        
-    end
-
-    ClassNameTYPED = Struct.new(:attr_TYPED, :nattr_TYPED, :nattr_TYPED) do_TYPED b
-
-    `ClassName = Struct.new do
-        
-    end^
-
-    a ClassName = Struct.new do
         
     end
 
@@ -838,30 +838,6 @@ end
     a Marshal.load(Marshal.dump(obj))
 
 
-    #   -------------def--------------- 
-    #  def `method^`(`arg*`)^           
-    #      `cursor^                     
-    #  end                              
-
-
-
-    def method
-        
-    end
-
-    def method_TYPED(arg_TYPED, narg_TYPED, narg_TYPED)
-        
-    end b
-
-    `def method
-        
-    end^
-
-    a def method
-        
-    end
-
-
     #   -------------def_--------------- 
     #  def `method_name^`(`arg*`)^       
     #      `wrapped^                     
@@ -890,20 +866,6 @@ end
     end
 
 
-    #   -------------defd---------------                  
-    #  def_delegator :`del obj^, :`del meth^, :`new name^ 
-
-
-
-    def_delegator :del obj, :del meth, :new name
-
-    def_delegator :delobj_TYPED, :delmeth_TYPED, :new name b
-
-    `def_delegator :del obj, :del meth, :new name^
-
-    a def_delegator :del obj, :del meth, :new name
-
-
     #   -------------defds---------------        
     #  def_delegators :`del obj^, :`del methods^ 
 
@@ -916,6 +878,20 @@ end
     `def_delegators :del obj, :del methods^
 
     a def_delegators :del obj, :del methods
+
+
+    #   -------------defd---------------                  
+    #  def_delegator :`del obj^, :`del meth^, :`new name^ 
+
+
+
+    def_delegator :del obj, :del meth, :new name
+
+    def_delegator :delobj_TYPED, :delmeth_TYPED, :new name b
+
+    `def_delegator :del obj, :del meth, :new name^
+
+    a def_delegator :del obj, :del meth, :new name
 
 
     #   -------------defi--------------- 
@@ -938,6 +914,30 @@ end
     end^
 
     a def initialize
+        
+    end
+
+
+    #   -------------def--------------- 
+    #  def `method^`(`arg*`)^           
+    #      `cursor^                     
+    #  end                              
+
+
+
+    def method
+        
+    end
+
+    def method_TYPED(arg_TYPED, narg_TYPED, narg_TYPED)
+        
+    end b
+
+    `def method
+        
+    end^
+
+    a def method
         
     end
 
@@ -1070,6 +1070,20 @@ end
     a Dir.glob(dir) { |file|  }
 
 
+    #   -------------dow---------------      
+    #  downto(`lbound^) { |`arg^| `cursor^ } 
+
+
+
+    downto(0) { |i|  }
+
+    downto(lbound_TYPED) { |arg_TYPED|  } b
+
+    `downto(0) { |i|  }^
+
+    a downto(0) { |i|  }
+
+
     #   -------------do--------------- 
     #  do` |`arg*`|^                   
     #      `cursor^                    
@@ -1092,20 +1106,6 @@ end
     a do
         
     end
-
-
-    #   -------------dow---------------      
-    #  downto(`lbound^) { |`arg^| `cursor^ } 
-
-
-
-    downto(0) { |i|  }
-
-    downto(lbound_TYPED) { |arg_TYPED|  } b
-
-    `downto(0) { |i|  }^
-
-    a downto(0) { |i|  }
 
 
     #   -------------each---------------  
@@ -1222,20 +1222,6 @@ end
     a fetch(name) { |key|  }
 
 
-    #   -------------file---------------                
-    #  File.foreach('`filename^') { |`line^| `cursor^ } 
-
-
-
-    File.foreach('filename') { |line|  }
-
-    File.foreach('filename_TYPED') { |line_TYPED|  } b
-
-    `File.foreach('filename') { |line|  }^
-
-    a File.foreach('filename') { |line|  }
-
-
     #   -------------File--------------- 
     #  `file()^                          
 
@@ -1248,6 +1234,20 @@ end
     `test.page^
 
     a test.page
+
+
+    #   -------------file---------------                
+    #  File.foreach('`filename^') { |`line^| `cursor^ } 
+
+
+
+    File.foreach('filename') { |line|  }
+
+    File.foreach('filename_TYPED') { |line_TYPED|  } b
+
+    `File.foreach('filename') { |line|  }^
+
+    a File.foreach('filename') { |line|  }
 
 
     #   -------------fin--------------- 
@@ -1376,30 +1376,6 @@ end
     a Hash.new { |hash,key| hash[key] =  }
 
 
-    #   -------------if--------------- 
-    #  if `boolean exp^                
-    #      `cursor^                    
-    #  end                             
-
-
-
-    if boolean exp
-        
-    end
-
-    if booleanexp_TYPED
-        
-    end b
-
-    `if boolean exp
-        
-    end^
-
-    a if boolean exp
-        
-    end
-
-
     #   -------------ife--------------- 
     #  if `boolean exp^                 
     #      `block^                      
@@ -1430,6 +1406,30 @@ end
     a if boolean exp
         # block
     else
+        
+    end
+
+
+    #   -------------if--------------- 
+    #  if `boolean exp^                
+    #      `cursor^                    
+    #  end                             
+
+
+
+    if boolean exp
+        
+    end
+
+    if booleanexp_TYPED
+        
+    end b
+
+    `if boolean exp
+        
+    end^
+
+    a if boolean exp
         
     end
 
@@ -1701,20 +1701,20 @@ module
     WRAPPED_TEXT_line2
 end
 
-    module TYPED
-        WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-    end b
+module TYPED
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+end b
 
-    `module 
-        WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-    end^
+`module 
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+end^
 
-    a module 
-        WRAPPED_TEXT
-        WRAPPED_TEXT_line2
-    end
+a module 
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+end
 
 
     #   -------------nam--------------- 
@@ -1839,20 +1839,6 @@ end
     a result.report("name: ") { TESTS.times {  } }
 
 
-    #   -------------req--------------- 
-    #  require '`lib^'                  
-
-
-
-    require 'lib'
-
-    require 'lib_TYPED' b
-
-    `require 'lib'^
-
-    a require 'lib'
-
-
     #   -------------reqs---------------    
     #  %w[`lib*^].map { |lib| require lib } 
 
@@ -1869,6 +1855,20 @@ end
 
      a %w[].map { |lib| require lib }
      
+
+
+    #   -------------req--------------- 
+    #  require '`lib^'                  
+
+
+
+    require 'lib'
+
+    require 'lib_TYPED' b
+
+    `require 'lib'^
+
+    a require 'lib'
 
 
     #   -------------reve---------------     

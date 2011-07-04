@@ -19,34 +19,6 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
-    /*  -------------#if--------------- */
-    /* #if `0^                          */
-    /* `cursor^                         */
-    /* #endif                           */
-
-
-
-#if 0
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif
-
-#if 0_TYPED
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif b
-
-`#if 0
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif^
-
-a #if 0
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif
-
-
     /*  -------------#ifdef--------------- */
     /* #ifdef `symbol^                     */
     /* `cursor^                            */
@@ -73,6 +45,34 @@ a #ifdef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
 #endif /* symbol */
+
+
+    /*  -------------#if--------------- */
+    /* #if `0^                          */
+    /* `cursor^                         */
+    /* #endif                           */
+
+
+
+#if 0
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif
+
+#if 0_TYPED
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif b
+
+`#if 0
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif^
+
+a #if 0
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif
 
 
     /*  -------------#ifndef--------------- */
@@ -103,20 +103,6 @@ WRAPPED_TEXT_line2
 #endif /* symbol */
 
 
-    /*  -------------#inc--------------- */
-    /* #include <`^.h>                   */
-
-
-
-#include <.h>
-
-#include <_TYPED.h> b
-
-`#include <.h>^
-
-a #include <.h>
-
-
     /*  -------------#include_user--------------- */
     /* #include "`me^.h"                          */
 
@@ -129,6 +115,20 @@ a #include <.h>
 `#include "test.h"^
 
 a #include "test.h"
+
+
+    /*  -------------#inc--------------- */
+    /* #include <`^.h>                   */
+
+
+
+#include <.h>
+
+#include <_TYPED.h> b
+
+`#include <.h>^
+
+a #include <.h>
 
 
     /*  -------------#ind--------------- */
@@ -500,24 +500,6 @@ className::className( const className &cpy )
 }
 
 
-    /*  -------------comment--------------- */
-    /* `$CS `cursor^                        */
-
-
-
-// WRAPPED_TEXT
-// WRAPPED_TEXT_line2
-
-// WRAPPED_TEXT
-// WRAPPED_TEXT_line2 b
-
-`// WRAPPED_TEXT
- // WRAPPED_TEXT_line2^
-
-a // WRAPPED_TEXT
-  // WRAPPED_TEXT_line2
-
-
     /*  -------------commentBlock--------------- */
     /* `$CS `cursor^                             */
 
@@ -598,6 +580,24 @@ a // WRAPPED_TEXT
 
  a /* WRAPPED_TEXT */
    /* WRAPPED_TEXT_line2 */
+
+
+    /*  -------------comment--------------- */
+    /* `$CS `cursor^                        */
+
+
+
+// WRAPPED_TEXT
+// WRAPPED_TEXT_line2
+
+ // WRAPPED_TEXT
+ // WRAPPED_TEXT_line2 b
+
+ `// WRAPPED_TEXT
+  // WRAPPED_TEXT_line2^
+
+ a // WRAPPED_TEXT
+   // WRAPPED_TEXT_line2
 
 
     /*  -------------default--------------- */
@@ -1064,38 +1064,6 @@ fprintf( stream_TYPED, "pattern_TYPED" ) b
 a fprintf( stream, "pattern" )
 
 
-    /*  -------------fun---------------                                                       */
-    /* `c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`$SParg`param?`$SParg^)`$BRfun^{ */
-    /*     `cursor^                                                                           */
-    /* }                                                                                      */
-
-
-
-    int
-name()
-{
-    
-}
-
-    int_TYPED
-name_TYPED( param_TYPED )
-{
-    
-} b
-
-`    int
-name()
-{
-    
-}^
-
-a     int
-name()
-{
-    
-}
-
-
     /*  -------------functor---------------                            */
     /* struct `className^                                              */
     /* {                                                               */
@@ -1150,6 +1118,38 @@ a struct className
         
     }
 };
+
+
+    /*  -------------fun---------------                                                       */
+    /* `c_fun_type_indent()^`int^`c_fun_body_indent()^`name^(`$SParg`param?`$SParg^)`$BRfun^{ */
+    /*     `cursor^                                                                           */
+    /* }                                                                                      */
+
+
+
+    int
+name()
+{
+    
+}
+
+    int_TYPED
+name_TYPED( param_TYPED )
+{
+    
+} b
+
+`    int
+name()
+{
+    
+}^
+
+a     int
+name()
+{
+    
+}
 
 
     /*  -------------icastop--------------- */
@@ -1928,6 +1928,38 @@ std::vector<type_TYPED> var_TYPED;
  
 
 
+    /*  -------------while1---------------                  */
+    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                         */
+    /* }                                                    */
+
+
+
+while ( true )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+while ( true )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`while ( true )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a while ( true )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
     /*  -------------while---------------                   */
     /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
     /*     `cursor^                                         */
@@ -1994,38 +2026,6 @@ a do
     WRAPPED_TEXT_line2
 }
 while ( false );
-
-
-    /*  -------------while1---------------                  */
-    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
-    /*     `cursor^                                         */
-    /* }                                                    */
-
-
-
-while ( true )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-while ( true )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`while ( true )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a while ( true )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
 
 
     /*  -------------whilenn---------------                 */

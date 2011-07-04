@@ -174,24 +174,6 @@ catch /exception_TYPED/
              
 
 
-    /*  -------------comment--------------- */
-    /* `$CS `cursor^                        */
-
-
-
-" WRAPPED_TEXT
-" WRAPPED_TEXT_line2
-
-" WRAPPED_TEXT
-" WRAPPED_TEXT_line2 b
-
-`" WRAPPED_TEXT
- " WRAPPED_TEXT_line2^
-
- a " WRAPPED_TEXT
-   " WRAPPED_TEXT_line2
-
-
     /*  -------------commentBlock--------------- */
     /* `$CS `cursor^                             */
 
@@ -256,6 +238,24 @@ a "
    " WRAPPED_TEXT_line2
 
 
+    /*  -------------comment--------------- */
+    /* `$CS `cursor^                        */
+
+
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2 b
+
+`" WRAPPED_TEXT
+ " WRAPPED_TEXT_line2^
+
+ a " WRAPPED_TEXT
+   " WRAPPED_TEXT_line2
+
+
     /*  -------------container--------------- */
     /* let s:f = g:XPTfuncs()                 */
 
@@ -301,20 +301,6 @@ a "
              `drdr.xp@gmail.com^
 
              a drdr.xp@gmail.com
-
-
-    /*  -------------File--------------- */
-    /* `file()^                          */
-
-
-
-             test.page
-
-             test.page b
-
-             `test.page^
-
-             a test.page
 
 
     /*  -------------filehead---------------                                           */
@@ -369,6 +355,20 @@ a "
              "
              " =============================================================================
              " }}}
+
+
+    /*  -------------File--------------- */
+    /* `file()^                          */
+
+
+
+             test.page
+
+             test.page b
+
+             `test.page^
+
+             a test.page
 
 
     /*  -------------finally--------------- */
@@ -488,6 +488,20 @@ a if cond
 endif
 
 
+    /*  -------------include--------------- */
+    /* \`Include:`name^\^                   */
+
+
+
+`Include:name^
+
+`Include:name_TYPED^ b
+
+``Include:name^^
+
+a `Include:name^
+
+
     /*  -------------inc--------------- */
     /* \`:`name^:\^                     */
 
@@ -524,20 +538,6 @@ XPTinclude
                   a XPTinclude
                         \ _common/common
                         \ dot/dot
-
-
-    /*  -------------include--------------- */
-    /* \`Include:`name^\^                   */
-
-
-
-                        `Include:name^
-
-                        `Include:name_TYPED^ b
-
-                        ``Include:name^^
-
-                        a `Include:name^
 
 
     /*  -------------member---------------      */
@@ -866,58 +866,6 @@ catch /.*/
 endtry
 
 
-    /*  -------------var--------------- */
-    /* XPTvar $`name^ `cursor^          */
-
-
-
-XPTvar $name 
-
-XPTvar $name_TYPED  b
-
-`XPTvar $name ^
-
-a XPTvar $name 
-
-
-    /*  -------------varComment1--------------- */
-    /* XPTvar $CS    `cursor^                   */
-
-
-
-XPTvar $CS    
-
-XPTvar $CS     b
-
-`XPTvar $CS    ^
-
-a XPTvar $CS    
-
-
-    /*  -------------varComment2--------------- */
-    /* XPTvar $CL    `left sign^                */
-    /* XPTvar $CM    `cursor^                   */
-    /* XPTvar $CR    `right sign^               */
-
-
-
-XPTvar $CL    left sign
-XPTvar $CM    
-XPTvar $CR    right sign
-
-XPTvar $CL    leftsign_TYPED
-XPTvar $CM    
-XPTvar $CR    rightsign_TYPED b
-
-`XPTvar $CL    left sign
-XPTvar $CM    
-XPTvar $CR    right sign^
-
-a XPTvar $CL    left sign
-XPTvar $CM    
-XPTvar $CR    right sign
-
-
     /*  -------------varconf---------------        */
     /* if !exists(`$SParg^"`g^:`varname^"`$SParg^) */
     /*     let `g^:`varname^`$SPop^=`$SPop^`val^   */
@@ -969,6 +917,58 @@ a XPTvar $TRUE          1
 XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
+
+
+    /*  -------------var--------------- */
+    /* XPTvar $`name^ `cursor^          */
+
+
+
+XPTvar $name 
+
+XPTvar $name_TYPED  b
+
+`XPTvar $name ^
+
+a XPTvar $name 
+
+
+    /*  -------------varComment1--------------- */
+    /* XPTvar $CS    `cursor^                   */
+
+
+
+XPTvar $CS    
+
+XPTvar $CS     b
+
+`XPTvar $CS    ^
+
+a XPTvar $CS    
+
+
+    /*  -------------varComment2--------------- */
+    /* XPTvar $CL    `left sign^                */
+    /* XPTvar $CM    `cursor^                   */
+    /* XPTvar $CR    `right sign^               */
+
+
+
+XPTvar $CL    left sign
+XPTvar $CM    
+XPTvar $CR    right sign
+
+XPTvar $CL    leftsign_TYPED
+XPTvar $CM    
+XPTvar $CR    rightsign_TYPED b
+
+`XPTvar $CL    left sign
+XPTvar $CM    
+XPTvar $CR    right sign^
+
+a XPTvar $CL    left sign
+XPTvar $CM    
+XPTvar $CR    right sign
 
 
     /*  -------------varFormat--------------- */
@@ -1260,6 +1260,39 @@ let g_TYPED:i_TYPED = ver_TYPED
  a " vim:tw=78:ts=8:sw=4:sts=4:et:norl:fdm=marker:fmr={{{,}}}
 
 
+    /*  -------------whilei---------------                                                                              */
+    /* let [`$SParg^`i^,`$SPop^`len^`$SParg^] = [`$SParg^`0^`$SPop^-`$SPop^1,`$SPop^`len_expr^`$SPop^-`$SPop^1`$SParg^] */
+    /* while `i^`$SPop^<`$SPop^`len^ | let `i^`$SPop^+=`$SPop^1                                                         */
+    /*     `cursor^                                                                                                     */
+    /* endwhile                                                                                                         */
+
+
+
+let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+while i < len | let i += 1
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile
+
+let [ i_TYPED, len_TYPED ] = [ 0_TYPED - 1, len_expr_TYPED - 1 ]
+while i_TYPED < len_TYPED | let i_TYPED += 1
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile b
+
+`let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+while i < len | let i += 1
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile^
+
+a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
+while i < len | let i += 1
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile
+
+
     /*  -------------while--------------- */
     /* while `cond^                       */
     /*     `cursor^                       */
@@ -1311,39 +1344,6 @@ endwhile b
 endwhile^
 
 a while 1
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endwhile
-
-
-    /*  -------------whilei---------------                                                                              */
-    /* let [`$SParg^`i^,`$SPop^`len^`$SParg^] = [`$SParg^`0^`$SPop^-`$SPop^1,`$SPop^`len_expr^`$SPop^-`$SPop^1`$SParg^] */
-    /* while `i^`$SPop^<`$SPop^`len^ | let `i^`$SPop^+=`$SPop^1                                                         */
-    /*     `cursor^                                                                                                     */
-    /* endwhile                                                                                                         */
-
-
-
-let [ i, len ] = [ 0 - 1, len_expr - 1 ]
-while i < len | let i += 1
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endwhile
-
-let [ i_TYPED, len_TYPED ] = [ 0_TYPED - 1, len_expr_TYPED - 1 ]
-while i_TYPED < len_TYPED | let i_TYPED += 1
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endwhile b
-
-`let [ i, len ] = [ 0 - 1, len_expr - 1 ]
-while i < len | let i += 1
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endwhile^
-
-a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
-while i < len | let i += 1
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 endwhile

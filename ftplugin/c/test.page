@@ -19,34 +19,6 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
-    /*  -------------#if--------------- */
-    /* #if `0^                          */
-    /* `cursor^                         */
-    /* #endif                           */
-
-
-
-#if 0
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif
-
-#if 0_TYPED
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif b
-
-`#if 0
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif^
-
-a #if 0
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif
-
-
     /*  -------------#ifdef--------------- */
     /* #ifdef `symbol^                     */
     /* `cursor^                            */
@@ -73,6 +45,34 @@ a #ifdef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
 #endif /* symbol */
+
+
+    /*  -------------#if--------------- */
+    /* #if `0^                          */
+    /* `cursor^                         */
+    /* #endif                           */
+
+
+
+#if 0
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif
+
+#if 0_TYPED
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif b
+
+`#if 0
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif^
+
+a #if 0
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif
 
 
     /*  -------------#ifndef--------------- */
@@ -103,20 +103,6 @@ WRAPPED_TEXT_line2
 #endif /* symbol */
 
 
-    /*  -------------#inc--------------- */
-    /* #include <`^.h>                   */
-
-
-
-#include <.h>
-
-#include <_TYPED.h> b
-
-`#include <.h>^
-
-a #include <.h>
-
-
     /*  -------------#include_user--------------- */
     /* #include "`me^.h"                          */
 
@@ -129,6 +115,20 @@ a #include <.h>
 `#include "test.h"^
 
 a #include "test.h"
+
+
+    /*  -------------#inc--------------- */
+    /* #include <`^.h>                   */
+
+
+
+#include <.h>
+
+#include <_TYPED.h> b
+
+`#include <.h>^
+
+a #include <.h>
 
 
     /*  -------------#ind--------------- */
@@ -574,20 +574,6 @@ a /**
  */
 
 
-    /*  -------------File--------------- */
-    /* `file()^                          */
-
-
-
-test.page
-
-test.page b
-
-`test.page^
-
-a test.page
-
-
     /*  -------------filehead---------------                                  */
     /* _CMT_*-------------------------/// `sum^ \\\--------------------------- */
     /*  *                                                                     */
@@ -676,32 +662,18 @@ a test.page
  
 
 
-    /*  -------------for---------------                                                                                  */
-    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{ */
-    /*     `cursor^                                                                                                      */
-    /* }                                                                                                                 */
+    /*  -------------File--------------- */
+    /* `file()^                          */
 
 
 
-for ( i = 0; i < len; i++ ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
+ test.page
 
-for ( i_TYPED = 0_TYPED; i_TYPED < len_TYPED; i_TYPED++ ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
+ test.page b
 
-`for ( i = 0; i < len; i++ ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
+ `test.page^
 
-a for ( i = 0; i < len; i++ ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
+ a test.page
 
 
     /*  -------------forever--------------- */
@@ -709,13 +681,13 @@ a for ( i = 0; i < len; i++ ) {
 
 
 
-for (;;) 
+ for (;;) 
 
-for (;;)  b
+ for (;;)  b
 
-`for (;;) ^
+ `for (;;) ^
 
-a for (;;) 
+ a for (;;) 
 
 
     /*  -------------fornn---------------                                                                                                */
@@ -774,6 +746,34 @@ a for ( i = 0; i >= end; i-- ) {
 }
 
 
+    /*  -------------for---------------                                                                                  */
+    /* for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                                                                                      */
+    /* }                                                                                                                 */
+
+
+
+for ( i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+for ( i_TYPED = 0_TYPED; i_TYPED < len_TYPED; i_TYPED++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`for ( i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a for ( i = 0; i < len; i++ ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
     /*  -------------fprintf---------------                     */
     /* fprintf(`$SParg^`stream^,`$SPop^`:_printfElts:^`$SParg^) */
 
@@ -817,58 +817,6 @@ a     int
 name()
 {
     
-}
-
-
-    /*  -------------if--------------- */
-    /* `Include:_if^                   */
-
-
-
-if ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-if ( condition_TYPED ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`if ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a if ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
-    /*  -------------if0--------------- */
-    /* `Include:_if^                    */
-
-
-
-if ( 0 == var ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-if ( 0 == var_TYPED ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`if ( 0 == var ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a if ( 0 == var ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
 }
 
 
@@ -942,6 +890,58 @@ if ( NULL == var_TYPED ) {
 }^
 
 a if ( NULL == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------if--------------- */
+    /* `Include:_if^                   */
+
+
+
+if ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+if ( condition_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`if ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a if ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------if0--------------- */
+    /* `Include:_if^                    */
+
+
+
+if ( 0 == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+if ( 0 == var_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`if ( 0 == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a if ( 0 == var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
@@ -1218,34 +1218,6 @@ a switch ( var ) {
 }
 
 
-    /*  -------------while---------------                   */
-    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
-    /*     `cursor^                                         */
-    /* }                                                    */
-
-
-
-while ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-while ( condition_TYPED ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`while ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a while ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
     /*  -------------while0---------------                   */
     /* do`$BRloop^{                                          */
     /*     `cursor^                                          */
@@ -1297,6 +1269,34 @@ while ( 1 ) {
 }^
 
 a while ( 1 ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------while---------------                   */
+    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                         */
+    /* }                                                    */
+
+
+
+while ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+while ( condition_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`while ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a while ( condition ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }

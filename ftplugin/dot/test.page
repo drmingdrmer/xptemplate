@@ -177,24 +177,6 @@ node_TYPED [shape=box label_TYPED]
    
 
 
-    /*  -------------comment--------------- */
-    /* `$CL^ `what^^ `$CR^`^                */
-
-
-
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
-
-   /* WRAPPED_TEXT
-   WRAPPED_TEXT_line2 */ b
-
-   `/* WRAPPED_TEXT
-   WRAPPED_TEXT_line2 */^
-
-   a /* WRAPPED_TEXT
-   WRAPPED_TEXT_line2 */
-
-
     /*  -------------commentBlock--------------- */
     /* `$_xCommentLeftWithoutMid^`$CM `cursor^   */
     /* `$_xCommentMidIndent$CR^                  */
@@ -262,6 +244,24 @@ WRAPPED_TEXT_line2 */
 
     a /* WRAPPED_TEXT */
       /* WRAPPED_TEXT_line2 */
+
+
+    /*  -------------comment--------------- */
+    /* `$CL^ `what^^ `$CR^`^                */
+
+
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
+
+    /* WRAPPED_TEXT
+    WRAPPED_TEXT_line2 */ b
+
+    `/* WRAPPED_TEXT
+    WRAPPED_TEXT_line2 */^
+
+    a /* WRAPPED_TEXT
+    WRAPPED_TEXT_line2 */
 
 
     /*  -------------diamond---------------                    */
