@@ -109,24 +109,6 @@ a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
 
 
-    <!--  -------------a--------------- -->
-    <!-- <a href="`href^">`cursor^</a>  -->
-
-
-
-<a href="href">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a>
-
-<a href="href_TYPED">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a> b
-
-`<a href="href">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a>^
-
-a <a href="href">WRAPPED_TEXT
-WRAPPED_TEXT_line2</a>
-
-
     <!--  -------------apply---------------      -->
     <!-- <xsl:apply-templates select="`what^" /> -->
 
@@ -153,6 +135,24 @@ WRAPPED_TEXT_line2</a>
     `drdr.xp^
 
     a drdr.xp
+
+
+    <!--  -------------a--------------- -->
+    <!-- <a href="`href^">`cursor^</a>  -->
+
+
+
+<a href="href">WRAPPED_TEXT
+WRAPPED_TEXT_line2</a>
+
+<a href="href_TYPED">WRAPPED_TEXT
+WRAPPED_TEXT_line2</a> b
+
+`<a href="href">WRAPPED_TEXT
+WRAPPED_TEXT_line2</a>^
+
+a <a href="href">WRAPPED_TEXT
+WRAPPED_TEXT_line2</a>
 
 
     <!--  -------------body--------------- -->
@@ -288,24 +288,6 @@ a <xsl:choose>
 </xsl:choose>
 
 
-    <!--  -------------comment--------------- -->
-    <!-- `$CL^ `what^^ `$CR^`^                -->
-
-
-
-<!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->
-
-<!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 --> b
-
-`<!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->^
-
-a <!-- WRAPPED_TEXT
-WRAPPED_TEXT_line2 -->
-
-
     <!--  -------------commentBlock--------------- -->
     <!-- `$_xCommentLeftWithoutMid^`$CM `cursor^   -->
     <!-- `$_xCommentMidIndent$CR^                  -->
@@ -373,6 +355,24 @@ a <!--
 
  a <!-- WRAPPED_TEXT -->
    <!-- WRAPPED_TEXT_line2 -->
+
+
+    <!--  -------------comment--------------- -->
+    <!-- `$CL^ `what^^ `$CR^`^                -->
+
+
+
+<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->
+
+<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 --> b
+
+`<!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->^
+
+a <!-- WRAPPED_TEXT
+WRAPPED_TEXT_line2 -->
 
 
     <!--  -------------contenttype---------------                                             -->
@@ -751,6 +751,34 @@ a <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.
 </html>
 
 
+    <!--  -------------ibutton---------------                                   -->
+    <!-- <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> -->
+
+
+
+    <input type="button" name="name" value="value" />
+
+    <input type="button" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="button" name="name" value="value" />^
+
+    a <input type="button" name="name" value="value" />
+
+
+    <!--  -------------icheckbox---------------                                 -->
+    <!-- <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> -->
+
+
+
+    <input type="checkbox" name="name" value="value" />
+
+    <input type="checkbox" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="checkbox" name="name" value="value" />^
+
+    a <input type="checkbox" name="name" value="value" />
+
+
     <!--  -------------if--------------- -->
     <!-- <xsl:if test="`test^">          -->
     <!--     `cursor^                    -->
@@ -775,6 +803,20 @@ a <xsl:if test="test">
 </xsl:if>
 
 
+    <!--  -------------ifile---------------                                     -->
+    <!-- <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> -->
+
+
+
+    <input type="file" name="name" value="value" />
+
+    <input type="file" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="file" name="name" value="value" />^
+
+    a <input type="file" name="name" value="value" />
+
+
     <!--  -------------iframe---------------                                           -->
     <!-- <`$_xSnipName^` `att?^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
 
@@ -795,6 +837,34 @@ WRAPPED_TEXT_line2
 a <iframe name="name">WRAPPED_TEXT
 WRAPPED_TEXT_line2
 </iframe>
+
+
+    <!--  -------------ihidden---------------                                   -->
+    <!-- <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> -->
+
+
+
+    <input type="hidden" name="name" value="value" />
+
+    <input type="hidden" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="hidden" name="name" value="value" />^
+
+    a <input type="hidden" name="name" value="value" />
+
+
+    <!--  -------------iimage---------------                                    -->
+    <!-- <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> -->
+
+
+
+    <input type="image" name="name" value="value" />
+
+    <input type="image" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="image" name="name" value="value" />^
+
+    a <input type="image" name="name" value="value" />
 
 
     <!--  -------------img--------------- -->
@@ -853,6 +923,76 @@ a <img src="where" alt="alt"/>
 a <input type="text" name="name" value="value"/>
 
 
+    <!--  -------------ipassword---------------                                 -->
+    <!-- <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> -->
+
+
+
+    <input type="password" name="name" value="value" />
+
+    <input type="password" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="password" name="name" value="value" />^
+
+    a <input type="password" name="name" value="value" />
+
+
+    <!--  -------------iradio---------------                                    -->
+    <!-- <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> -->
+
+
+
+    <input type="radio" name="name" value="value" />
+
+    <input type="radio" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="radio" name="name" value="value" />^
+
+    a <input type="radio" name="name" value="value" />
+
+
+    <!--  -------------ireset---------------                                    -->
+    <!-- <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> -->
+
+
+
+    <input type="reset" name="name" value="value" />
+
+    <input type="reset" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="reset" name="name" value="value" />^
+
+    a <input type="reset" name="name" value="value" />
+
+
+    <!--  -------------isubmit---------------                                   -->
+    <!-- <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> -->
+
+
+
+    <input type="submit" name="name" value="value" />
+
+    <input type="submit" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="submit" name="name" value="value" />^
+
+    a <input type="submit" name="name" value="value" />
+
+
+    <!--  -------------itext---------------                                     -->
+    <!-- <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> -->
+
+
+
+    <input type="text" name="name" value="value" />
+
+    <input type="text" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="text" name="name" value="value" />^
+
+    a <input type="text" name="name" value="value" />
+
+
     <!--  -------------label---------------                                            -->
     <!-- <`$_xSnipName^` `att?^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
 
@@ -875,6 +1015,20 @@ WRAPPED_TEXT_line2
 </label>
 
 
+    <!--  -------------link---------------                               -->
+    <!-- <link rel="`stylesheet^" type="`type^text/css^" href="`url^" /> -->
+
+
+
+    <link rel="stylesheet" type="text/css" href="url" />
+
+    <link rel="stylesheet_TYPED" type="type_TYPED" href="url_TYPED" /> b
+
+    `<link rel="stylesheet" type="text/css" href="url" />^
+
+    a <link rel="stylesheet" type="text/css" href="url" />
+
+
     <!--  -------------li---------------                                       -->
     <!-- <`$_xSnipName^>`content^^`content^html_cont_helper()^</`$_xSnipName^> -->
 
@@ -895,20 +1049,6 @@ WRAPPED_TEXT_line2
 a <li>WRAPPED_TEXT
 WRAPPED_TEXT_line2
 </li>
-
-
-    <!--  -------------link---------------                               -->
-    <!-- <link rel="`stylesheet^" type="`type^text/css^" href="`url^" /> -->
-
-
-
-    <link rel="stylesheet" type="text/css" href="url" />
-
-    <link rel="stylesheet_TYPED" type="type_TYPED" href="url_TYPED" /> b
-
-    `<link rel="stylesheet" type="text/css" href="url" />^
-
-    a <link rel="stylesheet" type="text/css" href="url" />
 
 
     <!--  -------------meta---------------                    -->
@@ -1005,6 +1145,20 @@ WRAPPED_TEXT_line2
     a <xsl:param name="name" select="expr" />
 
 
+    <!--  -------------scriptsrc---------------                                    -->
+    <!-- <script language="javascript" type="text/javascript" src="`js^"></script> -->
+
+
+
+    <script language="javascript" type="text/javascript" src="js"></script>
+
+    <script language="javascript" type="text/javascript" src="js_TYPED"></script> b
+
+    `<script language="javascript" type="text/javascript" src="js"></script>^
+
+    a <script language="javascript" type="text/javascript" src="js"></script>
+
+
     <!--  -------------script---------------                   -->
     <!-- <script language="javascript" type="text/javascript"> -->
     <!--     `cursor^                                          -->
@@ -1027,20 +1181,6 @@ WRAPPED_TEXT_line2
 a <script language="javascript" type="text/javascript">
     
 </script>
-
-
-    <!--  -------------scriptsrc---------------                                    -->
-    <!-- <script language="javascript" type="text/javascript" src="`js^"></script> -->
-
-
-
-    <script language="javascript" type="text/javascript" src="js"></script>
-
-    <script language="javascript" type="text/javascript" src="js_TYPED"></script> b
-
-    `<script language="javascript" type="text/javascript" src="js"></script>^
-
-    a <script language="javascript" type="text/javascript" src="js"></script>
 
 
     <!--  -------------select---------------                                           -->

@@ -160,24 +160,6 @@ catch /.*/
                  
 
 
-    "  -------------comment--------------- 
-    " `$CS `cursor^                        
-
-
-
-" WRAPPED_TEXT
-" WRAPPED_TEXT_line2
-
-" WRAPPED_TEXT
-" WRAPPED_TEXT_line2 b
-
-`" WRAPPED_TEXT
- " WRAPPED_TEXT_line2^
-
- a " WRAPPED_TEXT
-   " WRAPPED_TEXT_line2
-
-
     "  -------------commentBlock--------------- 
     " `$CS `cursor^                             
 
@@ -222,6 +204,24 @@ a "
 " WRAPPED_TEXT
 " WRAPPED_TEXT_line2
 "
+
+
+    "  -------------comment--------------- 
+    " `$CS `cursor^                        
+
+
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2
+
+" WRAPPED_TEXT
+" WRAPPED_TEXT_line2 b
+
+`" WRAPPED_TEXT
+ " WRAPPED_TEXT_line2^
+
+ a " WRAPPED_TEXT
+   " WRAPPED_TEXT_line2
 
 
     "  -------------commentLine--------------- 
@@ -751,34 +751,6 @@ endtry
     a call s:log.Warn(  )
 
 
-    "  -------------while--------------- 
-    " while `cond^                       
-    "     `cursor^                       
-    " endwhile                           
-
-
-
-while cond
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endwhile
-
-while cond_TYPED
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endwhile b
-
-`while cond
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endwhile^
-
-a while cond
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-endwhile
-
-
     "  -------------while1--------------- 
     " while `cond^                        
     "     `cursor^                        
@@ -835,6 +807,34 @@ endwhile^
 
 a let [ i, len ] = [ 0 - 1, len_expr - 1 ]
 while i < len | let i += 1
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile
+
+
+    "  -------------while--------------- 
+    " while `cond^                       
+    "     `cursor^                       
+    " endwhile                           
+
+
+
+while cond
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile
+
+while cond_TYPED
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile b
+
+`while cond
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+endwhile^
+
+a while cond
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 endwhile

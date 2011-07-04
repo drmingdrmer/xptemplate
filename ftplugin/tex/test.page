@@ -308,6 +308,20 @@ WRAPPED_TEXT_line2{}
     \end{columns}
 
 
+    %  -------------documentclass--------------- 
+    % \documentclass[`size~11~pt]{`kind~}        
+
+
+
+    \documentclass[11pt]{article}
+
+    \documentclass[size_TYPEDpt]{article} b
+
+    `\documentclass[11pt]{article}^
+
+    a \documentclass[11pt]{article}
+
+
     %  -------------doc--------------- 
     % \begin{document}                 
     %     `cursor~                     
@@ -330,20 +344,6 @@ WRAPPED_TEXT_line2{}
     a \begin{document}
         
     \end{document}
-
-
-    %  -------------documentclass--------------- 
-    % \documentclass[`size~11~pt]{`kind~}        
-
-
-
-    \documentclass[11pt]{article}
-
-    \documentclass[size_TYPEDpt]{article} b
-
-    `\documentclass[11pt]{article}^
-
-    a \documentclass[11pt]{article}
 
 
     %  -------------Email--------------- 

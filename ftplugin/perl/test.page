@@ -710,34 +710,6 @@ if ( $@ ) {
     }
 
 
-    #  -------------while---------------                   
-    # while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ 
-    #     `cursor^                                         
-    # }                                                    
-
-
-
-while ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-while ( condition_TYPED ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`while ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a while ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
     #  -------------while0---------------                   
     # do`$BRloop^{                                          
     #     `cursor^                                          
@@ -764,6 +736,34 @@ a do {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 } while ( 0 );
+
+
+    #  -------------while---------------                   
+    # while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ 
+    #     `cursor^                                         
+    # }                                                    
+
+
+
+while ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+while ( condition_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`while ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a while ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
 
     #  -------------while1---------------                  
