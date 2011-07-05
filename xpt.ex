@@ -44,7 +44,7 @@ compact() {
 }
 
 create_tgz() {
-    rm -rf $ParentDir/xpt && cp -R . $ParentDir/xpt
+    rm -rf $ParentDir/xpt && mkdir $ParentDir/xpt && cp -R ./* $ParentDir/xpt/
     cd $ParentDir/xpt && tar -czf ../xpt-$ver.tgz *
 }
 
