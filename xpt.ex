@@ -98,5 +98,7 @@ test.bat
 test.sh
 tags
 todo
+experiment/
 resource/
+VERSION
 # __TO_REMOVE__ END
