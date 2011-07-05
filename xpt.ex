@@ -54,6 +54,7 @@ dodist () {
 
     cat $CurrentDir/$0 | awk '/^# __TO_REMOVE__/,/^# __TO_REMOVE__ END/{ if ( $1 != "#" ) print $0; }' | while read f; do git rm -rf $f; done
     git rm `find . -name "test.page*"`
+    rm `find . -name "*.xpt.vimc"`
 
 
     for file in `find plugin/ -name *.vim | grep -v "/debug\.vim$"`;do
