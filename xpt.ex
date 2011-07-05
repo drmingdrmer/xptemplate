@@ -27,7 +27,7 @@ ParentDir=${PWD%/*}
 githash=`git log --max-count=1 --format=%h`
 today=`date +%y%m%d`
 ver=`cat VERSION`.$today-$githash
-distname=dist.$tody-$githash
+distname=dist.$today-$githash
 
 compact() {
     local file=$1
