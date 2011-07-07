@@ -276,6 +276,7 @@
 
 	Options:
 		|g:xptemplate_move_even_with_pum|
+		|g:xptemplate_break_undo|
 		|g:xptemplate_always_show_pum|
 		|g:xptemplate_brace_complete|
 		|g:xptemplate_bundle|
@@ -380,6 +381,11 @@
 	Otherwise, |g:xptemplate_nav_next| fall back to original mapping. This
 	could be helpfull for xpt working with supertab together.
 
+						     *g:xptemplate_break_undo*
+								   {default:0}
+	If set to 1, undo sequence will be broken with |i_CTRL-G_u| before
+	snippet triggered. This would help on rolling back when mistake was
+	made.
 
 						*g:xptemplate_always_show_pum*
 								   {default:0}
