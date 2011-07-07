@@ -76,15 +76,17 @@ fun! XPT#getIndentNr( ln, col ) "{{{
 endfunction "}}}
 
 fun! XPT#getPreferedIndentNr( ln ) "{{{
-    if &indentexpr == ''
-        return -1
-    else
+    if &indentexpr != ''
         let indentexpr = substitute( &indentexpr, '\Vv:lnum', a:ln, '' )
         try
             return  eval( indentexpr )
         catch /.*/
             return -1
         endtry
+    elseif &cindent
+        return cindent( a:ln )
+    else
+        return -1
     endif
     
 endfunction "}}}
