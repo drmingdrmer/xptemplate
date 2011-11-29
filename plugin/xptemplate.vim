@@ -29,7 +29,7 @@
 " TODO lazy load of scripts
 " TODO add: be able to load textmate snippet or snipmate snippet.
 " TODO add: <BS> at ph start to shift backward.
-" TODO add: php snippet <% for .. %> in html 
+" TODO add: php snippet <% for .. %> in html
 " TODO improve: 3 quotes in python
 " TODO fix: register handling when snippet expand
 " TODO goto next or trigger?
@@ -646,17 +646,17 @@ fun! s:ReplacePHInSubSnip( snipObject, subSnipObject, params ) "{{{
 
             if piece =~# '\V' . k
                 let parts = split( piece, '\V' . xp.lft, 1 )
-                
+
                 " len of parts : 2 3 4
                 " index of name: 1 2 2
-                
+
                 let iName = len( parts ) == 4 ? 2 : len( parts ) - 1
 
 
                 if parts[ iName ] ==# k
                     let parts[ iName ] = v
                 endif
-                
+
                 let incSnipPieces[ i ] = join( parts, xp.l )
             endif
 
@@ -673,7 +673,7 @@ fun! s:ParseInclusionStatement( snipObject, st ) "{{{
 
     let xp = a:snipObject.ptn
 
-    
+
     let ptn = '\V\^\[^(]\{-}('
     let st = a:st
 
@@ -751,7 +751,7 @@ fun! s:ParseTemplateSetting( tmpl ) "{{{
     if has_key(setting, 'rawHint')
 
         let setting.hint = s:Eval( setting.rawHint,
-              \ x.filetypes[ x.snipFileScope.filetype ].funcs, 
+              \ x.filetypes[ x.snipFileScope.filetype ].funcs,
               \ { 'variables' : setting.variables } )
 
     endif
@@ -938,7 +938,7 @@ fun! XPTabbr( name ) "{{{
             return printf( "\<C-r>=XPTtgr(%s, {'k':''})\<CR>", string( a:name ) )
         endif
     endif
-    
+
 endfunction "}}}
 
 fun! XPTtgr( snippetName, ... ) "{{{
@@ -1241,7 +1241,7 @@ fun! s:ParsePriority( pstr ) "{{{
     if pstr =~ '\V\[+-]\$'
         let pstr .= '1'
     endif
-    
+
     let reg = '\V\(\w\+\|\[+-]\)\zs'
     let prioParts = split( pstr, reg )
 
@@ -1532,10 +1532,16 @@ endfunction "}}}
 
 fun! s:AddIndent( text, nIndent ) "{{{
 
-    let baseIndent = repeat( " ", a:nIndent )
+    " XXX: Panic fix by daethorian. The python def snippet breaks as the
+    " nIndent argument gets passed as a list rather than a number.
+    if type(a:nIndent) == 3
+        let baseIndent = repeat( " ", len(a:nIndent) )
+    else
+        let baseIndent = repeat( " ", a:nIndent )
+    endif
 
     return substitute(a:text, '\n', '&' . baseIndent, 'g')
-    
+
 endfunction "}}}
 
 fun! s:ParseSpaces( snipObject ) "{{{
@@ -2069,7 +2075,7 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
     " in name but not edge.
     if name =~ '\V' . xp.item_var . '\|' . xp.item_func
         " that is only a instant place holder
-        return { 'value' : fullname, 
+        return { 'value' : fullname,
               \     'leftEdge'  : leftEdge,
               \     'name'  : name,
               \     'rightEdge' : rightEdge,
@@ -2290,7 +2296,7 @@ fun! s:AddToOrderList( list, item ) "{{{
     else
         return 0
     endif
-    
+
 endfunction "}}}
 
 fun! s:BuildPlaceHolders( markRange ) "{{{
@@ -2726,7 +2732,7 @@ fun! s:SetPreValue( placeHolder, filter ) "{{{
 endfunction "}}}
 
 fun! s:BuildItemForPlaceHolder( placeHolder ) "{{{
-    
+
     " anonymous item with name set to '' will never been added to a:renderContext.itemDict
 
     let renderContext = b:xptemplateData.renderContext
@@ -2883,7 +2889,7 @@ fun! XPTforceForward( action ) "{{{
     call s:log.Debug( "postaction=" . string( postaction ) )
 
     return postaction
-    
+
 endfunction "}}}
 
 " TODO this function should reset item and leadingPlaceHolder to null
@@ -3252,7 +3258,7 @@ fun! s:DoGotoNextItem() "{{{
     if postaction == ''
 
         if oldRenderContext == renderContext || oldRenderContext.level < renderContext.level
-            call cursor( XPMpos( renderContext.leadingPlaceHolder.innerMarks.end ) ) 
+            call cursor( XPMpos( renderContext.leadingPlaceHolder.innerMarks.end ) )
         endif
 
         return ''
@@ -3318,7 +3324,7 @@ fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
 
 
         " do NOT need to update position
-        " TODO innerMarks ? 
+        " TODO innerMarks ?
         let marks = leader.mark
         call XPreplace(XPMpos( marks.start ), XPMpos( marks.end ), '')
         call XPMsetLikelyBetween( marks.start, marks.end )
@@ -3377,11 +3383,11 @@ fun! s:ActionFinish( renderContext, filter ) "{{{
     if start[ 0 ] != 0 && end[ 0 ] != 0
         " marks are not deleted during user edit
         if a:filter.rc isnot 0
-        
+
             let text = get( a:filter, 'text', '' )
-        
+
             " do NOT need to update position
-        
+
             call s:log.Debug( "text=" . string( text ) . len( text ) )
             call XPreplace( start, end, text )
         endif
@@ -3392,13 +3398,13 @@ fun! s:ActionFinish( renderContext, filter ) "{{{
     endif
 
 
-    " TODO bad 
+    " TODO bad
     call cursor( XPMpos( a:renderContext.leadingPlaceHolder.mark.end ) )
 
     let xptObj = b:xptemplateData
 
     " TODO controled by behavior is better?
-    " NOTE: XXX TODO!!! 
+    " NOTE: XXX TODO!!!
     if empty( xptObj.stack )
           \ || 1
         return s:FinishRendering()
@@ -3407,7 +3413,7 @@ fun! s:ActionFinish( renderContext, filter ) "{{{
         " need to select something or doing something else?
         return ''
     endif
-    
+
 endfunction "}}}
 
 fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet ) "{{{
@@ -3608,33 +3614,33 @@ fun! s:ApplyDefaultValue() "{{{
     let renderContext = b:xptemplateData.renderContext
     let leader = renderContext.leadingPlaceHolder
     let defs = renderContext.snipSetting.defaultValues
-    
+
     if has_key( defs, leader.name )
           \ && defs[ leader.name ].force
-    
+
         let defValue = defs[ leader.name ]
-    
+
     else
-    
+
         let defValue =
               \ get( leader, 'ontimeFilter',
               \     get( defs, leader.name,
               \         g:EmptyFilter ) )
-    
+
     endif
-    
-    
+
+
     if defValue is g:EmptyFilter
         " TODO needed to fill in?
         let str = renderContext.item.name
-    
+
         " to update the edge to following place holder
         call s:XPTupdate()
-    
+
         let postaction = s:SelectCurrent()
 
         call XPMupdateStat()
-    
+
     else
         let postaction = s:ApplyDefaultValueToPH( renderContext, copy( defValue ) )
     endif
@@ -4172,7 +4178,7 @@ fun! s:XPTinitMapping() "{{{
               \ 'i_' . g:xptemplate_nav_next_2,
               \ 's_' . g:xptemplate_nav_next_2,
               \ )
-        
+
     endif
 
     let b:mapLiteral = g:MapSaver.New( 1 )
@@ -4653,11 +4659,11 @@ fun! s:HandleAction( renderContext, filter ) "{{{
 
     elseif a:filter.action.name == ''
         " TODO other actions
-        
+
     endif
 
     return postaction
-    
+
 endfunction "}}}
 
 fun! s:IsUpdateCondition( renderContext ) "{{{
@@ -4878,7 +4884,7 @@ fun! s:GotoRelativePosToMark( rPos, mark ) "{{{
 endfunction "}}}
 
 fun! s:XPTcheck() "{{{
-    
+
     if !exists( 'b:xptemplateData' )
         call XPTemplateInit()
     endif
