@@ -1532,14 +1532,7 @@ endfunction "}}}
 
 fun! s:AddIndent( text, nIndent ) "{{{
 
-    " XXX: Panic fix by daethorian. The python def snippet breaks as the
-    " nIndent argument gets passed as a list rather than a number.
-    if type(a:nIndent) == 3
-        let baseIndent = repeat( " ", len(a:nIndent) )
-    else
-        let baseIndent = repeat( " ", a:nIndent )
-    endif
-
+    let baseIndent = repeat( " ", a:nIndent )
     return substitute(a:text, '\n', '&' . baseIndent, 'g')
 
 endfunction "}}}
@@ -2620,7 +2613,7 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
     call s:MergeSetting( renderContext.snipSetting, incTmplObject.setting )
 
     let incSnip = s:ReplacePHInSubSnip( renderContext.snipObject, incTmplObject, params )
-    let incSnip = s:AddIndent( incSnip, nameInfo[0] )
+    let incSnip = s:AddIndent( incSnip, nameInfo[0][1]-1 )
 
     let valueInfo[-1][1] += 1
     call XPreplaceInternal( nameInfo[0], valueInfo[-1], incSnip )
