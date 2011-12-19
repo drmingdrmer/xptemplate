@@ -1999,7 +1999,7 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
     let incSnip.parsedSnip = xpt#phfilter#Filter( incTmplObject, 'xpt#phfilter#ReplacePH',
           \ { 'replParams' : params } )
 
-    let incSnip = s:AdjustIndentAt( incSnip, nameInfo[0] )
+    let incSnip = s:AdjustIndentAt( incSnip, nameInfo[0][1] - 1 )
 
     let valueInfo[-1][1] += 1
     call XPreplaceInternal( nameInfo[0], valueInfo[-1], incSnip )
