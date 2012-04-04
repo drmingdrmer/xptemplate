@@ -812,7 +812,7 @@ endfunction "}}}
 fun! XPTgetAllTemplates() "{{{
     call s:GetContextFTObj() " force initializing
 
-    return copy( b:xptemplateData.filetypes[ &filetype ].allTemplates )
+    return copy( b:xptemplateData.filetypes[ s:GetContextFT() ].allTemplates )
 endfunction "}}}
 
 
