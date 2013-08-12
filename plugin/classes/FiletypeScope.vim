@@ -19,7 +19,7 @@ endfunction
 fun! s:SetSnippetLoaded( filename ) dict 
     let self.loadedSnipFiles[ a:filename ] = 1
     let fn = substitute(a:filename, '\\', '/', 'g')
-    let shortname = matchstr(fn, '\Vftplugin\/\zs\w\+\/\.\*\ze.xpt.vim')
+    let shortname = matchstr(fn, '\Vftplugin\/\zs\[^/]\+\/\.\*\ze.xpt.vim')
     let self.loadedSnipFiles[shortname] = 1
 endfunction 
 fun! s:CheckAndSetSnippetLoaded( filename ) dict 
