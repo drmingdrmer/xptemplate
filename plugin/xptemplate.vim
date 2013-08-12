@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.8.110707-5e60ef1
+" VERSION: 0.4.8.111220-4ec4b29
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
     finish
 endif
@@ -411,7 +411,7 @@ fun! s:ParseTemplateSetting( tmpl )
     let x.renderContext.snipObject = a:tmpl
     if has_key(setting, 'rawHint')
         let setting.hint = s:Eval( setting.rawHint,
-              \ x.filetypes[ x.snipFileScope.filetype ].funcs, 
+              \ x.filetypes[ x.snipFileScope.filetype ].funcs,
               \ { 'variables' : setting.variables } )
     endif
     call s:ParsePostQuoter( setting )
@@ -1134,7 +1134,7 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo )
         return { 'include' : matchstr( name, incPattern ) }
     endif
     if name =~ '\V' . xp.item_var . '\|' . xp.item_func
-        return { 'value' : fullname, 
+        return { 'value' : fullname,
               \     'leftEdge'  : leftEdge,
               \     'name'  : name,
               \     'rightEdge' : rightEdge,
@@ -1410,7 +1410,7 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo )
     endif
     call s:MergeSetting( renderContext.snipSetting, incTmplObject.setting )
     let incSnip = s:ReplacePHInSubSnip( renderContext.snipObject, incTmplObject, params )
-    let incSnip = s:AddIndent( incSnip, nameInfo[0] )
+    let incSnip = s:AddIndent( incSnip, nameInfo[0][1]-1 )
     let valueInfo[-1][1] += 1
     call XPreplaceInternal( nameInfo[0], valueInfo[-1], incSnip )
 endfunction 
@@ -1734,7 +1734,7 @@ fun! s:DoGotoNextItem()
     endtry
     if postaction == ''
         if oldRenderContext == renderContext || oldRenderContext.level < renderContext.level
-            call cursor( XPMpos( renderContext.leadingPlaceHolder.innerMarks.end ) ) 
+            call cursor( XPMpos( renderContext.leadingPlaceHolder.innerMarks.end ) )
         endif
         return ''
     else
