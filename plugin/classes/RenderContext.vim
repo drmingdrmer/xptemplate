@@ -81,7 +81,7 @@ fun! s:New( x ) dict "{{{
     for k in indentkeysList
 
         " "0" is not included
-        if k[ 1 ] == '='
+        if k[ 1 ] == '=' && len( k ) > 2
             let self.oriIndentkeys[ k[ 2: ] ] = 1
         else
             let self.leadingCharToReindent[ k[ 1: ] ] = 1
