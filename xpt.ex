@@ -50,7 +50,16 @@ create_tgz() {
 
 dodist () {
 
-    git branch $distname && git checkout $distname || { echo "Failed to create branch $distname"; exit 1; }
+    local cur_branch=$(git symbolic-ref HEAD 2>/dev/null | cut -c 12-)
+
+    echo $cur_branch
+
+    if [ ".$cur_branch" != ".master" ]; then
+        echo "not on master!!"
+        return -1;
+    fi
+
+    git checkout -b $distname || { echo "Failed to create branch $distname"; exit 1; }
 
     cat $CurrentDir/$0 | awk '/^# __TO_REMOVE__/,/^# __TO_REMOVE__ END/{ if ( $1 != "#" ) print $0; }' | while read f; do git rm -rf $f; done
     git rm `find . -name "test.page*"`
@@ -74,11 +83,10 @@ dodist () {
     create_tgz
     cd $CurrentDir
 
-
-    git branch dist
-    git merge -s ours dist
-
-    git co dist && git merge $distname
+    git checkout dist \
+        && git merge --no-ff --no-edit --strategy recursive  --strategy-option theirs $distname \
+        && git checkout master \
+        && git branch -D $distname
 
 }
 
