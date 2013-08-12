@@ -85,7 +85,9 @@ dodist () {
 
     git checkout dist \
         && git merge --no-ff --no-edit --strategy recursive  --strategy-option theirs $distname \
-        && git checkout master
+        && git checkout master \
+        && git branch -D $distname
+
 }
 
 dodist
