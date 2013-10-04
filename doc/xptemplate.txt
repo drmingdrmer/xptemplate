@@ -267,6 +267,7 @@
 		|g:xptemplate_key|
 		|g:xptemplate_key_pum_only|
 		|g:xptemplate_key_force_pum|
+		|g:xptemplate_key_visual|
 		|g:xptemplate_nav_next|
 		|g:xptemplate_nav_prev|
 		|g:xptemplate_nav_cancel|
@@ -295,9 +296,9 @@
 		exe "inoremap <silent> <Plug>XPTrawKey " g:xptemplate_key
 <
 
-	    *i_<C-\>* *s_<C-\>* *v_<C-\>* *xpt-key-trigger* *g:xptemplate_key*
+	    *i_<C-\>* *v_<C-\>* *xpt-key-trigger* *g:xptemplate_key*
 							       {default:<C-\>}
-	The key to trigger snippets, in insert or visual mode.
+	The key to trigger snippets in insert mode.
 	Use |g:xptemplate_key| to change this mapping. Example: >
 		let g:xptemplate_key = '<Tab>'
 <
@@ -325,6 +326,14 @@
 	starts with the text before cursor.
 
 	See also: |g:xptemplate_always_show_pum|.
+
+
+			 *s_<C-\>* *xpt-key-visual* *g:xptemplate_visual
+					  {default:g:xptemplate_key}
+	The key to trigger snippets in visual mode.
+	Use |g:xptemplate_key_visual| to change this mapping. Example: >
+		let g:xptemplate_key_visual = '<Tab>'
+<
 
 
 	       *i_<tab>*  *s_<tab>* *xpt-key-navigate* *g:xptemplate_nav_next*
