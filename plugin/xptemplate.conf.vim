@@ -11,6 +11,7 @@ let s:ep           = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 call XPT#setIfNotExist('g:xptemplate_key'	, '<C-\>' )
 call XPT#setIfNotExist('g:xptemplate_key_force_pum'	, '<C-r>' . g:xptemplate_key )
 call XPT#setIfNotExist('g:xptemplate_key_pum_only'	, '<C-r><C-r>' . g:xptemplate_key )
+call XPT#setIfNotExist('g:xptemplate_key_visual'	, g:xptemplate_key )
 call XPT#setIfNotExist('g:xptemplate_nav_next'	, '<Tab>' )
 call XPT#setIfNotExist('g:xptemplate_nav_prev'	, '<S-Tab>' )
 call XPT#setIfNotExist('g:xptemplate_nav_cancel'	, '<cr>' )
@@ -19,6 +20,7 @@ call XPT#setIfNotExist('g:xptemplate_to_right'	, '<C-l>' )
 call XPT#setIfNotExist('g:xptemplate_key_2'	, g:xptemplate_key )
 call XPT#setIfNotExist('g:xptemplate_nav_next_2'	, g:xptemplate_nav_next )
 call XPT#setIfNotExist('g:xptemplate_fallback'	, '<Plug>XPTrawKey' )
+call XPT#setIfNotExist('g:xptemplate_key_visual_2'	, g:xptemplate_key_visual )
 call XPT#setIfNotExist('g:xptemplate_fallback_condition'	, '\V\c<Tab>' )
 call XPT#setIfNotExist('g:xptemplate_move_even_with_pum'	, g:xptemplate_nav_next !=? '<Tab>' )
 call XPT#setIfNotExist('g:xptemplate_break_undo'	, 0 )
@@ -100,14 +102,16 @@ fun! s:EscapeMap( s )
     return substitute( a:s, '\V>', '++', 'g' )
 endfunction 
 exe "inoremap <silent>" g:xptemplate_key           printf( g:XPTmappings.trigger      , s:EscapeMap( g:xptemplate_key )          )
-exe "xnoremap <silent>" g:xptemplate_key           g:XPTmappings.wrapTrigger
+exe "xnoremap <silent>" g:xptemplate_key_visual    g:XPTmappings.wrapTrigger
 exe "snoremap <silent>" g:xptemplate_key           printf( g:XPTmappings.selTrigger   , s:EscapeMap( g:xptemplate_key )          )
 exe "inoremap <silent>" g:xptemplate_key_pum_only  printf( g:XPTmappings.popup        , s:EscapeMap( g:xptemplate_key_pum_only ) )
 exe "inoremap <silent>" g:xptemplate_key_force_pum printf( g:XPTmappings.force_pum    , s:EscapeMap( g:xptemplate_key_force_pum ))
 if g:xptemplate_key_2 != g:xptemplate_key
     exe "inoremap <silent>" g:xptemplate_key_2           g:XPTmappings.trigger
-    exe "xnoremap <silent>" g:xptemplate_key_2           g:XPTmappings.wrapTrigger
     exe "snoremap <silent>" g:xptemplate_key_2           g:XPTmappings.selTrigger
+endif
+if g:xptemplate_key_visual_2 != g:xptemplate_key_visual
+    exe "xnoremap <silent>" g:xptemplate_key_visual_2           g:XPTmappings.wrapTrigger
 endif
 let s:pvs = split(g:xptemplate_vars, '\V'.s:ep.'&')
 for s:v in s:pvs
