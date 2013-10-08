@@ -32,6 +32,7 @@ XPTvar	xpt.snippet.syn.txt	/*XPTvar*
 g:XPTaddBundle()	xpt.api.txt	/*g:XPTaddBundle()*
 g:xptemplate_always_show_pum	xptemplate.txt	/*g:xptemplate_always_show_pum*
 g:xptemplate_brace_complete	xptemplate.txt	/*g:xptemplate_brace_complete*
+g:xptemplate_break_undo	xptemplate.txt	/*g:xptemplate_break_undo*
 g:xptemplate_bundle	xptemplate.txt	/*g:xptemplate_bundle*
 g:xptemplate_fallback	xptemplate.txt	/*g:xptemplate_fallback*
 g:xptemplate_goback	xptemplate.txt	/*g:xptemplate_goback*
@@ -87,6 +88,7 @@ xpt-key-goto-right	xptemplate.txt	/*xpt-key-goto-right*
 xpt-key-navigate	xptemplate.txt	/*xpt-key-navigate*
 xpt-key-pum	xptemplate.txt	/*xpt-key-pum*
 xpt-key-trigger	xptemplate.txt	/*xpt-key-trigger*
+xpt-key-visual	xptemplate.txt	/*xpt-key-visual*
 xpt-mixed	xpt.snippet.syn.txt	/*xpt-mixed*
 xpt-name-matching	xptemplate.txt	/*xpt-name-matching*
 xpt-nested	xptemplate.txt	/*xpt-nested*
