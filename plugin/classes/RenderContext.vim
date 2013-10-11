@@ -58,8 +58,17 @@ fun! s:New( x ) dict
           \   'oriIndentkeys'      : {},
           \   'leadingCharToReindent' : {},
           \ }, 'force' )
-    let indentkeysList = split( &indentkeys, ',' )
-    call filter( indentkeysList, 'v:val=~''\V\^0''' )
+    let lst = split( &indentkeys, ',' )
+    let indentkeysList = []
+    for k in lst
+        if k == ""
+            let indentkeysList[ -1 ] .= ','
+        else
+            if k[ 0 ] == '0'
+                call add( indentkeysList, k )
+            endif
+        endif
+    endfor
     for k in indentkeysList
         if k[ 1 ] == '=' && len( k ) > 2
             let self.oriIndentkeys[ k[ 2: ] ] = 1
