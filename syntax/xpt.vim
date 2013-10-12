@@ -118,7 +118,7 @@ syntax match XPTmeta_name /\w\+\ze=\?/ containedin=XPTmeta nextgroup=XPTmeta_val
 syntax keyword XPTmeta_name_key hint alias synonym hidden wrap wraponly abbr syn contained containedin=XPTmeta_name
 syntax match XPTmeta_value /=\zs\(\\\s\|\S\)*/ containedin=XPTmeta
 
-syntax region XPTsnippetBody  start=/^/ end=/\ze\%(^$\n\)*\%$\|\ze\%(^$\n\)*XPT\s\|^\.\.XPT\|^\ze\(".*\n\|\s*\n\)*\(XPT\s\|\%$\)/ contained containedin=XPTsnippetTitle contains=XPTxset excludenl fold
+syntax region XPTsnippetBody  start=/^/ end=/\ze\%(^$\n\)*\%$\|\ze\%(^$\n\)*XPT\s\|^\.\.XPT\|\ze\(^".*\n\|^\s*\n\)*\(^XPT\s\|\%$\|^".*\%$\|^\s*\%$\)/ contained containedin=XPTsnippetTitle contains=XPTxset excludenl fold
 
 syntax match XPThintMark /\V \zs**\ze / contained containedin=vimLineComment
 syntax match vimLineComment /^".*$/ containedin=XPTregion contains=@vimCommentGroup,vimCommentString,vimCommentTitle
