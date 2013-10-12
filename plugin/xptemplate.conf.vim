@@ -216,7 +216,8 @@ endif
 
 let g:xptBundle = {}
 for ftAndBundle in s:bundle
-    let [ ft, bundle ] = split( ftAndBundle, '_' )
+    let [ ft; bundle_list ] = split( ftAndBundle, '_' )
+    let bundle = join( bundle_list, '_' )
     if !has_key( g:xptBundle, ft )
         let g:xptBundle[ ft ] = {}
     endif
