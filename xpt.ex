@@ -9,20 +9,11 @@ case $1 in
         echo "vim -c \"XPTtestAll $langs\"" >test.bat
         exit
         ;;
-    tosvn)
-        rsync -Rrvc --delete \
-            --exclude=.git/ --exclude=.svn/ \
-            --exclude=dist-sub/ \
-            --exclude=.gitmodules \
-            --exclude=*.xpt.vimc \
-            --exclude-from=../.gitignore \
-            .././ \
-            ../../xptemplate.svn/trunk/./
-        exit
-        ;;
+
     "")
         echo "export"
         ;;
+
     *)
         echo "error"
         exit -1
@@ -30,78 +21,84 @@ case $1 in
 
 esac
 
+
 CurrentDir=$PWD
 ParentDir=${PWD%/*}
-ver=`cat VERSION`.`date +%y%m%d`
+githash=`git log --max-count=1 --format=%h`
+today=`date +%y%m%d`
+ver=`cat VERSION`.$today-$githash
+distname=dist.$today-$githash
+
+compact() {
+    local file=$1
+
+    echo remove Logs/Comments/Empty_Lines from $file
+
+    grep -v "call s:log.\(Log\|Debug\)(" $file |\
+        grep -v "^ *Assert " |\
+        grep -v "^ *\"" |\
+        grep -v "^ *$" |\
+        sed 's/" *{{{//; s/" *}}}//' > .tmp
+
+    mv .tmp $file
+}
+
+create_tgz() {
+    rm -rf $ParentDir/xpt && mkdir $ParentDir/xpt && cp -R ./* $ParentDir/xpt/
+    cd $ParentDir/xpt && tar -czf ../xpt-$ver.tgz *
+}
 
 dodist () {
-    DistName=$1
-    DistDir=$ParentDir/$DistName
-    vim -c 'helptags doc|qa'
 
-    # remove old files those may not exist in src
-    cd $DistDir && find -name "*.vim" | xargs rm -f
+    local cur_branch=$(git symbolic-ref HEAD 2>/dev/null | cut -c 12-)
 
-    cp -R $CurrentDir/* $DistDir/
+    echo $cur_branch
+
+    if [ ".$cur_branch" != ".master" ]; then
+        echo "not on master!!"
+        return -1;
+    fi
+
+    git checkout -b $distname || { echo "Failed to create branch $distname"; exit 1; }
+
+    cat $CurrentDir/$0 | awk '/^# __TO_REMOVE__/,/^# __TO_REMOVE__ END/{ if ( $1 != "#" ) print $0; }' | while read f; do git rm -rf $f; done
+    git rm `find . -name "test.page*"`
+    rm `find . -name "*.xpt.vimc"`
 
 
-    cd $DistDir
-    rm -rf `cat $CurrentDir/$0 | awk '/^# __TO_REMOVE__/,/^# __TO_REMOVE__ END/{ if ( $1 != "#" ) print $0; }'`
-
-    find -name "test.page*" | xargs rm
-
-    for file in `find plugin/ -name *.vim`;do
-
-        if [[ $file == "debug.vim" ]];then
-            continue
-        fi
-
-        echo remove Logs/Comments/Empty_Lines from $file
-
-        grep -v "call s:log.\(Log\|Debug\)(" $file |\
-            grep -v "^\s*Assert " |\
-            grep -v "^\s*\"" |\
-            grep -v "^\s*$" |\
-            sed 's/"\s*{{{//; s/"\s*}}}//' > .tmp
-
-        mv .tmp $file
+    for file in `find plugin/ -name *.vim | grep -v "/debug\.vim$"`;do
+        compact $file
     done
 
 
-    cd $DistDir
-    cat > __ <<-END
+    mv plugin/xptemplate.vim .tmp
+    cat > plugin/xptemplate.vim <<-END
 	" GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
 	" VERSION: $ver
 	END
-    cat $DistDir/plugin/xptemplate.vim >> __
-    mv __ $DistDir/plugin/xptemplate.vim
+    cat .tmp >> plugin/xptemplate.vim && rm .tmp
 
+    git commit -a -m "$distname"
 
-    cd $ParentDir
-    rm -rf xpt
-    cp -R $DistName xpt
-
-    cd xpt
-    tar -czf ../xpt-$ver.tgz *
-
+    create_tgz
     cd $CurrentDir
+
+    git checkout dist \
+        && git merge --no-ff --no-edit --strategy recursive  --strategy-option theirs $distname \
+        && git checkout master \
+        && git branch -D $distname
+
 }
 
-dodist dist
-dodist dist-sub
-
-
-
-
+dodist
 exit
 
-# vim: set ts=64 :
 # __TO_REMOVE__
+xpt.ex
 plugin/xptemplateTest.vim
 plugin/xptTestKey.vim
 plugin/xptemplate.importer.vim
 xpt.testall.*
-xpt.ex
 genfile.vim
 doc/tags
 xpt.files.txt
@@ -110,4 +107,7 @@ test.bat
 test.sh
 tags
 todo
+experiment/
+resource/
+VERSION
 # __TO_REMOVE__ END
