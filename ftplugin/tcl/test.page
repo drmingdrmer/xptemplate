@@ -123,30 +123,6 @@ drdr.xp b
 a drdr.xp
 
 
-    #  -------------else--------------- 
-    # else {                            
-    #      ~cursor^                     
-    # }                                 
-
-
-
-else {
-     
-}
-
-else {
-     
-} b
-
-`else {
-     
-}^
-
-a else {
-     
-}
-
-
     #  -------------elseif--------------- 
     # elseif {~a^} {                      
     #      ~cursor^                       
@@ -167,6 +143,30 @@ elseif {a_TYPED} {
 }^
 
 a elseif {a} {
+     
+}
+
+
+    #  -------------else--------------- 
+    # else {                            
+    #      ~cursor^                     
+    # }                                 
+
+
+
+else {
+     
+}
+
+else {
+     
+} b
+
+`else {
+     
+}^
+
+a else {
      
 }
 

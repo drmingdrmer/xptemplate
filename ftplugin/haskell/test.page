@@ -431,51 +431,6 @@ WRAPPED_TEXT_line2`
      
 
 
-    --   -------------datasum---------------                         
-    --  data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~= 
-    --      `Constructor~ `ctorParams~VOID()~`                       
-    --    `...~                                                      
-    --      | `Ctor~ `params~VOID()~                                 
-    --      `...~                                                    
-    --      `deriving...{{~deriving (`Eq,Show~)`}}~                  
-    --  `cursor~                                                     
-
-
-
-    data (ctxt) => typename =
-        Constructor 
-        | Ctor 
-        
-        | Ctor 
-        
-        deriving (Eq,Show)
-    
-
-    data context_TYPEDtypename_TYPEDtypeParams_TYPED=
-        Constructor_TYPED ctorParams_TYPED
-      _TYPED
-        deriving_TYPED
-     b
-
-     `data (ctxt) => typename =
-         Constructor 
-         | Ctor 
-         
-         | Ctor 
-         
-         deriving (Eq,Show)
-     ^
-
-     a data (ctxt) => typename =
-         Constructor 
-         | Ctor 
-         
-         | Ctor 
-         
-         deriving (Eq,Show)
-     
-
-
     --   -------------datasumcom---------------                        
     --  _CMT_| `typeDescr~VOID()~                                      
     --  data `context...{{~(`ctxt~) => `}}~`typename~` `typeParams~ ~= 
@@ -528,6 +483,51 @@ WRAPPED_TEXT_line2`
          | Ctor 
          -- | 
          | Ctor 
+         deriving (Eq,Show)
+     
+
+
+    --   -------------datasum---------------                         
+    --  data `context...{{~(`ctxt~) => `}}~`typename~`typeParams~ ~= 
+    --      `Constructor~ `ctorParams~VOID()~`                       
+    --    `...~                                                      
+    --      | `Ctor~ `params~VOID()~                                 
+    --      `...~                                                    
+    --      `deriving...{{~deriving (`Eq,Show~)`}}~                  
+    --  `cursor~                                                     
+
+
+
+    data (ctxt) => typename =
+        Constructor 
+        | Ctor 
+        
+        | Ctor 
+        
+        deriving (Eq,Show)
+    
+
+    data context_TYPEDtypename_TYPEDtypeParams_TYPED=
+        Constructor_TYPED ctorParams_TYPED
+      _TYPED
+        deriving_TYPED
+     b
+
+     `data (ctxt) => typename =
+         Constructor 
+         | Ctor 
+         
+         | Ctor 
+         
+         deriving (Eq,Show)
+     ^
+
+     a data (ctxt) => typename =
+         Constructor 
+         | Ctor 
+         
+         | Ctor 
+         
          deriving (Eq,Show)
      
 
@@ -616,33 +616,6 @@ WRAPPED_TEXT_line2`
     a foldr (\ e acc -> expr) init lst
 
 
-    --   -------------fun---------------       
-    --  `funName~ `pattern~ = `def~`           
-    --  `...{{~                                
-    --  `name~R("funName")~ `pattern~ = `def~` 
-    --  `...~`}}~                              
-
-
-
-    funName pattern = def
-    funName pattern = def
-    funName pattern = def
-    funName pattern = def
-
-    funName_TYPED pattern_TYPED = def_TYPED
-    _TYPED b
-
-    `funName pattern = def
-    funName pattern = def
-    funName pattern = def
-    funName pattern = def^
-
-    a funName pattern = def
-    funName pattern = def
-    funName pattern = def
-    funName pattern = def
-
-
     --   -------------funcom---------------    
     --  _CMT_| `function_description~          
     --  `funName~ :: `type~                    
@@ -675,6 +648,33 @@ WRAPPED_TEXT_line2`
     a -- | function_description
     funName :: type
     funName pattern = def
+    funName pattern = def
+    funName pattern = def
+    funName pattern = def
+
+
+    --   -------------fun---------------       
+    --  `funName~ `pattern~ = `def~`           
+    --  `...{{~                                
+    --  `name~R("funName")~ `pattern~ = `def~` 
+    --  `...~`}}~                              
+
+
+
+    funName pattern = def
+    funName pattern = def
+    funName pattern = def
+    funName pattern = def
+
+    funName_TYPED pattern_TYPED = def_TYPED
+    _TYPED b
+
+    `funName pattern = def
+    funName pattern = def
+    funName pattern = def
+    funName pattern = def^
+
+    a funName pattern = def
     funName pattern = def
     funName pattern = def
     funName pattern = def
@@ -838,15 +838,15 @@ WRAPPED_TEXT_line2`
 
 
 
-    module .Home.Xp.VCS.Hg.Bash.xp.Vim.xp.Plugins.extern.Xpt.gitsvn.Src.Ftplugin.Haskell.Test ( 
+    module .Users.Drmingdrmer.Bash.xp.Vim.xp.Plugins.extern.Xpt.gitsvn.Src.Ftplugin.Haskell.Test ( 
         ) where
 
     module moduleName_TYPED exports_TYPEDwhere b
 
-    `module .Home.Xp.VCS.Hg.Bash.xp.Vim.xp.Plugins.extern.Xpt.gitsvn.Src.Ftplugin.Haskell.Test ( 
+    `module .Users.Drmingdrmer.Bash.xp.Vim.xp.Plugins.extern.Xpt.gitsvn.Src.Ftplugin.Haskell.Test ( 
         ) where^
 
-    a module .Home.Xp.VCS.Hg.Bash.xp.Vim.xp.Plugins.extern.Xpt.gitsvn.Src.Ftplugin.Haskell.Test ( 
+    a module .Users.Drmingdrmer.Bash.xp.Vim.xp.Plugins.extern.Xpt.gitsvn.Src.Ftplugin.Haskell.Test ( 
         ) where
 
 

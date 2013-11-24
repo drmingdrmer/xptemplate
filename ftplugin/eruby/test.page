@@ -109,6 +109,20 @@ a `WRAPPED_TEXT
 WRAPPED_TEXT_line2`
 
 
+    <%#  -------------Author--------------- %>
+    <%# `$author^                           %>
+
+
+
+    drdr.xp
+
+    drdr.xp b
+
+    `drdr.xp^
+
+    a drdr.xp
+
+
     <%#  -------------a--------------- %>
     <%# <a href="`href^">`cursor^</a>  %>
 
@@ -125,20 +139,6 @@ WRAPPED_TEXT_line2</a>^
 
 a <a href="href">WRAPPED_TEXT
 WRAPPED_TEXT_line2</a>
-
-
-    <%#  -------------Author--------------- %>
-    <%# `$author^                           %>
-
-
-
-    drdr.xp
-
-    drdr.xp b
-
-    `drdr.xp^
-
-    a drdr.xp
 
 
     <%#  -------------body--------------- %>
@@ -636,6 +636,48 @@ WRAPPED_TEXT_line2
     </html>
 
 
+    <%#  -------------ibutton---------------                                   %>
+    <%# <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> %>
+
+
+
+    <input type="button" name="name" value="value" />
+
+    <input type="button" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="button" name="name" value="value" />^
+
+    a <input type="button" name="name" value="value" />
+
+
+    <%#  -------------icheckbox---------------                                 %>
+    <%# <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> %>
+
+
+
+    <input type="checkbox" name="name" value="value" />
+
+    <input type="checkbox" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="checkbox" name="name" value="value" />^
+
+    a <input type="checkbox" name="name" value="value" />
+
+
+    <%#  -------------ifile---------------                                     %>
+    <%# <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> %>
+
+
+
+    <input type="file" name="name" value="value" />
+
+    <input type="file" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="file" name="name" value="value" />^
+
+    a <input type="file" name="name" value="value" />
+
+
     <%#  -------------iframe---------------                                           %>
     <%# <`$_xSnipName^` `att?^>`content^^`content^html_cont_helper()^</`$_xSnipName^> %>
 
@@ -656,6 +698,34 @@ WRAPPED_TEXT_line2
 a <iframe name="name">WRAPPED_TEXT
 WRAPPED_TEXT_line2
 </iframe>
+
+
+    <%#  -------------ihidden---------------                                   %>
+    <%# <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> %>
+
+
+
+    <input type="hidden" name="name" value="value" />
+
+    <input type="hidden" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="hidden" name="name" value="value" />^
+
+    a <input type="hidden" name="name" value="value" />
+
+
+    <%#  -------------iimage---------------                                    %>
+    <%# <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> %>
+
+
+
+    <input type="image" name="name" value="value" />
+
+    <input type="image" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="image" name="name" value="value" />^
+
+    a <input type="image" name="name" value="value" />
 
 
     <%#  -------------img--------------- %>
@@ -684,6 +754,76 @@ WRAPPED_TEXT_line2
     `<input type="text" name="name" value="value"/>^
 
     a <input type="text" name="name" value="value"/>
+
+
+    <%#  -------------ipassword---------------                                 %>
+    <%# <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> %>
+
+
+
+    <input type="password" name="name" value="value" />
+
+    <input type="password" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="password" name="name" value="value" />^
+
+    a <input type="password" name="name" value="value" />
+
+
+    <%#  -------------iradio---------------                                    %>
+    <%# <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> %>
+
+
+
+    <input type="radio" name="name" value="value" />
+
+    <input type="radio" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="radio" name="name" value="value" />^
+
+    a <input type="radio" name="name" value="value" />
+
+
+    <%#  -------------ireset---------------                                    %>
+    <%# <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> %>
+
+
+
+    <input type="reset" name="name" value="value" />
+
+    <input type="reset" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="reset" name="name" value="value" />^
+
+    a <input type="reset" name="name" value="value" />
+
+
+    <%#  -------------isubmit---------------                                   %>
+    <%# <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> %>
+
+
+
+    <input type="submit" name="name" value="value" />
+
+    <input type="submit" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="submit" name="name" value="value" />^
+
+    a <input type="submit" name="name" value="value" />
+
+
+    <%#  -------------itext---------------                                     %>
+    <%# <input type="`Echo($_xSnipName[1:])^" name="`name^" value="`value^" /> %>
+
+
+
+    <input type="text" name="name" value="value" />
+
+    <input type="text" name="name_TYPED" value="value_TYPED" /> b
+
+    `<input type="text" name="name" value="value" />^
+
+    a <input type="text" name="name" value="value" />
 
 
     <%#  -------------label---------------                                            %>
@@ -824,20 +964,6 @@ WRAPPED_TEXT_line2
 </p>
 
 
-    <%#  -------------r--------------- %>
-    <%# <% `cursor^ _cmt_              %>
-
-
-
-    <%  %>
-
-    <%  %> b
-
-    `<%  %>^
-
-    a <%  %>
-
-
     <%#  -------------rc--------------- %>
     <%# _CMT_ `cursor^ _cmt_            %>
 
@@ -850,6 +976,20 @@ WRAPPED_TEXT_line2
     `<%#  %>^
 
     a <%#  %>
+
+
+    <%#  -------------r--------------- %>
+    <%# <% `cursor^ _cmt_              %>
+
+
+
+    <%  %>
+
+    <%  %> b
+
+    `<%  %>^
+
+    a <%  %>
 
 
     <%#  -------------re--------------- %>

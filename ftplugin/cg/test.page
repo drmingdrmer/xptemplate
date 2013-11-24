@@ -19,6 +19,34 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
+    /*  -------------#ifndef--------------- */
+    /* #ifndef `symbol^                     */
+    /* `cursor^                             */
+    /* #endif `$CL^ `symbol^ `$CR^          */
+
+
+
+#ifndef symbol
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* symbol */
+
+#ifndef symbol_TYPED
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* symbol_TYPED */ b
+
+`#ifndef symbol
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* symbol */^
+
+a #ifndef symbol
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif /* symbol */
+
+
     /*  -------------#if--------------- */
     /* #if `0^                          */
     /* `cursor^                         */
@@ -70,34 +98,6 @@ WRAPPED_TEXT_line2
 #endif /* symbol */^
 
 a #ifdef symbol
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif /* symbol */
-
-
-    /*  -------------#ifndef--------------- */
-    /* #ifndef `symbol^                     */
-    /* `cursor^                             */
-    /* #endif `$CL^ `symbol^ `$CR^          */
-
-
-
-#ifndef symbol
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif /* symbol */
-
-#ifndef symbol_TYPED
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif /* symbol_TYPED */ b
-
-`#ifndef symbol
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif /* symbol */^
-
-a #ifndef symbol
 WRAPPED_TEXT
 WRAPPED_TEXT_line2
 #endif /* symbol */
@@ -577,36 +577,6 @@ a type name(
 }
 
 
-    /*  -------------if--------------- */
-    /* `Include:_if^                   */
-
-
-
-if ( condition )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-if ( condition_TYPED )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`if ( condition )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a if ( condition )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
     /*  -------------if0--------------- */
     /* `Include:_if^                    */
 
@@ -631,6 +601,36 @@ if ( 0 == var_TYPED )
 }^
 
 a if ( 0 == var )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------if--------------- */
+    /* `Include:_if^                   */
+
+
+
+if ( condition )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+if ( condition_TYPED )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`if ( condition )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a if ( condition )
 {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
@@ -699,36 +699,6 @@ else if ( condition )
 }
 
 
-    /*  -------------ifn--------------- */
-    /* `Include:_if^                    */
-
-
-
-if ( NULL == var )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-if ( NULL == var_TYPED )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`if ( NULL == var )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a if ( NULL == var )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
     /*  -------------ifn0--------------- */
     /* `Include:_if^                     */
 
@@ -783,6 +753,36 @@ if ( NULL != var_TYPED )
 }^
 
 a if ( NULL != var )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------ifn--------------- */
+    /* `Include:_if^                    */
+
+
+
+if ( NULL == var )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+if ( NULL == var_TYPED )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`if ( NULL == var )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a if ( NULL == var )
 {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
@@ -1035,38 +1035,6 @@ a void main(  floatn name : POSITION,
 }
 
 
-    /*  -------------while---------------                   */
-    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
-    /*     `cursor^                                         */
-    /* }                                                    */
-
-
-
-while ( condition )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-while ( condition_TYPED )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`while ( condition )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a while ( condition )
-{
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
     /*  -------------while0---------------                   */
     /* do`$BRloop^{                                          */
     /*     `cursor^                                          */
@@ -1129,6 +1097,38 @@ while ( 1 )
 }^
 
 a while ( 1 )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------while---------------                   */
+    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                         */
+    /* }                                                    */
+
+
+
+while ( condition )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+while ( condition_TYPED )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`while ( condition )
+{
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a while ( condition )
 {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
