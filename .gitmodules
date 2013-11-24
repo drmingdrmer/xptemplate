@@ -1,3 +1,0 @@
-[submodule "dist-sub"]
-	path = dist-sub
-	url = git@github.com:drmingdrmer/xptemplate-dist.git
