@@ -1974,6 +1974,18 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
     endif
 
     let incTmplObject = tmplDict[ incName ]
+    if !incTmplObject.parsed
+
+        " TODO These functions are never been used
+
+        call s:ParseInclusion( renderContext.ftScope.allTemplates, incTmplObject )
+        let incTmplObject.snipText = s:ParseSpaces( incTmplObject )
+        let incTmplObject.snipText = s:ParseQuotedPostFilter( incTmplObject )
+        let incTmplObject.snipText = s:ParseRepetition( incTmplObject )
+
+        let incTmplObject.parsed = 1
+
+    endif
 
     call xpt#st#Merge( renderContext.snipSetting, incTmplObject.setting )
 
