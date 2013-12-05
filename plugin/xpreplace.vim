@@ -437,8 +437,8 @@ fun! XPreplace(start, end, replacement, ...) "{{{
     try
         let positionAfterReplacement = XPreplaceInternal( a:start, a:end, a:replacement, option )
     catch /.*/
-        call XPT#warn( v:exception )
-        call XPT#warn( v:throwpoint )
+        call XPT#info( v:exception )
+        call XPT#info( v:throwpoint )
     finally
         call XPRendSession()
     endtry
