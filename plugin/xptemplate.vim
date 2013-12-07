@@ -2155,9 +2155,6 @@ fun! s:PushBackItem() "{{{
     endif
 
     call insert( renderContext.groupList, item, 0 )
-    if item.name != ''
-        let renderContext.itemDict[ item.name ] = item
-    endif
 
     let item.processed = 1
 
