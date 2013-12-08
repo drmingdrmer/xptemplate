@@ -405,6 +405,11 @@ fun! s:sessionPrototype.createPrefixIndex(list) "{{{
 endfunction "}}}
 
 fun! s:sessionPrototype.updatePrefixIndex(list) "{{{
+
+    if g:xptemplate_pum_quick_back == 0
+        return
+    endif
+
     for item in a:list
         let key = ( type(item) == type({}) ) ?item.word : item
 
@@ -824,13 +829,17 @@ fun! XPPshorten() "{{{
     let actions = "\<C-y>"
     let actions = ""
 
+    if g:xptemplate_pum_quick_back == 1
 
-    let prefixMap = ( sess.ignoreCase ) ? sess.prefixIndex.lower : sess.prefixIndex.ori
-    call s:log.Log("prefix map:".string(prefixMap))
+        let prefixMap = ( sess.ignoreCase ) ? sess.prefixIndex.lower : sess.prefixIndex.ori
+        call s:log.Log("prefix map:".string(prefixMap))
 
+        let shorterKey = s:FindShorter(prefixMap, ( sess.ignoreCase ? substitute(current, '.', '\l&', 'g') : current ))
+        call s:log.Log("shorterKey=".shorterKey)
 
-    let shorterKey = s:FindShorter(prefixMap, ( sess.ignoreCase ? substitute(current, '.', '\l&', 'g') : current ))
-    call s:log.Log("shorterKey=".shorterKey)
+    else
+         let shorterKey = current[ 0 : -2 ]
+    endif
 
 
     let action = actions . repeat( "\<bs>", len(current) - len(shorterKey) ) . "\<C-r>=XPPrepopup(0, 'noenlarge')\<cr>"
