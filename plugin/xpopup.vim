@@ -222,6 +222,9 @@ fun! s:sessionPrototype.createPrefixIndex(list)
     call self.updatePrefixIndex(a:list)
 endfunction 
 fun! s:sessionPrototype.updatePrefixIndex(list) 
+    if g:xptemplate_pum_quick_back == 0
+        return
+    endif
     for item in a:list
         let key = ( type(item) == type({}) ) ?item.word : item
         if !has_key(self.prefixIndex.keys, key)
@@ -452,8 +455,12 @@ fun! XPPshorten()
     endif
     let actions = "\<C-y>"
     let actions = ""
-    let prefixMap = ( sess.ignoreCase ) ? sess.prefixIndex.lower : sess.prefixIndex.ori
-    let shorterKey = s:FindShorter(prefixMap, ( sess.ignoreCase ? substitute(current, '.', '\l&', 'g') : current ))
+    if g:xptemplate_pum_quick_back == 1
+        let prefixMap = ( sess.ignoreCase ) ? sess.prefixIndex.lower : sess.prefixIndex.ori
+        let shorterKey = s:FindShorter(prefixMap, ( sess.ignoreCase ? substitute(current, '.', '\l&', 'g') : current ))
+    else
+         let shorterKey = current[ 0 : -2 ]
+    endif
     let action = actions . repeat( "\<bs>", len(current) - len(shorterKey) ) . "\<C-r>=XPPrepopup(0, 'noenlarge')\<cr>"
     return action
 endfunction 
