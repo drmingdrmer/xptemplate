@@ -286,6 +286,7 @@
 		|g:xptemplate_minimal_prefix|
 		|g:xptemplate_ph_pum_accept_empty|
 		|g:xptemplate_pum_tab_nav|
+		|g:xptemplate_pum_quick_back|
 		|g:xptemplate_snippet_folders|
 		|g:xptemplate_strict|
 		|g:xptemplate_strip_left|
@@ -462,6 +463,31 @@
 	Set to 1 to use <tab>/<S-tab>( shift + tab ) to navigate through pop
 	up menu. <tab> behaves like <C-n> and <S-tab> behaves like <C-p>. And
 	<CR> expands snippet.
+
+
+						 *g:xptemplate_pum_quick_back*
+								   {default:1}
+	With popup menu, pressing "<BS>" removes minimal chars to reveil
+	more options.
+	If this is set to 0, pressing "<BS>" removes only 1 char.
+
+	For example, popup menu created with 3 options: >
+		"foo", "fooba", "foobar"
+<
+	Typing "fooba" shrinks menu to: >
+		fooba
+		foobar
+<	Now pressing "<BS>" will remove 2 chars: "ba", and leave "foo", the
+	longest prefix that has 3 options.
+
+	Pressing "<BS>" again will remove "foo".
+
+	NOTE:	Very large list might hang VIM for seconds. In this case set
+		this to 0 to get better performance.
+
+		This feature depends on a prefix dictionary of all of the
+		options.  The prefix dictionary will be created every time
+		popup menu is called.
 
 
 							 *g:xptemplate_strict*
