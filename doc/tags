@@ -47,6 +47,7 @@ g:xptemplate_nav_cancel	xptemplate.txt	/*g:xptemplate_nav_cancel*
 g:xptemplate_nav_next	xptemplate.txt	/*g:xptemplate_nav_next*
 g:xptemplate_nav_prev	xptemplate.txt	/*g:xptemplate_nav_prev*
 g:xptemplate_ph_pum_accept_empty	xptemplate.txt	/*g:xptemplate_ph_pum_accept_empty*
+g:xptemplate_pum_quick_back	xptemplate.txt	/*g:xptemplate_pum_quick_back*
 g:xptemplate_pum_tab_nav	xptemplate.txt	/*g:xptemplate_pum_tab_nav*
 g:xptemplate_snippet_folders	xptemplate.txt	/*g:xptemplate_snippet_folders*
 g:xptemplate_strict	xptemplate.txt	/*g:xptemplate_strict*
