@@ -4956,6 +4956,11 @@ augroup XPT "{{{
         au CursorMovedI * call <SID>BreakUndo()
     endif
 
+    if g:xptemplate_cwd_snippet == 1
+        au BufEnter  * silent! call xpt#cwd#snpt#load()
+        au BufUnload * silent! call xpt#cwd#snpt#clearFlag()
+    endif
+
 augroup END "}}}
 
 fun! g:XPTaddPlugin(event, when, func) "{{{
