@@ -112,7 +112,6 @@ exe XPT#let_sid
 
 
 runtime plugin/xptemplate.conf.vim
-runtime plugin/debug.vim
 runtime plugin/xptemplate.util.vim
 runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
@@ -124,8 +123,8 @@ runtime plugin/classes/FilterValue.vim
 runtime plugin/classes/RenderContext.vim
 
 
-let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
+let s:log = xpt#debug#Logger( 'debug' )
 
 call XPRaddPreJob( 'XPMupdateCursorStat' )
 call XPRaddPostJob( 'XPMupdateSpecificChangedRange' )
