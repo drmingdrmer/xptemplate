@@ -1339,41 +1339,6 @@ fun! s:BuildSnippet(nameStartPosition, nameEndPosition) " {{{
 
     let x = b:xptemplateData
     let rctx = b:xptemplateData.renderContext
-    let xp = ctx.snipObject.ptn
-
-    let curline = getline( a:nameStartPosition[ 0 ] )
-
-    let nIndent = -1
-    if len( matchstr( curline, '\V\^\s\*' ) ) == a:nameStartPosition[ 1 ] - 1
-        " snippet name starts as the first non-space char
-
-        if has_key( ctx.oriIndentkeys, ctx.snipObject.name )
-              \ || has_key( ctx.leadingCharToReindent, ctx.snipObject.name )
-
-            " TODO
-            "       For correct indentexpr, we have to place snippet name first on
-            "       screen and then clear it.
-            "
-            "       This is a dirty fix. Better way is to place the snippet name out
-            "       of this function.
-
-            if a:nameStartPosition == a:nameEndPosition
-                call XPreplace( a:nameStartPosition, a:nameEndPosition,
-                      \ ctx.snipObject.name, { 'doJobs' : 0 } )
-            endif
-
-            let nIndent = XPT#getPreferedIndentNr( a:nameStartPosition[ 0 ] )
-
-            if a:nameStartPosition == a:nameEndPosition
-                call XPreplace( a:nameStartPosition, [ a:nameEndPosition[ 0 ],
-                      \     a:nameEndPosition[ 1 ] + len( ctx.snipObject.name ) ],
-                      \ '', { 'doJobs' : 0 } )
-            endif
-
-        endif
-
-    endif
-
 
     let rctx.phase = 'rendering'
 
@@ -1391,7 +1356,7 @@ fun! s:BuildSnippet(nameStartPosition, nameEndPosition) " {{{
         let rctx.userWrapped = copy( x.userWrapped )
     endif
 
-    let nSpaceToAdd = s:NPreferedIndent( a:nameStartPosition )
+    let nSpaceToAdd = s:NPreferedIndent( a:nameStartPosition, a:nameEndPosition )
 
 
     " update xpm status
@@ -1430,7 +1395,7 @@ endfunction " }}}
 
 " TODO seems non-keyword trigger does not work?
 
-fun! s:NPreferedIndent( startPos ) "{{{
+fun! s:NPreferedIndent( startPos, endPos ) "{{{
 
     let ctx = b:xptemplateData.renderContext
     let curline = getline( a:startPos[ 0 ] )
@@ -1444,11 +1409,37 @@ fun! s:NPreferedIndent( startPos ) "{{{
         let firstWord = ctx.snipObject.parsedSnip[ 0 ]
 
         if type( firstWord ) == type( '' )
-            let firstWord = matchstr( firstWord, '\V\^\w\+' )
+            let firstWord = matchstr( firstWord, '\v^(\w+|\S)' )
 
             " NOTE: Only keys appears in &indentkeys trigger re-indent
             if firstWord != '' && has_key( ctx.oriIndentkeys, firstWord )
+                  \ || has_key( ctx.leadingCharToReindent, ctx.snipObject.name )
+
+
+                " TODO
+                "       For correct indentexpr, we have to place snippet name first on
+                "       screen and then clear it.
+                "
+                "       This is a dirty fix. Better way is to place the snippet name out
+                "       of this function.
+                "
+                "       This still doesn't work on branch dev for "{", because
+                "       the parsedSnip[ 0 ] is object which should be parsed
+                "       to string "{". fix it !
+
+                if a:startPos == a:endPosition
+                    call XPreplace( a:startPos, a:endPosition,
+                          \ ctx.snipObject.name, { 'doJobs' : 0 } )
+                endif
+
                 let prefered = xpt#util#GetPreferedIndentNr( a:startPos[ 0 ] )
+
+                if a:startPos == a:endPosition
+                    call XPreplace( a:startPos, [ a:endPosition[ 0 ],
+                          \     a:endPosition[ 1 ] + len( ctx.snipObject.name ) ],
+                          \ '', { 'doJobs' : 0 } )
+                endif
+
             endif
 
         endif
