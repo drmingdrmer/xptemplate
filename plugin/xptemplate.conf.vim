@@ -60,6 +60,7 @@ call s:def('g:xptemplate_brace_complete'	, 0 )
 call s:def('g:xptemplate_strip_left'	, 1 )
 call s:def('g:xptemplate_fix'	, 1 )
 call s:def('g:xptemplate_ph_pum_accept_empty'	, 1 )
+call s:def('g:xptemplate_cwd_snippet'	, 0 )
 
 
 call s:def('g:xptemplate_vars'	, '' )
