@@ -42,6 +42,9 @@ call XPTdefineSnippet('vimformat', {}, [ '" vim:tw=78:ts=8:sw=4:sts=4:et:norl:fd
 
 
 
+XPT lncol " [ line\( "." ), col\( "." ) ]
+[ line( '.' ), col( '.' ) ]
+
 XPT printf	" printf\(..)
 XSET elts|pre=Echo('')
 XSET elts=c_printf_elts( R( 'pattern' ), "," )
@@ -76,10 +79,12 @@ if !exists(`$SParg^"`g^:`varname^"`$SParg^)
     let `g^:`varname^`$SPop^=`$SPop^`val^
 endif
 
-XPT fun wrap " fun! ..(..) .. endfunction
+XPT _fun hidden wrap " fun! ..(..) .. endfunction
 fun! `name^`$SPfun^(`:_args:^) "{{{
     `cursor^
 endfunction "}}}
+
+XPT fun alias=_fun
 
 XPT member wrap " tips
 fun! `name^`$SPfun^(`:_args:^) dict "{{{
@@ -141,11 +146,29 @@ XPT filehead " description of file
 " }}}
 ..XPT
 
+XPT savecpo " save &cpo
+let s:oldcpo = &cpo
+set cpo-=< cpo+=B
+`cursor^
+let &cpo = s:oldcpo
+
 " The first placeholder wrapping 'com' keyword that causes ctags halt
 XPT sid "  generate s:sid variable
 exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|unmap <Plug>xsid'
 
 ..XPT
+
+XPT bench " while 1000.. doit..
+let i = 0
+let `t^_0 = reltime()
+
+while i < `100000^
+    let i += 1
+    `cursor^
+endwhile
+
+let `t^_1 = reltime( `t^_0 )
+echom reltimestr( reltime( `t^_0 ) )
 
 XPT call wraponly=param " ..\( .. )
 `vim_call()`name^(`$SParg^`param^`$SParg^)
@@ -154,4 +177,3 @@ XPT _call hidden wrap=param? " $_xSnipName( .. )
 `$_xSnipName^(`$SParg`param?`$SParg^)
 
 XPT string alias=_call
-
