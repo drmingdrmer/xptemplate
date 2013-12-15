@@ -287,6 +287,7 @@
 		|g:xptemplate_ph_pum_accept_empty|
 		|g:xptemplate_pum_tab_nav|
 		|g:xptemplate_pum_quick_back|
+		|g:xptemplate_cwd_snippet|
 		|g:xptemplate_snippet_folders|
 		|g:xptemplate_strict|
 		|g:xptemplate_strip_left|
@@ -488,6 +489,18 @@
 		This feature depends on a prefix dictionary of all of the
 		options.  The prefix dictionary will be created every time
 		popup menu is called.
+
+
+						    *g:xptemplate_cwd_snippet*
+								   {default:0}
+	Set this to 1 to enable each vim buffer to automatically load file
+	".xpt.vim" from current working directory, as snippet file specific to
+	current directory( or project ).
+
+	Current ".xpt.vim" accepts only the most simple form of snippet, the
+	function call form: >
+		call XPTemplate( 'foo', '`foo^ says hello' )
+<
 
 
 							 *g:xptemplate_strict*
