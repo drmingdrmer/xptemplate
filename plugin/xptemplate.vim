@@ -1144,6 +1144,9 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
         let pre = ftScope.namePrefix
         let n = split( lineToCursor, '\s', 1 )[ -1 ]
 
+        " TODO use filetype.keyword
+        " TODO in php $se should not trigger snippet 'se'
+
         " search for valid snippet name or single non-keyword name
         let snpt_name_ptn = '\V\^' . x.keyword . '\+\|\^\W'
         while n != '' && !has_key( pre, n )
