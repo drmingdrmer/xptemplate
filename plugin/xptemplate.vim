@@ -112,7 +112,6 @@ exe XPT#let_sid
 
 
 runtime plugin/xptemplate.conf.vim
-runtime plugin/debug.vim
 runtime plugin/xptemplate.util.vim
 runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
@@ -124,8 +123,8 @@ runtime plugin/classes/FilterValue.vim
 runtime plugin/classes/RenderContext.vim
 
 
-let s:log = CreateLogger( 'warn' )
-let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
+let s:log = xpt#debug#Logger( 'debug' )
 
 call XPRaddPreJob( 'XPMupdateCursorStat' )
 call XPRaddPostJob( 'XPMupdateSpecificChangedRange' )
@@ -284,7 +283,7 @@ fun! XPTemplateKeyword(val) "{{{
     let x.keywordList = split( substitute( join( x.keywordList, '' ), '\v(.)\1+', '\1', 'g' ), '\v\s*' )
 
 
-    let x.keyword = '\w\|\[' . escape( join( x.keywordList, '' ), needEscape ) . ']'
+    let x.keyword = '\[0-9A-Za-z_' . escape( join( x.keywordList, '' ), needEscape ) . ']'
 
 endfunction "}}}
 
@@ -1144,8 +1143,14 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
         let ftScope = s:GetContextFTObj()
         let pre = ftScope.namePrefix
         let n = split( lineToCursor, '\s', 1 )[ -1 ]
+
+        " TODO use filetype.keyword
+        " TODO in php $se should not trigger snippet 'se'
+
+        " search for valid snippet name or single non-keyword name
+        let snpt_name_ptn = '\V\^' . x.keyword . '\+\|\^\W'
         while n != '' && !has_key( pre, n )
-            let n = substitute( n, '\V\^\w\+\|\^\W', '', '' )
+            let n = substitute( n, snpt_name_ptn, '', '' )
         endwhile
         let matched = n
 
@@ -4954,6 +4959,11 @@ augroup XPT "{{{
 
     if g:xptemplate_strict == 1
         au CursorMovedI * call <SID>BreakUndo()
+    endif
+
+    if g:xptemplate_cwd_snippet == 1
+        au BufEnter  * silent! call xpt#cwd#snpt#load()
+        au BufUnload * silent! call xpt#cwd#snpt#clearFlag()
     endif
 
 augroup END "}}}

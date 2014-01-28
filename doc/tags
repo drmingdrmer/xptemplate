@@ -34,6 +34,7 @@ g:xptemplate_always_show_pum	xptemplate.txt	/*g:xptemplate_always_show_pum*
 g:xptemplate_brace_complete	xptemplate.txt	/*g:xptemplate_brace_complete*
 g:xptemplate_break_undo	xptemplate.txt	/*g:xptemplate_break_undo*
 g:xptemplate_bundle	xptemplate.txt	/*g:xptemplate_bundle*
+g:xptemplate_cwd_snippet	xptemplate.txt	/*g:xptemplate_cwd_snippet*
 g:xptemplate_fallback	xptemplate.txt	/*g:xptemplate_fallback*
 g:xptemplate_goback	xptemplate.txt	/*g:xptemplate_goback*
 g:xptemplate_highlight	xptemplate.txt	/*g:xptemplate_highlight*
