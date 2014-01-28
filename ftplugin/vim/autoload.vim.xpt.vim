@@ -20,9 +20,10 @@ XPTinclude
       \ _common/common
       \ vim/vim
 
+" TODO fix it
 " XSET name|repl=vim_autoload_pre()#`name
 XPT fun alias=_fun " fun! vim_autoload_pre()#**
-XSET name=vim_autoload_pre()#`name
+XSET name=Build( '`' . vim_autoload_pre() . '#`name^' )
 
 
 XPT ## " vim_autoload_pre\()#
