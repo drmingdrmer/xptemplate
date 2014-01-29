@@ -77,5 +77,5 @@ interface `interfaceName^`$BRfun^{
     `cursor^
 }
 
-XPT $ hidden " make dollar a keyword
+XPT $ " make dollar a keyword
 $
