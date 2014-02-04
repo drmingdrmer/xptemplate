@@ -267,6 +267,7 @@
 		|g:xptemplate_key|
 		|g:xptemplate_key_pum_only|
 		|g:xptemplate_key_force_pum|
+		|g:xptemplate_key_visual|
 		|g:xptemplate_nav_next|
 		|g:xptemplate_nav_prev|
 		|g:xptemplate_nav_cancel|
@@ -285,6 +286,8 @@
 		|g:xptemplate_minimal_prefix|
 		|g:xptemplate_ph_pum_accept_empty|
 		|g:xptemplate_pum_tab_nav|
+		|g:xptemplate_pum_quick_back|
+		|g:xptemplate_cwd_snippet|
 		|g:xptemplate_snippet_folders|
 		|g:xptemplate_strict|
 		|g:xptemplate_strip_left|
@@ -295,9 +298,9 @@
 		exe "inoremap <silent> <Plug>XPTrawKey " g:xptemplate_key
 <
 
-	    *i_<C-\>* *s_<C-\>* *v_<C-\>* *xpt-key-trigger* *g:xptemplate_key*
+	    *i_<C-\>* *v_<C-\>* *xpt-key-trigger* *g:xptemplate_key*
 							       {default:<C-\>}
-	The key to trigger snippets, in insert or visual mode.
+	The key to trigger snippets in insert mode.
 	Use |g:xptemplate_key| to change this mapping. Example: >
 		let g:xptemplate_key = '<Tab>'
 <
@@ -325,6 +328,14 @@
 	starts with the text before cursor.
 
 	See also: |g:xptemplate_always_show_pum|.
+
+
+			 *s_<C-\>* *xpt-key-visual* *g:xptemplate_visual
+					  {default:g:xptemplate_key}
+	The key to trigger snippets in visual mode.
+	Use |g:xptemplate_key_visual| to change this mapping. Example: >
+		let g:xptemplate_key_visual = '<Tab>'
+<
 
 
 	       *i_<tab>*  *s_<tab>* *xpt-key-navigate* *g:xptemplate_nav_next*
@@ -453,6 +464,43 @@
 	Set to 1 to use <tab>/<S-tab>( shift + tab ) to navigate through pop
 	up menu. <tab> behaves like <C-n> and <S-tab> behaves like <C-p>. And
 	<CR> expands snippet.
+
+
+						 *g:xptemplate_pum_quick_back*
+								   {default:1}
+	With popup menu, pressing "<BS>" removes minimal chars to reveil
+	more options.
+	If this is set to 0, pressing "<BS>" removes only 1 char.
+
+	For example, popup menu created with 3 options: >
+		"foo", "fooba", "foobar"
+<
+	Typing "fooba" shrinks menu to: >
+		fooba
+		foobar
+<	Now pressing "<BS>" will remove 2 chars: "ba", and leave "foo", the
+	longest prefix that has 3 options.
+
+	Pressing "<BS>" again will remove "foo".
+
+	NOTE:	Very large list might hang VIM for seconds. In this case set
+		this to 0 to get better performance.
+
+		This feature depends on a prefix dictionary of all of the
+		options.  The prefix dictionary will be created every time
+		popup menu is called.
+
+
+						    *g:xptemplate_cwd_snippet*
+								   {default:0}
+	Set this to 1 to enable each vim buffer to automatically load file
+	".xpt.vim" from current working directory, as snippet file specific to
+	current directory( or project ).
+
+	Current ".xpt.vim" accepts only the most simple form of snippet, the
+	function call form: >
+		call XPTemplate( 'foo', '`foo^ says hello' )
+<
 
 
 							 *g:xptemplate_strict*
