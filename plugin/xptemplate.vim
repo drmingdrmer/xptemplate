@@ -4131,22 +4131,18 @@ fun! s:XPTinitMapping() "{{{
 
     " Note: <bs> works the same with <C-h>, but only masking <bs> in buffer
     " level does mask <c-h>. So that <bs> still works with old mapping
-    let literalKeys = [
-        \ 's_%',
-        \ 's_''',
-        \ 's_"',
-        \ 's_(',
-        \ 's_)',
-        \ 's_{',
-        \ 's_}',
-        \ 's_[',
-        \ 's_]',
-        \
-        \ 's_g',
-        \ 's_m',
-        \ 's_a',
-        \]
-
+    let literal_chars = ''
+          \ . 'abcdefghijklmnopqrstuvwxyz'
+          \ . 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+          \ . '1234567890'
+          \ . '!@#$%^&*()'
+          \ . '`~-_=+[{]}\;:"'',<.>/?'
+    let literalKeys = split( literal_chars, '\V\s\*' )
+    let literalKeys = map( literalKeys, '"s_".v:val' )
+          \ + [
+          \     's_<SPACE>',
+          \     's_\|',
+          \   ]
 
     let b:mapSaver = g:MapSaver.New(1)
     call b:mapSaver.AddList(
