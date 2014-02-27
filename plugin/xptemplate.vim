@@ -4124,10 +4124,6 @@ fun! s:Goback() "{{{
 endfunction "}}}
 
 fun! s:XPTinitMapping() "{{{
-    let disabledKeys = [
-        \ 's_[%',
-        \ 's_]%',
-        \]
 
     " Note: <bs> works the same with <C-h>, but only masking <bs> in buffer
     " level does mask <c-h>. So that <bs> still works with old mapping
@@ -4174,10 +4170,6 @@ fun! s:XPTinitMapping() "{{{
 
     let b:mapLiteral = g:MapSaver.New( 1 )
     call b:mapLiteral.AddList( literalKeys )
-
-
-    let b:mapMask = g:MapSaver.New( 0 )
-    call b:mapMask.AddList( disabledKeys )
 
 
     " 'indentkeys' causes problem that it changes indent or converts tabs/spaces
@@ -4229,11 +4221,9 @@ fun! s:ApplyMap() " {{{
 
     call b:mapSaver.Save()
     call b:mapLiteral.Save()
-    call b:mapMask.Save()
 
     call b:mapSaver.UnmapAll()
     call b:mapLiteral.Literalize( { 'insertAsSelect' : 1 } )
-    call b:mapMask.UnmapAll()
 
 
 
@@ -4276,7 +4266,6 @@ fun! s:ClearMap() " {{{
 
     call b:xptemplateData.settingSwitch.Restore()
 
-    call b:mapMask.Restore()
     call b:mapLiteral.Restore()
     call b:mapSaver.Restore()
 
