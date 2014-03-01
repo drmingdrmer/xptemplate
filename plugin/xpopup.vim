@@ -26,7 +26,6 @@ set cpo-=< cpo+=B
 
 runtime plugin/debug.vim
 runtime plugin/classes/SettingSwitch.vim
-runtime plugin/classes/MapSaver.vim
 
 
 exe XPT#let_sid
@@ -434,8 +433,8 @@ fun! s:_InitBuffer() "{{{
         return
     endif
 
-    let b:_xpp_map_saver = g:MapSaver.New( 1 )
-    call b:_xpp_map_saver.AddList( 
+    let b:_xpp_map_saver = xpt#msvr#New(1)
+    call xpt#msvr#AddList( b:_xpp_map_saver,
           \ 'i_<UP>', 
           \ 'i_<DOWN>', 
           \
@@ -968,7 +967,7 @@ fun! s:ApplyMapAndSetting() "{{{
 
     call s:log.Debug( 'ApplyMapAndSetting' )
 
-    call b:_xpp_map_saver.Save()
+    call xpt#msvr#Save( b:_xpp_map_saver )
 
 
     let sess = b:__xpp_current_session
@@ -1028,7 +1027,7 @@ fun! s:ClearMapAndSetting() "{{{
         " let 
 
 
-    call b:_xpp_map_saver.Restore()
+    call xpt#msvr#Restore( b:_xpp_map_saver )
     call b:_xpp_setting_switch.Restore()
     if exists( ':AcpUnlock' )
         try
