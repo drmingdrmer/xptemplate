@@ -1364,10 +1364,7 @@ fun! s:SaveNavKey() "{{{
 
     let navKey = g:xptemplate_nav_next
 
-    let mapInfo = MapSaver_GetMapInfo( navKey, 'i', 1 )
-    if mapInfo.cont == ''
-        let mapInfo = MapSaver_GetMapInfo( navKey, 'i', 0 )
-    endif
+    let mapInfo = MapSaver_GetMapInfo( navKey, 'i' )
 
     if mapInfo.cont == ''
         let x.canNavFallback = 0
