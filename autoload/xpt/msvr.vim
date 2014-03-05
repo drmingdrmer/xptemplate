@@ -211,9 +211,9 @@ fun! xpt#msvr#MapInfo( key, mode ) "{{{
 
     " NOTE: guess it, no way to figure out whether a key is mapped with <expr> or not
     let isexpr = ''
-    if info.mode == 'i' && info.cont =~ '\V\w(\.\*)' && info.cont !~? '\V<c-r>'
-          \ || info.mode != 'i' && info.cont =~ '\V\w(\.\*)' 
-          \ || info.mode == 'i' && info.cont =~ '\V\.\*?\.\*:\.\*'
+    if a:mode == 'i' && line[2:] =~ '\V\w(\.\*)' && line[2:] !~? '\V<c-r>'
+          \ || a:mode != 'i' && line[2:] =~ '\V\w(\.\*)' 
+          \ || a:mode == 'i' && line[2:] =~ '\V\.\*?\.\*:\.\*'
         let isexpr = '<expr> '
     endif
 
