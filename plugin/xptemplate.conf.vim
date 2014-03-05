@@ -101,9 +101,9 @@ else
     exe "imap     <silent> <Plug>XPTfallback"          g:xptemplate_fallback
 endif
 exe "inoremap <silent> <Plug>XPTrawKey"            g:xptemplate_key
-fun! s:EscapeMap( s ) 
+fun! s:EscapeMap( s )
     return substitute( a:s, '\V>', '++', 'g' )
-endfunction 
+endfunction
 exe "inoremap <silent>" g:xptemplate_key           printf( g:XPTmappings.trigger      , s:EscapeMap( g:xptemplate_key )          )
 exe "xnoremap <silent>" g:xptemplate_key_visual    g:XPTmappings.wrapTrigger
 exe "snoremap <silent>" g:xptemplate_key           printf( g:XPTmappings.selTrigger   , s:EscapeMap( g:xptemplate_key )          )
@@ -142,13 +142,13 @@ for ftAndBundle in s:bundle
     endif
     let g:xptBundle[ ft ][ bundle ] = 1
 endfor
-fun! g:XPTaddBundle(ft, bundle) 
+fun! g:XPTaddBundle(ft, bundle)
     call XPTemplateInit()
     let g:xptBundle[ a:ft ] = get( g:xptBundle, a:ft, {} )
     let g:xptBundle[ a:ft ][ a:bundle ] = 1
     call XPTembed( a:ft . '/' . a:bundle )
-endfunction 
-fun! g:XPTloadBundle(ft, bundle) 
+endfunction
+fun! g:XPTloadBundle(ft, bundle)
     if !has_key( g:xptBundle, a:ft )
         return 0
     elseif !has_key( g:xptBundle[ a:ft ], a:bundle ) && !has_key( g:xptBundle[ a:ft ], '*' )
@@ -156,8 +156,8 @@ fun! g:XPTloadBundle(ft, bundle)
     else
         return 1
     endif
-endfunction 
-fun! XPTfiletypeInit() 
+endfunction
+fun! XPTfiletypeInit()
     if !exists( 'b:xptemplateData' )
         call XPTemplateInit()
     endif
@@ -179,7 +179,7 @@ fun! XPTfiletypeInit()
             endif
         endif
     endfor
-endfunction 
+endfunction
 augroup XPTftInit
   au!
   au FileType * call XPTfiletypeInit()
@@ -199,7 +199,7 @@ endif
 if stridx( g:xptemplate_brace_complete, '"' ) >= 0
     inoremap <silent> " <C-v><C-v><BS><C-r>=XPTtgr('"',{'noliteral':1,'k':'"'})<cr>
 endif
-fun! XPTinfo() 
+fun! XPTinfo()
     if !exists( 'b:xptemplateData' )
         return 0
     endif
@@ -211,8 +211,8 @@ fun! XPTinfo()
     let st = st + [ x.renderContext ]
     call map( st, '{"$snipname":v:val.snipObject.name, "$phname":v:val.item.name}' )
     return st
-endfunction 
-fun! XPTinfoStr( ... ) 
+endfunction
+fun! XPTinfoStr( ... )
     let data = XPTinfo()
     if data is 0
         return ''
@@ -234,7 +234,7 @@ fun! XPTinfoStr( ... )
         call add( rst, elt )
     endfor
     return join( rst, fmt[ 1 ] )
-endfunction 
+endfunction
 let bs=&bs
 if bs != 2 && bs !~ "start"
     if g:xptemplate_fix

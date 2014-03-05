@@ -21,7 +21,7 @@ com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
 com! -nargs=+ XPTinclude    call XPTinclude(<f-args>)
 com! -nargs=+ XPTembed      call XPTembed(<f-args>)
 let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
-fun! s:AssignSnipFT( filename ) 
+fun! s:AssignSnipFT( filename )
     let x = b:xptemplateData
     let filename = substitute( a:filename, '\\', '/', 'g' )
     if filename =~ 'unknown.xpt.vim$'
@@ -49,8 +49,8 @@ fun! s:AssignSnipFT( filename )
         endif
     endif
     return ft
-endfunction 
-fun! s:LoadOtherFTPlugins( ft ) 
+endfunction
+fun! s:LoadOtherFTPlugins( ft )
     call XPTsnipScopePush()
     for subft in split( a:ft, '\V.' )
         exe 'runtime! ftplugin/' . subft . '.vim'
@@ -58,8 +58,8 @@ fun! s:LoadOtherFTPlugins( ft )
         exe 'runtime! ftplugin/' . subft . '/*.vim'
     endfor
     call XPTsnipScopePop()
-endfunction 
-fun! XPTsnippetFileInit( filename, ... ) 
+endfunction
+fun! XPTsnippetFileInit( filename, ... )
     if !exists("b:xptemplateData")
         call XPTemplateInit()
     endif
@@ -92,16 +92,16 @@ fun! XPTsnippetFileInit( filename, ... )
         endif
     endfor
     return 'doit'
-endfunction 
-fun! XPTsnipSet( dictNameValue ) 
+endfunction
+fun! XPTsnipSet( dictNameValue )
     let x = b:xptemplateData
     let snipScope = x.snipFileScope
     let [ dict, nameValue ] = split( a:dictNameValue, '\V.', 1 )
     let name = matchstr( nameValue, '^.\{-}\ze=' )
     let value = nameValue[ len( name ) + 1 :  ]
     let snipScope[ dict ][ name ] = value
-endfunction 
-fun! XPTsetVar( nameSpaceValue ) 
+endfunction
+fun! XPTsetVar( nameSpaceValue )
     let x = b:xptemplateData
     let ftScope = g:GetSnipFileFtScope()
     let name = matchstr(a:nameSpaceValue, '^\S\+\ze')
@@ -119,8 +119,8 @@ fun! XPTsetVar( nameSpaceValue )
     if !has_key( ftScope.varPriority, name ) || priority < ftScope.varPriority[ name ]
         let [ ftScope.funcs[ name ], ftScope.varPriority[ name ] ] = [ val, priority ]
     endif
-endfunction 
-fun! XPTinclude(...) 
+endfunction
+fun! XPTinclude(...)
     let scope = XPTsnipScope()
     let scope.inheritFT = 1
     for v in a:000
@@ -137,8 +137,8 @@ fun! XPTinclude(...)
             call XPTsnipScopePop()
         endif
     endfor
-endfunction 
-fun! XPTembed(...) 
+endfunction
+fun! XPTembed(...)
     let scope = XPTsnipScope()
     let scope.inheritFT = 0
     for v in a:000
@@ -152,8 +152,8 @@ fun! XPTembed(...)
             call XPTsnipScopePop()
         endif
     endfor
-endfunction 
-fun! s:XPTstartSnippetPart(fn) 
+endfunction
+fun! s:XPTstartSnippetPart(fn)
     let lines = readfile(a:fn)
     let i = match( lines, '\V\^XPTemplateDef' )
     if i == -1
@@ -166,8 +166,8 @@ fun! s:XPTstartSnippetPart(fn)
     let x = b:xptemplateData
     let x.snippetToParse += [ { 'snipFileScope' : x.snipFileScope, 'lines' : lines } ]
     return
-endfunction 
-fun! DoParseSnippet( p ) 
+endfunction
+fun! DoParseSnippet( p )
     call XPTsnipScopePush()
     let x = b:xptemplateData
     let x.snipFileScope = a:p.snipFileScope
@@ -204,8 +204,8 @@ fun! DoParseSnippet( p )
         call s:XPTemplateParseSnippet(lines[s : min([blk, i])])
     endif
     call XPTsnipScopePop()
-endfunction 
-fun! s:XPTemplateParseSnippet(lines) 
+endfunction
+fun! s:XPTemplateParseSnippet(lines)
     let lines = a:lines
     let snipScope = XPTsnipScope()
     let snipScope.loadedSnip = get( snipScope, 'loadedSnip', {} )
@@ -263,8 +263,8 @@ fun! s:XPTemplateParseSnippet(lines)
             let snipScope.loadedSnip[ synonym ] = 1
         endfor
     endif
-endfunction 
-fun! s:GetSnipCommentHint(str) 
+endfunction
+fun! s:GetSnipCommentHint(str)
     let pos = match(a:str, '\V' . s:nonEscaped . '\shint=')
     if pos != -1
         return [ a:str[ pos + 6 : ], a:str[ : pos - 1 ] ]
@@ -275,14 +275,14 @@ fun! s:GetSnipCommentHint(str)
     else
         return [ matchstr( a:str[ pos + 1 + 1 : ], '\S.*' ), a:str[ : pos ] ]
     endif
-endfunction 
-fun! s:ConvertIndent( snipLines ) 
+endfunction
+fun! s:ConvertIndent( snipLines )
     let tabspaces = repeat( ' ', &l:tabstop )
     let indentRep = repeat( '\1', &l:shiftwidth )
     let cmdExpand = 'substitute(v:val, ''^\( *\)\1\1\1'', ''' . indentRep . ''', "g" )'
     call map( a:snipLines, cmdExpand )
-endfunction 
-fun! s:getXSETkeyAndValue(lines, start) 
+endfunction
+fun! s:getXSETkeyAndValue(lines, start)
     let start = a:start
     let XSETparam = matchstr(a:lines[start], '\V\^XSET\%[m]\s\+\zs\.\*')
     let isMultiLine = a:lines[ start ] =~# '\V\^XSETm'
@@ -298,8 +298,8 @@ fun! s:getXSETkeyAndValue(lines, start)
         let val = substitute(val, '\\n', "\n", 'g')
     endif
     return [ key, val, start ]
-endfunction 
-fun! s:ParseMultiLineValues(lines, start) 
+endfunction
+fun! s:ParseMultiLineValues(lines, start)
     let lines = a:lines
     let start = a:start
     let endPattern = '\V\^XSETm\s\+END\$'
@@ -320,8 +320,8 @@ fun! s:ParseMultiLineValues(lines, start)
     endwhile
     let val = join(multiLineValues, "\n")
     return [ start, val ]
-endfunction 
-fun! s:GetKeyType(rawKey) 
+endfunction
+fun! s:GetKeyType(rawKey)
     let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'|\zs\.\{-}\$')
     if keytype == ""
         let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'.\zs\.\{-}\$')
@@ -329,8 +329,8 @@ fun! s:GetKeyType(rawKey)
     let keyname = keytype == "" ? a:rawKey :  a:rawKey[ 0 : - len(keytype) - 2 ]
     let keyname = substitute(keyname, '\V\\\(\[.|\\]\)', '\1', 'g')
     return [ keyname, keytype ]
-endfunction 
-fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) 
+endfunction
+fun! s:HandleXSETcommand(setting, command, keyname, keytype, value)
     if a:keyname ==# 'ComeFirst'
         let a:setting.comeFirst = s:SplitWith( a:value, ' ' )
     elseif a:keyname ==# 'ComeLast'
@@ -345,10 +345,10 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value)
         let a:setting.mappings[ a:keyname ] = get(
               \ a:setting.mappings,
               \ a:keyname,
-              \ { 'saver' : g:MapSaver.New( 1 ), 'keys' : {} } )
+              \ { 'saver' : xpt#msvr#New(1), 'keys' : {} } )
         let key = matchstr( a:value, '\V\^\S\+\ze\s' )
         let mapping = matchstr( a:value, '\V\s\+\zs\.\*' )
-        call a:setting.mappings[ a:keyname ].saver.Add( 'i', key )
+        call xpt#msvr#Add( a:setting.mappings[ a:keyname ].saver, 'i', key )
         let a:setting.mappings[ a:keyname ].keys[ key ] = g:FilterValue.New( 0, mapping )
     elseif a:keytype ==# 'pre'
         let a:setting.preValues[a:keyname] = g:FilterValue.New( 0, a:value )
@@ -364,9 +364,9 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value)
     else
         throw "unknown key name or type:" . a:keyname . ' ' . a:keytype
     endif
-endfunction 
-fun! s:SplitWith( str, char ) 
+endfunction
+fun! s:SplitWith( str, char )
   let s = split( a:str, '\V' . s:nonEscaped . a:char, 1 )
   return s
-endfunction 
+endfunction
 let &cpo = s:oldcpo

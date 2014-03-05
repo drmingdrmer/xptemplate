@@ -7,20 +7,20 @@ set cpo-=< cpo+=B
 runtime plugin/debug.vim
 let s:log = CreateLogger( 'warn' )
 let s:unescapeHead          = '\v(\\*)\1\\?\V'
-fun! g:XPclassPrototype( sid, ...) 
+fun! g:XPclassPrototype( sid, ...)
     let p = {}
     for name in a:000
         let p[ name ] = function( '<SNR>' . a:sid . name )
     endfor
     return p
-endfunction 
-fun! s:UnescapeChar( str, chars ) 
+endfunction
+fun! s:UnescapeChar( str, chars )
     let chars = substitute( a:chars, '\\', '', 'g' )
     let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]-^' ) . ']\)'
     let unescaped = substitute( a:str, pattern, '\1\2', 'g' )
     return unescaped
-endfunction 
-fun! s:DeepExtend( to, from ) 
+endfunction
+fun! s:DeepExtend( to, from )
     for key in keys( a:from )
         if type( a:from[ key ] ) == 4
             if has_key( a:to, key )
@@ -38,8 +38,8 @@ fun! s:DeepExtend( to, from )
             let a:to[ key ] = a:from[key]
         endif
     endfor
-endfunction 
-fun! s:XPTgetCurrentOrPreviousSynName() 
+endfunction
+fun! s:XPTgetCurrentOrPreviousSynName()
     let pos = [ line( "." ), col( "." ) ]
     let synName = synIDattr(synID(pos[0], pos[1], 1), "name")
     if synName == ''
@@ -53,8 +53,8 @@ fun! s:XPTgetCurrentOrPreviousSynName()
         endif
     endif
     return synName
-endfunction 
-fun! s:RemoveDuplicate( list ) 
+endfunction
+fun! s:RemoveDuplicate( list )
     let dict = {}
     let newList = []
     for e in a:list
@@ -64,7 +64,7 @@ fun! s:RemoveDuplicate( list )
         let dict[ e ] = 1
     endfor
     return newList
-endfunction 
+endfunction
 exe XPT#let_sid
 let g:xptutil = XPT#class( s:sid, {} )
 let &cpo = s:oldcpo

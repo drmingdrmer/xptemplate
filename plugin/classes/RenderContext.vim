@@ -29,7 +29,7 @@ let s:phaseGraph = {
       \ p.finished  : [ p.uninit ],
       \ }
 unlet p
-fun! s:New( x ) dict 
+fun! s:New( x ) dict
     let pre = "X" . len( a:x.stack ) . '_'
     call extend( self, {
           \   'ftScope'            : {},
@@ -76,13 +76,13 @@ fun! s:New( x ) dict
             let self.leadingCharToReindent[ k[ 1: ] ] = 1
         endif
     endfor
-endfunction 
-fun! s:SwitchPhase( nextPhase ) dict 
+endfunction
+fun! s:SwitchPhase( nextPhase ) dict
     if -1 == match( s:phaseGraph[ self.phase ], '\V\<' . a:nextPhase . '\>' )
         throw 'XPT:RenderContext:switching from [' . self.phase . '] to [' . a:nextPhase . '] is not allowed'
     endif
     let self.phase = a:nextPhase
-endfunction 
+endfunction
 exe XPT#let_sid
 let g:RenderContext = XPT#class( s:sid, s:proto )
 let &cpo = s:oldcpo

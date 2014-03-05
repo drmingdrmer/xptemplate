@@ -15,7 +15,7 @@ endif
 if !hlID( 'XPTnextItem' )
     hi def link XPTnextItem     IncSearch
 endif
-fun! s:UpdateHL(x, ctx) 
+fun! s:UpdateHL(x, ctx)
     if !a:ctx.processing
         return 1
     endif
@@ -44,8 +44,8 @@ fun! s:UpdateHL(x, ctx)
         call s:HL( 'XPTnextItem', r[2:] )
     endif
     return 1
-endfunction 
-fun! s:PatternOfNext( ctx ) 
+endfunction
+fun! s:PatternOfNext( ctx )
     let r = ''
     for item in a:ctx.itemList
         if item.keyPH != {}
@@ -59,15 +59,15 @@ fun! s:PatternOfNext( ctx )
         let r .= '\|' . XPTgetStaticRange( pos[0], [ pos[1][0], pos[1][1] + 1 ] )
     endif
     return r
-endfunction 
-fun! s:MarkRange( marks ) 
+endfunction
+fun! s:MarkRange( marks )
     let pos = XPMposList( a:marks.start, a:marks.end )
     if pos[0] == pos[1]
         let pos[1][1] += 1
     endif
     return XPTgetStaticRange( pos[0], pos[1] )
-endfunction 
-fun! XPTgetStaticRange(p, q) 
+endfunction
+fun! XPTgetStaticRange(p, q)
     let posStart = a:p
     let posEnd = a:q
     if posStart[0] == posEnd[0] && posStart[1] + 1 == posEnd[1]
@@ -92,14 +92,14 @@ fun! XPTgetStaticRange(p, q)
     endif
     let r = '\%(' . r . '\)'
     return '\V'.r
-endfunction 
+endfunction
 if exists( '*matchadd' )
-    fun! s:HLinit() 
+    fun! s:HLinit()
         if !exists( 'b:__xptHLids' )
             let b:__xptHLids = []
         endif
-    endfunction 
-    fun! s:ClearHL(x, ctx) 
+    endfunction
+    fun! s:ClearHL(x, ctx)
         call s:HLinit()
         for id in b:__xptHLids
             try
@@ -108,28 +108,28 @@ if exists( '*matchadd' )
             endtry
         endfor
         let b:__xptHLids = []
-    endfunction 
-    fun! s:HL(grp, ptn) 
+    endfunction
+    fun! s:HL(grp, ptn)
         call s:HLinit()
         call add( b:__xptHLids, matchadd( a:grp, a:ptn, 30 ) )
-    endfunction 
+    endfunction
 else
     let s:matchingCmd = {
                 \'XPTcurrentPH'     : '3match', 
                 \'XPTfollowingPH'   : 'match', 
                 \'XPTnextItem'      : '2match', 
                 \}
-    fun! s:ClearHL(x, ctx) 
+    fun! s:ClearHL(x, ctx)
         for cmd in values( s:matchingCmd )
             exe cmd 'none'
         endfor
-    endfunction 
-    fun! s:HL(grp, ptn) 
+    endfunction
+    fun! s:HL(grp, ptn)
         let cmd = get( s:matchingCmd, a:grp, '' )
         if '' != cmd
             exe cmd a:grp '/' . a:ptn . '/'
         endif
-    endfunction 
+    endfunction
 endif
 exe XPT#let_sid
 let s:FuncUpdate = function( '<SNR>' . s:sid . "UpdateHL" )

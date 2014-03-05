@@ -9,7 +9,7 @@ runtime plugin/xpmark.vim
 runtime plugin/classes/SettingSwitch.vim
 let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )
-fun! s:InitBuffer() 
+fun! s:InitBuffer()
     if exists( 'b:__xpr_init' )
         return
     endif
@@ -21,8 +21,8 @@ fun! s:InitBuffer()
           \ [ '&l:selection'  , 'exclusive' ],
           \ [ '&l:selectmode' , '' ],
           \)
-endfunction 
-fun! XPRstartSession() 
+endfunction
+fun! XPRstartSession()
     call s:InitBuffer()
     if exists( 'b:_xpr_session' )
         throw "xpreplace session already pushed"
@@ -32,8 +32,8 @@ fun! XPRstartSession()
     call b:__xpr_init.settingSwitch.Switch()
     let b:_xpr_session.savedReg = @"
     let @" = 'XPreplaceInited'
-endfunction 
-fun! XPRendSession() 
+endfunction
+fun! XPRendSession()
     if !exists( 'b:_xpr_session' )
         throw "no setting pushed"
         return
@@ -41,8 +41,8 @@ fun! XPRendSession()
     let @" = b:_xpr_session.savedReg
     call b:__xpr_init.settingSwitch.Restore()
     unlet b:_xpr_session
-endfunction 
-fun! XPreplaceByMarkInternal( startMark, endMark, replacement ) 
+endfunction
+fun! XPreplaceByMarkInternal( startMark, endMark, replacement )
     let [ start, end ] = [ XPMpos( a:startMark ), XPMpos( a:endMark ) ]
     if start == [0, 0] || end == [0, 0]
         throw 'XPM:' . ' ' . a:startMark . ' or ' . a:endMark . 'is invalid'
@@ -50,11 +50,11 @@ fun! XPreplaceByMarkInternal( startMark, endMark, replacement )
     let pos = XPreplaceInternal( start, end, a:replacement, { 'doJobs' : 0 } )
     call XPMupdateWithMarkRangeChanging( a:startMark, a:endMark, start, pos )
     return pos
-endfunction 
-fun! s:ConvertSpaceToTab( text ) 
+endfunction
+fun! s:ConvertSpaceToTab( text )
     return XPT#convertSpaceToTab( a:text )
-endfunction 
-fun! XPreplaceInternal(start, end, replacement, ...) 
+endfunction
+fun! XPreplaceInternal(start, end, replacement, ...)
     let option = { 'doJobs' : 1, 'saveHoriScroll' : 0 }
     if a:0 == 1
         call extend( option, a:1, 'force' )
@@ -104,8 +104,8 @@ fun! XPreplaceInternal(start, end, replacement, ...)
         call s:doPostJob( a:start, positionAfterReplacement, replacement )
     endif
     return positionAfterReplacement
-endfunction 
-fun! s:Replace_standard( start, end, replacement ) 
+endfunction
+fun! s:Replace_standard( start, end, replacement )
     let replacement = a:replacement
     let bStart = [a:start[0] - line( '$' ), a:start[1] - len(getline(a:start[0]))]
     call cursor( a:start )
@@ -145,8 +145,8 @@ fun! s:Replace_standard( start, end, replacement )
     let positionAfterReplacement = [ bStart[0] + line( '$' ), 0 ]
     let positionAfterReplacement[1] = bStart[1] + len(getline(positionAfterReplacement[0]))
     return positionAfterReplacement
-endfunction 
-fun! s:Replace_gp( start, end, replacement ) 
+endfunction
+fun! s:Replace_gp( start, end, replacement )
     let replacement = a:replacement
     let bStart = [a:start[0] - line( '$' ), a:start[1] - len(getline(a:start[0]))]
     call cursor( a:start )
@@ -156,8 +156,8 @@ fun! s:Replace_gp( start, end, replacement )
     silent! normal! ""gPzOXzO
     let positionAfterReplacement = [ line( "." ), col( "." ) ]
     return positionAfterReplacement
-endfunction 
-fun! XPreplace(start, end, replacement, ...) 
+endfunction
+fun! XPreplace(start, end, replacement, ...)
     let option = { 'doJobs' : 1 }
     if a:0 == 1
         call extend(option, a:1, 'force')
@@ -173,36 +173,36 @@ fun! XPreplace(start, end, replacement, ...)
         call XPRendSession()
     endtry
     return positionAfterReplacement
-endfunction 
+endfunction
 let s:_xpreplace = { 'post' : {}, 'pre' : {} }
-fun! XPRaddPreJob( functionName ) 
+fun! XPRaddPreJob( functionName )
     let s:_xpreplace.pre[ a:functionName ] = function( a:functionName )
-endfunction 
-fun! XPRaddPostJob( functionName ) 
+endfunction
+fun! XPRaddPostJob( functionName )
     let s:_xpreplace.post[ a:functionName ] = function( a:functionName )
-endfunction 
-fun! XPRremovePreJob( functionName ) 
+endfunction
+fun! XPRremovePreJob( functionName )
     let d = s:_xpreplace.pre
     if has_key( d, a:functionName )
         unlet d[ a:functionName ]
     endif
-endfunction 
-fun! XPRremovePostJob( functionName ) 
+endfunction
+fun! XPRremovePostJob( functionName )
     let d = s:_xpreplace.post
     if has_key( d, a:functionName )
         unlet d[ a:functionName ]
     endif
-endfunction 
-fun! s:doPreJob( start, end, replacement ) 
+endfunction
+fun! s:doPreJob( start, end, replacement )
     let d = { 'f' : '' }
     for d.f in values( s:_xpreplace.pre )
         call d.f( a:start, a:end )
     endfor
-endfunction 
-fun! s:doPostJob( start, end, replacement ) 
+endfunction
+fun! s:doPostJob( start, end, replacement )
     let d = { 'f' : '' }
     for d.f in values( s:_xpreplace.post )
         call d.f( a:start, a:end )
     endfor
-endfunction 
+endfunction
 let &cpo = s:oldcpo
