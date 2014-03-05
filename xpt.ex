@@ -69,6 +69,9 @@ dodist () {
     for file in `find plugin/ -name *.vim | grep -v "/debug\.vim$"`;do
         compact $file
     done
+    for file in `find autoload/ -name *.vim | grep -v "/debug\.vim$"`;do
+        compact $file
+    done
 
 
     mv plugin/xptemplate.vim .tmp
