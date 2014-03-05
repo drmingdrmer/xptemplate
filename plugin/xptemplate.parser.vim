@@ -641,12 +641,12 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
         let a:setting.mappings[ a:keyname ] = get(
               \ a:setting.mappings,
               \ a:keyname,
-              \ { 'saver' : g:MapSaver.New( 1 ), 'keys' : {} } )
+              \ { 'saver' : xpt#msvr#New(1), 'keys' : {} } )
 
         let key = matchstr( a:value, '\V\^\S\+\ze\s' )
         let mapping = matchstr( a:value, '\V\s\+\zs\.\*' )
 
-        call a:setting.mappings[ a:keyname ].saver.Add( 'i', key )
+        call xpt#msvr#Add( a:setting.mappings[ a:keyname ].saver, 'i', key )
 
         let a:setting.mappings[ a:keyname ].keys[ key ] = g:FilterValue.New( 0, mapping )
 
