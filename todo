@@ -1,6 +1,0 @@
-test from 'factor'
-what's the right "test" snippet in 'factor'
-during rendering <CR> does not work the way super-tab setup, which is closing pum only.
-inclusion inside expandable should be parsed at runtime, or recursive inclusion is impossible.
-add functin to detect if it is expandable at current position
-check text before/after cursor as a condition to expand snippet
