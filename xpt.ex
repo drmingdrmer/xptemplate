@@ -38,7 +38,7 @@ compact() {
         grep -v "^ *Assert " |\
         grep -v "^ *\"" |\
         grep -v "^ *$" |\
-        sed 's/" *{{{//; s/" *}}}//' > .tmp
+        sed 's/ *" *{{{//; s/ *" *}}}//' > .tmp
 
     mv .tmp $file
 }
