@@ -127,9 +127,9 @@ fun! xpt#msvr#MapInfo( key, mode )
     endif
     let item = line[0:1] " the first 2 characters
     let isexpr = ''
-    if info.mode == 'i' && info.cont =~ '\V\w(\.\*)' && info.cont !~? '\V<c-r>'
-          \ || info.mode != 'i' && info.cont =~ '\V\w(\.\*)' 
-          \ || info.mode == 'i' && info.cont =~ '\V\.\*?\.\*:\.\*'
+    if a:mode == 'i' && line[2:] =~ '\V\w(\.\*)' && line[2:] !~? '\V<c-r>'
+          \ || a:mode != 'i' && line[2:] =~ '\V\w(\.\*)' 
+          \ || a:mode == 'i' && line[2:] =~ '\V\.\*?\.\*:\.\*'
         let isexpr = '<expr> '
     endif
     let info =  {'mode' : a:mode,
