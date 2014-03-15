@@ -4237,7 +4237,7 @@ fun! s:ApplyMap() " {{{
     exe 'nnoremap <silent> <buffer>' g:xptemplate_goback     'i<C-r>=<SID>Goback()<CR>'
     exe 'inoremap <silent> <buffer>' g:xptemplate_goback     ' <C-v><C-v><BS><C-r>=<SID>Goback()<CR>'
 
-    inoremap <silent> <buffer> <CR> <C-r>=<SID>XPTCR()<CR>
+    exe 'imap <silent> <buffer> <CR>' g:xptemplate_hook_before_cr . '<Plug>XPT_map_CR'
     snoremap <silent> <buffer> <Del> <Del>i
     snoremap <silent> <buffer> <BS> d<BS>
 
@@ -4830,6 +4830,7 @@ fun! s:DoBreakUndo() "{{{
 endfunction "}}}
 
 inoremap <silent> <Plug>XPTdoBreakUndo <C-r>=<SID>DoBreakUndo()<CR>
+inoremap <silent> <Plug>XPT_map_CR <C-r>=<SID>XPTCR()<CR>
 
 fun! s:BreakUndo() "{{{
     if mode() != 'i' || pumvisible()
