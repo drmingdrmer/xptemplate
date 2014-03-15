@@ -283,6 +283,7 @@
 		|g:xptemplate_bundle|
 		|g:xptemplate_highlight|
 		|g:xptemplate_highlight_nested|
+		|g:xptemplate_hook_before_cr|
 		|g:xptemplate_minimal_prefix|
 		|g:xptemplate_ph_pum_accept_empty|
 		|g:xptemplate_pum_tab_nav|
@@ -438,6 +439,37 @@
 	Use |g:xptemplate_goback| to change this mapping. Example: >
 		let g:xptemplate_goback = '<C-g>'
 <
+
+						 *g:xptemplate_hook_before_cr*
+								  {default:''}
+	Add additional action before default xptemplate action when <CR>
+	pressed.
+
+	By default, xptemplate override key mapping of <CR>(local to
+	buffer)every time starting to applying a snippet. This might change
+	user prefered <CR> behavior if user has his own key mapping of <CR>
+	defined.
+	This conf let user to fix issues like this.
+
+	The following line in .vimrc appends "abc" every time <CR> pressed
+	during applying snippet: >
+		let g:xptemplate_hook_before_cr = 'abc'
+<
+	And this appends current time every time <CR> pressed: >
+		fun! s:OutputDate()
+		    return strftime('%c')
+		endfunction
+		inoremap <expr> <Plug>do_my_work <SID>OutputDate()
+		let g:xptemplate_hook_before_cr = '<Plug>do_my_work'
+<
+	NOTE:
+		|g:xptemplate_hook_before_cr| does not accept <SID>.
+
+		And if you want to use <expr> mapping with
+		|g:xptemplate_hook_before_cr| , you need a in-the-middle
+		mapping like it does in the second example.
+
+
 						 *g:xptemplate_minimal_prefix*
 								   {default:0}
 	Posssible values: number or "full".
