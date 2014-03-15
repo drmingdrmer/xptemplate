@@ -2,51 +2,27 @@ if exists( "g:__XPTEMPLATE_CONF_VIM__" ) && g:__XPTEMPLATE_CONF_VIM__ >= XPT#ver
     finish
 endif
 let g:__XPTEMPLATE_CONF_VIM__ = XPT#ver
-
-
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
-
-
 runtime plugin/debug.vim
-
 let s:escapeHead   = '\v(\\*)\V'
 let s:unescapeHead = '\v(\\*)\1\\?\V'
 let s:ep           = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
-
-
-
 let s:def = function( "XPT#setIfNotExist" )
-
-
-" call s:def('g:xptemplate_show_stack'	, 1 )
-" call s:def('g:xptemplate_abbr_mode'	, 0 )
-" call s:def('g:xptemplate_crash'	, '<C-g>' )
-" call s:def('g:xptemplate_nav_clear_next'	, '<cr>' )
-" call s:def('g:xptemplate_map'	, '' )
-
 call s:def('g:xptemplate_key'	, '<C-\>' )
 call s:def('g:xptemplate_key_force_pum'	, '<C-r>' . g:xptemplate_key )
 call s:def('g:xptemplate_key_pum_only'	, '<C-r><C-r>' . g:xptemplate_key )
 call s:def('g:xptemplate_key_visual'	, g:xptemplate_key )
-
-
 call s:def('g:xptemplate_nav_next'	, '<Tab>' )
 call s:def('g:xptemplate_nav_prev'	, '<S-Tab>' )
 call s:def('g:xptemplate_nav_cancel'	, '<cr>' )
 call s:def('g:xptemplate_goback'	, '<C-g>' )
 call s:def('g:xptemplate_to_right'	, '<C-l>' )
-
-" TODO doc it
 call s:def('g:xptemplate_key_2'	, g:xptemplate_key )
 call s:def('g:xptemplate_nav_next_2'	, g:xptemplate_nav_next )
 call s:def('g:xptemplate_fallback'	, '<Plug>XPTrawKey' )
 call s:def('g:xptemplate_key_visual_2'	, g:xptemplate_key_visual )
-
-
-" doc it
 call s:def('g:xptemplate_fallback_condition'	, '\V\c<Tab>' )
-" doc it
 call s:def('g:xptemplate_move_even_with_pum'	, g:xptemplate_nav_next !=? '<Tab>' )
 call s:def('g:xptemplate_break_undo'	, 0 )
 call s:def('g:xptemplate_always_show_pum'	, 0 )
@@ -62,18 +38,10 @@ call s:def('g:xptemplate_fix'	, 1 )
 call s:def('g:xptemplate_ph_pum_accept_empty'	, 1 )
 call s:def('g:xptemplate_cwd_snippet'	, 0 )
 call s:def('g:xptemplate_hook_before_cr'	, '' )
-
-
 call s:def('g:xptemplate_vars'	, '' )
 call s:def('g:xptemplate_bundle'	, '' )
 call s:def('g:xptemplate_snippet_folders'	, [] )
-
-
-
-" for test script
 call s:def('g:xpt_post_action', '')
-
-
 if type( g:xptemplate_minimal_prefix ) == type( '' )
     if g:xptemplate_minimal_prefix =~ ','
         let [ outer, inner ] = split( g:xptemplate_minimal_prefix, ',' )
@@ -82,7 +50,6 @@ if type( g:xptemplate_minimal_prefix ) == type( '' )
         else
             let g:xptemplate_minimal_prefix = outer
         endif
-
         if inner =~ '\d'
             let g:xptemplate_minimal_prefix_nested = inner + 0
         else
@@ -90,55 +57,28 @@ if type( g:xptemplate_minimal_prefix ) == type( '' )
         endif
     endif
 endif
-
 call s:def( 'g:xptemplate_minimal_prefix_nested', g:xptemplate_minimal_prefix )
-
-
-
 if g:xptemplate_fallback == ''
     let g:xptemplate_fallback = '<NOP>'
 endif
-
 if g:xptemplate_fallback == g:xptemplate_key
       \ || g:xptemplate_fallback == g:xptemplate_key_force_pum
     let g:xptemplate_fallback = 'nore:' . g:xptemplate_fallback
 endif
-
 if g:xptemplate_brace_complete is 1
     let g:xptemplate_brace_complete = '([{"'''
 endif
-
-
-" Setup other snippets folder {{{
-
 let s:path = expand( "<sfile>" )
 let s:filename = 'xptemplate.conf.vim'
 let s:path = substitute( s:path, '\', '/', 'g' )
 let s:path = matchstr( s:path, '\V\.\*\ze/plugin/' . s:filename )
-
 let &runtimepath .= ',' . s:path . '/personal'
-
 for s:path in g:xptemplate_snippet_folders
     let &runtimepath .= ',' . s:path
 endfor
-
 unlet s:path
 unlet s:filename
-
-" }}}
-
-
-
-
-
 let g:XPTpvs = {}
-
-
-" 'selTrigger' used in select mode trigger, but if 'selection' changed after this
-" script loaded, incSelTrigger or excSelTrigger should be used according to
-" runtime settings.
-"
-" <C-v><C-v><BS> force pum to close
 let g:XPTmappings = {
       \ 'popup_old'     : "<C-v><C-v><BS><C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>",
       \ 'trigger_old'   : "<C-v><C-v><BS><C-r>=XPTemplateStart(0)<cr>",
@@ -152,72 +92,48 @@ let g:XPTmappings = {
       \                       "<C-c>`>a<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>"
       \                     : "<C-c>`>i<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>",
       \ }
-
 if g:xptemplate_break_undo
     let g:XPTmappings.trigger = "<C-g>u" . g:XPTmappings.trigger
 endif
-
 if g:xptemplate_fallback =~ '\V\^nore:'
     let g:xptemplate_fallback = g:xptemplate_fallback[ 5: ]
     exe "inoremap <silent> <Plug>XPTfallback"          g:xptemplate_fallback
 else
     exe "imap     <silent> <Plug>XPTfallback"          g:xptemplate_fallback
 endif
-
 exe "inoremap <silent> <Plug>XPTrawKey"            g:xptemplate_key
-
-fun! s:EscapeMap( s ) "{{{
+fun! s:EscapeMap( s )
     return substitute( a:s, '\V>', '++', 'g' )
-endfunction "}}}
-
-
-
-
+endfunction
 exe "inoremap <silent>" g:xptemplate_key           printf( g:XPTmappings.trigger      , s:EscapeMap( g:xptemplate_key )          )
 exe "xnoremap <silent>" g:xptemplate_key_visual    g:XPTmappings.wrapTrigger
 exe "snoremap <silent>" g:xptemplate_key           printf( g:XPTmappings.selTrigger   , s:EscapeMap( g:xptemplate_key )          )
 exe "inoremap <silent>" g:xptemplate_key_pum_only  printf( g:XPTmappings.popup        , s:EscapeMap( g:xptemplate_key_pum_only ) )
 exe "inoremap <silent>" g:xptemplate_key_force_pum printf( g:XPTmappings.force_pum    , s:EscapeMap( g:xptemplate_key_force_pum ))
-
 if g:xptemplate_key_2 != g:xptemplate_key
     exe "inoremap <silent>" g:xptemplate_key_2           g:XPTmappings.trigger
     exe "snoremap <silent>" g:xptemplate_key_2           g:XPTmappings.selTrigger
 endif
-
 if g:xptemplate_key_visual_2 != g:xptemplate_key_visual
     exe "xnoremap <silent>" g:xptemplate_key_visual_2           g:XPTmappings.wrapTrigger
 endif
-
-
-" let &cpo = s:oldcpo
-
-
-
-" parse personal variable
 let s:pvs = split(g:xptemplate_vars, '\V'.s:ep.'&')
-
 for s:v in s:pvs
   let s:key = matchstr(s:v, '\V\^\[^=]\*\ze=')
   if s:key == ''
     continue
   endif
-
   if s:key !~ '^\$'
     let s:key = '$'.s:key
   endif
-
   let s:val = matchstr(s:v, '\V\^\[^=]\*=\zs\.\*')
   let g:XPTpvs[s:key] = substitute(s:val, s:unescapeHead.'&', '\1\&', 'g')
 endfor
-
-
-" bundle support
 if type( g:xptemplate_bundle ) == type( '' )
     let s:bundle = split( g:xptemplate_bundle, ',' )
 else
     let s:bundle = g:xptemplate_bundle
 endif
-
 let g:xptBundle = {}
 for ftAndBundle in s:bundle
     let [ ft; bundle_list ] = split( ftAndBundle, '_' )
@@ -225,23 +141,15 @@ for ftAndBundle in s:bundle
     if !has_key( g:xptBundle, ft )
         let g:xptBundle[ ft ] = {}
     endif
-
     let g:xptBundle[ ft ][ bundle ] = 1
 endfor
-
-fun! g:XPTaddBundle(ft, bundle) "{{{
-
-    " This function may be called before buffer inited
+fun! g:XPTaddBundle(ft, bundle)
     call XPTemplateInit()
-
     let g:xptBundle[ a:ft ] = get( g:xptBundle, a:ft, {} )
     let g:xptBundle[ a:ft ][ a:bundle ] = 1
-
-    " TODO NOTE: problem: last snipFileScop is used in XPTembed. any side effect?
     call XPTembed( a:ft . '/' . a:bundle )
-endfunction "}}}
-
-fun! g:XPTloadBundle(ft, bundle) "{{{
+endfunction
+fun! g:XPTloadBundle(ft, bundle)
     if !has_key( g:xptBundle, a:ft )
         return 0
     elseif !has_key( g:xptBundle[ a:ft ], a:bundle ) && !has_key( g:xptBundle[ a:ft ], '*' )
@@ -249,30 +157,18 @@ fun! g:XPTloadBundle(ft, bundle) "{{{
     else
         return 1
     endif
-endfunction "}}}
-
-
-
-fun! XPTfiletypeInit() "{{{
-
-    " Ftplugin may be loaded before 'BufEnter' event
+endfunction
+fun! XPTfiletypeInit()
     if !exists( 'b:xptemplateData' )
         call XPTemplateInit()
     endif
-
     let x = b:xptemplateData
-
     let fts = x.filetypes
     for [ ft, ftScope ] in items( fts )
-
-        " add user set variables
         let f = ftScope.funcs
         for [k, v] in items(g:XPTpvs)
             let f[k] = v
         endfor
-
-
-        " add default comment strings
         if &l:commentstring != ''
             let cms = split( &l:commentstring, '\V%s', 1 )
             if cms[1] == ''
@@ -283,19 +179,12 @@ fun! XPTfiletypeInit() "{{{
                 endif
             endif
         endif
-
     endfor
-endfunction "}}}
-
-
+endfunction
 augroup XPTftInit
   au!
   au FileType * call XPTfiletypeInit()
 augroup END
-
-
-" <C-v><C-v><BS> force pum to close
-
 if stridx( g:xptemplate_brace_complete, '(' ) >= 0
     inoremap <silent> ( <C-v><C-v><BS><C-r>=XPTtgr('(',{'noliteral':1,'k':'('})<cr>
 endif
@@ -311,33 +200,24 @@ endif
 if stridx( g:xptemplate_brace_complete, '"' ) >= 0
     inoremap <silent> " <C-v><C-v><BS><C-r>=XPTtgr('"',{'noliteral':1,'k':'"'})<cr>
 endif
-
-
-fun! XPTinfo() "{{{
+fun! XPTinfo()
     if !exists( 'b:xptemplateData' )
         return 0
     endif
-
     let x = b:xptemplateData
     if !x.renderContext.processing
         return  0
     endif
-
     let st = x.stack
     let st = st + [ x.renderContext ]
-
     call map( st, '{"$snipname":v:val.snipObject.name, "$phname":v:val.item.name}' )
-
     return st
-
-endfunction "}}}
-
-fun! XPTinfoStr( ... ) "{{{
+endfunction
+fun! XPTinfoStr( ... )
     let data = XPTinfo()
     if data is 0
         return ''
     endif
-
     let fmt = a:000
     if len( fmt ) == 0
         let fmt = [ "$snipname.$phname", " > " ]
@@ -346,7 +226,6 @@ fun! XPTinfoStr( ... ) "{{{
     else
         let fmt = fmt[ 0 : 1 ]
     endif
-
     let rst = []
     for e in data
         let elt = fmt[ 0 ]
@@ -355,23 +234,9 @@ fun! XPTinfoStr( ... ) "{{{
         endfor
         call add( rst, elt )
     endfor
-
     return join( rst, fmt[ 1 ] )
-
-endfunction "}}}
-
-
-
-
-" TODO noneed to check and fix settings. they have been done in SettingSwitch
-
-" check critical setting:
-"
-" backspace >2 or with start
-" nocompatible
-
+endfunction
 let bs=&bs
-
 if bs != 2 && bs !~ "start"
     if g:xptemplate_fix
         set bs=2
@@ -379,7 +244,6 @@ if bs != 2 && bs !~ "start"
         echom "'backspace' option must be set with 'start'. set bs=2 or let g:xptemplate_fix=1 to fix it"
     endif
 endif
-
 if &compatible == 1
     if g:xptemplate_fix
         set nocompatible
@@ -387,8 +251,4 @@ if &compatible == 1
         echom "'compatible' option must be set. set compatible or let g:xptemplate_fix=1 to fix it"
     endif
 endif
-
 let &cpo = s:oldcpo
-
-
-" vim:tw=78:ts=60:sw=4:sts=4
