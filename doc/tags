@@ -39,6 +39,7 @@ g:xptemplate_fallback	xptemplate.txt	/*g:xptemplate_fallback*
 g:xptemplate_goback	xptemplate.txt	/*g:xptemplate_goback*
 g:xptemplate_highlight	xptemplate.txt	/*g:xptemplate_highlight*
 g:xptemplate_highlight_nested	xptemplate.txt	/*g:xptemplate_highlight_nested*
+g:xptemplate_hook_before_cr	xptemplate.txt	/*g:xptemplate_hook_before_cr*
 g:xptemplate_key	xptemplate.txt	/*g:xptemplate_key*
 g:xptemplate_key_force_pum	xptemplate.txt	/*g:xptemplate_key_force_pum*
 g:xptemplate_key_pum_only	xptemplate.txt	/*g:xptemplate_key_pum_only*
