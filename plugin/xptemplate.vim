@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.8.140306-f312c5b
+" VERSION: 0.4.8.140315-b637523
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
     finish
 endif
@@ -2303,7 +2303,7 @@ fun! s:ApplyMap()
     exe 'snoremap <silent> <buffer>' g:xptemplate_nav_cancel '<Esc>i<C-r>=<SID>ShiftForward("clear")<CR>'
     exe 'nnoremap <silent> <buffer>' g:xptemplate_goback     'i<C-r>=<SID>Goback()<CR>'
     exe 'inoremap <silent> <buffer>' g:xptemplate_goback     ' <C-v><C-v><BS><C-r>=<SID>Goback()<CR>'
-    inoremap <silent> <buffer> <CR> <C-r>=<SID>XPTCR()<CR>
+    exe 'imap <silent> <buffer> <CR>' g:xptemplate_hook_before_cr . '<Plug>XPT_map_CR'
     snoremap <silent> <buffer> <Del> <Del>i
     snoremap <silent> <buffer> <BS> d<BS>
     if g:xptemplate_nav_next_2 != g:xptemplate_nav_next
@@ -2642,6 +2642,7 @@ fun! s:DoBreakUndo()
     return "\<C-g>u"
 endfunction
 inoremap <silent> <Plug>XPTdoBreakUndo <C-r>=<SID>DoBreakUndo()<CR>
+inoremap <silent> <Plug>XPT_map_CR <C-r>=<SID>XPTCR()<CR>
 fun! s:BreakUndo()
     if mode() != 'i' || pumvisible()
         return
