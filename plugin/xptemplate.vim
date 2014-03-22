@@ -116,7 +116,6 @@ runtime plugin/xptemplate.util.vim
 runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
 runtime plugin/xpopup.vim
-runtime plugin/classes/MapSaver.vim
 runtime plugin/classes/SettingSwitch.vim
 runtime plugin/classes/FiletypeScope.vim
 runtime plugin/classes/FilterValue.vim
@@ -715,11 +714,11 @@ fun! s:MergeSetting( toSettings, fromSettings ) "{{{
     for key in keys( a:fromSettings.mappings )
         if !has_key( a:toSettings.mappings, key )
             let a:toSettings.mappings[ key ] =
-                  \ { 'saver' : g:MapSaver.New( 1 ), 'keys' : {} }
+                  \ { 'saver' : xpt#msvr#New(1), 'keys' : {} }
         endif
         for keystroke in keys( a:fromSettings.mappings[ key ].keys )
             let a:toSettings.mappings[ key ].keys[ keystroke ] = a:fromSettings.mappings[ key ].keys[ keystroke ]
-            call a:toSettings.mappings[ key ].saver.Add( 'i', keystroke )
+            call xpt#msvr#Add( a:toSettings.mappings[ key ].saver, 'i', keystroke )
         endfor
     endfor
 
@@ -1364,10 +1363,7 @@ fun! s:SaveNavKey() "{{{
 
     let navKey = g:xptemplate_nav_next
 
-    let mapInfo = MapSaver_GetMapInfo( navKey, 'i', 1 )
-    if mapInfo.cont == ''
-        let mapInfo = MapSaver_GetMapInfo( navKey, 'i', 0 )
-    endif
+    let mapInfo = xpt#msvr#MapInfo( navKey, 'i' )
 
     if mapInfo.cont == ''
         let x.canNavFallback = 0
@@ -1376,7 +1372,7 @@ fun! s:SaveNavKey() "{{{
         let x.canNavFallback = 1
         let mapInfo.key = '<Plug>XPTnavFallback'
 
-        exe MapSaverGetMapCommand( mapInfo )
+        exe xpt#msvr#MapCommand( mapInfo )
 
     endif
 
@@ -3699,7 +3695,7 @@ fun! s:InitItemMapping() "{{{
 
     if has_key( mappings, item.name )
 
-        call mappings[ item.name ].saver.Save()
+        call xpt#msvr#Save( mappings[ item.name ].saver )
 
         for [ key, mapping ] in items( mappings[ item.name ].keys )
             " TODO not good
@@ -3720,10 +3716,10 @@ fun! s:InitItemTempMapping() "{{{
 
 
     for keys in mappings.keys
-        call mappings.saver.Add( 'i', keys[0] )
+        call xpt#msvr#Add( mappings.saver, 'i', keys[0] )
     endfor
 
-    call mappings.saver.Save()
+    call xpt#msvr#Save( mappings.saver )
 
     for keys in mappings.keys
         exe 'inoremap <silent> <buffer>' keys[0] '<C-r>=XPTmappingEval(' string( keys[1] ) ')<CR>'
@@ -3743,7 +3739,7 @@ fun! XPTmapKey( left, right ) "{{{
     endif
 
     if !has_key( mappings, 'saver' )
-        let mappings.saver = g:MapSaver.New( 1 )
+        let mappings.saver = xpt#msvr#New(1)
         let mappings.keys = []
     endif
 
@@ -3757,7 +3753,7 @@ fun! s:ClearItemMapping( rctx ) "{{{
 
     let mappings = renderContext.tmpmappings
     if has_key( mappings, 'saver' )
-        call mappings.saver.Restore()
+        call xpt#msvr#Restore( mappings.saver )
     endif
 
 
@@ -3765,7 +3761,7 @@ fun! s:ClearItemMapping( rctx ) "{{{
     let item = renderContext.item
 
     if has_key( mappings, item.name )
-        call mappings[ item.name ].saver.Restore()
+        call xpt#msvr#Restore( mappings[ item.name ].saver )
     endif
 
 endfunction "}}}
@@ -4127,32 +4123,24 @@ fun! s:Goback() "{{{
 endfunction "}}}
 
 fun! s:XPTinitMapping() "{{{
-    let disabledKeys = [
-        \ 's_[%',
-        \ 's_]%',
-        \]
 
     " Note: <bs> works the same with <C-h>, but only masking <bs> in buffer
     " level does mask <c-h>. So that <bs> still works with old mapping
-    let literalKeys = [
-        \ 's_%',
-        \ 's_''',
-        \ 's_"',
-        \ 's_(',
-        \ 's_)',
-        \ 's_{',
-        \ 's_}',
-        \ 's_[',
-        \ 's_]',
-        \
-        \ 's_g',
-        \ 's_m',
-        \ 's_a',
-        \]
+    let literal_chars = ''
+          \ . 'abcdefghijklmnopqrstuvwxyz'
+          \ . 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+          \ . '1234567890'
+          \ . '!@#$%^&*()'
+          \ . '`~-_=+[{]}\;:"'',<.>/?'
+    let literalKeys = split( literal_chars, '\V\s\*' )
+    let literalKeys = map( literalKeys, '"s_".v:val' )
+          \ + [
+          \     's_<SPACE>',
+          \     's_\|',
+          \   ]
 
-
-    let b:mapSaver = g:MapSaver.New(1)
-    call b:mapSaver.AddList(
+    let b:mapSaver = xpt#msvr#New(1)
+    call xpt#msvr#AddList( b:mapSaver,
           \ 'i_' . g:xptemplate_nav_next,
           \ 's_' . g:xptemplate_nav_next,
           \
@@ -4172,19 +4160,15 @@ fun! s:XPTinitMapping() "{{{
           \)
 
     if g:xptemplate_nav_next_2 != g:xptemplate_nav_next
-        call b:mapSaver.AddList(
+        call xpt#msvr#AddList( b:mapSaver,
               \ 'i_' . g:xptemplate_nav_next_2,
               \ 's_' . g:xptemplate_nav_next_2,
               \ )
 
     endif
 
-    let b:mapLiteral = g:MapSaver.New( 1 )
-    call b:mapLiteral.AddList( literalKeys )
-
-
-    let b:mapMask = g:MapSaver.New( 0 )
-    call b:mapMask.AddList( disabledKeys )
+    let b:mapLiteral = xpt#msvr#New(1)
+    call xpt#msvr#AddList( b:mapLiteral, literalKeys )
 
 
     " 'indentkeys' causes problem that it changes indent or converts tabs/spaces
@@ -4234,13 +4218,11 @@ fun! s:ApplyMap() " {{{
     call b:xptemplateData.settingSwitch.Switch()
 
 
-    call b:mapSaver.Save()
-    call b:mapLiteral.Save()
-    call b:mapMask.Save()
+    call xpt#msvr#Save( b:mapSaver )
+    call xpt#msvr#Save( b:mapLiteral )
 
-    call b:mapSaver.UnmapAll()
-    call b:mapLiteral.Literalize( { 'insertAsSelect' : 1 } )
-    call b:mapMask.UnmapAll()
+    call xpt#msvr#UnmapAll( b:mapSaver )
+    call xpt#msvr#Literalize( b:mapLiteral, { 'insertAsSelect' : 1 } )
 
 
 
@@ -4255,7 +4237,7 @@ fun! s:ApplyMap() " {{{
     exe 'nnoremap <silent> <buffer>' g:xptemplate_goback     'i<C-r>=<SID>Goback()<CR>'
     exe 'inoremap <silent> <buffer>' g:xptemplate_goback     ' <C-v><C-v><BS><C-r>=<SID>Goback()<CR>'
 
-    inoremap <silent> <buffer> <CR> <C-r>=<SID>XPTCR()<CR>
+    exe 'imap <silent> <buffer> <CR>' g:xptemplate_hook_before_cr . '<Plug>XPT_map_CR'
     snoremap <silent> <buffer> <Del> <Del>i
     snoremap <silent> <buffer> <BS> d<BS>
 
@@ -4283,9 +4265,8 @@ fun! s:ClearMap() " {{{
 
     call b:xptemplateData.settingSwitch.Restore()
 
-    call b:mapMask.Restore()
-    call b:mapLiteral.Restore()
-    call b:mapSaver.Restore()
+    call xpt#msvr#Restore( b:mapLiteral )
+    call xpt#msvr#Restore( b:mapSaver )
 
     " if exists( ':AcpUnlock' )
     "     try
@@ -4849,6 +4830,7 @@ fun! s:DoBreakUndo() "{{{
 endfunction "}}}
 
 inoremap <silent> <Plug>XPTdoBreakUndo <C-r>=<SID>DoBreakUndo()<CR>
+inoremap <silent> <Plug>XPT_map_CR <C-r>=<SID>XPTCR()<CR>
 
 fun! s:BreakUndo() "{{{
     if mode() != 'i' || pumvisible()

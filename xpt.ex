@@ -38,7 +38,7 @@ compact() {
         grep -v "^ *Assert " |\
         grep -v "^ *\"" |\
         grep -v "^ *$" |\
-        sed 's/" *{{{//; s/" *}}}//' > .tmp
+        sed 's/ *" *{{{//; s/ *" *}}}//' > .tmp
 
     mv .tmp $file
 }
@@ -67,6 +67,9 @@ dodist () {
 
 
     for file in `find plugin/ -name *.vim | grep -v "/debug\.vim$"`;do
+        compact $file
+    done
+    for file in `find autoload/ -name *.vim | grep -v "/debug\.vim$"`;do
         compact $file
     done
 
