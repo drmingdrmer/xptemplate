@@ -62,28 +62,23 @@ XPT map " std::map<..,..> ..;
 std::map<`typeKey^,`val^>   `name^;
 `cursor^
 
-
 XPT class   " class ..
-class `className^
-{
+class `className^`$BRfun^{
 public:
-    `className^( `ctorParam^ );
+    `className^(`$SParg`ctorParam?`$SParg^);
     ~`className^();
-    `className^( const `className^ &cpy );
+    `className^(`$SParg^const `className^ &cpy`$SParg^);
     `cursor^
 private:
 };
 
-`className^::`className^( `ctorParam^ )
-{
+`className^::`className^(`ctorParam?^)`$BRfun^{
 }
 
-`className^::~`className^()
-{
+`className^::~`className^()`$BRfun^{
 }
 
-`className^::`className^( const `className^ &cpy )
-{
+`className^::`className^(`$SParg^gconst `className^ &cpy`$SParg^)`$BRfun^{
 }
 ..XPT
 
@@ -121,8 +116,7 @@ operator `typename^ ();
 ..XPT
 
 XPT iop " t operator .. ()
-`type^ operator `opName^ ( `args^ )
-{
+`type^ operator `opName^ ( `args^ )`$BRfun^{
     `cursor^
 }
 ..XPT
@@ -130,37 +124,32 @@ XPT iop " t operator .. ()
 XPT op " t operator .. ()
 `type^ operator `opName^ ( `args^ );
 
-`type^ `className^::operator `opName^ ( `args^ )
-{
+`type^ `className^::operator `opName^ ( `args^ )`$BRfun^{
 }
 ..XPT
 
 XPT templateclass   " template <> class
 template
     <`templateParam^>
-class `className^
-{
+class `className^`$BRfun^{
 public:
-    `className^( `ctorParam^ );
+    `className^(`$SParg`ctorParam?`$SParg^);
     ~`className^();
-    `className^( const `className^ &cpy );
+    `className^(`$SParg^const `className^ &cpy`$SParg^);
     `cursor^
 private:
 };
 
 template <`templateParam^>
-`className^<`_^cleanTempl(R('templateParam'))^^>::`className^( `ctorParam^ )
-{
+`className^<`_^cleanTempl(R('templateParam'))^^>::`className^(`ctorParam?^)`$BRfun^{
 }
 
 template <`templateParam^>
-`className^<`_^cleanTempl(R('templateParam'))^^>::~`className^()
-{
+`className^<`_^cleanTempl(R('templateParam'))^^>::~`className^()`$BRfun^{
 }
 
 template <`templateParam^>
-`className^<`_^cleanTempl(R('templateParam'))^^>::`className^( const `className^ &cpy )
-{
+`className^<`_^cleanTempl(R('templateParam'))^^>::`className^(`$SParg^gconst `className^ &cpy`$SParg^)`$BRfun^{
 }
 ..XPT
 
