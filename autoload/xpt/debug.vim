@@ -96,6 +96,11 @@ endfunction "}}}
 
 
 fun! Log_core(level, ...) "{{{
+
+    if s:logLocation == ''
+        return
+    end
+
     " call stack printing
     try
         throw ''
@@ -139,16 +144,16 @@ let s:loggerPrototype.Log         = function( "<SNR>" . s:sid . "Log"        )
 let s:loggerPrototype.Debug       = function( "<SNR>" . s:sid . "Debug"      )
 let s:loggerPrototype.LogNothing  = function( "<SNR>" . s:sid . "LogNothing" )
 
-
-if len( finddir( $HOME . '/tmp' ) ) > 0
-    let s:logLocation = finddir( $HOME . '/tmp' )
-else
-    let s:logLocation = $HOME
-endif
-
-let s:logLocation .= '/xpt-debug.log'
-
-call delete(s:logLocation)
-
+fun! s:MakeLogPath() "{{{
+    let path = g:xptemplate_debug_log
+    if path == ''
+        let s:logLocation = ''
+    else
+        let path = substitute( path, '\V\^~/', $HOME . '/', '' )
+        let s:logLocation = path
+        call delete(s:logLocation)
+    endif
+endfunction "}}}
+call s:MakeLogPath()
 
 let &cpo = s:oldcpo
