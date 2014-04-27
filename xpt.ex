@@ -86,11 +86,17 @@ dodist () {
     create_tgz
     cd $CurrentDir
 
-    git checkout dist \
-        && git merge --no-ff --no-edit --strategy recursive  --strategy-option theirs $distname \
-        && git checkout master \
+    local tree_hash=$(git_obj_get_tree "$distname")
+    local dist_commit_hash=$(echo "$distname" | git commit-tree $tree_hash -p dist -p master)
+    git update-ref refs/heads/dist $dist_commit_hash
+
+    git checkout master \
         && git branch -D $distname
 
+}
+
+git_obj_get_tree () {
+    git cat-file -p "$1" | head -n1 | awk '{print $2}'
 }
 
 dodist
