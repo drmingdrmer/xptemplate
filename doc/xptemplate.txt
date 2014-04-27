@@ -281,6 +281,7 @@
 		|g:xptemplate_always_show_pum|
 		|g:xptemplate_brace_complete|
 		|g:xptemplate_bundle|
+		|g:xptemplate_debug_log|
 		|g:xptemplate_highlight|
 		|g:xptemplate_highlight_nested|
 		|g:xptemplate_hook_before_cr|
@@ -683,6 +684,21 @@
 	Another way to load bundles is |g:XPTaddBundle()|.
 
 
+						      *g:xptemplate_debug_log*
+								  {default:''}
+
+	This option specifies whether and where to store debug log emitted
+	during xptemplate running. Unless you are a developer of xptempalte,
+	do not touch it.
+
+	Empty string disables any logging.
+
+	Non-empty string is interpreted as log file path. "~/" at start will
+	be replaced with "$HOME/".
+
+	Example: >
+		let g:xptemplate_debug_log = '~/.xpt.log'
+<
 
 ==============================================================================
 
