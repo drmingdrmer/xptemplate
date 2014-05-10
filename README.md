@@ -22,6 +22,7 @@
       - [Set up personal info. Xptemplate complains: "author is not set .."](#set-up-personal-info-xptemplate-complains-author-is-not-set-)
       - [Browse snippets: Pop up menu, Drop down list](#browse-snippets-pop-up-menu-drop-down-list)
       - [Extend XPTemplate. Write new snippets](#extend-xptemplate-write-new-snippets)
+      - [Example of repetition snippet.](#example-of-repetition-snippet)
 - [Known Issues](#known-issues)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -407,6 +408,51 @@ References:
 
     :help xpt-write-snippet
     :help xpt-snippet-priority
+
+
+#### Example of repetition snippet.
+
+As a solution to problem most repetition snippet encountered,
+xpt accept space and line-break as part of placeholder.
+Thus it swallow or yield line-break( or empty line ) correctly.
+
+To include extra content within placeholder, use the complete-form of
+placeholder:
+```vim
+`left-edge`placeholder_name`right-edge^
+```
+`left-edge` and `right-edge` can be space char or non-space char.
+
+Consider the following example of c struct snippet:
+```vim
+XPT struct " tips
+struct `a^ {
+    `data_type^ `member^;
+`    `more...`
+{{^    `data_type^ `member^;
+`    `more...`
+^`}}^};
+```
+
+![screen shot 2014-05-10 at 5 09 21 pm](https://cloud.githubusercontent.com/assets/44069/2935685/c9c9dfac-d822-11e3-8fda-ef428576bfee.png)
+
+The repetition trigger is `more...` in cyan.
+it is defined with full placeholder form, three \` and one `^`.
+
+4 spaces is on the left to `more...` and 1 line break is on the right to `more...`.
+
+Repetition body is in green. Trigger of next repetition is in red.
+***These two triggers(cyan and red) must be the same to generate consistent copies***.
+
+Thus when trigger of repetition is focused,
+it yields correct indent and a line break, followed by the closing `}`:
+![screen shot 2014-05-10 at 5 13 44 pm](https://cloud.githubusercontent.com/assets/44069/2935690/63288d6a-d823-11e3-978a-734e7451df9d.png)
+
+And when trigger of repetition is removed,
+4 space indent and line break is also removed all together,
+because they are parts of place holder `more...`.
+
+![screen shot 2014-05-10 at 5 15 32 pm](https://cloud.githubusercontent.com/assets/44069/2935691/a1f1e17c-d823-11e3-97fe-9f1af63cdec3.png)
 
 
 # Known Issues
