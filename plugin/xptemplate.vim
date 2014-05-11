@@ -198,8 +198,6 @@ fun! s:SetDefaultFilters( ph ) "{{{
 endfunction "}}}
 
 
-let s:priorities = {'all' : 64, 'spec' : 48, 'like' : 32, 'lang' : 16, 'sub' : 8, 'personal' : 0}
-
 let g:XPT_RC = {
       \   'ok' : {},
       \   'canceled' : {},
@@ -290,7 +288,7 @@ fun! XPTemplatePriority(...) "{{{
     let x = b:xptemplateData
     let p = a:0 == 0 ? 'lang' : a:1
 
-    let x.snipFileScope.priority = s:ParsePriorityString(p)
+    let x.snipFileScope.priority = xpt#priority#Parse(p)
 endfunction "}}}
 
 fun! XPTemplateMark(sl, sr) "{{{
@@ -428,10 +426,8 @@ fun! XPTdefineSnippet( name, setting, snip ) "{{{
     call extend( templateSetting, a:setting, 'force' )
     call g:XPTapplyTemplateSettingDefaultValue( templateSetting )
 
-
-    let prio =  has_key(templateSetting, 'priority')
-                \ ? s:ParsePriorityString(templateSetting.priority)
-                \ : x.snipFileScope.priority
+    let prioStr = get( templateSetting, 'priority', x.snipFileScope.priority )
+    let prio = xpt#priority#Parse( prioStr )
 
 
     " Existed template has the same priority is overrided.
@@ -1178,73 +1174,6 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
     return action
 endfunction " }}}
-
-" TODO simplify with split
-let s:priPtn = 'all\|spec\|like\|lang\|sub\|personal\|\d\+'
-fun! s:ParsePriorityString(s) "{{{
-    let x = b:xptemplateData
-
-    let pstr = a:s
-
-    if pstr == ""
-        return x.snipFileScope.priority
-    endif
-
-    let newPrio = s:ParsePriority( a:s )
-    return newPrio
-
-
-
-    " let prio = 0
-
-    " let p = matchlist(pstr, '\V\^\(' . s:priPtn . '\)' . '\%(' . '\(\[+-]\)' . '\(\d\+\)\?\)\?\$')
-
-    " let base   = 0
-    " let r      = 1
-    " let offset = 0
-
-    " if p[1] != ""
-    "     if has_key(s:priorities, p[1])
-    "         let base = s:priorities[p[1]]
-    "     elseif p[1] =~ '^\d\+$'
-    "         let base = 0 + p[1]
-    "     else
-    "         let base = 0
-    "     endif
-    " else
-    "     let base = 0
-    " endif
-
-    " let r = p[2] == '+'
-    "       \ ? 1
-    "       \ : ( p[2] == '-' ? -1 : 0 )
-
-    " if p[3] != ""
-    "     let offset = 0 + p[3]
-    " else
-    "     let offset = 1
-    " endif
-
-    " let prio = base + offset * r
-
-
-    " call s:log.Log("parse priority : str=".a:s." value=".prio)
-
-    " return prio
-endfunction "}}}
-
-fun! s:ParsePriority( pstr ) "{{{
-    let pstr = a:pstr
-    if pstr =~ '\V\[+-]\$'
-        let pstr .= '1'
-    endif
-
-    let reg = '\V\(\w\+\|\[+-]\)\zs'
-    let prioParts = split( pstr, reg )
-
-    let prioParts[ 0 ] = get( s:priorities, prioParts[ 0 ], prioParts[ 0 ] - 0 )
-    return eval( join( prioParts, '' ) )
-endfunction "}}}
 
 fun! s:NewRenderContext( ftScope, tmplName ) "{{{
 
@@ -4282,7 +4211,7 @@ endfunction "}}}
 let s:snipScopePrototype = {
       \ 'filename'  : '',
       \ 'ptn'       : {'l':'`', 'r':'^'},
-      \ 'priority'  : s:priorities.lang,
+      \ 'priority'  : xpt#priority#Get( 'default' ),
       \ 'filetype'  : '',
       \ 'inheritFT' : 0,
       \}
