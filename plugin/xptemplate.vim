@@ -331,13 +331,6 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
                         \}
         call s:UpdateNamePrefixDict( toSnip.ftScope, a:name )
 
-        if has_key( toSnip.setting, 'rawHint' )
-              \ && !has_key( a:setting, 'rawHint' )
-
-            let a:setting.rawHint = toSnip.setting.rawHint
-
-        endif
-
         call g:xptutil.DeepExtend( xt[ a:name ].setting, a:setting )
 
         call s:ParseTemplateSetting( xt[ a:name ] )
