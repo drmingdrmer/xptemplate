@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.8.140510-2eefda5
+" VERSION: 0.4.8.140511-0cbbe4d
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
     finish
 endif
@@ -69,7 +69,6 @@ fun! s:SetDefaultFilters( ph )
         endif
     endif
 endfunction
-let s:priorities = {'all' : 64, 'spec' : 48, 'like' : 32, 'lang' : 16, 'sub' : 8, 'personal' : 0}
 let g:XPT_RC = {
       \   'ok' : {},
       \   'canceled' : {},
@@ -123,8 +122,11 @@ fun! XPTemplateKeyword(val)
 endfunction
 fun! XPTemplatePriority(...)
     let x = b:xptemplateData
-    let p = a:0 == 0 ? 'lang' : a:1
-    let x.snipFileScope.priority = s:ParsePriorityString(p)
+    let p = get( a:000, 0, '' )
+    if p == ''
+        let p = 'lang'
+    endif
+    let x.snipFileScope.priority = xpt#priority#Parse(p)
 endfunction
 fun! XPTemplateMark(sl, sr)
     let xp = b:xptemplateData.snipFileScope.ptn
@@ -144,23 +146,28 @@ fun! XPTemplateAlias( name, toWhich, setting )
     let name = a:name
     let xptObj = b:xptemplateData
     let xt = xptObj.filetypes[ g:GetSnipFileFT() ].allTemplates
+    let toSnip = get( xt, a:toWhich )
+    if toSnip is 0
+        return
+    endif
+    let setting = deepcopy(toSnip.setting)
+    call xpt#util#DeepExtend( setting, a:setting )
+    let prio = xptObj.snipFileScope.priority
+    let existed = get( xt, a:name, { 'priority': xpt#priority#Get( 'lowest' ) } )
+    if existed.priority < prio
+        return
+    endif
     if has_key( xt, a:toWhich )
-        let toSnip = xt[ a:toWhich ]
         let xt[a:name] = {
                         \ 'name'        : a:name,
                         \ 'parsed'      : 0,
                         \ 'ftScope'     : toSnip.ftScope,
-                        \ 'snipText'        : toSnip.snipText,
-                        \ 'priority'    : toSnip.priority,
-                        \ 'setting'     : deepcopy(toSnip.setting),
+                        \ 'snipText'    : toSnip.snipText,
+                        \ 'priority'    : prio,
+                        \ 'setting'     : setting,
                         \ 'ptn'         : deepcopy(toSnip.ptn),
                         \}
         call s:UpdateNamePrefixDict( toSnip.ftScope, a:name )
-        if has_key( toSnip.setting, 'rawHint' )
-              \ && !has_key( a:setting, 'rawHint' )
-            let a:setting.rawHint = toSnip.setting.rawHint
-        endif
-        call g:xptutil.DeepExtend( xt[ a:name ].setting, a:setting )
         call s:ParseTemplateSetting( xt[ a:name ] )
         if get( xt[ name ].setting, 'abbr', 0 )
             call s:Abbr( name )
@@ -219,9 +226,7 @@ fun! XPTdefineSnippet( name, setting, snip )
     let templateSetting = deepcopy(g:XPTemplateSettingPrototype)
     call extend( templateSetting, a:setting, 'force' )
     call g:XPTapplyTemplateSettingDefaultValue( templateSetting )
-    let prio =  has_key(templateSetting, 'priority')
-                \ ? s:ParsePriorityString(templateSetting.priority)
-                \ : x.snipFileScope.priority
+    let prio = x.snipFileScope.priority
     if has_key(templates, a:name)
           \ && templates[a:name].priority < prio
         return
@@ -660,26 +665,6 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
           \   'forcePum'       : forcePum,
           \   'matchWholeName' : get( opt, 'popupOnly', 0 ) ? 0 : isFullMaatching } )
     return action
-endfunction
-let s:priPtn = 'all\|spec\|like\|lang\|sub\|personal\|\d\+'
-fun! s:ParsePriorityString(s)
-    let x = b:xptemplateData
-    let pstr = a:s
-    if pstr == ""
-        return x.snipFileScope.priority
-    endif
-    let newPrio = s:ParsePriority( a:s )
-    return newPrio
-endfunction
-fun! s:ParsePriority( pstr )
-    let pstr = a:pstr
-    if pstr =~ '\V\[+-]\$'
-        let pstr .= '1'
-    endif
-    let reg = '\V\(\w\+\|\[+-]\)\zs'
-    let prioParts = split( pstr, reg )
-    let prioParts[ 0 ] = get( s:priorities, prioParts[ 0 ], prioParts[ 0 ] - 0 )
-    return eval( join( prioParts, '' ) )
 endfunction
 fun! s:NewRenderContext( ftScope, tmplName )
     let x = b:xptemplateData
@@ -2334,7 +2319,7 @@ endfunction
 let s:snipScopePrototype = {
       \ 'filename'  : '',
       \ 'ptn'       : {'l':'`', 'r':'^'},
-      \ 'priority'  : s:priorities.lang,
+      \ 'priority'  : xpt#priority#Get( 'default' ),
       \ 'filetype'  : '',
       \ 'inheritFT' : 0,
       \}
