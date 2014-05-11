@@ -286,7 +286,10 @@ endfunction "}}}
 
 fun! XPTemplatePriority(...) "{{{
     let x = b:xptemplateData
-    let p = a:0 == 0 ? 'lang' : a:1
+    let p = get( a:000, 0, '' )
+    if p == ''
+        let p = 'lang'
+    endif
 
     let x.snipFileScope.priority = xpt#priority#Parse(p)
 endfunction "}}}
