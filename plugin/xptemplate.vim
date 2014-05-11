@@ -325,7 +325,7 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
     endif
 
     let setting = deepcopy(toSnip.setting)
-    call g:xptutil.DeepExtend( setting, a:setting )
+    call xpt#util#DeepExtend( setting, a:setting )
 
     let prio = xptObj.snipFileScope.priority
 
