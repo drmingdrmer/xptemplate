@@ -327,8 +327,7 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
     let setting = deepcopy(toSnip.setting)
     call g:xptutil.DeepExtend( setting, a:setting )
 
-    let prioStr = get( setting, 'priority', toSnip.priority )
-    let prio = xpt#priority#Parse( prioStr )
+    let prio = xptObj.snipFileScope.priority
 
     let existed = get( xt, a:name, { 'priority': xpt#priority#Get( 'lowest' ) } )
     if existed.priority < prio
@@ -442,8 +441,7 @@ fun! XPTdefineSnippet( name, setting, snip ) "{{{
     call extend( templateSetting, a:setting, 'force' )
     call g:XPTapplyTemplateSettingDefaultValue( templateSetting )
 
-    let prioStr = get( templateSetting, 'priority', x.snipFileScope.priority )
-    let prio = xpt#priority#Parse( prioStr )
+    let prio = x.snipFileScope.priority
 
 
     " Existed template has the same priority is overrided.
