@@ -318,21 +318,34 @@ fun! XPTemplateAlias( name, toWhich, setting ) "{{{
 
     let xptObj = b:xptemplateData
     let xt = xptObj.filetypes[ g:GetSnipFileFT() ].allTemplates
+    let toSnip = get( xt, a:toWhich )
+
+    if toSnip is 0
+        return
+    endif
+
+    let setting = deepcopy(toSnip.setting)
+    call g:xptutil.DeepExtend( setting, a:setting )
+
+    let prioStr = get( setting, 'priority', toSnip.priority )
+    let prio = xpt#priority#Parse( prioStr )
+
+    let existed = get( xt, a:name, { 'priority': xpt#priority#Get( 'lowest' ) } )
+    if existed.priority < prio
+        return
+    endif
 
     if has_key( xt, a:toWhich )
-        let toSnip = xt[ a:toWhich ]
         let xt[a:name] = {
                         \ 'name'        : a:name,
                         \ 'parsed'      : 0,
                         \ 'ftScope'     : toSnip.ftScope,
-                        \ 'snipText'        : toSnip.snipText,
-                        \ 'priority'    : toSnip.priority,
-                        \ 'setting'     : deepcopy(toSnip.setting),
+                        \ 'snipText'    : toSnip.snipText,
+                        \ 'priority'    : prio,
+                        \ 'setting'     : setting,
                         \ 'ptn'         : deepcopy(toSnip.ptn),
                         \}
         call s:UpdateNamePrefixDict( toSnip.ftScope, a:name )
-
-        call g:xptutil.DeepExtend( xt[ a:name ].setting, a:setting )
 
         call s:ParseTemplateSetting( xt[ a:name ] )
 
