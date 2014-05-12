@@ -1,0 +1,5 @@
+set nocompatible
+filetype plugin  on
+
+set runtimepath+=.
+set noswapfile
