@@ -23,6 +23,7 @@
       - [Browse snippets: Pop up menu, Drop down list](#browse-snippets-pop-up-menu-drop-down-list)
       - [Extend XPTemplate. Write new snippets](#extend-xptemplate-write-new-snippets)
       - [Example of repetition snippet.](#example-of-repetition-snippet)
+      - [Define repetition trigger place holder](#define-repetition-trigger-place-holder)
 - [Known Issues](#known-issues)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -412,20 +413,12 @@ References:
 
 #### Example of repetition snippet.
 
-As a solution to problem most repetition snippet encountered,
-xpt accept space and line-break as part of placeholder.
-Thus it swallow or yield line-break( or empty line ) correctly.
+Repetition snippet generates repeating contents such as multiple `else if` or
+multiple `case `.
 
-To include extra content within placeholder, use the complete-form of
-placeholder:
+The following example is c struct snippet:
 ```vim
-`left-edge`placeholder_name`right-edge^
-```
-`left-edge` and `right-edge` can be space char or non-space char.
-
-Consider the following example of c struct snippet:
-```vim
-XPT struct " tips
+XPT struct
 struct `a^ {
     `data_type^ `member^;
 `    `more...`
@@ -434,25 +427,150 @@ struct `a^ {
 ^`}}^};
 ```
 
+It generates:
+```
+struct a {
+    data_type member;
+    data_type member;
+    data_type member;
+    more...
+}
+```
+The last `more...` is trigger place holder for next repetitive part.
+
+Pressing `<Tab>` on `more...` generates another `data_type member;`.
+
+Pressing `<CR>` on `more...` quits applying repetition.
+
+
+One of the problems with repetition is controlling line breaks.
+Xptemplate accepts space and line-break as part of placeholder.
+
+When trigger place holder is removed by pressing `<CR>`,
+line break `\n` should also be removed togeter.
+Thus space and line break should be part of place holder.
+
+
+To do this, use the complete-form of placeholder:
+```vim
+`left-edge`placeholder_name`right-edge^
+```
+`left-edge` and `right-edge` can be space char or non-space char.
+
+Thus in this c struct snippet:
+
 ![screen shot 2014-05-10 at 5 09 21 pm](https://cloud.githubusercontent.com/assets/44069/2935685/c9c9dfac-d822-11e3-8fda-ef428576bfee.png)
 
 The repetition trigger is `more...` in cyan.
-it is defined with full placeholder form, three \` and one `^`.
 
-4 spaces is on the left to `more...` and 1 line break is on the right to `more...`.
+4 spaces on the left to `more...` and 1 line break on the right to `more...`.
 
-Repetition body is in green. Trigger of next repetition is in red.
+Repetition body is the text in green.
+
+Trigger for next repetition is the text in red.
 ***These two triggers(cyan and red) must be the same to generate consistent copies***.
 
-Thus when trigger of repetition is focused,
-it yields correct indent and a line break, followed by the closing `}`:
+Thus there will always be correct indent and a line break around trigger.
+
 ![screen shot 2014-05-10 at 5 13 44 pm](https://cloud.githubusercontent.com/assets/44069/2935690/63288d6a-d823-11e3-978a-734e7451df9d.png)
 
-And when trigger of repetition is removed,
-4 space indent and line break is also removed all together,
-because they are parts of place holder `more...`.
+When trigger of repetition is removed,
+4 space indent and line break is also removed all together with trigger,
 
 ![screen shot 2014-05-10 at 5 15 32 pm](https://cloud.githubusercontent.com/assets/44069/2935691/a1f1e17c-d823-11e3-97fe-9f1af63cdec3.png)
+
+
+#### Define repetition trigger place holder
+
+Indent and line breaks are a bit complicated in repetition snippet.
+
+This section describes how to define repetition correctly and clearly.
+
+You may expect repetition `struct` in c to be like:
+```c
+struct a {         //
+    int a;         //
+    more...        // focused here
+}                  //
+
+struct a {         //
+    int a;         //
+    int name;      // when triggered, repetitive content generated.
+    more...        // focused here
+}                  //
+
+struct a {         //
+    int a;         //
+    int name;      // when repetition canceled.
+}                  //
+```
+
+General rule is:
+
+* Think of snippet as a single string.
+* The text of place holder is actually the change from text with place holder
+not removed to the text with place holder removed.
+
+
+The following three examples show what repetition trigger is, with:
+* only content before repetitions
+* only content after repetitions
+* both before and after
+
+( `*` = space)
+
+With only content ***BEFORE*** repetition:
+
+```
+    |                 | what on screen | plain string      | trigger     |
+    |---------------------------------------------------------------------
+    | repetition      | before         | before\n****ph... |             |
+    |                 | ****ph...      |                   |             |
+    |------------------------------------------------------|             |
+    | after canceling | before         | before            | \n****ph... |
+    | repetition      |                |                   |             |
+    |---------------------------------------------------------------------
+
+XPT rep_before
+before`
+    `ph...`{{^repetitive-content`
+    `ph...`^`}}^
+```
+
+With only content ***AFTER*** repetition:
+
+```
+    |                 | what on screen | plain string      | trigger     |
+    |---------------------------------------------------------------------
+    | repetition      | ****ph...      | ****ph...\nafter  |             |
+    |                 | after          |                   |             |
+    |------------------------------------------------------|             |
+    | after canceling | after          | after             | ****ph...\n |
+    | repetition      |                |                   |             |
+    |---------------------------------------------------------------------
+
+XPT rep_after
+`    `ph...`
+{{^repetitive-content
+`    `ph...`
+^`}}^after
+```
+
+Both before and after:
+
+```
+    |                 | what on screen | what happened            | trigger     |
+    |----------------------------------------------------------------------------
+    | repetition      | before         | before\n****ph...\nafter |             |
+    | place holder    | ****ph...      |                          |             |
+    |                 | after          |                          |             |
+    |-------------------------------------------------------------|             |
+    | after canceling | before         | before\nafter            | \n****ph... |
+    | repetition      | after          |                          |     or      |
+    |                 |                |                          | ****ph...\n |
+    |----------------------------------------------------------------------------
+```
+Either of rep_before and rep_after is OK in this case.
 
 
 # Known Issues
