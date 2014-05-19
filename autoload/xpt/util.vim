@@ -39,6 +39,10 @@ endfunction "}}}
 fun! xpt#util#UnescapeChar( str, chars ) "{{{
     " unescape only chars started with several '\' 
 
+    if a:chars == ""
+        return a:str
+    endif
+
     if has_key( s:charsPatternTable, a:chars )
         " let pattern = s:charsPatternTable[ a:chars ]
         return substitute( a:str, s:charsPatternTable[ a:chars ], '\1', 'g' )
