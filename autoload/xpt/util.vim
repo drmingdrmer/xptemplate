@@ -12,6 +12,9 @@ fun! xpt#util#SplitWith( str, char )
     return s
 endfunction
 fun! xpt#util#UnescapeChar( str, chars )
+    if a:chars == ""
+        return a:str
+    endif
     if has_key( s:charsPatternTable, a:chars )
         return substitute( a:str, s:charsPatternTable[ a:chars ], '\1', 'g' )
     else

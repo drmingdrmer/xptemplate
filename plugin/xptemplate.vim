@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.8.140511-0cbbe4d
+" VERSION: 0.4.8.140519-5ac0c48
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
     finish
 endif
@@ -642,7 +642,7 @@ fun! XPTemplateStart(pos_unused_any_more, ...)
         let ftScope = s:GetContextFTObj()
         let pre = ftScope.namePrefix
         let n = split( lineToCursor, '\s', 1 )[ -1 ]
-        let snpt_name_ptn = '\V\^' . x.keyword . '\+\|\^\W'
+        let snpt_name_ptn = '\V\^' . x.keyword . '\w\*\|\^\W'
         while n != '' && !has_key( pre, n )
             let n = substitute( n, snpt_name_ptn, '', '' )
         endwhile
