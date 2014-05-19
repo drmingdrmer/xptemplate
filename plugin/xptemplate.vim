@@ -1149,8 +1149,11 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
         " TODO use filetype.keyword
         " TODO in php $se should not trigger snippet 'se'
 
+        " <non-keyword><keyword> is not breakable: $var in php
+        " <keyword><non-keyword> is breakable: func( in c
+
         " search for valid snippet name or single non-keyword name
-        let snpt_name_ptn = '\V\^' . x.keyword . '\+\|\^\W'
+        let snpt_name_ptn = '\V\^' . x.keyword . '\w\*\|\^\W'
         while n != '' && !has_key( pre, n )
             let n = substitute( n, snpt_name_ptn, '', '' )
         endwhile
