@@ -119,4 +119,7 @@ todo
 experiment/
 resource/
 VERSION
+test/
+autoload/xpt/ut/
+autoload/xpt/unittest.vim
 # __TO_REMOVE__ END
