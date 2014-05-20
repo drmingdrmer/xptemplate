@@ -1055,27 +1055,48 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
     if pumvisible()
 
+        call s:log.Debug( "has pum" )
+
         if XPPhasSession()
+
+            call s:log.Debug( "has session" )
+
             return XPPend() . "\<C-r>=XPTemplateStart(0," . string( opt ) . ")\<CR>"
         else
+
+            call s:log.Debug( "has no session" )
 
             if x.fallbacks == []
                 " no more tries can be done
 
+                call s:log.Debug( "has no fallbacks" )
+
                 if keypressed =~ g:xptemplate_fallback_condition
+
+                    call s:log.Debug( "it is fallback condition" )
+
                     let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
                     return XPT#fallback( x.fallbacks )
                 else
+
+                    call s:log.Debug( "nothing to do" )
+
                     " nothing to do, normal procedure.
                 endif
 
             else
+
+                call s:log.Debug( "has fallbacks" )
+
                 if g:xptemplate_fallback =~? '\V<Plug>XPTrawKey\|<NOP>'
                       \ || g:xptemplate_fallback ==? keypressed
 
                     return XPT#fallback( x.fallbacks )
 
                 else
+
+                    call s:log.Debug( "set up fall back" )
+
                     let x.fallbacks = [ [ "\<Plug>XPTfallback", 'feed' ] ] + x.fallbacks
                     return XPT#fallback( x.fallbacks )
                 endif
@@ -1084,6 +1105,8 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
         endif
 
     else
+
+        call s:log.Debug( "no pum" )
 
         if XPPhasSession()
             call XPPend()
