@@ -48,6 +48,7 @@ call s:def('g:xptemplate_key_visual_2'	, g:xptemplate_key_visual )
 call s:def('g:xptemplate_fallback_condition'	, '\V\c<Tab>' )
 " doc it
 call s:def('g:xptemplate_move_even_with_pum'	, g:xptemplate_nav_next !=? '<Tab>' )
+call s:def('g:xptemplate_close_pum'	, 0 )
 call s:def('g:xptemplate_break_undo'	, 0 )
 call s:def('g:xptemplate_always_show_pum'	, 0 )
 call s:def('g:xptemplate_minimal_prefix'	, 1 )
@@ -157,6 +158,12 @@ let g:XPTmappings = {
 if g:xptemplate_break_undo
     let g:XPTmappings.trigger = "<C-g>u" . g:XPTmappings.trigger
 endif
+
+if g:xptemplate_close_pum
+    for k in split('popup,force_pum,trigger', ',')
+        let g:XPTmappings[k] = "<C-v><C-v><BS>" . g:XPTmappings[k]
+    endfor
+end
 
 if g:xptemplate_fallback =~ '\V\^nore:'
     let g:xptemplate_fallback = g:xptemplate_fallback[ 5: ]
