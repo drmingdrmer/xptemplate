@@ -1,0 +1,26 @@
+				      *xpt-personal-var*   *g:xptemplate_vars*
+	g:xptemplate_vars sets personal information variables used in
+	snippets, like "author" and "email", see |xpt-snippet-variable|.
+
+	Variables set with g:xptemplate_vars have the highest priority and
+	override any other variables set in *.xpt.vim. Syntax: >
+	let g:xptemplate_vars = 'name=value&name=value...'
+<	Example: >
+	let g:xptemplate_vars = '$author=xp\ \&\\\&123&$email=bal@bla'
+	let g:xptemplate_vars = 'author=xp\ \&\\\&123&email=bal@bla'
+
+<	Both the 2 lines above result in: >
+		'xp\ &\&123' and 'bal@bla'
+
+<	Or: >
+		let g:xptemplate_vars = exists('g:xptemplate_vars') ?
+			\ g:xptemplate_vars . '&' . '$other=bla'
+			\ : '$other=bla'
+<
+	Entries are separated with '&'.
+
+	You can also set these settings in ftplugin/_common/personal.xpt.vim
+	in your runtime path using XPTvar |xpt-snippet-variable| (see also
+	|xpt-customize-variable|).
+
+" vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:

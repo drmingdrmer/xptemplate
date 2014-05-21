@@ -1,0 +1,16 @@
+							 *g:xptemplate_strict*
+								   {default:2}
+	Set to 0 to let XPTemplate do the best maintaining snippet rendering,
+	even if you have changed text outside of place holders.
+
+	Set to 1 to prevent incautious changing text outside place holders.
+	Otherwise you are free to change text outside of place holders.
+
+	Set to 2 to let XPTemplate stop rendering if ANY changes taken to text
+	outside of place holders.
+
+	Example : >
+		let g:xptemplate_strict = 1
+<
+
+" vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:
