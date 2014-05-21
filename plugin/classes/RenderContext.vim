@@ -71,7 +71,43 @@ fun! s:New( x ) dict "{{{
           \   'lastContent'        : '',
           \   'snipSetting'        : {},
           \   'tmpmappings'        : {},
+          \   'oriIndentkeys'      : {},
+          \   'leadingCharToReindent' : {},
           \ }, 'force' )
+
+    " for emulation of 'indentkeys'
+    "
+    " vim issue:
+    "   :set indentkeys=0\,,0}
+    "   :echo &indentkeys
+    "
+    " results in:
+    "   "0,0}"
+    "
+    " The backslash escaped chars can not be read correctly.
+
+    let lst = split( &indentkeys, ',' )
+    let indentkeysList = []
+    for k in lst
+
+        " TRICK: Treat first of two continous comma as escaped.
+        if k == ""
+            let indentkeysList[ -1 ] .= ','
+        else
+            if k[ 0 ] == '0'
+                call add( indentkeysList, k )
+            endif
+        endif
+    endfor
+
+    for k in indentkeysList
+        " "0" is not included
+        if k[ 1 ] == '=' && len( k ) > 2
+            let self.oriIndentkeys[ k[ 2: ] ] = 1
+        else
+            let self.leadingCharToReindent[ k[ 1: ] ] = 1
+        endif
+    endfor
 
 endfunction "}}}
 
