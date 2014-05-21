@@ -118,6 +118,7 @@ tags
 todo
 experiment/
 resource/
+_script/
 VERSION
 test/
 autoload/xpt/ut/
