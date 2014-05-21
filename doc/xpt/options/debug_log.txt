@@ -1,0 +1,16 @@
+						      *g:xptemplate_debug_log*
+								  {default:''}
+
+	This option specifies whether and where to store debug log emitted
+	during xptemplate running. Unless you are a developer of xptempalte,
+	do not touch it.
+
+	Empty string disables any logging.
+
+	Non-empty string is interpreted as log file path. "~/" at start will
+	be replaced with "$HOME/".
+
+	Example: >
+		let g:xptemplate_debug_log = '~/.xpt.log'
+<
+" vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:
