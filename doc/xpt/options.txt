@@ -1,0 +1,23 @@
+								 *xpt-option*
+	Options:
+		|g:xptemplate_always_show_pum|
+		|g:xptemplate_brace_complete|
+		|g:xptemplate_break_undo|
+		|g:xptemplate_bundle|
+		|g:xptemplate_close_pum|
+		|g:xptemplate_cwd_snippet|
+		|g:xptemplate_debug_log|
+		|g:xptemplate_highlight|
+		|g:xptemplate_highlight_nested|
+		|g:xptemplate_hook_before_cr|
+		|g:xptemplate_minimal_prefix|
+		|g:xptemplate_move_even_with_pum|
+		|g:xptemplate_ph_pum_accept_empty|
+		|g:xptemplate_pum_quick_back|
+		|g:xptemplate_pum_tab_nav|
+		|g:xptemplate_snippet_folders|
+		|g:xptemplate_strict|
+		|g:xptemplate_strip_left|
+		|g:xptemplate_vars|
+
+" vim: tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:
