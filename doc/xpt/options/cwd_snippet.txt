@@ -1,0 +1,12 @@
+						    *g:xptemplate_cwd_snippet*
+								   {default:0}
+	Set this to 1 to enable each vim buffer to automatically load file
+	".xpt.vim" from current working directory, as snippet file specific to
+	current directory( or project ).
+
+	Current ".xpt.vim" accepts only the most simple form of snippet, the
+	function call form: >
+		call XPTemplate( 'foo', '`foo^ says hello' )
+<
+
+" vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:
