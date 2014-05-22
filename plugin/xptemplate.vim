@@ -789,8 +789,8 @@ endfunction "}}}
 fun! s:InitItemOrderList( setting ) "{{{
     " TODO move me to template creation phase
 
-    let a:setting.comeFirst = g:xptutil.RemoveDuplicate( a:setting.comeFirst )
-    let a:setting.comeLast  = g:xptutil.RemoveDuplicate( a:setting.comeLast )
+    let a:setting.comeFirst = xpt#util#RemoveDuplicate( a:setting.comeFirst )
+    let a:setting.comeLast  = xpt#util#RemoveDuplicate( a:setting.comeLast )
 
 endfunction "}}}
 
