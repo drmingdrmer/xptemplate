@@ -686,7 +686,7 @@ fun! s:ParseInclusionStatement( snipObject, st ) "{{{
         call s:log.Debug( 'name=' . string( name ) )
         call s:log.Debug( 'paramStr' . string( paramStr ) )
 
-        let paramStr = g:xptutil.UnescapeChar( paramStr, xp.l . xp.r )
+        let paramStr = xpt#util#UnescapeChar( paramStr, xp.l . xp.r )
         let params = {}
         try
             let params = eval( paramStr )
@@ -2064,7 +2064,7 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
         let val = s:TextBetween( a:valueInfo[ 0 : 1 ] )
         let val = val[1:]
-        let val = g:xptutil.UnescapeChar( val, xp.l . xp.r )
+        let val = xpt#util#UnescapeChar( val, xp.l . xp.r )
 
         " NOTE: problem indent() returns indent without no mark consideration
         let nIndent = indent( a:valueInfo[0][0] )
@@ -2076,7 +2076,7 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
             if name =~ s:expandablePattern
 
                 " it is converted to string, thus escaped chars are safe now
-                let val = g:xptutil.UnescapeChar( val, '{$( ' )
+                let val = xpt#util#UnescapeChar( val, '{$( ' )
                 let val = 'BuildIfNoChange(' . string( val ) . ')'
             endif
             let placeHolder.postFilter = g:FilterValue.New( -nIndent, val )
@@ -3943,13 +3943,13 @@ fun! s:CompileExpr(s, xfunc) "{{{
 
     " simple test
     if a:s !~  '\V\w(\|$\w'
-        return string(g:xptutil.UnescapeChar(a:s, '{$( '))
+        return string(xpt#util#UnescapeChar(a:s, '{$( '))
     endif
 
     let stringMask = s:CreateStringMask( a:s )
 
     if stringMask !~ patternVarOrFunc
-        return string(g:xptutil.UnescapeChar(a:s, '{$( '))
+        return string(xpt#util#UnescapeChar(a:s, '{$( '))
     endif
 
     call s:log.Debug( 'string =' . a:s, 'strmask=' . stringMask )
@@ -4027,7 +4027,7 @@ fun! s:CompileExpr(s, xfunc) "{{{
 
         if '' != matches[1]
             let part = str[ idx : idx + len(matches[1]) - 1 ]
-            let part = g:xptutil.UnescapeChar(part, '{$( ')
+            let part = xpt#util#UnescapeChar(part, '{$( ')
             let expr .= '.' . string(part)
         endif
 
