@@ -19,15 +19,6 @@ let s:log = CreateLogger( 'warn' )
 
 let s:unescapeHead          = '\v(\\*)\1\\?\V'
 
-fun! g:XPclassPrototype( sid, ...) "{{{
-    let p = {}
-    for name in a:000
-        let p[ name ] = function( '<SNR>' . a:sid . name )
-    endfor
-
-    return p
-endfunction "}}}
-
 fun! s:UnescapeChar( str, chars ) "{{{
     " unescape only chars started with several '\' 
 
