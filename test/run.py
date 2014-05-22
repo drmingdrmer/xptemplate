@@ -107,6 +107,7 @@ def run_all( pattern ):
     base = os.path.join( ".", "test", "cases" )
 
     cases = os.listdir( base )
+    cases.sort()
 
     for c in cases:
         if not os.path.isdir( os.path.join( "test", "cases", c ) ):
