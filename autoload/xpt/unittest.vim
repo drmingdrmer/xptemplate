@@ -54,6 +54,7 @@ fun! xpt#unittest#Run( sid, fn ) "{{{
             continue
         endif
 
+        echom 'Testing ' . funcname
         let Func = ff[ funcname ]
 
         try
