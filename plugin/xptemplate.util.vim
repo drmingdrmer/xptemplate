@@ -13,26 +13,6 @@ runtime plugin/debug.vim
 let s:log = CreateLogger( 'warn' )
 " let s:log = CreateLogger( 'debug' )
 
-
-
-
-
-let s:unescapeHead          = '\v(\\*)\1\\?\V'
-
-fun! s:UnescapeChar( str, chars ) "{{{
-    " unescape only chars started with several '\' 
-
-    " remove all '\'.
-    let chars = substitute( a:chars, '\\', '', 'g' )
-
-    
-    let pattern = s:unescapeHead . '\(\[' . escape( chars, '\]-^' ) . ']\)'
-    " call s:log.Log( 'to unescape pattern='.pattern )
-    let unescaped = substitute( a:str, pattern, '\1\2', 'g' )
-    " call s:log.Log( 'unescaped ='.unescaped )
-    return unescaped
-endfunction "}}}
-
 fun! s:XPTgetCurrentOrPreviousSynName() "{{{
     let pos = [ line( "." ), col( "." ) ]
     let synName = synIDattr(synID(pos[0], pos[1], 1), "name")
