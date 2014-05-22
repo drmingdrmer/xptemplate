@@ -1230,20 +1230,7 @@ fun! s:NewRenderContext( ftScope, tmplName ) "{{{
     let renderContext.snipObject  = s:GetContextFTObj().allTemplates[ a:tmplName ]
     let renderContext.ftScope = a:ftScope
 
-
-
-    if !renderContext.snipObject.parsed
-
-        call s:ParseInclusion( renderContext.ftScope.allTemplates, renderContext.snipObject )
-
-        let renderContext.snipObject.snipText = s:ParseSpaces( renderContext.snipObject )
-        let renderContext.snipObject.snipText = s:ParseQuotedPostFilter( renderContext.snipObject )
-        let renderContext.snipObject.snipText = s:ParseRepetition( renderContext.snipObject )
-
-        let renderContext.snipObject.parsed = 1
-
-    endif
-
+    call s:ParseSnippet( renderContext.snipObject, renderContext.ftScope )
 
     let renderContext.snipSetting = copy( renderContext.snipObject.setting )
 
@@ -1255,6 +1242,20 @@ fun! s:NewRenderContext( ftScope, tmplName ) "{{{
     endfor
 
     return renderContext
+endfunction "}}}
+
+fun! s:ParseSnippet( snippet, ftScope ) "{{{
+
+    if !a:snippet.parsed
+
+        call s:ParseInclusion( a:ftScope.allTemplates, a:snippet )
+
+        let a:snippet.snipText = s:ParseSpaces( a:snippet )
+        let a:snippet.snipText = s:ParseQuotedPostFilter( a:snippet )
+        let a:snippet.snipText = s:ParseRepetition( a:snippet )
+
+        let a:snippet.parsed = 1
+    endif
 endfunction "}}}
 
 fun! s:DoStart( sess ) " {{{
@@ -2557,21 +2558,9 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
         return
     endif
 
-
-
     let incTmplObject = tmplDict[ incName ]
 
-    if !incTmplObject.parsed
-
-        call s:ParseInclusion( renderContext.ftScope.allTemplates, incTmplObject )
-
-        let incTmplObject.snipText = s:ParseSpaces( incTmplObject )
-        let incTmplObject.snipText = s:ParseQuotedPostFilter( incTmplObject )
-        let incTmplObject.snipText = s:ParseRepetition( incTmplObject )
-
-        let incTmplObject.parsed = 1
-
-    endif
+    call s:ParseSnippet( incTmplObject, renderContext.ftScope )
 
     call s:MergeSetting( renderContext.snipSetting, incTmplObject.setting )
 
