@@ -9,6 +9,7 @@ outf = open( outfn, "w" )
 def make_option_index( indent="	"*2 ):
     base = os.path.join( "doc", "xpt", "options" )
     fns = os.listdir( base )
+    fns.sort()
 
     for fn in fns:
         optname = fn.split(".")[0]
