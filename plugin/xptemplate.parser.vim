@@ -221,7 +221,7 @@ fun! s:XPTemplateParseSnippet(lines)
     for pair in snippetParameters
         let name = matchstr(pair, '\V\^\[^=]\*')
         let value = pair[ len(name) : ]
-        let value = value[0:0] == '=' ? g:xptutil.UnescapeChar(value[1:], ' ') : 1
+        let value = value[0:0] == '=' ? xpt#util#UnescapeChar(value[1:], ' ') : 1
         let setting[name] = value
     endfor
     let start = 1

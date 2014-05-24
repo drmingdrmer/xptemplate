@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.8.140521-6da3654
+" VERSION: 0.4.8.140524-1493627
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
     finish
 endif
@@ -368,7 +368,7 @@ fun! s:ParseInclusionStatement( snipObject, st )
     if st =~ ptn && st[ -1 : -1 ] == ')'
         let name = matchstr( st, ptn )[ : -2 ]
         let paramStr = st[ len( name ) + 1 : -2 ]
-        let paramStr = g:xptutil.UnescapeChar( paramStr, xp.l . xp.r )
+        let paramStr = xpt#util#UnescapeChar( paramStr, xp.l . xp.r )
         let params = {}
         try
             let params = eval( paramStr )
@@ -436,8 +436,8 @@ fun! s:AddCursorToComeLast(setting)
     endif
 endfunction
 fun! s:InitItemOrderList( setting )
-    let a:setting.comeFirst = g:xptutil.RemoveDuplicate( a:setting.comeFirst )
-    let a:setting.comeLast  = g:xptutil.RemoveDuplicate( a:setting.comeLast )
+    let a:setting.comeFirst = xpt#util#RemoveDuplicate( a:setting.comeFirst )
+    let a:setting.comeLast  = xpt#util#RemoveDuplicate( a:setting.comeLast )
 endfunction
 fun! XPTreload()
     try
@@ -676,13 +676,7 @@ fun! s:NewRenderContext( ftScope, tmplName )
     let renderContext.phase = 'inited'
     let renderContext.snipObject  = s:GetContextFTObj().allTemplates[ a:tmplName ]
     let renderContext.ftScope = a:ftScope
-    if !renderContext.snipObject.parsed
-        call s:ParseInclusion( renderContext.ftScope.allTemplates, renderContext.snipObject )
-        let renderContext.snipObject.snipText = s:ParseSpaces( renderContext.snipObject )
-        let renderContext.snipObject.snipText = s:ParseQuotedPostFilter( renderContext.snipObject )
-        let renderContext.snipObject.snipText = s:ParseRepetition( renderContext.snipObject )
-        let renderContext.snipObject.parsed = 1
-    endif
+    call s:ParseSnippet( renderContext.snipObject, renderContext.ftScope )
     let renderContext.snipSetting = copy( renderContext.snipObject.setting )
     let setting = renderContext.snipSetting
     for k in [ 'variables', 'preValues', 'defaultValues'
@@ -690,6 +684,15 @@ fun! s:NewRenderContext( ftScope, tmplName )
         let setting[ k ] = copy( setting[ k ] )
     endfor
     return renderContext
+endfunction
+fun! s:ParseSnippet( snippet, ftScope )
+    if !a:snippet.parsed
+        call s:ParseInclusion( a:ftScope.allTemplates, a:snippet )
+        let a:snippet.snipText = s:ParseSpaces( a:snippet )
+        let a:snippet.snipText = s:ParseQuotedPostFilter( a:snippet )
+        let a:snippet.snipText = s:ParseRepetition( a:snippet )
+        let a:snippet.parsed = 1
+    endif
 endfunction
 fun! s:DoStart( sess )
     let x = b:xptemplateData
@@ -1137,11 +1140,11 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo )
                     \&& a:valueInfo[1][1] + 1 == a:valueInfo[2][1]
         let val = s:TextBetween( a:valueInfo[ 0 : 1 ] )
         let val = val[1:]
-        let val = g:xptutil.UnescapeChar( val, xp.l . xp.r )
+        let val = xpt#util#UnescapeChar( val, xp.l . xp.r )
         let nIndent = indent( a:valueInfo[0][0] )
         if isPostFilter
             if name =~ s:expandablePattern
-                let val = g:xptutil.UnescapeChar( val, '{$( ' )
+                let val = xpt#util#UnescapeChar( val, '{$( ' )
                 let val = 'BuildIfNoChange(' . string( val ) . ')'
             endif
             let placeHolder.postFilter = g:FilterValue.New( -nIndent, val )
@@ -1382,13 +1385,7 @@ fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo )
         return
     endif
     let incTmplObject = tmplDict[ incName ]
-    if !incTmplObject.parsed
-        call s:ParseInclusion( renderContext.ftScope.allTemplates, incTmplObject )
-        let incTmplObject.snipText = s:ParseSpaces( incTmplObject )
-        let incTmplObject.snipText = s:ParseQuotedPostFilter( incTmplObject )
-        let incTmplObject.snipText = s:ParseRepetition( incTmplObject )
-        let incTmplObject.parsed = 1
-    endif
+    call s:ParseSnippet( incTmplObject, renderContext.ftScope )
     call s:MergeSetting( renderContext.snipSetting, incTmplObject.setting )
     let incSnip = s:ReplacePHInSubSnip( renderContext.snipObject, incTmplObject, params )
     let incSnip = s:AddIndent( incSnip, nameInfo[0][1]-1 )
@@ -1656,7 +1653,11 @@ fun! s:EvalPostFilter( filter, typed, leader )
     if has_key( a:filter, 'action' )
         let act = a:filter.action
         if act.name == 'build'
-            let a:filter.toBuild = 1
+            if has_key( a:filter, 'text' )
+                let a:filter.toBuild = 1
+            else
+                let a:filter.text = a:typed
+            end
         elseif act.name == 'keepIndent'
             let a:filter.nIndent = 0
         else
@@ -1757,6 +1758,8 @@ fun! s:HandleDefaultValueAction( ctx, filter )
     elseif act.name ==# 'finishTemplate'
         return s:ActionFinish( ctx, a:filter )
     elseif act.name ==# 'embed'
+        return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:filter.text )
+    elseif act.name ==# 'build'
         return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:filter.text )
     elseif act.name ==# 'next'
         let postaction = ''
@@ -2089,9 +2092,24 @@ fun! s:EvalFilter( filter, container, context )
         endif
         let a:filter.action = rst
         let a:filter.marks = get( rst, 'marks', a:filter.marks )
+        call s:LoadFilterActionSnippet( a:filter.action )
         call a:filter.AdjustTextAction( a:context )
     endif
     return a:filter
+endfunction
+fun! s:LoadFilterActionSnippet( act )
+    let renderContext = b:xptemplateData.renderContext
+    if has_key( a:act, 'snippet' )
+        let allsnip = renderContext.ftScope.allTemplates
+        let snipname = a:act.snippet
+        if has_key( allsnip, snipname )
+            let snip = allsnip[ snipname ]
+            call s:ParseSnippet( snip, renderContext.ftScope )
+            let a:act.text = snip.snipText
+        else
+            call XPT#warn( 'snippet "' . snipname . '" not found' )
+        end
+    end
 endfunction
 fun! s:Eval(str, container, ...)
     if a:str == ''
@@ -2129,11 +2147,11 @@ fun! s:CompileExpr(s, xfunc)
     let sptn = '\V' . s:nonEscaped . '(\[^($]\{-})'
     let patternVarOrFunc = fptn . '\|' . vptn . '\|' . sptn
     if a:s !~  '\V\w(\|$\w'
-        return string(g:xptutil.UnescapeChar(a:s, '{$( '))
+        return string(xpt#util#UnescapeChar(a:s, '{$( '))
     endif
     let stringMask = s:CreateStringMask( a:s )
     if stringMask !~ patternVarOrFunc
-        return string(g:xptutil.UnescapeChar(a:s, '{$( '))
+        return string(xpt#util#UnescapeChar(a:s, '{$( '))
     endif
     let str = a:s
     let evalMask = repeat('-', len(stringMask))
@@ -2180,7 +2198,7 @@ fun! s:CompileExpr(s, xfunc)
         endif
         if '' != matches[1]
             let part = str[ idx : idx + len(matches[1]) - 1 ]
-            let part = g:xptutil.UnescapeChar(part, '{$( ')
+            let part = xpt#util#UnescapeChar(part, '{$( ')
             let expr .= '.' . string(part)
         endif
         if '' != matches[2]

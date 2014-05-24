@@ -342,6 +342,10 @@ fun! s:f.Build( ... )
   return { 'action' : 'build', 'text' : join( a:000, '' ) }
 endfunction
 
+fun! s:f.BuildSnippet( snipname )
+    return { 'action' : 'build', 'snippet' : a:snipname }
+endfunction
+
 fun! s:f.BuildIfChanged( ... )
   let v = substitute( self.V(), "\\V\n\\|\\s", '', 'g')
   " let fn = substitute( self.ItemFullname(), "\\V\n\\|\\s", '', 'g')
