@@ -24,8 +24,14 @@ def out( *msgs ):
 
 if __name__ == "__main__":
 
-    out( '								 *xpt-option*' )
-    out( '	Options:' )
+    option_header = [
+            '								 *xpt-option*',
+            '	Options:',
+    ]
+
+    for line in option_header:
+        out( line )
+
     make_option_index()
 
     out( "" )
