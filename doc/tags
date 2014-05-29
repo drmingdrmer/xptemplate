@@ -1,4 +1,5 @@
 <Plug>XPTrawKey	xptemplate.txt	/*<Plug>XPTrawKey*
+BuildSnippet()	xpt/snippet-functions/BuildSnippet.txt	/*BuildSnippet()*
 C()	xpt-function.txt	/*C()*
 E({expr})	xpt-function.txt	/*E({expr})*
 Include:	xpt.snippet.syn.txt	/*Include:*
@@ -97,7 +98,7 @@ xpt-key-visual	xptemplate.txt	/*xpt-key-visual*
 xpt-mixed	xpt.snippet.syn.txt	/*xpt-mixed*
 xpt-name-matching	xptemplate.txt	/*xpt-name-matching*
 xpt-nested	xptemplate.txt	/*xpt-nested*
-xpt-option	xptemplate.txt	/*xpt-option*
+xpt-option	xpt/options.txt	/*xpt-option*
 xpt-personal-folder	xptemplate.txt	/*xpt-personal-folder*
 xpt-personal-var	xpt/options/vars.txt	/*xpt-personal-var*
 xpt-placeholder-cursor	xpt.snippet.syn.txt	/*xpt-placeholder-cursor*
