@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.8.140524-1493627
+" VERSION: 0.4.8.140529-b2765c3
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
     finish
 endif
@@ -2105,6 +2105,8 @@ fun! s:LoadFilterActionSnippet( act )
         if has_key( allsnip, snipname )
             let snip = allsnip[ snipname ]
             call s:ParseSnippet( snip, renderContext.ftScope )
+            call s:MergeSetting( renderContext.snipSetting,
+                  \ snip.setting )
             let a:act.text = snip.snipText
         else
             call XPT#warn( 'snippet "' . snipname . '" not found' )
