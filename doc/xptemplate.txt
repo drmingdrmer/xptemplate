@@ -258,7 +258,7 @@
 
 ==============================================================================
 
-						   *xpt-key-bind* *xpt-option*
+								*xpt-key-bind*
 	Options can be set in |.vimrc| to modify XPTemplate's behaviors.
 
 	Key mappings:
@@ -275,6 +275,7 @@
 		|g:xptemplate_to_right|
 		|g:xptemplate_fallback|
 
+	See also: |xpt-option|.
 
 							     *<Plug>XPTrawKey*
 	Key mapping defined as: >
