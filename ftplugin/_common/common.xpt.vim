@@ -130,7 +130,7 @@ let s:f.NN = s:f.ItemFullname
 
 " current value user typed
 fun! s:f.ItemValue() dict "{{{
-    return get( self.renderContext.evalCtx, 'userInput', '' )
+    return get( self.evalContext, 'userInput', '' )
 endfunction "}}}
 let s:f.V = s:f.ItemValue
 
