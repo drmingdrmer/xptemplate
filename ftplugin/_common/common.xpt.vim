@@ -70,46 +70,9 @@ XPTinclude
       \ _common/inlineComplete
       \ _common/common.*
 
-" XPTinclude
-      " \ _common/cmn.counter
-
-" ========================= Function and Variables =============================
-
 let s:f_prototype = xpt#snipfunction#funcs
 call extend( s:f, s:f_prototype, 'error' )
 
-fun! s:f.GetDict( ... )
-    return 
-endfunction
-
-" TODO bad, this function should not depends on phase of rendering
-fun! s:f.GetVar( name )
-    if a:name =~# '\V\^$_x'
-        try
-            let n = a:name[ 1 : ]
-            return self[ n ]()
-        catch /.*/
-            return a:name
-        endtry
-    endif
-
-    let r = self.renderContext
-
-    let ev = get( r.evalCtx, 'variables', {} )
-    let rv = get( r.snipSetting, 'variables', {} )
-
-    return get( ev, a:name,
-          \     get( rv, a:name,
-          \         get( self, a:name, a:name ) ) )
-
-    " if self.renderContext.phase == g:xptRenderPhase.uninit
-    "     return get( self.renderContext.evalCtx.variables, a:name,
-    "           \ get( self, a:name, a:name ) )
-    " else
-    "     return get( get( self.renderContext.snipSetting, 'variables', {} ), a:name,
-    "           \     get( self, a:name, a:name ) )
-    " endif
-endfunction
 
 fun! s:f._xSnipName()
     return self.renderContext.snipObject.name
