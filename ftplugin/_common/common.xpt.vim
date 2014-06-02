@@ -75,6 +75,8 @@ XPTinclude
 
 " ========================= Function and Variables =============================
 
+let s:f_prototype = xpt#snipfunction#funcs
+call extend( s:f, s:f_prototype, 'error' )
 
 fun! s:f.GetDict( ... )
     return 
