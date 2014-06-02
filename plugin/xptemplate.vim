@@ -1575,6 +1575,7 @@ fun! s:ParseSpaces( snipObject ) "{{{
 
     endwhile
 
+    call s:log.Log( "after ParseSpaces text is: " . string(text) )
     return text
 
 endfunction "}}}
