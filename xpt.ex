@@ -11,6 +11,12 @@ case $1 in
         ;;
 
     "")
+        mode=""
+        echo "export"
+        ;;
+
+    "test")
+        mode=test
         echo "export"
         ;;
 
@@ -50,10 +56,34 @@ compact() {
 create_tgz() {
     rm -rf $ParentDir/xpt && mkdir $ParentDir/xpt && cp -R ./* $ParentDir/xpt/
     cd $ParentDir/xpt && tar -czf ../xpt-$ver.tgz *
+    cd $CurrentDir
 }
 
-dodist () {
+build_for_release () {
+    check_cur_branch \
+        && create_build_branch \
+        && clean_files \
+        && remove_tests \
+        && compact_files \
+        && generate_version \
+        && commit_build \
+        && create_tgz \
+        && update_built_branch \
+        && echo "Done"
+}
 
+build_for_test () {
+    check_cur_branch \
+        && git checkout $githash \
+        && clean_files \
+        && compact_files \
+        && generate_version \
+        && commit_build \
+        && vim -c 'call xpt#unittest#Runall() | call getchar() | qa' \
+        && echo "Done building for test"
+}
+
+check_cur_branch() {
     local cur_branch=$(git symbolic-ref HEAD 2>/dev/null | cut -c 12-)
 
     echo $cur_branch
@@ -62,21 +92,33 @@ dodist () {
         echo "not on $dev_branch!!"
         return -1;
     fi
+}
 
-    git checkout -b $build_name || { echo "Failed to create branch $build_name"; exit 1; }
+create_build_branch() {
+    git checkout -b $build_name || { echo "Failed to create branch $build_name"; return 1; }
+}
 
+clean_files() {
     cat $CurrentDir/$0 | awk '/^# __TO_REMOVE__/,/^# __TO_REMOVE__ END/{ if ( $1 != "#" ) print $0; }' | while read f; do git rm -rf $f; done
     git rm `find . -name "test.page*"`
     rm `find . -name "*.xpt.vimc"`
+    return 0
+}
 
+remove_tests() {
+    git rm -rf test/
+    git rm -rf autoload/xpt/ut/
+    git rm -rf autoload/xpt/unittest.vim
+}
 
-    for file in `find plugin/ -name *.vim | grep -v "/debug\.vim$"`;do
+compact_files() {
+
+    for file in `find {plugin,autoload}/ -name *.vim | grep -v "/debug\.vim$"`;do
         compact $file
     done
-    for file in `find autoload/ -name *.vim | grep -v "/debug\.vim$"`;do
-        compact $file
-    done
+}
 
+generate_version() {
 
     mv plugin/xptemplate.vim .tmp
     cat > plugin/xptemplate.vim <<-END
@@ -85,10 +127,13 @@ dodist () {
 	END
     cat .tmp >> plugin/xptemplate.vim && rm .tmp
 
-    git commit -a -m "$build_name"
+}
 
-    create_tgz
-    cd $CurrentDir
+commit_build() {
+    git commit -a -m "$build_name"
+}
+
+update_built_branch(){
 
     local tree_hash=$(git_obj_get_tree "$build_name")
     local built_commit_hash=$(echo "$build_name" | git commit-tree $tree_hash -p $build_branch -p $dev_branch)
@@ -103,7 +148,11 @@ git_obj_get_tree () {
     git cat-file -p "$1" | head -n1 | awk '{print $2}'
 }
 
-dodist
+if [ "$mode" == "test" ]; then
+    build_for_test
+else
+    build_for_release
+fi
 exit
 
 # __TO_REMOVE__
@@ -124,7 +173,4 @@ experiment/
 resource/
 _script/
 VERSION
-test/
-autoload/xpt/ut/
-autoload/xpt/unittest.vim
 # __TO_REMOVE__ END
