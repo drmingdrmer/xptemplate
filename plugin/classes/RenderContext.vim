@@ -51,7 +51,7 @@ fun! s:New( x ) dict "{{{
           \   'ftScope'            : {},
           \   'level'              : len( a:x.stack ),
           \   'snipObject'         : {},
-          \   'evalCtx'            : {},
+          \   'evalContext'        : {},
           \   'phase'              : g:xptRenderPhase.uninit,
           \   'action'             : '',
           \   'wrap'               : {},
