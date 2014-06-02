@@ -27,7 +27,11 @@ ParentDir=${PWD%/*}
 githash=`git log --max-count=1 --format=%h`
 today=`date +%y%m%d`
 ver=`cat VERSION`.$today-$githash
-distname=dist.$today-$githash
+build_name=build-$today-$githash
+
+dev_branch=dev
+build_branch=master
+
 
 compact() {
     local file=$1
@@ -54,12 +58,12 @@ dodist () {
 
     echo $cur_branch
 
-    if [ ".$cur_branch" != ".master" ]; then
-        echo "not on master!!"
+    if [ ".$cur_branch" != ".$dev_branch" ]; then
+        echo "not on $dev_branch!!"
         return -1;
     fi
 
-    git checkout -b $distname || { echo "Failed to create branch $distname"; exit 1; }
+    git checkout -b $build_name || { echo "Failed to create branch $build_name"; exit 1; }
 
     cat $CurrentDir/$0 | awk '/^# __TO_REMOVE__/,/^# __TO_REMOVE__ END/{ if ( $1 != "#" ) print $0; }' | while read f; do git rm -rf $f; done
     git rm `find . -name "test.page*"`
@@ -81,17 +85,17 @@ dodist () {
 	END
     cat .tmp >> plugin/xptemplate.vim && rm .tmp
 
-    git commit -a -m "$distname"
+    git commit -a -m "$build_name"
 
     create_tgz
     cd $CurrentDir
 
-    local tree_hash=$(git_obj_get_tree "$distname")
-    local dist_commit_hash=$(echo "$distname" | git commit-tree $tree_hash -p dist -p master)
-    git update-ref refs/heads/dist $dist_commit_hash
+    local tree_hash=$(git_obj_get_tree "$build_name")
+    local built_commit_hash=$(echo "$build_name" | git commit-tree $tree_hash -p $build_branch -p $dev_branch)
+    git update-ref refs/heads/$build_branch $built_commit_hash
 
-    git checkout master \
-        && git branch -D $distname
+    git checkout $dev_branch \
+        && git branch -D $build_name
 
 }
 
