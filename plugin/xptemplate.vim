@@ -2007,6 +2007,7 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
     " one is the key place holder.
 
     let xp = a:ctx.snipObject.ptn
+    let toescape = xp.l . xp.r
 
 
     " 1 is length of left mark
@@ -2015,6 +2016,10 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
     let rightEdge = s:TextBetween( a:nameInfo[ 2 : 3 ] )
 
     let [ leftEdge, name, rightEdge ] = [ leftEdge[1 : ], name[1 : ], rightEdge[1 : ] ]
+
+    let leftEdge = xpt#util#UnescapeChar(leftEdge, toescape)
+    let name = xpt#util#UnescapeChar(name, toescape)
+    let rightEdge = xpt#util#UnescapeChar(rightEdge, toescape)
 
     let fullname  = leftEdge . name . rightEdge
 
