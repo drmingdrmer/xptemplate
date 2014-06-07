@@ -2209,6 +2209,10 @@ fun! s:AddItemToRenderContext( ctx, item ) "{{{
         let ctx.itemDict[ item.name ] = item
     endif
 
+    if exist
+        return
+    endif
+
     " TODO to be precise phase, do not use false condition
     if ctx.phase != 'rendering'
         call add( ctx.firstList, item )
@@ -2220,9 +2224,6 @@ fun! s:AddItemToRenderContext( ctx, item ) "{{{
     endif
 
     " rendering phase
-    if exist
-        return
-    endif
 
     if item.name == ''
 
