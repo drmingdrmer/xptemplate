@@ -1,0 +1,7 @@
+keys:
+build-phgroup
+on_group	
+type_at_end
+
+expected:
+--on_group-on_group-=type_at_end

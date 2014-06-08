@@ -1,0 +1,12 @@
+keys:
+build-ph
+	
+type_at_end
+
+build-ph
+type_on_ph_built	
+type_at_end
+
+expected:
+--ph_built-=type_at_end
+--type_on_ph_built-=type_at_end
