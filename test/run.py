@@ -175,6 +175,7 @@ def run_tests(base, subpattern):
 
         rst = fread( base, "rst" )
         _check_rst( base+'.'+testname, test['expected'], rst )
+        os.unlink( os.path.join( base, "rst" ) )
 
         vim_close()
 
