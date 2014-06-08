@@ -1,0 +1,32 @@
+build-post
+should_not_be_seen	
+typed
+
+build-post-ph
+should_not_be_seen	
+type_on_ph_built	
+
+build-post-ph
+should_not_be_seen	
+	
+type_at_end
+
+build-post-2ph
+should_not_be_seen	
+	
+	
+type_at_end
+
+build-post-phgroup
+should_not_be_seen	
+type_on_group	
+type_at_end
+
+build-post-ph-no-mixin
+should_not_be_seen	
+
+=col(".")
+	
+type_on_group	
+type_at_end
+
