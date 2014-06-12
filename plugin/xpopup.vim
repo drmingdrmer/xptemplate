@@ -390,7 +390,10 @@ fun! s:sessionPrototype.addList( list ) "{{{
     if type( list[0] ) == type( '' )
         call map( list, '{"word" : v:val, "icase" : 1 }' )
     else
-        call map( list, '{"word" : v:val["word"], "menu" : get( v:val, "menu", "" ), "icase" : 1 }' )
+        call map( list, '{"word" : v:val["word"],'
+              \ . '"info": get(v:val, "info", ""),'
+              \ . '"menu": get(v:val, "menu", ""),'
+              \ . '"icase": 1 }' )
     endif
 
     let self.list += list
@@ -453,10 +456,17 @@ fun! s:_InitBuffer() "{{{
     "       non-keywords char make pum disappear.
 
     let b:_xpp_setting_switch = g:SettingSwitch.New()
+
+    let co = {"menu":1, "menuone":1, "longest":1}
+    for k in split(&completeopt, ',')
+        let co[k] = 1
+    endfor
+    let new_completeopt = join( keys(co), ',' )
+
     call b:_xpp_setting_switch.AddList( 
           \ [ '&l:cinkeys', '' ], 
           \ [ '&l:indentkeys', '' ], 
-          \ [ '&completeopt', 'menu,longest,menuone' ], 
+          \ [ '&completeopt', new_completeopt ],
           \)
           " \ [ '&iskeyword', '33-127,128-255' ], 
     " TODO  '&l:ignorecase', '1'???

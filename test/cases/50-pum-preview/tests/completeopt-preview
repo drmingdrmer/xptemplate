@@ -1,0 +1,9 @@
+setting:
+completeopt=preview
+
+keys:
+pum
+=winnr("#")."_is_2nd_window"
+
+expected:
+-1_is_2nd_window
