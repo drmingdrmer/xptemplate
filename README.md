@@ -5,6 +5,7 @@
 - [Xptemplate](#xptemplate)
   - [Usage](#usage)
   - [Stay up-to-date](#stay-up-to-date)
+  - [About branches](#about-branches)
   - [Screencast with 0.3.9](#screencast-with-039)
   - [Features](#features)
 - [FAQ](#faq)
@@ -55,10 +56,33 @@ Press `<tab>`,`<tab>`.. to navigate through "i", "0", "len" and finally stop at 
 
 ## Stay up-to-date
 
-There are 2 major branches: "master" and "dist".
+There are two major branches: "master" and "dev".
 
-* "master" is for developing purpose and contains debug statements thus it is a bit slow.
-* "dist" is for end user with debug statements removed and runs a little bit faster.
+* "master" is compacted, logging-removed version.
+Always use branch "master" unless you know what you are doing.
+* "dev" is for development, that it contains debug statements thus it is a bit slow.
+
+
+Before 2014-06-01, The two major branches are: "master" and "dist":
+
+* "master" is for developing purpose.
+* "dist" is for end user.
+
+
+## About branches
+
+* Branch `master` is the branch for end user.
+
+* Branch `dev` is for doing further developing on top of
+XPTemplate.
+
+* Branches that starts with `f.` are feature branches for different sub system
+of XPTemplate.
+
+* Branches that starts with `fd.` are feature breanches that has not yet been
+merged into `dev` and `master`, which are NOT considered stable.
+
+* Branches that starts with `snp.` are snippet branches.
 
 
 ## Screencast with 0.3.9
