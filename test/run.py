@@ -4,6 +4,7 @@
 import os
 import sys
 import fcntl
+import pprint
 import subprocess
 import logging
 import logging.handlers
@@ -80,11 +81,11 @@ key = {
 }
 
 
-def main( pattern ):
+def main( pattern, subpattern='*' ):
     logger.info("start...")
     tmux_setup()
     try:
-        run_all( pattern )
+        run_all( pattern, subpattern )
     except TestError as e:
         # with TestError, stop and see what happened
         ex, ac = e[1], e[2]
@@ -102,7 +103,7 @@ def main( pattern ):
         raise
     tmux_cleanup()
 
-def run_all( pattern ):
+def run_all( pattern, subpattern ):
 
     base = os.path.join( ".", "test", "cases" )
 
@@ -114,26 +115,27 @@ def run_all( pattern ):
             continue
 
         if fnmatch.fnmatch( c, pattern ):
-            run_case( c )
+            run_case( c, subpattern )
 
     logger.info("all test passed")
 
-def run_case( cname ):
+def run_case( cname, subpattern ):
 
     logger.info( "running " + cname + "..." )
 
     base = os.path.join( ".", "test", "cases", cname )
 
-    try:
-        os.unlink( os.path.join( base, 'rst' ) )
-    except OSError as e:
-        pass
+    tests_dir = os.path.join(base, 'tests')
+    if os.path.isdir(tests_dir):
+        run_tests(base, subpattern)
+    else:
+        run_oldstyle(base)
 
-    vimrcfn = os.path.join( base, "vimrc" )
-    if not os.path.exists( vimrcfn ):
-        vimrcfn = os.path.join( ".", "test", "core_vimrc" )
+def run_oldstyle(base):
 
-    vim_start( vimrcfn )
+    try_rm_rst(base)
+
+    vim_start(base)
     vim_add_rtp( base )
     vim_so_fn( os.path.join( base, "setting.vim" ) )
     vim_load_content( os.path.join( base, "context" ) )
@@ -145,7 +147,76 @@ def run_case( cname ):
 
     vim_close()
 
-def vim_start( vimrcfn ):
+def run_tests(base, subpattern):
+
+    tests_dir = os.path.join(base, 'tests')
+    testnames = os.listdir(tests_dir)
+
+    for testname in testnames:
+        if not fnmatch.fnmatch( testname, subpattern ):
+            continue
+
+        logger.info("running {0} {1}...".format(os.path.basename(base),
+                                                testname))
+
+        test = load_test(os.path.join(tests_dir, testname))
+
+        try_rm_rst(base)
+
+        vim_start(base)
+        vim_add_rtp( base )
+        vim_so_fn( os.path.join( base, "setting.vim" ) )
+        vim_add_settings(test['setting'])
+        vim_load_content( os.path.join( base, "context" ) )
+        tmux_keys( "s" )
+
+        vim_key_sequence_strings(test['keys'])
+        vim_save_to( os.path.join( base, "rst" ) )
+
+        rst = fread( base, "rst" )
+        _check_rst( base+'.'+testname, test['expected'], rst )
+        os.unlink( os.path.join( base, "rst" ) )
+
+        vim_close()
+
+def load_test(testfn):
+
+    test = { 'setting': [],
+             'keys': [],
+             'expected': [], }
+
+    cont = fread(testfn)
+    state = None
+    for line in cont.split('\n'):
+
+        if line == '':
+            state = None
+            continue
+
+        if state is None and line[:-1] in test:
+            state = line[:-1]
+            continue
+
+        test[state].append( line )
+        logger.info( '- ' + state + ': ' + repr(line) )
+
+    test['expected'] = '\n'.join(test['expected'])
+    return test
+
+def try_rm_rst(base):
+    try:
+        os.unlink( os.path.join( base, 'rst' ) )
+    except OSError as e:
+        pass
+
+def vim_start( base ):
+    vimrcfn = os.path.join( base, "vimrc" )
+    if not os.path.exists( vimrcfn ):
+        vimrcfn = os.path.join( ".", "test", "core_vimrc" )
+
+    vim_start_vimrc( vimrcfn )
+
+def vim_start_vimrc( vimrcfn ):
     tmux_keys( "vim -u " + vimrcfn + key["cr"] )
     logger.debug( "vim started with vimrc: " + repr(vimrcfn) )
 
@@ -181,6 +252,11 @@ def vim_add_rtp( path ):
     tmux_keys( ":set rtp+=", path, key['cr'] )
     logger.debug( "additional rtp: " + repr( path ) )
 
+def vim_add_settings( settings ):
+    for st in settings:
+        tmux_keys(":set " + st + key['cr'] )
+        logger.debug( "set: " + repr( st ) )
+
 def vim_key_sequence( fn ):
 
     if not os.path.exists(fn):
@@ -190,6 +266,10 @@ def vim_key_sequence( fn ):
 
     logger.debug( "loaded key sequence: " + repr(content) )
     lines = content.split("\n")
+    vim_key_sequence_strings(lines)
+
+def vim_key_sequence_strings( lines ):
+
     for line in lines:
         if line == '':
             continue
@@ -210,10 +290,12 @@ def check_result( base ):
 
     expected = fread( base, "expected" )
     rst = fread( base, "rst" )
-    if expected != rst:
-        raise TestError( base, expected.split("\n"), rst.split("\n") )
-
+    _check_rst(base, expected, rst)
     os.unlink( os.path.join( base, "rst" ) )
+
+def _check_rst(testname, expected, rst):
+    if expected != rst:
+        raise TestError( testname, expected.split("\n"), rst.split("\n") )
 
 def tmux_setup():
     _tmux( "split-window", "-h" )
@@ -265,6 +347,6 @@ def sh( *args, **argkv ):
 if __name__ == "__main__":
     args = sys.argv
     if len(args) > 1:
-        main(args[1])
+        main(*args[1:])
     else:
         main("*")
