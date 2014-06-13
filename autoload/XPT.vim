@@ -1,5 +1,5 @@
 if exists("g:__XPT_VIM__")
-    finish
+	finish
 endif
 let g:__XPT_VIM__ = 1
 let s:oldcpo = &cpo
@@ -10,12 +10,7 @@ let XPT#nullDict = {}
 let XPT#nullList = []
 let XPT#escapeHead   = '\v(\\*)\V'
 let XPT#unescapeHead = '\v(\\*)\1\\?\V'
-let XPT#nonEscaped =
-      \   '\%('
-      \ .     '\%(\[^\\]\|\^\)'
-      \ .     '\%(\\\\\)\*'
-      \ . '\)'
-      \ . '\@<='
+let XPT#nonEscaped = '\%(' .     '\%(\[^\\]\|\^\)' .     '\%(\\\\\)\*' . '\)' . '\@<='
 let XPT#regEval     = '\V\w(\|$\w'
 let XPT#nonsafe     = '{$( '
 let XPT#nonsafeHint = '$('
@@ -29,221 +24,188 @@ let XPT#ptnRepetition = '\V'. '\^\w\*...\w\*\$'
 let XPT#ptnPreEvalFunc = '\v^%(Inc|Inline|ResetIndent|Pre)\('
 let XPT#BUILT = 0x001
 let XPT#NOTBUILT = 0x002
-let XPT#DONE   = 0x100
+let XPT#DONE = 0x100
 let XPT#UNDONE = 0x200
-let XPT#GOON   = 0x300
-let XPT#AGAIN  = 0x400
+let XPT#GOON = 0x300
+let XPT#AGAIN = 0x400
 let XPT#BROKEN = -1
-let XPT#importConst = ''
-      \ . 'let s:escapeHead     = XPT#escapeHead | '
-      \ . 'let s:unescapeHead   = XPT#unescapeHead | '
-      \ . 'let s:nonEscaped     = XPT#nonEscaped | '
-      \ . 'let s:regEval        = XPT#regEval | '
-      \ . 'let s:nonsafe        = XPT#nonsafe | '
-      \ . 'let s:nonsafeHint    = XPT#nonsafeHint | '
-      \ . 'let s:nullDict       = XPT#nullDict | '
-      \ . 'let s:nullList       = XPT#nullList | '
-      \ . 'let s:item_var       = XPT#item_var   | '
-      \ . 'let s:item_qvar      = XPT#item_qvar  | '
-      \ . 'let s:item_func      = XPT#item_func  | '
-      \ . 'let s:item_qfunc     = XPT#item_qfunc | '
-      \ . 'let s:ptnIncFull     = XPT#ptnIncFull | '
-      \ . 'let s:ptnIncSimp     = XPT#ptnIncSimp | '
-      \ . 'let s:ptnRepetition  = XPT#ptnRepetition | '
-      \ . 'let s:ptnPreEvalFunc = XPT#ptnPreEvalFunc | '
-      \ . 'let s:DONE           = XPT#DONE | '
-      \ . 'let s:UNDONE         = XPT#UNDONE | '
-      \ . 'let s:GOON           = XPT#GOON | '
-      \ . 'let s:AGAIN          = XPT#AGAIN | '
-      \ . 'let s:BROKEN         = XPT#BROKEN | '
-      \ . 'let s:BUILT          = XPT#BUILT | '
-      \ . 'let s:NOTBUILT       = XPT#NOTBUILT | '
-      \
-      \ . 'let s:R_NEXT = 0x008 | '
-      \ . 'let s:R_OUT  = 0x009 | '
-      \ . 'let s:R_     = 0x00A | '
-      \ . 'let s:R_FOO  = 0x00B | '
-      \
-      \ . 'let s:G_CRESTED   = 0x010 | '
-      \ . 'let s:G_INITED    = 0x020 | '
-      \ . 'let s:G_PROCESSED = 0x030 | '
-      \ . 'let s:G_REFOCUSED = 0x040 | '
+let XPT#importConst = '' . 'let s:escapeHead     = XPT#escapeHead | ' . 'let s:unescapeHead   = XPT#unescapeHead | ' . 'let s:nonEscaped     = XPT#nonEscaped | ' . 'let s:regEval        = XPT#regEval | ' . 'let s:nonsafe        = XPT#nonsafe | ' . 'let s:nonsafeHint    = XPT#nonsafeHint | ' . 'let s:nullDict       = XPT#nullDict | ' . 'let s:nullList       = XPT#nullList | ' . 'let s:item_var       = XPT#item_var   | ' . 'let s:item_qvar      = XPT#item_qvar  | ' . 'let s:item_func      = XPT#item_func  | ' . 'let s:item_qfunc     = XPT#item_qfunc | ' . 'let s:ptnIncFull     = XPT#ptnIncFull | ' . 'let s:ptnIncSimp     = XPT#ptnIncSimp | ' . 'let s:ptnRepetition  = XPT#ptnRepetition | ' . 'let s:ptnPreEvalFunc = XPT#ptnPreEvalFunc | ' . 'let s:DONE           = XPT#DONE | ' . 'let s:UNDONE         = XPT#UNDONE | ' . 'let s:GOON           = XPT#GOON | ' . 'let s:AGAIN          = XPT#AGAIN | ' . 'let s:BROKEN         = XPT#BROKEN | ' . 'let s:BUILT          = XPT#BUILT | ' . 'let s:NOTBUILT       = XPT#NOTBUILT | '  . 'let s:R_NEXT = 0x008 | ' . 'let s:R_OUT  = 0x009 | ' . 'let s:R_     = 0x00A | ' . 'let s:R_FOO  = 0x00B | '  . 'let s:G_CRESTED   = 0x010 | ' . 'let s:G_INITED    = 0x020 | ' . 'let s:G_PROCESSED = 0x030 | ' . 'let s:G_REFOCUSED = 0x040 | '
 let XPT#priorities = {'all' : 192, 'spec' : 160, 'like' : 128, 'lang' : 96, 'sub' : 64, 'personal' : 32}
 let XPT#skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "\\vstring|comment"'
-fun! XPT#setIfNotExist(k, v)
-    if !exists( a:k )
-        exe "let" a:k "=" string( a:v )
-    endif
+fun! XPT#setIfNotExist(k,v)
+	if !exists(a:k)
+		exe "let" a:k "=" string( a:v )
+	endif
 endfunction
-fun! XPT#warn( msg )
-    echohl WarningMsg
-    echom a:msg
-    echohl
+fun! XPT#warn(msg)
+	echohl WarningMsg
+	echom a:msg
+	echohl
 endfunction
-fun! XPT#info( msg )
-    echom a:msg
+fun! XPT#info(msg)
+	echom a:msg
 endfunction
-fun! XPT#error( msg )
-    echohl ErrorMsg
-    echom a:msg
-    echohl
+fun! XPT#error(msg)
+	echohl ErrorMsg
+	echom a:msg
+	echohl
 endfunction
-fun! XPT#fallback( fbs )
-    let fbs = a:fbs
-    if len( fbs ) > 0
-        let [ key, flag ] = fbs[ 0 ]
-        call remove( fbs, 0 )
-        if flag == 'feed'
-            call feedkeys( key, 'mt' )
-            return ''
-        else
-            return key
-        endif
-    else
-        return ''
-    endif
+fun! XPT#fallback(fbs)
+	let fbs = a:fbs
+	if len(fbs) > 0
+		let [key,flag] = fbs[0]
+		call remove(fbs,0)
+		if flag == 'feed'
+			call feedkeys( key, 'mt' )
+			return ''
+		else
+			return key
+		endif
+	else
+		return ''
+	endif
 endfunction
 fun! XPT#softTabStop()
-    let ts  = &l:tabstop
-    return &l:softtabstop == 0 ? ts : &l:softtabstop
+	let ts = &l:tabstop
+	return &l:softtabstop == 0 ? ts : &l:softtabstop
 endfunction
-fun! XPT#getIndentNr( ln, col )
-    let line = matchstr( getline(a:ln), '\V\^\s\*' )
-    let line = ( a:col == 1 ) ? '' : line[ 0 : a:col - 1 - 1 ]
-    let tabspaces = repeat( ' ', &l:tabstop )
-    return len( substitute( line, '	', tabspaces, 'g' ) )
+fun! XPT#getIndentNr(ln,col)
+	let line = matchstr( getline(a:ln), '\V\^\s\*' )
+	let line = ( a:col == 1 ) ? '' : line[ 0 : a:col - 1 - 1 ]
+	let tabspaces = repeat( ' ', &l:tabstop )
+	return len( substitute( line, '	', tabspaces, 'g' ) )
 endfunction
-fun! XPT#getPreferedIndentNr( ln )
-    if &indentexpr != ''
-        let indentexpr = substitute( &indentexpr, '\Vv:lnum', a:ln, '' )
-        try
-            return  eval( indentexpr )
-        catch /.*/
-            return -1
-        endtry
-    elseif &cindent
-        return cindent( a:ln )
-    else
-        return -1
-    endif
+fun! XPT#getPreferedIndentNr(ln)
+	if &indentexpr != ''
+		let indentexpr = substitute( &indentexpr, '\Vv:lnum', a:ln, '' )
+		try
+			return eval(indentexpr)
+		catch /.*/
+			return -1
+		endtry
+	elseif &cindent
+		return cindent(a:ln)
+	else
+		return -1
+	endif
 endfunction
-fun! XPT#getCmdOutput( cmd )
-    let l:a = ""
-    redir => l:a
-    exe a:cmd
-    redir END
-    return l:a
+fun! XPT#getCmdOutput(cmd)
+	let l:a = ""
+	redir => l:a
+	exe a:cmd
+	redir END
+	return l:a
 endfunction
-fun! XPT#LeadingTabToSpace( str )
-    if stridx( a:str, "	" ) < 0
-        return a:str
-    endif
-    let str = "\n" . a:str
-    let tabspaces = repeat( ' ', &tabstop )
-    let last = ''
-    while str != last
-        let last = str
-        let str = substitute( str, '\n	*\zs	', tabspaces, 'g' )
-    endwhile
-    return str[ 1 : ]
+fun! XPT#LeadingTabToSpace(str)
+	if stridx( a:str, "	" ) < 0
+		return a:str
+	endif
+	let str = "\n" . a:str
+	let tabspaces = repeat( ' ', &tabstop )
+	let last = ''
+	while str != last
+		let last = str
+		let str = substitute( str, '\n	*\zs	', tabspaces, 'g' )
+	endwhile
+	return str[1 :]
 endfunction
-fun! XPT#convertSpaceToTab( text )
-    if ( "\n" . a:text ) !~ '\V\n ' || &expandtab
-        return a:text
-    else
-        let tabspaces = repeat( ' ',  &tabstop )
-        let lines = split( a:text, '\V\n', 1 )
-        let newlines = []
-        for line in lines
-            let newline = join( split( line, '\V\^\%(' . tabspaces . '\)', 1 ), '	' )
-            let newlines += [ newline ]
-        endfor
-        return join( newlines, "\n" )
-    endif
+fun! XPT#convertSpaceToTab(text)
+	if ( "\n" . a:text ) !~ '\V\n ' || &expandtab
+		return a:text
+	else
+		let tabspaces = repeat( ' ',  &tabstop )
+		let lines = split( a:text, '\V\n', 1 )
+		let newlines = []
+		for line in lines
+			let newline = join( split( line, '\V\^\%(' . tabspaces . '\)', 1 ), '	' )
+			let newlines += [newline]
+		endfor
+		return join( newlines, "\n" )
+	endif
 endfunction
-fun! XPT#SpaceToTab( lines )
-    if ! &expandtab && match( a:lines, '\v^ ' ) > -1
-        let cmd = 'join( split( v:val, ''\v^%('' . repeat( '' '',  &tabstop ) . '')'', 1 ), ''	'' )'
-        call map( a:lines, cmd )
-    endif
-    return a:lines
+fun! XPT#SpaceToTab(lines)
+	if ! &expandtab && match( a:lines, '\v^ ' ) > -1
+		let cmd = 'join( split( v:val, ''\v^%('' . repeat( '' '',  &tabstop ) . '')'', 1 ), ''	'' )'
+		call map(a:lines,cmd)
+	endif
+	return a:lines
 endfunction
-fun! XPT#SpaceToTabExceptFirstLine( lines )
-    if ! &expandtab && len( a:lines ) > 1 && match( a:lines, '\v^ ', 1 ) > -1
-        let line0 = a:lines[ 0 ]
-        let cmd = 'join( split( v:val, ''\v^%('' . repeat( '' '',  &tabstop ) . '')'', 1 ), ''	'' )'
-        call map( a:lines, cmd )
-        let a:lines[ 0 ] = line0
-    endif
-    return a:lines
+fun! XPT#SpaceToTabExceptFirstLine(lines)
+	if ! &expandtab && len( a:lines ) > 1 && match( a:lines, '\v^ ', 1 ) > -1
+		let line0 = a:lines[0]
+		let cmd = 'join( split( v:val, ''\v^%('' . repeat( '' '',  &tabstop ) . '')'', 1 ), ''	'' )'
+		call map(a:lines,cmd)
+		let a:lines[0] = line0
+	endif
+	return a:lines
 endfunction
-fun! XPT#TextBetween( posList )
-    return join(XPT#LinesBetween( a:posList ), "\n")
+fun! XPT#TextBetween(posList)
+	return join(XPT#LinesBetween( a:posList ), "\n")
 endfunction
-fun! XPT#TextInLine( ln, s, e )
-    if a:s >= a:e
-        return ""
-    endif
-    return getline(a:ln)[ a:s - 1 : a:e - 2 ]
+fun! XPT#TextInLine(ln,s,e)
+	if a:s >= a:e
+		return ""
+	endif
+	return getline(a:ln)[a:s - 1 : a:e - 2]
 endfunction
-fun! XPT#LinesBetween( posList )
-    let [ s, e ] = a:posList
-    if s[0] > e[0]
-        return ""
-    endif
-    if s[0] == e[0]
-        if s[1] == e[1]
-            return ""
-        else
-            return getline(s[0])[ s[1] - 1 : e[1] - 2 ]
-        endif
-    endif
-    let r = [ getline(s[0])[s[1] - 1:] ] + getline(s[0]+1, e[0]-1)
-    if e[1] > 1
-        let r += [ getline(e[0])[:e[1] - 2] ]
-    else
-        let r += ['']
-    endif
-    return r
+fun! XPT#LinesBetween(posList)
+	let [s,e] = a:posList
+	if s[0] > e[0]
+		return ""
+	endif
+	if s[0] == e[0]
+		if s[1] == e[1]
+			return ""
+		else
+			return getline(s[0])[s[1] - 1 : e[1] - 2]
+		endif
+	endif
+	let r = [getline(s[0])[s[1] - 1:]] + getline(s[0]+1,e[0]-1)
+	if e[1] > 1
+		let r += [getline(e[0])[:e[1] - 2]]
+	else
+		let r += ['']
+	endif
+	return r
 endfunction
-fun! XPT#class( sid, proto )
-    let clz = deepcopy( a:proto )
-    let funcs = split( XPT#getCmdOutput( 'silent function /' . a:sid ), "\n" )
-    call map( funcs, 'matchstr( v:val, "' . a:sid . '\\zs.*\\ze(" )' )
-    for name in funcs
-        if name !~ '\V\^_'
-            let clz[ name ] = function( '<SNR>' . a:sid . name )
-        endif
-    endfor
-    let clz.__init__ = get( clz, 'New', function( 'XPT#classVoidInit' ) )
-    let clz.New = function( 'XPT#classNew' )
-    return clz
+fun! XPT#class(sid,proto)
+	let clz = deepcopy(a:proto)
+	let funcs = split( XPT#getCmdOutput( 'silent function /' . a:sid ), "\n" )
+	call map( funcs, 'matchstr( v:val, "' . a:sid . '\\zs.*\\ze(" )' )
+	for name in funcs
+		if name !~ '\V\^_'
+			let clz[ name ] = function( '<SNR>' . a:sid . name )
+		endif
+	endfor
+	let clz.__init__ = get( clz, 'New', function( 'XPT#classVoidInit' ) )
+	let clz.New = function( 'XPT#classNew' )
+	return clz
 endfunction
-fun! XPT#classNew( ... ) dict
-    let inst = copy( self )
-    call call( inst.__init__, a:000, inst )
-    let inst.__class__ = self
-    return inst
+fun! XPT#classNew(...) dict
+	let inst = copy(self)
+	call call(inst.__init__,a:000,inst)
+	let inst.__class__ = self
+	return inst
 endfunction
-fun! XPT#classVoidInit( ... ) dict
+fun! XPT#classVoidInit(...) dict
 endfunction
-fun! XPT#default(k, v)
-    if !exists( a:k )
-        exe "let" a:k "=" string( a:v )
-    endif
+fun! XPT#default(k,v)
+	if !exists(a:k)
+		exe "let" a:k "=" string( a:v )
+	endif
 endfunction
-fun! XPT#Strlen( s )
-    return strlen(substitute(a:s, ".", "x", "g"))
+fun! XPT#Strlen(s)
+	return strlen(substitute(a:s, ".", "x", "g"))
 endfunction
-fun! XPT#Assert( toBeTrue, msg )
-    if !a:toBeTrue
-        call XPT#warn( a:msg )
-        if g:xpt_test_on_error == 'stop'
-            throw "XPT_TEST: fail: " . a:msg
-        endif
-    endi
+fun! XPT#Assert(toBeTrue,msg)
+	if !a:toBeTrue
+		call XPT#warn(a:msg)
+		if g:xpt_test_on_error == 'stop'
+			throw "XPT_TEST: fail: " . a:msg
+		endif
+	endi
 endfunction
-fun! XPT#AssertEq( a, b, msg )
-    call XPT#Assert( a:a == a:b, 'expect:' . string( a:a ) . ' but:' . string( a:b ) . ' message:' . a:msg )
+fun! XPT#AssertEq(a,b,msg)
+	call XPT#Assert( a:a == a:b, 'expect:' . string( a:a ) . ' but:' . string( a:b ) . ' message:' . a:msg )
 endfunction
 let &cpo = s:oldcpo
