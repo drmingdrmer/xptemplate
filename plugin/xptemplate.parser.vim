@@ -496,11 +496,7 @@ endfunction "}}}
 " TODO convert indent in runtime
 fun! s:ConvertIndent( snipLines ) "{{{
 
-
-    let tabspaces = repeat( ' ', &l:tabstop )
     let indentRep = repeat( '\1', &l:shiftwidth )
-
-
     let cmdExpand = 'substitute(v:val, ''^\( *\)\1\1\1'', ''' . indentRep . ''', "g" )'
 
     call map( a:snipLines, cmdExpand )
