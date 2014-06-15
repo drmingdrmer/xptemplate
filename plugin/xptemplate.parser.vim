@@ -310,7 +310,7 @@ fun! DoParseSnippet( p ) "{{{
 
     let [i, len] = [0, len(lines)]
 
-    call s:ConvertIndent( lines )
+    call xpt#indent#IndentToTab( lines )
 
     " parse lines
     " start end and blank start
@@ -489,18 +489,6 @@ fun! s:GetSnipCommentHint(str) "{{{
         " skip space, '"'
         return [ matchstr( a:str[ pos + 1 + 1 : ], '\S.*' ), a:str[ : pos ] ]
     endif
-endfunction "}}}
-
-
-
-" TODO convert indent in runtime
-fun! s:ConvertIndent( snipLines ) "{{{
-
-    let indentRep = repeat( '\1', &l:shiftwidth )
-    let cmdExpand = 'substitute(v:val, ''^\( *\)\1\1\1'', ''' . indentRep . ''', "g" )'
-
-    call map( a:snipLines, cmdExpand )
-
 endfunction "}}}
 
 fun! s:getXSETkeyAndValue(lines, start) "{{{
