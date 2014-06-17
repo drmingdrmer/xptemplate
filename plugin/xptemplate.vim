@@ -1250,7 +1250,6 @@ fun! s:ParseSnippet( snippet, ftScope ) "{{{
 
         call s:ParseInclusion( a:ftScope.allTemplates, a:snippet )
 
-        let a:snippet.snipText = s:ParseSpaces( a:snippet )
         let a:snippet.snipText = s:ParseQuotedPostFilter( a:snippet )
         let a:snippet.snipText = s:ParseRepetition( a:snippet )
 
@@ -1498,85 +1497,6 @@ fun! s:AddIndent( text, nIndent ) "{{{
 
     let baseIndent = repeat( " ", a:nIndent )
     return substitute(a:text, '\n', '&' . baseIndent, 'g')
-
-endfunction "}}}
-
-fun! s:ParseSpaces( snipObject ) "{{{
-    " variables are pre-evaled. so that variable can not be
-    " recursivelyrecursively evaled
-    let xp = a:snipObject.ptn
-    let text = a:snipObject.snipText
-
-    let ptn = xp.lft
-
-    let start = 0
-    let end = -1
-
-    let lastMark = xp.r
-
-    let renderContext = b:xptemplateData.renderContext
-
-    let renderContext.ftScope.funcs.renderContext = renderContext
-
-    while 1
-        let start = match( text, '\V' . xp.lft, start )
-        if start < 0
-            break
-        endif
-
-        let end = match( text, '\V' . xp.lft . '\|' . xp.rt, start + 1 )
-
-        if end < 0
-            break
-        endif
-
-        let raw = text[ start + 1 : end - 1 ]
-
-        let expr = xpt#eval#Compile( raw, renderContext.ftScope.funcs )
-
-        if substitute( expr, 'GetVar', '', 'g' ) =~ '\V\<xfunc.\w\+('
-            let start = end
-            let lastMark = text[ end - 1 ]
-            continue
-        endif
-
-        let str = xpt#eval#Eval( raw, renderContext.ftScope.funcs, { 'variables' : a:snipObject.setting.variables } )
-        if raw == str
-            let start = end
-            let lastMark = text[ end ]
-            continue
-        endif
-        if str =~ '\V\n'
-            let start = end + 1
-            let lastMark = text[ end ]
-            continue
-        endif
-
-        let currentMark = text[ end ]
-
-
-
-        if lastMark == xp.l
-            let text = text[ : start ] . str . text[ end : ]
-            let start += 1 + len( str ) + 1
-        else
-            if text[ end ] == xp.l
-                let text = text[ : start ] . str . text[ end : ]
-                let start += 1 + len( str )
-            else
-                let before = start == 0 ? '' : text[ : start - 1 ]
-                let text = before . str . text[ end + 1 : ]
-                let start += len( str )
-            endif
-        endif
-
-
-        let lastMark = currentMark
-
-    endwhile
-
-    call s:log.Log( "after ParseSpaces text is: " . string(text) )
-    return text
 
 endfunction "}}}
 
