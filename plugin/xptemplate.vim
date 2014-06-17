@@ -2433,38 +2433,40 @@ endfunction "}}}
 
 fun! s:EvaluateEdge( xp, item, ph ) "{{{
     call s:log.Debug( 'EvaluateEdge' )
-    let x = b:xptemplateData
     if !a:ph.isKey
         return
     endif
 
-    if a:ph.leftEdge =~ '\V' . a:xp.item_var . '\|' . a:xp.item_func
-        let ledge = xpt#eval#Eval( a:ph.leftEdge, x.renderContext.ftScope.funcs, {} )
-        " call XPRstartSession()
-        try
-            call XPreplaceByMarkInternal( a:ph.mark.start, a:ph.editMark.start, ledge )
-        finally
-            " call XPRendSession()
-        endtry
-        let a:ph.leftEdge = ledge
-        let a:ph.fullname   = a:ph.leftEdge . a:item.name . a:ph.rightEdge
-        let a:item.fullname = a:ph.fullname
+    let eval_ptn = '\V' . a:xp.item_var . '\|' . a:xp.item_func
+
+    if a:ph.leftEdge =~ eval_ptn
+        let a:ph.leftEdge = s:EvalAsFilter(a:ph.leftEdge,
+              \                            XPMpos(a:ph.mark.start))
+        call XPreplaceByMarkInternal( a:ph.mark.start, a:ph.editMark.start,
+              \                       a:ph.leftEdge )
     endif
 
-
-    if a:ph.rightEdge =~ '\V' . a:xp.item_var . '\|' . a:xp.item_func
-        let redge = xpt#eval#Eval( a:ph.rightEdge, x.renderContext.ftScope.funcs, {} )
-        " call XPRstartSession()
-        try
-            call XPreplaceByMarkInternal( a:ph.editMark.end, a:ph.mark.end, redge )
-        finally
-            " call XPRendSession()
-        endtry
-        let a:ph.rightEdge = redge
-        let a:ph.fullname   = a:ph.leftEdge . a:item.name . a:ph.rightEdge
-        let a:item.fullname = a:ph.fullname
+    if a:ph.rightEdge =~ eval_ptn
+        let a:ph.rightEdge = s:EvalAsFilter(a:ph.rightEdge,
+              \                             XPMpos(a:ph.editMark.end))
+        call XPreplaceByMarkInternal( a:ph.editMark.end, a:ph.mark.end,
+              \                       a:ph.rightEdge )
     endif
 
+    let a:ph.fullname   = a:ph.leftEdge . a:item.name . a:ph.rightEdge
+    let a:item.fullname = a:ph.fullname
+
+endfunction "}}}
+
+fun! s:EvalAsFilter( raw, start_pos ) "{{{
+    let x = b:xptemplateData
+
+    let flt = g:FilterValue.New(0, a:raw)
+    let flt = s:EvalFilter(flt, x.renderContext.ftScope.funcs,
+          \                {'startPos': a:start_pos})
+    let text = get(flt, 'text', '')
+    let indent = s:IndentAt(a:start_pos, flt)
+    return xpt#indent#ParseStr(text, indent)
 endfunction "}}}
 
 fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
