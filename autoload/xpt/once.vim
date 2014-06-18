@@ -6,15 +6,17 @@ fun! xpt#once#SetAndGetLoaded( fn ) "{{{
         let g:xptemplate_loaded = {}
     endif
 
+    let fn = fnamemodify( a:fn, ':p' )
+
     for p in split( &runtimepath, ',' )
 
-        let p = expand( p ) . '/'
+        let p = fnamemodify( p, ':p' )
 
-        let pref = a:fn[ 0 : len(p) - 1 ]
+        let pref = fn[ 0 : len(p) - 1 ]
 
         if pref == p
 
-            let relpath = a:fn[ len(pref) : ]
+            let relpath = fn[ len(pref) : ]
 
             if has_key(g:xptemplate_loaded, relpath)
                 return 1
