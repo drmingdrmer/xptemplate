@@ -19,6 +19,20 @@ fun! s:TestSetLoaded( t ) "{{{
 
 endfunction "}}}
 
+fun! s:TestRelativePath( t ) "{{{
+
+    let old = &runtimepath
+
+    let fn = fnamemodify( ".", ":p" ) . 'a'
+    let &runtimepath .= ",."
+
+    call xpt#once#SetAndGetLoaded( fn )
+    call a:t.Eq( 1, g:xptemplate_loaded[ 'a' ], 'a is loaded' )
+
+    let &runtimepath = old
+
+endfunction "}}}
+
 exec xpt#unittest#run
 
 let &cpo = s:oldcpo
