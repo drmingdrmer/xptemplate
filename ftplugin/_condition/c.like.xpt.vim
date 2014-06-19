@@ -81,7 +81,7 @@ switch (`$SParg^`var^`$SParg^)`$BRif^{
 ..XPT
 
 XPT case wrap	" case ..:
-case `constant^`$SPcmd^:
+case `constant^:
     `cursor^
     break;
 

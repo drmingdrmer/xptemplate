@@ -1,0 +1,17 @@
+							      *BuildSnippet()*
+BuildSnippet({snippet})
+	Build an existent snippet to replace the place holder on which
+	BuildSnippet() is called.
+
+	Argument {snippet} is the name of which to be build.
+
+	After calling it, place holder will be removed and the first place
+	holder built snippet is selected waiting for user input.
+	
+	Context: >
+		XSET ph=BuildSnippet('a')
+		XSET ph|post=BuildSnippet('a')
+<
+	See also: |Build()|
+
+" vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:

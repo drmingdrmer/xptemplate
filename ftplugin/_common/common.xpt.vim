@@ -70,44 +70,9 @@ XPTinclude
       \ _common/inlineComplete
       \ _common/common.*
 
-" XPTinclude
-      " \ _common/cmn.counter
+let s:f_prototype = xpt#snipfunction#funcs
+call extend( s:f, s:f_prototype, 'error' )
 
-" ========================= Function and Variables =============================
-
-
-fun! s:f.GetDict( ... )
-    return 
-endfunction
-
-" TODO bad, this function should not depends on phase of rendering
-fun! s:f.GetVar( name )
-    if a:name =~# '\V\^$_x'
-        try
-            let n = a:name[ 1 : ]
-            return self[ n ]()
-        catch /.*/
-            return a:name
-        endtry
-    endif
-
-    let r = self.renderContext
-
-    let ev = get( r.evalCtx, 'variables', {} )
-    let rv = get( r.snipSetting, 'variables', {} )
-
-    return get( ev, a:name,
-          \     get( rv, a:name,
-          \         get( self, a:name, a:name ) ) )
-
-    " if self.renderContext.phase == g:xptRenderPhase.uninit
-    "     return get( self.renderContext.evalCtx.variables, a:name,
-    "           \ get( self, a:name, a:name ) )
-    " else
-    "     return get( get( self.renderContext.snipSetting, 'variables', {} ), a:name,
-    "           \     get( self, a:name, a:name ) )
-    " endif
-endfunction
 
 fun! s:f._xSnipName()
     return self.renderContext.snipObject.name
@@ -165,7 +130,7 @@ let s:f.NN = s:f.ItemFullname
 
 " current value user typed
 fun! s:f.ItemValue() dict "{{{
-    return get( self.renderContext.evalCtx, 'userInput', '' )
+    return get( self.evalContext, 'userInput', '' )
 endfunction "}}}
 let s:f.V = s:f.ItemValue
 
@@ -340,6 +305,10 @@ endfunction
 " holders
 fun! s:f.Build( ... )
   return { 'action' : 'build', 'text' : join( a:000, '' ) }
+endfunction
+
+fun! s:f.BuildSnippet( snipname )
+    return { 'action' : 'build', 'snippet' : a:snipname }
 endfunction
 
 fun! s:f.BuildIfChanged( ... )
