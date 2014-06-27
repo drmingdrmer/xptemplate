@@ -1769,14 +1769,7 @@ fun! s:BuildSnippet(nameStartPosition, nameEndPosition) " {{{
 
     endif
 
-
-    if snippetText =~ '\n'
-
-        " let snippetText = s:AdjustIndentAt( snippetText, a:nameStartPosition )
-
-        " let nIndent = XPT#getIndentNr( a:startPos[0], a:startPos[1] )
-        let snippetText =  s:AddIndent( snippetText, nIndentToAdd )
-    endif
+    let snippetText = xpt#indent#ToActualIndentStr(snippetText, nIndentToAdd)
 
     " Note: simple implementation of wrapping, the better way is by default value
     " TODO use default value!
