@@ -310,8 +310,6 @@ fun! DoParseSnippet( p ) "{{{
 
     let [i, len] = [0, len(lines)]
 
-    call xpt#indent#IndentToTab( lines )
-
     " parse lines
     " start end and blank start
     let [s, e, blk] = [-1, -1, 10000]
