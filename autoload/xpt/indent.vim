@@ -13,6 +13,11 @@ exe XPT#importConst
 " Here we only convert it to tabs, to ease further usage.
 let s:indent_convert_cmd = 'substitute(v:val, ''\v(^\s*)@<=    '', ''	'', "g" )'
 
+fun! xpt#indent#ParseStr( text, first_line_shift ) "{{{
+    let text = xpt#indent#IndentToTabStr(a:text)
+    return xpt#indent#ToActualIndentStr(text, a:first_line_shift)
+endfunction "}}}
+
 fun! xpt#indent#IndentToTabStr( text ) "{{{
     let lines = split( a:text, '\n', 1 )
     call xpt#indent#IndentToTab( lines )
