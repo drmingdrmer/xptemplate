@@ -65,7 +65,8 @@ fun! s:AdjustTextAction( context ) dict "{{{
 
     endif
 
-    call self.AdjustIndent( a:context.startPos )
+    " indent adjusting should be done just before put onto screen.
+    " call self.AdjustIndent( a:context.startPos )
 
 endfunction "}}}
 
