@@ -98,15 +98,6 @@ fun! XPreplaceByMarkInternal( startMark, endMark, replacement ) "{{{
     return pos
 endfunction "}}}
 
-" let s:ii = 0
-
-
-fun! s:ConvertSpaceToTab( text ) "{{{
-    return XPT#convertSpaceToTab( a:text )
-endfunction "}}}
-
-
-
 " For internal use only, the caller is reponsible to set settings correctly.
 fun! XPreplaceInternal(start, end, replacement, ...) "{{{
     " Cursor stays just after replacement
@@ -139,7 +130,7 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
     " Assert @" == 'XPreplaceInited'
 
 
-    let replacement = s:ConvertSpaceToTab( a:replacement )
+    let replacement = XPT#convertSpaceToTab( a:replacement )
     " let repLines = XPT#SpaceToTabExceptFirstLine( split( a:replacement, '\n', 1 ) )
     let repLines = XPT#SpaceToTab( split( a:replacement, '\n', 1 ) )
 
