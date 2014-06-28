@@ -3210,18 +3210,18 @@ fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
     elseif act.name ==# 'embed'
         " embed a piece of snippet
 
-        return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:filter.text )
+        return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:filter.text, a:filter )
 
     elseif act.name ==# 'build'
         " same as 'embed'
-        return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:filter.text )
+        return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:filter.text, a:filter )
 
     elseif act.name ==# 'next'
 
         let postaction = ''
         " Note: update following?
         if has_key( a:filter, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:filter.text )
+            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:filter.text, a:filter )
         endif
         if x.renderContext.processing
             return s:ShiftForward( '' )
@@ -3233,7 +3233,7 @@ fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
 
         let postaction = ''
         if has_key( a:filter, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:filter.text )
+            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:filter.text, a:filter )
         endif
         if x.renderContext.processing
             return s:ShiftForward( 'clear' )
@@ -3293,7 +3293,7 @@ fun! s:ActionFinish( renderContext, filter ) "{{{
 
 endfunction "}}}
 
-fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet ) "{{{
+fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet, flt ) "{{{
     " TODO remove needless marks
     let ph = a:ctx.leadingPlaceHolder
 
@@ -3305,7 +3305,9 @@ fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet ) "{{{
 
     call b:xptemplateData.settingWrap.Switch()
 
-    call XPreplace( range[0], range[1] , a:snippet )
+    let indent = s:IndentAt(range[0], a:flt)
+    let text = xpt#indent#ParseStr(a:snippet, indent)
+    call XPreplace( range[0], range[1], text )
 
     if 0 > s:BuildPlaceHolders( marks )
         return s:Crash('building place holder failed')
@@ -3320,7 +3322,7 @@ endfunction "}}}
 
 " TODO bad implementation. If further build or shifforward needed, return back a
 " flag to inform caller to do this.  Do not do it silently itself
-fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
+fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str, flt ) "{{{
     " TODO remove needless marks
 
     let [ ctx, str ] = [ a:ctx, a:str ]
@@ -3334,7 +3336,8 @@ fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
         return s:Crash()
     endif
 
-    let str = xpt#indent#ParseStr(str, 0)
+    let indent = s:IndentAt(start, a:flt)
+    let str = xpt#indent#ParseStr(str, indent)
 
     call b:xptemplateData.settingWrap.Switch()
     " set str to key place holder or the first normal place holder
@@ -3400,16 +3403,16 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
 
             let rc = s:HandleDefaultValueAction( renderContext, a:filter )
             return ( rc is -1 )
-                  \ ? s:FillinLeadingPlaceHolderAndSelect( renderContext, '' )
+                  \ ? s:FillinLeadingPlaceHolderAndSelect( renderContext, '', a:filter )
                   \ : rc
         endif
 
     elseif has_key( a:filter, 'text' )
         " string
-        return s:FillinLeadingPlaceHolderAndSelect( renderContext, a:filter.text )
+        return s:FillinLeadingPlaceHolderAndSelect( renderContext, a:filter.text, a:filter )
 
     else
-        return s:FillinLeadingPlaceHolderAndSelect( renderContext, '' )
+        return s:FillinLeadingPlaceHolderAndSelect( renderContext, '', a:filter )
 
     endif
 endfunction "}}}
@@ -3419,10 +3422,10 @@ fun! s:DefaultValuePumHandler( renderContext, filter ) "{{{
     let pumlen = len( a:filter.action.pum )
 
     if pumlen == 0
-        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, '' )
+        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, '', a:filter )
 
     elseif pumlen == 1
-        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, a:filter.action.pum[0] )
+        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, a:filter.action.pum[0], a:filter )
 
     else
         return s:DefaultValueShowPum( a:renderContext, a:filter )
