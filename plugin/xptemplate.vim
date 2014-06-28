@@ -2502,49 +2502,48 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
 
     let x = b:xptemplateData
 
-    let placeHolder = a:placeHolder
+    let ph = a:placeHolder
     let nameInfo    = a:nameInfo
     let valueInfo   = a:valueInfo
+    let start = a:nameInfo[0]
+    let evalctx = {'startPos': start}
+    let funcs = x.renderContext.ftScope.funcs
 
     call s:log.Debug( 'instant placeHolder' )
 
-
+    let flt_indent = {}
     let text = ''
-    if placeHolder.leftEdge != ''
+    for k in [ 'leftEdge', 'name', 'rightEdge' ]
+        if ph[k] != ''
+            let flt = g:FilterValue.New( 0, ph[k] )
+            let flt = s:EvalFilter( flt, funcs, evalctx )
+            let text .= get( flt, 'text', '' )
+            if get(flt, 'nIndent', 0) != 0
+                let flt_indent.nIndent = flt.nIndent
+            endif
+        endif
+    endfor
 
-        let filter = g:FilterValue.New( 0, placeHolder.leftEdge )
-        let filter = s:EvalFilter( filter, x.renderContext.ftScope.funcs, { 'startPos' : a:nameInfo[0] } )
-        let text .= get( filter, 'text', '' )
-
-    endif
-
-    if placeHolder.name != ''
-
-        let filter = g:FilterValue.New( 0, placeHolder.name )
-        let filter = s:EvalFilter( filter, x.renderContext.ftScope.funcs, { 'startPos' : a:nameInfo[0] } )
-        let text .= get( filter, 'text', '' )
-
-    endif
-
-    if placeHolder.rightEdge != ''
-
-        let filter = g:FilterValue.New( 0, placeHolder.rightEdge )
-        let filter = s:EvalFilter( filter, x.renderContext.ftScope.funcs, { 'startPos' : a:nameInfo[0] } )
-        let text .= get( filter, 'text', '' )
-
-    endif
-
-
-    call s:log.Log( "instant value filter value:" . string( filter ) )
-
-    " if !has_key( filter, 'text' )
-    "     let filter.text = ''
-    " endif
+    call s:log.Log( "instant value filter value:" . string( flt ) )
 
     let valueInfo[-1][1] += 1
-    call XPreplaceInternal( nameInfo[0], valueInfo[-1], text, { 'doJobs' : 1 } )
-    " call XPreplace( nameInfo[0], valueInfo[-1], filter.text )
 
+    let indent = s:IndentAt(start, flt_indent)
+    let text = xpt#indent#ParseStr(text, indent)
+
+    call XPreplaceInternal( nameInfo[0], valueInfo[-1], text, { 'doJobs' : 1 } )
+
+endfunction "}}}
+
+fun! s:IndentAt( start, flt ) "{{{
+    " instant filter does not support well yet
+    let filter_indent_offset = get(a:flt, 'nIndent', 0)
+
+    let indent = xpt#indent#IndentBefore( a:start )
+    let indent += filter_indent_offset
+    let indent = max([0, indent])
+
+    return indent
 endfunction "}}}
 
 " TODO simplify : if PH has preValue, replace it at once, without replacing with the name
@@ -3715,7 +3714,9 @@ fun! s:EvalFilter( filter, container, context ) "{{{
 
     if type( rst ) == type( '' )
         let a:filter.text = rst
-        call a:filter.AdjustIndent( a:context.startPos )
+
+        " indent adjusting should be done just before put onto screen.
+        " call a:filter.AdjustIndent( a:context.startPos )
 
         return a:filter
     endif
