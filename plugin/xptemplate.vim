@@ -3207,12 +3207,8 @@ fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
 
         return s:ActionFinish( ctx, a:filter )
 
-    elseif act.name ==# 'embed'
-        " embed a piece of snippet
-
-        return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:filter.text, a:filter )
-
     elseif act.name ==# 'build'
+          \ || act.name ==# 'embed'
         " same as 'embed'
         return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:filter.text, a:filter )
 
