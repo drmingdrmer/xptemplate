@@ -597,6 +597,7 @@ fun! s:DoInclude( tmplDict, tmplObject, pattern, keepCursor ) "{{{
             let ph = matchstr( matching, a:pattern.ph )
 
             let incTmplObject = a:tmplDict[ incName ]
+            call s:ParseSnippet( incTmplObject, incTmplObject.ftScope )
             call s:MergeSetting( a:tmplObject.setting, incTmplObject.setting )
 
             let incSnip = s:ReplacePHInSubSnip( a:tmplObject, incTmplObject, params )
@@ -1247,6 +1248,8 @@ endfunction "}}}
 fun! s:ParseSnippet( snippet, ftScope ) "{{{
 
     if !a:snippet.parsed
+
+        let a:snippet.snipText = xpt#indent#IndentToTabStr( a:snippet.snipText )
 
         call s:ParseInclusion( a:ftScope.allTemplates, a:snippet )
 
@@ -3332,6 +3335,7 @@ fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str ) "{{{
         return s:Crash()
     endif
 
+    let str = xpt#indent#ParseStr(str, 0)
 
     call b:xptemplateData.settingWrap.Switch()
     " set str to key place holder or the first normal place holder
