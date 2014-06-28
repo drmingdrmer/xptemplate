@@ -62,4 +62,17 @@ fun! xpt#indent#ToActualIndent( lines, first_line_shift ) "{{{
 
 endfunction "}}}
 
+fun! xpt#indent#IndentBefore( pos ) "{{{
+
+    let [ln, col] = a:pos
+
+    let line = matchstr( getline(ln), '\V\^\s\*' )
+    let line = ( col == 1 ) ? '' : line[ 0 : col - 1 - 1 ]
+
+    let tabspaces = repeat( ' ', &tabstop )
+
+    return len( substitute( line, '	', tabspaces, 'g' ) )
+
+endfunction "}}}
+
 let &cpo = s:oldcpo
