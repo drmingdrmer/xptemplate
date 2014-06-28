@@ -129,12 +129,8 @@ fun! XPreplaceInternal(start, end, replacement, ...) "{{{
     " reserved register 0
     " Assert @" == 'XPreplaceInited'
 
-
-    let replacement = XPT#convertSpaceToTab( a:replacement )
-    " let repLines = XPT#SpaceToTabExceptFirstLine( split( a:replacement, '\n', 1 ) )
-    let repLines = XPT#SpaceToTab( split( a:replacement, '\n', 1 ) )
-
-
+    let replacement = a:replacement
+    let repLines = split( a:replacement, '\n', 1 )
 
     if option.doJobs
         " TODO not good
