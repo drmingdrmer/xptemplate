@@ -2461,8 +2461,12 @@ fun! s:EvalAsFilter( raw, start_pos ) "{{{
     let flt = s:EvalFilter(flt, x.renderContext.ftScope.funcs,
           \                {'startPos': a:start_pos})
     let text = get(flt, 'text', '')
-    let indent = s:IndentAt(a:start_pos, flt)
-    return xpt#indent#ParseStr(text, indent)
+    return s:IndentFilterText(flt, a:start_pos)
+endfunction "}}}
+
+fun! s:IndentFilterText( flt, start ) "{{{
+    let indent = s:IndentAt(a:start, a:flt)
+    return xpt#indent#ParseStr(a:flt.text, indent)
 endfunction "}}}
 
 fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
@@ -2528,8 +2532,8 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
 
     let valueInfo[-1][1] += 1
 
-    let indent = s:IndentAt(start, flt_indent)
-    let text = xpt#indent#ParseStr(text, indent)
+    let flt_indent.text = text
+    let text = s:IndentFilterText(flt_indent, start)
 
     call XPreplaceInternal( nameInfo[0], valueInfo[-1], text, { 'doJobs' : 1 } )
 
@@ -2913,7 +2917,9 @@ fun! s:ApplyPostFilter() "{{{
 
             call b:xptemplateData.settingWrap.Switch()
 
-            call XPreplace( start, end, filter.text )
+            let text = s:IndentFilterText(filter, start)
+
+            call XPreplace( start, end, text )
             call s:log.Debug( 'after replace, marks=' . XPMallMark() )
         endif
 
@@ -3301,8 +3307,7 @@ fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet, flt ) "{{{
 
     call b:xptemplateData.settingWrap.Switch()
 
-    let indent = s:IndentAt(range[0], a:flt)
-    let text = xpt#indent#ParseStr(a:snippet, indent)
+    let text = s:IndentFilterText(a:flt, range[0])
     call XPreplace( range[0], range[1], text )
 
     if 0 > s:BuildPlaceHolders( marks )
@@ -3332,8 +3337,9 @@ fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str, flt ) "{{{
         return s:Crash()
     endif
 
-    let indent = s:IndentAt(start, a:flt)
-    let str = xpt#indent#ParseStr(str, indent)
+    let flt = copy( a:flt )
+    let flt.text = a:str
+    let str = s:IndentFilterText(flt, start)
 
     call b:xptemplateData.settingWrap.Switch()
     " set str to key place holder or the first normal place holder
