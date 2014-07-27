@@ -2307,9 +2307,10 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
             " Cursor left just after replacement, and it is where next search
             " start
 
-            call s:ApplyInstantValue( placeHolder, nameInfo, valueInfo )
-            " TODO continue building?
-            " move cursor to start?
+            let to_build = s:ApplyInstantValue( placeHolder, nameInfo, valueInfo )
+            if to_build
+                call cursor( nameInfo[ 0 ] )
+            endif
 
         else
             " build item and marks, as a fill in place holder
@@ -2516,6 +2517,7 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
 
     let flt_indent = {}
     let text = ''
+    let to_build = 0
     for k in [ 'leftEdge', 'name', 'rightEdge' ]
         if ph[k] != ''
             let flt = g:FilterValue.New( 0, ph[k] )
@@ -2523,6 +2525,9 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
             let text .= get( flt_rst, 'text', '' )
             if get(flt_rst, 'nIndent', 0) != 0
                 let flt_indent.nIndent = flt_rst.nIndent
+            endif
+            if get( flt_rst, 'action', 0 ) == 'build'
+                let to_build = 1
             endif
         endif
     endfor
@@ -2535,6 +2540,8 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
     let text = s:IndentFilterText(flt_indent, start)
 
     call XPreplaceInternal( nameInfo[0], valueInfo[-1], text, { 'doJobs' : 1 } )
+
+    return to_build
 
 endfunction "}}}
 
