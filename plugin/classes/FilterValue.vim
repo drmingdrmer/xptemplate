@@ -46,24 +46,21 @@ fun! s:AdjustIndent( startPos ) dict "{{{
 
 endfunction "}}}
 
-fun! s:AdjustTextAction( context ) dict "{{{
+fun! s:AdjustTextAction( flt_rst, context ) dict "{{{
 
-    if !has_key( self.action, 'text' )
+    if !has_key( a:flt_rst, 'text' )
         return
     endif
 
+    " no more need to copy nIndent from action to flt_rst
+    " if has_key( a:flt_rst, 'resetIndent' )
 
-    let self.text = self.action.text
-    unlet self.action.text
+    "     let self.nIndent = self.action.nIndent
 
-    if has_key( self.action, 'resetIndent' )
+    "     unlet self.action.nIndent
+    "     unlet self.action.resetIndent
 
-        let self.nIndent = self.action.nIndent
-
-        unlet self.action.nIndent
-        unlet self.action.resetIndent
-
-    endif
+    " endif
 
     " indent adjusting should be done just before put onto screen.
     " call self.AdjustIndent( a:context.startPos )
