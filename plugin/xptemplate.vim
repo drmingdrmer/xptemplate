@@ -2458,15 +2458,14 @@ fun! s:EvalAsFilter( raw, start_pos ) "{{{
     let x = b:xptemplateData
 
     let flt = g:FilterValue.New(0, a:raw)
-    let flt = s:EvalFilter(flt, x.renderContext.ftScope.funcs,
+    let flt_rst = s:EvalFilter(flt, x.renderContext.ftScope.funcs,
           \                {'startPos': a:start_pos})
-    let text = get(flt, 'text', '')
-    return s:IndentFilterText(flt, a:start_pos)
+    return s:IndentFilterText(flt_rst, a:start_pos)
 endfunction "}}}
 
-fun! s:IndentFilterText( flt, start ) "{{{
-    let indent = s:IndentAt(a:start, a:flt)
-    return xpt#indent#ParseStr(a:flt.text, indent)
+fun! s:IndentFilterText( flt_rst, start ) "{{{
+    let indent = s:IndentAt(a:start, a:flt_rst)
+    return xpt#indent#ParseStr(a:flt_rst.text, indent)
 endfunction "}}}
 
 fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
@@ -2520,15 +2519,15 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
     for k in [ 'leftEdge', 'name', 'rightEdge' ]
         if ph[k] != ''
             let flt = g:FilterValue.New( 0, ph[k] )
-            let flt = s:EvalFilter( flt, funcs, evalctx )
-            let text .= get( flt, 'text', '' )
-            if get(flt, 'nIndent', 0) != 0
-                let flt_indent.nIndent = flt.nIndent
+            let flt_rst = s:EvalFilter( flt, funcs, evalctx )
+            let text .= get( flt_rst, 'text', '' )
+            if get(flt_rst, 'nIndent', 0) != 0
+                let flt_indent.nIndent = flt_rst.nIndent
             endif
         endif
     endfor
 
-    call s:log.Log( "instant value filter value:" . string( flt ) )
+    call s:log.Log( "instant value filter value:" . string( flt_rst ) )
 
     let valueInfo[-1][1] += 1
 
@@ -2539,9 +2538,9 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
 
 endfunction "}}}
 
-fun! s:IndentAt( start, flt ) "{{{
+fun! s:IndentAt( start, flt_rst ) "{{{
     " instant filter does not support well yet
-    let filter_indent_offset = get(a:flt, 'nIndent', 0)
+    let filter_indent_offset = get(a:flt_rst, 'nIndent', 0)
 
     let indent = xpt#indent#IndentBefore( a:start )
     let indent += filter_indent_offset
@@ -2571,33 +2570,30 @@ fun! s:ApplyPreValues( placeHolder ) "{{{
 
     endif
 
-
     if preValue is g:EmptyFilter
         return
     endif
 
-
-    let preValue = copy( preValue )
-
-
-    call s:EvalFilter( preValue, renderContext.ftScope.funcs, { 'startPos' : XPMpos( a:placeHolder.innerMarks.start ) } )
+    let flt_rst = s:EvalFilter( preValue, renderContext.ftScope.funcs,
+          \                     { 'startPos' : XPMpos( a:placeHolder.innerMarks.start ) } )
 
 
-    if preValue.rc isnot 0 && has_key( preValue, 'text' )
-        call s:SetPreValue( a:placeHolder, preValue )
+    " TODO isnot 0? or is 0?
+    if flt_rst.rc isnot 0 && has_key( flt_rst, 'text' )
+        call s:SetPreValue( a:placeHolder, flt_rst )
     endif
 
 endfunction "}}}
 
-fun! s:SetPreValue( placeHolder, filter ) "{{{
+fun! s:SetPreValue( placeHolder, flt_rst ) "{{{
 
     let marks = a:placeHolder.innerMarks
 
 
-    call s:log.Log( 'preValue=' . a:filter.text )
+    call s:log.Log( 'preValue=' . a:flt_rst.text )
     " call XPRstartSession()
     try
-        call XPreplaceByMarkInternal( marks.start, marks.end, a:filter.text )
+        call XPreplaceByMarkInternal( marks.start, marks.end, a:flt_rst.text )
     catch /.*/
     finally
         " call XPRendSession()
@@ -2898,26 +2894,26 @@ fun! s:ApplyPostFilter() "{{{
     if filter isnot g:EmptyFilter
         let filter = copy( filter )
 
-        call s:EvalPostFilter( filter, typed, leader )
+        let flt_rst = s:EvalPostFilter( filter, typed, leader )
 
-        call s:log.Log( 'text=' . filter.text )
+        call s:log.Log( 'text=' . flt_rst.text )
 
 
 
-        let oriFilter = copy( filter )
+        let ori_flt_rst = copy( flt_rst )
 
         let [ start, end ] = XPMposStartEnd( marks )
 
         " TODO do not replace if no change made
         call XPMsetLikelyBetween( marks.start, marks.end )
-        if filter.rc != 0 && filter.text !=# typed
+        if flt_rst.rc != 0 && flt_rst.text !=# typed
             call s:log.Debug( 'before replace, marks=' . XPMallMark() )
 
             call s:RemoveEditMark( leader )
 
             call b:xptemplateData.settingWrap.Switch()
 
-            let text = s:IndentFilterText(filter, start)
+            let text = s:IndentFilterText(flt_rst, start)
 
             call XPreplace( start, end, text )
             call s:log.Debug( 'after replace, marks=' . XPMallMark() )
@@ -2925,7 +2921,7 @@ fun! s:ApplyPostFilter() "{{{
 
 
 
-        if filter.toBuild
+        if flt_rst.toBuild
             " TODO extract to function
 
             call cursor( start )
@@ -2934,7 +2930,7 @@ fun! s:ApplyPostFilter() "{{{
             let buildrc = s:BuildPlaceHolders( marks )
 
             if 0 > buildrc
-                return [ s:Crash(), filter.toBuild ]
+                return [ s:Crash(), flt_rst.toBuild ]
             endif
 
             " bad name , 'alreadyBuilt' ?
@@ -2943,7 +2939,7 @@ fun! s:ApplyPostFilter() "{{{
             " change back the phase
             let renderContext.phase = 'post'
 
-            let filter.toBuild = 0
+            let flt_rst.toBuild = 0
         endif
 
 
@@ -2955,11 +2951,11 @@ fun! s:ApplyPostFilter() "{{{
         return [ typed, hadBuilt ]
 
     else
-        call s:UpdateFollowingPlaceHoldersWith( typed, { 'post' : oriFilter } )
+        call s:UpdateFollowingPlaceHoldersWith( typed, { 'post' : ori_flt_rst } )
         if hadBuilt
             return [ typed, hadBuilt ]
         else
-            return [ filter.text, hadBuilt ]
+            return [ flt_rst.text, hadBuilt ]
         endif
     endif
 
@@ -2980,29 +2976,30 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
     let pos = XPMpos( a:leader.mark.start )
     let pos[ 1 ] = 1
     let startMark = XPMmarkAfter( pos )
-    call s:EvalFilter( a:filter, renderContext.ftScope.funcs, {
+    let flt_rst = s:EvalFilter( a:filter, renderContext.ftScope.funcs, {
           \ 'typed' : a:typed, 'startPos' : startMark.pos } )
 
 
     call s:log.Log("post_value:\n", string(a:filter))
 
-    let a:filter.toBuild = 0
-    if a:filter.rc == 0
+    let flt_rst.toBuild = 0
+    if flt_rst.rc == 0
         return
     endif
 
-    if has_key( a:filter, 'action' )
-        let act = a:filter.action
+    if has_key( flt_rst, 'action' )
+        let act = flt_rst.action
 
-        if act.name == 'build'
-            if has_key( a:filter, 'text' )
-                let a:filter.toBuild = 1
+        if act == 'build'
+            if has_key( flt_rst, 'text' )
+                let flt_rst.toBuild = 1
             else
-                let a:filter.text = a:typed
+                let flt_rst.text = a:typed
             end
 
-        elseif act.name == 'keepIndent'
-            let a:filter.nIndent = 0
+        elseif act == 'keepIndent'
+            " TODO check if this is neccesary
+            let flt_rst.nIndent = 0
 
             " TODO
         " elseif act.name == 'expandTmpl'
@@ -3016,19 +3013,21 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
             " let res = [ post. ]
         else
             " unknown action
-            " let a:filter.text = get( post, 'text', '' )
+            " let flt_rst.text = get( post, 'text', '' )
         endif
 
-    elseif has_key( a:filter, 'text' )
+    elseif has_key( flt_rst, 'text' )
         " Even if it is not an action, post filter is needed to build by
         " default
-        let a:filter.toBuild = 1
+        let flt_rst.toBuild = 1
 
     else
         " let a:filter.text = post
         " let a:filter.nIndent = 0
 
     endif
+
+    return flt_rst
 
 endfunction "}}}
 
@@ -3185,7 +3184,7 @@ fun! s:ExtractOneItem() "{{{
 
 endfunction "}}}
 
-fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
+fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
     " @return   string  typing
     "           -1      if this action can not be handled
 
@@ -3193,12 +3192,9 @@ fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
     let ctx = a:ctx
     let leader = ctx.leadingPlaceHolder
 
-    let act = a:filter.action
+    call s:log.Log( "type is " . type( a:flt_rst ). ' {} type is ' . type( {} ) )
 
-
-    call s:log.Log( "type is " . type( act ). ' {} type is ' . type( {} ) )
-
-    if act.name ==# 'expandTmpl'
+    if a:flt_rst.action ==# 'expandTmpl'
         " let ctx.item.behavior.gotoNextAtOnce = 1
 
 
@@ -3207,23 +3203,23 @@ fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
         let marks = leader.mark
         call XPreplace(XPMpos( marks.start ), XPMpos( marks.end ), '')
         call XPMsetLikelyBetween( marks.start, marks.end )
-        return XPTemplateStart(0, {'startPos' : getpos(".")[1:2], 'tmplName' : act.tmplName})
+        return XPTemplateStart(0, {'startPos' : getpos(".")[1:2], 'tmplName' : a:flt_rst.tmplName})
 
-    elseif act.name ==# 'finishTemplate'
+    elseif a:flt_rst.action ==# 'finishTemplate'
 
-        return s:ActionFinish( ctx, a:filter )
+        return s:ActionFinish( ctx, a:flt_rst )
 
-    elseif act.name ==# 'build'
-          \ || act.name ==# 'embed'
+    elseif a:flt_rst.action ==# 'build'
+          \ || a:flt_rst.action ==# 'embed'
         " same as 'embed'
-        return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:filter.text, a:filter )
+        return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:flt_rst.text, a:flt_rst )
 
-    elseif act.name ==# 'next'
+    elseif a:flt_rst.action ==# 'next'
 
         let postaction = ''
         " Note: update following?
-        if has_key( a:filter, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:filter.text, a:filter )
+        if has_key( a:flt_rst, 'text' )
+            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:flt_rst.text, a:flt_rst )
         endif
         if x.renderContext.processing
             return s:ShiftForward( '' )
@@ -3231,11 +3227,11 @@ fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
             return postaction
         endif
 
-    elseif act.name ==# 'remove'
+    elseif a:flt_rst.action ==# 'remove'
 
         let postaction = ''
-        if has_key( a:filter, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:filter.text, a:filter )
+        if has_key( a:flt_rst, 'text' )
+            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:flt_rst.text, a:flt_rst )
         endif
         if x.renderContext.processing
             return s:ShiftForward( 'clear' )
@@ -3252,8 +3248,8 @@ fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
 
 endfunction "}}}
 
-fun! s:ActionFinish( renderContext, filter ) "{{{
-    let marks = a:renderContext.leadingPlaceHolder[ a:filter.marks ]
+fun! s:ActionFinish( renderContext, flt_rst ) "{{{
+    let marks = a:renderContext.leadingPlaceHolder[ a:flt_rst.marks ]
     let [ start, end ] = XPMposStartEnd( marks )
 
     call s:log.Debug( "start, end=" . string( [ start, end ] ) )
@@ -3261,9 +3257,9 @@ fun! s:ActionFinish( renderContext, filter ) "{{{
 
     if start[ 0 ] != 0 && end[ 0 ] != 0
         " marks are not deleted during user edit
-        if a:filter.rc isnot 0
+        if a:flt_rst.rc isnot 0
 
-            let text = get( a:filter, 'text', '' )
+            let text = get( a:flt_rst, 'text', '' )
 
             " do NOT need to update position
 
@@ -3295,7 +3291,7 @@ fun! s:ActionFinish( renderContext, filter ) "{{{
 
 endfunction "}}}
 
-fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet, flt ) "{{{
+fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet, flt_rst ) "{{{
     " TODO remove needless marks
     let ph = a:ctx.leadingPlaceHolder
 
@@ -3307,7 +3303,7 @@ fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet, flt ) "{{{
 
     call b:xptemplateData.settingWrap.Switch()
 
-    let text = s:IndentFilterText(a:flt, range[0])
+    let text = s:IndentFilterText(a:flt_rst, range[0])
     call XPreplace( range[0], range[1], text )
 
     if 0 > s:BuildPlaceHolders( marks )
@@ -3323,7 +3319,7 @@ endfunction "}}}
 
 " TODO bad implementation. If further build or shifforward needed, return back a
 " flag to inform caller to do this.  Do not do it silently itself
-fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str, flt ) "{{{
+fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str, flt_rst ) "{{{
     " TODO remove needless marks
 
     let [ ctx, str ] = [ a:ctx, a:str ]
@@ -3337,9 +3333,9 @@ fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str, flt ) "{{{
         return s:Crash()
     endif
 
-    let flt = copy( a:flt )
-    let flt.text = a:str
-    let str = s:IndentFilterText(flt, start)
+    let flt_rst = copy( a:flt_rst )
+    let flt_rst.text = a:str
+    let str = s:IndentFilterText(flt_rst, start)
 
     call b:xptemplateData.settingWrap.Switch()
     " set str to key place holder or the first normal place holder
@@ -3379,10 +3375,11 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
 
     call s:log.Debug( 'filter=' . string( a:filter ) )
 
-    call s:EvalFilter( a:filter, renderContext.ftScope.funcs, { 'startPos' : start } )
+    let flt_rst = s:EvalFilter( a:filter, renderContext.ftScope.funcs,
+          \                     { 'startPos' : start } )
 
 
-    if a:filter.rc is 0
+    if flt_rst.rc is 0
         let action = s:SelectCurrent()
 
         call XPMupdateStat()
@@ -3390,53 +3387,53 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
     endif
 
 
-    if has_key( a:filter, 'action' )
+    if has_key( flt_rst, 'action' )
 
-        if a:filter.action.name == 'pum'
+        if flt_rst.action == 'pum'
             " popup
-            return s:DefaultValuePumHandler( renderContext, a:filter )
+            return s:DefaultValuePumHandler( renderContext, flt_rst )
 
-        elseif a:filter.action.name == 'complete'
+        elseif flt_rst.action == 'complete'
             " complete pum
-            let postaction = s:DefaultValueShowPum( renderContext, a:filter )
+            let postaction = s:DefaultValueShowPum( renderContext, flt_rst )
             return postaction
 
         else
 
-            let rc = s:HandleDefaultValueAction( renderContext, a:filter )
+            let rc = s:HandleDefaultValueAction( renderContext, flt_rst )
             return ( rc is -1 )
-                  \ ? s:FillinLeadingPlaceHolderAndSelect( renderContext, '', a:filter )
+                  \ ? s:FillinLeadingPlaceHolderAndSelect( renderContext, '', flt_rst )
                   \ : rc
         endif
 
-    elseif has_key( a:filter, 'text' )
+    elseif has_key( flt_rst, 'text' )
         " string
-        return s:FillinLeadingPlaceHolderAndSelect( renderContext, a:filter.text, a:filter )
+        return s:FillinLeadingPlaceHolderAndSelect( renderContext, flt_rst.text, flt_rst )
 
     else
-        return s:FillinLeadingPlaceHolderAndSelect( renderContext, '', a:filter )
+        return s:FillinLeadingPlaceHolderAndSelect( renderContext, '', flt_rst )
 
     endif
 endfunction "}}}
 
-fun! s:DefaultValuePumHandler( renderContext, filter ) "{{{
+fun! s:DefaultValuePumHandler( renderContext, flt_rst ) "{{{
 
-    let pumlen = len( a:filter.action.pum )
+    let pumlen = len( a:flt_rst.pum )
 
     if pumlen == 0
-        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, '', a:filter )
+        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, '', a:flt_rst )
 
     elseif pumlen == 1
-        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, a:filter.action.pum[0], a:filter )
+        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, a:flt_rst.pum[0], a:flt_rst )
 
     else
-        return s:DefaultValueShowPum( a:renderContext, a:filter )
+        return s:DefaultValueShowPum( a:renderContext, a:flt_rst )
 
     endif
 
 endfunction "}}}
 
-fun! s:DefaultValueShowPum( renderContext, filter ) "{{{
+fun! s:DefaultValueShowPum( renderContext, flt_rst ) "{{{
 
     let leader = a:renderContext.leadingPlaceHolder
     let [ start, end ] = XPMposStartEnd( leader.innerMarks )
@@ -3448,8 +3445,8 @@ fun! s:DefaultValueShowPum( renderContext, filter ) "{{{
 
     " to pop up, but do not enlarge matching, thus empty string is selected at first
     " if only word listed,  do callback at once.
-    let pumsess = XPPopupNew( s:ItemPumCB, {}, a:filter.action.pum )
-    call pumsess.SetAcceptEmpty( get( a:filter.action, 'acceptEmpty',  g:xptemplate_ph_pum_accept_empty ) )
+    let pumsess = XPPopupNew( s:ItemPumCB, {}, a:flt_rst.pum )
+    call pumsess.SetAcceptEmpty( get( a:flt_rst, 'acceptEmpty',  g:xptemplate_ph_pum_accept_empty ) )
     call pumsess.SetOption( {
           \ 'tabNav'      : g:xptemplate_pum_tab_nav } )
 
@@ -3525,7 +3522,7 @@ fun! s:ApplyDefaultValue() "{{{
         call XPMupdateStat()
 
     else
-        let postaction = s:ApplyDefaultValueToPH( renderContext, copy( defValue ) )
+        let postaction = s:ApplyDefaultValueToPH( renderContext, defValue )
     endif
 
     return postaction
@@ -3559,14 +3556,14 @@ fun! XPTmappingEval( str ) "{{{
 
 
     let filter = g:FilterValue.New( 0, a:str )
-    let filter = s:EvalFilter( filter, x.renderContext.ftScope.funcs,
+    let flt_rst = s:EvalFilter( filter, x.renderContext.ftScope.funcs,
           \ { 'typed' : typed, 'startPos' : [ line( "." ), col( "." ) ] } )
 
-    if has_key( filter, 'action' )
-        let postAction = s:HandleAction( x.renderContext, filter )
+    if has_key( flt_rst, 'action' )
+        let postAction = s:HandleAction( x.renderContext, flt_rst )
 
-    elseif has_key( filter, 'text' )
-        let postAction = filter.text
+    elseif has_key( flt_rst, 'text' )
+        let postAction = flt_rst.text
 
     endif
 
@@ -3705,67 +3702,63 @@ fun! s:SelectCurrent() "{{{
 
 endfunction "}}}
 
-fun! s:EvalFilter( filter, container, context ) "{{{
+fun! s:EvalFilter( filter, global, context ) "{{{
 
     let a:filter.rc = 1
+    let r = { 'rc': 1, 'filter': a:filter }
 
-    let rst = xpt#eval#Eval( a:filter.text, a:container, a:context )
-
+    let rst = xpt#eval#Eval( a:filter.text, a:global, a:context )
 
     if type( rst ) == type( 0 )
-        let a:filter.rc = 0
-        return a:filter
+        let r.rc = 0
+        return r
     endif
 
     if type( rst ) == type( '' )
-        let a:filter.text = rst
 
         " indent adjusting should be done just before put onto screen.
         " call a:filter.AdjustIndent( a:context.startPos )
-
-        return a:filter
+        let r.text = rst
+        return r
     endif
-
-
-    unlet a:filter.text
 
     if type( rst ) == type( [] )
-        let a:filter.action = { 'name' : 'pum', 'pum' : rst }
+        let r.action = 'pum'
+        let r.pum = rst
+        return r
 
     else
+        " rst is dictionary
         if has_key( rst, 'action' )
-            let rst.name = rst.action
-            unlet rst.action
+            call extend( r, rst, 'error' )
         endif
 
-        let a:filter.action = rst
-        let a:filter.marks = get( rst, 'marks', a:filter.marks )
+        if ! has_key( r, 'marks' )
+            let r.marks = a:filter.marks
+        endif
 
-        call s:LoadFilterActionSnippet( a:filter.action )
-
-        call a:filter.AdjustTextAction( a:context )
-
+        call s:LoadFilterActionSnippet( r )
     endif
 
-    return a:filter
+    return r
 
 endfunction "}}}
 
-fun! s:LoadFilterActionSnippet( act ) "{{{
+fun! s:LoadFilterActionSnippet( flt_rst ) "{{{
 
     let renderContext = b:xptemplateData.renderContext
 
-    if has_key( a:act, 'snippet' )
+    if has_key( a:flt_rst, 'snippet' )
 
         let allsnip = renderContext.ftScope.allTemplates
-        let snipname = a:act.snippet
+        let snipname = a:flt_rst.snippet
 
         if has_key( allsnip, snipname )
             let snip = allsnip[ snipname ]
             call s:ParseSnippet( snip, renderContext.ftScope )
             call s:MergeSetting( renderContext.snipSetting,
                   \ snip.setting )
-            let a:act.text = snip.snipText
+            let a:flt_rst.text = snip.snipText
         else
             call XPT#warn( 'snippet "' . snipname . '" not found' )
         end
@@ -4127,7 +4120,7 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
 
     let useGroupPost = renderContext.phase == 'post' && has_key( a:option, 'post' )
     if useGroupPost
-        let groupFilter = a:option.post
+        let group_flt_rst = a:option.post
     endif
 
     call XPRstartSession()
@@ -4148,9 +4141,8 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
             let [ phln, phcol ] = phStartPos
 
             if flt isnot g:EmptyFilter
-                let flt = copy( flt )
 
-                call s:EvalFilter( flt, renderContext.ftScope.funcs,
+                let flt_rst = s:EvalFilter( flt, renderContext.ftScope.funcs,
                       \ { 'typed'    : a:contentTyped,
                       \   'startPos' : phStartPos } )
 
@@ -4158,12 +4150,12 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
                 " TODO ontime flt action support?
 
             elseif useGroupPost
-                let flt = copy( groupFilter )
+                let flt_rst = copy( group_flt_rst )
             else
-                let flt = g:FilterValue.New( -XPT#getIndentNr( phln, phcol ), a:contentTyped )
-
+                let flt_rst = { 'nIndent': -XPT#getIndentNr( phln, phcol ),
+                      \         'text': a:contentTyped }
             endif
-            let flttext = s:IndentFilterText(flt, phStartPos)
+            let flttext = s:IndentFilterText(flt_rst, phStartPos)
 
 
             " TODO replace only when filter applied or filter.text has line break
@@ -4251,7 +4243,7 @@ fun! s:XPTupdateTyping() "{{{
     let flt = get( ontypeFilters, leader.name, g:EmptyFilter )
 
     if flt isnot g:EmptyFilter
-        call s:HandleOntypeFilter( copy( flt ) )
+        call s:HandleOntypeFilter( flt )
     endif
 
     return rc
@@ -4266,20 +4258,21 @@ fun! s:HandleOntypeFilter( filter ) "{{{
     let [ start, end ] = XPMposStartEnd( leader.mark )
     let contentTyped = s:TextBetween( [ start, end ] )
 
-    call s:EvalFilter( a:filter, renderContext.ftScope.funcs, { 'typed' : contentTyped, 'startPos' : start } )
+    let flt_rst = s:EvalFilter( a:filter, renderContext.ftScope.funcs,
+          \                     { 'typed' : contentTyped, 'startPos' : start } )
 
 
-    if 0 is a:filter.rc
+    if 0 is flt_rst.rc
         return
 
-    elseif has_key( a:filter, 'action' )
-        call s:HandleOntypeAction( renderContext, a:filter )
+    elseif has_key( flt_rst, 'action' )
+        call s:HandleOntypeAction( renderContext, flt_rst )
 
-    elseif has_key( a:filter, 'text' )
+    elseif has_key( flt_rst, 'text' )
 
-        if a:filter.text != contentTyped
+        if flt_rst.text != contentTyped
             let [ start, end ] = XPMposStartEnd( leader.mark )
-            call XPreplace( start, end, a:filter.text )
+            call XPreplace( start, end, flt_rst.text )
             call s:XPTupdate()
         endif
 
@@ -4287,9 +4280,9 @@ fun! s:HandleOntypeFilter( filter ) "{{{
 
 endfunction "}}}
 
-fun! s:HandleOntypeAction( renderContext, filter ) "{{{
+fun! s:HandleOntypeAction( renderContext, flt_rst ) "{{{
 
-    let postaction = s:HandleAction( a:renderContext, a:filter )
+    let postaction = s:HandleAction( a:renderContext, a:flt_rst )
 
     if '' != postaction
         call feedkeys( postaction, 'n' )
@@ -4297,7 +4290,7 @@ fun! s:HandleOntypeAction( renderContext, filter ) "{{{
 
 endfunction "}}}
 
-fun! s:HandleAction( renderContext, filter ) "{{{
+fun! s:HandleAction( renderContext, flt_rst ) "{{{
     " NOTE: handle only leader's action
 
     if a:renderContext.phase == 'post'
@@ -4308,22 +4301,22 @@ fun! s:HandleAction( renderContext, filter ) "{{{
 
 
     let postaction = ''
-    if a:filter.action.name == 'next'
+    if a:flt_rst.action == 'next'
 
-        if has_key( a:filter, 'text' )
+        if has_key( a:flt_rst, 'text' )
 
             " TODO replace by mark
             let [ start, end ] = XPMposList( marks.start, marks.end )
-            call XPreplace( start, end, a:filter.text )
+            call XPreplace( start, end, a:flt_rst.text )
 
         endif
 
         let postaction = s:ShiftForward( '' )
 
-    elseif a:filter.action.name == 'finishTemplate'
-        let postaction = s:ActionFinish( a:renderContext, a:filter )
+    elseif a:flt_rst.action == 'finishTemplate'
+        let postaction = s:ActionFinish( a:renderContext, a:flt_rst )
 
-    elseif a:filter.action.name == ''
+    elseif a:flt_rst.action == ''
         " TODO other actions
 
     endif
