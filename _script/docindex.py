@@ -37,4 +37,6 @@ if __name__ == "__main__":
     out( "" )
     out( '" vi''m: tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:' )
 
+    outf.close()
+
     update_help_tags()
