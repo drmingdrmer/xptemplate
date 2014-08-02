@@ -3266,7 +3266,11 @@ fun! s:ActionFinish( renderContext, flt_rst ) "{{{
         " marks are not deleted during user edit
         if a:flt_rst.rc isnot 0
 
-            let text = get( a:flt_rst, 'text', '' )
+            if has_key( a:flt_rst, 'text' )
+                let text = s:IndentFilterText( a:flt_rst, start )
+            else
+                let text = ''
+            endif
 
             " do NOT need to update position
 
