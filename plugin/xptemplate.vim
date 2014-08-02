@@ -4153,19 +4153,17 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
 
             elseif useGroupPost
                 let flt = copy( groupFilter )
-                call flt.AdjustIndent( phStartPos )
-
             else
                 let flt = g:FilterValue.New( -XPT#getIndentNr( phln, phcol ), a:contentTyped )
-                call flt.AdjustIndent( phStartPos )
 
             endif
+            let flttext = s:IndentFilterText(flt, phStartPos)
 
 
             " TODO replace only when filter applied or filter.text has line break
             let text = s:TextBetween( XPMposStartEnd( ph.mark ) )
-            if text !=# flt.text
-                call XPreplaceByMarkInternal( ph.mark.start, ph.mark.end, flt.text )
+            if text !=# flttext
+                call XPreplaceByMarkInternal( ph.mark.start, ph.mark.end, flttext )
             endif
 
             call s:log.Debug( 'after update 1 place holder:', s:TextBetween( XPMposStartEnd( renderContext.marks.tmpl ) ) )
