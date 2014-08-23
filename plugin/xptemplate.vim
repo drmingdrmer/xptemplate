@@ -3882,6 +3882,8 @@ fun! s:LoadFilterActionSnippet( act ) "{{{
         if has_key( allsnip, snipname )
             let snip = allsnip[ snipname ]
             call s:ParseSnippet( snip, renderContext.ftScope )
+            call s:MergeSetting( renderContext.snipSetting,
+                  \ snip.setting )
             let a:act.text = snip.snipText
         else
             call XPT#warn( 'snippet "' . snipname . '" not found' )
