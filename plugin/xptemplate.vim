@@ -3065,7 +3065,11 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
         let act = a:filter.action
 
         if act.name == 'build'
-            let a:filter.toBuild = 1
+            if has_key( a:filter, 'text' )
+                let a:filter.toBuild = 1
+            else
+                let a:filter.text = a:typed
+            end
 
         elseif act.name == 'keepIndent'
             let a:filter.nIndent = 0
@@ -3282,6 +3286,10 @@ fun! s:HandleDefaultValueAction( ctx, filter ) "{{{
     elseif act.name ==# 'embed'
         " embed a piece of snippet
 
+        return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:filter.text )
+
+    elseif act.name ==# 'build'
+        " same as 'embed'
         return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:filter.text )
 
     elseif act.name ==# 'next'
@@ -3852,6 +3860,7 @@ fun! s:EvalFilter( filter, container, context ) "{{{
         let a:filter.action = rst
         let a:filter.marks = get( rst, 'marks', a:filter.marks )
 
+        call s:LoadFilterActionSnippet( a:filter.action )
 
         call a:filter.AdjustTextAction( a:context )
 
@@ -3859,6 +3868,25 @@ fun! s:EvalFilter( filter, container, context ) "{{{
 
     return a:filter
 
+endfunction "}}}
+
+fun! s:LoadFilterActionSnippet( act ) "{{{
+
+    let renderContext = b:xptemplateData.renderContext
+
+    if has_key( a:act, 'snippet' )
+
+        let allsnip = renderContext.ftScope.allTemplates
+        let snipname = a:act.snippet
+
+        if has_key( allsnip, snipname )
+            let snip = allsnip[ snipname ]
+            call s:ParseSnippet( snip, renderContext.ftScope )
+            let a:act.text = snip.snipText
+        else
+            call XPT#warn( 'snippet "' . snipname . '" not found' )
+        end
+    end
 endfunction "}}}
 
 
