@@ -3200,6 +3200,12 @@ fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
         call XPMsetLikelyBetween( marks.start, marks.end )
         return XPTemplateStart(0, {'startPos' : getpos(".")[1:2], 'tmplName' : a:flt_rst.tmplName})
 
+    elseif a:flt_rst.action ==# 'pum'
+        return s:DefaultValuePumHandler( ctx, a:flt_rst )
+
+    elseif a:flt_rst.action ==# 'complete'
+        return s:DefaultValueShowPum( ctx, a:flt_rst )
+
     elseif a:flt_rst.action ==# 'finishTemplate'
 
         return s:ActionFinish( ctx, a:flt_rst )
@@ -3391,21 +3397,13 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
 
     let flt_rst.text = get( flt_rst, 'text', typed )
 
-    if flt_rst.action == 'pum'
-        " popup
-        return s:DefaultValuePumHandler( renderContext, flt_rst )
-
-    elseif flt_rst.action == 'complete'
-        " complete pum
-        let postaction = s:DefaultValueShowPum( renderContext, flt_rst )
-        return postaction
-
+    let rc = s:HandleDefaultValueAction( renderContext, flt_rst )
+    if rc is -1
+        return s:FillinLeadingPlaceHolderAndSelect( renderContext, '', flt_rst )
     else
-        let rc = s:HandleDefaultValueAction( renderContext, flt_rst )
-        return ( rc is -1 )
-              \ ? s:FillinLeadingPlaceHolderAndSelect( renderContext, '', flt_rst )
-              \ : rc
+        return rc
     endif
+
 endfunction "}}}
 
 fun! s:DefaultValuePumHandler( renderContext, flt_rst ) "{{{
