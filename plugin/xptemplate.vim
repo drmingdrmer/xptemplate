@@ -3220,7 +3220,7 @@ fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
         let postaction = ''
         " Note: update following?
         if has_key( a:flt_rst, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:flt_rst.text, a:flt_rst )
+            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:flt_rst )
         endif
         if x.renderContext.processing
             return s:ShiftForward( '' )
@@ -3232,7 +3232,7 @@ fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
 
         let postaction = ''
         if has_key( a:flt_rst, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:flt_rst.text, a:flt_rst )
+            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:flt_rst )
         endif
         if x.renderContext.processing
             return s:ShiftForward( 'clear' )
@@ -3241,7 +3241,7 @@ fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
         endif
 
     elseif a:flt_rst.action ==# 'text'
-        return s:FillinLeadingPlaceHolderAndSelect( ctx, a:flt_rst.text, a:flt_rst )
+        return s:FillinLeadingPlaceHolderAndSelect( ctx, a:flt_rst )
     else
         " other action
 
@@ -3326,10 +3326,10 @@ endfunction "}}}
 
 " TODO bad implementation. If further build or shifforward needed, return back a
 " flag to inform caller to do this.  Do not do it silently itself
-fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str, flt_rst ) "{{{
+fun! s:FillinLeadingPlaceHolderAndSelect( ctx, flt_rst ) "{{{
     " TODO remove needless marks
 
-    let [ ctx, str ] = [ a:ctx, a:str ]
+    let [ ctx, str ] = [ a:ctx, a:flt_rst.text ]
     let [ item, ph ] = [ ctx.item, ctx.leadingPlaceHolder ]
 
     let marks = ph.innerMarks
@@ -3341,7 +3341,7 @@ fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str, flt_rst ) "{{{
     endif
 
     let flt_rst = copy( a:flt_rst )
-    let flt_rst.text = a:str
+    let flt_rst.text = str
     let str = s:IndentFilterText(flt_rst, start)
 
     call b:xptemplateData.settingWrap.Switch()
@@ -3399,7 +3399,7 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
 
     let rc = s:HandleDefaultValueAction( renderContext, flt_rst )
     if rc is -1
-        return s:FillinLeadingPlaceHolderAndSelect( renderContext, '', flt_rst )
+        return s:FillinLeadingPlaceHolderAndSelect( renderContext, flt_rst )
     else
         return rc
     endif
@@ -3411,10 +3411,12 @@ fun! s:DefaultValuePumHandler( renderContext, flt_rst ) "{{{
     let pumlen = len( a:flt_rst.pum )
 
     if pumlen == 0
-        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, '', a:flt_rst )
+        let a:flt_rst.text = ''
+        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, a:flt_rst )
 
     elseif pumlen == 1
-        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, a:flt_rst.pum[0], a:flt_rst )
+        let a:flt_rst.text = a:flt_rst.pum[0]
+        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, a:flt_rst )
 
     else
         return s:DefaultValueShowPum( a:renderContext, a:flt_rst )
