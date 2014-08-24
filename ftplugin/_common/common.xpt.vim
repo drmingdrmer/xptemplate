@@ -253,12 +253,11 @@ let s:f.VOID = s:f.Void
 " Echo several expression and concat them.
 " That's the way to use normal vim script expression instead of mixed string
 fun! s:f.Echo( ... )
+    let text = ''
     if a:0 > 0
-        return a:1
-    else
-        return ''
+        let text = a:1
     endif
-    " return join( a:000, '' )
+    return { 'action': 'text', 'text': text }
 endfunction
 
 fun! s:f.EchoIf( isTrue, ... )
