@@ -1,0 +1,15 @@
+#!/bin/bash
+
+src="$(pwd)"
+cur_hash=$(git log -n1 --format="%H")
+n=xpt-$cur_hash
+
+(
+rm -rf /tmp/$n
+cd /tmp/ \
+    && mkdir $n \
+    && git clone --bare "$src" "$n" \
+    && cd $n \
+    && git remote add b git@gitcafe.com:drmingdrmer/xptemplate.git \
+    && git push b --all --force
+)

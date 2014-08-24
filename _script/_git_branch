@@ -1,0 +1,7 @@
+#!/bin/bash
+
+ref=${1-HEAD}
+cur_branch=$(git symbolic-ref $ref 2>/dev/null)
+cur_branch=${cur_branch##refs/heads/}
+
+echo $cur_branch
