@@ -2905,8 +2905,6 @@ fun! s:ApplyPostFilter() "{{{
 
         call s:log.Log( 'text=' . flt_rst.text )
 
-
-
         let ori_flt_rst = copy( flt_rst )
 
         let [ start, end ] = XPMposStartEnd( marks )
@@ -2928,7 +2926,7 @@ fun! s:ApplyPostFilter() "{{{
 
 
 
-        if flt_rst.toBuild
+        if flt_rst.action == 'build'
             " TODO extract to function
 
             call cursor( start )
@@ -2937,7 +2935,7 @@ fun! s:ApplyPostFilter() "{{{
             let buildrc = s:BuildPlaceHolders( marks )
 
             if 0 > buildrc
-                return [ s:Crash(), flt_rst.toBuild ]
+                return [ s:Crash(), 1 ]
             endif
 
             " bad name , 'alreadyBuilt' ?
@@ -2946,7 +2944,6 @@ fun! s:ApplyPostFilter() "{{{
             " change back the phase
             let renderContext.phase = 'post'
 
-            let flt_rst.toBuild = 0
         endif
 
 
@@ -2989,7 +2986,6 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
 
     call s:log.Log("post_value:\n", string(a:filter))
 
-    let flt_rst.toBuild = 0
     if flt_rst.rc == 0
         return
     endif
@@ -2998,9 +2994,7 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
         let act = flt_rst.action
 
         if act == 'build'
-            if has_key( flt_rst, 'text' )
-                let flt_rst.toBuild = 1
-            else
+            if ! has_key( flt_rst, 'text' )
                 let flt_rst.text = a:typed
             end
 
@@ -3023,15 +3017,9 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
             " let flt_rst.text = get( post, 'text', '' )
         endif
 
-    elseif has_key( flt_rst, 'text' )
-        " Even if it is not an action, post filter is needed to build by
-        " default
-        let flt_rst.toBuild = 1
-
     else
         " let a:filter.text = post
         " let a:filter.nIndent = 0
-
     endif
 
     return flt_rst
