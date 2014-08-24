@@ -3234,6 +3234,8 @@ fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
             return postaction
         endif
 
+    elseif a:flt_rst.action ==# 'text'
+        return s:FillinLeadingPlaceHolderAndSelect( ctx, a:flt_rst.text, a:flt_rst )
     else
         " other action
 
@@ -3343,7 +3345,7 @@ fun! s:FillinLeadingPlaceHolderAndSelect( ctx, str, flt_rst ) "{{{
 
     let xp = ctx.snipObject.ptn
 
-    if str =~ '\V' . xp.lft . '\.\*' . xp.rt
+    if flt_rst.action == 'build'
         if 0 > s:BuildPlaceHolders( marks )
             return s:Crash()
         endif
@@ -3374,8 +3376,10 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
 
     call s:log.Debug( 'filter=' . string( a:filter ) )
 
+    let ph = renderContext.leadingPlaceHolder
+    let typed = s:TextBetween( XPMposStartEnd( ph.innerMarks ) )
     let flt_rst = s:EvalFilter( a:filter, renderContext.ftScope.funcs,
-          \                     { 'startPos' : start } )
+          \                     { 'typed': typed, 'startPos' : start } )
 
 
     if flt_rst.rc is 0
@@ -3385,33 +3389,22 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
         return action
     endif
 
+    let flt_rst.text = get( flt_rst, 'text', typed )
 
-    if has_key( flt_rst, 'action' )
+    if flt_rst.action == 'pum'
+        " popup
+        return s:DefaultValuePumHandler( renderContext, flt_rst )
 
-        if flt_rst.action == 'pum'
-            " popup
-            return s:DefaultValuePumHandler( renderContext, flt_rst )
-
-        elseif flt_rst.action == 'complete'
-            " complete pum
-            let postaction = s:DefaultValueShowPum( renderContext, flt_rst )
-            return postaction
-
-        else
-
-            let rc = s:HandleDefaultValueAction( renderContext, flt_rst )
-            return ( rc is -1 )
-                  \ ? s:FillinLeadingPlaceHolderAndSelect( renderContext, '', flt_rst )
-                  \ : rc
-        endif
-
-    elseif has_key( flt_rst, 'text' )
-        " string
-        return s:FillinLeadingPlaceHolderAndSelect( renderContext, flt_rst.text, flt_rst )
+    elseif flt_rst.action == 'complete'
+        " complete pum
+        let postaction = s:DefaultValueShowPum( renderContext, flt_rst )
+        return postaction
 
     else
-        return s:FillinLeadingPlaceHolderAndSelect( renderContext, '', flt_rst )
-
+        let rc = s:HandleDefaultValueAction( renderContext, flt_rst )
+        return ( rc is -1 )
+              \ ? s:FillinLeadingPlaceHolderAndSelect( renderContext, '', flt_rst )
+              \ : rc
     endif
 endfunction "}}}
 
