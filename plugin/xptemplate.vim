@@ -3729,6 +3729,7 @@ fun! s:EvalFilter( filter, global, context ) "{{{
 
         " indent adjusting should be done just before put onto screen.
         " call a:filter.AdjustIndent( a:context.startPos )
+        let r.action = 'build'
         let r.text = rst
         return r
     endif
@@ -3742,6 +3743,8 @@ fun! s:EvalFilter( filter, global, context ) "{{{
         " rst is dictionary
         if has_key( rst, 'action' )
             call extend( r, rst, 'error' )
+        else
+            r.action = 'build'
         endif
 
         if ! has_key( r, 'marks' )
