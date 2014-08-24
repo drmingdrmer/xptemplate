@@ -6,3 +6,4 @@ set runtimepath+=.
 set noswapfile
 set list
 set listchars=tab:].,trail:\|,extends:<,precedes:>
+set number
