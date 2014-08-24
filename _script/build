@@ -169,6 +169,8 @@ genfile.vim
 doc/tags
 xpt.files.txt
 bench.vim
+makedev
+mergeall
 test.bat
 test.sh
 tags
