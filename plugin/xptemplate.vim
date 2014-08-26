@@ -3203,9 +3203,6 @@ fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
     elseif a:flt_rst.action ==# 'pum'
         return s:DefaultValuePumHandler( ctx, a:flt_rst )
 
-    elseif a:flt_rst.action ==# 'complete'
-        return s:DefaultValueShowPum( ctx, a:flt_rst )
-
     elseif a:flt_rst.action ==# 'finishTemplate'
 
         return s:ActionFinish( ctx, a:flt_rst )

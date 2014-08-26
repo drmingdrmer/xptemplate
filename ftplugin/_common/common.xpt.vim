@@ -411,17 +411,6 @@ fun! s:f.ChooseStr(...) "{{{
   return copy( a:000 )
 endfunction "}}}
 
-fun! s:f.Complete( key, ... )
-
-    let val = { 'action' : 'complete', 'pum' : a:key }
-
-    if a:0 == 1
-        let val.acceptEmpty = a:1 != 0
-    endif
-
-    return val
-endfunction
-
 " XXX
 " Fill in postType, and finish template rendering at once.
 " This make nested template rendering go back to upper level, top-level
