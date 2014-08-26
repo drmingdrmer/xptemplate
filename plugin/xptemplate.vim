@@ -2990,36 +2990,30 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
         return
     endif
 
-    if has_key( flt_rst, 'action' )
-        let act = flt_rst.action
+    let act = flt_rst.action
 
-        if act == 'build'
-            if ! has_key( flt_rst, 'text' )
-                let flt_rst.text = a:typed
-            end
+    if act == 'build'
+        if ! has_key( flt_rst, 'text' )
+            let flt_rst.text = a:typed
+        end
 
-        elseif act == 'keepIndent'
-            " TODO check if this is neccesary
-            let flt_rst.nIndent = 0
+    elseif act == 'keepIndent'
+        " TODO check if this is neccesary
+        let flt_rst.nIndent = 0
 
-            " TODO
-        " elseif act.name == 'expandTmpl'
-            " let leader = renderContext.leadingPlaceHolder
-            " let marks = leader.marks
-            " let [ start, end ] = XPMposList( marks.start, marks.end )
+        " TODO
+    " elseif act.name == 'expandTmpl'
+        " let leader = renderContext.leadingPlaceHolder
+        " let marks = leader.marks
+        " let [ start, end ] = XPMposList( marks.start, marks.end )
 
-            " call XPreplace( start, end, '')
-            " return XPTemplateStart(0, {'startPos' : start, 'tmplName' : post.tmplName})
+        " call XPreplace( start, end, '')
+        " return XPTemplateStart(0, {'startPos' : start, 'tmplName' : post.tmplName})
 
-            " let res = [ post. ]
-        else
-            " unknown action
-            " let flt_rst.text = get( post, 'text', '' )
-        endif
-
+        " let res = [ post. ]
     else
-        " let a:filter.text = post
-        " let a:filter.nIndent = 0
+        " unknown action
+        " let flt_rst.text = get( post, 'text', '' )
     endif
 
     return flt_rst
