@@ -238,7 +238,7 @@ fun! xpt#parser#CompileSnippet( lines ) "{{{
             endif
             call s:log.Log("got value, start=".start)
 
-            let [ keyname, keytype ] = s:GetKeyType( key )
+            let [ keyname, keytype ] = xpt#parser#GetKeyType( key )
             call s:log.Log("parse XSET:" . keyname . "|" . keytype . '=' . val)
 
             call s:HandleXSETcommand( setting, command, [ keyname, keytype, val ] )
@@ -602,6 +602,20 @@ fun! xpt#parser#LoadFTSnippets( ft ) "{{{
     endfor
 endfunction "}}}
 
+fun! xpt#parser#GetKeyType( rawKey ) "{{{
+
+    let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'|\zs\.\{-}\$')
+    if keytype == ""
+        let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'.\zs\.\{-}\$')
+    endif
+
+    let keyname = keytype == "" ? a:rawKey :  a:rawKey[ 0 : - len(keytype) - 2 ]
+    let keyname = substitute(keyname, '\V\\\(\[.|\\]\)', '\1', 'g')
+
+    return [ keyname, keytype ]
+
+endfunction "}}}
+
 
 
 
@@ -732,20 +746,6 @@ fun! s:GetXSETkeyAndValue(lines, start) "{{{
     endif
 
     return [ key, val, start ]
-
-endfunction "}}}
-
-fun! s:GetKeyType( rawKey ) "{{{
-
-    let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'|\zs\.\{-}\$')
-    if keytype == ""
-        let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'.\zs\.\{-}\$')
-    endif
-
-    let keyname = keytype == "" ? a:rawKey :  a:rawKey[ 0 : - len(keytype) - 2 ]
-    let keyname = substitute(keyname, '\V\\\(\[.|\\]\)', '\1', 'g')
-
-    return [ keyname, keytype ]
 
 endfunction "}}}
 

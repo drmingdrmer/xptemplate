@@ -408,7 +408,7 @@ fun! s:XPTemplateParseSnippet(lines) "{{{
             call s:log.Log("got value, start=".start)
 
 
-            let [ keyname, keytype ] = s:GetKeyType( key )
+            let [ keyname, keytype ] = xpt#parser#GetKeyType( key )
 
             call s:log.Log("parse XSET:" . keyname . "|" . keytype . '=' . val)
 
@@ -523,7 +523,7 @@ endfunction "}}}
 " XXX
 " fun! s:XPTbufferScopeSet( str )
     " let [ key, value, start ] = s:getXSETkeyAndValue( [ 'XSET ' . a:str ], 0 )
-    " let [ keyname, keytype ] = s:GetKeyType( key )
+    " let [ keyname, keytype ] = xpt#parser#GetKeyType( key )
 " 
 " endfunction
 
@@ -582,20 +582,6 @@ fun! s:ParseMultiLineValues(lines, start) "{{{
 
 
     return [ start, val ]
-endfunction "}}}
-
-fun! s:GetKeyType(rawKey) "{{{
-
-    let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'|\zs\.\{-}\$')
-    if keytype == ""
-        let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'.\zs\.\{-}\$')
-    endif
-
-    let keyname = keytype == "" ? a:rawKey :  a:rawKey[ 0 : - len(keytype) - 2 ]
-    let keyname = substitute(keyname, '\V\\\(\[.|\\]\)', '\1', 'g')
-
-    return [ keyname, keytype ]
-
 endfunction "}}}
 
 fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
