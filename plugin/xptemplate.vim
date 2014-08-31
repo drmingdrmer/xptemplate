@@ -121,6 +121,7 @@ runtime plugin/classes/FiletypeScope.vim
 runtime plugin/classes/FilterValue.vim
 runtime plugin/classes/RenderContext.vim
 
+exec XPT#importConst
 
 let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
@@ -3204,7 +3205,10 @@ fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
     elseif a:flt_rst.action ==# 'build'
           \ || a:flt_rst.action ==# 'embed'
         " same as 'embed'
-        return s:EmbedSnippetInLeadingPlaceHolder( ctx, a:flt_rst.text, a:flt_rst )
+
+        " building destory current item
+        let [ built ] =  s:EmbedSnippetInLeadingPlaceHolder( ctx, a:flt_rst.text, a:flt_rst )
+        return s:GotoNextItem()
 
     elseif a:flt_rst.action ==# 'next'
 
@@ -3296,7 +3300,8 @@ fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet, flt_rst ) "{{{
     let marks = ph.innerMarks
     let range = [ XPMpos( marks.start ), XPMpos( marks.end ) ]
     if range[0] == [0, 0] || range[1] == [0, 0]
-        return s:Crash( 'leading place holder''s mark lost:' . string( marks ) )
+        call s:Crash( 'leading place holder''s mark lost:' . string( marks ) )
+        return [ s:NOTBUILT ]
     endif
 
     call b:xptemplateData.settingWrap.Switch()
@@ -3304,13 +3309,20 @@ fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet, flt_rst ) "{{{
     let text = s:IndentFilterText(a:flt_rst, range[0])
     call XPreplace( range[0], range[1], text )
 
-    if 0 > s:BuildPlaceHolders( marks )
-        return s:Crash('building place holder failed')
-    endif
-
-    call s:RemoveCurrentMarks()
-
-    return s:GotoNextItem()
+    if a:flt_rst.action == 'build'
+        let build_rc = s:BuildPlaceHolders( marks )
+        call s:log.Log( "build_rc=" . string( build_rc ) )
+        if build_rc < 0
+            call s:Crash('building place holder failed')
+            return [ s:NOTBUILT ]
+        else
+            if build_rc == s:BUILT
+                call s:RemoveCurrentMarks()
+            end
+            return [ build_rc ]
+        endif
+    end
+    return [ s:NOTBUILT ]
 endfunction "}}}
 
 
@@ -3687,6 +3699,10 @@ endfunction "}}}
 
 fun! s:EvalFilter( filter, global, context ) "{{{
 
+    " TODO EvalFilter might be called from non-rendering phase, is there a snipObject?
+    let rctx = b:xptemplateData.renderContext
+    let snipptn = rctx.snipObject.ptn
+
     let a:filter.rc = 1
     let r = { 'rc': 1, 'filter': a:filter }
 
@@ -3701,7 +3717,17 @@ fun! s:EvalFilter( filter, global, context ) "{{{
 
         " indent adjusting should be done just before put onto screen.
         " call a:filter.AdjustIndent( a:context.startPos )
-        let r.action = 'build'
+
+        " plain text is interpreted as plain text or snippet segment, depends
+        " on if there is mark in it.
+        "
+        " To explicitly use plain text or snippet segment, use Echo() and
+        " Build() respectively.
+        if rst =~ snipptn.lft
+            let r.action = 'build'
+        else
+            let r.action = 'text'
+        endif
         let r.text = rst
         return r
     endif
@@ -3716,7 +3742,14 @@ fun! s:EvalFilter( filter, global, context ) "{{{
         if has_key( rst, 'action' )
             call extend( r, rst, 'error' )
         else
-            r.action = 'build'
+            let text = get( r, 'text', '' )
+
+            " effective action is determined by if there is item pattern in text
+            if text =~ snipptn.lft
+                let r.action = 'build'
+            else
+                let r.action = 'text'
+            endif
         endif
 
         if ! has_key( r, 'marks' )
