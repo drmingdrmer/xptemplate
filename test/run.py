@@ -168,6 +168,7 @@ def run_tests(base, subpattern):
 
         vim_start(base)
         vim_add_rtp( base )
+        vim_set_default_ft( base )
         vim_so_fn( os.path.join( base, "setting.vim" ) )
         vim_add_settings(test['setting'])
         vim_add_local_settings(test['localsetting'])
@@ -269,6 +270,12 @@ def vim_add_local_settings( settings ):
         tmux_keys(":setlocal " + st + key['cr'] )
         logger.debug( "setlocal: " + repr( st ) )
 
+def vim_set_default_ft( base ):
+    ft_foo_path = _path( base, 'ftplugin', 'foo', 'foo.xpt.vim' )
+    logger.debug( "ft_foo_path: " + ft_foo_path )
+    if os.path.isfile( ft_foo_path ):
+        vim_add_settings( [ 'filetype=foo' ] )
+
 def vim_key_sequence( fn ):
 
     if not os.path.exists(fn):
@@ -359,6 +366,10 @@ def sh( *args, **argkv ):
         raise Exception( rst )
 
     return rst
+
+def _path( *args ):
+    return os.path.join( *args )
+
 
 if __name__ == "__main__":
     args = sys.argv
