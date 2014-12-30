@@ -1,0 +1,29 @@
+#!/bin/bash
+
+branch=$(git rev-parse --symbolic-full-name HEAD)
+hsh=$(git rev-parse HEAD)
+
+name="${branch} @ ${hsh}"
+
+(
+mkdir -p /tmp/$hsh \
+    && git checkout-index -af --prefix=/tmp/$hsh/ \
+    && cd /tmp/$hsh \
+    && tmux new -s xpt-engine-test -d 'python2.6 test/run.py' \
+    || exit 1
+
+while tmux has-session -t xpt-engine-test; do
+    echo
+    echo "----testing $name----"
+    tail -n200 /tmp/$hsh/xpt-test.log | grep -v DEBUG | tail -n10
+    sleep 1;
+done
+)
+
+echo
+echo "----done $name----"
+tail -n100 /tmp/$hsh/xpt-test.log | grep -v DEBUG | tail -n10
+
+
+
+
