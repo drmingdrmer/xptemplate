@@ -33,6 +33,20 @@ fun! s:TestRelativePath( t ) "{{{
 
 endfunction "}}}
 
+fun! s:TestUnnormalized( t ) "{{{
+
+    let old = &runtimepath
+
+    let fn = '/x//b/aa/bb/../y.z'
+    let &runtimepath .= ",/x//b/c/d/../..///"
+
+    call xpt#once#SetAndGetLoaded( fn )
+    call a:t.Eq( 1, g:xptemplate_loaded[ 'aa/y.z' ], 'aa/y.z is loaded' )
+
+    let &runtimepath = old
+
+endfunction "}}}
+
 exec xpt#unittest#run
 
 let &cpo = s:oldcpo

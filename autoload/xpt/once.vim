@@ -7,10 +7,12 @@ fun! xpt#once#SetAndGetLoaded( fn ) "{{{
     endif
 
     let fn = fnamemodify( a:fn, ':p' )
+    let fn = s:Norm(fn)
 
     for p in split( &runtimepath, ',' )
 
         let p = fnamemodify( p, ':p' )
+        let p = s:Norm(p) . '/'
 
         let pref = fn[ 0 : len(p) - 1 ]
 
@@ -30,6 +32,25 @@ fun! xpt#once#SetAndGetLoaded( fn ) "{{{
     echoerr a:fn . ' not found in any one of &runtimepath'
     return 0
 
+endfunction "}}}
+
+fun! s:Norm(path) "{{{
+    " trailing slash
+    let path = substitute( a:path, '\V/\*\$', '', 'g' )
+
+    " multi slash
+    let path = substitute( path, '\V//\*', '/', 'g' )
+
+    while 1
+        " remove ref to parent
+        let p0 = path
+        let path = substitute( path, '\V/\[^/]\+/..', '', 'g' )
+        if p0 == path
+            break
+        endif
+    endwhile
+
+    return path
 endfunction "}}}
 
 exec xpt#once#init
