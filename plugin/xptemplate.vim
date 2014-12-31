@@ -1119,7 +1119,9 @@ fun! s:AddItemToRenderContext(ctx,item)
 		return
 	endif
 	if ctx.phase != 'rendering'
-		call add(ctx.firstList,item)
+		if ! s:AddToOrderList(ctx.firstList, item)
+			call add(ctx.firstList, item)
+		endif
 		call filter( ctx.itemList, 'v:val isnot item' )
 		return
 	endif
