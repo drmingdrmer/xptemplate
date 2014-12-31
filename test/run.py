@@ -12,6 +12,8 @@ import stat
 import time
 import fnmatch
 
+mybase = os.path.dirname(os.path.realpath(__file__))
+
 class TestError( Exception ): pass
 
 class XPTLogHandler( logging.handlers.WatchedFileHandler ):
@@ -105,13 +107,13 @@ def main( pattern, subpattern='*' ):
 
 def run_all( pattern, subpattern ):
 
-    base = os.path.join( ".", "test", "cases" )
+    base = os.path.join( mybase, "cases" )
 
     cases = os.listdir( base )
     cases.sort()
 
     for c in cases:
-        if not os.path.isdir( os.path.join( "test", "cases", c ) ):
+        if not os.path.isdir( os.path.join( base, c ) ):
             continue
 
         if fnmatch.fnmatch( c, pattern ):
@@ -123,7 +125,7 @@ def run_case( cname, subpattern ):
 
     logger.info( "running " + cname + " ..." )
 
-    base = os.path.join( ".", "test", "cases", cname )
+    base = os.path.join( mybase, "cases", cname )
 
     tests_dir = os.path.join(base, 'tests')
     if os.path.isdir(tests_dir):
@@ -220,7 +222,7 @@ def try_rm_rst(base):
 def vim_start( base ):
     vimrcfn = os.path.join( base, "vimrc" )
     if not os.path.exists( vimrcfn ):
-        vimrcfn = os.path.join( ".", "test", "core_vimrc" )
+        vimrcfn = os.path.join( mybase, "core_vimrc" )
 
     vim_start_vimrc( vimrcfn )
 
