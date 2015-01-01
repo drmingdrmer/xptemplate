@@ -2,3 +2,20 @@ test from 'factor'
 what's the right "test" snippet in 'factor'
 during rendering <CR> does not work the way super-tab setup, which is closing pum only.
 inclusion inside expandable should be parsed at runtime, or recursive inclusion is impossible.
+add functin to detect if it is expandable at current position
+check text before/after cursor as a condition to expand snippet
+add FAQ of Choose
+mv-flt-here
+readme-add-choose-and-pum-hint
+redefine _if should affect all snippet that includes it
+snippet handling current line text or else
+test ActionFinish indent issue
+test Choose
+test assign func-call to var
+test assigning var to var
+test tip: var,func
+test-build-ident-and-embed-indent
+test-priority-of-alias
+
+add doc of multi value of g:xptemplate_minimal_prefix
+add doc of drop down menu, behavior with different g:xptemplate_minimal_prefix set
