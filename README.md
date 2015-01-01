@@ -365,9 +365,31 @@ By default, to list snippets whose name starts with "i", Press:
 
     i<C-r><C-\>
 
-See also:
+By default, when pressing `<C-\>`
+there must be at least one letter before cursor
+so that XPTemplate triggers any snippet.
 
+* If there is only one snippet matching the preceding letters:
+
+    XPTemplate expands it.
+
+* If there are multiple matching:
+
+    XPTemplate shows up a drop down menu to let user to browse and select
+    snippet.
+![c-pum-starts-with-f](readme-img/c-pum-starts-with-f.png)
+
+* In order to always show drop down menu even when there is no preceding
+letters before cursor, add `g:xptemplate_minimal_prefix = 0` to `.vimrc`:
+```vim
+    let g:xptemplate_minimal_prefix = 0
+```
+
+See also:
+```vim
+    :help g:xptemplate_minimal_prefix
     :help g:xptemplate_key_force_pum
+```
 
 
 #### Extend XPTemplate. Write new snippets
