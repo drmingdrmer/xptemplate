@@ -520,7 +520,7 @@ fun! s:InitTemplateObject( xptObj, tmplObj ) "{{{
 
     if !has_key( a:tmplObj.setting.defaultValues, 'cursor' )
                 " \ || a:tmplObj.setting.defaultValues.cursor !~ 'Finish'
-        let a:tmplObj.setting.defaultValues.cursor = g:FilterValue.New( 0, 'Finish()' )
+        let a:tmplObj.setting.defaultValues.cursor = g:FilterValue.New( 0, 'Finish("")' )
     endif
 
     call s:log.Debug( 'a:tmplObj.setting.defaultValues.cursor=' . string( a:tmplObj.setting.defaultValues.cursor ) )
@@ -3258,6 +3258,8 @@ fun! s:ActionFinish( renderContext, flt_rst ) "{{{
     call s:log.Debug( "start line=" . string( getline( start[0] ) ) )
 
     if start[ 0 ] != 0 && end[ 0 ] != 0
+        call s:log.Debug( "flt_rst.rc= ".string( a:flt_rst.rc ) )
+        call s:log.Debug( "flt_rst= ".string( a:flt_rst ) )
         " marks are not deleted during user edit
         if a:flt_rst.rc isnot 0
 
@@ -3711,6 +3713,7 @@ fun! s:EvalFilter( filter, global, context ) "{{{
     let r = { 'rc': 1, 'filter': a:filter }
 
     let rst = xpt#eval#Eval( a:filter.text, a:global, a:context )
+    call s:log.Debug( "rst after xpt#eval#Eval=" . string( rst ) )
 
     if type( rst ) == type( 0 )
         let r.rc = 0
