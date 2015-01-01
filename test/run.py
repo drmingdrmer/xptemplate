@@ -333,8 +333,8 @@ def tmux_keys( *args ):
     _tmux( "send-key", "-l", "-t", 1, "".join(args) )
     if args[-1][-1] == key['cr']:
         logger.debug( "wait for cr to complete" )
-        time.sleep(0.2)
-    time.sleep(0.2)
+        time.sleep(0.4)
+    time.sleep(0.4)
 
 def _tmux( *args ):
     sh( 'tmux', *args )
