@@ -306,6 +306,8 @@ fun! s:f.Build( ... )
   return { 'action' : 'build', 'text' : join( a:000, '' ) }
 endfunction
 
+let s:f.Embed = s:f.Build
+
 fun! s:f.BuildSnippet( snipname )
     return { 'action' : 'build', 'snippet' : a:snipname }
 endfunction
@@ -375,10 +377,6 @@ fun! s:f.FinishOuter( ... )
         return a:0 > 0 ? a:1 : 0
     endif
 
-endfunction
-
-fun! s:f.Embed( snippet )
-  return { 'action' : 'embed', 'text' : a:snippet }
 endfunction
 
 fun! s:f.Next( ... )

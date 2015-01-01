@@ -3204,8 +3204,6 @@ fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
         return s:ActionFinish( ctx, a:flt_rst )
 
     elseif a:flt_rst.action ==# 'build'
-          \ || a:flt_rst.action ==# 'embed'
-        " same as 'embed'
 
         " building destory current item
         let [ built ] =  s:EmbedSnippetInLeadingPlaceHolder( ctx, a:flt_rst.text, a:flt_rst )
@@ -3749,6 +3747,11 @@ fun! s:EvalFilter( filter, global, context ) "{{{
         " rst is dictionary
         if has_key( rst, 'action' )
             call extend( r, rst, 'error' )
+
+            " backward compatible
+            if r.action ==# 'embed'
+                let r.action = 'build'
+            endif
         else
             let text = get( r, 'text', '' )
 
