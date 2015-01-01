@@ -3556,11 +3556,17 @@ fun! XPTmappingEval( str ) "{{{
           \ { 'typed' : typed, 'startPos' : [ line( "." ), col( "." ) ] } )
 
     if has_key( flt_rst, 'action' )
-        let postAction = s:HandleAction( x.renderContext, flt_rst )
 
-    elseif has_key( flt_rst, 'text' )
-        let postAction = flt_rst.text
+        let act = flt_rst.action
+        if act == 'text'
+            let postAction = flt_rst.text
+        else
+            let postAction = s:HandleAction( x.renderContext, flt_rst )
+        endif
 
+    else
+        " TODO should not go to here
+        postAction = typed
     endif
 
     call s:log.Log( 'postAction=' . postAction )
