@@ -2998,9 +2998,6 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
     let act = flt_rst.action
 
     if act == 'build'
-        if ! has_key( flt_rst, 'text' )
-            let flt_rst.text = a:typed
-        end
 
     elseif act == 'keepIndent'
         " TODO check if this is neccesary
@@ -3404,8 +3401,6 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
         return action
     endif
 
-    let flt_rst.text = get( flt_rst, 'text', typed )
-
     let rc = s:HandleDefaultValueAction( renderContext, flt_rst )
     if rc is -1
         return s:FillinLeadingPlaceHolderAndSelect( renderContext, flt_rst )
@@ -3764,6 +3759,10 @@ fun! s:EvalFilter( filter, global, context ) "{{{
         endif
 
         call s:LoadFilterActionSnippet( r )
+
+        if has_key( a:context, 'typed' )
+            let r.text = get( r, 'text', a:context.typed )
+        endif
     endif
 
     return r
