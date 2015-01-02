@@ -16,6 +16,3 @@ test assigning var to var
 test tip: var,func
 test-build-ident-and-embed-indent
 test-priority-of-alias
-
-add doc of multi value of g:xptemplate_minimal_prefix
-add doc of drop down menu, behavior with different g:xptemplate_minimal_prefix set
