@@ -29,8 +29,6 @@ fun! xpt#eval#Eval( str, evalScope, evalContext ) "{{{
     " @param evalContext    key         desc
     "                       'typed'     what user typed
 
-    " TODO if expression compiled in loading phase, Variable not found can
-    "       not be found any more in runtime phase.
     if a:str == ''
         return ''
     endif
@@ -78,7 +76,7 @@ fun! xpt#eval#Compile( s, xfunc ) "{{{
 
     if expr is 0
         if a:s !~ s:item_var . '\|' . s:item_func
-            let expr = string( a:s )
+            let expr = string( xpt#util#UnescapeChar(a:s, s:nonsafe) )
 
         elseif a:s =~ '\V\^$\w\+\$'
             let expr = 'xfunc.GetVar(' . string( a:s ) . ')'
@@ -97,11 +95,6 @@ endfunction "}}}
 fun! s:DoCompile(s, xfunc) "{{{
 
     " non-escaped prefix
-
-
-    " TODO bug:() can not be evaluated
-    " TODO how to add '$' ?
-    " TODO \$ inside func or ( ) can not be parsed correctly
     let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . s:nonEscaped . '{\w\+(\[^($]\{-})}'
     let vptn = '\V' . s:nonEscaped . '$\w\+' . '\|' . s:nonEscaped . '{$\w\+}'
     let sptn = '\V' . s:nonEscaped . '(\[^($]\{-})'
