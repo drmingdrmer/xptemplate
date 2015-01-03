@@ -306,24 +306,32 @@ Add the above lines into `ftplugin/c/foobar.xpt.vim`.
 
 #### Supertab support
 
-You have also supertab installed? This is the way to try Xptemplate first and then supertab commpletionn( You have to be smart enough to figure out where to put these configure codes. But actually ~/.vimrc is a good place. ):
+Let XPTemplate try to match any snippet,
+then let supertab try to complete,
+and then fall back to literal input.
 
-    " avoid key conflict
-    let g:SuperTabMappingForward = '<Plug>supertabKey'
+Put following lines into `~/.vimrc`:
 
-    " if nothing matched in xpt, try supertab
-    let g:xptemplate_fallback = '<Plug>supertabKey'
+```vim
+" Prevent supertab from mapping <tab> to anything.
+let g:SuperTabMappingForward = '<Plug>xpt_void'
 
-    " xpt uses <Tab> as trigger key
-    let g:xptemplate_key = '<Tab>'
+" Tell XPTemplate what to fall back to, if nothing matches.
+" Original SuperTab() yields nothing if g:SuperTabMappingForward was set to
+" something it does not know.
+let g:xptemplate_fallback = '<C-r>=XPTwrapSuperTab("n")<CR>'
 
-    " " use <tab>/<S-tab> to navigate through pum. Optional
-    " let g:xptemplate_pum_tab_nav = 1
-
-    " " xpt triggers only when you typed whole name of a snippet. Optional
-    " let g:xptemplate_minimal_prefix = 'full'
-
-
+fun! XPTwrapSuperTab(command) "{{{
+    let v = SuperTab(a:command)
+    if v == ''
+        " Change \<Tab> to whatever you want, when neither XPTemplate or
+        " supertab needs to do anything.
+        return "\<Tab>"
+    else
+        return v
+    end
+endfunction "}}}
+```
 
 #### With popup menu opened, `<TAB>` doesn't trigger Snippe
 
