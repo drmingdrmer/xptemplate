@@ -47,7 +47,11 @@ fun! xpt#indent#ToActualIndent( lines, first_line_shift ) "{{{
         let shift_spaces = repeat(' ', a:first_line_shift)
         let i = 1
         while i < len(a:lines)
-            let a:lines[i] = shift_spaces . a:lines[i]
+            " always add indent to last line
+            " because last line is followed by other content thus it is not empty
+            if a:lines[i] != '' || i == len(a:lines)-1
+                let a:lines[i] = shift_spaces . a:lines[i]
+            endif
             let i += 1
         endwhile
     endif

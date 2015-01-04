@@ -89,7 +89,8 @@ fun! s:TestToActualIndentShift( t ) "{{{
 
     let cases = [
           \ [ '', "\n ", "\n	" ],
-          \ [ '	', "	\n	 ", "	\n		" ],
+          \ [ 'a', "a\n a", "a\n	a" ],
+          \ [ '	a', "	a\n	 a", "	a\n		a" ],
           \ ]
 
     for [input_line, out1, out4] in cases
