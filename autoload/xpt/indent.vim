@@ -75,4 +75,29 @@ fun! xpt#indent#IndentBefore( pos ) "{{{
 
 endfunction "}}}
 
+fun! xpt#indent#ToSpace( text ) "{{{
+
+    if stridx( a:text, "	" ) < 0
+        return a:text
+    endif
+
+    let tabspaces = repeat( ' ', &tabstop )
+
+    " a all-space indent or a mixed space-tab indent
+    let reg = '\v' . tabspaces . '| {0,' . (&tabstop-1) . '}	'
+
+    let rst = []
+    let lines = split( a:text, '\n', 1 )
+    for line in lines
+
+        let leading_space = matchstr( line, '\v\s*' )
+        let left = line[ len(leading_space) : ]
+
+        let l = substitute( leading_space, reg, tabspaces, 'g' )
+
+        call add( rst, l . left )
+    endfor
+    return join(rst, "\n")
+endfunction "}}}
+
 let &cpo = s:oldcpo

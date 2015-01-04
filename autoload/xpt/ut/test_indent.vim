@@ -105,6 +105,40 @@ fun! s:TestToActualIndentShift( t ) "{{{
     let [ &shiftwidth, &tabstop, &expandtab ] = old
 endfunction "}}}
 
+fun! s:TestToSpace( t ) "{{{
+    let old = [ &shiftwidth, &tabstop, &expandtab ]
+
+    let &shiftwidth = 4
+    let &tabstop = 4
+    let &expandtab = 0
+
+    let cases = [
+          \ [ '', '', ],
+          \ [ ' ', ' ', ],
+          \ [ '  ', '  ', ],
+          \ [ '   ', '   ', ],
+          \ [ '    ', '    ', ],
+          \ [ ' 	', '    ', ],
+          \ [ ' 	a', '    a', ],
+          \ [ " 	a\n 	", "    a\n    ", ],
+          \ [ "	a\n	b", "    a\n    b", ],
+          \ [ " 	a\n 	b", "    a\n    b", ],
+          \ [ "  	a\n  	b", "    a\n    b", ],
+          \ [ "   	a\n   	b", "    a\n    b", ],
+          \ [ "    	a\n    	b", "        a\n        b", ],
+          \ [ "	 a\n	 b", "     a\n     b", ],
+          \ [ "		 a\n		 	b",
+          \   "         a\n            b", ],
+          \ ]
+
+    for [inp, out] in cases
+        let text = xpt#indent#ToSpace( inp )
+        call a:t.Eq( out, text, string([inp, out]))
+    endfor
+
+    let [ &shiftwidth, &tabstop, &expandtab ] = old
+endfunction "}}}
+
 exec xpt#unittest#run
 
 let &cpo = s:oldcpo
