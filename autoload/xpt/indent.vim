@@ -100,4 +100,13 @@ fun! xpt#indent#ToSpace( text ) "{{{
     return join(rst, "\n")
 endfunction "}}}
 
+fun! xpt#indent#SpaceToTab( text ) "{{{
+    let indent_spaces = repeat(' ', &shiftwidth)
+    let reg = 'substitute(v:val, ''\v(^\s*)@<='.indent_spaces.''', "	", "g" )'
+
+    let lines = split( a:text, '\n', 1 )
+    call map( lines, reg )
+    return join(lines, "\n")
+endfunction "}}}
+
 let &cpo = s:oldcpo
