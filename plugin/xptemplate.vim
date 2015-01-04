@@ -2924,8 +2924,6 @@ fun! s:ApplyPostFilter() "{{{
         if flt_rst.action == 'build'
             " TODO extract to function
 
-            call cursor( start )
-
             let renderContext.firstList = []
             let buildrc = s:BuildPlaceHolders( marks )
 
