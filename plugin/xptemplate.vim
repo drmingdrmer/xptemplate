@@ -3669,9 +3669,6 @@ fun! s:EvalFilter( filter, global, context ) "{{{
 
     if type( rst ) == type( '' )
 
-        " indent adjusting should be done just before put onto screen.
-        " call a:filter.AdjustIndent( a:context.startPos )
-
         " plain text is interpreted as plain text or snippet segment, depends
         " on if there is mark in it.
         "
