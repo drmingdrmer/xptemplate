@@ -207,6 +207,9 @@ def load_test(testfn):
             state = line[:-1]
             continue
 
+        if line == 'emptyline':
+            line = ''
+
         test[state].append( line )
         logger.info( '- ' + repr(state) + ': ' + repr(line) )
 
