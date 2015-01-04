@@ -202,10 +202,6 @@ endfunction "}}}
 let g:XPT_RC = {
       \   'ok' : {},
       \   'canceled' : {},
-      \   'POST' : {
-      \       'unchanged'     : {},
-      \       'keepIndent'    : {},
-      \   }
       \}
 
 let s:buildingSeqNr = 0
@@ -2978,38 +2974,9 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
     let flt_rst = s:EvalFilter( a:filter, renderContext.ftScope.funcs, {
           \ 'typed' : a:typed, 'startPos' : startMark.pos } )
 
-
     call s:log.Log("post_value:\n", string(a:filter))
 
-    if flt_rst.rc == 0
-        return
-    endif
-
-    let act = flt_rst.action
-
-    if act == 'build'
-
-    elseif act == 'keepIndent'
-        " TODO check if this is neccesary
-        let flt_rst.nIndent = 0
-
-        " TODO
-    " elseif act.name == 'expandTmpl'
-        " let leader = renderContext.leadingPlaceHolder
-        " let marks = leader.marks
-        " let [ start, end ] = XPMposList( marks.start, marks.end )
-
-        " call XPreplace( start, end, '')
-        " return XPTemplateStart(0, {'startPos' : start, 'tmplName' : post.tmplName})
-
-        " let res = [ post. ]
-    else
-        " unknown action
-        " let flt_rst.text = get( post, 'text', '' )
-    endif
-
     return flt_rst
-
 endfunction "}}}
 
 

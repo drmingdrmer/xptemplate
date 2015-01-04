@@ -319,7 +319,6 @@ fun! s:f.BuildIfChanged( ... )
   let fn = substitute( self.ItemInitValueWithEdge(), "\\V\n\\|\\s", '', 'g')
 
   if v ==# fn || v == ''
-      " return { 'action' : 'keepIndent', 'text' : self.V() }
       return ''
   else
       return { 'action' : 'build', 'text' : join( a:000, '' ) }
