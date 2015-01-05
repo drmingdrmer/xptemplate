@@ -112,12 +112,10 @@ exe XPT#let_sid
 
 
 runtime plugin/xptemplate.conf.vim
-runtime plugin/xptemplate.util.vim
 runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
 runtime plugin/xpopup.vim
 runtime plugin/classes/SettingSwitch.vim
-runtime plugin/classes/FiletypeScope.vim
 runtime plugin/classes/RenderContext.vim
 
 exec XPT#importConst
