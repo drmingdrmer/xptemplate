@@ -1480,16 +1480,6 @@ fun! s:IfSnippetShow( snipObj, synNames ) "{{{
 
 endfunction "}}}
 
-
-
-fun! s:AdjustIndentAt( text, startPos ) "{{{
-
-    let nIndent = XPT#getIndentNr( a:startPos[0], a:startPos[1] )
-
-    return s:AddIndent( a:text, nIndent )
-
-endfunction "}}}
-
 fun! s:AddIndent( text, nIndent ) "{{{
 
     let baseIndent = repeat( " ", a:nIndent )
