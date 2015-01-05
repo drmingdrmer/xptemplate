@@ -25,7 +25,6 @@ set cpo-=< cpo+=B
 runtime plugin/debug.vim
 
 runtime plugin/classes/FiletypeScope.vim
-runtime plugin/classes/FilterValue.vim
 runtime plugin/xptemplate.util.vim
 runtime plugin/xptemplate.vim
 
@@ -602,7 +601,7 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
 
     elseif a:keytype == "" || a:keytype ==# 'def'
         " first line is indent : empty indent
-        let a:setting.defaultValues[a:keyname] = g:FilterValue.New( 0, a:value )
+        let a:setting.defaultValues[a:keyname] = xpt#flt#New( 0, a:value )
 
     elseif a:keytype ==# 'map'
 
@@ -616,14 +615,14 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
 
         call xpt#msvr#Add( a:setting.mappings[ a:keyname ].saver, 'i', key )
 
-        let a:setting.mappings[ a:keyname ].keys[ key ] = g:FilterValue.New( 0, mapping )
+        let a:setting.mappings[ a:keyname ].keys[ key ] = xpt#flt#New( 0, mapping )
 
 
     elseif a:keytype ==# 'pre'
-        let a:setting.preValues[a:keyname] = g:FilterValue.New( 0, a:value )
+        let a:setting.preValues[a:keyname] = xpt#flt#New( 0, a:value )
 
     elseif a:keytype ==# 'ontype'
-        let a:setting.ontypeFilters[a:keyname] = g:FilterValue.New( 0, a:value )
+        let a:setting.ontypeFilters[a:keyname] = xpt#flt#New( 0, a:value )
 
     elseif a:keytype ==# 'post'
         if a:keyname =~ '\V...'
@@ -631,11 +630,11 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
             "
             " first line is indent : empty indent
             let a:setting.postFilters[a:keyname] = 
-                  \ g:FilterValue.New( 0, 'BuildIfNoChange(' . string(a:value) . ')' )
+                  \ xpt#flt#New( 0, 'BuildIfNoChange(' . string(a:value) . ')' )
 
         else
             " first line is indent : empty indent
-            let a:setting.postFilters[a:keyname] = g:FilterValue.New( 0, a:value )
+            let a:setting.postFilters[a:keyname] = xpt#flt#New( 0, a:value )
 
         endif
 
