@@ -4644,40 +4644,7 @@ fun! s:CallPlugin(ev, when) "{{{
 
 endfunction "}}}
 
-
 com! XPTreload call XPTreload()
 com! XPTcrash call <SID>Crash()
 
-
-" " acp hack to detect if acp is showing
-" let scriptnames = XPT#getCmdOutput( 'silent scriptnames' )
-" let scrs = split( scriptnames, "\n" )
-" for s in scrs
-"     if s =~ '\V/autoload/acp.vim\$'
-"         let acpline = s
-"         break
-"     endif
-" endfor
-
-" let acpsid = matchstr( acpline, '\V\s\*\zs\d\+' )
-
-" let SS = function( '<SNR>' . acpsid . '_setTempOption' )
-
-
-" fun! XPTwhat(x)
-"     let s:acp_tempOptionSet = a:x
-"     let a:x[ 0 ] = {}
-"     return ''
-" endfunction
-
-
-" try
-"     call SS( 0, 'readonly.XPTwhat(s:tempOptionSet)', &readonly )
-" catch /.*/
-" endtry
-
-" echom string( s:acp_tempOptionSet )
-
 let &cpo = s:oldcpo
-
-
