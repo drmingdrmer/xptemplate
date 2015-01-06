@@ -11,17 +11,17 @@ tpath=/tmp/xpt-ci/$hsh
 mkdir -p $tpath \
     && git checkout-index -af --prefix=$tpath/ \
     && cd $tpath \
-    && tmux new -s xpt-engine-test -d 'python2.6 test/run.py' \
+    && tmux new -s xpt-engine-test -d 'python2 test/run.py' \
     || exit 1
 
 while tmux has-session -t xpt-engine-test; do
     echo
     echo "----testing $name----"
-    tail -n200 $tpath/xpt-test.log | grep -v DEBUG | tail -n10
+    tail -n300 $tpath/xpt-test.log | grep -v DEBUG | tail -n20
     sleep 1;
 done
 )
 
 echo
 echo "----done $name----"
-tail -n100 $tpath/xpt-test.log | grep -v DEBUG | tail -n10
+tail -n300 $tpath/xpt-test.log | grep -v DEBUG | tail -n20
