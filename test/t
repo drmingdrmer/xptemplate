@@ -1,27 +1,91 @@
 #!/bin/bash
 
+if which python2.6; then
+    py=python2.6
+else
+    py=python2
+fi
+
 branch=$(git rev-parse --symbolic-full-name HEAD)
 hsh=$(git rev-parse HEAD)
 
 name="${branch} @ ${hsh}"
 
 tpath=/tmp/xpt-ci/$hsh
+casedir=$tpath/test/cases
 
-(
+test_one_case()
+{
+    local casename=$1
+    local casepath=$casedir/$casename
+    local sessname=xpt-test-$casename
+
+    echo "testing" >$casepath/rc
+
+    echo ">   start test $sessname"
+
+    # -s let python and vim quit when test fails
+    tmux new -s $sessname -d $py' test/run.py -s '$casename || exit 1
+
+    while tmux has-session -t $sessname 2>/dev/null; do
+        sleep 1;
+    done
+
+    echo ">   done  test $casename: $(cat $casepath/rc)"
+
+    if cat $casepath/rc | grep -q "pass"; then
+        return 0
+    else
+        cat $casepath/rc
+        return 1
+    fi
+}
+
+list_running()
+{
+    local indent="$1"
+    tmux ls -F "$indent#{session_name}" | grep 'xpt-test-'
+}
+
+nr_running()
+{
+    list_running | wc -l | awk '{print $1}'
+}
+
+wait_if_gt()
+{
+    local thre=$1
+    while [ $(nr_running) -gt $thre ]; do
+
+        echo ""
+        echo "nr running: $(nr_running):"
+        list_running "    "
+
+        echo ""
+        echo "failed:"
+        grep fail `find ./test/cases -name "rc"`
+        sleep 1
+    done
+}
+
+echo test repo path: $tpath
+
 mkdir -p $tpath \
     && git checkout-index -af --prefix=$tpath/ \
-    && cd $tpath \
-    && tmux new -s xpt-engine-test -d 'python2 test/run.py' \
-    || exit 1
+    && cd $tpath || exit 1
 
-while tmux has-session -t xpt-engine-test; do
-    echo
-    echo "----testing $name----"
-    tail -n300 $tpath/xpt-test.log | grep -v DEBUG | tail -n20
-    sleep 1;
+cases=$(ls $casedir)
+
+for c in $cases; do
+
+    { test_one_case $c; } &
+
+    wait_if_gt 8
+    sleep 1
+
 done
-)
 
-echo
-echo "----done $name----"
-tail -n300 $tpath/xpt-test.log | grep -v DEBUG | tail -n20
+wait_if_gt 0
+
+echo "failed:"
+grep -v all-passed `find ./test/cases -name "rc"`
