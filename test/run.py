@@ -12,6 +12,9 @@ import stat
 import time
 import fnmatch
 
+flags = {
+        'keep': True, # keep vim open for further check if test fails
+}
 mybase = os.path.dirname(os.path.realpath(__file__))
 
 class TestError( Exception ): pass
@@ -92,13 +95,20 @@ def main( pattern, subpattern='*' ):
         # with TestError, stop and see what happened
         ex, ac = e[1], e[2]
 
+        logger.info( "failure:" )
         for i in range( len(ex) ):
             if i >= len(ac) or ex[i] != ac[i]:
                 logger.info( ( i+1, ex[i], ac[i] ) )
 
-        # for l in ['>>Expected:'] + e[1] + ['>>Actual:'] + e[2]:
-        #     logger.info( repr(l) )
-        raise
+        if flags[ 'keep' ]:
+            # wait for user to see what happened
+            logger.info( "Ctrl-c to quit" )
+            while True:
+                time.sleep( 10 )
+        else:
+            tmux_cleanup()
+            raise
+
     except Exception as e:
         # with other error, close it
         tmux_cleanup()
@@ -149,16 +159,19 @@ def run_oldstyle(base):
 
     vim_close()
 
-def run_tests(base, subpattern):
+    rcpath = os.path.join( base, 'rc' )
+    fwrite( rcpath, "all-passed" )
 
-    tests_dir = os.path.join(base, 'tests')
+def run_tests(casebase, subpattern):
+
+    tests_dir = os.path.join(casebase, 'tests')
     testnames = os.listdir(tests_dir)
 
     for testname in testnames:
         if not fnmatch.fnmatch( testname, subpattern ):
             continue
 
-        logger.info("running {0} {1} ...".format(os.path.basename(base),
+        logger.info("running {0} {1} ...".format(os.path.basename(casebase),
                                                 testname))
 
         test = load_test(os.path.join(tests_dir, testname))
@@ -166,25 +179,29 @@ def run_tests(base, subpattern):
             logger.info("SKIP: " + testname)
             continue
 
-        try_rm_rst(base)
+        try_rm_rst(casebase)
 
-        vim_start(base)
-        vim_add_rtp( base )
-        vim_set_default_ft( base )
-        vim_so_fn( os.path.join( base, "setting.vim" ) )
+        vim_start(casebase)
+        vim_add_rtp( casebase )
+        vim_set_default_ft( casebase )
+        vim_so_fn( os.path.join( casebase, "setting.vim" ) )
         vim_add_settings(test['setting'])
         vim_add_local_settings(test['localsetting'])
-        vim_load_content( os.path.join( base, "context" ) )
+        vim_load_content( os.path.join( casebase, "context" ) )
         tmux_keys( "s" )
 
         vim_key_sequence_strings(test['keys'])
-        vim_save_to( os.path.join( base, "rst" ) )
+        vim_save_to( os.path.join( casebase, "rst" ) )
 
-        rst = fread( base, "rst" )
-        _check_rst( base+'.'+testname, test['expected'], rst )
-        os.unlink( os.path.join( base, "rst" ) )
+        rst = fread( casebase, "rst" )
+        _check_rst( (casebase, testname), test['expected'], rst )
+        os.unlink( os.path.join( casebase, "rst" ) )
 
         vim_close()
+
+    rcpath = os.path.join( casebase, 'rc' )
+    fwrite( rcpath, "all-passed" )
+
 
 def load_test(testfn):
 
@@ -231,10 +248,12 @@ def vim_start( base ):
 
 def vim_start_vimrc( vimrcfn ):
     tmux_keys( "vim -u " + vimrcfn + key["cr"] )
+    delay()
     logger.debug( "vim started with vimrc: " + repr(vimrcfn) )
 
 def vim_close():
     tmux_keys( key["esc"], ":qa!", key["cr"] )
+    delay()
     logger.debug( "vim closed" )
 
 def vim_load_content( fn ):
@@ -248,6 +267,7 @@ def vim_load_content( fn ):
     tmux_keys( content, key['cr'] )
     tmux_keys( key['c_c'] )
     tmux_keys( '/', key['c_v'], key['c_l'], key['cr'] )
+    delay()
 
     logger.debug( "vim content loaded: " + repr( content ) )
 
@@ -256,6 +276,7 @@ def vim_so_fn( fn ):
         return
 
     tmux_keys( ":so " + fn, key['cr'] )
+    delay()
     logger.debug( "vim setting loaed: " + repr(fn) )
 
 def vim_add_rtp( path ):
@@ -266,14 +287,19 @@ def vim_add_rtp( path ):
     logger.debug( "additional rtp: " + repr( path ) )
 
 def vim_add_settings( settings ):
-    for st in settings:
-        tmux_keys(":set " + st + key['cr'] )
-        logger.debug( "set: " + repr( st ) )
+    if len( settings ) == 0:
+        return
+    vim_cmd( [ "set" ] + settings )
 
 def vim_add_local_settings( settings ):
-    for st in settings:
-        tmux_keys(":setlocal " + st + key['cr'] )
-        logger.debug( "setlocal: " + repr( st ) )
+    if len( settings ) == 0:
+        return
+    vim_cmd( [ "setlocal" ] + settings )
+
+def vim_cmd( elts ):
+    s = ":" + ' '.join( elts )
+    tmux_keys( s + key['cr'] )
+    logger.debug( s )
 
 def vim_set_default_ft( base ):
     ft_foo_path = _path( base, 'ftplugin', 'foo', 'foo.xpt.vim' )
@@ -298,6 +324,7 @@ def vim_key_sequence_strings( lines ):
         if line == '':
             continue
         tmux_keys( line )
+        delay()
 
     logger.debug( "end of key sequence" )
 
@@ -306,7 +333,7 @@ def vim_save_to( fn ):
     tmux_keys( key['esc']*2, ":w " + fn, key['cr'] )
 
     while not os.path.exists( os.path.join( fn ) ):
-        time.sleep(0.01)
+        time.sleep(0.1)
 
     logger.debug( "rst saved to " + repr(fn))
 
@@ -317,16 +344,26 @@ def check_result( base ):
     _check_rst(base, expected, rst)
     os.unlink( os.path.join( base, "rst" ) )
 
-def _check_rst(testname, expected, rst):
+def _check_rst(ident, expected, rst):
+
+    if type(ident) == type(()):
+        casepath, testname = ident
+    else:
+        casepath, testname = ident, ""
+
+    rcpath = os.path.join( casepath, 'rc' )
     if expected != rst:
-        raise TestError( testname, expected.split("\n"), rst.split("\n") )
+        fwrite( rcpath, "fail " + testname )
+        raise TestError( ident, expected.split("\n"), rst.split("\n") )
+    else:
+        fwrite( rcpath, "pass " + testname )
 
 def tmux_setup():
     try:
         _tmux( "kill-pane", "-t", 1 )
     except Exception as e:
         pass
-    _tmux( "split-window", "-h" )
+    _tmux( "split-window", "-h", "bash --norc" )
     _tmux( "select-pane", "-t", 0 )
 
 def tmux_cleanup():
@@ -334,13 +371,13 @@ def tmux_cleanup():
 
 def tmux_keys( *args ):
     _tmux( "send-key", "-l", "-t", 1, "".join(args) )
-    if args[-1][-1] == key['cr']:
-        logger.debug( "wait for cr to complete" )
-        time.sleep(0.4)
-    time.sleep(0.4)
 
 def _tmux( *args ):
     sh( 'tmux', *args )
+
+def fwrite( fn, cont ):
+    with open(fn, 'w') as f:
+        f.write( cont )
 
 def fread( *args ):
     fn = os.path.join( *args )
@@ -351,6 +388,10 @@ def fread( *args ):
         content = content[:-1]
 
     return content
+
+def delay():
+    logger.debug( "delay 1 second" )
+    time.sleep( 1 )
 
 def sh( *args, **argkv ):
 
@@ -378,6 +419,11 @@ def _path( *args ):
 
 if __name__ == "__main__":
     args = sys.argv
+    if '-s' in args:
+        # silent mode, do not keep
+        flags[ 'keep' ] = False
+        args.remove( '-s' )
+
     if len(args) > 1:
         main(*args[1:])
     else:
