@@ -149,6 +149,7 @@ def run_oldstyle(base):
 
     vim_start(base)
     vim_add_rtp( base )
+    vim_set_default_ft( base )
     vim_so_fn( os.path.join( base, "setting.vim" ) )
     vim_load_content( os.path.join( base, "context" ) )
     tmux_keys( "s" )
