@@ -135,36 +135,7 @@ def run_case( cname, subpattern ):
 
     logger.info( "running " + cname + " ..." )
 
-    base = os.path.join( mybase, "cases", cname )
-
-    tests_dir = os.path.join(base, 'tests')
-    if os.path.isdir(tests_dir):
-        run_tests(base, subpattern)
-    else:
-        run_oldstyle(base)
-
-def run_oldstyle(base):
-
-    try_rm_rst(base)
-
-    vim_start(base)
-    vim_add_rtp( base )
-    vim_set_default_ft( base )
-    vim_so_fn( os.path.join( base, "setting.vim" ) )
-    vim_load_content( os.path.join( base, "context" ) )
-    tmux_keys( "s" )
-    vim_key_sequence( os.path.join( base, "keys" ) )
-    vim_save_to( os.path.join( base, "rst" ) )
-
-    check_result( base )
-
-    vim_close()
-
-    rcpath = os.path.join( base, 'rc' )
-    fwrite( rcpath, "all-passed" )
-
-def run_tests(casebase, subpattern):
-
+    casebase = os.path.join( mybase, "cases", cname )
     tests_dir = os.path.join(casebase, 'tests')
     testnames = os.listdir(tests_dir)
 
@@ -310,17 +281,6 @@ def vim_set_default_ft( base ):
         # changing setting may cause a lot ftplugin to load
         delay()
 
-def vim_key_sequence( fn ):
-
-    if not os.path.exists(fn):
-        return
-
-    content = fread( fn )
-
-    logger.debug( "loaded key sequence: " + repr(content) )
-    lines = content.split("\n")
-    vim_key_sequence_strings(lines)
-
 def vim_key_sequence_strings( lines ):
 
     for line in lines:
@@ -339,13 +299,6 @@ def vim_save_to( fn ):
         time.sleep(0.1)
 
     logger.debug( "rst saved to " + repr(fn))
-
-def check_result( base ):
-
-    expected = fread( base, "expected" )
-    rst = fread( base, "rst" )
-    _check_rst(base, expected, rst)
-    os.unlink( os.path.join( base, "rst" ) )
 
 def _check_rst(ident, expected, rst):
 
