@@ -52,18 +52,15 @@ nr_running()
     list_running | wc -l | awk '{print $1}'
 }
 
+list_failed()
+{
+    grep fail `find ./test/cases -name "rc"`
+}
+
 wait_if_gt()
 {
     local thre=$1
     while [ $(nr_running) -gt $thre ]; do
-
-        echo ""
-        echo "nr running: $(nr_running):"
-        list_running "    "
-
-        echo ""
-        echo "failed:"
-        grep fail `find ./test/cases -name "rc"`
         sleep 1
     done
 }
@@ -79,13 +76,30 @@ cases=$(ls $casedir)
 for c in $cases; do
 
     { test_one_case $c; } &
+    sleep 0.1
+
+    echo ""
+    echo "nr running: $(nr_running):"
+    list_running "    "
+
+    failed=$(list_failed)
+    if [ ! -z "$failed" ]; then
+        echo ""
+        echo "failed:"
+        echo "$failed"
+    fi
 
     wait_if_gt 8
-    sleep 1
-
 done
 
 wait_if_gt 0
 
-echo "failed:"
-grep -v all-passed `find ./test/cases -name "rc"`
+failed=$(list_failed)
+
+if [ -z "$failed" ]; then
+    echo "all passed. *** Congratulations! ***"
+else
+    echo ""
+    echo "failed:"
+    echo "$failed"
+fi
