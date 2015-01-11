@@ -60,9 +60,25 @@ list_failed()
 wait_if_gt()
 {
     local thre=$1
+    local verbose=${2-0}
     while [ $(nr_running) -gt $thre ]; do
+        if [ ".$verbose" = ".1" ]; then
+            progress_stat
+        fi
         sleep 1
     done
+}
+
+progress_stat()
+{
+    local n_done=
+    local perc_start=
+    local perc_done=
+
+    let n_done=n_started-$(nr_running)
+    let perc_start=100*n_started/n_total
+    let perc_done=100*n_done/n_total
+    echo "$n_done ~ $n_started / $n_total  $perc_done% ~ $perc_start%"
 }
 
 echo test repo path: $tpath
@@ -72,14 +88,17 @@ mkdir -p $tpath \
     && cd $tpath || exit 1
 
 cases=$(ls $casedir)
+n_total=$(ls $casedir|wc -l| awk '{print $1}')
+n_started=0
 
 for c in $cases; do
 
     { test_one_case $c; } &
     sleep 0.1
+    let n_started=n_started+1
 
     echo ""
-    echo "nr running: $(nr_running):"
+    echo "nr running: $(progress_stat):"
     list_running "    "
 
     failed=$(list_failed)
@@ -92,7 +111,7 @@ for c in $cases; do
     wait_if_gt 8
 done
 
-wait_if_gt 0
+wait_if_gt 0 1
 
 failed=$(list_failed)
 
