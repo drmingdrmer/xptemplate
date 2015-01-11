@@ -307,6 +307,8 @@ def vim_set_default_ft( base ):
     logger.debug( "ft_foo_path: " + ft_foo_path )
     if os.path.isfile( ft_foo_path ):
         vim_add_settings( [ 'filetype=foo' ] )
+        # changing setting may cause a lot ftplugin to load
+        delay()
 
 def vim_key_sequence( fn ):
 
