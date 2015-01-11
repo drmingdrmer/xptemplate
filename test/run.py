@@ -399,7 +399,7 @@ def delay():
 def sh( *args, **argkv ):
 
     args = [str(x) for x in args]
-    logger.debug( "Command: " + repr( args ) )
+    logger.debug( "Shell Command: " + repr( args ) )
 
     subproc = subprocess.Popen( args,
                              close_fds = True,
