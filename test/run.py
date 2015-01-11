@@ -316,17 +316,17 @@ def _check_rst(ident, expected, rst):
 
 def tmux_setup():
     try:
-        _tmux( "kill-pane", "-t", 1 )
+        _tmux( "kill-pane", "-t", ":0.1" )
     except Exception as e:
         pass
     _tmux( "split-window", "-h", "bash --norc" )
-    _tmux( "select-pane", "-t", 0 )
+    _tmux( "select-pane", "-t", ":0.0" )
 
 def tmux_cleanup():
-    _tmux( "kill-pane", "-t", 1 )
+    _tmux( "kill-pane", "-t", ":0.1" )
 
 def tmux_keys( *args ):
-    _tmux( "send-key", "-l", "-t", 1, "".join(args) )
+    _tmux( "send-key", "-l", "-t", ":0.1", "".join(args) )
 
 def _tmux( *args ):
     sh( 'tmux', *args )
