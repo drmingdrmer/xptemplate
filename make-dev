@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 src_branch=mix
 dst_branch=dev
@@ -10,12 +10,11 @@ if [ ".$cur_branch" = "." ]; then
     exit 1
 fi
 
-dst_hash=$(git log -n1 --format="%H" $dst_branch)
 src_tree_hash=$(git cat-file -p $src_branch | head -n1 | awk '{print $2}')
 
-echo make new commit of $cur_branch with tree $src_tree_hash
+mes="dev\n\nx-update-from: $src_branch $cur_hash"
 
-new_commit_hash=$(echo "dev\n\nx-update-from: $src_branch $cur_hash" | git commit-tree $src_tree_hash -p $dst_hash)
+new_commit_hash=$(echo "$mes" | git commit-tree $src_tree_hash -p $dst_branch)
 git checkout $dst_branch \
     && git merge --ff-only $new_commit_hash \
     && git commit --amend
