@@ -15,6 +15,7 @@ cur_branch=$(./_script/_git_branch)
     --commit \
     --no-ff \
     $branches \
-    && ./_script/update-doc \
+    && vim -c "helptags ./doc" -c "qa!" \
+    && git commit -a -m 'update doc'
     && git tag -f mixdoc
 
