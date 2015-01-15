@@ -7,7 +7,7 @@ Build({snippet_text})
 
 	After calling it, place holder is removed and the first place holder
 	in this piece of snippet built is selected.
-	
+
 	Context: >
 		XSET ph=Build('`a^ = `0^')
 		XSET ph|post=Build('`a^ = `0^')
