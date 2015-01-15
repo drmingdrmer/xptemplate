@@ -51,7 +51,7 @@ fun! xpt#eval#Eval( str, evalScope, evalContext ) "{{{
     let a:evalScope.renderContext = renderContext
 
 
-    let expr = xpt#eval#Compile( a:str, a:evalScope )
+    let expr = xpt#eval#Compile( a:str )
 
     call s:log.Debug( 'expression to eval=' . string( expr ) )
 
@@ -65,7 +65,7 @@ fun! xpt#eval#Eval( str, evalScope, evalContext ) "{{{
 
 endfunction "}}}
 
-fun! xpt#eval#Compile( s, xfunc ) "{{{
+fun! xpt#eval#Compile( s ) "{{{
     " TODO consistent cache: evalTable
 
     if a:s is ''
@@ -82,7 +82,7 @@ fun! xpt#eval#Compile( s, xfunc ) "{{{
             let expr = 'xfunc.GetVar(' . string( a:s ) . ')'
 
         else
-            let expr = s:DoCompile( a:s, a:xfunc )
+            let expr = s:DoCompile( a:s )
         endif
 
         let s:_evalCache.compiledExpr[ a:s ] = expr
@@ -92,7 +92,7 @@ fun! xpt#eval#Compile( s, xfunc ) "{{{
 
 endfunction "}}}
 
-fun! s:DoCompile(s, xfunc) "{{{
+fun! s:DoCompile(s) "{{{
 
     " non-escaped prefix
     let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . s:nonEscaped . '{\w\+(\[^($]\{-})}'
@@ -114,13 +114,8 @@ fun! s:DoCompile(s, xfunc) "{{{
 
     call s:log.Debug( 'string =' . a:s, 'strmask=' . stringMask )
 
-
-
-
-
     let str = a:s
     let evalMask = repeat('-', len(stringMask))
-
 
     while 1
 
