@@ -50,10 +50,10 @@ fun! xpt#flt#Simplify( flt ) "{{{
     call filter( a:flt, 'v:val!=get(s:proto,v:key,-987654)' )
 endfunction "}}}
 
-fun! xpt#flt#Eval( flt, container, context ) "{{{
+fun! xpt#flt#Eval( flt, closures ) "{{{
 
-    let r = { 'rc' : 1, 'context' : a:context }
-    let rst = xpt#eval#Eval( a:flt.text, a:container, a:context )
+    let r = { 'rc' : 1 }
+    let rst = xpt#eval#Eval( a:flt.text, a:closures )
 
     call s:log.Debug( 'filter eval result=' . string( rst ) )
 
