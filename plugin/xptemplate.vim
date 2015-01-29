@@ -3126,18 +3126,18 @@ fun! s:ExtractOneItem() "{{{
 
 endfunction "}}}
 
-fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
+fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
     " @return   string  typing
     "           -1      if this action can not be handled
 
     let x = b:xptemplateData
-    let ctx = a:ctx
-    let leader = ctx.leadingPlaceHolder
+    let rctx = a:rctx
+    let leader = rctx.leadingPlaceHolder
 
     call s:log.Log( "type is " . type( a:flt_rst ). ' {} type is ' . type( {} ) )
 
     if a:flt_rst.action ==# 'expandTmpl'
-        " let ctx.item.behavior.gotoNextAtOnce = 1
+        " let rctx.item.behavior.gotoNextAtOnce = 1
 
 
         " do NOT need to update position
@@ -3148,17 +3148,17 @@ fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
         return XPTemplateStart(0, {'startPos' : getpos(".")[1:2], 'tmplName' : a:flt_rst.tmplName})
 
     elseif a:flt_rst.action ==# 'pum'
-        return s:DefaultValuePumHandler( ctx, a:flt_rst )
+        return s:DefaultValuePumHandler( rctx, a:flt_rst )
 
     elseif a:flt_rst.action ==# 'finishTemplate'
 
-        return s:ActionFinish( ctx, a:flt_rst )
+        return s:ActionFinish( rctx, a:flt_rst )
 
     elseif a:flt_rst.action ==# 'build'
 
         " building destory current item
         " TODO what if flt_rst has no text?
-        let [ built ] =  s:EmbedSnippetInLeadingPlaceHolder( ctx, get(a:flt_rst, 'text', ''), a:flt_rst )
+        let [ built ] =  s:EmbedSnippetInLeadingPlaceHolder( rctx, get(a:flt_rst, 'text', ''), a:flt_rst )
         return s:GotoNextItem()
 
     elseif a:flt_rst.action ==# 'next'
@@ -3166,7 +3166,7 @@ fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
         let postaction = ''
         " Note: update following?
         if has_key( a:flt_rst, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:flt_rst )
+            let postaction = s:FillinLeadingPlaceHolderAndSelect( rctx, a:flt_rst )
         endif
         if x.renderContext.processing
             return s:ShiftForward( '' )
@@ -3178,7 +3178,7 @@ fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
 
         let postaction = ''
         if has_key( a:flt_rst, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( ctx, a:flt_rst )
+            let postaction = s:FillinLeadingPlaceHolderAndSelect( rctx, a:flt_rst )
         endif
         if x.renderContext.processing
             return s:ShiftForward( 'clear' )
@@ -3187,7 +3187,7 @@ fun! s:HandleDefaultValueAction( ctx, flt_rst ) "{{{
         endif
 
     elseif a:flt_rst.action ==# 'text'
-        return s:FillinLeadingPlaceHolderAndSelect( ctx, a:flt_rst )
+        return s:FillinLeadingPlaceHolderAndSelect( rctx, a:flt_rst )
     else
         " other action
 
