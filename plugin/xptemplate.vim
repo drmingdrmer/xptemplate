@@ -2496,8 +2496,7 @@ endfunction "}}}
 fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
     " TODO eval edge and name separately?
 
-    let x = b:xptemplateData
-    let rctx = x.renderContext
+    let rctx = b:xptemplateData.renderContext
 
     let ph = a:placeHolder
     let nameInfo    = a:nameInfo
@@ -2506,7 +2505,7 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
 
     call s:log.Debug( 'instant placeHolder' )
 
-    let flt_indent = {}
+    let combined_flt_rst = {}
     let text = ''
     let to_build = 0
     for k in [ 'leftEdge', 'name', 'rightEdge' ]
@@ -2518,9 +2517,9 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
                   \ ] )
             let text .= get( flt_rst, 'text', '' )
             if get(flt_rst, 'nIndent', 0) != 0
-                let flt_indent.nIndent = flt_rst.nIndent
+                let combined_flt_rst.nIndent = flt_rst.nIndent
             endif
-            if get( flt_rst, 'action', 0 ) == 'build'
+            if flt_rst.action == 'build'
                 let to_build = 1
             endif
         endif
@@ -2530,8 +2529,8 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
 
     let valueInfo[-1][1] += 1
 
-    let flt_indent.text = text
-    let text = s:IndentFilterText(flt_indent, start)
+    let combined_flt_rst.text = text
+    let text = s:IndentFilterText(combined_flt_rst, start)
 
     call XPreplaceInternal( nameInfo[0], valueInfo[-1], text, { 'doJobs' : 1 } )
 
