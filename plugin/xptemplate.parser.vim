@@ -25,10 +25,9 @@ set cpo-=< cpo+=B
 runtime plugin/debug.vim
 
 runtime plugin/classes/FiletypeScope.vim
-runtime plugin/xptemplate.util.vim
 runtime plugin/xptemplate.vim
 
-
+exec XPT#importConst
 
 let s:log = CreateLogger( 'warn' )
 " let s:log = CreateLogger( 'debug' )
@@ -46,9 +45,6 @@ com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
 com! -nargs=+ XPTinclude    call XPTinclude(<f-args>)
 com! -nargs=+ XPTembed      call XPTembed(<f-args>)
 " com! -nargs=* XSET          call XPTbufferScopeSet( <q-args> )
-
-
-let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
 fun! s:AssignSnipFT( filename ) "{{{
     let x = b:xptemplateData
@@ -586,10 +582,10 @@ endfunction "}}}
 fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
 
     if a:keyname ==# 'ComeFirst'
-        let a:setting.comeFirst = s:SplitWith( a:value, ' ' )
+        let a:setting.comeFirst = xpt#util#SplitWith( a:value, ' ' )
 
     elseif a:keyname ==# 'ComeLast'
-        let a:setting.comeLast = s:SplitWith( a:value, ' ' )
+        let a:setting.comeLast = xpt#util#SplitWith( a:value, ' ' )
 
     elseif a:keyname ==# 'postQuoter'
         let a:setting.postQuoter = a:value
@@ -643,12 +639,6 @@ fun! s:HandleXSETcommand(setting, command, keyname, keytype, value) "{{{
 
     endif
 
-endfunction "}}}
-
-
-fun! s:SplitWith( str, char ) "{{{
-  let s = split( a:str, '\V' . s:nonEscaped . a:char, 1 )
-  return s
 endfunction "}}}
 
 
