@@ -25,9 +25,9 @@ fun! s:TestEval( t ) "{{{
           \ [ [ '$', {}, {} ], '$' ],
           \ [ [ '$$', {}, {} ], '$$' ],
           \ [ [ 'aa$', {}, {} ], 'aa$' ],
-          \ [ [ '$a', {}, {} ], '$a' ],
-          \ [ [ '$abcd', {}, {} ], '$abcd' ],
-          \ [ [ 'xx$abcd', {}, {} ], 'xx$abcd' ],
+          \ [ [ '$a', {}, {} ], '' ],
+          \ [ [ '$abcd', {}, {} ], '' ],
+          \ [ [ 'xx$abcd', {}, {} ], 'xx' ],
           \
           \ [ [ '$a', {"$a" : "var-a"}, {} ], 'var-a' ],
           \ [ [ '$ a', {"$a" : "var-a"}, {} ], '$ a' ],
@@ -35,6 +35,8 @@ fun! s:TestEval( t ) "{{{
           \ [ [ '\$a', {"$a" : "var-a"}, {} ], '$a' ],
           \ [ [ 'cc$a', {"$a" : "var-a"}, {} ], 'ccvar-a' ],
           \ [ [ '{$a}b', {"$a" : "var-a"}, {} ], 'var-ab' ],
+          \
+          \ [ [ '{$a}b', {"$a" : "var-a"}, {"$a": "var-A2"} ], 'var-A2b' ],
           \
           \ [ [ 'a()', {}, {} ], '' ],
           \ [ [ 'a()', {'a' : 'a'}, {} ], 'a-' ],
@@ -53,15 +55,11 @@ fun! s:TestEval( t ) "{{{
           \ [ [ 'a(b("c"))', {'a' : 'a', 'b' : 'b'}, {} ], 'a-b-c' ],
           \
           \ [ [ 'd($x)', {"d" : "dictfunc", "$x": 123}, {} ], 'dictfunc-123' ],
-          \ [ [ '', {}, {} ], '' ],
-          \ [ [ '', {}, {} ], '' ],
-          \ [ [ '', {}, {} ], '' ],
-          \ [ [ '', {}, {} ], '' ],
-          \ [ [ '', {}, {} ], '' ],
           \ ]
+          " \ [ [ '', {}, {} ], '' ],
 
     for [inp,outp] in cases
-        let [ str, scope, ctx ] = inp
+        let [ str, scope, scope2 ] = inp
         let inp = deepcopy(inp)
 
         for k in keys(scope)
@@ -71,7 +69,7 @@ fun! s:TestEval( t ) "{{{
         endfor
         call extend(scope, s:funcs, 'keep')
 
-        let rst = xpt#eval#Eval( str, scope, ctx )
+        let rst = xpt#eval#Eval( str, [scope, scope2] )
         call a:t.Eq( outp, rst, string([ inp,  outp ] ) )
     endfor
 

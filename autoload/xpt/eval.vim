@@ -25,38 +25,25 @@ exe XPT#importConst
 " TODO consistent cache
 let s:_evalCache = { 'strMask' : {}, 'compiledExpr' : {} }
 
-fun! xpt#eval#Eval( str, evalScope, evalContext ) "{{{
-    " @param evalContext    key         desc
-    "                       'typed'     what user typed
+fun! xpt#eval#Eval( str, closures ) "{{{
 
     if a:str == ''
         return ''
     endif
 
-    let renderContext = b:xptemplateData.renderContext
-
-
-    " TODO Make userInput a variable
-    let evalContext = a:evalContext
-    call extend( evalContext, {
-          \ 'userInput' : renderContext.processing ? get( evalContext, 'typed', '' ) : '',
-          \ 'variables' : {}
-          \ }, 'keep' )
-
-    " TODO add each context on specific phase
-    let a:evalScope.evalContext = evalContext
-
-    " for feature use
-    " let a:evalScope.phFilterContext = get( b:xptemplateData.phFilterContexts, -1 )
-    let a:evalScope.renderContext = renderContext
-
+    let globals = a:closures[0]
+    let x = b:xptemplateData
 
     let expr = xpt#eval#Compile( a:str )
-
     call s:log.Debug( 'expression to eval=' . string( expr ) )
 
+    let globals._ctx = {
+          \         'closures': a:closures,
+          \         'renderContext' : x.renderContext,
+          \ }
+
+    let xfunc = globals
     try
-        let xfunc = a:evalScope
         return eval(expr)
     catch /.*/
         call s:log.Error( string( v:throwpoint ), string( v:exception ), 'expr=' . expr )
@@ -147,7 +134,7 @@ fun! s:DoCompile(s) "{{{
         elseif matched[-1:] == ')'
 
             " Dynamic function look up make it consistent even when function
-            " added into evalScope.
+            " added into function-container.
             "
             " Old way is to compile to xfunc.xx() call if function exist,
             " otherwise xx() for native function. This does not work with
