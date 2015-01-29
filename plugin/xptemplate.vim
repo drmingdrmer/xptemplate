@@ -747,8 +747,9 @@ fun! s:ParseTemplateSetting( tmpl ) "{{{
     if has_key(setting, 'rawHint')
 
         let setting.hint = xpt#eval#Eval( setting.rawHint,
-              \ x.filetypes[ x.snipFileScope.filetype ].funcs,
-              \ { 'variables' : setting.variables } )
+              \ [ x.filetypes[ x.snipFileScope.filetype ].funcs,
+              \   setting.variables,
+              \ ] )
 
     endif
 
@@ -2445,10 +2446,13 @@ endfunction "}}}
 
 fun! s:EvalAsFilter( raw, start_pos ) "{{{
     let x = b:xptemplateData
+    let rctx = x.renderContext
 
     let flt = xpt#flt#New(0, a:raw)
-    let flt_rst = s:EvalFilter(flt, x.renderContext.ftScope.funcs,
-          \                {'startPos': a:start_pos})
+    let flt_rst = s:EvalFilter(flt, [
+          \     rctx.ftScope.funcs,
+          \     rctx.snipSetting.variables,
+          \ ])
     return s:IndentFilterText(flt_rst, a:start_pos)
 endfunction "}}}
 
@@ -2493,13 +2497,12 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
     " TODO eval edge and name separately?
 
     let x = b:xptemplateData
+    let rctx = x.renderContext
 
     let ph = a:placeHolder
     let nameInfo    = a:nameInfo
     let valueInfo   = a:valueInfo
     let start = a:nameInfo[0]
-    let evalctx = {'startPos': start}
-    let funcs = x.renderContext.ftScope.funcs
 
     call s:log.Debug( 'instant placeHolder' )
 
@@ -2509,7 +2512,10 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
     for k in [ 'leftEdge', 'name', 'rightEdge' ]
         if ph[k] != ''
             let flt = xpt#flt#New( 0, ph[k] )
-            let flt_rst = s:EvalFilter( flt, funcs, evalctx )
+            let flt_rst = s:EvalFilter( flt, [
+                  \     rctx.ftScope.funcs,
+                  \     rctx.snipSetting.variables,
+                  \ ] )
             let text .= get( flt_rst, 'text', '' )
             if get(flt_rst, 'nIndent', 0) != 0
                 let flt_indent.nIndent = flt_rst.nIndent
@@ -2569,8 +2575,10 @@ fun! s:ApplyPreValues( placeHolder ) "{{{
         return
     endif
 
-    let flt_rst = s:EvalFilter( preValue, renderContext.ftScope.funcs,
-          \                     { 'startPos' : XPMpos( a:placeHolder.innerMarks.start ) } )
+    let flt_rst = s:EvalFilter( preValue, [
+          \     renderContext.ftScope.funcs,
+          \     renderContext.snipSetting.variables,
+          \ ] )
 
 
     " TODO isnot 0? or is 0?
@@ -2956,8 +2964,10 @@ fun! s:EvalPostFilter( filter, typed, leader ) "{{{
     let pos = XPMpos( a:leader.mark.start )
     let pos[ 1 ] = 1
     let startMark = XPMmarkAfter( pos )
-    let flt_rst = s:EvalFilter( a:filter, renderContext.ftScope.funcs, {
-          \ 'typed' : a:typed, 'startPos' : startMark.pos } )
+    let flt_rst = s:EvalFilter( a:filter, [
+          \     renderContext.ftScope.funcs,
+          \     renderContext.snipSetting.variables,
+          \     { '$UserInput' : a:typed } ] )
 
     call s:log.Log("post_value:\n", string(a:filter))
 
@@ -3323,8 +3333,10 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
 
     let ph = renderContext.leadingPlaceHolder
     let typed = s:TextBetween( XPMposStartEnd( ph.innerMarks ) )
-    let flt_rst = s:EvalFilter( a:filter, renderContext.ftScope.funcs,
-          \                     { 'typed': typed, 'startPos' : start } )
+    let flt_rst = s:EvalFilter( a:filter, [
+          \     renderContext.ftScope.funcs,
+          \     renderContext.snipSetting.variables,
+          \     { '$UserInput': typed } ] )
 
 
     if flt_rst.rc is 0
@@ -3485,8 +3497,10 @@ fun! XPTmappingEval( str ) "{{{
 
 
     let filter = xpt#flt#New( 0, a:str )
-    let flt_rst = s:EvalFilter( filter, x.renderContext.ftScope.funcs,
-          \ { 'typed' : typed, 'startPos' : [ line( "." ), col( "." ) ] } )
+    let flt_rst = s:EvalFilter( filter, [
+          \     x.renderContext.ftScope.funcs,
+          \     x.renderContext.snipSetting.variables,
+          \ { '$UserInput' : typed } ] )
 
     if has_key( flt_rst, 'action' )
 
@@ -3637,7 +3651,7 @@ fun! s:SelectCurrent() "{{{
 
 endfunction "}}}
 
-fun! s:EvalFilter( filter, global, context ) "{{{
+fun! s:EvalFilter( filter, closures ) "{{{
 
     " TODO EvalFilter might be called from non-rendering phase, is there a snipObject?
     let rctx = b:xptemplateData.renderContext
@@ -3646,7 +3660,7 @@ fun! s:EvalFilter( filter, global, context ) "{{{
     let a:filter.rc = 1
     let r = { 'rc': 1, 'filter': a:filter }
 
-    let rst = xpt#eval#Eval( a:filter.text, a:global, a:context )
+    let rst = xpt#eval#Eval( a:filter.text, a:closures )
     call s:log.Debug( "rst after xpt#eval#Eval=" . string( rst ) )
 
     if type( rst ) == type( 0 )
@@ -4108,9 +4122,10 @@ fun! s:UpdateFollowingPlaceHoldersWith( contentTyped, option ) "{{{
 
             if flt isnot g:EmptyFilter
 
-                let flt_rst = s:EvalFilter( flt, renderContext.ftScope.funcs,
-                      \ { 'typed'    : a:contentTyped,
-                      \   'startPos' : phStartPos } )
+                let flt_rst = s:EvalFilter( flt, [
+                      \     renderContext.ftScope.funcs,
+                      \     renderContext.snipSetting.variables,
+                      \     { '$UserInput' : a:contentTyped } ] )
 
 
                 " TODO ontime flt action support?
@@ -4224,8 +4239,10 @@ fun! s:HandleOntypeFilter( filter ) "{{{
     let [ start, end ] = XPMposStartEnd( leader.mark )
     let contentTyped = s:TextBetween( [ start, end ] )
 
-    let flt_rst = s:EvalFilter( a:filter, renderContext.ftScope.funcs,
-          \                     { 'typed' : contentTyped, 'startPos' : start } )
+    let flt_rst = s:EvalFilter( a:filter, [
+          \     renderContext.ftScope.funcs,
+          \     renderContext.snipSetting.variables,
+          \     { '$UserInput' : contentTyped } ] )
 
 
     if 0 is flt_rst.rc
