@@ -3688,36 +3688,32 @@ fun! s:EvalFilter( filter, closures ) "{{{
         let r.pum = rst
         return r
 
-    else
-        " rst is dictionary
-        if has_key( rst, 'action' )
-            call extend( r, rst, 'error' )
-
-            " backward compatible
-            if r.action ==# 'embed'
-                let r.action = 'build'
-            endif
-        else
-            let text = get( r, 'text', '' )
-
-            " effective action is determined by if there is item pattern in text
-            if text =~ snipptn.lft
-                let r.action = 'build'
-            else
-                let r.action = 'text'
-            endif
-        endif
-
-        if ! has_key( r, 'marks' )
-            let r.marks = a:filter.marks
-        endif
-
-        call s:LoadFilterActionSnippet( r )
-
-        " if has_key( a:context, 'typed' )
-        "     let r.text = get( r, 'text', a:context.typed )
-        " endif
     endif
+
+    " rst is dictionary
+    if has_key( rst, 'action' )
+        call extend( r, rst, 'error' )
+
+        " backward compatible
+        if r.action ==# 'embed'
+            let r.action = 'build'
+        endif
+    else
+        let text = get( r, 'text', '' )
+
+        " effective action is determined by if there is item pattern in text
+        if text =~ snipptn.lft
+            let r.action = 'build'
+        else
+            let r.action = 'text'
+        endif
+    endif
+
+    if ! has_key( r, 'marks' )
+        let r.marks = a:filter.marks
+    endif
+
+    call s:LoadFilterActionSnippet( r )
 
     return r
 
@@ -4066,8 +4062,7 @@ fun! s:PushRenderContext() "{{{
 endfunction "}}}
 fun! s:PopRenderContext() "{{{
     let x = b:xptemplateData
-    let x.renderContext = x.stack[-1]
-    call remove(x.stack, -1)
+    let x.renderContext = remove(x.stack, -1)
 endfunction "}}}
 
 fun! s:SynNameStack(l, c) "{{{
