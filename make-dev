@@ -12,7 +12,9 @@ fi
 
 src_tree_hash=$(git cat-file -p $src_branch | head -n1 | awk '{print $2}')
 
-mes="dev\n\nx-update-from: $src_branch $cur_hash"
+mes="dev
+
+x-update-from: $src_branch $cur_hash"
 
 new_commit_hash=$(echo "$mes" | git commit-tree $src_tree_hash -p $dst_branch)
 git checkout $dst_branch \
@@ -20,4 +22,3 @@ git checkout $dst_branch \
     && git commit --amend
 
 git checkout $cur_branch
-# to re-edit commit message
