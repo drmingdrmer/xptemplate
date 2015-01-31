@@ -3656,7 +3656,6 @@ fun! s:EvalFilter( filter, closures ) "{{{
     let rctx = b:xptemplateData.renderContext
     let snipptn = rctx.snipObject.ptn
 
-    let a:filter.rc = 1
     let r = { 'rc': 1, 'filter': a:filter }
 
     let rst = xpt#eval#Eval( a:filter.text, a:closures )
