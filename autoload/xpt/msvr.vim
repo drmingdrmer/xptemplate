@@ -95,41 +95,43 @@ if v:version >= 704
 fun! xpt#msvr#MapInfo(key,mode)
 	let arg = maparg(a:key,a:mode,0,1)
 	if arg == {} || arg.buffer == 0
-		return { 'mode'  : a:mode, 'key':a:key, 'nore':'', 'isexpr':'', 'isbuf':' <buffer> ', 'cont':''}
+		return { 'mode'  : a:mode, 'key':a:key, 'nore':'', 'isexpr':'', 'isscript':'', 'isbuf':' <buffer> ', 'cont':''}
 	endif
 	let rhs = substitute( arg.rhs, '\V\C<SID>', '<SNR>' . arg.sid . '_', 'g' )
-	return { 'mode'  : a:mode, 'key':a:key, 'nore':arg.noremap ? 'nore' : '', 'isexpr':arg.expr ? '<expr>' : '', 'isbuf':arg.buffer ? '<buffer>' : '', 'cont':rhs }
+	let line = s:GetMappingLine(a:key,a:mode)
+	let flag = line[0 : 1]
+	return { 'mode'  : a:mode, 'key':a:key, 'nore':arg.noremap ? 'nore' : '', 'isexpr':arg.expr ? '<expr>' : '', 'isscript':flag[0] == '&' ? ' <script> ' : '', 'isbuf':arg.buffer ? '<buffer>' : '', 'cont':rhs }
 endfunction
 else
 fun! xpt#msvr#MapInfo(key,mode)
 	let line = s:GetMappingLine(a:key,a:mode)
 	if line == ''
-		return { 'mode'  : a:mode, 'key':a:key, 'nore':'', 'isexpr':'', 'isbuf':' <buffer> ', 'cont':''}
+		return { 'mode'  : a:mode, 'key':a:key, 'nore':'', 'isexpr':'', 'isscript':'', 'isbuf':' <buffer> ', 'cont':''}
 	endif
 	let item = line[0:1] " the first 2 characters
 	let isexpr = ''
 	if a:mode == 'i' && line[2:] =~ '\V\w(\.\*)' && line[2:] !~? '\V<c-r>' || a:mode != 'i' && line[2:] =~ '\V\w(\.\*)'  || a:mode == 'i' && line[2:] =~ '\V\.\*?\.\*:\.\*'
 		let isexpr = '<expr> '
 	endif
-	let info =  {'mode' : a:mode, 'key':a:key, 'nore':item =~ '*' ? 'nore' : '', 'isexpr':isexpr, 'isbuf':' <buffer> ', 'cont':line[2:]}
+	let info =  {'mode' : a:mode, 'key':a:key, 'nore':item =~ '*' ? 'nore' : '', 'isexpr':isexpr, 'isscript':item[0] == '&' ? ' <script> ' : '', 'isbuf':' <buffer> ', 'cont':line[2:]}
 	return info
 endfunction
 endif
 fun! xpt#msvr#MapCommand(info)
-	let exprMap = a:info.isexpr
-	if a:info.cont == ''
-		let cmd = "silent! " . a:info.mode . 'unmap <silent> ' . a:info.isbuf . a:info.key
+	let i = a:info
+	if i.cont == ''
+		let cmd = i.mode . 'unmap <silent> ' . i.isbuf . i.key
 	else
-		let cmd = "silent! " . a:info.mode . a:info.nore . 'map <silent> '. exprMap . a:info.isbuf . a:info.key . ' ' . a:info.cont
+		let cmd = i.mode . i['nore'] . 'map <silent> ' . i.isscript . i.isexpr . i.isbuf . i.key . ' ' . i.cont
 	endif
-	return cmd
+	return "silent! " . cmd
 endfunction
 fun! s:GetMappingLine(key,mode)
 	let mcmd = "silent ".a:mode."map <buffer> ".a:key
 	let str = xpt#util#getCmdOutput(mcmd)
 	let lines = split(str, "\n")
 	let localmark = '@'
-	let ptn = '\V\c' . a:mode . '  ' . escape(a:key, '\') . '\s\{-}' . '\zs\[* ]' . localmark . '\%>' . s:alignWidth . 'c\S\.\{-}\$'
+	let ptn = '\V\c' . a:mode . '  ' . escape(a:key, '\') . '\s\{-}' . '\zs\[*& ]' . localmark . '\%>' . s:alignWidth . 'c\S\.\{-}\$'
 	for line in lines
 		if line =~? ptn
 			return matchstr(line,ptn)
