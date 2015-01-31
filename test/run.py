@@ -159,6 +159,7 @@ def run_case( cname, subpattern ):
         vim_so_fn( os.path.join( casebase, "setting.vim" ) )
         vim_add_settings(test['setting'])
         vim_add_local_settings(test['localsetting'])
+        vim_add_map(test['map'])
         vim_load_content( os.path.join( casebase, "context" ) )
         tmux_keys( "s" )
 
@@ -181,6 +182,7 @@ def load_test(testfn):
     test = { None: [],
              'setting': [],
              'localsetting': [],
+             'map': [],
              'keys': [],
              'expected': [], }
 
@@ -267,6 +269,10 @@ def vim_add_local_settings( settings ):
     if len( settings ) == 0:
         return
     vim_cmd( [ "setlocal" ] + settings )
+
+def vim_add_map(maps):
+    for mp in maps:
+        vim_cmd([mp])
 
 def vim_cmd( elts ):
     s = ":" + ' '.join( elts )
