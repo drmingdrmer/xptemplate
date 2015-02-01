@@ -116,12 +116,13 @@ runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
 runtime plugin/xpopup.vim
 runtime plugin/classes/SettingSwitch.vim
-runtime plugin/classes/RenderContext.vim
 
 exec XPT#importConst
 
 let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
+
+let s:renderPhase = xpt#rctx#phase
 
 call XPRaddPreJob( 'XPMupdateCursorStat' )
 call XPRaddPostJob( 'XPMupdateSpecificChangedRange' )
@@ -1219,7 +1220,7 @@ fun! s:NewRenderContext( ftScope, tmplName ) "{{{
         call s:PushRenderContext()
     endif
 
-    let renderContext = g:RenderContext.New( x )
+    let renderContext = xpt#rctx#New( x )
     let x.renderContext = renderContext
 
     let renderContext.phase = 'inited'
@@ -3403,7 +3404,7 @@ fun! s:InitItem() " {{{
 
     let currentItem.initValue = s:TextBetween( XPMposStartEnd( leaderMark ) )
 
-    call renderContext.SwitchPhase( g:xptRenderPhase.iteminit )
+    call xpt#rctx#SwitchPhase( renderContext, s:renderPhase.iteminit )
 
 
     let postaction = s:ApplyDefaultValue()
@@ -3417,11 +3418,11 @@ fun! s:InitItem() " {{{
         let renderContext.item.initValue = s:TextBetween( XPMposStartEnd( leaderMark ) )
     endif
 
-    if renderContext.phase == g:xptRenderPhase.iteminit
+    if renderContext.phase == s:renderPhase.iteminit
         " not finished by default value
         call s:InitItemMapping()
         call s:InitItemTempMapping()
-        call renderContext.SwitchPhase( g:xptRenderPhase.fillin )
+        call xpt#rctx#SwitchPhase( renderContext, s:renderPhase.fillin )
     endif
 
     return postaction
@@ -3567,7 +3568,7 @@ fun! XPTmapKey( left, right ) "{{{
     let renderContext = b:xptemplateData.renderContext
     let mappings = renderContext.tmpmappings
 
-    if renderContext.phase != g:xptRenderPhase.iteminit
+    if renderContext.phase != s:renderPhase.iteminit
         call s:log.Warn( "Not in [iteminit] phase, mapping ingored" )
         return
     endif
@@ -4008,7 +4009,7 @@ fun! XPTemplateInit() "{{{
     let b:xptemplateData.snipFileScopeStack = []
 
 
-    let b:xptemplateData.renderContext = g:RenderContext.New( b:xptemplateData )
+    let b:xptemplateData.renderContext = xpt#rctx#New( b:xptemplateData )
 
     " TODO is this the right place to do that?
     call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
@@ -4057,7 +4058,7 @@ fun! s:PushRenderContext() "{{{
     let x = b:xptemplateData
 
     call add( x.stack, b:xptemplateData.renderContext )
-    let x.renderContext = g:RenderContext.New( x )
+    let x.renderContext = xpt#rctx#New( x )
 endfunction "}}}
 fun! s:PopRenderContext() "{{{
     let x = b:xptemplateData
@@ -4166,7 +4167,7 @@ fun! s:Crash(...) "{{{
     call s:ClearMap()
 
     let x.stack = []
-    let x.renderContext = g:RenderContext.New( x )
+    let x.renderContext = xpt#rctx#New( x )
     call XPMflushWithHistory()
 
     call XPT#warn( msg )
