@@ -76,7 +76,7 @@ fun! xpt#rctx#New( x ) "{{{
     "   :echo &indentkeys
     "
     " results in:
-    "   "0,0}"
+    "   "0,,0}"
     "
     " The backslash escaped chars can not be read correctly.
 
