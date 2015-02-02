@@ -144,20 +144,6 @@ fun! xpt#rctx#AddDefaultPHFilters( rctx, ph ) "{{{
 
 endfunction "}}}
 
-fun! xpt#rctx#Push() "{{{
-    let x = b:xptemplateData
-
-    call add( x.stack, x.renderContext )
-    let x.renderContext = xpt#rctx#New( x )
-endfunction "}}}
-
-fun! xpt#rctx#Pop() "{{{
-    let x = b:xptemplateData
-
-    let x.renderContext = x.stack[-1]
-    call remove(x.stack, -1)
-endfunction "}}}
-
 fun! xpt#rctx#UserOut( rctx, text ) "{{{
     let a:rctx.nextStep = s:R_NEXT
     let a:rctx.userPostAction = a:text
