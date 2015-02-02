@@ -128,21 +128,20 @@ fun! xpt#rctx#InitOrderedGroupList( rctx ) "{{{
 endfunction "}}}
 
 fun! xpt#rctx#AddDefaultPHFilters( rctx, ph ) "{{{
-    let setting = a:rctx.snipSetting
 
-    " post filters
-    if a:ph.name != ''
+    if a:ph.name == ''
+        return
+    endif
 
-        if !has_key( setting.postFilters, a:ph.name )
+    let pfs = a:rctx.snipSetting.postFilters
+    if !has_key( pfs, a:ph.name )
 
-            if a:ph.name =~ '\V\w\+?\$'
-                let setting.postFilters[ a:ph.name ] =
-                      \ xpt#flt#New( 0, "EchoIfNoChange('')" )
-            endif
-
+        if a:ph.name =~ '\V\w\+?\$'
+            let pfs[ a:ph.name ] = xpt#flt#New( 0, "EchoIfNoChange('')" )
         endif
 
     endif
+
 endfunction "}}}
 
 fun! xpt#rctx#Push() "{{{
