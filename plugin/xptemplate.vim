@@ -1217,7 +1217,7 @@ fun! s:NewRenderContext( ftScope, tmplName ) "{{{
     let x = b:xptemplateData
 
     if x.renderContext.processing
-        call s:PushRenderContext()
+        call xpt#buf#Pushrctx()
     endif
 
     let renderContext = xpt#rctx#New( x )
@@ -1373,7 +1373,7 @@ fun! s:FinishRendering(...) "{{{
 
     else
 
-        call s:PopRenderContext()
+        call xpt#buf#Poprctx()
         call s:CallPlugin( 'finishSnippet', 'after' )
         let renderContext = x.renderContext
     endif
@@ -4052,17 +4052,6 @@ fun! s:RedefinePattern() "{{{
         endif
     endfor
 
-endfunction "}}}
-
-fun! s:PushRenderContext() "{{{
-    let x = b:xptemplateData
-
-    call add( x.stack, b:xptemplateData.renderContext )
-    let x.renderContext = xpt#rctx#New( x )
-endfunction "}}}
-fun! s:PopRenderContext() "{{{
-    let x = b:xptemplateData
-    let x.renderContext = remove(x.stack, -1)
 endfunction "}}}
 
 fun! s:SynNameStack(l, c) "{{{
