@@ -3984,32 +3984,7 @@ endfunction
 
 fun! XPTemplateInit() "{{{
 
-    if exists( 'b:xptemplateData' )
-        return
-    endif
-
-    let b:xptemplateData = {
-          \     'filetypes'         : {},
-          \     'wrapStartPos'      : 0,
-          \     'wrap'              : '',
-          \     'savedReg'          : '',
-          \     'snippetToParse'    : [],
-          \     'abbrPrefix'        : {},
-          \     'fallbacks'         : [],
-          \ }
-
-    let b:xptemplateData.posStack = []
-    let b:xptemplateData.stack = []
-
-    " which letter can be used in template name
-    let b:xptemplateData.keyword = '\w'
-    let b:xptemplateData.keywordList = []
-
-    let b:xptemplateData.snipFileScope = {}
-    let b:xptemplateData.snipFileScopeStack = []
-
-
-    let b:xptemplateData.renderContext = xpt#rctx#New( b:xptemplateData )
+    let x = xpt#buf#New()
 
     " TODO is this the right place to do that?
     call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
