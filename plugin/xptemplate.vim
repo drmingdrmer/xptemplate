@@ -183,20 +183,6 @@ fun! g:XPTapplyTemplateSettingDefaultValue( setting ) "{{{
     let s.preValues.cursor  = get( s.preValues, 'cursor',       '$CURSOR_PH' )
 endfunction "}}}
 
-
-fun! s:SetDefaultFilters( ph ) "{{{
-    let setting = b:xptemplateData.renderContext.snipSetting
-
-    " post filters
-    if !has_key( setting.postFilters, a:ph.name )
-        let pfs = setting.postFilters
-
-        if a:ph.name =~ '\V\w\+?'	| let pfs[ a:ph.name ] = xpt#flt#New( 0, "EchoIfNoChange( '' )" )
-        endif
-    endif
-endfunction "}}}
-
-
 let g:XPT_RC = {
       \   'ok' : {},
       \   'canceled' : {},
@@ -2322,8 +2308,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
             call s:ApplyPreValues( placeHolder )
 
             " TODO set it when item created.
-            call s:SetDefaultFilters( placeHolder )
-
+            call xpt#rctx#AddDefaultPHFilters(renderContext, placeHolder)
 
             call cursor( XPMpos( placeHolder.mark.end ) )
 
