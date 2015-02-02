@@ -23,7 +23,7 @@ XPTinclude
 " TODO fix it
 " XSET name|repl=vim_autoload_pre()#`name
 XPT fun alias=_fun " fun! vim_autoload_pre()#**
-XSET name=Build( '`' . vim_autoload_pre() . '#`name^' )
+XSET name=Build( '`' . vim_autoload_pre() . '#`n^' )
 
 
 XPT ## " vim_autoload_pre\()#
