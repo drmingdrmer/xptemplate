@@ -4015,15 +4015,6 @@ fun! XPTemplateInit() "{{{
     call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
 
     call s:XPTinitMapping()
-
-    let b:_xpeval = { 'strMaskCache' : {}, 'evalCache' : {} }
-
-    let b:_xptSnipCache = {
-          \ 'conditions' : [],
-          \ 'pumCache' : {
-          \ }
-          \ }
-
 endfunction "}}}
 
 fun! s:RedefinePattern() "{{{
