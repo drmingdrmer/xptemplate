@@ -1886,17 +1886,8 @@ endfunction "}}}
 
 fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
 
-    " 1) Place holder with edge is the editable place holder. Or the key place holder
-    "
-    " 2) If none of place holders of one item has edge. The first place
-    " holder is the key place holder.
-    "
-    " 3) if more than one place holders set with edge, the first
-    " one is the key place holder.
-
     let xp = a:ctx.snipObject.ptn
     let toescape = xp.l . xp.r
-
 
     " 1 is length of left mark
     let leftEdge  = xpt#util#TextBetween( a:nameInfo[ 0 : 1 ] )
