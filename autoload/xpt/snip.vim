@@ -334,5 +334,14 @@ fun! s:SplitLines( so ) "{{{
     return lines
 endfunction "}}}
 
+fun! xpt#snip#Tokenize(text, ptn) "{{{
+    let delimiter = '\V\ze' . a:ptn.lft . '\|\ze' . a:ptn.rt
+    let toks = split(a:text, delimiter, 0)
+    " NOTE: vim bug: 'a`' -> [ 'a', '', '`' ]
+    if len(toks) == 0
+        return ['']
+    end
+    return toks
+endfunction "}}}
 
 let &cpo = s:oldcpo
