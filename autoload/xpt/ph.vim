@@ -16,10 +16,10 @@ let s:log = xpt#debug#Logger( 'warn' )
 
 exe XPT#importConst
 
-let s:incPattern = '\V\^:\zs\.\*\ze:\$\|\^Include:\zs\.\*\$'
-
 fun! xpt#ph#CreateFromScreen( snipObject, nameInfo, valueInfo ) "{{{
-    call XPT#warn( 'dont call me again' )
+
+    let xp = a:snipObject.ptn
+    let toescape = xp.l . xp.r
 
     " 1 is length of left mark
     let leftEdge  = xpt#util#TextBetween( a:nameInfo[ 0 : 1 ] )
@@ -27,6 +27,10 @@ fun! xpt#ph#CreateFromScreen( snipObject, nameInfo, valueInfo ) "{{{
     let rightEdge = xpt#util#TextBetween( a:nameInfo[ 2 : 3 ] )
 
     let [ leftEdge, name, rightEdge ] = [ leftEdge[1 : ], name[1 : ], rightEdge[1 : ] ]
+
+    let leftEdge = xpt#util#UnescapeChar(leftEdge, toescape)
+    let name = xpt#util#UnescapeChar(name, toescape)
+    let rightEdge = xpt#util#UnescapeChar(rightEdge, toescape)
 
     if a:valueInfo[1] != a:valueInfo[0]
 
