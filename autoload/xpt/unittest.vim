@@ -62,6 +62,7 @@ fun! xpt#unittest#Run( sid, fn ) "{{{
         catch /.*/
             echom "    " a:fn
             echom "    " funcname
+            echom "    " v:throwpoint
             echom "Failure" v:exception
             throw "F"
         endtry
