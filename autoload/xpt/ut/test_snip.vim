@@ -46,6 +46,17 @@ fun! s:TestTextToPlaceholders(t) "{{{
           \ [' a ', [{'text': ' a '}]],
           \ ['a b', [{'text': 'a b'}]],
           \
+          \ ['\', [{'text': '\'}]],
+          \ ['\\', [{'text': '\\'}]],
+          \
+          \ ['\`', [{'text': '`'}]],
+          \ ['\\\`', [{'text': '\`'}]],
+          \ ['\\\\\`', [{'text': '\\`'}]],
+          \
+          \ ['\^', [{'text': '^'}]],
+          \ ['\\\^', [{'text': '\^'}]],
+          \ ['\\\\\^', [{'text': '\\^'}]],
+          \
           \ ['	a	b', [{'text': '	a	b'}]],
           \ ['	a	b	', [{'text': '	a	b	'}]],
           \
@@ -107,6 +118,16 @@ fun! s:TestTextToPlaceholders(t) "{{{
           \                 { "leftEdge": {"text": "\n	"},
           \                   "name": {"text": "tr($A, 'a', 'b')"},
           \                   "rightEdge": {"text": "    "},
+          \                   "liveFilter": {"text": "\nEcho(0)"},
+          \                 },
+          \                 { "text": "\n" },
+          \                 { "name": { "text": "Inc('t')" } }]],
+          \
+          \ ["a\n`\\\n\\`	\\\\`tr($A, 'a', 'b')`    \\^^\nEcho(0)^\n`Inc('t')^",
+          \               [ { "text": "a\n"},
+          \                 { "leftEdge": {"text": "\\\n`	\\\\"},
+          \                   "name": {"text": "tr($A, 'a', 'b')"},
+          \                   "rightEdge": {"text": "    ^"},
           \                   "liveFilter": {"text": "\nEcho(0)"},
           \                 },
           \                 { "text": "\n" },

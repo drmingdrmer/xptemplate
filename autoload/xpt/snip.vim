@@ -176,6 +176,7 @@ endfunction "}}}
 fun! xpt#snip#TextToPlaceholders(text, ptn) "{{{
 
     let [ l, r ] = [ a:ptn.l, a:ptn.r ]
+    let lr = l . r
 
     let toks = xpt#snip#Tokenize(a:text, a:ptn) + ["", "", ""]
     let elts = []
@@ -190,13 +191,13 @@ fun! xpt#snip#TextToPlaceholders(text, ptn) "{{{
         let chr = tok[0]
         if chr != l && chr != r
             if tok != ""
-                call add(elts, {'text': tok})
+                call add(elts, {'text': xpt#util#UnescapeChar(tok, lr)})
             endif
             continue
         endif
 
         if chr == l
-            call add(buf, {'text': tok[1:]})
+            call add(buf, {'text': xpt#util#UnescapeChar(tok[1:], lr)})
             continue
         endif
 
@@ -215,7 +216,7 @@ fun! xpt#snip#TextToPlaceholders(text, ptn) "{{{
         else
             " toks[i+1] is text
             if toks[i + 2] == r
-                let [flt, iFilterEnd] = [{'text': toks[i + 1]}, i + 2]
+                let [flt, iFilterEnd] = [{'text': xpt#util#UnescapeChar(toks[i + 1], lr)}, i + 2]
             else
                 continue
             endif
