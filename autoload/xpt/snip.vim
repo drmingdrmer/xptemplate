@@ -173,6 +173,84 @@ fun! xpt#snip#Compile( so ) "{{{
 
 endfunction "}}}
 
+fun! xpt#snip#TextToPlaceholders(text, ptn) "{{{
+
+    let [ l, r ] = [ a:ptn.l, a:ptn.r ]
+
+    let toks = xpt#snip#Tokenize(a:text, a:ptn) + ["", "", ""]
+    let elts = []
+    let buf = []
+
+    let i = -1
+    while i < len(toks) - 1
+        let i += 1
+        let tok = toks[i]
+
+        " let a = '' a[0] is legal
+        let chr = tok[0]
+        if chr != l && chr != r
+            if tok != ""
+                call add(elts, {'text': tok})
+            endif
+            continue
+        endif
+
+        if chr == l
+            call add(buf, {'text': tok[1:]})
+            continue
+        endif
+
+        " chr == r
+        let ph = s:EltsToPh(buf)
+        call add(elts, ph)
+        let buf = []
+
+        if toks[i+1][0] == l
+            continue
+        endif
+
+
+        if toks[i + 1] == r
+            let [flt, iFilterEnd] = [{'text': ''}, i + 1]
+        else
+            " toks[i+1] is text
+            if toks[i + 2] == r
+                let [flt, iFilterEnd] = [{'text': toks[i + 1]}, i + 2]
+            else
+                continue
+            endif
+        end
+
+        if toks[iFilterEnd + 1] == r
+            let ph.postFilter = flt
+            let i = iFilterEnd + 1
+        else
+            let ph.liveFilter = flt
+            let i = iFilterEnd
+        endif
+
+    endwhile
+
+    return elts
+endfunction "}}}
+
+fun! s:EltsToPh(buf) "{{{
+    let buf = a:buf
+
+    if len(buf) == 0
+         throw 'xpt#snip#Unexpected: ' . r
+     elseif len(buf) == 1
+         let ph = { 'name': buf[0] }
+     elseif len(buf) == 2
+         let ph = { 'leftEdge': buf[0], 'name': buf[1] }
+     elseif len(buf) == 3
+         let ph = { 'leftEdge': buf[0], 'name': buf[1], 'rightEdge': buf[2] }
+     else
+         throw 'xpt#snip#TooMany: ' . string(buf)
+    endif
+    return ph
+endfunction "}}}
+
 fun! xpt#snip#Parse( so ) "{{{
 
     " deepcopy is make by following parsers
@@ -341,7 +419,18 @@ fun! xpt#snip#Tokenize(text, ptn) "{{{
     if len(toks) == 0
         return ['']
     end
-    return toks
+
+    let rst = []
+    for tok in toks
+        if tok == a:ptn.r
+            call add(rst, tok)
+        elseif tok[0] == a:ptn.r
+            call extend(rst, [a:ptn.r, tok[1:]])
+        else
+            call add(rst, tok)
+        end
+    endfor
+    return rst
 endfunction "}}}
 
 let &cpo = s:oldcpo
