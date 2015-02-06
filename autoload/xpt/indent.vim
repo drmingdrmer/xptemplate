@@ -79,6 +79,12 @@ fun! xpt#indent#IndentBefore( pos ) "{{{
 
 endfunction "}}}
 
+fun! xpt#indent#RemoveIndentStr(text, nIndent) "{{{
+    let reg = '\V\n \{,' . a:nIndent . '\}'
+    let text = substitute(a:text, reg, '\n', 'g')
+    return text
+endfunction "}}}
+
 fun! xpt#indent#ToSpace( text ) "{{{
 
     if stridx( a:text, "	" ) < 0

@@ -175,6 +175,28 @@ fun! s:TestSpaceToTab( t ) "{{{
     let [ &shiftwidth, &tabstop, &expandtab ] = old
 endfunction "}}}
 
+fun! s:TestRemoveIndentStr(t) "{{{
+    let cases = [
+          \  ['', 0, ''],
+          \  ['', 1, ''],
+          \  ['   ', 1, '   '],
+          \  ["   ", 1, "   "],
+          \  ["   \n ", 1, "   \n"],
+          \  ["   \n ", 2, "   \n"],
+          \  ["   \n   a", 2, "   \n a"],
+          \
+          \  ["   \n	a", 2, "   \n	a"],
+          \  ["   \n  a", 2, "   \na"],
+          \  ["   \n  a", 3, "   \na"],
+          \  ["   \n   \n a", 2, "   \n \na"],
+          \ ]
+
+    for [txt, n, outp] in cases
+        let act = xpt#indent#RemoveIndentStr(txt, n)
+        call a:t.Eq(outp, act, string([txt, n, outp]))
+    endfor
+endfunction "}}}
+
 exec xpt#unittest#run
 
 let &cpo = s:oldcpo
