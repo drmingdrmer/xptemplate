@@ -1878,6 +1878,18 @@ fun! s:GetValueInfo( end ) "{{{
     return [r0, r1, r2]
 endfunction "}}}
 
+fun! s:TextWithoutIndent(posRange) "{{{
+
+    let [ s, e ] = a:posRange
+
+    let text = xpt#util#TextBetween([s, e])
+    let text = xpt#indent#ToSpace(text)
+    let nIndent = xpt#indent#IndentBefore(s)
+    let text = xpt#indent#RemoveIndentStr(text, nIndent)
+
+    return text
+endfunction "}}}
+
 " XSET name|def=
 " XSET name|post=
 "
@@ -1890,9 +1902,9 @@ fun! s:CreatePlaceHolder( ctx, nameInfo, valueInfo ) "{{{
     let toescape = xp.l . xp.r
 
     " 1 is length of left mark
-    let leftEdge  = xpt#util#TextBetween( a:nameInfo[ 0 : 1 ] )
-    let name      = xpt#util#TextBetween( a:nameInfo[ 1 : 2 ] )
-    let rightEdge = xpt#util#TextBetween( a:nameInfo[ 2 : 3 ] )
+    let leftEdge  = s:TextWithoutIndent( a:nameInfo[ 0 : 1 ] )
+    let name      = s:TextWithoutIndent( a:nameInfo[ 1 : 2 ] )
+    let rightEdge = s:TextWithoutIndent( a:nameInfo[ 2 : 3 ] )
 
     let [ leftEdge, name, rightEdge ] = [ leftEdge[1 : ], name[1 : ], rightEdge[1 : ] ]
 
@@ -2198,8 +2210,6 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
         let end = XPMpos( a:markRange.end )
         let nEnd = end[0] * 10000 + end[1]
 
-
-
         if markPos == [0, 0] || markPos[0] * 10000 + markPos[1] >= nEnd
             break
         endif
@@ -2207,10 +2217,9 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
         call s:log.Log( "building now" )
         call s:log.Log(" : end=".string(end))
 
-
-
         let nn = [ line( "." ), col( "." ) ]
-
+        " let text = xpt#util#TextBetween([nn, end])
+        " let elts = xpt#snip#TextToPlaceholders(text, xp)
 
         let nameInfo = s:GetNameInfo(end)
         if nameInfo[0] == [0, 0]
@@ -2218,10 +2227,8 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
             break
         endif
 
-
         " locate at end of place holder
         call cursor(nameInfo[3])
-
 
         let valueInfo = s:GetValueInfo(end)
         if valueInfo[0] == [0, 0]
@@ -2229,9 +2236,7 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
             break
         endif
 
-
         call s:log.Log("got nameinfo, valueinfo:".string([nameInfo, valueInfo]))
-
 
         let placeHolder = s:CreatePlaceHolder(renderContext, nameInfo, valueInfo)
         let rc = 1
