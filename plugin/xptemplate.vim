@@ -2497,6 +2497,11 @@ fun! s:ApplyInstantValue( placeHolder, nameInfo, valueInfo ) "{{{
                   \     rctx.ftScope.funcs,
                   \     rctx.snipSetting.variables,
                   \ ] )
+
+            if flt_rst.rc == 0
+                continue
+            endif
+
             let text .= get( flt_rst, 'text', '' )
             if get(flt_rst, 'nIndent', 0) != 0
                 let combined_flt_rst.nIndent = flt_rst.nIndent
@@ -2897,7 +2902,7 @@ fun! s:ApplyPostFilter() "{{{
             endif
         endif
 
-        if flt_rst.action == 'build'
+        if flt_rst.rc != 0 && flt_rst.action == 'build'
             " TODO extract to function
 
             let renderContext.firstList = []
