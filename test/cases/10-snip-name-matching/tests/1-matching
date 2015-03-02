@@ -1,0 +1,40 @@
+keys:
+func(
+(func
+$se
+se
+
+a
+*
+a*
+*a
+
+xa
+xa*
+x*a
+x*a*
+
+*a*
+**a
+**a*
+
+expected:
+emptyline
+func(abc
+(func
+$se
+--se
+emptyline
+-a
+-*
+-a*
+-*a
+emptyline
+xa
+xa-*
+x-*a
+x*a-*
+emptyline
+*a-*
+*-*a
+**a-*

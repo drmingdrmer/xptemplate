@@ -276,29 +276,13 @@ fun! xpt#util#LinesBetween( posList ) "{{{
 
     let [ s, e ] = a:posList
 
-    if s[0] > e[0]
-        return [ "" ]
+    if s[0] > e[0] || e[0] == 0
+        return [""]
     endif
 
-    if s[0] == e[0]
-        if s[1] == e[1]
-            return [ "" ]
-        else
-            " call s:log.Log( "content between " . string( [s, e] ) . ' is :' . getline(s[0])[ s[1] - 1 : e[1] - 2] )
-            return [ getline(s[0])[ s[1] - 1 : e[1] - 2 ] ]
-        endif
-    endif
-
-
-    let r = [ getline(s[0])[s[1] - 1:] ] + getline(s[0]+1, e[0]-1)
-
-    if e[1] > 1
-        let r += [ getline(e[0])[:e[1] - 2] ]
-    else
-        let r += ['']
-    endif
-
-    " call s:log.Log( "content between " . string( [s, e] ) . ' is :'.join( r, "\n" ) )
+    let r = getline(s[0], e[0])
+    let r[-1] = strpart(r[-1], 0, e[1] - 1)
+    let r[0] = strpart(r[0], s[1] - 1)
 
     return r
 

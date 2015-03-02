@@ -1,0 +1,9 @@
+#!/bin/sh
+
+fn=doc/xpt/credit.txt
+
+echo "Thanks to these people for their contribution to this project:\n" > $fn
+git log --all --no-merges --format="%an" \
+    | grep -v "drdr.\?xp\|xp\|zhang yanpo\|drmingdrmer\|no author" \
+    | sort | uniq \
+    >> $fn

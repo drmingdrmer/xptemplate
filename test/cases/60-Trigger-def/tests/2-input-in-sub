@@ -1,0 +1,6 @@
+keys:
+trigger
+on_sub_x	
+
+expected:
+-(on_sub_x-on_sub_x)-sub_x-y=

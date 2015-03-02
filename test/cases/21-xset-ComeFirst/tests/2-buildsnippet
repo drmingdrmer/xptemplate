@@ -1,0 +1,13 @@
+keys:
+container
+first	
+second	
+not_seen	
+on_b	
+on_a	
+third	
+forth	
+at_end
+
+expected:
+-second-(-on_a-on_b=)-first-forth-third=at_end

@@ -169,26 +169,6 @@ fun! XPT#getCmdOutput( cmd ) "{{{
     return l:a
 endfunction "}}}
 
-
-fun! XPT#LeadingTabToSpace( str ) "{{{
-    if stridx( a:str, "	" ) < 0
-        return a:str
-    endif
-    
-    let str = "\n" . a:str
-
-    let tabspaces = repeat( ' ', &tabstop )
-
-    let last = ''
-    while str != last
-        let last = str
-        let str = substitute( str, '\n	*\zs	', tabspaces, 'g' )
-    endwhile
-
-    return str[ 1 : ]
-
-endfunction "}}}
-
 fun! XPT#convertSpaceToTab( text ) "{{{
     " NOTE: line-break followed by space
 

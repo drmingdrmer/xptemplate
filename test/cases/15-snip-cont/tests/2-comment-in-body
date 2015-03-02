@@ -1,0 +1,9 @@
+keys:
+comment-in-body
+
+
+expected:
+" comment
+ " comment
+ " comment "
+comment-in-body

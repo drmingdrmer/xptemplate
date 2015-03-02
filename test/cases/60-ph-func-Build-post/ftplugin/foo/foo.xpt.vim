@@ -27,4 +27,6 @@ XPT build-post-ph-no-mixin
 XSET x|post=Build("-`ph1^-`ph1^-")
 -`x^-`ph1^-`ph1^=
 
-" post, ontype, edge, etc
+XPT plain-text-with-ph
+XSET x|post=-`ph1^-
+-`x^=

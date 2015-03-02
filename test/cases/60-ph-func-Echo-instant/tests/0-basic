@@ -1,0 +1,6 @@
+keys:
+basic
+at_end
+
+expected:
+-echofoo=at_end

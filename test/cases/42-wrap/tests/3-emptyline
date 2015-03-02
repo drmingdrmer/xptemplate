@@ -1,0 +1,24 @@
+setting:
+noexpandtab
+shiftwidth=2
+tabstop=4
+
+keys:
+line1
+  
+  one_indent_to_two_space
+    two_indent_to_one_tab
+      three_indent_to_one_tab_two_space
+        four_indent_to_two_tab
+
+Vkkkkk
+
+wrapper	
+
+expected:
+left-line1
+  
+  one_indent_to_two_space
+	two_indent_to_one_tab
+	  three_indent_to_one_tab_two_space
+		four_indent_to_two_tab=right

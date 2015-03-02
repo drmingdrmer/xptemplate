@@ -17,10 +17,9 @@ XPT build-instant-edge
 XPT build-instant-edge-expr
 -`Build("x")`Build("y")`Build("z")^-
 
-" TODO fix this: ph should be converted to place holder
 XPT build-ph
 -`Build('\`ph\^')^-
 
-" TODO build edge with ph
+XPT build-ph-group
+-`\`ph\^-`Build('\`ph\^-\`ph\^')^-
 
-" post, ontype, edge, etc

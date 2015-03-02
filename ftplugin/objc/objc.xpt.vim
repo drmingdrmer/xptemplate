@@ -9,10 +9,24 @@ XPTinclude
       \ c/c
 
 XPT msg " [to ...]
-[`to^ `msg^`...^ `argName^:`argVal^`...^]
+[`to^ `msg^`args...{{^:`arg^`...{{^ `argName^:`argVal^`...^`}}^`}}^]
+
+XPT forin " for (... in ...) { ... }
+for (`type^id^ `var^ in `collection^)
+{
+    `cursor^
+}
+
+XPT import " #import "..."
+#import "`hfile^"
 
 XPT #import " #import <...>
 #import <`hfile^>
+
+XPT protocol " @protocol ... @end
+@protocol `protocolName^
+`cursor^
+@end
 
 XPT interface " @interface ... : ... ...
 @interface `interfaceName^ `inherit...{{^ : `father^ `}}^{
@@ -36,6 +50,9 @@ XPT catimplem " @implementation ... (...) ... @end
 @implementation `existingClass^ (`categorieName^)
 `cursor^
 @end
+
+XPT alloc " [[... alloc] ...]
+[[`className^ alloc] `cursor^]
 
 XPT method " - (...) ....: ...
 - (`retType^void^) `methodName^`args...{{^`...^ (`type^)name`...^`}}^;

@@ -1,0 +1,15 @@
+setting:
+noexpandtab
+tabstop=4
+shiftwidth=2
+
+keys:
+  def-indent
+on_inp	
+at_end
+
+expected:
+    -  l1-1-indent
+	l2-0-indent
+		l3-2-indent
+	  (on_inp)=at_end

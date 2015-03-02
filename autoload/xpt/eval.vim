@@ -25,40 +25,25 @@ exe XPT#importConst
 " TODO consistent cache
 let s:_evalCache = { 'strMask' : {}, 'compiledExpr' : {} }
 
-fun! xpt#eval#Eval( str, evalScope, evalContext ) "{{{
-    " @param evalContext    key         desc
-    "                       'typed'     what user typed
+fun! xpt#eval#Eval( str, closures ) "{{{
 
-    " TODO if expression compiled in loading phase, Variable not found can
-    "       not be found any more in runtime phase.
     if a:str == ''
         return ''
     endif
 
-    let renderContext = b:xptemplateData.renderContext
+    let globals = a:closures[0]
+    let x = b:xptemplateData
 
-
-    " TODO Make userInput a variable
-    let evalContext = a:evalContext
-    call extend( evalContext, {
-          \ 'userInput' : renderContext.processing ? get( evalContext, 'typed', '' ) : '',
-          \ 'variables' : {}
-          \ }, 'keep' )
-
-    " TODO add each context on specific phase
-    let a:evalScope.evalContext = evalContext
-
-    " for feature use
-    " let a:evalScope.phFilterContext = get( b:xptemplateData.phFilterContexts, -1 )
-    let a:evalScope.renderContext = renderContext
-
-
-    let expr = xpt#eval#Compile( a:str, a:evalScope )
-
+    let expr = xpt#eval#Compile( a:str )
     call s:log.Debug( 'expression to eval=' . string( expr ) )
 
+    let globals._ctx = {
+          \         'closures': a:closures,
+          \         'renderContext' : x.renderContext,
+          \ }
+
+    let xfunc = globals
     try
-        let xfunc = a:evalScope
         return eval(expr)
     catch /.*/
         call s:log.Error( string( v:throwpoint ), string( v:exception ), 'expr=' . expr )
@@ -67,7 +52,7 @@ fun! xpt#eval#Eval( str, evalScope, evalContext ) "{{{
 
 endfunction "}}}
 
-fun! xpt#eval#Compile( s, xfunc ) "{{{
+fun! xpt#eval#Compile( s ) "{{{
     " TODO consistent cache: evalTable
 
     if a:s is ''
@@ -78,13 +63,13 @@ fun! xpt#eval#Compile( s, xfunc ) "{{{
 
     if expr is 0
         if a:s !~ s:item_var . '\|' . s:item_func
-            let expr = string( a:s )
+            let expr = string( xpt#util#UnescapeChar(a:s, s:nonsafe) )
 
         elseif a:s =~ '\V\^$\w\+\$'
             let expr = 'xfunc.GetVar(' . string( a:s ) . ')'
 
         else
-            let expr = s:DoCompile( a:s, a:xfunc )
+            let expr = s:DoCompile( a:s )
         endif
 
         let s:_evalCache.compiledExpr[ a:s ] = expr
@@ -94,14 +79,9 @@ fun! xpt#eval#Compile( s, xfunc ) "{{{
 
 endfunction "}}}
 
-fun! s:DoCompile(s, xfunc) "{{{
+fun! s:DoCompile(s) "{{{
 
     " non-escaped prefix
-
-
-    " TODO bug:() can not be evaluated
-    " TODO how to add '$' ?
-    " TODO \$ inside func or ( ) can not be parsed correctly
     let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . s:nonEscaped . '{\w\+(\[^($]\{-})}'
     let vptn = '\V' . s:nonEscaped . '$\w\+' . '\|' . s:nonEscaped . '{$\w\+}'
     let sptn = '\V' . s:nonEscaped . '(\[^($]\{-})'
@@ -121,13 +101,8 @@ fun! s:DoCompile(s, xfunc) "{{{
 
     call s:log.Debug( 'string =' . a:s, 'strmask=' . stringMask )
 
-
-
-
-
     let str = a:s
     let evalMask = repeat('-', len(stringMask))
-
 
     while 1
 
@@ -159,7 +134,7 @@ fun! s:DoCompile(s, xfunc) "{{{
         elseif matched[-1:] == ')'
 
             " Dynamic function look up make it consistent even when function
-            " added into evalScope.
+            " added into function-container.
             "
             " Old way is to compile to xfunc.xx() call if function exist,
             " otherwise xx() for native function. This does not work with

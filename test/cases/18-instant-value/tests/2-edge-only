@@ -1,0 +1,11 @@
+keys:
+edge-only-is-not-instant
+on_x	
+at_end
+
+edge-only-is-not-instant
+
+
+expected:
+-(left)on_x(right)=at_end
+-(left)x(right)=

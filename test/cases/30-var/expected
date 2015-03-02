@@ -1,6 +1,0 @@
--before-var-x-after-typed
--before-=left=typed=right=-after-
--before-=left=var-x-edge=right=-after-typed
--before-alias-after-
-var-foo
-var-bar

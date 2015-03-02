@@ -1,0 +1,16 @@
+map:
+inoremap <buffer>[ (br)
+
+keys:
+maps
+on_x[	
+	
+	
+	
+at_end
+[
+
+expected:
+-on_x.br.-y-z-w=at_end
+(br)
+

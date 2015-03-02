@@ -1,0 +1,19 @@
+keys:
+with-def
+	
+	
+at_end
+
+with-def
+x	
+at_end
+
+with-def
+x2	
+	
+at_end
+
+expected:
+-ph-built=at_end
+-x=at_end
+-ph-built=at_end

@@ -1,0 +1,7 @@
+keys:
+basic
+	
+at_end
+
+expected:
+-echo=at_end

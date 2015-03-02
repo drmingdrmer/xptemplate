@@ -177,6 +177,7 @@ fun! xpt#msvr#MapInfo( key, mode ) "{{{
               \  'key'   : a:key,
               \  'nore'  : '',
               \  'isexpr': '',
+              \  'isscript': '',
               \  'isbuf' : ' <buffer> ',
               \  'cont'  : ''}
     endif
@@ -184,10 +185,16 @@ fun! xpt#msvr#MapInfo( key, mode ) "{{{
     " maparg() does not convert sid
     let rhs = substitute( arg.rhs, '\V\C<SID>', '<SNR>' . arg.sid . '_', 'g' )
 
+    " maparg() still does not return script-local info. need to retreive it
+    " from command.
+    let line = s:GetMappingLine(a:key, a:mode)
+    let flag = line[0 : 1]
+
     return { 'mode'  : a:mode,
           \  'key'   : a:key,
           \  'nore'  : arg.noremap ? 'nore' : '',
           \  'isexpr': arg.expr ? '<expr>' : '',
+          \  'isscript': flag[0] == '&' ? ' <script> ' : '',
           \  'isbuf' : arg.buffer ? '<buffer>' : '',
           \  'cont'  : rhs }
 
@@ -203,6 +210,7 @@ fun! xpt#msvr#MapInfo( key, mode ) "{{{
               \  'key'   : a:key,
               \  'nore'  : '',
               \  'isexpr': '',
+              \  'isscript': '',
               \  'isbuf' : ' <buffer> ',
               \  'cont'  : ''}
     endif
@@ -221,6 +229,7 @@ fun! xpt#msvr#MapInfo( key, mode ) "{{{
           \'key'   : a:key,
           \'nore'  : item =~ '*' ? 'nore' : '',
           \'isexpr': isexpr,
+          \'isscript': item[0] == '&' ? ' <script> ' : '',
           \'isbuf' : ' <buffer> ',
           \'cont'  : line[2:]}
 
@@ -233,15 +242,18 @@ endif
 
 fun! xpt#msvr#MapCommand( info ) "{{{
 
-    let exprMap = a:info.isexpr
+    let i = a:info
 
-    if a:info.cont == ''
-        let cmd = "silent! " . a:info.mode . 'unmap <silent> ' . a:info.isbuf . a:info.key
+    if i.cont == ''
+        let cmd = i.mode . 'unmap <silent> '
+              \ . i.isbuf . i.key
     else
-        let cmd = "silent! " . a:info.mode . a:info.nore . 'map <silent> '. exprMap . a:info.isbuf . a:info.key . ' ' . a:info.cont
+        let cmd = i.mode . i['nore'] . 'map <silent> '
+              \ . i.isscript . i.isexpr . i.isbuf . i.key
+              \ . ' ' . i.cont
     endif
 
-    return cmd
+    return "silent! " . cmd
 
 endfunction "}}}
 
@@ -258,13 +270,18 @@ fun! s:GetMappingLine(key, mode) "{{{
     " the same prefix may all returned.
     "
     " *  norepeat
-    " &@ script or buffer local
+    " &@ script local and buffer local
+    " [*& ][@ ]
+    "
+    " * indicates that it is not remappable
+    " & indicates that only script-local mappings are remappable
+    " @ indicates a buffer-local mapping
     "
     " The :map command format: if a mapped key length is less than s:alignWidth,
     " the right hand part is aligned. Or 1 space separates the left part and the
     " right part
     let localmark = '@'
-    let ptn = '\V\c' . a:mode . '  ' . escape(a:key, '\') . '\s\{-}' . '\zs\[* ]'
+    let ptn = '\V\c' . a:mode . '  ' . escape(a:key, '\') . '\s\{-}' . '\zs\[*& ]'
           \. localmark . '\%>' . s:alignWidth . 'c\S\.\{-}\$'
 
 

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 case $1 in
     gentest)
         cd ftplugin/
@@ -68,6 +69,7 @@ build_for_release () {
     check_cur_branch \
         && create_build_branch \
         && compact_files \
+        && update_doc \
         && clean_files \
         && remove_tests \
         && generate_version \
@@ -81,6 +83,7 @@ build_for_test () {
     check_cur_branch \
         && git checkout $githash \
         && compact_files \
+        && update_doc \
         && clean_files \
         && generate_version \
         && commit_build \
@@ -131,7 +134,24 @@ generate_version() {
 	" VERSION: $ver
 	END
     cat .tmp >> plugin/xptemplate.vim && rm .tmp
+}
 
+update_doc() {
+    local doc_sections="option snippet-function"
+
+    _script/credit-update \
+        && _script/doc_merge.py \
+        || return 1
+
+    for sec in $doc_sections; do
+        git rm -r doc/xpt/$sec || return 1
+    done
+
+    vim -c "helptags ./doc" -c 'qa!'
+
+    for sec in $doc_sections credit; do
+        git add doc/xpt/$sec.txt || return 1
+    done
 }
 
 commit_build() {
@@ -164,17 +184,14 @@ exit
 plugin/xptemplateTest.vim
 plugin/xptTestKey.vim
 plugin/xptemplate.importer.vim
-xpt.testall.*
-genfile.vim
 doc/tags
-xpt.files.txt
-bench.vim
+make-dev
+make-mix
+tags
 test.bat
 test.sh
-tags
+to-gitcafe
 todo
-experiment/
-resource/
 _script/
 VERSION
 # __TO_REMOVE__ END

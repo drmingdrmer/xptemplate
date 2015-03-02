@@ -1,0 +1,15 @@
+setting:
+expandtab
+shiftwidth=8
+
+localsetting:
+shiftwidth=2
+
+keys:
+snip-indent
+
+expected:
+line1
+  1-indent
+   1-indent-and-1-space
+      2-indent-and-2-space

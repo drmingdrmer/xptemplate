@@ -24,3 +24,12 @@ XSET x=Build("-`ph1^-`ph1^-")
 XPT build-ph-no-mixin
 XSET x=Build("-`ph1^-`ph1^-")
 -`x^-`ph1^-`ph1^=
+
+XPT embed
+XSET x=Embed("text_embed")
+-`x^=
+
+XPT embed-ph-no-mixin
+XSET x=Embed("-`ph1^-`ph1^-")
+-`x^-`ph1^-`ph1^=
+

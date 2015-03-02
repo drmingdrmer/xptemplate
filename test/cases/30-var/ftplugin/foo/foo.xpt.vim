@@ -28,3 +28,10 @@ XPT var-foo
 XPT var-bar-quote
 `$BAR_QUOTE^
 
+XPT var-as-linebreak
+XSET $lb=\n
+line1`$lb^line2
+
+XPT edge-break
+XSET $lb=\n
+line1`$lb`x^line2

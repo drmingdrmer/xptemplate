@@ -1,0 +1,13 @@
+keys:
+return0
+	
+	
+	
+at_end
+
+expected:
+-(left)(right)
+-(left)a(right)
+-(left)b(right)
+-(left)c(right)
+=at_end
