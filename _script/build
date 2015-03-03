@@ -147,7 +147,7 @@ update_doc() {
         git rm -r doc/xpt/$sec || return 1
     done
 
-    vim -c "helptags ./doc" -c "qa!"
+    vim -c "helptags ./doc" -c 'qa!'
 
     for sec in $doc_sections credit; do
         git add doc/xpt/$sec.txt || return 1
