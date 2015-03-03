@@ -17,5 +17,5 @@ cur_branch=$(./_script/_git_branch)
     -m 'merge f.* t.* snp.*' \
     $branches \
     && vim -c "helptags ./doc" -c "qa!" \
-    && git commit -a -m 'update doc' \
+    && git commit --amend -a --no-edit \
     && git tag -f mixdoc
