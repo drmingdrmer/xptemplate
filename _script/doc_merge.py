@@ -11,7 +11,11 @@ def fnlist( section ):
     base = os.path.join( "doc", "xpt", section )
     fns = os.listdir( base )
     fns.sort()
-    return fns
+    anony = [x for x in fns
+             if x.startswith('_')]
+    chapters = [x for x in fns
+                if not x.startswith('_')]
+    return anony + chapters
 
 def fread( fn ):
     with open( fn, 'r' ) as f:
@@ -23,8 +27,14 @@ def fread( fn ):
 
 def merge_doc( section, prefix ):
 
+    width = 78
+    title ='*xpt-' + section + '*'
+    title = title.rjust(width)
     header = [
-            '							 *xpt-' + section + '*',
+            title,
+            '=' * width,
+            '',
+            'Table of Content ~',
             '',
     ]
 
@@ -35,10 +45,11 @@ def merge_doc( section, prefix ):
 
         out( f, *header )
 
-        indent = "		"
+        indent = "	"
         for fn in fns:
             optname = fn.split(".")[0]
-            out( f, indent + "|" + prefix + optname + "|" )
+            if not optname.startswith('_'):
+                out( f, indent + "|" + prefix + optname + "|" )
 
         out( f, "" )
 
@@ -47,7 +58,7 @@ def merge_doc( section, prefix ):
             out( f, cont )
 
         out( f, "" )
-        out( f, '" vi''m: tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:' )
+        out( f, '" vi''m: tw='+str(width)+':ts=8:sw=8:sts=8:noet:ft=help:norl:' )
 
 if __name__ == "__main__":
 
