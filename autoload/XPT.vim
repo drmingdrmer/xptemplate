@@ -275,7 +275,15 @@ fun! XPT#class( sid, proto ) "{{{
     call map( funcs, 'matchstr( v:val, "' . a:sid . '\\zs.*\\ze(" )' )
 
     for name in funcs
-        if name !~ '\V\^_'
+        " with verbose mode on:
+        " $ vim -V9vimlog
+        "
+        " :silent function /xxx
+        " get:
+        " >   function <SNR>145_New() dict
+        " >       Last set from ~/bash.xp/vim.xp/plg-git/xptdev/plugin/classes/FiletypeScope.vim
+        " the second line does not match <SNR>_*, thus we empty string should be skipped
+        if name != "" && name !~ '\V\^_'
             let clz[ name ] = function( '<SNR>' . a:sid . name )
         endif
     endfor

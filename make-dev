@@ -30,7 +30,14 @@ x-update-from: $src_branch $cur_hash"
 
 new_commit_hash=$(echo "$mes" | git commit-tree $src_tree_hash -p $dst_branch)
 git checkout $dst_branch \
-    && all_changelog="$changelog$(cat changelog.md 2>/dev/null)" \
+    && \
+    if [ ".$changelog" = "." ]; then
+        all_changelog="$(cat changelog.md 2>/dev/null)"
+    else
+        all_changelog="$changelog
+
+$(cat changelog.md 2>/dev/null)"
+    fi \
     && git merge --ff-only $new_commit_hash \
     && echo "$all_changelog" >changelog.md \
     && git add changelog.md \

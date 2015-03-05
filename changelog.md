@@ -1,3 +1,11 @@
+2015-03-05
+==========
+
+Fixed
+-----
+
+*   oop: skip verbose message when looking for class member
+
 2015-03-03
 ==========
 
