@@ -173,7 +173,7 @@ fun! XPT#class(sid,proto)
 	let funcs = split( XPT#getCmdOutput( 'silent function /' . a:sid ), "\n" )
 	call map( funcs, 'matchstr( v:val, "' . a:sid . '\\zs.*\\ze(" )' )
 	for name in funcs
-		if name !~ '\V\^_'
+		if name != "" && name !~ '\V\^_'
 			let clz[ name ] = function( '<SNR>' . a:sid . name )
 		endif
 	endfor
