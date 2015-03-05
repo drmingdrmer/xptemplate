@@ -1,0 +1,107 @@
+                                                        *xpt-snippet-function*
+==============================================================================
+
+Table of Content ~
+
+	|Build|
+	|BuildSnippet|
+	|Echo|
+
+------------------------------------------------------------------------------
+
+	|xpt-snippet-function| can be used in :
+		|xpt-snippet-instant-value|
+		|xpt-snippet-preset-value|
+		|xpt-snippet-default-value|
+		|xpt-snippet-post-filter|
+		|xpt-placeholder-ontime-filter|
+	To define |xpt-snippet-function|, the function container must be
+	fetched by using |XPTfuncs()|. For example : >
+		let s:f = XPTfuncs()
+		fun! s:f.c_printfElts( v )
+			...
+		endfunction
+<	Then function 'c_printfElts' can be used in the snippet : >
+		XPT printf	" printf\(...)
+		XSET elts=c_printfElts( R( 'pattern' ) )
+		printf( "`pattern^"`elts^ )
+<
+	NOTE	By convention the names of |xpt-snippet-function|s supplied by
+		XPTemplate start with an upper-case letter. User defined
+		function names should starts with a lower-case letter.
+
+------------------------------------------------------------------------------
+
+							      *Build()*
+Build({snippet_text})
+	Build a piece of snippet text to replace the place holder on which
+	Build() is called.
+
+	Argument {snippet_text} is the content of snippet to build.
+
+	After calling it, place holder is removed and the first place holder
+	in this piece of snippet built is selected.
+
+	Context: >
+		XSET ph=Build('`a^ = `0^')
+		XSET ph|post=Build('`a^ = `0^')
+<
+	See also: |BuildSnippet()|
+
+
+							      *BuildSnippet()*
+BuildSnippet({snippet})
+	Build an existent snippet to replace the place holder on which
+	BuildSnippet() is called.
+
+	Argument {snippet} is the name of snippet to build.
+
+	After calling it, place holder is removed and the first place holder
+	in this piece of snippet is selected.
+
+	Example snippets: >
+		XPT parent
+		XSET x=BuildSnippet( "child" )
+		-`x^=
+
+		XPT child
+		(`a^, `b^)
+<
+	Type: >
+		parent<C-\>
+<	Got: >
+		-(a, b)=
+<	{a} and {b} is place holder
+	
+	Context: >
+		XSET ph=BuildSnippet('a')
+		XSET ph|post=BuildSnippet('a')
+<
+	See also: |Build()|
+
+
+								      *Echo()*
+Echo({string})
+	Put literal text {string} where it is called.
+
+	{string} can be any valid expression.
+
+	Place holders in {string} will not be built.
+
+	Context it works in: >
+		`Echo('a')^
+		XSET ph=Echo('a')
+		XSET ph|def=Echo('a')
+		XSET ph|pre=Echo('a')
+		XSET ph|post=Echo('a')
+<
+	Example: >
+		XPT now
+		`Echo( strftime("%c") )^
+<
+	See also: |Build()| |BuildSnippet()|
+	See also: |xpt-snippet-XSET|
+
+
+
+" vim: tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:

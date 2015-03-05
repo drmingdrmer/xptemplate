@@ -8,42 +8,40 @@ let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
 exe XPT#importConst
 let s:_evalCache = { 'strMask' : {}, 'compiledExpr' : {} }
-fun! xpt#eval#Eval(str,evalScope,evalContext)
+fun! xpt#eval#Eval(str,closures)
 	if a:str == ''
 		return ''
 	endif
-	let renderContext = b:xptemplateData.renderContext
-	let evalContext = a:evalContext
-	call extend(evalContext,{ 'userInput':renderContext.processing ? get( evalContext, 'typed', '' ) : '', 'variables':{} }, 'keep' )
-	let a:evalScope.evalContext = evalContext
-	let a:evalScope.renderContext = renderContext
-	let expr = xpt#eval#Compile(a:str,a:evalScope)
+	let globals = a:closures[0]
+	let x = b:xptemplateData
+	let expr = xpt#eval#Compile(a:str)
+	let globals._ctx = { 'closures':a:closures, 'renderContext':x.renderContext, }
+	let xfunc = globals
 	try
-		let xfunc = a:evalScope
 		return eval(expr)
 	catch /.*/
 		call s:log.Error( string( v:throwpoint ), string( v:exception ), 'expr=' . expr )
 		return ''
 	endtry
 endfunction
-fun! xpt#eval#Compile(s,xfunc)
+fun! xpt#eval#Compile(s)
 	if a:s is ''
 		return ''
 	endif
 	let expr = get(s:_evalCache.compiledExpr,a:s,0)
 	if expr is 0
 		if a:s !~ s:item_var . '\|' . s:item_func
-			let expr = string(a:s)
+			let expr = string(xpt#util#UnescapeChar(a:s,s:nonsafe))
 		elseif a:s =~ '\V\^$\w\+\$'
 			let expr = 'xfunc.GetVar(' . string( a:s ) . ')'
 		else
-			let expr = s:DoCompile(a:s,a:xfunc)
+			let expr = s:DoCompile(a:s)
 		endif
 		let s:_evalCache.compiledExpr[a:s] = expr
 	endif
 	return expr
 endfunction
-fun! s:DoCompile(s,xfunc)
+fun! s:DoCompile(s)
 	let fptn = '\V' . '\w\+(\[^($]\{-})' . '\|' . s:nonEscaped . '{\w\+(\[^($]\{-})}'
 	let vptn = '\V' . s:nonEscaped . '$\w\+' . '\|' . s:nonEscaped . '{$\w\+}'
 	let sptn = '\V' . s:nonEscaped . '(\[^($]\{-})'

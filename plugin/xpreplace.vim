@@ -45,16 +45,13 @@ fun! XPreplaceByMarkInternal(startMark,endMark,replacement)
 	call XPMupdateWithMarkRangeChanging(a:startMark,a:endMark,start,pos)
 	return pos
 endfunction
-fun! s:ConvertSpaceToTab(text)
-	return XPT#convertSpaceToTab(a:text)
-endfunction
 fun! XPreplaceInternal(start,end,replacement,...)
 	let option = { 'doJobs' : 1, 'saveHoriScroll' : 0 }
 	if a:0 == 1
 		call extend( option, a:1, 'force' )
 	endif
-	let replacement = s:ConvertSpaceToTab(a:replacement)
-	let repLines = XPT#SpaceToTab( split( a:replacement, '\n', 1 ) )
+	let replacement = a:replacement
+	let repLines = split( a:replacement, '\n', 1 )
 	if option.doJobs
 		call s:doPreJob(a:start,a:end,replacement)
 	endif

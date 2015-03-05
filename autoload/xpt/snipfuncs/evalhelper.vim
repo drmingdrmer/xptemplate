@@ -7,17 +7,20 @@ set cpo-=< cpo+=B
 let s:f = xpt#snipfunction#funcs
 fun! s:f.GetVar(name)
 	if a:name =~# '\V\^$_x'
-		try
-			let n = a:name[1 :]
-			return self[n]()
-		catch /.*/
-			return a:name
-		endtry
+		let n = a:name[1 :]
+		return self.Call(n,[])
 	endif
-	let r = self.renderContext
-	let ev = get( self.evalContext, 'variables', {} )
-	let rv = get( r.snipSetting, 'variables', {} )
-	return get(ev,a:name, get(rv,a:name, get(self,a:name,a:name)))
+	let closures = self._ctx.closures
+	let i = len(closures)
+	while i > 0
+		let i = i - 1
+		let c = closures[i]
+		let v = get(c,a:name,0)
+		if v isnot 0
+			return v
+		endif
+	endwhile
+	return ''
 endfunction
 fun! s:f.Call(name,args)
 	let F = get(self,a:name,0)

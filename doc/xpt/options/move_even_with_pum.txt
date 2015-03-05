@@ -1,9 +1,0 @@
-					     *g:xptemplate_move_even_with_pum*
-								   {default:0}
-	If set to 1, |g:xptemplate_nav_next| does not care whether pop up menu
-	shown or not. It will always move cursor to next item.
-
-	Otherwise, |g:xptemplate_nav_next| fall back to original mapping. This
-	could be helpfull for xpt working with supertab together.
-
-" vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:

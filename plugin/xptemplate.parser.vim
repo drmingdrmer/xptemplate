@@ -6,9 +6,8 @@ let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 runtime plugin/debug.vim
 runtime plugin/classes/FiletypeScope.vim
-runtime plugin/classes/FilterValue.vim
-runtime plugin/xptemplate.util.vim
 runtime plugin/xptemplate.vim
+exec XPT#importConst
 let s:log = CreateLogger( 'warn' )
 com! -nargs=* XPTemplate if XPTsnippetFileInit( expand( "<sfile>" ), <f-args> ) == 'finish' | finish | endif
 com! -nargs=* XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | finish
@@ -17,7 +16,6 @@ com! -nargs=* XPTvar call XPTsetVar(<q-args>)
 com! -nargs=* XPTsnipSet call XPTsnipSet(<q-args>)
 com! -nargs=+ XPTinclude call XPTinclude(<f-args>)
 com! -nargs=+ XPTembed call XPTembed(<f-args>)
-let s:nonEscaped = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 fun! s:AssignSnipFT(filename)
 	let x = b:xptemplateData
 	let filename = substitute( a:filename, '\\', '/', 'g' )
@@ -169,7 +167,6 @@ fun! DoParseSnippet(p)
 	let x.snipFileScope = a:p.snipFileScope
 	let lines = a:p.lines
 	let [i,len] = [0,len(lines)]
-	call s:ConvertIndent(lines)
 	let [s,e,blk] = [-1,-1,10000]
 	while i < len-1 | let i += 1
 		let v = lines[i]
@@ -230,7 +227,7 @@ fun! s:XPTemplateParseSnippet(lines)
 				let start += 1
 				continue
 			endif
-			let [keyname,keytype] = s:GetKeyType(key)
+			let [keyname,keytype] = xpt#parser#GetKeyType(key)
 			call s:HandleXSETcommand(setting,command,keyname,keytype,val)
 		elseif lines[start] =~# '^\\XSET' " escaped XSET or XSETm
 			let snippetLines += [lines[start][1:]]
@@ -272,12 +269,6 @@ fun! s:GetSnipCommentHint(str)
 		return [ matchstr( a:str[ pos + 1 + 1 : ], '\S.*' ), a:str[ : pos ] ]
 	endif
 endfunction
-fun! s:ConvertIndent(snipLines)
-	let tabspaces = repeat( ' ', &l:tabstop )
-	let indentRep = repeat( '\1', &l:shiftwidth )
-	let cmdExpand = 'substitute(v:val, ''^\( *\)\1\1\1'', ''' . indentRep . ''', "g" )'
-	call map(a:snipLines,cmdExpand)
-endfunction
 fun! s:getXSETkeyAndValue(lines,start)
 	let start = a:start
 	let XSETparam = matchstr(a:lines[start], '\V\^XSET\%[m]\s\+\zs\.\*')
@@ -317,48 +308,35 @@ fun! s:ParseMultiLineValues(lines,start)
 	let val = join(multiLineValues, "\n")
 	return [start,val]
 endfunction
-fun! s:GetKeyType(rawKey)
-	let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'|\zs\.\{-}\$')
-	if keytype == ""
-		let keytype = matchstr(a:rawKey, '\V'.s:nonEscaped.'.\zs\.\{-}\$')
-	endif
-	let keyname = keytype == "" ? a:rawKey :  a:rawKey[ 0 : - len(keytype) - 2 ]
-	let keyname = substitute(keyname, '\V\\\(\[.|\\]\)', '\1', 'g')
-	return [keyname,keytype]
-endfunction
 fun! s:HandleXSETcommand(setting,command,keyname,keytype,value)
 	if a:keyname ==# 'ComeFirst'
-		let a:setting.comeFirst = s:SplitWith( a:value, ' ' )
+		let a:setting.comeFirst = xpt#util#SplitWith( a:value, ' ' )
 	elseif a:keyname ==# 'ComeLast'
-		let a:setting.comeLast = s:SplitWith( a:value, ' ' )
+		let a:setting.comeLast = xpt#util#SplitWith( a:value, ' ' )
 	elseif a:keyname ==# 'postQuoter'
 		let a:setting.postQuoter = a:value
 	elseif a:keyname =~ '\V\^$'
 		let a:setting.variables[a:keyname] = a:value
 	elseif a:keytype == "" || a:keytype ==# 'def'
-		let a:setting.defaultValues[a:keyname] = g:FilterValue.New(0,a:value)
+		let a:setting.defaultValues[a:keyname] = xpt#flt#New(0,a:value)
 	elseif a:keytype ==# 'map'
 		let a:setting.mappings[a:keyname] = get( a:setting.mappings, a:keyname, { 'saver' : xpt#msvr#New(1), 'keys' : {} } )
 		let key = matchstr( a:value, '\V\^\S\+\ze\s' )
 		let mapping = matchstr( a:value, '\V\s\+\zs\.\*' )
 		call xpt#msvr#Add( a:setting.mappings[ a:keyname ].saver, 'i', key )
-		let a:setting.mappings[a:keyname].keys[key] = g:FilterValue.New(0,mapping)
+		let a:setting.mappings[a:keyname].keys[key] = xpt#flt#New(0,mapping)
 	elseif a:keytype ==# 'pre'
-		let a:setting.preValues[a:keyname] = g:FilterValue.New(0,a:value)
+		let a:setting.preValues[a:keyname] = xpt#flt#New(0,a:value)
 	elseif a:keytype ==# 'ontype'
-		let a:setting.ontypeFilters[a:keyname] = g:FilterValue.New(0,a:value)
+		let a:setting.ontypeFilters[a:keyname] = xpt#flt#New(0,a:value)
 	elseif a:keytype ==# 'post'
 		if a:keyname =~ '\V...'
-			let a:setting.postFilters[a:keyname] = g:FilterValue.New( 0, 'BuildIfNoChange(' . string(a:value) . ')' )
+			let a:setting.postFilters[a:keyname] = xpt#flt#New( 0, 'BuildIfNoChange(' . string(a:value) . ')' )
 		else
-			let a:setting.postFilters[a:keyname] = g:FilterValue.New(0,a:value)
+			let a:setting.postFilters[a:keyname] = xpt#flt#New(0,a:value)
 		endif
 	else
 		throw "unknown key name or type:" . a:keyname . ' ' . a:keytype
 	endif
-endfunction
-fun! s:SplitWith(str,char)
-  let s = split( a:str, '\V' . s:nonEscaped . a:char, 1 )
-  return s
 endfunction
 let &cpo = s:oldcpo

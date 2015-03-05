@@ -2,35 +2,45 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
-- [Xptemplate](#xptemplate)
+- [XPTemplate](#xptemplate)
   - [Usage](#usage)
+    - [Browse and basic usage](#browse-and-basic-usage)
+    - [C skeleton](#c-skeleton)
+    - [C macro](#c-macro)
+    - [C for loop and wrapper](#c-for-loop-and-wrapper)
+    - [C if-else-else](#c-if-else-else)
+    - [Python option argument](#python-option-argument)
+    - [Python def and def in class](#python-def-and-def-in-class)
+    - [Python inline completion](#python-inline-completion)
+    - [Python try-except can be a wrapper](#python-try-except-can-be-a-wrapper)
+    - [Python quickly add snippet](#python-quickly-add-snippet)
+    - [Video tutorial](#video-tutorial)
   - [Stay up-to-date](#stay-up-to-date)
   - [About branches](#about-branches)
-  - [Screencast with 0.3.9](#screencast-with-039)
   - [Features](#features)
 - [FAQ](#faq)
-      - [Trouble Shooting. Why not work?](#trouble-shooting-why-not-work)
-      - [What else does xptemlate required to work](#what-else-does-xptemlate-required-to-work)
-      - [How to install](#how-to-install)
-      - [How to reload snippets, after I changes snippet definition files(*.xpt.vim)?](#how-to-reload-snippets-after-i-changes-snippet-definition-filesxptvim)
-      - [Do NOT like spaces in auto-completed brackets/braces](#do-not-like-spaces-in-auto-completed-bracketsbraces)
-      - [I need spaces in brackets/braces only for this language, not that](#i-need-spaces-in-bracketsbraces-only-for-this-language-not-that)
-      - [I do not want Xptemplate to auto-complete braces](#i-do-not-want-xptemplate-to-auto-complete-braces)
-      - [Adjust space and line-break](#adjust-space-and-line-break)
-      - [Adjust format style of c functions, such as `main()`](#adjust-format-style-of-c-functions-such-as-main)
-      - [Supertab support](#supertab-support)
-      - [With popup menu opened, `<TAB>` doesn't trigger Snippe](#with-popup-menu-opened-tab-doesnt-trigger-snippe)
-      - [Set up personal info. Xptemplate complains: "author is not set .."](#set-up-personal-info-xptemplate-complains-author-is-not-set-)
-      - [Browse snippets: Pop up menu, Drop down list](#browse-snippets-pop-up-menu-drop-down-list)
-      - [Extend XPTemplate. Write new snippets](#extend-xptemplate-write-new-snippets)
-      - [Example of repetition snippet.](#example-of-repetition-snippet)
-      - [Define repetition trigger place holder](#define-repetition-trigger-place-holder)
+  - [Trouble Shooting. Why not work?](#trouble-shooting-why-not-work)
+  - [What else does xptemlate required to work](#what-else-does-xptemlate-required-to-work)
+  - [How to install](#how-to-install)
+  - [How to reload snippets, after I changes snippet definition files(*.xpt.vim)?](#how-to-reload-snippets-after-i-changes-snippet-definition-filesxptvim)
+  - [Do NOT like spaces in auto-completed brackets/braces](#do-not-like-spaces-in-auto-completed-bracketsbraces)
+  - [I need spaces in brackets/braces only for this language, not that](#i-need-spaces-in-bracketsbraces-only-for-this-language-not-that)
+  - [I do not want XPTemplate to auto-complete braces](#i-do-not-want-xptemplate-to-auto-complete-braces)
+  - [Adjust space and line-break](#adjust-space-and-line-break)
+  - [Adjust format style of c functions, such as `main()`](#adjust-format-style-of-c-functions-such-as-main)
+  - [Supertab support](#supertab-support)
+  - [With popup menu opened, `<TAB>` doesn't trigger Snippe](#with-popup-menu-opened-tab-doesnt-trigger-snippe)
+  - [Set up personal info. XPTemplate complains: "author is not set .."](#set-up-personal-info-xptemplate-complains-author-is-not-set-)
+  - [Browse snippets: Pop up menu, Drop down list](#browse-snippets-pop-up-menu-drop-down-list)
+  - [Extend XPTemplate. Write new snippets](#extend-xptemplate-write-new-snippets)
+  - [Example of repetition snippet.](#example-of-repetition-snippet)
+  - [Define repetition trigger place holder](#define-repetition-trigger-place-holder)
 - [Known Issues](#known-issues)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
-# Xptemplate
+# XPTemplate
 
 Code snippets engine for Vim, And snippets library.
 Write codes in a smooth, quick and comfortable way.
@@ -52,6 +62,44 @@ generates:
     }
 
 Press `<tab>`,`<tab>`.. to navigate through "i", "0", "len" and finally stop at "`/* cursor */`"
+
+
+### Browse and basic usage
+![](readme-img/600x/browse-and-basic.gif)
+
+### C skeleton
+![](readme-img/600x/c-outline.gif)
+
+### C macro
+![](readme-img/600x/c-macro.gif)
+
+### C for loop and wrapper
+![](readme-img/600x/c-loop-and-wrapper.gif)
+
+### C if-else-else
+![](readme-img/600x/c-ifee.gif)
+
+
+### Python option argument
+![](readme-img/600x/py-optional-ph.gif)
+
+### Python def and def in class
+![](readme-img/600x/py-class-def.gif)
+
+### Python inline completion
+![](readme-img/600x/py-for-inline-cmpl.gif)
+
+### Python try-except can be a wrapper
+![](readme-img/600x/py-try.gif)
+
+### Python quickly add snippet
+![](readme-img/600x/py-quick-add.gif)
+
+
+### Video tutorial
+
+Tutorial by Derek Wyatt :
+<http://vimeo.com/4449258>
 
 
 ## Stay up-to-date
@@ -85,18 +133,6 @@ merged into `dev` and `master`, which are NOT considered stable.
 * Branches that starts with `snp.` are snippet branches.
 
 
-## Screencast with 0.3.9
-
-C language:
-<http://www.vimeo.com/7614329>
-
-Python:
-<http://www.vimeo.com/7868048>
-
-Tutorial by Derek Wyatt :
-<http://vimeo.com/4449258>
-
-
 ## Features
 
 * Live update while typing.
@@ -111,7 +147,7 @@ Tutorial by Derek Wyatt :
 
 # FAQ
 
-#### Trouble Shooting. Why not work?
+## Trouble Shooting. Why not work?
 
 First of all, Enter VIM.
 
@@ -142,7 +178,7 @@ First of all, Enter VIM.
         98: /data/.../dist/plugin/xptemplate.conf.vim
         99: /data/.../dist/plugin/xptemplate.util.vim
 
-    If not, you should check if you have Xptemplate installed correctly.
+    If not, you should check if you have XPTemplate installed correctly.
 
     You should see files with name started with "xpt.." in folder ~/.vim/ (Unix-like OS) or in $VIMH/vimfiles/ (Windows). Like this:
 
@@ -158,7 +194,7 @@ First of all, Enter VIM.
         :help 'runtimepath'
 
 * Check key binding. Make sure you have a clear environment:
-none of Xptemplate settings like *"let g:xpt..."* in you .vimrc file.
+none of XPTemplate settings like *"let g:xpt..."* in you .vimrc file.
 In VIM, type:
 
         :imap <C-\>
@@ -167,9 +203,9 @@ In VIM, type:
 
         i  <C-\>       * <C-R>=XPTemplateStart(0,{'k':'<C-\++'})<CR>
 
-    This means your Xptemplate should work well.
+    This means your XPTemplate should work well.
     Or check if some other plugin has conflicting key-binding.
-    If so, solve it by adding the following statement into you .vimrc file to change Xptemplate key-binding:
+    If so, solve it by adding the following statement into you .vimrc file to change XPTemplate key-binding:
 
         let g:xptemplate_key = '<Tab>'
 
@@ -180,33 +216,33 @@ In VIM, type:
     You will get current date.
 
 
-#### What else does xptemlate required to work
+## What else does xptemlate required to work
 
 VIM and nothing else!
 
-Xptemplate is implemented purely with VIM script.
+XPTemplate is implemented purely with VIM script.
 Nothing else(like python) is required but a single VIM( at least 7.2 ).
 
-Xptemplate works also in VIM 7.0 too. But it's no as good as in VIM 7.2.
+XPTemplate works also in VIM 7.0 too. But it's no as good as in VIM 7.2.
 
 
 
-#### How to install
+## How to install
 
 Copy all folders in to your ~/.vim folder(on unix-like OS)
 
-Or add path to Xptemplate to VIM setting 'runtimepath'.
+Or add path to XPTemplate to VIM setting 'runtimepath'.
 
 
-#### How to reload snippets, after I changes snippet definition files(*.xpt.vim)?
+## How to reload snippets, after I changes snippet definition files(*.xpt.vim)?
 
     :XPTreload
 
 
 
-#### Do NOT like spaces in auto-completed brackets/braces
+## Do NOT like spaces in auto-completed brackets/braces
 
-Spaces inside auto-completed brackets are controlled by Xptemplate variable $SParg.
+Spaces inside auto-completed brackets are controlled by XPTemplate variable $SParg.
 
 The Simplest way to disable spaces globally is to add following statements to .vimrc:
 
@@ -216,7 +252,7 @@ The Simplest way to disable spaces globally is to add following statements to .v
 With this setting, `"("` results in `"()"` but not `"(  )"` by default.
 
 
-#### I need spaces in brackets/braces only for this language, not that
+## I need spaces in brackets/braces only for this language, not that
 
 Assume you do need spaces in brackets for java( that you want `"()"` but not `"(  )"`).
 
@@ -230,9 +266,9 @@ Add add following contents to this file:
     XPTvar $SParg   ''
 
 
-#### I do not want Xptemplate to auto-complete braces
+## I do not want XPTemplate to auto-complete braces
 
-I want Xptemplate to complete `(`, `[`, but not `{`.
+I want XPTemplate to complete `(`, `[`, but not `{`.
 
 Add this to .vimrc:
 
@@ -245,7 +281,7 @@ Or you may just want to disable brackets complete:
 
 
 
-#### Adjust space and line-break
+## Adjust space and line-break
 
 Spaces and line-breaks are defined by some *variable*.
 Instead of rewrite snippet in your own coding style, modifying these *variable* is the easiest way.
@@ -274,7 +310,7 @@ Just add two variables into your *.vimrc* file:
     let g:xptemplate_vars = "SPcmd=&BRloop=\n"
 
 
-#### Adjust format style of c functions, such as `main()`
+## Adjust format style of c functions, such as `main()`
 
 Default c function indent is like this:
 
@@ -304,7 +340,7 @@ functions:
 Add the above lines into `ftplugin/c/foobar.xpt.vim`.
 
 
-#### Supertab support
+## Supertab support
 
 Let XPTemplate try to match any snippet,
 then let supertab try to complete,
@@ -333,7 +369,7 @@ fun! XPTwrapSuperTab(command) "{{{
 endfunction "}}}
 ```
 
-#### With popup menu opened, `<TAB>` doesn't trigger Snippe
+## With popup menu opened, `<TAB>` doesn't trigger Snippe
 
 By default if popup menu is opened and `<TAB>` is used as trigger key, a `<TAB>` key press does not  trigger a snippet, according to convention in many other application user use `<TAB>`.
 
@@ -351,7 +387,7 @@ This fix issue that some plugin like AutoComplPop opens popup menu automatically
 
 
 
-#### Set up personal info. Xptemplate complains: "author is not set .."
+## Set up personal info. XPTemplate complains: "author is not set .."
 
 You can set up your name and email for just one time, and use them everywhere, like that in a document comment block the name of the author(you) will be filled in.
 
@@ -367,7 +403,7 @@ Thus "filehead" snippet of C language should result in:
     ...
 
 
-#### Browse snippets: Pop up menu, Drop down list
+## Browse snippets: Pop up menu, Drop down list
 
 By default, to list snippets whose name starts with "i", Press:
 
@@ -400,7 +436,7 @@ See also:
 ```
 
 
-#### Extend XPTemplate. Write new snippets
+## Extend XPTemplate. Write new snippets
 
 Do *NOT* modify snippets supplied by XPTemplate.
 
@@ -439,7 +475,7 @@ For example an extended "*for*" snippet looks like:
         XPTinclude
               \ _common/common
 
-        Xptemplate for " tips
+        XPTemplate for " tips
         for (
             `i^ = 0;
             `i^ < `len^;
@@ -456,7 +492,7 @@ All snippets in this file override snippets in *xpt-snippet-folder/ftplugin/c/c.
 Except that this file is with higher **priority**, **Personal-snippet-folder** has no differences from **xpt-snippet-folder**.
 
 ***If you use GIT to sync vim plugins and your own snippets,
-it's a good idea to place your snippet GIT folder somewhere outside Xptemplate
+it's a good idea to place your snippet GIT folder somewhere outside XPTemplate
 folder and add snippet folder path to `runtimepath`.***
 
 References:
@@ -465,7 +501,7 @@ References:
     :help xpt-snippet-priority
 
 
-#### Example of repetition snippet.
+## Example of repetition snippet.
 
 Repetition snippet generates repeating contents such as multiple `else if` or
 multiple `case `.
@@ -498,7 +534,7 @@ Pressing `<CR>` on `more...` quits applying repetition.
 
 
 One of the problems with repetition is controlling line breaks.
-Xptemplate accepts space and line-break as part of placeholder.
+XPTemplate accepts space and line-break as part of placeholder.
 
 When trigger place holder is removed by pressing `<CR>`,
 line break `\n` should also be removed togeter.
@@ -534,7 +570,7 @@ When trigger of repetition is removed,
 ![screen shot 2014-05-10 at 5 15 32 pm](https://cloud.githubusercontent.com/assets/44069/2935691/a1f1e17c-d823-11e3-97fe-9f1af63cdec3.png)
 
 
-#### Define repetition trigger place holder
+## Define repetition trigger place holder
 
 Indent and line breaks are a bit complicated in repetition snippet.
 
