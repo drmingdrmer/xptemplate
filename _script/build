@@ -86,7 +86,7 @@ build_for_test () {
         && update_doc \
         && clean_files \
         && generate_version \
-        && commit_build \
+        && git commit -a -m "$build_name for test" \
         && vim -c 'call xpt#unittest#Runall() | call getchar() | qa' \
         && echo "Done building for test"
 }
@@ -160,8 +160,15 @@ commit_build() {
 
 update_built_branch(){
 
+    local base=$(git merge-base $dev_branch $build_branch)
+    local mes="$(git log $base..$dev_branch --format="%b" | grep -v "x-update-from")"
+    local subject="$(git log $base..$dev_branch --format="%s")"
+    subject="$(echo $subject)"
+
     local tree_hash=$(git_obj_get_tree "$build_name")
-    local built_commit_hash=$(echo "$build_name" | git commit-tree $tree_hash -p $build_branch -p $dev_branch)
+    local built_commit_hash=$(echo "$subject
+
+$mes" | git commit-tree $tree_hash -p $build_branch -p $dev_branch)
     git update-ref refs/heads/$build_branch $built_commit_hash
 
     git checkout $dev_branch \
