@@ -15,7 +15,7 @@ import fnmatch
 flags = {
         'keep': True, # keep vim open for further check if test fails
 }
-mybase = os.path.dirname(os.path.realpath(__file__))
+test_root_path = os.path.dirname(os.path.realpath(__file__))
 
 class TestError( Exception ): pass
 
@@ -117,7 +117,7 @@ def main( pattern, subpattern='*' ):
 
 def run_all( pattern, subpattern ):
 
-    base = os.path.join( mybase, "cases" )
+    base = os.path.join( test_root_path, "cases" )
 
     cases = os.listdir( base )
     cases.sort()
@@ -135,44 +135,43 @@ def run_case( cname, subpattern ):
 
     logger.info( "running " + cname + " ..." )
 
-    casebase = os.path.join( mybase, "cases", cname )
-    tests_dir = os.path.join(casebase, 'tests')
-    testnames = os.listdir(tests_dir)
+    case_path = os.path.join( test_root_path, "cases", cname )
+    case_tests_dir = os.path.join(case_path, 'tests')
+    testnames = os.listdir(case_tests_dir)
 
     for testname in testnames:
         if not fnmatch.fnmatch( testname, subpattern ):
             continue
 
-        logger.info("running {0} {1} ...".format(os.path.basename(casebase),
+        logger.info("running {0} {1} ...".format(os.path.basename(case_path),
                                                 testname))
 
-        test = load_test(os.path.join(tests_dir, testname))
+        test = load_test(os.path.join(case_tests_dir, testname))
         if test[None][:1] == ['TODO']:
             logger.info("SKIP: " + testname)
             continue
 
-        try_rm_rst(casebase)
+        try_rm_rst(case_path)
 
-        vim_start(casebase)
-        vim_add_rtp( casebase )
-        vim_set_default_ft( casebase )
-        vim_so_fn( os.path.join( casebase, "setting.vim" ) )
+        vim_start(case_path)
+        vim_add_rtp( case_path )
+        vim_set_default_ft( case_path )
+        vim_so_fn( os.path.join( case_path, "setting.vim" ) )
         vim_add_settings(test['setting'])
         vim_add_local_settings(test['localsetting'])
         vim_add_map(test['map'])
-        vim_load_content( os.path.join( casebase, "context" ) )
-        tmux_keys( "s" )
 
+        tmux_keys( "i" )
         vim_key_sequence_strings(test['keys'])
-        vim_save_to( os.path.join( casebase, "rst" ) )
+        vim_save_to( os.path.join( case_path, "rst" ) )
 
-        rst = fread( casebase, "rst" )
-        _check_rst( (casebase, testname), test['expected'], rst )
-        os.unlink( os.path.join( casebase, "rst" ) )
+        rst = fread( case_path, "rst" )
+        _check_rst( (case_path, testname), test['expected'], rst )
+        os.unlink( os.path.join( case_path, "rst" ) )
 
         vim_close()
 
-    rcpath = os.path.join( casebase, 'rc' )
+    rcpath = os.path.join( case_path, 'rc' )
     fwrite( rcpath, "all-passed" )
 
 
@@ -216,7 +215,7 @@ def try_rm_rst(base):
 def vim_start( base ):
     vimrcfn = os.path.join( base, "vimrc" )
     if not os.path.exists( vimrcfn ):
-        vimrcfn = os.path.join( mybase, "core_vimrc" )
+        vimrcfn = os.path.join( test_root_path, "core_vimrc" )
 
     vim_start_vimrc( vimrcfn )
 
