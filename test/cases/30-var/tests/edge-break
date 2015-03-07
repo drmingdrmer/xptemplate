@@ -1,0 +1,8 @@
+keys:
+    edge-break
+on_ph	
+at_end
+
+expected:
+    line1
+    on_phline2at_end

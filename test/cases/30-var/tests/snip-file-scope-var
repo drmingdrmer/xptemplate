@@ -1,0 +1,8 @@
+keys:
+var-foo
+
+var-bar-quote
+
+expected:
+var-foo
+var-bar
