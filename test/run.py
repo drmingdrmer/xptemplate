@@ -4,7 +4,6 @@
 import os
 import sys
 import fcntl
-import pprint
 import subprocess
 import logging
 import logging.handlers
@@ -144,41 +143,53 @@ def run_case( cname, subpattern ):
             continue
 
         logger.info("running {0} {1} ...".format(os.path.basename(case_path),
-                                                testname))
+                                                 testname))
 
-        test = load_test(os.path.join(case_tests_dir, testname))
+        test = load_test(_path(case_tests_dir, testname))
         if test[None][:1] == ['TODO']:
             logger.info("SKIP: " + testname)
             continue
 
-        try_rm_rst(case_path)
-
-        vim_start(case_path)
-        vim_add_rtp( case_path )
-        vim_set_default_ft( case_path )
-        vim_so_fn( os.path.join( case_path, "setting.vim" ) )
-        vim_add_settings(test['setting'])
-        vim_add_local_settings(test['localsetting'])
-        vim_add_map(test['map'])
-
-        tmux_keys( "i" )
-        vim_key_sequence_strings(test['keys'])
-        vim_save_to( os.path.join( case_path, "rst" ) )
-
-        rst = fread( case_path, "rst" )
-        _check_rst( (case_path, testname), test['expected'], rst )
-        os.unlink( os.path.join( case_path, "rst" ) )
-
-        vim_close()
+        for arg in ('', ' -V9verboselog'):
+            test['startup_arg'] = arg
+            logger.info("running with vim arg: " + repr(test['startup_arg']))
+            run_case_test(case_path, test)
 
     rcpath = os.path.join( case_path, 'rc' )
     fwrite( rcpath, "all-passed" )
+
+def run_case_test(case_path, test):
+
+    try_rm_rst(case_path)
+
+    vim_start(case_path, test['startup_arg'])
+
+    vim_add_rtp(case_path)
+    vim_set_default_ft(case_path)
+    vim_so_fn( os.path.join(case_path, "setting.vim") )
+
+    vim_add_settings(test['setting'])
+    vim_add_local_settings(test['localsetting'])
+    vim_add_map(test['map'])
+
+    tmux_keys( "i" )
+    vim_key_sequence_strings(test['keys'])
+    vim_save_to( os.path.join( case_path, "rst" ) )
+
+    rst = fread( case_path, "rst" )
+    _check_rst( case_path, test, rst )
+    os.unlink( _path( case_path, "rst" ) )
+
+    vim_close()
 
 
 def load_test(testfn):
 
     # None for internal parameters
     test = { None: [],
+             'name': os.path.split(testfn)[-1],
+             'startup_arg': '',
+
              'setting': [],
              'localsetting': [],
              'map': [],
@@ -212,12 +223,12 @@ def try_rm_rst(base):
     except OSError as e:
         pass
 
-def vim_start( base ):
-    vimrcfn = os.path.join( base, "vimrc" )
+def vim_start( case_path, additional_arg='' ):
+    vimrcfn = _path( case_path, "vimrc" )
     if not os.path.exists( vimrcfn ):
-        vimrcfn = os.path.join( test_root_path, "core_vimrc" )
+        vimrcfn = _path( test_root_path, "core_vimrc" )
 
-    tmux_keys( "vim -u " + vimrcfn + key["cr"] )
+    tmux_keys( "vim -u " + vimrcfn + ' ' + additional_arg + key["cr"] )
     delay()
     logger.debug( "vim started with vimrc: " + repr(vimrcfn) )
 
@@ -287,16 +298,14 @@ def vim_save_to( fn ):
 
     logger.debug( "rst saved to " + repr(fn))
 
-def _check_rst(ident, expected, rst):
+def _check_rst(case_path, test, rst):
 
-    if type(ident) == type(()):
-        casepath, testname = ident
-    else:
-        casepath, testname = ident, ""
+    testname = test['name']
+    expected = test['expected']
 
-    rcpath = os.path.join( casepath, 'rc' )
+    rcpath = os.path.join( case_path, 'rc' )
     if expected != rst:
-        fwrite( rcpath, "fail " + testname )
+        fwrite( rcpath, "fail " + testname + ' vim startup args: ' + repr(test['startup_arg']) )
         raise TestError( ident, expected.split("\n"), rst.split("\n") )
     else:
         fwrite( rcpath, "pass " + testname )
