@@ -1,0 +1,17 @@
+keys:
+build-post-2ph
+should_not_be_seen	
+	
+	
+at_end
+
+build-post-2ph
+should_not_be_seen	
+on_ph1	
+on_ph2	
+at_end
+
+
+expected:
+--ph1-ph2-=at_end
+--on_ph1-on_ph2-=at_end

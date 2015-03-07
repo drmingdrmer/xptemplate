@@ -1,0 +1,7 @@
+keys:
+build-post
+should_not_be_seen	
+typed
+
+expected:
+-text_built=typed
