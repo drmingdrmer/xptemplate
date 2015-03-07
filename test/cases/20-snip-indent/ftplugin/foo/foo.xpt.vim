@@ -32,6 +32,11 @@ XSET ph=ph-line-1\n    ph-line-2
 line1
     `ph^
 
+XPT xset-2tab-indent
+XSET ph=ph-line-1\n		ph-line-2
+line1
+    `ph^
+
 XPT xset-action-echo
 XSET ph=Echo("ph-line-1\n    ph-line-2")
 line1
