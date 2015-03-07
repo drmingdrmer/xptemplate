@@ -1,0 +1,5 @@
+keys:
+in-mid-of-comment
+
+expected:
+in-mid-of-comment
