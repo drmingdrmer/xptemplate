@@ -1,0 +1,12 @@
+keys:
+def-container
+first	
+second	
+on_b	
+on_a	
+third	
+forth	
+at_end
+
+expected:
+-second-(-on_a-on_b=)-first-forth-third=at_end
