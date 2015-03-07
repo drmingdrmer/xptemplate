@@ -1,0 +1,17 @@
+keys:
+choose-2
+
+
+
+choose-2
+
+	
+
+choose-2
+
+
+
+expected:
+choose-2:foo;
+choose-2:foo;
+choose-2:for;
