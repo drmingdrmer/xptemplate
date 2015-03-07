@@ -10,6 +10,12 @@ XSET x|pre=a
 XSET y|pre=b
 -`x^-`y^=
 
+XPT pre-and-def
+XSET x|pre=x-pre
+XSET y|pre=y-pre
+XSET y=y-def
+-`x^-`y^=
+
 XPT def
 XSET x=x-def
 -`x^=
