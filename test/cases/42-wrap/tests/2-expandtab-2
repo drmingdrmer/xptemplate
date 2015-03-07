@@ -1,0 +1,18 @@
+setting:
+expandtab
+shiftwidth=2
+tabstop=8
+
+keys:
+line1
+  line2
+    line3
+
+Vkk
+
+wrapper	
+
+expected:
+left-line1
+  line2
+    line3=right
