@@ -1,0 +1,12 @@
+keys:
+test_post
+snip_a	
+x	
+
+test_post
+snip_b	
+x	
+
+expected:
+-this-is-a:x=
+-this-is-b:x=

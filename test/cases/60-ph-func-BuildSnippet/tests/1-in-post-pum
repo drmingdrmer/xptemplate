@@ -1,0 +1,7 @@
+keys:
+test_post_with_setting
+	
+
+
+expected:
+-this-is-pum:foo=
