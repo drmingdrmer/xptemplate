@@ -1,0 +1,14 @@
+keys:
+phs
+forth,forth,forth,back	
+	
+	
+[Z
+on_3
+
+
+expected:
+forth,forth,forth,back
+2
+on_3
+4-

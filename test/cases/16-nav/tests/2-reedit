@@ -1,0 +1,21 @@
+keys:
+phs
+forth,forth,forth,back	
+	
+	
+[Z
+on_3
+[Z
+on_2
+[Z
+again_on_1	
+	
+	
+on_4	
+at_end
+
+expected:
+again_on_1
+on_2
+on_3
+on_4-at_end
