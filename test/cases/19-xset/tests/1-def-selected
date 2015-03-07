@@ -1,0 +1,12 @@
+keys:
+def
+	
+at_end
+
+def
+at_x	
+at_end
+
+expected:
+-x-def=at_end
+-at_x=at_end
