@@ -1,0 +1,7 @@
+keys:
+cursor
+on_x	
+
+
+expected:
+-on_x-=
