@@ -162,6 +162,7 @@ def run_case_test(case_path, test):
 
     try_rm_rst(case_path)
 
+    tmux_keys("")
     vim_start(case_path, test['startup_arg'])
 
     vim_add_rtp(case_path)
