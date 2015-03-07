@@ -1,0 +1,12 @@
+setting:
+noexpandtab
+shiftwidth=2
+tabstop=4
+
+keys:
+  pre-indent
+
+expected:
+  -what-  l1-1-indent
+  l2-0-indent
+	  l3-2-indent(`ph_in_sub_snippet_is_not_built^)=
