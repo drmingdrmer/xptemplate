@@ -1,0 +1,15 @@
+vim: ts=4
+
+setting:
+expandtab
+shiftwidth=2
+
+keys:
+indent-in-edge-instant
+at_end
+
+expected:
+  -
+  line-1
+     line-2
+  (right)=at_end

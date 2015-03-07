@@ -87,3 +87,13 @@ line1-`ResetIndent(-4,"ph-line-1\nph-line-2")^
 
 XPT instant-reset-indent-backward-4-edge
 line1-`edge-`ResetIndent(-4,"ph-line-1\nph-line-2")`-edge^
+
+XPT indent-in-edge-instant
+    -`
+    `Echo("line-1\n     line-2")`
+    (right)^=
+
+XPT tab-in-edge-instant
+    -`
+	`Echo("line-1\n	line-2")`
+    (right)^=
