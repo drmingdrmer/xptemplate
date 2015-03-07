@@ -217,9 +217,6 @@ def vim_start( base ):
     if not os.path.exists( vimrcfn ):
         vimrcfn = os.path.join( test_root_path, "core_vimrc" )
 
-    vim_start_vimrc( vimrcfn )
-
-def vim_start_vimrc( vimrcfn ):
     tmux_keys( "vim -u " + vimrcfn + key["cr"] )
     delay()
     logger.debug( "vim started with vimrc: " + repr(vimrcfn) )
@@ -228,21 +225,6 @@ def vim_close():
     tmux_keys( key["esc"], ":qa!", key["cr"] )
     delay()
     logger.debug( "vim closed" )
-
-def vim_load_content( fn ):
-
-    if not os.path.exists( fn ):
-        return
-
-    content = fread( fn )
-
-    tmux_keys( ":append", key['cr'] )
-    tmux_keys( content, key['cr'] )
-    tmux_keys( key['c_c'] )
-    tmux_keys( '/', key['c_v'], key['c_l'], key['cr'] )
-    delay()
-
-    logger.debug( "vim content loaded: " + repr( content ) )
 
 def vim_so_fn( fn ):
     if not os.path.exists( fn ):
