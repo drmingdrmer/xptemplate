@@ -11,3 +11,5 @@ XSET y|map=( Echo('y_build')
 XSET z|map=- Next()
 -`x^-`y^-`z^-`w^=
 
+XPT foo
+-`x^=
