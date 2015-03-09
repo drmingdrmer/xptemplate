@@ -47,6 +47,11 @@ list_running()
     tmux ls -F "$indent#{session_name}" | grep 'xpt-test-'
 }
 
+kill_all()
+{
+    tmux ls -F "#{session_name}" | grep "^xpt-test-" | while read s; do tmux kill-session -t $s; done
+}
+
 nr_running()
 {
     list_running | wc -l | awk '{print $1}'
@@ -80,6 +85,9 @@ progress_stat()
     let perc_done=100*n_done/n_total
     echo "$n_done ~ $n_started / $n_total  $perc_done% ~ $perc_start%"
 }
+
+kill_all
+sleep 1
 
 echo test repo path: $tpath
 
