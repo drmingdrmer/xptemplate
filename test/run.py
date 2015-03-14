@@ -85,6 +85,12 @@ key = {
         "c_o": "",
 }
 
+def safe_elt(lst, i):
+    if i >= len(lst):
+        return None
+    else:
+        return lst[i]
+
 
 def main( pattern, subpattern='*' ):
     logger.info("start ...")
@@ -92,13 +98,22 @@ def main( pattern, subpattern='*' ):
     try:
         run_all( pattern, subpattern )
     except TestError as e:
-        # with TestError, stop and see what happened
-        ex, ac = e[1], e[2]
 
-        logger.info( "failure:" )
+        # with TestError, stop and see what happened
+        test, failuretype, ex, ac = e[0], e[1], e[2], e[3]
+        case_name = test['case_name']
+        testname = test['name']
+        startup_arg = test['startup_arg']
+
+        mes = "failure: {tp}: {case} {name} {arg}".format(
+                case=case_name, name=testname,
+                tp=failuretype, arg=startup_arg)
+
+        logger.info(mes)
+
         for i in range( len(ex) ):
             if i >= len(ac) or ex[i] != ac[i]:
-                logger.info( ( i+1, ex[i], ac[i] ) )
+                logger.info( ( i+1, safe_elt(ex, i), safe_elt(ac, i) ) )
 
         if flags[ 'keep' ]:
             # wait for user to see what happened
@@ -146,7 +161,7 @@ def run_case( cname, subpattern ):
         logger.info("running {0} {1} ...".format(os.path.basename(case_path),
                                                  testname))
 
-        test = load_test(case_path, testname)
+        test = load_test(cname, case_path, testname)
         if test[None][:1] == ['TODO']:
             logger.info("SKIP: " + testname)
             continue
@@ -186,12 +201,13 @@ def run_case_test(case_path, test):
     vim_close()
 
 
-def load_test(case_path, testname):
+def load_test(case_name, case_path, testname):
 
     test_path = _path(case_path, "tests", testname)
 
     # None for internal parameters
     test = { None: [],
+             'case_name': case_name,
              'case_path': case_path,
              'name': testname,
              'startup_arg': '',
@@ -200,7 +216,10 @@ def load_test(case_path, testname):
              'localsetting': [],
              'map': [],
              'keys': [],
-             'expected': [], }
+             'expected': [],
+             'screen': [],
+             'screen_matched': [],
+    }
 
     cont = fread(test_path)
     state = None
@@ -295,6 +314,7 @@ def vim_key_sequence_strings( test ):
         tmux_keys( line )
         delay()
         assert_no_err_on_screen(test)
+        find_screen_text_matching(test)
 
     logger.debug( "end of key sequence" )
 
@@ -306,6 +326,14 @@ def vim_save_to( fn ):
         time.sleep(0.1)
 
     logger.debug( "rst saved to " + repr(fn))
+
+def find_screen_text_matching(test):
+    screen = tmux_capture()
+    for reg in test['screen']:
+        if reg in test['screen_matched']:
+            continue
+        if re.findall(reg, screen, flags=re.DOTALL):
+            test['screen_matched'].append(reg)
 
 def assert_no_err_on_screen(test):
 
@@ -325,7 +353,7 @@ def assert_no_err_on_screen(test):
     for ptn in err_patterns:
         err_found = re.findall(ptn, screen)
         if len(err_found) > 0:
-            raise TestError( (case_path, testname), [err_found[0]]*len(lines), lines )
+            raise TestError( test, 'error_occur', [err_found[0]]*len(lines), lines )
 
 def _check_rst(case_path, test, rst):
 
@@ -335,9 +363,15 @@ def _check_rst(case_path, test, rst):
     rcpath = os.path.join( case_path, 'rc' )
     if expected != rst:
         fwrite( rcpath, "fail " + testname + ' vim startup args: ' + repr(test['startup_arg']) )
-        raise TestError( (case_path, testname), expected.split("\n"), rst.split("\n") )
-    else:
-        fwrite( rcpath, "pass " + testname )
+        raise TestError( test, 'result_unmatched', expected.split("\n"), rst.split("\n") )
+
+    test['screen'].sort()
+    test['screen_matched'].sort()
+    if test['screen'] != test['screen_matched']:
+        fwrite( rcpath, "fail " + testname + ' screen check: vim startup args: ' + repr(test['startup_arg']) )
+        raise TestError( test, 'screen_unmatched', test['screen'], test['screen_matched'] )
+
+    fwrite( rcpath, "pass " + testname )
 
 def tmux_setup():
     try:
