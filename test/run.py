@@ -3,77 +3,25 @@
 
 import os
 import sys
-import fcntl
-import subprocess
-import logging
-import logging.handlers
-import stat
 import time
 import fnmatch
+import Queue
 import re
 
+import lg
+import tmux
+
+from util import sh, fread, delay, _path, _thread
+
+logger = lg.make_logger('xpt-test')
+
+nthread = 16
 flags = {
         'keep': True, # keep vim open for further check if test fails
 }
 test_root_path = os.path.dirname(os.path.realpath(__file__))
 
 class TestError( Exception ): pass
-
-class XPTLogHandler( logging.handlers.WatchedFileHandler ):
-
-    def _open( self ):
-        _stream = logging.handlers.WatchedFileHandler._open( self )
-        fd = _stream.fileno()
-
-        r = fcntl.fcntl( fd, fcntl.F_GETFD, 0 )
-        r = fcntl.fcntl( fd, fcntl.F_SETFD, r | fcntl.FD_CLOEXEC )
-        return _stream
-
-    def emit(self, record):
-
-        try:
-            st = os.stat(self.baseFilename)
-            changed = (st[stat.ST_DEV] != self.dev) or (st[stat.ST_INO] != self.ino)
-        except OSError, e:
-            st = None
-            changed = 1
-
-        if changed and self.stream is not None:
-            self.stream.flush()
-            self.stream.close()
-            self.stream = self._open()
-            if st is None:
-                st = os.stat(self.baseFilename)
-            self.dev, self.ino = st[stat.ST_DEV], st[stat.ST_INO]
-        logging.FileHandler.emit(self, record)
-
-def make_logger():
-    logname = 'xpt-test'
-    filename = logname + ".log"
-
-    logger = logging.getLogger( logname )
-    logger.setLevel( logging.DEBUG )
-
-    handler = XPTLogHandler( filename )
-
-    fmt = "[%(asctime)s,%(process)d-%(thread)d,%(filename)s,%(lineno)d,%(levelname)s] %(message)s"
-
-    _formatter = logging.Formatter( fmt )
-
-    handler.setFormatter(_formatter)
-
-    logger.handlers = []
-    logger.addHandler( handler )
-
-    stdhandler = logging.StreamHandler( sys.stdout )
-    stdhandler.setFormatter( logging.Formatter( "[%(asctime)s,%(filename)s,%(lineno)d] %(message)s" ) )
-    stdhandler.setLevel( logging.INFO )
-
-    logger.addHandler( stdhandler )
-
-    return logger
-
-logger = make_logger()
 
 key = {
         "cr":  "\r",
@@ -92,124 +40,197 @@ def safe_elt(lst, i):
         return lst[i]
 
 
+def handle_test_err(sess, err):
+
+    # with TestError, stop and see what happened
+    test, failuretype, ex, ac = err[0:4]
+    case_name = test['case_name']
+    testname = test['name']
+    startup_arg = test['startup_arg']
+
+    mes = "failure: {tp}: {case} {name} {arg}".format(
+            case=case_name, name=testname,
+            tp=failuretype, arg=startup_arg)
+
+    reason = []
+    for i in range( len(ex) ):
+        if i >= len(ac) or ex[i] != ac[i]:
+            reason.append("{ln} {expected} {actual}".format(
+                    ln=i+1,
+                    expected=safe_elt(ex, i),
+                    actual=safe_elt(ac, i)))
+    reason.append("screen:")
+    reason.append(test["screen_captured"])
+    reason = "\n".join(reason)
+
+    sess['failures'].append((mes, reason))
+
+    test['logger'].info(mes)
+    test['logger'].info(reason)
+
 def main( pattern, subpattern='*' ):
-    logger.info("start ...")
-    tmux_setup()
-    try:
-        run_all( pattern, subpattern )
-    except TestError as e:
 
-        # with TestError, stop and see what happened
-        test, failuretype, ex, ac = e[0], e[1], e[2], e[3]
-        case_name = test['case_name']
-        testname = test['name']
-        startup_arg = test['startup_arg']
+    logger.info("test: {0} {1}".format(pattern, subpattern))
+    sess = {
+            'q': Queue.Queue(1024),
+            'passed':[],
+            'failures': [],
+    }
 
-        mes = "failure: {tp}: {case} {name} {arg}".format(
-                case=case_name, name=testname,
-                tp=failuretype, arg=startup_arg)
+    case_root = os.path.join( test_root_path, "cases" )
 
-        logger.info(mes)
-
-        for i in range( len(ex) ):
-            if i >= len(ac) or ex[i] != ac[i]:
-                logger.info( ( i+1, safe_elt(ex, i), safe_elt(ac, i) ) )
-
-        if flags[ 'keep' ]:
-            # wait for user to see what happened
-            logger.info( "Ctrl-c to quit" )
-            while True:
-                time.sleep( 10 )
-        else:
-            tmux_cleanup()
-            raise
-
-    except Exception as e:
-        # with other error, close it
-        tmux_cleanup()
-        raise
-    tmux_cleanup()
-
-def run_all( pattern, subpattern ):
-
-    base = os.path.join( test_root_path, "cases" )
-
-    cases = os.listdir( base )
+    cases = os.listdir( case_root )
     cases.sort()
 
+    cs = []
     for c in cases:
-        if not os.path.isdir( os.path.join( base, c ) ):
+        if not os.path.isdir( os.path.join( case_root, c ) ):
             continue
 
         if fnmatch.fnmatch( c, pattern ):
-            run_case( c, subpattern )
+            cs.append((sess, c, subpattern))
+            logger.info("to test: " + c)
 
-    logger.info("all test passed")
+    for what in cs:
+        sess['q'].put(what)
 
-def run_case( cname, subpattern ):
+    ths = []
+    for ii in range(nthread):
+        ths.append(_thread(case_runner_safe, [sess]))
 
-    logger.info( "running " + cname + " ..." )
+    for th in ths:
 
-    case_path = os.path.join( test_root_path, "cases", cname )
-    case_tests_dir = os.path.join(case_path, 'tests')
+        while th.is_alive():
+
+            time.sleep(1)
+
+            for f in sess['failures']:
+                logger.info(f[0])
+
+        th.join()
+
+    if len(sess['failures']) == 0:
+        logger.info("all test passed")
+        return
+
+    logger.info("failures:")
+    for f in sess['failures']:
+        mes, reason = f
+        logger.info(mes)
+        logger.info(reason)
+
+def case_runner_safe(sess):
+
+    try:
+        case_runner(sess)
+    except Exception as e:
+        logger.exception(repr(e))
+
+def case_runner(sess):
+
+    while True:
+        try:
+            args = sess['q'].get(block=False)
+        except Queue.Empty:
+            break
+        run_case(*args)
+
+def run_case(sess, casename, subpattern):
+    try:
+        _run_case(sess, casename, subpattern)
+        return
+    except TestError as e:
+        handle_test_err(sess, e)
+
+    except Exception as e:
+        logger.exception(repr(e))
+
+    # if flags[ 'keep' ]:
+    #     # wait for user to see what happened
+    #     logger.info( "Ctrl-c to quit" )
+    #     while True:
+    #         time.sleep( 10 )
+
+def _run_case( sess, cname, subpattern ):
+
+    logger.debug( " start: " + cname + " ..." )
+
+    case_path = _path( test_root_path, "cases", cname )
+    case_tests_dir = _path(case_path, 'tests')
     testnames = os.listdir(case_tests_dir)
 
-    for testname in testnames:
-        if not fnmatch.fnmatch( testname, subpattern ):
-            continue
+    testnames = [x for x in testnames
+                 if fnmatch.fnmatch( x, subpattern )]
 
-        logger.info("running {0} {1} ...".format(os.path.basename(case_path),
-                                                 testname))
+    for testname in testnames:
 
         test = load_test(cname, case_path, testname)
         if test[None][:1] == ['TODO']:
-            logger.info("SKIP: " + testname)
+            test['logger'].info("SKIP: " + testname)
             continue
 
-        for arg in ('', ' -V9verboselog'):
-            test['startup_arg'] = arg
-            logger.info("running with vim arg: " + repr(test['startup_arg']))
-            run_case_test(case_path, test)
+        for arg in ('', '-V9verboselog'):
+            t = test.copy()
+            t['startup_arg'] = arg
+            run_case_test(t)
 
-    rcpath = os.path.join( case_path, 'rc' )
-    fwrite( rcpath, "all-passed" )
+    logger.info("case passed: " + cname)
 
-def run_case_test(case_path, test):
+def run_case_test(test):
 
-    try_rm_rst(case_path)
+    test['logger'].debug("  case: {0} {1} {2}".format(
+            test['case_name'], test['name'], test['startup_arg'],
+    ))
 
-    tmux_keys("")
-    vim_start(case_path, test['startup_arg'])
+    case_path = test['case_path']
+    tm = tmux.Tmux(test['sess_name'])
+    test['tmux'] = tm
+
+    tm.try_kill()
+
+    start_cmd = vim_start_cmdstring(test)
+    tm.start(start_cmd)
+    delay()
+    test['logger'].debug( "vim started with: " + repr(start_cmd) )
+
     assert_no_err_on_screen(test)
 
-    vim_add_rtp(case_path)
-    vim_set_default_ft(case_path)
-    vim_so_fn( os.path.join(case_path, "setting.vim") )
+    vim_add_rtp(test)
+    vim_set_default_ft(test)
+    vim_so_fn( test, _path(case_path, "setting.vim") )
 
-    vim_add_settings(test['setting'])
-    vim_add_local_settings(test['localsetting'])
-    vim_add_map(test['map'])
+    vim_add_settings(test, test['setting'])
+    vim_add_local_settings(test, test['localsetting'])
+    vim_add_map(test, test['map'])
 
-    tmux_keys( "i" )
+    _dump(test)
+    test['tmux'].sendkeys('i')
     vim_key_sequence_strings(test)
-    vim_save_to( os.path.join( case_path, "rst" ) )
+    find_screen_text_matching(test)
 
-    rst = fread( case_path, "rst" )
-    _check_rst( case_path, test, rst )
-    os.unlink( _path( case_path, "rst" ) )
+    rst = vim_dump_file_content(test)
 
-    vim_close()
+    _check_rst(test, rst )
+
+    test['logger'].info("ok: {0} {1} {2}".format(
+            test['case_name'], test['name'], test['startup_arg'],
+    ))
+    tm.kill()
 
 
 def load_test(case_name, case_path, testname):
 
     test_path = _path(case_path, "tests", testname)
 
+    sess_name = 'xpt-test_{0}_{1}'.format(case_name, testname)
+
     # None for internal parameters
     test = { None: [],
              'case_name': case_name,
              'case_path': case_path,
              'name': testname,
+             'sess_name': sess_name,
+             'logger': lg.make_logger(case_name),
              'startup_arg': '',
 
              'setting': [],
@@ -217,6 +238,7 @@ def load_test(case_name, case_path, testname):
              'map': [],
              'keys': [],
              'expected': [],
+             'screen_captured': None,
              'screen': [],
              'screen_matched': [],
     }
@@ -237,70 +259,62 @@ def load_test(case_name, case_path, testname):
             line = ''
 
         test[state].append( line )
-        logger.info( '- ' + repr(state) + ': ' + repr(line) )
+        test['logger'].debug( '- ' + repr(state) + ': ' + repr(line) )
 
     test['expected'] = '\n'.join(test['expected'])
     return test
 
-def try_rm_rst(base):
-    try:
-        os.unlink( os.path.join( base, 'rst' ) )
-    except OSError as e:
-        pass
-
-def vim_start( case_path, additional_arg='' ):
-    vimrcfn = _path( case_path, "vimrc" )
+def vim_start_cmdstring(test):
+    vimrcfn = _path( test['case_path'], "vimrc" )
     if not os.path.exists( vimrcfn ):
         vimrcfn = _path( test_root_path, "core_vimrc" )
 
-    tmux_keys( "vim -u " + vimrcfn + ' ' + additional_arg + key["cr"] )
-    delay()
-    logger.debug( "vim started with vimrc: " + repr(vimrcfn) )
+    cmds = [
+        'vim', '-u', vimrcfn, test['startup_arg']
+    ]
+    return ' '.join(cmds)
 
-def vim_close():
-    tmux_keys( key["esc"], ":qa!", key["cr"] )
-    delay()
-    logger.debug( "vim closed" )
-
-def vim_so_fn( fn ):
+def vim_so_fn(test, fn):
     if not os.path.exists( fn ):
         return
 
-    tmux_keys( ":so " + fn, key['cr'] )
+    test['tmux'].sendkeys( ":so " + fn, key['cr'] )
     delay()
-    logger.debug( "vim setting loaed: " + repr(fn) )
+    test['logger'].debug( "vim setting loaed: " + repr(fn) )
 
-def vim_add_rtp( path ):
-    if not os.path.exists( path ):
+def vim_add_rtp( test ):
+    case_path = test['case_path']
+    if not os.path.exists( case_path ):
         return
 
-    tmux_keys( ":set rtp+=", path, key['cr'] )
-    logger.debug( "additional rtp: " + repr( path ) )
+    test['tmux'].sendkeys( ":set rtp+=", case_path, key['cr'] )
+    logger.debug( "additional rtp: " + repr( case_path ) )
 
-def vim_add_settings( settings ):
+def vim_add_settings( test, settings ):
     if len( settings ) == 0:
         return
-    vim_cmd( [ "set" ] + settings )
+    vim_cmd( test, [ "set" ] + settings )
 
-def vim_add_local_settings( settings ):
+def vim_add_local_settings( test, settings ):
     if len( settings ) == 0:
         return
-    vim_cmd( [ "setlocal" ] + settings )
+    vim_cmd( test, [ "setlocal" ] + settings )
 
-def vim_add_map(maps):
+def vim_add_map(test, maps):
     for mp in maps:
-        vim_cmd([mp])
+        vim_cmd(test, [mp])
 
-def vim_cmd( elts ):
+def vim_cmd( test, elts ):
     s = ":" + ' '.join( elts )
-    tmux_keys( s + key['cr'] )
+    test['tmux'].sendkeys( s + key['cr'] )
     logger.debug( s )
 
-def vim_set_default_ft( base ):
-    ft_foo_path = _path( base, 'ftplugin', 'foo', 'foo.xpt.vim' )
+def vim_set_default_ft(test):
+    case_path = test['case_path']
+    ft_foo_path = _path( case_path, 'ftplugin', 'foo', 'foo.xpt.vim' )
     logger.debug( "ft_foo_path: " + ft_foo_path )
     if os.path.isfile( ft_foo_path ):
-        vim_add_settings( [ 'filetype=foo' ] )
+        vim_add_settings( test, [ 'filetype=foo' ] )
         # changing setting may cause a lot ftplugin to load
         delay()
 
@@ -311,24 +325,38 @@ def vim_key_sequence_strings( test ):
     for line in lines:
         if line == '':
             continue
-        tmux_keys( line )
+        test['logger'].debug("send keys: " + repr(line))
+        test['tmux'].sendkeys(line)
         delay()
+        _dump(test)
         assert_no_err_on_screen(test)
-        find_screen_text_matching(test)
 
     logger.debug( "end of key sequence" )
 
-def vim_save_to( fn ):
+def vim_dump_file_content( test ):
 
-    tmux_keys( key['esc']*2, ":w " + fn, key['cr'] )
+    fn = _path(test['case_path'], 'rst')
 
-    while not os.path.exists( os.path.join( fn ) ):
-        time.sleep(0.1)
+    test['tmux'].sendkeys( key['esc']*4 )
+    delay()
+    test['tmux'].sendkeys( ":w " + fn, key['cr'] )
 
-    logger.debug( "rst saved to " + repr(fn))
+    now = time.time()
+    while time.time() < now + 5 and not os.path.exists( os.path.join( fn ) ):
+        time.sleep(0.2)
+
+    logger.debug( "load file content from " + repr(fn))
+
+    rst = fread(fn)
+    if rst is not None:
+        os.unlink( fn )
+
+    return rst
 
 def find_screen_text_matching(test):
-    screen = tmux_capture()
+    screen = test['tmux'].capture()
+    test['screen_captured'] = screen
+
     for reg in test['screen']:
         if reg in test['screen_matched']:
             continue
@@ -337,10 +365,7 @@ def find_screen_text_matching(test):
 
 def assert_no_err_on_screen(test):
 
-    case_path = test['case_path']
-    testname = test['name']
-
-    screen = tmux_capture()
+    screen = test['tmux'].capture()
 
     lines = screen.split("\n")
     lines = [x for x in lines if x not in ('', )]
@@ -355,87 +380,26 @@ def assert_no_err_on_screen(test):
         if len(err_found) > 0:
             raise TestError( test, 'error_occur', [err_found[0]]*len(lines), lines )
 
-def _check_rst(case_path, test, rst):
+def _check_rst(test, rst):
 
-    testname = test['name']
     expected = test['expected']
 
-    rcpath = os.path.join( case_path, 'rc' )
     if expected != rst:
-        fwrite( rcpath, "fail " + testname + ' vim startup args: ' + repr(test['startup_arg']) )
         raise TestError( test, 'result_unmatched', expected.split("\n"), rst.split("\n") )
 
     test['screen'].sort()
     test['screen_matched'].sort()
     if test['screen'] != test['screen_matched']:
-        fwrite( rcpath, "fail " + testname + ' screen check: vim startup args: ' + repr(test['startup_arg']) )
         raise TestError( test, 'screen_unmatched', test['screen'], test['screen_matched'] )
 
-    fwrite( rcpath, "pass " + testname )
+def _dump(test):
+    screen = test['tmux'].capture()
+    lines = screen.split("\n")
+    # lines = [x for x in lines if x != "~"]
+    lines = [ test['case_name'] + '_' + test['name'] + '  |' + x for x in lines]
+    screen = "\n".join(lines)
 
-def tmux_setup():
-    try:
-        _tmux( "kill-pane", "-t", ":0.1" )
-    except Exception as e:
-        pass
-    _tmux( "split-window", "-h", "bash --norc" )
-    _tmux( "select-pane", "-t", ":0.0" )
-
-def tmux_capture():
-    _tmux( "capture-pane", "-t", ":0.1", "-b", "1" )
-    ret = _tmux( "show-buffer", "-b", "1" )
-
-    return ret[1]
-
-def tmux_cleanup():
-    _tmux( "kill-pane", "-t", ":0.1" )
-
-def tmux_keys( *args ):
-    _tmux( "send-key", "-l", "-t", ":0.1", "".join(args) )
-
-def _tmux( *args ):
-    return sh( 'tmux', *args )
-
-def fwrite( fn, cont ):
-    with open(fn, 'w') as f:
-        f.write( cont )
-
-def fread( *args ):
-    fn = os.path.join( *args )
-    with open(fn, 'r') as f:
-        content = f.read()
-
-    if content.endswith('\n'):
-        content = content[:-1]
-
-    return content
-
-def delay():
-    logger.debug( "delay 1 second" )
-    time.sleep( 1 )
-
-def sh( *args, **argkv ):
-
-    args = [str(x) for x in args]
-    logger.debug( "Shell Command: " + repr( args ) )
-
-    subproc = subprocess.Popen( args,
-                             close_fds = True,
-                             stdout = subprocess.PIPE,
-                             stderr = subprocess.PIPE, )
-
-
-    out, err = subproc.communicate()
-    subproc.wait()
-    rst = [ subproc.returncode, out, err ]
-
-    if subproc.returncode != 0:
-        raise Exception( rst )
-
-    return rst
-
-def _path( *args ):
-    return os.path.join( *args )
+    test['logger'].debug("\n"+screen)
 
 
 if __name__ == "__main__":

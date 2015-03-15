@@ -1,93 +1,29 @@
 #!/bin/bash
 
-if which python2.6; then
+if which python2.6 >/dev/null; then
     py=python2.6
 else
     py=python2
 fi
 
-branch=$(git rev-parse --symbolic-full-name HEAD)
+tmp_root=/tmp/xpt-ci
+
+branch=$(git symbolic-ref --short HEAD)
 hsh=$(git rev-parse HEAD)
-
-name="${branch} @ ${hsh}"
-
-tpath=/tmp/xpt-ci/$hsh
-casedir=$tpath/test/cases
-
-test_one_case()
-{
-    local casename=$1
-    local casepath=$casedir/$casename
-    local sessname=xpt-test-$casename
-
-    echo "testing" >$casepath/rc
-
-    echo ">   start test $sessname"
-
-    # -s let python and vim quit when test fails
-    tmux new -s $sessname -d $py' test/run.py -s '$casename || exit 1
-
-    while tmux has-session -t $sessname 2>/dev/null; do
-        sleep 1;
-    done
-
-    echo ">   done  test $casename: $(cat $casepath/rc)"
-
-    if cat $casepath/rc | grep -q "pass"; then
-        return 0
+i=0
+while ``; do
+    tpath=$tmp_root/$branch-$hsh-$i
+    if [ -d $tpath ]; then
+        let i=i+1
     else
-        cat $casepath/rc
-        return 1
+        break
     fi
-}
+done
 
-list_running()
-{
-    local indent="$1"
-    tmux ls -F "$indent#{session_name}" | grep 'xpt-test-'
-}
-
-kill_all()
-{
-    tmux ls -F "#{session_name}" | grep "^xpt-test-" | while read s; do tmux kill-session -t $s; done
-}
-
-nr_running()
-{
-    list_running | wc -l | awk '{print $1}'
-}
-
-list_failed()
-{
-    grep fail `find ./test/cases -name "rc"`
-}
-
-wait_if_gt()
-{
-    local thre=$1
-    local verbose=${2-0}
-    while [ $(nr_running) -gt $thre ]; do
-        if [ ".$verbose" = ".1" ]; then
-            progress_stat
-        fi
-        sleep 1
-    done
-}
-
-progress_stat()
-{
-    local n_done=
-    local perc_start=
-    local perc_done=
-
-    let n_done=n_started-$(nr_running)
-    let perc_start=100*n_started/n_total
-    let perc_done=100*n_done/n_total
-    echo "$n_done ~ $n_started / $n_total  $perc_done% ~ $perc_start%"
-}
-
-kill_all
-sleep 1
+(
+cd $tmp_root \
+    && [ $(ls | wc -l) -gt 10 ] && rm $(ls | head -n1)
+)
 
 echo test repo path: $tpath
 
@@ -95,38 +31,4 @@ mkdir -p $tpath \
     && git checkout-index -af --prefix=$tpath/ \
     && cd $tpath || exit 1
 
-cases=$(ls $casedir)
-n_total=$(ls $casedir|wc -l| awk '{print $1}')
-n_started=0
-
-for c in $cases; do
-
-    { test_one_case $c; } &
-    sleep 0.1
-    let n_started=n_started+1
-
-    echo ""
-    echo "nr running: $(progress_stat):"
-    list_running "    "
-
-    failed=$(list_failed)
-    if [ ! -z "$failed" ]; then
-        echo ""
-        echo "failed:"
-        echo "$failed"
-    fi
-
-    wait_if_gt 8
-done
-
-wait_if_gt 0 1
-
-failed=$(list_failed)
-
-if [ -z "$failed" ]; then
-    echo "all passed. *** Congratulations! ***"
-else
-    echo ""
-    echo "failed:"
-    echo "$failed"
-fi
+$py test/run.py "$@"
