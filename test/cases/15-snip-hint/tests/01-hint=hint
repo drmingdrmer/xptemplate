@@ -1,0 +1,8 @@
+keys:
+hint
+
+expected:
+hint-hint
+
+screen:
+hint-hint [ ]*hint=hint-hint

@@ -1,0 +1,8 @@
+keys:
+var-infile
+
+expected:
+var-infile
+
+screen:
+var-infile  *file_var
