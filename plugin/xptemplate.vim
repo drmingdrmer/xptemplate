@@ -733,10 +733,23 @@ fun! s:ParseTemplateSetting( tmpl ) "{{{
     " Note: empty means nothing, "" means something that can override others
     if has_key(setting, 'rawHint')
 
-        let setting.hint = xpt#eval#Eval( setting.rawHint,
+        let hint = xpt#eval#Eval( setting.rawHint,
               \ [ x.filetypes[ x.snipFileScope.filetype ].funcs,
               \   setting.variables,
               \ ] )
+
+        if type(hint) == type({})
+            let setting.hint = get(hint, 'text', '')
+        elseif type(hint) == type([])
+            let setting.hint =  join( hint[ : 3 ], ' ' ) . ' ..'
+        elseif type(hint) == type(1)
+            let setting.hint = string(hint)
+        elseif type(hint) == 2
+            " function
+            let setting.hint = string(hint)
+        else
+            let setting.hint = hint
+        endif
 
     endif
 
