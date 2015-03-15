@@ -46,7 +46,9 @@ fun! xpt#eval#Eval( str, closures ) "{{{
     try
         return eval(expr)
     catch /.*/
-        call s:log.Error( string( v:throwpoint ), string( v:exception ), 'expr=' . expr )
+        call XPT#warn(v:throwpoint)
+        call XPT#warn(v:exception)
+        call XPT#warn(expr)
         return ''
     endtry
 

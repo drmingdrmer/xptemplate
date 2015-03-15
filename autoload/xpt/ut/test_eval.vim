@@ -59,6 +59,8 @@ fun! s:TestEval( t ) "{{{
           \ [ [ 'a(b("c"))', {'a' : 'a', 'b' : 'b'}, {} ], 'a-b-c' ],
           \
           \ [ [ 'd($x)', {"d" : "dictfunc", "$x": 123}, {} ], 'dictfunc-123' ],
+          \
+          \ [ [ 'err()', {"err" : "err"}, {} ], '' ],
           \ ]
           " \ [ [ '', {}, {} ], '' ],
 
@@ -84,6 +86,10 @@ fun! xpt#ut#test_eval#a( ... ) "{{{
 endfunction "}}}
 fun! xpt#ut#test_eval#b( ... ) "{{{
     return 'b-' . join(a:000, '')
+endfunction "}}}
+
+fun! xpt#ut#test_eval#err( ... ) "{{{
+    throw 'err'
 endfunction "}}}
 
 fun! xpt#ut#test_eval#dictfunc( ... ) dict "{{{
