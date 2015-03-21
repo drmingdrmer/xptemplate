@@ -99,16 +99,23 @@ XPT lim " lim_....
 
 XPT itemize " begin{itemize} ... end{itemize}
 \begin{itemize}
-\item `what~~`...~
-\item `what~~`...~
+    \item `what~~`...~
+    \item `what~~`...~
 \end{itemize}
 ..XPT
 
 XPT enumerate " begin{enumerate} ... end{enumerate}
 \begin{enumerate}
-\item `what~~`...~
-\item `what~~`...~
+    \item `what~~`...~
+    \item `what~~`...~
 \end{enumerate}
+..XPT
+
+XPT description " begin{description} ... end{description}
+\begin{description}
+    \item[`what~] `content~~`...~
+    \item[`what~] `content~~`...~
+\end{description}
 ..XPT
 
 XPT sqrt " sqrt[..]{..}
