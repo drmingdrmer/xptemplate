@@ -1,0 +1,8 @@
+pre_vimrc:
+inoremap a a_map_to_b
+
+keys:
+a i
+
+expected:
+a_map_to_b j
