@@ -231,6 +231,7 @@ def load_test(case_name, case_path, testname):
              'logger': lg.make_logger(case_name),
 
              'vimarg': [],
+             'pre_vimrc': [],
              'setting': [],
              'localsetting': [],
              'map': [],
@@ -267,9 +268,13 @@ def vim_start_cmdstring(test):
     if not os.path.exists( vimrcfn ):
         vimrcfn = _path( test_root_path, "core_vimrc" )
 
-    cmds = [
-        'vim', '-u', vimrcfn,
-    ] + test['vimarg']
+    pre_vimrc_cmds = test['pre_vimrc']
+
+    cmds = [ 'vim', '-u', vimrcfn, ]
+    cmds += test['vimarg']
+    for c in pre_vimrc_cmds:
+        cmds += [ '--cmd', "'"+c+"'" ]
+
     return ' '.join(cmds)
 
 def vim_so_fn(test, fn):
