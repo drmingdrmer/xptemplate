@@ -46,10 +46,6 @@ else
     XPTvar $PHP_TAG
 endif
 
-" ========================= Function and Variables =============================
-
-" ================================= Snippets ===================================
-
 XPT html " <?$PHP_TAG ... ?>
 ?>`html^<?`$PHP_TAG^
 
@@ -81,5 +77,5 @@ interface `interfaceName^`$BRfun^{
     `cursor^
 }
 
-
-" ================================= Wrapper ===================================
+XPT $ " make dollar a keyword
+$
