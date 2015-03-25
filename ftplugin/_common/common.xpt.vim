@@ -70,52 +70,17 @@ XPTinclude
       \ _common/inlineComplete
       \ _common/common.*
 
-" XPTinclude
-      " \ _common/cmn.counter
+let s:f_prototype = xpt#snipfunction#funcs
+call extend( s:f, s:f_prototype, 'error' )
 
-" ========================= Function and Variables =============================
-
-
-fun! s:f.GetDict( ... )
-    return 
-endfunction
-
-" TODO bad, this function should not depends on phase of rendering
-fun! s:f.GetVar( name )
-    if a:name =~# '\V\^$_x'
-        try
-            let n = a:name[ 1 : ]
-            return self[ n ]()
-        catch /.*/
-            return a:name
-        endtry
-    endif
-
-    let r = self.renderContext
-
-    let ev = get( r.evalCtx, 'variables', {} )
-    let rv = get( r.snipSetting, 'variables', {} )
-
-    return get( ev, a:name,
-          \     get( rv, a:name,
-          \         get( self, a:name, a:name ) ) )
-
-    " if self.renderContext.phase == g:xptRenderPhase.uninit
-    "     return get( self.renderContext.evalCtx.variables, a:name,
-    "           \ get( self, a:name, a:name ) )
-    " else
-    "     return get( get( self.renderContext.snipSetting, 'variables', {} ), a:name,
-    "           \     get( self, a:name, a:name ) )
-    " endif
-endfunction
 
 fun! s:f._xSnipName()
-    return self.renderContext.snipObject.name
+    return self._ctx.renderContext.snipObject.name
 endfunction
 
 
 fun! s:f.GetWrappedText()
-    let wrap = self.renderContext.wrap
+    let wrap = self._ctx.renderContext.wrap
 
     let [ l, r ] = self.ItemEdges()
 
@@ -125,6 +90,7 @@ fun! s:f.GetWrappedText()
 
     if l == '' && r == ''
         return { 'nIndent'  : wrap.indent,
+              \  'action'   : 'text',
               \  'text'     : wrap.text }
     else
 
@@ -136,19 +102,19 @@ fun! s:f.GetWrappedText()
 endfunction
 
 fun! s:f.WrapAlignAfter( min )
-    let wrap = self.renderContext.wrap
+    let wrap = self._ctx.renderContext.wrap
     let n = max( [ a:min, wrap.max ] ) - len( wrap.curline )
     return repeat( ' ', n )
 endfunction
 
 fun! s:f.WrapAlignBefore( min )
-    let wrap = self.renderContext.wrap
+    let wrap = self._ctx.renderContext.wrap
     let n = max( [ a:min, wrap.max ] ) - len( wrap.lines[ 0 ] )
     return repeat( ' ', n )
 endfunction
 
 fun! s:f.Item()
-    return get( self.renderContext, 'item', {} )
+    return get( self._ctx.renderContext, 'item', {} )
 endfunction
 
 " current name
@@ -165,12 +131,12 @@ let s:f.NN = s:f.ItemFullname
 
 " current value user typed
 fun! s:f.ItemValue() dict "{{{
-    return get( self.renderContext.evalCtx, 'userInput', '' )
+    return self.GetVar( '$UserInput' )
 endfunction "}}}
 let s:f.V = s:f.ItemValue
 
 fun! s:f.PrevItem( n )
-    let hist = get( self.renderContext, 'history', [] )
+    let hist = get( self._ctx.renderContext, 'history', [] )
     return get( hist, a:n, {} )
 endfunction
 
@@ -191,7 +157,7 @@ let s:f.VS = s:f.ItemValueStripped
 
 
 fun! s:f.ItemPos()
-    return XPMposStartEnd( self.renderContext.leadingPlaceHolder.mark )
+    return XPMposStartEnd( self._ctx.renderContext.leadingPlaceHolder.mark )
 endfunction
 
 fun! s:f.ItemInitValueWithEdge()
@@ -231,7 +197,7 @@ endfunction
 let s:f.V0 = s:f.ItemStrippedValue
 
 fun! s:f.Phase() dict
-    return get( self.renderContext, 'phase', '' )
+    return get( self._ctx.renderContext, 'phase', '' )
 endfunction
 
 " TODO this is not needed at all except as a shortcut.
@@ -243,7 +209,7 @@ endfunction "}}}
 
 " return the context
 fun! s:f.Context() "{{{
-  return self.renderContext
+  return self._ctx.renderContext
 endfunction "}}}
 let s:f.C = s:f.Context
 
@@ -264,19 +230,19 @@ let s:f.SV = s:f.SubstituteWithValue
 
 
 fun! s:f.HasStep( name )
-    let namedStep = get( self.renderContext, 'namedStep', {} )
+    let namedStep = get( self._ctx.renderContext, 'namedStep', {} )
     return has_key( namedStep, a:name )
 endfunction
 
 " reference to another finished item value
 fun! s:f.Reference(name) "{{{
-    let namedStep = get( self.renderContext, 'namedStep', {} )
+    let namedStep = get( self._ctx.renderContext, 'namedStep', {} )
     return get( namedStep, a:name, '' )
 endfunction "}}}
 let s:f.R = s:f.Reference
 
 fun! s:f.Snippet( name )
-    return get( self.renderContext.ftScope.allTemplates, a:name, { 'tmpl' : '' } )[ 'tmpl' ]
+    return get( self._ctx.renderContext.ftScope.allTemplates, a:name, { 'tmpl' : '' } )[ 'tmpl' ]
 endfunction
 
 " black hole
@@ -288,12 +254,11 @@ let s:f.VOID = s:f.Void
 " Echo several expression and concat them.
 " That's the way to use normal vim script expression instead of mixed string
 fun! s:f.Echo( ... )
+    let text = ''
     if a:0 > 0
-        return a:1
-    else
-        return ''
+        let text = a:1
     endif
-    " return join( a:000, '' )
+    return { 'action': 'text', 'text': text }
 endfunction
 
 fun! s:f.EchoIf( isTrue, ... )
@@ -342,13 +307,18 @@ fun! s:f.Build( ... )
   return { 'action' : 'build', 'text' : join( a:000, '' ) }
 endfunction
 
+let s:f.Embed = s:f.Build
+
+fun! s:f.BuildSnippet( snipname )
+    return { 'action' : 'build', 'snippet' : a:snipname }
+endfunction
+
 fun! s:f.BuildIfChanged( ... )
   let v = substitute( self.V(), "\\V\n\\|\\s", '', 'g')
   " let fn = substitute( self.ItemFullname(), "\\V\n\\|\\s", '', 'g')
   let fn = substitute( self.ItemInitValueWithEdge(), "\\V\n\\|\\s", '', 'g')
 
   if v ==# fn || v == ''
-      " return { 'action' : 'keepIndent', 'text' : self.V() }
       return ''
   else
       return { 'action' : 'build', 'text' : join( a:000, '' ) }
@@ -376,7 +346,7 @@ endfunction "}}}
 
 fun! s:f.Finish(...)
 
-    if empty( self.renderContext.itemList )
+    if empty( self._ctx.renderContext.itemList )
 
         let o = { 'action' : 'finishTemplate' }
 
@@ -393,7 +363,7 @@ endfunction
 
 fun! s:f.FinishOuter( ... )
 
-    if empty( self.renderContext.itemList )
+    if empty( self._ctx.renderContext.itemList )
 
         let o = { 'action' : 'finishTemplate', 'marks' : 'mark' }
 
@@ -407,10 +377,6 @@ fun! s:f.FinishOuter( ... )
         return a:0 > 0 ? a:1 : 0
     endif
 
-endfunction
-
-fun! s:f.Embed( snippet )
-  return { 'action' : 'embed', 'text' : a:snippet }
 endfunction
 
 fun! s:f.Next( ... )
@@ -443,17 +409,6 @@ fun! s:f.ChooseStr(...) "{{{
   return copy( a:000 )
 endfunction "}}}
 
-fun! s:f.Complete( key, ... )
-
-    let val = { 'action' : 'complete', 'pum' : a:key }
-
-    if a:0 == 1
-        let val.acceptEmpty = a:1 != 0
-    endif
-
-    return val
-endfunction
-
 " XXX
 " Fill in postType, and finish template rendering at once.
 " This make nested template rendering go back to upper level, top-level
@@ -469,7 +424,7 @@ endfunction
 
 " TODO test me
 fun! s:f.UnescapeMarks(string) dict
-  let patterns = self.renderContext.snipObject.ptn
+  let patterns = self._ctx.renderContext.snipObject.ptn
   let charToEscape = '\(\[' . patterns.l . patterns.r . ']\)'
 
   let r = substitute( a:string,  '\v(\\*)\1\\?\V' . charToEscape, '\1\2', 'g')
@@ -527,7 +482,7 @@ endfunction
 
 " Return Item Edges
 fun! s:f.ItemEdges() "{{{
-    let leader =  get( self.renderContext, 'leadingPlaceHolder', {} )
+    let leader =  get( self._ctx.renderContext, 'leadingPlaceHolder', {} )
     if has_key( leader, 'leftEdge' )
         return [ leader.leftEdge, leader.rightEdge ]
     else

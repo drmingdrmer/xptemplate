@@ -16,55 +16,64 @@ let s:ep           = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
 
 
 
+let s:def = function( "XPT#setIfNotExist" )
 
 
-" call XPT#setIfNotExist('g:xptemplate_show_stack'	, 1 )
-" call XPT#setIfNotExist('g:xptemplate_abbr_mode'	, 0 )
-" call XPT#setIfNotExist('g:xptemplate_crash'	, '<C-g>' )
-" call XPT#setIfNotExist('g:xptemplate_nav_clear_next'	, '<cr>' )
-" call XPT#setIfNotExist('g:xptemplate_map'	, '' )
+" call s:def('g:xptemplate_show_stack'	, 1 )
+" call s:def('g:xptemplate_abbr_mode'	, 0 )
+" call s:def('g:xptemplate_crash'	, '<C-g>' )
+" call s:def('g:xptemplate_nav_clear_next'	, '<cr>' )
+" call s:def('g:xptemplate_map'	, '' )
 
-call XPT#setIfNotExist('g:xptemplate_key'	, '<C-\>' )
-call XPT#setIfNotExist('g:xptemplate_key_force_pum'	, '<C-r>' . g:xptemplate_key )
-call XPT#setIfNotExist('g:xptemplate_key_pum_only'	, '<C-r><C-r>' . g:xptemplate_key )
+call s:def('g:xptemplate_key'	, '<C-\>' )
+call s:def('g:xptemplate_key_force_pum'	, '<C-r>' . g:xptemplate_key )
+call s:def('g:xptemplate_key_pum_only'	, '<C-r><C-r>' . g:xptemplate_key )
+call s:def('g:xptemplate_key_visual'	, g:xptemplate_key )
 
 
-call XPT#setIfNotExist('g:xptemplate_nav_next'	, '<Tab>' )
-call XPT#setIfNotExist('g:xptemplate_nav_prev'	, '<S-Tab>' )
-call XPT#setIfNotExist('g:xptemplate_nav_cancel'	, '<cr>' )
-call XPT#setIfNotExist('g:xptemplate_goback'	, '<C-g>' )
-call XPT#setIfNotExist('g:xptemplate_to_right'	, '<C-l>' )
+call s:def('g:xptemplate_nav_next'	, '<Tab>' )
+call s:def('g:xptemplate_nav_prev'	, '<S-Tab>' )
+call s:def('g:xptemplate_nav_cancel'	, '<cr>' )
+call s:def('g:xptemplate_goback'	, '<C-g>' )
+call s:def('g:xptemplate_to_right'	, '<C-l>' )
 
 " TODO doc it
-call XPT#setIfNotExist('g:xptemplate_key_2'	, g:xptemplate_key )
-call XPT#setIfNotExist('g:xptemplate_nav_next_2'	, g:xptemplate_nav_next )
-call XPT#setIfNotExist('g:xptemplate_fallback'	, '<Plug>XPTrawKey' )
+call s:def('g:xptemplate_key_2'	, g:xptemplate_key )
+call s:def('g:xptemplate_nav_next_2'	, g:xptemplate_nav_next )
+call s:def('g:xptemplate_fallback'	, '<Plug>XPTrawKey' )
+call s:def('g:xptemplate_key_visual_2'	, g:xptemplate_key_visual )
 
 
 " doc it
-call XPT#setIfNotExist('g:xptemplate_fallback_condition'	, '\V\c<Tab>' )
+call s:def('g:xptemplate_fallback_condition'	, '\V\c<Tab>' )
 " doc it
-call XPT#setIfNotExist('g:xptemplate_move_even_with_pum'	, g:xptemplate_nav_next !=? '<Tab>' )
-call XPT#setIfNotExist('g:xptemplate_always_show_pum'	, 0 )
-call XPT#setIfNotExist('g:xptemplate_minimal_prefix'	, 1 )
-call XPT#setIfNotExist('g:xptemplate_pum_tab_nav'	, 0 )
-call XPT#setIfNotExist('g:xptemplate_strict'	, 2 )
-call XPT#setIfNotExist('g:xptemplate_highlight'	, 'next' )
-call XPT#setIfNotExist('g:xptemplate_highlight_nested'	, 0 )
-call XPT#setIfNotExist('g:xptemplate_brace_complete'	, 0 )
-call XPT#setIfNotExist('g:xptemplate_strip_left'	, 1 )
-call XPT#setIfNotExist('g:xptemplate_fix'	, 1 )
-call XPT#setIfNotExist('g:xptemplate_ph_pum_accept_empty'	, 1 )
+call s:def('g:xptemplate_move_even_with_pum'	, g:xptemplate_nav_next !=? '<Tab>' )
+call s:def('g:xptemplate_close_pum'	, 0 )
+call s:def('g:xptemplate_break_undo'	, 0 )
+call s:def('g:xptemplate_always_show_pum'	, 0 )
+call s:def('g:xptemplate_minimal_prefix'	, 1 )
+call s:def('g:xptemplate_pum_tab_nav'	, 0 )
+call s:def('g:xptemplate_pum_quick_back'	, 1 )
+call s:def('g:xptemplate_strict'	, 2 )
+call s:def('g:xptemplate_highlight'	, 'next' )
+call s:def('g:xptemplate_highlight_nested'	, 0 )
+call s:def('g:xptemplate_brace_complete'	, 0 )
+call s:def('g:xptemplate_strip_left'	, 1 )
+call s:def('g:xptemplate_fix'	, 1 )
+call s:def('g:xptemplate_ph_pum_accept_empty'	, 1 )
+call s:def('g:xptemplate_cwd_snippet'	, 0 )
+call s:def('g:xptemplate_hook_before_cr'	, '' )
+call s:def('g:xptemplate_debug_log'	, '' )
 
 
-call XPT#setIfNotExist('g:xptemplate_vars'	, '' )
-call XPT#setIfNotExist('g:xptemplate_bundle'	, '' )
-call XPT#setIfNotExist('g:xptemplate_snippet_folders'	, [] )
+call s:def('g:xptemplate_vars'	, '' )
+call s:def('g:xptemplate_bundle'	, '' )
+call s:def('g:xptemplate_snippet_folders'	, [] )
 
 
 
 " for test script
-call XPT#setIfNotExist('g:xpt_post_action', '')
+call s:def('g:xpt_post_action', '')
 
 
 if type( g:xptemplate_minimal_prefix ) == type( '' )
@@ -84,7 +93,7 @@ if type( g:xptemplate_minimal_prefix ) == type( '' )
     endif
 endif
 
-call XPT#setIfNotExist( 'g:xptemplate_minimal_prefix_nested', g:xptemplate_minimal_prefix )
+call s:def( 'g:xptemplate_minimal_prefix_nested', g:xptemplate_minimal_prefix )
 
 
 
@@ -146,6 +155,15 @@ let g:XPTmappings = {
       \                     : "<C-c>`>i<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>",
       \ }
 
+if g:xptemplate_break_undo
+    let g:XPTmappings.trigger = "<C-g>u" . g:XPTmappings.trigger
+endif
+
+if g:xptemplate_close_pum
+    for k in split('popup,force_pum,trigger', ',')
+        let g:XPTmappings[k] = "<C-v><C-v><BS>" . g:XPTmappings[k]
+    endfor
+end
 
 if g:xptemplate_fallback =~ '\V\^nore:'
     let g:xptemplate_fallback = g:xptemplate_fallback[ 5: ]
@@ -164,15 +182,18 @@ endfunction "}}}
 
 
 exe "inoremap <silent>" g:xptemplate_key           printf( g:XPTmappings.trigger      , s:EscapeMap( g:xptemplate_key )          )
-exe "xnoremap <silent>" g:xptemplate_key           g:XPTmappings.wrapTrigger
+exe "xnoremap <silent>" g:xptemplate_key_visual    g:XPTmappings.wrapTrigger
 exe "snoremap <silent>" g:xptemplate_key           printf( g:XPTmappings.selTrigger   , s:EscapeMap( g:xptemplate_key )          )
 exe "inoremap <silent>" g:xptemplate_key_pum_only  printf( g:XPTmappings.popup        , s:EscapeMap( g:xptemplate_key_pum_only ) )
 exe "inoremap <silent>" g:xptemplate_key_force_pum printf( g:XPTmappings.force_pum    , s:EscapeMap( g:xptemplate_key_force_pum ))
 
 if g:xptemplate_key_2 != g:xptemplate_key
     exe "inoremap <silent>" g:xptemplate_key_2           g:XPTmappings.trigger
-    exe "xnoremap <silent>" g:xptemplate_key_2           g:XPTmappings.wrapTrigger
     exe "snoremap <silent>" g:xptemplate_key_2           g:XPTmappings.selTrigger
+endif
+
+if g:xptemplate_key_visual_2 != g:xptemplate_key_visual
+    exe "xnoremap <silent>" g:xptemplate_key_visual_2           g:XPTmappings.wrapTrigger
 endif
 
 
@@ -207,7 +228,8 @@ endif
 
 let g:xptBundle = {}
 for ftAndBundle in s:bundle
-    let [ ft, bundle ] = split( ftAndBundle, '_' )
+    let [ ft; bundle_list ] = split( ftAndBundle, '_' )
+    let bundle = join( bundle_list, '_' )
     if !has_key( g:xptBundle, ft )
         let g:xptBundle[ ft ] = {}
     endif

@@ -26,7 +26,6 @@ set cpo-=< cpo+=B
 
 runtime plugin/debug.vim
 runtime plugin/classes/SettingSwitch.vim
-runtime plugin/classes/MapSaver.vim
 
 
 exe XPT#let_sid
@@ -391,7 +390,10 @@ fun! s:sessionPrototype.addList( list ) "{{{
     if type( list[0] ) == type( '' )
         call map( list, '{"word" : v:val, "icase" : 1 }' )
     else
-        call map( list, '{"word" : v:val["word"], "menu" : get( v:val, "menu", "" ), "icase" : 1 }' )
+        call map( list, '{"word" : v:val["word"],'
+              \ . '"info": get(v:val, "info", ""),'
+              \ . '"menu": get(v:val, "menu", ""),'
+              \ . '"icase": 1 }' )
     endif
 
     let self.list += list
@@ -405,6 +407,11 @@ fun! s:sessionPrototype.createPrefixIndex(list) "{{{
 endfunction "}}}
 
 fun! s:sessionPrototype.updatePrefixIndex(list) "{{{
+
+    if g:xptemplate_pum_quick_back == 0
+        return
+    endif
+
     for item in a:list
         let key = ( type(item) == type({}) ) ?item.word : item
 
@@ -429,8 +436,8 @@ fun! s:_InitBuffer() "{{{
         return
     endif
 
-    let b:_xpp_map_saver = g:MapSaver.New( 1 )
-    call b:_xpp_map_saver.AddList( 
+    let b:_xpp_map_saver = xpt#msvr#New(1)
+    call xpt#msvr#AddList( b:_xpp_map_saver,
           \ 'i_<UP>', 
           \ 'i_<DOWN>', 
           \
@@ -449,10 +456,17 @@ fun! s:_InitBuffer() "{{{
     "       non-keywords char make pum disappear.
 
     let b:_xpp_setting_switch = g:SettingSwitch.New()
+
+    let co = {"menu":1, "menuone":1, "longest":1}
+    for k in split(&completeopt, ',')
+        let co[k] = 1
+    endfor
+    let new_completeopt = join( keys(co), ',' )
+
     call b:_xpp_setting_switch.AddList( 
           \ [ '&l:cinkeys', '' ], 
           \ [ '&l:indentkeys', '' ], 
-          \ [ '&completeopt', 'menu,longest,menuone' ], 
+          \ [ '&completeopt', new_completeopt ],
           \)
           " \ [ '&iskeyword', '33-127,128-255' ], 
     " TODO  '&l:ignorecase', '1'???
@@ -824,13 +838,17 @@ fun! XPPshorten() "{{{
     let actions = "\<C-y>"
     let actions = ""
 
+    if g:xptemplate_pum_quick_back == 1
 
-    let prefixMap = ( sess.ignoreCase ) ? sess.prefixIndex.lower : sess.prefixIndex.ori
-    call s:log.Log("prefix map:".string(prefixMap))
+        let prefixMap = ( sess.ignoreCase ) ? sess.prefixIndex.lower : sess.prefixIndex.ori
+        call s:log.Log("prefix map:".string(prefixMap))
 
+        let shorterKey = s:FindShorter(prefixMap, ( sess.ignoreCase ? substitute(current, '.', '\l&', 'g') : current ))
+        call s:log.Log("shorterKey=".shorterKey)
 
-    let shorterKey = s:FindShorter(prefixMap, ( sess.ignoreCase ? substitute(current, '.', '\l&', 'g') : current ))
-    call s:log.Log("shorterKey=".shorterKey)
+    else
+         let shorterKey = current[ 0 : -2 ]
+    endif
 
 
     let action = actions . repeat( "\<bs>", len(current) - len(shorterKey) ) . "\<C-r>=XPPrepopup(0, 'noenlarge')\<cr>"
@@ -959,7 +977,7 @@ fun! s:ApplyMapAndSetting() "{{{
 
     call s:log.Debug( 'ApplyMapAndSetting' )
 
-    call b:_xpp_map_saver.Save()
+    call xpt#msvr#Save( b:_xpp_map_saver )
 
 
     let sess = b:__xpp_current_session
@@ -1019,7 +1037,7 @@ fun! s:ClearMapAndSetting() "{{{
         " let 
 
 
-    call b:_xpp_map_saver.Restore()
+    call xpt#msvr#Restore( b:_xpp_map_saver )
     call b:_xpp_setting_switch.Restore()
     if exists( ':AcpUnlock' )
         try

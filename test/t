@@ -1,0 +1,34 @@
+#!/bin/bash
+
+if which python2.6 >/dev/null; then
+    py=python2.6
+else
+    py=python2
+fi
+
+tmp_root=/tmp/xpt-ci
+
+branch=$(git symbolic-ref --short HEAD)
+hsh=$(git rev-parse HEAD)
+i=0
+while ``; do
+    tpath=$tmp_root/$branch-$hsh-$i
+    if [ -d $tpath ]; then
+        let i=i+1
+    else
+        break
+    fi
+done
+
+(
+cd $tmp_root \
+    && [ $(ls | wc -l) -gt 10 ] && rm $(ls | head -n1)
+)
+
+echo test repo path: $tpath
+
+mkdir -p $tpath \
+    && git checkout-index -af --prefix=$tpath/ \
+    && cd $tpath || exit 1
+
+$py test/run.py "$@"

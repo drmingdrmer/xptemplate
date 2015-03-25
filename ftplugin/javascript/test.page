@@ -120,17 +120,17 @@ assertObjectEquals(mess
                   , arr
                   , expr)
 
-assertObjectEquals(mess_TYPED
-                  , arr_TYPED
-                  , expr_TYPED) b
+                  assertObjectEquals(mess_TYPED
+                                    , arr_TYPED
+                                    , expr_TYPED) b
 
-`assertObjectEquals(mess
-                  , arr
-                  , expr)^
+                                    `assertObjectEquals(mess
+                                                      , arr
+                                                      , expr)^
 
-a assertObjectEquals(mess
-                  , arr
-                  , expr)
+                                                      a assertObjectEquals(mess
+                                                                        , arr
+                                                                        , expr)
 
 
     //  -------------Author--------------- 
@@ -138,13 +138,13 @@ a assertObjectEquals(mess
 
 
 
-drdr.xp
+                                                                        drdr.xp
 
-drdr.xp b
+                                                                    drdr.xp b
 
-`drdr.xp^
+                                                                    `drdr.xp^
 
-a drdr.xp
+                                                                    a drdr.xp
 
 
     //  -------------bench--------------- 
@@ -161,53 +161,53 @@ a drdr.xp
 
 
 
-var t0 = new Date().getTime();
-for (var i = 0; i < times; ++i){
-    /* void */;
-}
-var t1 = new Date().getTime();
-for (var i = 0; i < times; ++i){
-    /* void */;
-}
-var t2 = new Date().getTime();
-console.log(t1-t0, t2-t1);
+                                                                    var t0 = new Date().getTime();
+                                                                    for (var i = 0; i < times; ++i){
+                                                                        /* void */;
+                                                                    }
+                                                                    var t1 = new Date().getTime();
+                                                                    for (var i = 0; i < times; ++i){
+                                                                        /* void */;
+                                                                    }
+                                                                    var t2 = new Date().getTime();
+                                                                    console.log(t1-t0, t2-t1);
+                                                                    
 
+                                                                    var t0 = new Date().getTime();
+                                                                    for (var i = 0; i < times_TYPED; ++i){
+                                                                        job_TYPED
+                                                                    }
+                                                                    var t1 = new Date().getTime();
+                                                                    for (var i = 0; i < times_TYPED; ++i){
+                                                                        jobn_TYPED
+                                                                    }
+                                                                    var t2 = new Date().getTime();
+                                                                    log_TYPED(t1-t0, t2-t1);
+                                                                     b
 
-var t0 = new Date().getTime();
-for (var i = 0; i < times_TYPED; ++i){
-    job_TYPED
-}
-var t1 = new Date().getTime();
-for (var i = 0; i < times_TYPED; ++i){
-    jobn_TYPED
-}
-var t2 = new Date().getTime();
-log_TYPED(t1-t0, t2-t1);
- b
+                                                                     `var t0 = new Date().getTime();
+                                                                     for (var i = 0; i < times; ++i){
+                                                                         /* void */;
+                                                                     }
+                                                                     var t1 = new Date().getTime();
+                                                                     for (var i = 0; i < times; ++i){
+                                                                         /* void */;
+                                                                     }
+                                                                     var t2 = new Date().getTime();
+                                                                     console.log(t1-t0, t2-t1);
+                                                                     ^
 
- `var t0 = new Date().getTime();
- for (var i = 0; i < times; ++i){
-     /* void */;
- }
- var t1 = new Date().getTime();
- for (var i = 0; i < times; ++i){
-     /* void */;
- }
- var t2 = new Date().getTime();
- console.log(t1-t0, t2-t1);
- ^
-
- a var t0 = new Date().getTime();
- for (var i = 0; i < times; ++i){
-     /* void */;
- }
- var t1 = new Date().getTime();
- for (var i = 0; i < times; ++i){
-     /* void */;
- }
- var t2 = new Date().getTime();
- console.log(t1-t0, t2-t1);
- 
+                                                                     a var t0 = new Date().getTime();
+                                                                     for (var i = 0; i < times; ++i){
+                                                                         /* void */;
+                                                                     }
+                                                                     var t1 = new Date().getTime();
+                                                                     for (var i = 0; i < times; ++i){
+                                                                         /* void */;
+                                                                     }
+                                                                     var t2 = new Date().getTime();
+                                                                     console.log(t1-t0, t2-t1);
+                                                                     
 
 
     //  -------------bench_--------------- 
@@ -352,13 +352,13 @@ WRAPPED_TEXT_line2 */
                  * WRAPPED_TEXT_line2
                  */ b
 
-                `/* WRAPPED_TEXT
-                  * WRAPPED_TEXT_line2
-                 */^
-
-                a /* WRAPPED_TEXT
+                 `/* WRAPPED_TEXT
                    * WRAPPED_TEXT_line2
-                 */
+                  */^
+
+                  a /* WRAPPED_TEXT
+                     * WRAPPED_TEXT_line2
+                   */
 
 
     //  -------------commentDoc--------------- 
@@ -373,20 +373,20 @@ WRAPPED_TEXT_line2 */
  * WRAPPED_TEXT_line2
  */
 
-                /**
-                 * WRAPPED_TEXT
-                 * WRAPPED_TEXT_line2
-                 */ b
+                  /**
+                   * WRAPPED_TEXT
+                   * WRAPPED_TEXT_line2
+                   */ b
 
-                `/**
-                 * WRAPPED_TEXT
-                 * WRAPPED_TEXT_line2
-                 */^
+                   `/**
+                    * WRAPPED_TEXT
+                    * WRAPPED_TEXT_line2
+                    */^
 
-                a /**
-                 * WRAPPED_TEXT
-                 * WRAPPED_TEXT_line2
-                 */
+                    a /**
+                     * WRAPPED_TEXT
+                     * WRAPPED_TEXT_line2
+                     */
 
 
     //  -------------commentLine--------------- 
@@ -397,14 +397,14 @@ WRAPPED_TEXT_line2 */
 /* WRAPPED_TEXT */
 /* WRAPPED_TEXT_line2 */
 
-                /* WRAPPED_TEXT */
-                /* WRAPPED_TEXT_line2 */ b
+                    /* WRAPPED_TEXT */
+                    /* WRAPPED_TEXT_line2 */ b
 
-                `/* WRAPPED_TEXT */
-                 /* WRAPPED_TEXT_line2 */^
+                    `/* WRAPPED_TEXT */
+                     /* WRAPPED_TEXT_line2 */^
 
-                 a /* WRAPPED_TEXT */
-                   /* WRAPPED_TEXT_line2 */
+                     a /* WRAPPED_TEXT */
+                       /* WRAPPED_TEXT_line2 */
 
 
     //  -------------cpr--------------- 
@@ -412,13 +412,13 @@ WRAPPED_TEXT_line2 */
 
 
 
-                 @param {Object} name desc
+                       @param {Object} name desc
 
-                 @param {Object_TYPED} name_TYPED desc b
+                       @param {Object_TYPED} name_TYPED desc b
 
-                 `@param {Object} name desc^
+                       `@param {Object} name desc^
 
-                 a @param {Object} name desc
+                       a @param {Object} name desc
 
 
     //  -------------default--------------- 
@@ -427,17 +427,17 @@ WRAPPED_TEXT_line2 */
 
 
 
-                 default:
-                     
+                       default:
+                           
 
-                 default:
-                      b
+                           default:
+                                b
 
-                      `default:
-                          ^
+                                `default:
+                                    ^
 
-                          a default:
-                              
+                                    a default:
+                                        
 
 
     //  -------------elif--------------- 
@@ -559,37 +559,37 @@ a drdr.xp@gmail.com
  *
  *--------------------------\\\ sum_TYPED ///---------------------------*/ b
 
-`/**-------------------------/// sum \\\---------------------------
- *
- * <b>function</b>
- * @version : 1.0
- * @since : date
- *
- * @description :
- *   
- * @usage :
- *
- * @author : drdr.xp | drdr.xp@gmail.com
- * @copyright :
- * @TODO :
- *
- *--------------------------\\\ sum ///---------------------------*/^
+ `/**-------------------------/// sum \\\---------------------------
+  *
+  * <b>function</b>
+  * @version : 1.0
+  * @since : date
+  *
+  * @description :
+  *   
+  * @usage :
+  *
+  * @author : drdr.xp | drdr.xp@gmail.com
+  * @copyright :
+  * @TODO :
+  *
+  *--------------------------\\\ sum ///---------------------------*/^
 
-a /**-------------------------/// sum \\\---------------------------
- *
- * <b>function</b>
- * @version : 1.0
- * @since : date
- *
- * @description :
- *   
- * @usage :
- *
- * @author : drdr.xp | drdr.xp@gmail.com
- * @copyright :
- * @TODO :
- *
- *--------------------------\\\ sum ///---------------------------*/
+  a /**-------------------------/// sum \\\---------------------------
+   *
+   * <b>function</b>
+   * @version : 1.0
+   * @since : date
+   *
+   * @description :
+   *   
+   * @usage :
+   *
+   * @author : drdr.xp | drdr.xp@gmail.com
+   * @copyright :
+   * @TODO :
+   *
+   *--------------------------\\\ sum ///---------------------------*/
 
 
     //  -------------File--------------- 
@@ -597,13 +597,13 @@ a /**-------------------------/// sum \\\---------------------------
 
 
 
-test.page
+  test.page
 
-test.page b
+  test.page b
 
-`test.page^
+  `test.page^
 
-a test.page
+  a test.page
 
 
     //  -------------for---------------                                                                                  
@@ -641,7 +641,7 @@ a for ( var i = 0; i < len; i++ ) {
 
 for (;;) 
 
-for (;;)  b
+    for (;;)  b
 
 `for (;;) ^
 
@@ -858,32 +858,6 @@ else if ( condition ) {
 }
 
 
-    //  -------------ifn--------------- 
-    // `Include:_if^                    
-
-
-
-if ( null == var ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-if ( null == var_TYPED ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`if ( null == var ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a if ( null == var ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
     //  -------------ifn0--------------- 
     // `Include:_if^                     
 
@@ -962,6 +936,32 @@ a if ( undefined != var ) {
 }
 
 
+    //  -------------ifn--------------- 
+    // `Include:_if^                    
+
+
+
+if ( null == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+if ( null == var_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`if ( null == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a if ( null == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
     //  -------------ifu--------------- 
     // `Include:_if^                    
 
@@ -995,11 +995,11 @@ a if ( undefined == var ) {
 
 var instant = new Constructor()
 
-    var instant_TYPED = new Constructor_TYPED(arg_TYPED, arg_TYPED, arg_TYPED) b
+var instant_TYPED = new Constructor_TYPED(arg_TYPED, arg_TYPED, arg_TYPED) b
 
-    `var instant = new Constructor()^
+`var instant = new Constructor()^
 
-    a var instant = new Constructor()
+a var instant = new Constructor()
 
 
     //  -------------proto---------------                     
@@ -1009,9 +1009,9 @@ var instant = new Constructor()
 
 
 
-    Class.prototype.method = function() {
-    
-    }
+Class.prototype.method = function() {
+
+}
 
 Class_TYPED.prototype.method_TYPED = function(arg_TYPED, arg_TYPED, arg_TYPED) {
 

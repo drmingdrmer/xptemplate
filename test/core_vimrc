@@ -1,0 +1,9 @@
+set nocompatible
+filetype plugin  on
+
+let g:xptemplate_debug_log = './xpt-debug.log'
+set runtimepath+=.
+set noswapfile
+set list
+set listchars=tab:].,trail:\|,extends:<,precedes:>
+set number

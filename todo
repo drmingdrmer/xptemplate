@@ -1,4 +1,28 @@
+
 test from 'factor'
 what's the right "test" snippet in 'factor'
 during rendering <CR> does not work the way super-tab setup, which is closing pum only.
 inclusion inside expandable should be parsed at runtime, or recursive inclusion is impossible.
+add functin to detect if it is expandable at current position
+check text before/after cursor as a condition to expand snippet
+mv-flt-here
+redefine `_if` should affect all snippet that includes it
+snippet handling current line text or else
+
+
+# test
+test priority-of-alias
+test assign func-call to var
+test assigning var to var
+test ActionFinish indent issue
+
+# doc
+add FAQ of Choose
+readme-add-choose-and-pum-hint
+
+# snippet
+latex
+
+<!-- vim: ft=markdown
+-->
+

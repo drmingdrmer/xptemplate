@@ -306,35 +306,6 @@ a for ($var = init; $var -ge val; $var--)
 }
 
 
-    /*  -------------fun--------------- */
-    /* function `funName^( `params^ )   */
-    /* {                                */
-    /*    `cursor^                      */
-    /* }                                */
-
-
-
-function funName( params )
-{
-   
-}
-
-function funName_TYPED( params_TYPED )
-{
-   
-} b
-
-`function funName( params )
-{
-   
-}^
-
-a function funName( params )
-{
-   
-}
-
-
     /*  -------------function--------------- */
     /* function `funName^( `params^ )        */
     /* {                                     */
@@ -407,6 +378,35 @@ a function funName( params )
     {
         
     }
+}
+
+
+    /*  -------------fun--------------- */
+    /* function `funName^( `params^ )   */
+    /* {                                */
+    /*    `cursor^                      */
+    /* }                                */
+
+
+
+function funName( params )
+{
+   
+}
+
+function funName_TYPED( params_TYPED )
+{
+   
+} b
+
+`function funName( params )
+{
+   
+}^
+
+a function funName( params )
+{
+   
 }
 
 

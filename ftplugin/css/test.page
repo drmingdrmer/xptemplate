@@ -137,20 +137,6 @@ azimuth: left-side; b
 a azimuth: left-side;
 
 
-    /*  -------------background--------------- */
-    /* background:` `selec^;                   */
-
-
-
-background: url();
-
-background: url(_TYPED); b
-
-`background: url();^
-
-a background: url();
-
-
     /*  -------------backgroundattachment--------------- */
     /* background-attachment: `selec^;                   */
 
@@ -163,6 +149,20 @@ background-attachment: scroll; b
 `background-attachment: scroll;^
 
 a background-attachment: scroll;
+
+
+    /*  -------------background--------------- */
+    /* background:` `selec^;                   */
+
+
+
+background: url();
+
+background: url(_TYPED); b
+
+`background: url();^
+
+a background: url();
 
 
     /*  -------------backgroundcolor--------------- */
@@ -233,20 +233,6 @@ background-repeat: repeat; b
 `background-repeat: repeat;^
 
 a background-repeat: repeat;
-
-
-    /*  -------------border---------------     */
-    /* border`pos^:` `thick^` `kind^` `color^; */
-
-
-
-border-top: thin none rgb();
-
-border-top: thin none rgb(_TYPED); b
-
-`border-top: thin none rgb();^
-
-a border-top: thin none rgb();
 
 
     /*  -------------borderbottomcolor--------------- */
@@ -331,6 +317,20 @@ border-left-color: rgb(_TYPED); b
 `border-left-color: rgb();^
 
 a border-left-color: rgb();
+
+
+    /*  -------------border---------------     */
+    /* border`pos^:` `thick^` `kind^` `color^; */
+
+
+
+border-top: thin none rgb();
+
+border-top: thin none rgb(_TYPED); b
+
+`border-top: thin none rgb();^
+
+a border-top: thin none rgb();
 
 
     /*  -------------borderleftstyle--------------- */
@@ -770,20 +770,6 @@ float: left; b
 a float: left;
 
 
-    /*  -------------font--------------- */
-    /* font:` `kind`^` `size`^` `font`^; */
-
-
-
-font: normal xx-small sans-serif;
-
-font: normal xx-small sans-serif; b
-
-`font: normal xx-small sans-serif;^
-
-a font: normal xx-small sans-serif;
-
-
     /*  -------------fontfamily--------------- */
     /* font-family: `selec^;                   */
 
@@ -852,6 +838,228 @@ font-weight: normal; b
 `font-weight: normal;^
 
 a font-weight: normal;
+
+
+    /*  -------------font--------------- */
+    /* font:` `kind`^` `size`^` `font`^; */
+
+
+
+font: normal xx-small sans-serif;
+
+font: normal xx-small sans-serif; b
+
+`font: normal xx-small sans-serif;^
+
+a font: normal xx-small sans-serif;
+
+
+    /*  -------------globalcn---------------                                                          */
+    /* body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div{margin:0;padding:0;border:0;} */
+    /* body{background:#fff;color:#333;font-size:12px; margin-top:5px;font-family:"宋体";}          */
+    /*                                                                                                */
+    /* ul,ol{list-style-type:none;}                                                                   */
+    /* select,input,img,select{vertical-align:middle;}                                                */
+    /*                                                                                                */
+    /* a{text-decoration:underline;}                                                                  */
+    /* a:link{color:#009;}                                                                            */
+    /* a:visited{color:#800080;}                                                                      */
+    /* a:hover,a:active,a:focus{color:#c00;}                                                          */
+    /*                                                                                                */
+    /* .clearit{clear:both;}                                                                          */
+
+
+
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div{margin:0;padding:0;border:0;}
+body{background:#fff;color:#333;font-size:12px; margin-top:5px;font-family:"宋体";}
+
+ul,ol{list-style-type:none;}
+select,input,img,select{vertical-align:middle;}
+
+a{text-decoration:underline;}
+a:link{color:#009;}
+a:visited{color:#800080;}
+a:hover,a:active,a:focus{color:#c00;}
+
+.clearit{clear:both;}
+
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div{margin:0;padding:0;border:0;}
+body{background:#fff;color:#333;font-size:12px; margin-top:5px;font-family:"宋体";}
+
+ul,ol{list-style-type:none;}
+select,input,img,select{vertical-align:middle;}
+
+a{text-decoration:underline;}
+a:link{color:#009;}
+a:visited{color:#800080;}
+a:hover,a:active,a:focus{color:#c00;}
+
+.clearit{clear:both;} b
+
+`body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div{margin:0;padding:0;border:0;}
+body{background:#fff;color:#333;font-size:12px; margin-top:5px;font-family:"宋体";}
+
+ul,ol{list-style-type:none;}
+select,input,img,select{vertical-align:middle;}
+
+a{text-decoration:underline;}
+a:link{color:#009;}
+a:visited{color:#800080;}
+a:hover,a:active,a:focus{color:#c00;}
+
+.clearit{clear:both;}^
+
+a body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div{margin:0;padding:0;border:0;}
+body{background:#fff;color:#333;font-size:12px; margin-top:5px;font-family:"宋体";}
+
+ul,ol{list-style-type:none;}
+select,input,img,select{vertical-align:middle;}
+
+a{text-decoration:underline;}
+a:link{color:#009;}
+a:visited{color:#800080;}
+a:hover,a:active,a:focus{color:#c00;}
+
+.clearit{clear:both;}
+
+
+    /*  -------------globalen---------------                                                                                            */
+    /* html{color:#000;background:#FFF}                                                                                                 */
+    /* body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0} */
+    /* table{border-collapse:collapse;border-spacing:0}                                                                                 */
+    /* fieldset,img{border:0}                                                                                                           */
+    /* address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}                                             */
+    /* li{list-style:none}                                                                                                              */
+    /* caption,th{text-align:left}                                                                                                      */
+    /* h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}                                                                             */
+    /* q:before,q:after{content:''}                                                                                                     */
+    /* abbr,acronym{border:0;font-variant:normal}                                                                                       */
+    /* sup{vertical-align:text-top}                                                                                                     */
+    /* sub{vertical-align:text-bottom}                                                                                                  */
+    /* input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}                                                 */
+    /* input,textarea,select{*font-size:100%}                                                                                           */
+    /* legend{color:#000}                                                                                                               */
+    /*                                                                                                                                  */
+    /* body{font:13px/1.231 arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small}                                            */
+    /* select,input,button,textarea{font:99% arial,helvetica,clean,sans-serif}                                                          */
+    /* table{font-size:inherit;font:100%}                                                                                               */
+    /* pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%}                                                     */
+    /*                                                                                                                                  */
+    /* a{text-decoration:none}                                                                                                          */
+    /* a:hover,a:focus{text-decoration:underline}                                                                                       */
+    /* strong{font-weight:bold}                                                                                                         */
+    /* input[type=submit]{cursor:pointer}                                                                                               */
+    /* button{cursor:pointer}                                                                                                           */
+
+
+
+html{color:#000;background:#FFF}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}
+table{border-collapse:collapse;border-spacing:0}
+fieldset,img{border:0}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}
+li{list-style:none}
+caption,th{text-align:left}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}
+q:before,q:after{content:''}
+abbr,acronym{border:0;font-variant:normal}
+sup{vertical-align:text-top}
+sub{vertical-align:text-bottom}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}
+input,textarea,select{*font-size:100%}
+legend{color:#000}
+
+body{font:13px/1.231 arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small}
+select,input,button,textarea{font:99% arial,helvetica,clean,sans-serif}
+table{font-size:inherit;font:100%}
+pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%}
+
+a{text-decoration:none}
+a:hover,a:focus{text-decoration:underline}
+strong{font-weight:bold}
+input[type=submit]{cursor:pointer}
+button{cursor:pointer}
+
+html{color:#000;background:#FFF}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}
+table{border-collapse:collapse;border-spacing:0}
+fieldset,img{border:0}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}
+li{list-style:none}
+caption,th{text-align:left}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}
+q:before,q:after{content:''}
+abbr,acronym{border:0;font-variant:normal}
+sup{vertical-align:text-top}
+sub{vertical-align:text-bottom}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}
+input,textarea,select{*font-size:100%}
+legend{color:#000}
+
+body{font:13px/1.231 arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small}
+select,input,button,textarea{font:99% arial,helvetica,clean,sans-serif}
+table{font-size:inherit;font:100%}
+pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%}
+
+a{text-decoration:none}
+a:hover,a:focus{text-decoration:underline}
+strong{font-weight:bold}
+input[type=submit]{cursor:pointer}
+button{cursor:pointer} b
+
+`html{color:#000;background:#FFF}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}
+table{border-collapse:collapse;border-spacing:0}
+fieldset,img{border:0}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}
+li{list-style:none}
+caption,th{text-align:left}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}
+q:before,q:after{content:''}
+abbr,acronym{border:0;font-variant:normal}
+sup{vertical-align:text-top}
+sub{vertical-align:text-bottom}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}
+input,textarea,select{*font-size:100%}
+legend{color:#000}
+
+body{font:13px/1.231 arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small}
+select,input,button,textarea{font:99% arial,helvetica,clean,sans-serif}
+table{font-size:inherit;font:100%}
+pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%}
+
+a{text-decoration:none}
+a:hover,a:focus{text-decoration:underline}
+strong{font-weight:bold}
+input[type=submit]{cursor:pointer}
+button{cursor:pointer}^
+
+a html{color:#000;background:#FFF}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}
+table{border-collapse:collapse;border-spacing:0}
+fieldset,img{border:0}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}
+li{list-style:none}
+caption,th{text-align:left}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}
+q:before,q:after{content:''}
+abbr,acronym{border:0;font-variant:normal}
+sup{vertical-align:text-top}
+sub{vertical-align:text-bottom}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}
+input,textarea,select{*font-size:100%}
+legend{color:#000}
+
+body{font:13px/1.231 arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small}
+select,input,button,textarea{font:99% arial,helvetica,clean,sans-serif}
+table{font-size:inherit;font:100%}
+pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%}
+
+a{text-decoration:none}
+a:hover,a:focus{text-decoration:underline}
+strong{font-weight:bold}
+input[type=submit]{cursor:pointer}
+button{cursor:pointer}
 
 
     /*  -------------height--------------- */
@@ -1008,34 +1216,6 @@ min-width: selec_TYPED; b
 a min-width: none;
 
 
-    /*  -------------outline---------------    */
-    /* outline:` `width`^` `style`^` `color`^; */
-
-
-
-outline: thin none rgb();
-
-outline: thin none rgb(_TYPED); b
-
-`outline: thin none rgb();^
-
-a outline: thin none rgb();
-
-
-    /*  -------------outlinecolor--------------- */
-    /* outline-color:` `selec^;                  */
-
-
-
-outline-color: rgb();
-
-outline-color: rgb(_TYPED); b
-
-`outline-color: rgb();^
-
-a outline-color: rgb();
-
-
     /*  -------------outlinestyle--------------- */
     /* outline-style: `selec^;                   */
 
@@ -1062,6 +1242,34 @@ outline-width: thin; b
 `outline-width: thin;^
 
 a outline-width: thin;
+
+
+    /*  -------------outline---------------    */
+    /* outline:` `width`^` `style`^` `color`^; */
+
+
+
+outline: thin none rgb();
+
+outline: thin none rgb(_TYPED); b
+
+`outline: thin none rgb();^
+
+a outline: thin none rgb();
+
+
+    /*  -------------outlinecolor--------------- */
+    /* outline-color:` `selec^;                  */
+
+
+
+outline-color: rgb();
+
+outline-color: rgb(_TYPED); b
+
+`outline-color: rgb();^
+
+a outline-color: rgb();
 
 
     /*  -------------overflow--------------- */

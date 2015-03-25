@@ -379,16 +379,16 @@ a [  ] map
 
 
 USING: kernel sequences accessors ;
-IN: src..home.xp.VCS.hg.bash.xp.vim.xp.plugins.extern.xpt.gitsvn.src.ftplugin.test
+IN: src..Users.drmingdrmer.bash.xp.vim.xp.plugins.extern.xpt.gitsvn.src.ftplugin.test
 
 USING: kernel sequences accessors ;
-IN: src..home.xp.VCS.hg.bash.xp.vim.xp.plugins.extern.xpt.gitsvn.src.ftplugin.test b
+IN: src..Users.drmingdrmer.bash.xp.vim.xp.plugins.extern.xpt.gitsvn.src.ftplugin.test b
 
 `USING: kernel sequences accessors ;
-IN: src..home.xp.VCS.hg.bash.xp.vim.xp.plugins.extern.xpt.gitsvn.src.ftplugin.test^
+IN: src..Users.drmingdrmer.bash.xp.vim.xp.plugins.extern.xpt.gitsvn.src.ftplugin.test^
 
 a USING: kernel sequences accessors ;
-IN: src..home.xp.VCS.hg.bash.xp.vim.xp.plugins.extern.xpt.gitsvn.src.ftplugin.test
+IN: src..Users.drmingdrmer.bash.xp.vim.xp.plugins.extern.xpt.gitsvn.src.ftplugin.test
 
 
     /*  -------------quote--------------- */

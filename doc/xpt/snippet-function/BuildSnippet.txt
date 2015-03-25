@@ -1,0 +1,31 @@
+							      *BuildSnippet()*
+BuildSnippet({snippet})
+	Build an existent snippet to replace the place holder on which
+	BuildSnippet() is called.
+
+	Argument {snippet} is the name of snippet to build.
+
+	After calling it, place holder is removed and the first place holder
+	in this piece of snippet is selected.
+
+	Example snippets: >
+		XPT parent
+		XSET x=BuildSnippet( "child" )
+		-`x^=
+
+		XPT child
+		(`a^, `b^)
+<
+	Type: >
+		parent<C-\>
+<	Got: >
+		-(a, b)=
+<	{a} and {b} is place holder
+	
+	Context: >
+		XSET ph=BuildSnippet('a')
+		XSET ph|post=BuildSnippet('a')
+<
+	See also: |Build()|
+
+" vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:

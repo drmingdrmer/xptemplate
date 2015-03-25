@@ -19,34 +19,6 @@ a "WRAPPED_TEXT
 WRAPPED_TEXT_line2"
 
 
-    /*  -------------#if--------------- */
-    /* #if `0^                          */
-    /* `cursor^                         */
-    /* #endif                           */
-
-
-
-#if 0
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif
-
-#if 0_TYPED
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif b
-
-`#if 0
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif^
-
-a #if 0
-WRAPPED_TEXT
-WRAPPED_TEXT_line2
-#endif
-
-
     /*  -------------#ifdef--------------- */
     /* #ifdef `symbol^                     */
     /* `cursor^                            */
@@ -103,18 +75,32 @@ WRAPPED_TEXT_line2
 #endif /* symbol */
 
 
-    /*  -------------#inc--------------- */
-    /* #include <`^.h>                   */
+    /*  -------------#if--------------- */
+    /* #if `0^                          */
+    /* `cursor^                         */
+    /* #endif                           */
 
 
 
-#include <.h>
+#if 0
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif
 
-#include <_TYPED.h> b
+#if 0_TYPED
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif b
 
-`#include <.h>^
+`#if 0
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif^
 
-a #include <.h>
+a #if 0
+WRAPPED_TEXT
+WRAPPED_TEXT_line2
+#endif
 
 
     /*  -------------#include_user--------------- */
@@ -129,6 +115,20 @@ a #include <.h>
 `#include "test.h"^
 
 a #include "test.h"
+
+
+    /*  -------------#inc--------------- */
+    /* #include <`^.h>                   */
+
+
+
+#include <.h>
+
+#include <_TYPED.h> b
+
+`#include <.h>^
+
+a #include <.h>
 
 
     /*  -------------#ind--------------- */
@@ -309,24 +309,6 @@ case constant :
                 break;
 
 
-    /*  -------------comment--------------- */
-    /* `$CL^ `what^^ `$CR^`^                */
-
-
-
-/* WRAPPED_TEXT
-WRAPPED_TEXT_line2 */
-
-                /* WRAPPED_TEXT
-                WRAPPED_TEXT_line2 */ b
-
-                `/* WRAPPED_TEXT
-                WRAPPED_TEXT_line2 */^
-
-                a /* WRAPPED_TEXT
-                WRAPPED_TEXT_line2 */
-
-
     /*  -------------commentBlock--------------- */
     /* `$_xCommentLeftWithoutMid^`$CM `cursor^   */
     /* `$_xCommentMidIndent$CR^                  */
@@ -376,6 +358,24 @@ WRAPPED_TEXT_line2 */
                  * WRAPPED_TEXT
                  * WRAPPED_TEXT_line2
                  */
+
+
+    /*  -------------comment--------------- */
+    /* `$CL^ `what^^ `$CR^`^                */
+
+
+
+/* WRAPPED_TEXT
+WRAPPED_TEXT_line2 */
+
+                /* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */ b
+
+                `/* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */^
+
+                a /* WRAPPED_TEXT
+                WRAPPED_TEXT_line2 */
 
 
     /*  -------------commentLine--------------- */
@@ -812,58 +812,6 @@ a int name() {
 }
 
 
-    /*  -------------if--------------- */
-    /* `Include:_if^                   */
-
-
-
-if ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-if ( condition_TYPED ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`if ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a if ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
-    /*  -------------if0--------------- */
-    /* `Include:_if^                    */
-
-
-
-if ( 0 == var ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-if ( 0 == var_TYPED ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`if ( 0 == var ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a if ( 0 == var ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
     /*  -------------ifee---------------                              */
     /* `:_if:^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^ */
 
@@ -934,6 +882,58 @@ if ( NULL == var_TYPED ) {
 }^
 
 a if ( NULL == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------if--------------- */
+    /* `Include:_if^                   */
+
+
+
+if ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+if ( condition_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`if ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a if ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+
+    /*  -------------if0--------------- */
+    /* `Include:_if^                    */
+
+
+
+if ( 0 == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+if ( 0 == var_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`if ( 0 == var ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a if ( 0 == var ) {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 }
@@ -1275,34 +1275,6 @@ a switch ( var ) {
 }
 
 
-    /*  -------------while---------------                   */
-    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
-    /*     `cursor^                                         */
-    /* }                                                    */
-
-
-
-while ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-while ( condition_TYPED ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-} b
-
-`while ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}^
-
-a while ( condition ) {
-    WRAPPED_TEXT
-    WRAPPED_TEXT_line2
-}
-
-
     /*  -------------while0---------------                   */
     /* do`$BRloop^{                                          */
     /*     `cursor^                                          */
@@ -1329,6 +1301,34 @@ a do {
     WRAPPED_TEXT
     WRAPPED_TEXT_line2
 } while ( 0 );
+
+
+    /*  -------------while---------------                   */
+    /* while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{ */
+    /*     `cursor^                                         */
+    /* }                                                    */
+
+
+
+while ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
+
+while ( condition_TYPED ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+} b
+
+`while ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}^
+
+a while ( condition ) {
+    WRAPPED_TEXT
+    WRAPPED_TEXT_line2
+}
 
 
     /*  -------------while1---------------                  */

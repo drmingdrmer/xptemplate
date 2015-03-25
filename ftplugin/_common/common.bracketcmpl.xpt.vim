@@ -19,7 +19,7 @@ let s:crIndent = 0
 
 fun! s:f.BracketRightPart( leftReg )
 
-    if has_key( self.renderContext, 'bracketComplete' )
+    if has_key( self._ctx.renderContext, 'bracketComplete' )
         return ''
     endif
 
@@ -44,11 +44,11 @@ fun! s:f.BracketRightPart( leftReg )
 endfunction
 
 fun! s:f.bkt_cmpl()
-    return self.BracketRightPart( self.renderContext.leftReg )
+    return self.BracketRightPart( self._ctx.renderContext.leftReg )
 endfunction
 
 fun! s:f.quote_cmpl()
-    let r = self.renderContext
+    let r = self._ctx.renderContext
     let v = self.V()
     let v = matchstr( v, r.leftReg )
 
@@ -62,7 +62,7 @@ fun! s:f.quote_cmpl()
 endfunction
 
 fun! s:f.quote_ontype()
-    let r = self.renderContext
+    let r = self._ctx.renderContext
 
     let v = self.V()
 
@@ -115,7 +115,7 @@ fun! s:f.bkt_ontype()
 endfunction
 
 fun! s:f.bkt_init( followingChar )
-    let r = self.renderContext
+    let r = self._ctx.renderContext
 
     let r.char = self.GetVar( '$_xSnipName' )
     let r.followingChar = a:followingChar
@@ -137,7 +137,7 @@ endfunction
 
 fun! s:f.bkt_finish( keyPressed )
 
-    let r = self.renderContext
+    let r = self._ctx.renderContext
 
     if a:keyPressed != r.charRight
         " may be outer snippet key bind

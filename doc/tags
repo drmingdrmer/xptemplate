@@ -32,11 +32,15 @@ XPTvar	xpt.snippet.syn.txt	/*XPTvar*
 g:XPTaddBundle()	xpt.api.txt	/*g:XPTaddBundle()*
 g:xptemplate_always_show_pum	xptemplate.txt	/*g:xptemplate_always_show_pum*
 g:xptemplate_brace_complete	xptemplate.txt	/*g:xptemplate_brace_complete*
+g:xptemplate_break_undo	xptemplate.txt	/*g:xptemplate_break_undo*
 g:xptemplate_bundle	xptemplate.txt	/*g:xptemplate_bundle*
+g:xptemplate_cwd_snippet	xptemplate.txt	/*g:xptemplate_cwd_snippet*
+g:xptemplate_debug_log	xptemplate.txt	/*g:xptemplate_debug_log*
 g:xptemplate_fallback	xptemplate.txt	/*g:xptemplate_fallback*
 g:xptemplate_goback	xptemplate.txt	/*g:xptemplate_goback*
 g:xptemplate_highlight	xptemplate.txt	/*g:xptemplate_highlight*
 g:xptemplate_highlight_nested	xptemplate.txt	/*g:xptemplate_highlight_nested*
+g:xptemplate_hook_before_cr	xptemplate.txt	/*g:xptemplate_hook_before_cr*
 g:xptemplate_key	xptemplate.txt	/*g:xptemplate_key*
 g:xptemplate_key_force_pum	xptemplate.txt	/*g:xptemplate_key_force_pum*
 g:xptemplate_key_pum_only	xptemplate.txt	/*g:xptemplate_key_pum_only*
@@ -46,6 +50,7 @@ g:xptemplate_nav_cancel	xptemplate.txt	/*g:xptemplate_nav_cancel*
 g:xptemplate_nav_next	xptemplate.txt	/*g:xptemplate_nav_next*
 g:xptemplate_nav_prev	xptemplate.txt	/*g:xptemplate_nav_prev*
 g:xptemplate_ph_pum_accept_empty	xptemplate.txt	/*g:xptemplate_ph_pum_accept_empty*
+g:xptemplate_pum_quick_back	xptemplate.txt	/*g:xptemplate_pum_quick_back*
 g:xptemplate_pum_tab_nav	xptemplate.txt	/*g:xptemplate_pum_tab_nav*
 g:xptemplate_snippet_folders	xptemplate.txt	/*g:xptemplate_snippet_folders*
 g:xptemplate_strict	xptemplate.txt	/*g:xptemplate_strict*
@@ -87,6 +92,7 @@ xpt-key-goto-right	xptemplate.txt	/*xpt-key-goto-right*
 xpt-key-navigate	xptemplate.txt	/*xpt-key-navigate*
 xpt-key-pum	xptemplate.txt	/*xpt-key-pum*
 xpt-key-trigger	xptemplate.txt	/*xpt-key-trigger*
+xpt-key-visual	xptemplate.txt	/*xpt-key-visual*
 xpt-mixed	xpt.snippet.syn.txt	/*xpt-mixed*
 xpt-name-matching	xptemplate.txt	/*xpt-name-matching*
 xpt-nested	xptemplate.txt	/*xpt-nested*

@@ -1,0 +1,24 @@
+------------------------------------------------------------------------------
+
+	|xpt-snippet-function| can be used in :
+		|xpt-snippet-instant-value|
+		|xpt-snippet-preset-value|
+		|xpt-snippet-default-value|
+		|xpt-snippet-post-filter|
+		|xpt-placeholder-ontime-filter|
+	To define |xpt-snippet-function|, the function container must be
+	fetched by using |XPTfuncs()|. For example : >
+		let s:f = XPTfuncs()
+		fun! s:f.c_printfElts( v )
+			...
+		endfunction
+<	Then function 'c_printfElts' can be used in the snippet : >
+		XPT printf	" printf\(...)
+		XSET elts=c_printfElts( R( 'pattern' ) )
+		printf( "`pattern^"`elts^ )
+<
+	NOTE	By convention the names of |xpt-snippet-function|s supplied by
+		XPTemplate start with an upper-case letter. User defined
+		function names should starts with a lower-case letter.
+
+------------------------------------------------------------------------------
