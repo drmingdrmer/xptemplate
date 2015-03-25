@@ -1,0 +1,9 @@
+keys:
+foo
+fop
+fo
+
+expected:
+foo
+fop
+forloop

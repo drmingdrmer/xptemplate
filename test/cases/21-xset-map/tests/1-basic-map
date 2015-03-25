@@ -1,0 +1,10 @@
+keys:
+maps
+on_x[on_x2	
+(	
+on_z-
+on_w	
+at_end
+
+expected:
+-on_x.br.on_x2-y_build-on_z-on_w=at_end

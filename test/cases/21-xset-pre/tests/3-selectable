@@ -1,0 +1,13 @@
+setting:
+noexpandtab
+shiftwidth=2
+tabstop=4
+
+keys:
+  pre-indent
+on_what	
+on_x	
+at_end
+
+expected:
+  -on_what-on_x=at_end

@@ -1,0 +1,10 @@
+setting:
+expandtab
+shiftwidth=8
+
+keys:
+1-tab-1-space
+
+expected:
+line1
+         line2

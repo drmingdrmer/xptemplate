@@ -1,0 +1,14 @@
+keys:
+build-post-ph
+should_not_be_seen	
+type_on_ph_built	
+at_end
+
+build-post-ph
+should_not_be_seen	
+	
+at_end
+
+expected:
+--type_on_ph_built-=at_end
+--ph_built-=at_end

@@ -1,0 +1,28 @@
+vim: ts=4 noexpandtab sw=2
+
+setting:
+noexpandtab
+shiftwidth=8
+ts=4
+
+localsetting:
+shiftwidth=2
+
+keys:
+xset-post
+should_not_be_seen	
+
+xset-post-build
+should_not_be_seen	
+on_ph1	
+on_ph2
+
+expected:
+line1
+  line-1
+	line-2
+	line-1
+	  line-2
+line1
+  on_ph1
+	on_ph2

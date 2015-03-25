@@ -1,0 +1,30 @@
+vim: ts=4
+
+setting:
+noexpandtab
+sw=8
+ts=4
+
+
+keys:
+instant-1-indent
+
+    instant-1-indent
+
+        instant-reset-indent-backward-4
+
+instant-reset-indent-backward-4
+
+        instant-reset-indent-backward-4-edge
+
+expected:
+line1
+		line2
+    line1
+			line2
+        line1-ph-line-1
+	ph-line-2
+line1-ph-line-1
+ph-line-2
+        line1-edge-ph-line-1
+	ph-line-2-edge

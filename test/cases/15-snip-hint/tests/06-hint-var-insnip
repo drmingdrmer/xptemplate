@@ -1,0 +1,8 @@
+keys:
+var-insnip
+
+expected:
+var-insnip
+
+screen:
+var-insnip  *snip_var

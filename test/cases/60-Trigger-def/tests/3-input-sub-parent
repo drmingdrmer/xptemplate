@@ -1,0 +1,11 @@
+keys:
+trigger
+on_sub_x	
+end_of_sub	
+on_sub_x_of_parent	
+on_y	
+at_end
+
+
+expected:
+-(on_sub_x-on_sub_x)end_of_sub-on_sub_x_of_parent-on_y=at_end

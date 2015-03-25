@@ -1,0 +1,14 @@
+vim: tabstop=2 shiftwidth=4
+
+setting:
+noexpandtab
+shiftwidth=4
+tabstop=2
+
+keys:
+xset-2tab-indent
+
+expected:
+line1
+		ph-line-1
+						ph-line-2

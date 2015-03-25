@@ -1,0 +1,6 @@
+keys:
+not-confused
+at_end
+
+expected:
+-xTx(right)=at_end

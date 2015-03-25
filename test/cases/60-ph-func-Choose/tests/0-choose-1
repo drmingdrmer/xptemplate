@@ -1,0 +1,11 @@
+keys:
+choose-1
+the_only_one_is_selected
+	
+
+choose-1
+	
+
+expected:
+choose-1:the_only_one_is_selected;
+choose-1:foo;

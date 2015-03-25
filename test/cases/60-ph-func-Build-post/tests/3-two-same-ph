@@ -1,0 +1,8 @@
+keys:
+build-post-phgroup
+should_not_be_seen	
+type_on_group	
+type_at_end
+
+expected:
+--type_on_group-type_on_group-=type_at_end

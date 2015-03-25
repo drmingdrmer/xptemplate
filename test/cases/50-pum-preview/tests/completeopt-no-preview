@@ -1,0 +1,9 @@
+setting:
+completeopt=longest,menu,menuone
+
+keys:
+pum
+=winnr("#")."_is_1st_window"
+
+expected:
+-0_is_1st_window

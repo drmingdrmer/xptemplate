@@ -1,0 +1,8 @@
+keys:
+func-mixed
+
+expected:
+func-mixed
+
+screen:
+func-mixed  *barAbbla3

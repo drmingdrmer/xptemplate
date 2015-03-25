@@ -1,0 +1,38 @@
+setting:
+expandtab
+shiftwidth=8
+
+localsetting:
+shiftwidth=2
+
+keys:
+xset
+
+A
+
+:setlocal shiftwidth=4
+xset
+
+A
+
+xset-action-echo
+
+A
+
+    xset-action-build
+
+A
+
+expected:
+line1
+  ph-line-1
+    ph-line-2
+line1
+    ph-line-1
+        ph-line-2
+line1
+    ph-line-1
+        ph-line-2
+    line1
+        ph-line-1
+            ph-line-2

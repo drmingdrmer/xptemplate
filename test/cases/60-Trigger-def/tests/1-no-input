@@ -1,0 +1,5 @@
+keys:
+trigger
+
+expected:
+-(sub_x-sub_x)-sub_x-y=

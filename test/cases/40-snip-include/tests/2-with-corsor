@@ -1,0 +1,7 @@
+keys:
+inc-cursor
+
+expected:
+--x=
+    y=
+    CURSOR==

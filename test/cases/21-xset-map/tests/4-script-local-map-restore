@@ -1,0 +1,17 @@
+
+keys:
+:so ./test/cases/21-xset-map/script-mapping.vim
+foo
+on_x_1
+
+on_x_2	
+at_end
+
+last_line
+
+
+expected:
+-on_x_1
+on_x_2=at_end(S)qqq
+last_line
+

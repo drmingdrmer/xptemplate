@@ -1,0 +1,6 @@
+keys:
+build-instant-edge
+at_end
+
+expected:
+-left=x=right-at_end

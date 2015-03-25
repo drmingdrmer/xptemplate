@@ -1,0 +1,12 @@
+keys:
+inc-param
+	
+at_end
+
+inc-param
+at_x	
+at_end
+
+expected:
+--x-2==at_end
+--at_x==at_end
