@@ -1,0 +1,22 @@
+#!/bin/bash
+
+branches=$(git branch | awk '{print $NF}' | grep "^fd\.")
+
+for dbr in $branches; do
+
+    fbr=f.${dbr:3}
+    echo $dbr $fbr
+
+    base=$(git merge-base $dbr $fbr)
+
+    feature_hash=$(git rev-parse $fbr)
+
+    if [ "$base" != "$feature_hash" ]; then
+        echo divert branch
+        git log --color --graph --decorate --pretty=oneline \
+            --simplify-by-decoration \
+            --abbrev-commit -M --first-parent \
+            $dbr $fbr
+    fi
+
+done
