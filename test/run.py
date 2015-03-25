@@ -364,6 +364,7 @@ def find_screen_text_matching(test):
 def assert_no_err_on_screen(test):
 
     screen = test['tmux'].capture()
+    test['screen_captured'] = screen
 
     lines = screen.split("\n")
     lines = [x for x in lines if x not in ('', )]
@@ -376,7 +377,7 @@ def assert_no_err_on_screen(test):
     for ptn in err_patterns:
         err_found = re.findall(ptn, screen)
         if len(err_found) > 0:
-            raise TestError( test, 'error_occur', [err_found[0]]*len(lines), lines )
+            raise TestError( test, 'error_occur', err_found, [''] )
 
 def _check_rst(test, rst):
 
