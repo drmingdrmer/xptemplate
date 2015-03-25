@@ -46,11 +46,11 @@ def handle_test_err(sess, err):
     test, failuretype, ex, ac = err[0:4]
     case_name = test['case_name']
     testname = test['name']
-    startup_arg = test['startup_arg']
+    vimarg = test['vimarg']
 
     mes = "failure: {tp}: {case} {name} {arg}".format(
             case=case_name, name=testname,
-            tp=failuretype, arg=startup_arg)
+            tp=failuretype, arg=vimarg)
 
     reason = []
     for i in range( len(ex) ):
@@ -169,17 +169,15 @@ def _run_case( sess, cname, subpattern ):
             test['logger'].info("SKIP: " + testname)
             continue
 
-        for arg in ('', '-V9verboselog'):
-            t = test.copy()
-            t['startup_arg'] = arg
-            run_case_test(t)
+        t = test.copy()
+        run_case_test(t)
 
     logger.info("case passed: " + cname)
 
 def run_case_test(test):
 
     test['logger'].debug("  case: {0} {1} {2}".format(
-            test['case_name'], test['name'], test['startup_arg'],
+            test['case_name'], test['name'], test['vimarg'],
     ))
 
     case_path = test['case_path']
@@ -213,7 +211,7 @@ def run_case_test(test):
     _check_rst(test, rst )
 
     test['logger'].info("ok: {0} {1} {2}".format(
-            test['case_name'], test['name'], test['startup_arg'],
+            test['case_name'], test['name'], test['vimarg'],
     ))
     tm.kill()
 
@@ -231,8 +229,8 @@ def load_test(case_name, case_path, testname):
              'name': testname,
              'sess_name': sess_name,
              'logger': lg.make_logger(case_name),
-             'startup_arg': '',
 
+             'vimarg': [],
              'setting': [],
              'localsetting': [],
              'map': [],
@@ -270,8 +268,8 @@ def vim_start_cmdstring(test):
         vimrcfn = _path( test_root_path, "core_vimrc" )
 
     cmds = [
-        'vim', '-u', vimrcfn, test['startup_arg']
-    ]
+        'vim', '-u', vimrcfn,
+    ] + test['vimarg']
     return ' '.join(cmds)
 
 def vim_so_fn(test, fn):
