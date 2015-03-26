@@ -15,7 +15,7 @@ from util import sh, fread, delay, _path, _thread
 
 logger = lg.make_logger('xpt-test')
 
-nthread = 16
+nthread = 8
 flags = {
         'keep': True, # keep vim open for further check if test fails
 }
