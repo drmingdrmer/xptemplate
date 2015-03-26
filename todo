@@ -1,3 +1,7 @@
+test trigger-key
+test fallback
+test fallback conflict with trigger-key
+check out working tree to test
 
 test from 'factor'
 what's the right "test" snippet in 'factor'
