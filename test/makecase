@@ -23,7 +23,7 @@ XPT foo
 foo-bar
 END
 
-cat >$base/tests/1-foo <<-END
+cat >$base/tests/01-foo <<-END
 keys:
 foo
 
