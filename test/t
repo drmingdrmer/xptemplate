@@ -22,7 +22,7 @@ done
 
 (
 cd $tmp_root \
-    && [ $(ls | wc -l) -gt 10 ] && rm $(ls | head -n1)
+    && [ $(ls | wc -l) -gt 10 ] && rm -rf $(ls -tr | head -n2)
 )
 
 echo test repo path: $tpath
