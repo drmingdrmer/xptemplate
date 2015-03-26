@@ -273,7 +273,7 @@ def vim_start_cmdstring(test):
     cmds = [ 'vim', '-u', vimrcfn, ]
     cmds += test['vimarg']
     for c in pre_vimrc_cmds:
-        cmds += [ '--cmd', "'"+c+"'" ]
+        cmds += [ '--cmd', "'"+c.replace("'", "\"'\"")+"'" ]
 
     return ' '.join(cmds)
 
