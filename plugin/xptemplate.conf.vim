@@ -9,7 +9,7 @@ set cpo-=< cpo+=B
 
 exe XPT#importConst
 
-let s:def = function( "XPT#setIfNotExist" )
+let s:def = function( "XPT#default" )
 
 
 " call s:def('g:xptemplate_show_stack'	, 1 )
