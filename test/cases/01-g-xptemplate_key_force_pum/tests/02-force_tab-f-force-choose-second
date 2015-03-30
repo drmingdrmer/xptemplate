@@ -1,0 +1,10 @@
+pre_vimrc:
+let g:xptemplate_key_force_pum = '<tab>'
+
+keys:
+f	
+
+
+
+expected:
+ph1-ph2=
