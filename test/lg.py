@@ -36,7 +36,8 @@ class XPTLogHandler( logging.handlers.WatchedFileHandler ):
             self.dev, self.ino = st[stat.ST_DEV], st[stat.ST_INO]
         logging.FileHandler.emit(self, record)
 
-def make_logger(logname):
+def make_logger(logname, stdoutlvl='info'):
+
     filename = logname + ".log"
 
     logger = logging.getLogger( logname )
@@ -55,7 +56,12 @@ def make_logger(logname):
 
     stdhandler = logging.StreamHandler( sys.stdout )
     stdhandler.setFormatter( logging.Formatter( "[%(asctime)s,%(filename)s,%(lineno)d] %(message)s" ) )
-    stdhandler.setLevel( logging.INFO )
+
+    if stdoutlvl == 'info':
+        stdhandler.setLevel( logging.INFO )
+    elif stdoutlvl == 'debug':
+        stdhandler.setLevel( logging.DEBUG )
+
 
     logger.addHandler( stdhandler )
 

@@ -13,11 +13,11 @@ import tmux
 
 from util import sh, fread, delay, _path, _thread
 
-logger = lg.make_logger('xpt-test')
+logger = None
 
-nthread = 8
 flags = {
-        'keep': True, # keep vim open for further check if test fails
+        'stdoutlvl': 'info',
+        'nthread': 8,
 }
 test_root_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -95,7 +95,7 @@ def main( pattern, subpattern='*' ):
         sess['q'].put(what)
 
     ths = []
-    for ii in range(nthread):
+    for ii in range(flags['nthread']):
         ths.append(_thread(case_runner_safe, [sess]))
 
     for th in ths:
@@ -228,7 +228,7 @@ def load_test(case_name, case_path, testname):
              'case_path': case_path,
              'name': testname,
              'sess_name': sess_name,
-             'logger': lg.make_logger(case_name),
+             'logger': lg.make_logger(case_name, stdoutlvl=flags['stdoutlvl']),
 
              'vimarg': [],
              'pre_vimrc': [],
@@ -399,7 +399,6 @@ def _check_rst(test, rst):
 def _dump(test):
     screen = test['tmux'].capture()
     lines = screen.split("\n")
-    # lines = [x for x in lines if x != "~"]
     lines = [ test['case_name'] + '_' + test['name'] + '  |' + x for x in lines]
     screen = "\n".join(lines)
 
@@ -408,10 +407,18 @@ def _dump(test):
 
 if __name__ == "__main__":
     args = sys.argv
-    if '-s' in args:
-        # silent mode, do not keep
-        flags[ 'keep' ] = False
-        args.remove( '-s' )
+    if '-v' in args:
+        flags[ 'stdoutlvl' ] = 'debug'
+        args.remove( '-v' )
+
+    # concurrent
+    if '-c' in args:
+        i = args.index('-c')
+        flags[ 'nthread' ] = int(args[i+1])
+        args.pop( i )
+        args.pop( i )
+
+    logger = lg.make_logger('xpt-test', stdoutlvl=flags['stdoutlvl'])
 
     if len(args) > 1:
         main(*args[1:])
