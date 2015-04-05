@@ -1,0 +1,15 @@
+setting:
+completeopt=longest,menu
+
+keys:
+a12 a34
+a	
+
+expected:
+a12 a34
+a
+
+screen:
+a\n
+a12\n
+a34\n
