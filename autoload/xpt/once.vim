@@ -6,7 +6,7 @@ fun! xpt#once#SetAndGetLoaded(fn)
 	let fn = fnamemodify( a:fn, ':p' )
 	let fn = s:Norm(fn)
 	for p in split( &runtimepath, ',' )
-		let p = fnamemodify( p, ':p' )
+		let p = resolve(fnamemodify( p, ':p' ))
 		let p = s:Norm(p) . '/'
 		let pref = fn[0 : len(p) - 1]
 		if pref == p
