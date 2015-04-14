@@ -46,7 +46,9 @@ fun! xpt#eval#Eval( str, closures ) "{{{
     try
         return eval(expr)
     catch /.*/
-        call s:log.Error( string( v:throwpoint ), string( v:exception ), 'expr=' . expr )
+        call XPT#warn(v:throwpoint)
+        call XPT#warn(v:exception)
+        call XPT#warn(expr)
         return ''
     endtry
 
@@ -181,7 +183,14 @@ fun! s:DoCompile(s) "{{{
 
         if '' != matches[1]
             let part = str[ idx : idx + len(matches[1]) - 1 ]
-            let part = xpt#util#UnescapeChar(part, '{$( ')
+            " if the following element is nonliteral, thus trailing back slash
+            " should be unescaped
+            if matches[2] != ''
+                let part = xpt#util#UnescapeChar(part . '$', '{$( ')
+                let part = strpart(part, 0, strlen(part) - 1)
+            else
+                let part = xpt#util#UnescapeChar(part, '{$( ')
+            endif
             let expr .= '.' . string(part)
         endif
 

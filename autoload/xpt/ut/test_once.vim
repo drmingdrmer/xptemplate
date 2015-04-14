@@ -47,6 +47,35 @@ fun! s:TestUnnormalized( t ) "{{{
 
 endfunction "}}}
 
+let s:helper_folder = fnamemodify(expand("<sfile>"), ':p:h') . '/helper'
+
+fun! s:TestSymbolicLinkAndNestedRTP( t ) "{{{
+
+    let old = &runtimepath
+
+    let cases = [
+          \ [ "symbolic_rtp/plugin/foo.vim", "symbolic_rtp" ],
+          \ [ "symbolic_rtp/plugin/foo.vim", "linked_rtp" ],
+          \ [ "linked_rtp/plugin/foo.vim", "symbolic_rtp" ],
+          \ [ "linked_rtp/plugin/foo.vim", "linked_rtp" ],
+          \ ]
+
+    for [fn0, rtp] in cases
+
+        let fn = s:helper_folder . '/' . fn0
+        let &runtimepath .= "," . s:helper_folder . '/' . rtp
+
+        call xpt#once#SetAndGetLoaded( fn )
+        call a:t.Eq( 1, get(g:xptemplate_loaded, 'plugin/foo.vim', 0),
+              \ 'plugin/foo.vim should be loaded. fn, rtp:' . string([fn0, rtp]) )
+
+        let &runtimepath = old
+        unlet g:xptemplate_loaded['plugin/foo.vim']
+    endfor
+
+
+endfunction "}}}
+
 exec xpt#unittest#run
 
 let &cpo = s:oldcpo

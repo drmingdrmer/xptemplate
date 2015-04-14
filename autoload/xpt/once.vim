@@ -6,13 +6,23 @@ fun! xpt#once#SetAndGetLoaded( fn ) "{{{
         let g:xptemplate_loaded = {}
     endif
 
-    let fn = fnamemodify( a:fn, ':p' )
+    let fn = resolve(fnamemodify( a:fn, ':p' ))
     let fn = s:Norm(fn)
 
-    for p in split( &runtimepath, ',' )
-
-        let p = fnamemodify( p, ':p' )
+    let _rtps = split(&runtimepath, ',')
+    let rtps = []
+    for p in _rtps
+        let p = resolve(fnamemodify( p, ':p' ))
         let p = s:Norm(p) . '/'
+        let rtps += [p]
+    endfor
+
+    " Sort descendingly thus it tries to match longer rtp first.
+    " If file path matches both inner rtp and outer rpt, prefer inner one.
+    call sort(rtps)
+    call reverse(rtps)
+
+    for p in rtps
 
         let pref = fn[ 0 : len(p) - 1 ]
 

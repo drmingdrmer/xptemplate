@@ -7,16 +7,9 @@ let g:__XPTEMPLATE_CONF_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
+exe XPT#importConst
 
-runtime plugin/debug.vim
-
-let s:escapeHead   = '\v(\\*)\V'
-let s:unescapeHead = '\v(\\*)\1\\?\V'
-let s:ep           = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
-
-
-
-let s:def = function( "XPT#setIfNotExist" )
+let s:def = function( "XPT#default" )
 
 
 " call s:def('g:xptemplate_show_stack'	, 1 )
@@ -76,6 +69,31 @@ call s:def('g:xptemplate_snippet_folders'	, [] )
 call s:def('g:xpt_post_action', '')
 
 
+fun! s:ParseXPTVars() "{{{
+    " add a '&' for escaping detection
+    let var_strings = split(g:xptemplate_vars . '&', '\V'.s:nonEscaped.'&\zs')
+
+    let vars = {}
+    for v in var_strings
+        let key = matchstr(v, '\V\^\[^=]\*\ze=')
+        if key == ''
+            continue
+        endif
+
+        if key !~ '^\$'
+            let key = '$'.key
+        endif
+
+        let val = matchstr(v, '\V\^\[^=]\*=\zs\.\*')
+        let escaped_val = xpt#util#UnescapeChar(val, '&')
+        " remove '&'
+        let vars[key] = strpart(escaped_val, 0, len(escaped_val)-1)
+    endfor
+
+    return vars
+endfunction "}}}
+
+
 if type( g:xptemplate_minimal_prefix ) == type( '' )
     if g:xptemplate_minimal_prefix =~ ','
         let [ outer, inner ] = split( g:xptemplate_minimal_prefix, ',' )
@@ -128,12 +146,6 @@ unlet s:path
 unlet s:filename
 
 " }}}
-
-
-
-
-
-let g:XPTpvs = {}
 
 
 " 'selTrigger' used in select mode trigger, but if 'selection' changed after this
@@ -197,27 +209,8 @@ if g:xptemplate_key_visual_2 != g:xptemplate_key_visual
 endif
 
 
-" let &cpo = s:oldcpo
-
-
-
 " parse personal variable
-let s:pvs = split(g:xptemplate_vars, '\V'.s:ep.'&')
-
-for s:v in s:pvs
-  let s:key = matchstr(s:v, '\V\^\[^=]\*\ze=')
-  if s:key == ''
-    continue
-  endif
-
-  if s:key !~ '^\$'
-    let s:key = '$'.s:key
-  endif
-
-  let s:val = matchstr(s:v, '\V\^\[^=]\*=\zs\.\*')
-  let g:XPTpvs[s:key] = substitute(s:val, s:unescapeHead.'&', '\1\&', 'g')
-endfor
-
+let g:XPTpvs = s:ParseXPTVars()
 
 " bundle support
 if type( g:xptemplate_bundle ) == type( '' )

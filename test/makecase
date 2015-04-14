@@ -23,7 +23,9 @@ XPT foo
 foo-bar
 END
 
-cat >$base/tests/1-foo <<-END
+echo created: $base/ftplugin/foo/foo.xpt.vim
+
+cat >$base/tests/01-foo <<-END
 keys:
 foo
 
@@ -31,3 +33,8 @@ expected:
 foo-bar
 END
 
+echo created: $base/tests/01-foo
+
+git branch t.$name root \
+    && git add $base \
+    && git bci -m "create $name" -b t.$name

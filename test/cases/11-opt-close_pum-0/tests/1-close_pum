@@ -1,5 +1,7 @@
 keys:
-
+foo
+fop
+fo
 
 expected:
 foo

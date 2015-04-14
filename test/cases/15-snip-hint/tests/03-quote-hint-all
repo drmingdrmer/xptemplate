@@ -1,0 +1,9 @@
+keys:
+quote-hint-
+
+expected:
+quote-hint-
+
+screen:
+quote-hint-0 ( *)quote-hint.*quote-hint-1 \1quote-hint
+

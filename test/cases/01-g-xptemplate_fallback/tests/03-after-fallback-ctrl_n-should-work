@@ -1,0 +1,20 @@
+pre_vimrc:
+let g:xptemplate_key = '<tab>'
+let g:xptemplate_fallback = 'nore:<c-n>'
+
+setting:
+completeopt=longest,menu,menuone
+
+keys:
+is if i	
+
+a
+
+
+expected:
+is if i
+
+screen:
+is if i\n
+is\n
+if\n

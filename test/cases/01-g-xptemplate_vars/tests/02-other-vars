@@ -1,0 +1,5 @@
+keys:
+vars
+
+expected:
+bar\,&,ever

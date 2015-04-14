@@ -1,0 +1,11 @@
+pre_vimrc:
+let g:xptemplate_key = 'trigger'
+
+keys:
+is if itrigger
+
+ptrigger
+
+expected:
+is if itrigger
+pass

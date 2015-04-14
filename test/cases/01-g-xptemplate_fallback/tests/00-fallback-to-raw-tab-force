@@ -1,0 +1,9 @@
+pre_vimrc:
+let g:xptemplate_key_force_pum = '<tab>'
+let g:xptemplate_fallback = '<tab>'
+
+keys:
+not_a_snippet_name	
+
+expected:
+not_a_snippet_name	

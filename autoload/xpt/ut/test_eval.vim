@@ -11,6 +11,9 @@ let s:funcs = xpt#snipfunction#funcs
 fun! s:TestEval( t ) "{{{
     let cases = [
           \ [ [ '', {}, {} ], '' ],
+          \ [ [ '\', {}, {} ], '\' ],
+          \ [ [ '\\', {}, {} ], '\\' ],
+          \ [ [ '\\\', {}, {} ], '\\\' ],
           \ [ [ 'a', {}, {} ], 'a' ],
           \ [ [ 'a bc', {}, {} ], 'a bc' ],
           \ [ [ 'a "bc"', {}, {} ], 'a "bc"' ],
@@ -37,6 +40,9 @@ fun! s:TestEval( t ) "{{{
           \ [ [ '$ a', {"$a" : "var-a"}, {} ], '$ a' ],
           \ [ [ '$\a', {"$a" : "var-a"}, {} ], '$\a' ],
           \ [ [ '\$a', {"$a" : "var-a"}, {} ], '$a' ],
+          \ [ [ '\\$a', {"$a" : "var-a"}, {} ], '\var-a' ],
+          \ [ [ '\\\$a', {"$a" : "var-a"}, {} ], '\$a' ],
+          \ [ [ '\\\\$a', {"$a" : "var-a"}, {} ], '\\var-a' ],
           \ [ [ 'cc$a', {"$a" : "var-a"}, {} ], 'ccvar-a' ],
           \ [ [ '{$a}b', {"$a" : "var-a"}, {} ], 'var-ab' ],
           \
@@ -49,6 +55,10 @@ fun! s:TestEval( t ) "{{{
           \ [ [ '()a("xx")', {'a' : 'a'}, {} ], '()a-xx' ],
           \ [ [ '()a("xx")()', {'a' : 'a'}, {} ], '()a-xx()' ],
           \
+          \ [ [ 'a("xx")()-b("yy")', {'a' : 'a', 'b': 'b'}, {} ], 'a-xx()-b-yy' ],
+          \ [ [ '()a("xx")()-b("yy")', {'a' : 'a', 'b': 'b'}, {} ], '()a-xx()-b-yy' ],
+          \ [ [ '()a("xx")()-b("yy")end', {'a' : 'a', 'b': 'b'}, {} ], '()a-xx()-b-yyend' ],
+          \
           \ [ [ 'a()a\()', {'a' : 'a'}, {} ], 'a-a()' ],
           \ [ [ 'a\\()', {'a' : 'a'}, {} ], 'a\()' ],
           \ [ [ 'a\\\()', {'a' : 'a'}, {} ], 'a\()' ],
@@ -59,6 +69,8 @@ fun! s:TestEval( t ) "{{{
           \ [ [ 'a(b("c"))', {'a' : 'a', 'b' : 'b'}, {} ], 'a-b-c' ],
           \
           \ [ [ 'd($x)', {"d" : "dictfunc", "$x": 123}, {} ], 'dictfunc-123' ],
+          \
+          \ [ [ 'err()', {"err" : "err"}, {} ], '' ],
           \ ]
           " \ [ [ '', {}, {} ], '' ],
 
@@ -84,6 +96,10 @@ fun! xpt#ut#test_eval#a( ... ) "{{{
 endfunction "}}}
 fun! xpt#ut#test_eval#b( ... ) "{{{
     return 'b-' . join(a:000, '')
+endfunction "}}}
+
+fun! xpt#ut#test_eval#err( ... ) "{{{
+    throw 'err'
 endfunction "}}}
 
 fun! xpt#ut#test_eval#dictfunc( ... ) dict "{{{

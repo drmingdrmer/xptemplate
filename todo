@@ -1,4 +1,7 @@
-wrapper: whether to add indent to empty line?
+check out working tree to test
+test fallback to supertab
+
+press trigger key when <c-n> pum presents
 
 test from 'factor'
 what's the right "test" snippet in 'factor'
@@ -6,15 +9,112 @@ during rendering <CR> does not work the way super-tab setup, which is closing pu
 inclusion inside expandable should be parsed at runtime, or recursive inclusion is impossible.
 add functin to detect if it is expandable at current position
 check text before/after cursor as a condition to expand snippet
-add FAQ of Choose
 mv-flt-here
-readme-add-choose-and-pum-hint
-redefine _if should affect all snippet that includes it
+redefine `_if` should affect all snippet that includes it
 snippet handling current line text or else
 
-test ActionFinish indent issue
+
+# test
+test priority-of-alias
 test assign func-call to var
 test assigning var to var
-test tip: var,func
-test-build-ident-and-embed-indent
-test-priority-of-alias
+test ActionFinish indent issue
+
+# doc
+add FAQ of Choose
+readme-add-choose-and-pum-hint
+
+# snippet
+latex
+
+# setting
+
+imap        <tab>               <Plug>xpt-trigger
+
+imap <expr> <Plug>xpt-trigger   contextedTrigger()
+
+imap        <Plug>xpt-trigger-with-xpt-pum      <Plug>xpt-trigger-snippet
+imap        <Plug>xpt-trigger-with-vim-pum      <C-n>
+
+
+
+E121: Undefined variable: groupPostFilter
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   89:
+E15: Invalid expression: groupPostFilter is g:EmptyFilter
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   33:
+E714: List required
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   39:
+E121: Undefined variable: name
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   39:
+E15: Invalid expression: name != ''
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   45:
+E121: Undefined variable: built
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   45:
+E15: Invalid expression: built || a:action ==# 'clear'
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   45:
+E488: Trailing characters:  a:action ==# 'clear'
+
+
+
+
+
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line    2:
+E716: Key not present in Dictionary: mark
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line    2:
+E15: Invalid expression: renderContext.leadingPlaceHolder.mark
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_CleanupCurrentItem..<SNR>154_ClearItemMapping:
+line   13:
+E716: Key not present in Dictionary: name )
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_CleanupCurrentItem..<SNR>154_ClearItemMapping:
+line   13:
+E116: Invalid arguments for function has_key( mappings, item.name )
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_CleanupCurrentItem..<SNR>154_ClearItemMapping:
+line   13:
+E15: Invalid expression: has_key( mappings, item.name )
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   21:
+E716: Key not present in Dictionary: name
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   21:
+E15: Invalid expression: renderContext.item.name
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   14:
+E716: Key not present in Dictionary: name
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   14:
+E15: Invalid expression: renderContext.item.name
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   16:
+E716: Key not present in Dictionary: mark
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   16:
+E15: Invalid expression: renderContext.leadingPlaceHolder[ renderContext.activeLeaderMarks ]
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   20:
+E121: Undefined variable: marks
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   20:
+E116: Invalid arguments for function XPMposStartEnd( marks ) )
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   20:
+E116: Invalid arguments for function xpt#util#TextBetween( XPMposStartEnd( marks ) )
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+
+
+
+
+<!-- vim: ft=markdown
+-->
+
+
+
+

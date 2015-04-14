@@ -1,0 +1,11 @@
+pre_vimrc:
+set runtimepath+=./test/3rdpart/map-a
+
+keys:
+a
+
+foo
+
+expected:
+a-mapped
+foo-bar

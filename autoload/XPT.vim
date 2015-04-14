@@ -90,12 +90,6 @@ let XPT#importConst = ''
 let XPT#priorities = {'all' : 192, 'spec' : 160, 'like' : 128, 'lang' : 96, 'sub' : 64, 'personal' : 32}
 let XPT#skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "\\vstring|comment"'
 
-fun! XPT#setIfNotExist(k, v) "{{{
-    if !exists( a:k )
-        exe "let" a:k "=" string( a:v )
-    endif
-endfunction "}}}
-
 fun! XPT#warn( msg ) "{{{
     echohl WarningMsg
     echom a:msg

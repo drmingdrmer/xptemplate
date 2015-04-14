@@ -1,0 +1,13 @@
+pre_vimrc:
+let g:xptemplate_key_pum_only = '<tab>'
+
+keys:
+	
+
+expected:
+emptyline
+
+screen:
+f  *hint-f
+foo  *hint-foo
+foobar  *hint-foobar
