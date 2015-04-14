@@ -1,7 +1,7 @@
-test trigger-key
-test fallback
-test fallback conflict with trigger-key
 check out working tree to test
+test fallback to supertab
+
+press trigger key when <c-n> pum presents
 
 test from 'factor'
 what's the right "test" snippet in 'factor'
@@ -26,6 +26,15 @@ readme-add-choose-and-pum-hint
 
 # snippet
 latex
+
+# setting
+
+imap        <tab>               <Plug>xpt-trigger
+
+imap <expr> <Plug>xpt-trigger   contextedTrigger()
+
+imap        <Plug>xpt-trigger-with-xpt-pum      <Plug>xpt-trigger-snippet
+imap        <Plug>xpt-trigger-with-vim-pum      <C-n>
 
 <!-- vim: ft=markdown
 -->
