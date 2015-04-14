@@ -4,11 +4,8 @@ endif
 let g:__XPTEMPLATE_CONF_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
-runtime plugin/debug.vim
-let s:escapeHead   = '\v(\\*)\V'
-let s:unescapeHead = '\v(\\*)\1\\?\V'
-let s:ep           = '\%(' . '\%(\[^\\]\|\^\)' . '\%(\\\\\)\*' . '\)' . '\@<='
-let s:def = function( "XPT#setIfNotExist" )
+exe XPT#importConst
+let s:def = function( "XPT#default" )
 call s:def('g:xptemplate_key'	, '<C-\>' )
 call s:def('g:xptemplate_key_force_pum'	, '<C-r>' . g:xptemplate_key )
 call s:def('g:xptemplate_key_pum_only'	, '<C-r><C-r>' . g:xptemplate_key )
@@ -44,6 +41,23 @@ call s:def('g:xptemplate_vars'	, '' )
 call s:def('g:xptemplate_bundle'	, '' )
 call s:def('g:xptemplate_snippet_folders'	, [] )
 call s:def('g:xpt_post_action', '')
+fun! s:ParseXPTVars()
+	let var_strings = split(g:xptemplate_vars . '&', '\V'.s:nonEscaped.'&\zs')
+	let vars = {}
+	for v in var_strings
+		let key = matchstr(v, '\V\^\[^=]\*\ze=')
+		if key == ''
+			continue
+		endif
+		if key !~ '^\$'
+			let key = '$'.key
+		endif
+		let val = matchstr(v, '\V\^\[^=]\*=\zs\.\*')
+		let escaped_val = xpt#util#UnescapeChar(val, '&')
+		let vars[key] = strpart(escaped_val,0,len(escaped_val)-1)
+	endfor
+	return vars
+endfunction
 if type( g:xptemplate_minimal_prefix ) == type( '' )
 	if g:xptemplate_minimal_prefix =~ ','
 		let [ outer, inner ] = split( g:xptemplate_minimal_prefix, ',' )
@@ -79,7 +93,6 @@ for s:path in g:xptemplate_snippet_folders
 endfor
 unlet s:path
 unlet s:filename
-let g:XPTpvs = {}
 let g:XPTmappings = { 'popup_old':"<C-v><C-v><BS><C-r>=XPTemplateStart(0,{'popupOnly':1})<cr>", 'trigger_old':"<C-v><C-v><BS><C-r>=XPTemplateStart(0)<cr>", 'popup':"<C-r>=XPTemplateStart(0,{'k':'%s','popupOnly':1})<cr>", 'force_pum':"<C-r>=XPTemplateStart(0,{'k':'%s','forcePum':1})<cr>", 'trigger':"<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>", 'wrapTrigger':"\"0s<C-r>=XPTemplatePreWrap(@0)<cr>", 'incSelTrigger':"<C-c>`>a<C-r>=XPTemplateStart(0)<cr>", 'excSelTrigger':"<C-c>`>i<C-r>=XPTemplateStart(0)<cr>", 'selTrigger':(&selection == 'inclusive') ? "<C-c>`>a<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>" : "<C-c>`>i<C-r>=XPTemplateStart(0,{'k':'%s'})<cr>", }
 if g:xptemplate_break_undo
 	let g:XPTmappings.trigger = "<C-g>u" . g:XPTmappings.trigger
@@ -111,18 +124,7 @@ endif
 if g:xptemplate_key_visual_2 != g:xptemplate_key_visual
 	exe "xnoremap <silent>" g:xptemplate_key_visual_2           g:XPTmappings.wrapTrigger
 endif
-let s:pvs = split(g:xptemplate_vars, '\V'.s:ep.'&')
-for s:v in s:pvs
-  let s:key = matchstr(s:v, '\V\^\[^=]\*\ze=')
-  if s:key == ''
-	continue
-  endif
-  if s:key !~ '^\$'
-	let s:key = '$'.s:key
-  endif
-  let s:val = matchstr(s:v, '\V\^\[^=]\*=\zs\.\*')
-  let g:XPTpvs[s:key] = substitute(s:val, s:unescapeHead.'&', '\1\&', 'g')
-endfor
+let g:XPTpvs = s:ParseXPTVars()
 if type( g:xptemplate_bundle ) == type( '' )
 	let s:bundle = split( g:xptemplate_bundle, ',' )
 else

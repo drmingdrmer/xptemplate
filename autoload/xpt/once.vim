@@ -3,11 +3,18 @@ fun! xpt#once#SetAndGetLoaded(fn)
 	if ! exists('g:xptemplate_loaded')
 		let g:xptemplate_loaded = {}
 	endif
-	let fn = fnamemodify( a:fn, ':p' )
+	let fn = resolve(fnamemodify( a:fn, ':p' ))
 	let fn = s:Norm(fn)
-	for p in split( &runtimepath, ',' )
+	let _rtps = split(&runtimepath, ',')
+	let rtps = []
+	for p in _rtps
 		let p = resolve(fnamemodify( p, ':p' ))
 		let p = s:Norm(p) . '/'
+		let rtps += [p]
+	endfor
+	call sort(rtps)
+	call reverse(rtps)
+	for p in rtps
 		let pref = fn[0 : len(p) - 1]
 		if pref == p
 			let relpath = fn[len(pref) :]

@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.9.150306-f9c66f4
+" VERSION: 0.4.9.150415-50e139a
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
 	finish
 endif
@@ -360,7 +360,18 @@ fun! s:ParseTemplateSetting(tmpl)
 	endif
 	let x.renderContext.snipObject = a:tmpl
 	if has_key(setting, 'rawHint')
-		let setting.hint = xpt#eval#Eval(setting.rawHint, [x.filetypes[x.snipFileScope.filetype].funcs, setting.variables, ])
+		let hint = xpt#eval#Eval(setting.rawHint, [x.filetypes[x.snipFileScope.filetype].funcs, setting.variables, ])
+		if type(hint) == type({})
+			let setting.hint = get(hint, 'text', '')
+		elseif type(hint) == type([])
+			let setting.hint =  join( hint[ : 3 ], ' ' ) . ' ..'
+		elseif type(hint) == type(1)
+			let setting.hint = string(hint)
+		elseif type(hint) == 2
+			let setting.hint = string(hint)
+		else
+			let setting.hint = hint
+		endif
 	endif
 	call s:ParsePostQuoter(setting)
 endfunction

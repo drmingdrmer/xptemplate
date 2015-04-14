@@ -1,3 +1,25 @@
+2015-04-14
+==========
+
+Added
+-----
+
+*   integration-test: 01-g-xptemplate_key_force_pum
+*   integration-test: 01-g-xptemplate_key
+*   integration-test: escaping in g:xptemplate_vars
+*   integration-test: 00-verboselog
+*   integration-test: snippet hint
+
+Fixed
+-----
+
+*   eval: \\$a should unescape one back slash
+*   eval: error message should not interrupt working flow
+
+*   hint: beside string, also accept number, dict and list value type
+
+*   util: xpt#once#init resolve symbolic link
+
 2015-03-05
 ==========
 
