@@ -38,7 +38,7 @@ XPTvar $SPfun      ''
 " for ( ** statement ** )
 " [ ** a, b ** ]
 " { ** 'k' : 'v' ** }
-XPTvar $SParg      ' '
+XPTvar $SParg      ''
 
 " if ** (
 " while ** (
