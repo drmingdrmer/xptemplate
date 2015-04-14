@@ -36,6 +36,85 @@ imap <expr> <Plug>xpt-trigger   contextedTrigger()
 imap        <Plug>xpt-trigger-with-xpt-pum      <Plug>xpt-trigger-snippet
 imap        <Plug>xpt-trigger-with-vim-pum      <C-n>
 
+
+
+E121: Undefined variable: groupPostFilter
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   89:
+E15: Invalid expression: groupPostFilter is g:EmptyFilter
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   33:
+E714: List required
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   39:
+E121: Undefined variable: name
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   39:
+E15: Invalid expression: name != ''
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   45:
+E121: Undefined variable: built
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   45:
+E15: Invalid expression: built || a:action ==# 'clear'
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   45:
+E488: Trailing characters:  a:action ==# 'clear'
+
+
+
+
+
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line    2:
+E716: Key not present in Dictionary: mark
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line    2:
+E15: Invalid expression: renderContext.leadingPlaceHolder.mark
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_CleanupCurrentItem..<SNR>154_ClearItemMapping:
+line   13:
+E716: Key not present in Dictionary: name )
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_CleanupCurrentItem..<SNR>154_ClearItemMapping:
+line   13:
+E116: Invalid arguments for function has_key( mappings, item.name )
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_CleanupCurrentItem..<SNR>154_ClearItemMapping:
+line   13:
+E15: Invalid expression: has_key( mappings, item.name )
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   21:
+E716: Key not present in Dictionary: name
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   21:
+E15: Invalid expression: renderContext.item.name
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   14:
+E716: Key not present in Dictionary: name
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   14:
+E15: Invalid expression: renderContext.item.name
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   16:
+E716: Key not present in Dictionary: mark
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   16:
+E15: Invalid expression: renderContext.leadingPlaceHolder[ renderContext.activeLeaderMarks ]
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   20:
+E121: Undefined variable: marks
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   20:
+E116: Invalid arguments for function XPMposStartEnd( marks ) )
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   20:
+E116: Invalid arguments for function xpt#util#TextBetween( XPMposStartEnd( marks ) )
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+
+
+
+
 <!-- vim: ft=markdown
 -->
+
+
+
 
