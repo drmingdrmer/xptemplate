@@ -19,6 +19,7 @@ test priority-of-alias
 test assign func-call to var
 test assigning var to var
 test ActionFinish indent issue
+test cwd/.xpt.vim
 
 # doc
 add FAQ of Choose
