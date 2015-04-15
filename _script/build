@@ -37,7 +37,7 @@ ver=`cat VERSION`.$today-$githash
 build_name=build-$today-$githash
 
 dev_branch=dev
-build_branch=master
+build_branch=rc
 
 
 compact() {
