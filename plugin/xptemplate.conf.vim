@@ -63,6 +63,7 @@ call s:def('g:xptemplate_vars'	, '' )
 call s:def('g:xptemplate_bundle'	, '' )
 call s:def('g:xptemplate_snippet_folders'	, [] )
 
+runtime! autoload/xpt/option/*
 
 
 " for test script
