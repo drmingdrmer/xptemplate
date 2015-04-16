@@ -122,6 +122,10 @@ endfunction "}}}
 " XXX test removed
 fun! XPTsnippetFileInit( filename, ... ) "{{{
 
+    if ! xpt#option#lib_filter#Match(a:filename)
+        return 0
+    endif
+
     " This function is called before 'BufEnter' event triggered which
     " initialize XPTemplate
     if !exists("b:xptemplateData")
