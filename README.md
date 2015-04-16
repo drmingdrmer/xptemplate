@@ -22,6 +22,7 @@
   - [Trouble Shooting. Why not work?](#trouble-shooting-why-not-work)
   - [What else does xptemlate required to work](#what-else-does-xptemlate-required-to-work)
   - [How to install](#how-to-install)
+  - [Customizing snippet loading](#customizing-snippet-loading)
   - [How to reload snippets, after I changes snippet definition files(*.xpt.vim)?](#how-to-reload-snippets-after-i-changes-snippet-definition-filesxptvim)
   - [Do NOT like spaces in auto-completed brackets/braces](#do-not-like-spaces-in-auto-completed-bracketsbraces)
   - [I need spaces in brackets/braces only for this language, not that](#i-need-spaces-in-bracketsbraces-only-for-this-language-not-that)
@@ -232,6 +233,25 @@ XPTemplate works also in VIM 7.0 too. But it's no as good as in VIM 7.2.
 Copy all folders in to your ~/.vim folder(on unix-like OS)
 
 Or add path to XPTemplate to VIM setting 'runtimepath'.
+
+
+## Customizing snippet loading
+
+To load your own snippets and *NOT* to load snippets supplied by XPTemplate,
+add this line to your `.vimrc`:
+```
+let g:xptemplate_lib_filter = '/my_snippets/'
+```
+
+Snippets from folder `~/xpt/` that does not match `g:xptemplate_lib_filter`
+will not be loaded.
+
+```
+~/xpt/ftplugin/c/c.xpt.vim
+...
+~/my_snippets/ftplugin/c/c.xpt.vim
+...
+```
 
 
 ## How to reload snippets, after I changes snippet definition files(*.xpt.vim)?

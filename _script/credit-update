@@ -5,7 +5,7 @@ fn=doc/xpt/credit.txt
 echo "Thanks to:\n" > $fn
 git log --all --no-merges --format="%an" \
     | grep -v "drdr.\?xp\|xp\|zhang yanpo\|drmingdrmer\|no author" \
-    | sort | uniq \
+    | sort --ignore-case | uniq \
     >> $fn
 
 cat _script/contributor.txt >>$fn

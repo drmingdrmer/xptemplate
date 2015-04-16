@@ -1,0 +1,11 @@
+pre_vimrc:
+let g:xptemplate_lib_filter = ['foo.xpt.vim', 'duu.xpt.vim']
+
+keys:
+foo
+
+duu
+
+expected:
+foo-in-foo
+duu-in-duu
