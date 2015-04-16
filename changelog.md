@@ -1,3 +1,13 @@
+2015-04-16
+==========
+
+Added
+-----
+
+*   integration-test: of g:xptemplate_lib_filter
+
+*   option: g:xptemplate_lib_filter
+
 2015-04-14
 ==========
 

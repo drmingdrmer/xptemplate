@@ -40,6 +40,7 @@ call s:def('g:xptemplate_debug_log'	, '' )
 call s:def('g:xptemplate_vars'	, '' )
 call s:def('g:xptemplate_bundle'	, '' )
 call s:def('g:xptemplate_snippet_folders'	, [] )
+runtime! autoload/xpt/option/*
 call s:def('g:xpt_post_action', '')
 fun! s:ParseXPTVars()
 	let var_strings = split(g:xptemplate_vars . '&', '\V'.s:nonEscaped.'&\zs')

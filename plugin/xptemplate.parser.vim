@@ -54,6 +54,9 @@ fun! s:LoadOtherFTPlugins(ft)
 	call XPTsnipScopePop()
 endfunction
 fun! XPTsnippetFileInit(filename,...)
+	if ! xpt#option#lib_filter#Match(a:filename)
+		return 0
+	endif
 	if !exists("b:xptemplateData")
 		call XPTemplateInit()
 	endif
