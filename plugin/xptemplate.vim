@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.9.150416-8045dc7
+" VERSION: 0.4.9.150417-0fe8278
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
 	finish
 endif
@@ -165,12 +165,8 @@ fun! XPTemplate(name,str_or_ctx,...)
 		let snip = a:1
 		let setting = a:str_or_ctx
 	endif
-	if x.snipFileScope.filetype == 'unknown' && !has_key(x.filetypes, 'unknown')
-		call s:LoadSnippetFile( 'unknown/unknown' )
-	endif
-	if !has_key(x.filetypes,x.snipFileScope.filetype)
-		return
-	endif
+	let ft = x.snipFileScope.filetype
+	call xpt#parser#loadSpecialFiletype(ft)
 	call XPTdefineSnippet(a:name,setting,snip)
 	call XPTsnipScopePop()
 endfunction
@@ -2303,15 +2299,7 @@ endfunction
 fun! s:GetContextFTObj()
 	let x = b:xptemplateData
 	let ft = s:GetContextFT()
-	if ft == 'unknown' && !has_key( x.filetypes, ft )
-		call s:LoadSnippetFile( 'unknown/unknown' )
-		call XPTparseSnippets()
-	elseif !has_key(x.filetypes,ft)
-		call XPTsnippetFileInit( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
-		call XPTinclude( '_common/common' )
-		call XPTfiletypeInit()
-		call XPTparseSnippets()
-	endif
+	call xpt#parser#loadSpecialFiletype(ft)
 	let ftScope = get(x.filetypes,ft,{})
 	return ftScope
 endfunction
@@ -2329,10 +2317,6 @@ augroup XPT
 	au CursorMovedI * call <SID>XPTupdateTyping()
 	if g:xptemplate_strict == 1
 		au CursorMovedI * call <SID>BreakUndo()
-	endif
-	if g:xptemplate_cwd_snippet == 1
-		au BufEnter * silent! call xpt#cwd#snpt#load()
-		au BufUnload * silent! call xpt#cwd#snpt#clearFlag()
 	endif
 augroup END
 fun! g:XPTaddPlugin(event,when,func)
