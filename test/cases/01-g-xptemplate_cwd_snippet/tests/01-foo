@@ -1,5 +1,0 @@
-keys:
-foo
-
-expected:
-foo-bar

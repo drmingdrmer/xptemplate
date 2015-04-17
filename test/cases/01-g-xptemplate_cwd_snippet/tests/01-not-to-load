@@ -1,0 +1,9 @@
+pre_vimrc:
+let g:xptemplate_cwd_snippet = 0
+cd test/cases/01-g-xptemplate_cwd_snippet/_cwd
+
+keys:
+foo
+
+expected:
+foo
