@@ -199,7 +199,8 @@ def run_case_test(test):
 
     vim_add_settings(test, test['setting'])
     vim_add_local_settings(test, test['localsetting'])
-    vim_add_map(test, test['map'])
+    vim_add_cmd(test, test['cmd'])
+    delay()
 
     _dump(test)
     test['tmux'].sendkeys('i')
@@ -234,7 +235,7 @@ def load_test(case_name, case_path, testname):
              'pre_vimrc': [],
              'setting': [],
              'localsetting': [],
-             'map': [],
+             'cmd': [],
              'keys': [],
              'expected': [],
              'screen_captured': None,
@@ -252,6 +253,8 @@ def load_test(case_name, case_path, testname):
 
         if state is None and line[:-1] in test:
             state = line[:-1]
+            if state == 'map':
+                state = 'cmd'
             continue
 
         if line == 'emptyline':
@@ -303,9 +306,9 @@ def vim_add_local_settings( test, settings ):
         return
     vim_cmd( test, [ "setlocal" ] + settings )
 
-def vim_add_map(test, maps):
-    for mp in maps:
-        vim_cmd(test, [mp])
+def vim_add_cmd(test, cmds):
+    for cmd in cmds:
+        vim_cmd(test, [cmd])
 
 def vim_cmd( test, elts ):
     s = ":" + ' '.join( elts )
