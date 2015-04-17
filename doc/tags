@@ -48,6 +48,7 @@ g:xptemplate_hook_before_cr	xpt/option/hook_before_cr.txt	/*g:xptemplate_hook_be
 g:xptemplate_key	xptemplate.txt	/*g:xptemplate_key*
 g:xptemplate_key_force_pum	xptemplate.txt	/*g:xptemplate_key_force_pum*
 g:xptemplate_key_pum_only	xptemplate.txt	/*g:xptemplate_key_pum_only*
+g:xptemplate_lib_filter	xpt/option/lib_filter.txt	/*g:xptemplate_lib_filter*
 g:xptemplate_minimal_prefix	xpt/option/minimal_prefix.txt	/*g:xptemplate_minimal_prefix*
 g:xptemplate_move_even_with_pum	xpt/option/move_even_with_pum.txt	/*g:xptemplate_move_even_with_pum*
 g:xptemplate_nav_cancel	xptemplate.txt	/*g:xptemplate_nav_cancel*

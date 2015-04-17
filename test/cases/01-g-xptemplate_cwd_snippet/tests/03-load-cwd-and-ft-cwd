@@ -1,0 +1,16 @@
+pre_vimrc:
+let g:xptemplate_cwd_snippet = 1
+
+cmd:
+cd test/cases/01-g-xptemplate_cwd_snippet/_cwd
+bwipe
+set filetype=bar
+
+keys:
+foo
+
+bar
+
+expected:
+foo-in-dot-xpt
+bar-in-bar

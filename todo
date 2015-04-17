@@ -13,6 +13,8 @@ mv-flt-here
 redefine `_if` should affect all snippet that includes it
 snippet handling current line text or else
 
+# add
+support <ft>_xpt.vim?
 
 # test
 test priority-of-alias

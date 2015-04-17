@@ -1,3 +1,16 @@
+2015-04-17
+==========
+
+Added
+-----
+
+*   util: load .xpt.vim from working dir
+
+Fixed
+-----
+
+*   engine: quick-add snippet to buffer without filetype
+
 2015-04-16
 ==========
 

@@ -27,8 +27,32 @@ cd $tmp_root \
 
 echo test repo path: $tpath
 
-mkdir -p $tpath \
-    && git checkout-index -af --prefix=$tpath/ \
-    && cd $tpath || exit 1
+test_working_tree=0
+verbose=''
+while getopts wv opname; do
+    case $opname in
+        w)
+            test_working_tree=1
+            ;;
+        v)
+            # pass it to python
+            verbose=' -v '
+            ;;
+    esac
+done
 
-$py test/run.py "$@"
+shift $(($OPTIND - 1))
+
+mkdir -p $tpath || exit 1
+if [ "$test_working_tree" = "1" ]; then
+    index_hash=$(git write-tree) \
+        && git add -u \
+        && git checkout-index -af --prefix=$tpath/ \
+        && git read-tree $index_hash \
+        && cd $tpath || exit 1
+else
+    git checkout-index -af --prefix=$tpath/ \
+        && cd $tpath || exit 1
+fi
+
+$py test/run.py $verbose "$@"

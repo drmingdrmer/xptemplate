@@ -389,16 +389,10 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
         let setting = a:str_or_ctx
     endif
 
-    if x.snipFileScope.filetype == 'unknown'
-                \&& !has_key(x.filetypes, 'unknown')
+    let ft = x.snipFileScope.filetype
 
-        call s:LoadSnippetFile( 'unknown/unknown' )
-    endif
-
-    if !has_key( x.filetypes, x.snipFileScope.filetype )
-        " TODO create the ft
-        return
-    endif
+    " special filetype may has not yet initialized by .xpt.vim
+    call xpt#parser#loadSpecialFiletype(ft)
 
     call XPTdefineSnippet( a:name, setting, snip )
 
@@ -4476,18 +4470,7 @@ fun! s:GetContextFTObj() "{{{
     let x = b:xptemplateData
     let ft = s:GetContextFT()
 
-    if ft == 'unknown' && !has_key( x.filetypes, ft )
-        call s:LoadSnippetFile( 'unknown/unknown' )
-        call XPTparseSnippets()
-
-    elseif !has_key( x.filetypes, ft )
-        call XPTsnippetFileInit( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
-        call XPTinclude( '_common/common' )
-        call XPTfiletypeInit()
-        call XPTparseSnippets()
-
-    endif
-
+    call xpt#parser#loadSpecialFiletype(ft)
     let ftScope = get( x.filetypes, ft, {} )
 
     return ftScope
@@ -4521,11 +4504,6 @@ augroup XPT "{{{
 
     if g:xptemplate_strict == 1
         au CursorMovedI * call <SID>BreakUndo()
-    endif
-
-    if g:xptemplate_cwd_snippet == 1
-        au BufEnter  * silent! call xpt#cwd#snpt#load()
-        au BufUnload * silent! call xpt#cwd#snpt#clearFlag()
     endif
 
 augroup END "}}}

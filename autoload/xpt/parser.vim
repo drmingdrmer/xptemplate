@@ -378,6 +378,30 @@ fun! xpt#parser#SnipSet( dictNameValue ) "{{{
 
 endfunction "}}}
 
+fun! xpt#parser#loadSpecialFiletype(ft) "{{{
+
+    let x = b:xptemplateData
+    let ft = a:ft
+
+    if has_key( x.filetypes, ft )
+        return
+    endif
+
+    if ft == 'unknown'
+        call xpt#parser#loadSnippetFile( 'unknown/unknown' )
+        call XPTparseSnippets()
+    else
+        call XPTsnippetFileInit( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
+        call XPTinclude( '_common/common' )
+        call XPTfiletypeInit()
+        call XPTparseSnippets()
+    endif
+endfunction "}}}
+
+fun! xpt#parser#loadSnippetFile(rel_snip) "{{{
+    exe 'runtime! ftplugin/' . a:rel_snip . '.xpt.vim'
+    call XPTfiletypeInit()
+endfunction "}}}
 
 
 fun! s:AssignSnipFT( filename ) "{{{

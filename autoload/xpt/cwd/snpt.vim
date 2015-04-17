@@ -12,10 +12,22 @@ fun! xpt#cwd#snpt#load() "{{{
         return
     endif
 
+    call XPTemplateInit()
+
     so .xpt.vim
     exec "so ." . &filetype . ".xpt.vim"
 
     let b:xptemplate_cwd_snpt_loaded = 1
+
+endfunction "}}}
+
+fun! xpt#cwd#snpt#reload() "{{{
+
+    if exists( 'b:xptemplate_cwd_snpt_loaded' )
+        unlet b:xptemplate_cwd_snpt_loaded
+    endif
+
+    return xpt#cwd#snpt#load()
 
 endfunction "}}}
 

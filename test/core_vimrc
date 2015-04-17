@@ -2,7 +2,10 @@ set nocompatible
 filetype plugin  on
 
 let g:xptemplate_debug_log = './xpt-debug.log'
-set runtimepath+=.
+
+let g:_xpt_path = expand("<sfile>:h:h")
+exe "set runtimepath+=" . g:_xpt_path
+
 set noswapfile
 set list
 set listchars=tab:].,trail:\|,extends:<,precedes:>
