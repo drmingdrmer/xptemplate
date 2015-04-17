@@ -21,7 +21,7 @@ fun! xpt#buf#New() "{{{
           \     'stack'             : [],
           \     'keyword'           : '\w',
           \     'keywordList'       : [],
-          \     'snipFileScope'     : {},
+          \     'snipFileScope'     : {'inheritFT':0},
           \     'snipFileScopeStack': [],
           \ }
 
