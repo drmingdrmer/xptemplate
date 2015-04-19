@@ -1,0 +1,5 @@
+keys:
+set-func-to-var
+
+expected:
+foo()

@@ -8,6 +8,10 @@ XPTinclude
 XPTvar $FOO var-foo
 XPTvar $BAR_QUOTE 'var-bar'
 
+fun! s:f.foo()
+    return 'func-foo'
+endfunction
+
 " variable in simple place holder is evaluated instantly and is converted to
 " literal text.
 XPT var-x
@@ -41,4 +45,8 @@ XSET $a=im-a
 XSET $b=$a
 `$a^
 `$b^
+
+XPT set-func-to-var
+XSET $a=foo()
+`$a^
 
