@@ -15,8 +15,6 @@ support <ft>_xpt.vim?
 
 # test
 test priority-of-alias
-test assign func-call to var
-test assigning var to var
 test ActionFinish indent issue
 
 # doc
