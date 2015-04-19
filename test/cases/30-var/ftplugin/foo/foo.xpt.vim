@@ -35,3 +35,10 @@ line1`$lb^line2
 XPT edge-break
 XSET $lb=\n
 line1`$lb`x^line2
+
+XPT set-var-to-var
+XSET $a=im-a
+XSET $b=$a
+`$a^
+`$b^
+
