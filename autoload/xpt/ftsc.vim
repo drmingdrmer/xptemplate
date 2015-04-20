@@ -95,7 +95,7 @@ fun! xpt#ftsc#SetSnippetLoaded( inst, filename ) "{{{
     let a:inst.loadedSnipFiles[ a:filename ] = 1
 
     let fn = substitute(a:filename, '\\', '/', 'g')
-    let shortname = matchstr(fn, '\Vftplugin\/\zs\w\+\/\.\*\ze.xpt.vim')
+    let shortname = matchstr(fn, '\Vftplugin\/\zs\[^/]\+\/\.\*\ze.xpt.vim')
 
     if shortname != ''
         let a:inst.loadedSnipFiles[shortname] = 1
