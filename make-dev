@@ -44,4 +44,5 @@ $(cat changelog.md 2>/dev/null)"
     && git commit --amend --no-edit -m "$mes" \
     || git reset HEAD^
 
-git checkout $cur_branch
+./_script/build \
+    && git checkout $cur_branch
