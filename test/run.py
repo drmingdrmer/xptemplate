@@ -235,6 +235,7 @@ def load_test(case_name, case_path, testname):
              'pre_vimrc': [],
              'setting': [],
              'localsetting': [],
+             'map': [],
              'cmd': [],
              'keys': [],
              'expected': [],
