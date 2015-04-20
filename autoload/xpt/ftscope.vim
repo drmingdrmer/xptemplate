@@ -31,7 +31,7 @@ let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
 
-fun! xpt#ftsc#New() "{{{
+fun! xpt#ftscope#New() "{{{
 
     " inst.extensionTable:
     "   Some snippet has extension pattern which defines what text can be an
@@ -61,36 +61,36 @@ fun! xpt#ftsc#New() "{{{
 
 endfunction "}}}
 
-fun! xpt#ftsc#Init( ftsc ) "{{{
+fun! xpt#ftscope#Init( ftscope ) "{{{
 
-    if a:ftsc.inited
+    if a:ftscope.inited
         return
     endif
 
 
-    let l = a:ftsc.funcs.GetVar( '$CL' )
-    let m = a:ftsc.funcs.GetVar( '$CM' )
+    let l = a:ftscope.funcs.GetVar( '$CL' )
+    let m = a:ftscope.funcs.GetVar( '$CM' )
 
 
     if len( l ) <= len( m )
-        let a:ftsc.funcs[ '$CM_OFFSET' ] = ''
-        let a:ftsc.funcs[ '$CL_STRIP' ] = l
+        let a:ftscope.funcs[ '$CM_OFFSET' ] = ''
+        let a:ftscope.funcs[ '$CL_STRIP' ] = l
     else
-        let a:ftsc.funcs[ '$CM_OFFSET' ] = repeat( ' ', len( l ) - len( m ) )
-        let a:ftsc.funcs[ '$CL_STRIP' ] = l[ : -len( m ) -1 ]
+        let a:ftscope.funcs[ '$CM_OFFSET' ] = repeat( ' ', len( l ) - len( m ) )
+        let a:ftscope.funcs[ '$CL_STRIP' ] = l[ : -len( m ) -1 ]
     endif
 
-    let a:ftsc.inited = 1
+    let a:ftscope.inited = 1
 
 endfunction "}}}
 
-fun! xpt#ftsc#IsSnippetLoaded( inst, filename ) "{{{
+fun! xpt#ftscope#IsSnippetLoaded( inst, filename ) "{{{
 
     return has_key( a:inst.loadedSnipFiles, a:filename )
 
 endfunction "}}}
 
-fun! xpt#ftsc#SetSnippetLoaded( inst, filename ) "{{{
+fun! xpt#ftscope#SetSnippetLoaded( inst, filename ) "{{{
 
     let a:inst.loadedSnipFiles[ a:filename ] = 1
 
@@ -103,27 +103,27 @@ fun! xpt#ftsc#SetSnippetLoaded( inst, filename ) "{{{
 
 endfunction "}}}
 
-fun! xpt#ftsc#CheckAndSetSnippetLoaded( inst, filename ) "{{{
+fun! xpt#ftscope#CheckAndSetSnippetLoaded( inst, filename ) "{{{
 
     let loaded = has_key( a:inst.loadedSnipFiles, a:filename )
 
-    call xpt#ftsc#SetSnippetLoaded( a:inst, a:filename )
+    call xpt#ftscope#SetSnippetLoaded( a:inst, a:filename )
 
     return loaded
 
 endfunction "}}}
 
-fun! xpt#ftsc#PushPHPieces( ftsc, phs ) "{{{
+fun! xpt#ftscope#PushPHPieces( ftscope, phs ) "{{{
 
-    call add( a:ftsc.snipPieces, a:phs )
+    call add( a:ftscope.snipPieces, a:phs )
 
-    return len( a:ftsc.snipPieces ) - 1
+    return len( a:ftscope.snipPieces ) - 1
 
 endfunction "}}}
 
-fun! xpt#ftsc#GetPHPieces( ftsc, phsID ) "{{{
+fun! xpt#ftscope#GetPHPieces( ftscope, phsID ) "{{{
 
-    return a:ftsc.snipPieces[ a:phsID ]
+    return a:ftscope.snipPieces[ a:phsID ]
 
 endfunction "}}}
 
