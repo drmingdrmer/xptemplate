@@ -45,8 +45,12 @@ fun! xpt#once#SetAndGetLoaded( fn ) "{{{
 endfunction "}}}
 
 fun! s:Norm(path) "{{{
+
+    let path = a:path
+    let path = substitute(path, '\V\\', '/', 'g')
+
     " trailing slash
-    let path = substitute( a:path, '\V/\*\$', '', 'g' )
+    let path = substitute( path, '\V/\*\$', '', 'g' )
 
     " multi slash
     let path = substitute( path, '\V//\*', '/', 'g' )
