@@ -7,6 +7,14 @@ if [ ".$commit_mes" = "." ]; then
     exit 1
 fi
 
+if [ ".$commit_mes" = '.-r' ]; then
+    git update-ref refs/heads/rc origin/rc
+    git update-ref refs/heads/dev origin/dev
+
+    echo "rc and dev reverted"
+    exit
+fi
+
 
 src_branch=mix
 dst_branch=dev
@@ -44,4 +52,5 @@ $(cat changelog.md 2>/dev/null)"
     && git commit --amend --no-edit -m "$mes" \
     || git reset HEAD^
 
-git checkout $cur_branch
+./_script/build \
+    && git checkout $cur_branch

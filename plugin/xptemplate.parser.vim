@@ -100,25 +100,6 @@ fun! s:AssignSnipFT( filename ) "{{{
 endfunction "}}}
 
 
-fun! s:LoadOtherFTPlugins( ft ) "{{{
-
-    " NOTE: XPT depends on some per-language setting such as shiftwidth.
-    "       So we need to load other ftplugins first.
-
-    call XPTsnipScopePush()
-
-    for subft in split( a:ft, '\V.' )
-
-        exe 'runtime! ftplugin/' . subft . '.vim'
-        exe 'runtime! ftplugin/' . subft . '_*.vim'
-        exe 'runtime! ftplugin/' . subft . '/*.vim'
-
-    endfor
-
-
-    call XPTsnipScopePop()
-endfunction "}}}
-
 " XXX test removed
 fun! XPTsnippetFileInit( filename, ... ) "{{{
 
@@ -152,12 +133,6 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
     if ftScope.CheckAndSetSnippetLoaded( a:filename )
         return 'finish'
     endif
-
-
-    " call s:LoadOtherFTPlugins()
-    " let snipScope = x.snipFileScope
-
-
 
     for pair in a:000
 

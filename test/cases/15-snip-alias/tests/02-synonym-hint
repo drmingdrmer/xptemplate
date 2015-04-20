@@ -1,0 +1,9 @@
+keys:
+bar
+
+expected:
+bar
+
+screen:
+bar  *hint-bar\n
+bar-syn  *hint-bar

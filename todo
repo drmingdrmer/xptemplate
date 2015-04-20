@@ -1,6 +1,3 @@
-check out working tree to test
-test fallback to supertab
-
 press trigger key when <c-n> pum presents
 
 test from 'factor'
@@ -18,10 +15,7 @@ support <ft>_xpt.vim?
 
 # test
 test priority-of-alias
-test assign func-call to var
-test assigning var to var
 test ActionFinish indent issue
-test cwd/.xpt.vim
 
 # doc
 add FAQ of Choose

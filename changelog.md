@@ -1,3 +1,11 @@
+2015-04-20
+==========
+
+Fixed
+-----
+
+*   util: xpt#once#init path parsing in windows
+
 2015-04-17
 ==========
 
