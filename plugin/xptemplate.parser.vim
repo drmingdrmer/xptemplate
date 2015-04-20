@@ -44,15 +44,6 @@ fun! s:AssignSnipFT(filename)
 	endif
 	return ft
 endfunction
-fun! s:LoadOtherFTPlugins(ft)
-	call XPTsnipScopePush()
-	for subft in split( a:ft, '\V.' )
-		exe 'runtime! ftplugin/' . subft . '.vim'
-		exe 'runtime! ftplugin/' . subft . '_*.vim'
-		exe 'runtime! ftplugin/' . subft . '/*.vim'
-	endfor
-	call XPTsnipScopePop()
-endfunction
 fun! XPTsnippetFileInit(filename,...)
 	if ! xpt#option#lib_filter#Match(a:filename)
 		return 0

@@ -30,7 +30,9 @@ fun! xpt#once#SetAndGetLoaded(fn)
 	return 0
 endfunction
 fun! s:Norm(path)
-	let path = substitute( a:path, '\V/\*\$', '', 'g' )
+	let path = a:path
+	let path = substitute(path, '\V\\', '/', 'g')
+	let path = substitute( path, '\V/\*\$', '', 'g' )
 	let path = substitute( path, '\V//\*', '/', 'g' )
 	while 1
 		let p0 = path
