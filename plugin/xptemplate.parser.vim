@@ -22,16 +22,12 @@ let g:__XPTEMPLATE_PARSER_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-runtime plugin/debug.vim
-
 runtime plugin/classes/FiletypeScope.vim
 runtime plugin/xptemplate.vim
 
 exec XPT#importConst
 
-let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
-
+let s:log = xpt#debug#Logger( 'warn' )
 
 com! -nargs=* XPTemplate
       \   if XPTsnippetFileInit( expand( "<sfile>" ), <f-args> ) == 'finish'
