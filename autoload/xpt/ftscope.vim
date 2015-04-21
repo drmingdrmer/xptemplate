@@ -55,7 +55,7 @@ fun! xpt#ftscope#New() "{{{
           \ 'snipPieces'      : [],
           \ }
 
-    call xpt#snipfunc#Extend( inst.funcs )
+    " call xpt#snipfunc#Extend( inst.funcs )
 
     return inst
 
