@@ -387,13 +387,12 @@ fun! xpt#parser#loadSpecialFiletype(ft) "{{{
 
     if ft == 'unknown'
         call xpt#parser#loadSnippetFile( 'unknown/unknown' )
-        call XPTparseSnippets()
     else
         call xpt#parser#InitSnippetFile( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
         call XPTinclude( '_common/common' )
         call XPTfiletypeInit()
-        call XPTparseSnippets()
     endif
+    call XPTparseSnippets()
 endfunction "}}}
 
 fun! xpt#parser#loadSnippetFile(rel_snip) "{{{
