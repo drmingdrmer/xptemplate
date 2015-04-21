@@ -39,6 +39,7 @@ let s:KEYTYPE_TO_DICT = {
       \ 'onfocus' : 'onfocusFilters',
       \}
 
+runtime plugin/xptemplate.vim
 
 fun s:CompileSnippetFile( fn ) "{{{
     if a:fn =~ '\V.xpt.vimc\$' || !filereadable( a:fn )
@@ -391,7 +392,7 @@ fun! xpt#parser#loadSpecialFiletype(ft) "{{{
         call xpt#parser#loadSnippetFile( 'unknown/unknown' )
         call XPTparseSnippets()
     else
-        call XPTsnippetFileInit( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
+        call xpt#parser#InitSnippetFile( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
         call XPTinclude( '_common/common' )
         call XPTfiletypeInit()
         call XPTparseSnippets()
@@ -407,10 +408,9 @@ endfunction "}}}
 fun! s:AssignSnipFT( filename ) "{{{
 
     let x = b:xptemplateData
-
     let filename = substitute( a:filename, '\\', '/', 'g' )
 
-    if filename =~ '\Vunknown.xpt.vimc\?\$'
+    if filename =~ 'unknown.xpt.vim$'
         return 'unknown'
     endif
 
@@ -418,11 +418,10 @@ fun! s:AssignSnipFT( filename ) "{{{
     let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
     if empty( x.snipFileScopeStack )
 
-        " Top Level snippet
+        " Top Level
         "
-        " All cross filetype inclusions must be done with XPTinclude or
-        " XPTembed.
-        " But 'runtime' command is not allowed for inclusion or embed
+        " All cross filetype inclusion must be done through XPTinclude or
+        " XPTembed, 'runtime' command is disabled for inclusion or embed
         "
         " Unless it is a pseudo filename, which is for loading "_common"(or
         " anything independent ) snippet into unsupported filetype.
@@ -432,78 +431,70 @@ fun! s:AssignSnipFT( filename ) "{{{
             return ftFolder
         endif
 
-
         if &filetype =~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim'
             let ft =  &filetype
         else
-            let ft = 'NOT_ALLOWED'
+            let ft = 'not allowed'
         endif
 
     else
-
+        " XPTinclude or XPTembed
         if x.snipFileScopeStack[ -1 ].inheritFT
                 \ || ftFolder =~ '\V\^_'
 
             " Snippet is loaded with XPTinclude
             " or it is an general snippet like "_common/common.xpt.vim"
 
-            if ! has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
+            if !has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
 
                 " no parent snippet file
                 " maybe parent snippet file has no XPTemplate command called
-
                 throw 'parent may has no XPTemplate command called :' . a:filename
-
             endif
 
             let ft = x.snipFileScopeStack[ -1 ].filetype
-
         else
 
             " Snippet is loaded with XPTembed which uses an independent
             " filetype.
 
             let ft = ftFolder
-
         endif
-
     endif
 
-    call s:log.Log( "filename=" . filename . ' filetype=' . &filetype . " ft=" . ft )
+    call s:log.Log( "filename=" . filename . 'filetype=' . &filetype . " ft=" . ft )
 
     return ft
-
 endfunction "}}}
 
-fun! XPTDoSnippetFileInit( filename, ... ) "{{{
+fun! xpt#parser#InitSnippetFile(filename, ...) "{{{
+
+    if ! xpt#option#lib_filter#Match(a:filename)
+        return 0
+    endif
 
     " This function is called before 'BufEnter' event which
     " initialize XPTemplate
-
     if !exists("b:xptemplateData")
         call XPTemplateInit()
     endif
 
-    call s:log.Debug( 'XPTDoSnippetFileInit is called' )
-
     let x = b:xptemplateData
     let filetypes = x.filetypes
 
-    let snipScope = xpt#snipf#New( a:filename )
+    let snipScope = XPTnewSnipScope( a:filename )
     let snipScope.filetype = s:AssignSnipFT( a:filename )
+    let ft = snipScope.filetype
 
-
-    if snipScope.filetype == 'NOT_ALLOWED'
-        call s:log.Info(  "NOT_ALLOWED:" . a:filename )
+    if ft == 'not allowed'
+        call s:log.Info( "not allowed:" . a:filename )
         return 'finish'
     endif
 
-    if ! has_key( filetypes, snipScope.filetype )
-        let filetypes[ snipScope.filetype ] = xpt#ftsc#New()
+    if ! has_key( filetypes, ft )
+        let filetypes[ ft ] = xpt#ftscope#New()
     endif
-
-    let ftScope = filetypes[ snipScope.filetype ]
-
+    let ftScope = filetypes[ ft ]
 
     if xpt#ftscope#CheckAndSetSnippetLoaded( ftScope,  a:filename )
         return 'finish'
@@ -525,6 +516,9 @@ fun! XPTDoSnippetFileInit( filename, ... ) "{{{
         elseif key =~ 'mark'
             call XPTemplateMark( val[ 0 : 0 ], val[ 1 : 1 ] )
 
+        elseif key =~ 'key\%[word]'
+            call XPTemplateKeyword(val)
+
         endif
 
     endfor
@@ -533,7 +527,7 @@ fun! XPTDoSnippetFileInit( filename, ... ) "{{{
 
 endfunction "}}}
 
-fun! xpt#parser#SnippetFileInit( filename, ... ) "{{{
+fun! xpt#parser#SnippetFileInit_for_compiled( filename, ... ) "{{{
 
     call s:log.Debug( 'xpt#parser#SnippetFileInit is called. filename=' . string( a:filename ) )
 
@@ -541,7 +535,7 @@ fun! xpt#parser#SnippetFileInit( filename, ... ) "{{{
         " Just init the pseudo snippet file.
         " In most of these cases, a pseudo snippet file is used to initialize
         " a context for inclusion, etc.
-        return call( function( 'XPTDoSnippetFileInit' ), [ a:filename ] + a:000 )
+        return call( function( 'xpt#parser#InitSnippetFile' ), [ a:filename ] + a:000 )
     endif
 
     if a:filename =~ '\V.xpt.vim\$'
@@ -557,7 +551,7 @@ fun! xpt#parser#SnippetFileInit( filename, ... ) "{{{
 
         call s:log.Debug( 'Compiled file: ' . string( a:filename ) )
 
-        return call( function( 'XPTDoSnippetFileInit' ), [ a:filename ] + a:000 )
+        return call( function( 'xpt#parser#InitSnippetFile' ), [ a:filename ] + a:000 )
 
     endif
 
