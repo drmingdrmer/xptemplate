@@ -4477,18 +4477,11 @@ fun! s:GetContextFTObj() "{{{
 
 endfunction "}}}
 
-" TODO When to init?
-fun! s:XPTbufferInit() "{{{
-
-    call XPTemplateInit()
-
-endfunction "}}}
-
 augroup XPT "{{{
 
     au!
 
-    au BufEnter * call <SID>XPTbufferInit()
+    au BufEnter * call XPTemplateInit()
 
     au InsertEnter * call <SID>XPTcheck()
 
