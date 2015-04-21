@@ -505,7 +505,7 @@ fun! XPTDoSnippetFileInit( filename, ... ) "{{{
     let ftScope = filetypes[ snipScope.filetype ]
 
 
-    if xpt#ftsc#CheckAndSetSnippetLoaded( ftScope,  a:filename )
+    if xpt#ftscope#CheckAndSetSnippetLoaded( ftScope,  a:filename )
         return 'finish'
     endif
 
