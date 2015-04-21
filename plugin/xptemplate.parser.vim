@@ -35,54 +35,11 @@ com! -nargs=* XPTemplate
 
 com! -nargs=* XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | finish
 com! -nargs=* XPT           call s:XPTstartSnippetPart(expand("<sfile>")) | finish
-com! -nargs=* XPTvar        call XPTsetVar( <q-args> )
-com! -nargs=* XPTsnipSet    call XPTsnipSet( <q-args> )
+com! -nargs=* XPTvar        call xpt#parser#SetVar( <q-args> )
+com! -nargs=* XPTsnipSet    call xpt#parser#SnipSet( <q-args> )
 com! -nargs=+ XPTinclude    call XPTinclude(<f-args>)
 com! -nargs=+ XPTembed      call XPTembed(<f-args>)
 " com! -nargs=* XSET          call XPTbufferScopeSet( <q-args> )
-
-fun! XPTsnipSet( dictNameValue ) "{{{
-    let x = b:xptemplateData
-    let snipScope = x.snipFileScope
-
-    let [ dict, nameValue ] = split( a:dictNameValue, '\V.', 1 )
-    let name = matchstr( nameValue, '^.\{-}\ze=' )
-    let value = nameValue[ len( name ) + 1 :  ]
-
-    call s:log.Log( 'set snipScope:' . string( [ dict, name, value ] ) )
-    let snipScope[ dict ][ name ] = value
-
-endfunction "}}}
-
-fun! XPTsetVar( nameSpaceValue ) "{{{
-    let x = b:xptemplateData
-    let ftScope = g:GetSnipFileFtScope()
-
-    call s:log.Debug( 'xpt var raw data=' . string( a:nameSpaceValue ) )
-    let name = matchstr(a:nameSpaceValue, '^\S\+\ze')
-    if name == ''
-        return
-    endif
-
-    " TODO use s:nonEscaped to detect escape
-    let val  = matchstr(a:nameSpaceValue, '\s\+\zs.*')
-    if val =~ '^''.*''$'
-        let val = val[1:-2]
-    else
-        let val = substitute( val, '\\ ', " ", 'g' )
-    endif
-    let val = substitute( val, '\\n', "\n", 'g' )
-
-
-    let priority = x.snipFileScope.priority
-    call s:log.Log("name=".name.' value='.val.' priority='.priority)
-
-
-    if !has_key( ftScope.varPriority, name ) || priority < ftScope.varPriority[ name ]
-        let [ ftScope.funcs[ name ], ftScope.varPriority[ name ] ] = [ val, priority ]
-    endif
-
-endfunction "}}}
 
 fun! XPTinclude(...) "{{{
     let scope = XPTsnipScope()
