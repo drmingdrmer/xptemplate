@@ -115,7 +115,6 @@ runtime plugin/xptemplate.conf.vim
 runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
 runtime plugin/xpopup.vim
-runtime plugin/classes/SettingSwitch.vim
 
 exec XPT#importConst
 
@@ -1769,7 +1768,7 @@ fun! s:BuildSnippet(nameStartPosition, nameEndPosition) " {{{
     call XPMadd( ctx.marks.tmpl.end, a:nameEndPosition, g:XPMpreferRight, '\Ve\$' )
 
 
-    call b:xptemplateData.settingWrap.Switch()
+    call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
     call XPMsetLikelyBetween( ctx.marks.tmpl.start, ctx.marks.tmpl.end )
     call XPreplace( a:nameStartPosition, a:nameEndPosition, snippetText )
 
@@ -2900,7 +2899,7 @@ fun! s:ApplyPostFilter() "{{{
                     call s:log.Debug( 'before replace, marks=' . XPMallMark() )
 
                     call s:RemoveEditMark( leader )
-                    call b:xptemplateData.settingWrap.Switch()
+                    call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
 
                     let text = s:IndentFilterText(flt_rst, start)
                     call XPreplace( start, end, text )
@@ -2972,7 +2971,7 @@ fun! s:GotoNextItem() "{{{
     let action = s:DoGotoNextItem()
 
     " restore 'wrap'
-    call b:xptemplateData.settingWrap.Restore()
+    call xpt#settingswitch#Restore(b:xptemplateData.settingWrap)
 
     return action
 endfunction "}}}
@@ -3248,7 +3247,7 @@ fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet, flt_rst ) "{{{
         return [ s:NOTBUILT ]
     endif
 
-    call b:xptemplateData.settingWrap.Switch()
+    call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
 
     let text = s:IndentFilterText(a:flt_rst, range[0])
     call XPreplace( range[0], range[1], text )
@@ -3288,7 +3287,7 @@ fun! s:FillinLeadingPlaceHolderAndSelect( rctx, flt_rst ) "{{{
 
         let str = s:IndentFilterText(a:flt_rst, start)
 
-        call b:xptemplateData.settingWrap.Switch()
+        call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
         call XPreplace( start, _end, str )
     endif
 
@@ -3794,8 +3793,8 @@ fun! s:XPTinitMapping() "{{{
     " that xpmark can not track
     "
     " *<Return> reindent current line
-    let b:xptemplateData.settingSwitch = g:SettingSwitch.New()
-    call b:xptemplateData.settingSwitch.AddList(
+    let b:xptemplateData.settingSwitch = xpt#settingswitch#New()
+    call xpt#settingswitch#AddList(b:xptemplateData.settingSwitch,
           \[ '&l:textwidth', '0' ],
           \[ '&l:lazyredraw', '1' ],
           \[ '&l:indentkeys', { 'exe' : 'setl indentkeys-=*<Return>' } ],
@@ -3805,8 +3804,8 @@ fun! s:XPTinitMapping() "{{{
     " \[ '&l:cinkeys', { 'exe' : 'setl cinkeys-=*<Return> | setl cinkeys-=o' } ],
 
     " provent horizontal scroll when putting raw snippet onto screen before building
-    let b:xptemplateData.settingWrap = g:SettingSwitch.New()
-    call b:xptemplateData.settingWrap.Add( '&l:wrap', '1' )
+    let b:xptemplateData.settingWrap = xpt#settingswitch#New()
+    call xpt#settingswitch#Add(b:xptemplateData.settingWrap, '&l:wrap', '1')
 
 endfunction "}}}
 
@@ -3834,7 +3833,7 @@ fun! s:ApplyMap() " {{{
     " endif
 
 
-    call b:xptemplateData.settingSwitch.Switch()
+    call xpt#settingswitch#Switch(b:xptemplateData.settingSwitch)
 
 
     call xpt#msvr#Save( b:mapSaver )
@@ -3882,7 +3881,7 @@ endfunction " }}}
 
 fun! s:ClearMap() " {{{
 
-    call b:xptemplateData.settingSwitch.Restore()
+    call xpt#settingswitch#Restore(b:xptemplateData.settingSwitch)
 
     call xpt#msvr#Restore( b:mapLiteral )
     call xpt#msvr#Restore( b:mapSaver )
