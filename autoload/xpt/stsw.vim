@@ -7,48 +7,41 @@
 "
 " =============================================================================
 " }}}
-if exists( "g:__AL_XPT_STSW_VIM__" ) && g:__AL_XPT_STSW_VIM__ >= XPT#ver
-    finish
-endif
-let g:__AL_XPT_STSW_VIM__ = XPT#ver
-
+exec xpt#once#init
 
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-
 let s:log = xpt#debug#Logger( 'warn' )
-" let s:log = xpt#debug#Logger( 'debug' )
 
-
-fun! xpt#stsw#New()  "{{{
+fun! xpt#settingswitch#New()  "{{{
     return {
           \ 'settings' : [],
           \ 'saved'    : [],
           \}
 endfunction "}}}
 
-fun! xpt#stsw#Add( inst, key, value )  "{{{
+fun! xpt#settingswitch#Add( inst, key, value )  "{{{
     if a:inst.saved != []
         throw "settings are already saved and can not be added again"
     endif
     let a:inst.settings += [ [ a:key, a:value ] ]
 endfunction "}}}
 
-fun! xpt#stsw#AddList( inst, ... )  "{{{
+fun! xpt#settingswitch#AddList( inst, ... )  "{{{
     if a:inst.saved != []
         throw "settings are already saved and can not be added again"
     endif
     " let a:inst.settings += a:000
     for item in a:000
-        " call xpt#stsw#Add( a:inst, item[0], item[1] )
+        " call xpt#settingswitch#Add( a:inst, item[0], item[1] )
         " let a:inst.settings += [ [ item[ 0 ], item[ 1 ] ] ]
         call add( a:inst.settings, [ item[ 0 ], item[ 1 ] ] )
     endfor
 
 endfunction "}}}
 
-fun! xpt#stsw#Switch( inst )  "{{{
+fun! xpt#settingswitch#Switch( inst )  "{{{
     if a:inst.saved != []
         " throw "settings are already saved and can not be save again"
         return
@@ -74,7 +67,7 @@ fun! xpt#stsw#Switch( inst )  "{{{
     endfor
 endfunction "}}}
 
-fun! xpt#stsw#Restore( inst )  "{{{
+fun! xpt#settingswitch#Restore( inst )  "{{{
     if a:inst.saved == []
         return
     endif
