@@ -11,6 +11,7 @@ redefine `_if` should affect all snippet that includes it
 snippet handling current line text or else
 
 # add
+by default xpt use iskeyword as keyword
 support <ft>_xpt.vim?
 
 # test
