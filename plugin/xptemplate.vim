@@ -4477,14 +4477,6 @@ fun! s:GetContextFTObj() "{{{
 
 endfunction "}}}
 
-fun! s:LoadSnippetFile(snip) "{{{
-
-    exe 'runtime! ftplugin/' . a:snip . '.xpt.vim'
-    call XPTfiletypeInit()
-
-endfunction "}}}
-
-
 " TODO When to init?
 fun! s:XPTbufferInit() "{{{
 
