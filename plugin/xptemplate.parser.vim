@@ -22,7 +22,6 @@ let g:__XPTEMPLATE_PARSER_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-runtime plugin/classes/FiletypeScope.vim
 runtime plugin/xptemplate.vim
 
 exec XPT#importConst
@@ -114,19 +113,19 @@ fun! XPTsnippetFileInit( filename, ... ) "{{{
 
     let snipScope = XPTnewSnipScope( a:filename )
     let snipScope.filetype = s:AssignSnipFT( a:filename )
+    let ft = snipScope.filetype
 
-
-    if snipScope.filetype == 'not allowed'
+    if ft == 'not allowed'
         " TODO 
         call s:log.Info(  "not allowed:" . a:filename )
         return 'finish'
     endif 
 
-    let filetypes[ snipScope.filetype ] = get( filetypes, snipScope.filetype, g:FiletypeScope.New() )
-    let ftScope = filetypes[ snipScope.filetype ]
+    let filetypes[ ft ] = get( filetypes, ft, xpt#ftscope#New() )
+    let ftScope = filetypes[ ft ]
 
 
-    if ftScope.CheckAndSetSnippetLoaded( a:filename )
+    if xpt#ftscope#CheckAndSetSnippetLoaded( ftScope, a:filename )
         return 'finish'
     endif
 
@@ -213,7 +212,8 @@ fun! XPTinclude(...) "{{{
             endfor
         elseif type(v) == type('') 
 
-            if b:xptemplateData.filetypes[ scope.filetype ].IsSnippetLoaded( v )
+            let ftscope = b:xptemplateData.filetypes[ scope.filetype ]
+            if xpt#ftscope#IsSnippetLoaded(ftscope, v)
                 continue
             endif
 
