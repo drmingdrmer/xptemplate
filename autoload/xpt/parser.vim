@@ -466,7 +466,7 @@ endfunction "}}}
 fun! xpt#parser#InitSnippetFile(filename, ...) "{{{
 
     if ! xpt#option#lib_filter#Match(a:filename)
-        return 0
+        return 'finish'
     endif
 
     " This function is called before 'BufEnter' event which
