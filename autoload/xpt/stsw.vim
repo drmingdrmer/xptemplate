@@ -32,11 +32,8 @@ fun! xpt#settingswitch#AddList( inst, ... )  "{{{
     if a:inst.saved != []
         throw "settings are already saved and can not be added again"
     endif
-    " let a:inst.settings += a:000
     for item in a:000
-        " call xpt#settingswitch#Add( a:inst, item[0], item[1] )
-        " let a:inst.settings += [ [ item[ 0 ], item[ 1 ] ] ]
-        call add( a:inst.settings, [ item[ 0 ], item[ 1 ] ] )
+        let a:inst.settings += [ [ item[ 0 ], item[ 1 ] ] ]
     endfor
 
 endfunction "}}}
