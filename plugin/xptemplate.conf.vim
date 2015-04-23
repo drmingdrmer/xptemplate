@@ -361,35 +361,5 @@ fun! XPTinfoStr( ... ) "{{{
 
 endfunction "}}}
 
-
-
-
-" TODO noneed to check and fix settings. they have been done in SettingSwitch
-
-" check critical setting:
-"
-" backspace >2 or with start
-" nocompatible
-
-let bs=&bs
-
-if bs != 2 && bs !~ "start"
-    if g:xptemplate_fix
-        set bs=2
-    else
-        echom "'backspace' option must be set with 'start'. set bs=2 or let g:xptemplate_fix=1 to fix it"
-    endif
-endif
-
-if &compatible == 1
-    if g:xptemplate_fix
-        set nocompatible
-    else
-        echom "'compatible' option must be set. set compatible or let g:xptemplate_fix=1 to fix it"
-    endif
-endif
-
 let &cpo = s:oldcpo
-
-
 " vim:tw=78:ts=60:sw=4:sts=4
