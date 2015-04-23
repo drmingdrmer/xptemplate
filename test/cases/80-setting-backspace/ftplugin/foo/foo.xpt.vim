@@ -3,5 +3,7 @@ let s:f = g:XPTfuncs()
 XPTinclude
       \ _common/common
 
-XPT foo
-foo-bar
+XPT for
+for `i^ := `0^; `i^ < `10^; `i^++ {
+    `cursor^
+}

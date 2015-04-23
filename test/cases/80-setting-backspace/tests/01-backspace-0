@@ -1,0 +1,22 @@
+setting:
+backspace=0
+
+keys:
+=&backspace
+
+for
+abc
+
+def	
+0	
+100	
+done
+
+expected:
+0
+for abc
+def := 0; abc
+def < 100; abc
+def++ {
+	done
+}
