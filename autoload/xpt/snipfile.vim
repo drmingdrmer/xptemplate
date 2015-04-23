@@ -5,8 +5,8 @@ set cpo-=< cpo+=B
 
 let s:log = xpt#debug#Logger( 'warn' )
 
+exec XPT#importConst
 let s:priorities = XPT#priorities
-let s:noEsp   = XPT#nonEscaped
 
 fun! xpt#snipfile#New( filename ) "{{{
 
@@ -47,13 +47,13 @@ fun! xpt#snipfile#GenPattern( marks ) "{{{
           \    'l'                 : a:marks.l,
           \    'r'                 : a:marks.r,
           \    'lr'                : a:marks.l . a:marks.r,
-          \    'lft'               : '\V' . s:noEsp . a:marks.l,
-          \    'rt'                : '\V' . s:noEsp . a:marks.r,
+          \    'lft'               : '\V' . s:nonEscaped . a:marks.l,
+          \    'rt'                : '\V' . s:nonEscaped . a:marks.r,
           \    'item_var'          : '\V' . '$\w\+',
           \    'item_qvar'         : '\V' . '{$\w\+}',
           \    'item_func'         : '\V' . '\w\+(\.\*)',
           \    'item_qfunc'        : '\V' . '{\w\+(\.\*)}',
-          \    'item'              : '\V' . s:noEsp . a:marks.l . '\%(' . '\_.\{-}' . '\)' . s:noEsp . a:marks.r,
+          \    'item'              : '\V' . s:nonEscaped . a:marks.l . '\%(' . '\_.\{-}' . '\)' . s:nonEscaped . a:marks.r,
           \ }
 endfunction "}}}
 
