@@ -44,7 +44,6 @@
 " TODO doc of ontype filters, XSET what|map
 " TODO cross file support, .h and .cpp skeletion generator.
 " TODO bug in 114.74, ' and then <C-n> complete, and then <C-y> accept, now ' is between complete start and complete end
-" TODO xpreplace use SettingSwitch,
 " TODO xpreplace with gp
 " TODO crazy test no error guarantee.
 " TODO super cancel : clear/default all and finish
