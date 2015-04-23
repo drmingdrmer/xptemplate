@@ -15,7 +15,6 @@ by default xpt use iskeyword as keyword
 support <ft>_xpt.vim?
 
 # test
-test priority-of-alias
 test ActionFinish indent issue
 
 # doc
