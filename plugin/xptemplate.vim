@@ -3958,10 +3958,6 @@ fun! s:RedefinePattern() "{{{
     let xp.lft = s:nonEscaped . xp.l
     let xp.rt  = s:nonEscaped . xp.r
 
-    " for search
-    let xp.lft_e = s:nonEscaped . '\\'.xp.l
-    let xp.rt_e  = s:nonEscaped . '\\'.xp.r
-
     let xp.item_var          = '$\w\+'
     let xp.item_qvar         = '{$\w\+}'
     let xp.item_func         = '\w\+(\.\*)'
