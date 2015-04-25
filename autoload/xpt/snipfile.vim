@@ -6,19 +6,18 @@ set cpo-=< cpo+=B
 let s:log = xpt#debug#Logger( 'warn' )
 
 exec XPT#importConst
-let s:priorities = XPT#priorities
 
 fun! xpt#snipfile#New( filename ) "{{{
 
-  let b:xptemplateData.snipFileScope = {
+  let r = {
       \ 'filename'  : a:filename,
       \ 'ptn'       : xpt#snipfile#GenPattern( {'l':'`', 'r':'^'} ),
-      \ 'priority'  : s:priorities.lang,
+      \ 'priority'  : xpt#priority#Get('default'),
       \ 'filetype'  : '',
       \ 'inheritFT' : 0,
       \}
 
-  return b:xptemplateData.snipFileScope
+  return r
 
 endfunction "}}}
 
@@ -53,6 +52,7 @@ fun! xpt#snipfile#GenPattern( marks ) "{{{
           \    'item_qvar'         : '\V' . '{$\w\+}',
           \    'item_func'         : '\V' . '\w\+(\.\*)',
           \    'item_qfunc'        : '\V' . '{\w\+(\.\*)}',
+          \    'itemContent'       : '\V' . '\_.\{-}',
           \    'item'              : '\V' . s:nonEscaped . a:marks.l . '\%(' . '\_.\{-}' . '\)' . s:nonEscaped . a:marks.r,
           \ }
 endfunction "}}}
