@@ -332,6 +332,22 @@ fun! xpt#util#NearestSynName() "{{{
 endfunction "}}}
 
 
+fun! xpt#util#CharsPattern(chars, ...) "{{{
+
+    " by default it is no magic pattern
+    let is_magic = 0
+    if a:0 > 0 && a:1 is 1
+        let is_magic = 1
+    endif
+
+    let esc = '\['
+    if is_magic
+        let esc = '['
+    endif
+
+    let pattern = esc . escape( a:chars, '\]-^' ) . ']'
+    return pattern
+endfunction "}}}
 
 fun! s:GetUnescapeCharPattern( chars ) "{{{
     " remove all '\'.

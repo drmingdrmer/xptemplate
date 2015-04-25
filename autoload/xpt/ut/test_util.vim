@@ -1,6 +1,29 @@
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
+fun! s:TestCharsePattern(t) "{{{
+    " all visible ascii char
+    let [i, len] = [0x21 - 1, 0x7e - 1]
+    while i < len | let i += 1
+        let c = nr2char(i)
+
+        " by default it is non-magic
+        let ptn = xpt#util#CharsPattern(c)
+        call a:t.Eq(c, matchstr(c, '\V' . ptn), 'no magic \V' . string(ptn))
+        call a:t.Eq(c, matchstr(c, '\M' . ptn), 'no magic \M' . string(ptn))
+
+        " explicit non-magic
+        let ptn = xpt#util#CharsPattern(c, 0)
+        call a:t.Eq(c, matchstr(c, '\V' . ptn), 'no magic \V' . string(ptn))
+        call a:t.Eq(c, matchstr(c, '\M' . ptn), 'no magic \M' . string(ptn))
+
+        " explicit magic
+        let ptn = xpt#util#CharsPattern(c, 1)
+        call a:t.Eq(c, matchstr(c, '\v' . ptn), 'magic \v' . string(ptn))
+        call a:t.Eq(c, matchstr(c, '\m' . ptn), 'magic \m' . string(ptn))
+    endwhile
+endfunction "}}}
+
 fun! s:TestUnescapeChar( t ) "{{{
     let cases = [
           \ [ [ '', '' ], '' ],
