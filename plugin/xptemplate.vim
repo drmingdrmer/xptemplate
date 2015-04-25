@@ -275,10 +275,7 @@ endfunction "}}}
 
 fun! XPTemplateMark(sl, sr) "{{{
     call s:log.Debug( 'XPTemplateMark called with:' . string( [ a:sl, a:sr ] ) )
-    let xp = b:xptemplateData.snipFileScope.ptn
-    let xp.l = a:sl
-    let xp.r = a:sr
-    call s:RedefinePattern()
+    let b:xptemplateData.snipFileScope.ptn = xpt#snipfile#GenPattern({'l':a:sl, 'r':a:sr})
 endfunction "}}}
 
 fun! XPTmark() "{{{
@@ -2369,18 +2366,17 @@ fun! s:NextLeftMark( markRange ) "{{{
         call s:log.Log("search for NextLeftMark : end=".string(end))
 
 
+        let ptn = xpt#util#CharsPattern(xp.l . xp.r)
         " TODO '^' need to be escaped
-        let markPos = searchpos( '\V\\\*\[' . xp.l . xp.r . ']', 'cW' )
-
+        let markPos = searchpos( '\V\\\*' . ptn, 'cW' )
+        call s:log.Log('found: ' . string(markPos))
 
         if markPos == [0, 0] || markPos[0] * 10000 + markPos[1] >= nEnd
             break
         endif
 
-
-
         let content = getline( markPos[0] )[ markPos[1] - 1 : ]
-        let char = matchstr( content, '[' . xp.l . xp.r . ']' )
+        let char = matchstr( content, '\V' . ptn )
         let content = matchstr( content, '^\\*' )
 
         call s:log.Log( 'content=' . content, 'char=' . char )
@@ -3901,24 +3897,10 @@ fun! XPTbufData() "{{{
     return b:xptemplateData
 endfunction "}}}
 
-
-
-let s:snipScopePrototype = {
-      \ 'filename'  : '',
-      \ 'ptn'       : {'l':'`', 'r':'^'},
-      \ 'priority'  : xpt#priority#Get( 'default' ),
-      \ 'filetype'  : '',
-      \ 'inheritFT' : 0,
-      \}
-
 fun! XPTnewSnipScope( filename )
-  let x = b:xptemplateData
-  let x.snipFileScope = deepcopy( s:snipScopePrototype )
-  let x.snipFileScope.filename = a:filename
-
-  call s:RedefinePattern()
-
-  return x.snipFileScope
+    let sf = xpt#snipfile#New(a:filename)
+    let b:xptemplateData.snipFileScope = sf
+    return sf
 endfunction
 
 fun! XPTsnipScope()
@@ -3950,30 +3932,6 @@ fun! XPTemplateInit() "{{{
     call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
 
     call s:XPTinitMapping()
-endfunction "}}}
-
-fun! s:RedefinePattern() "{{{
-    let xp = b:xptemplateData.snipFileScope.ptn
-
-    let xp.lft = s:nonEscaped . xp.l
-    let xp.rt  = s:nonEscaped . xp.r
-
-    let xp.item_var          = '$\w\+'
-    let xp.item_qvar         = '{$\w\+}'
-    let xp.item_func         = '\w\+(\.\*)'
-    let xp.item_qfunc        = '{\w\+(\.\*)}'
-    let xp.itemContent       = '\_.\{-}'
-    let xp.item              = xp.lft . '\%(' . xp.itemContent . '\)' . xp.rt
-
-
-    " let xp.cursorPattern     = xp.lft . '\%('.s:cursorName.'\)' . xp.rt
-
-    for [k, v] in items(xp)
-        if k != "l" && k != "r"
-            let xp[k] = '\V' . v
-        endif
-    endfor
-
 endfunction "}}}
 
 fun! s:SynNameStack(l, c) "{{{
