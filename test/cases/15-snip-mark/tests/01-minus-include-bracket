@@ -1,0 +1,20 @@
+keys:
+foo
+on-a	
+on-b	
+at_end
+
+bar
+	
+	
+at_end
+
+bar
+on-a	
+on-b	
+at_end
+
+expected:
+on-a=on-b=at_end
+-a+=-b+=at_end
+on-a=-on-b+=at_end

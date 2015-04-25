@@ -1,0 +1,14 @@
+keys:
+bar
+	
+	
+at_end
+
+bar
+on_a	
+on_b	
+at_end
+
+expected:
+-a+=-b+=at_end
+on_a=-on_b+=at_end
