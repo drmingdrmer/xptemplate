@@ -14,8 +14,12 @@ fun! xpt#cwd#snpt#load() "{{{
 
     call XPTemplateInit()
 
-    so .xpt.vim
-    exec "so ." . &filetype . ".xpt.vim"
+    for fn in split(globpath('.', '.xpt.vim'), '\n')
+        exec 'so ' fn
+    endfor
+    for fn in split(globpath('.', '.' . &filetype . '.xpt.vim'), '\n')
+        exec 'so ' fn
+    endfor
 
     let b:xptemplate_cwd_snpt_loaded = 1
 
