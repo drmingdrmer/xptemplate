@@ -16,8 +16,7 @@ exec xpt#once#init
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-let s:log = xpt#debug#Logger( 'warn' )
-" let s:log = xpt#debug#Logger( 'debug' )
+let s:log = xpt#debug#Logger( 'debug' )
 
 
 exe XPT#importConst
@@ -392,6 +391,7 @@ fun! xpt#parser#loadSpecialFiletype(ft) "{{{
         call XPTinclude( '_common/common' )
         call XPTfiletypeInit()
     endif
+    call s:log.Log( 'after InitSnippetFile:' . string(x.snipFileScope) )
     call XPTparseSnippets()
 endfunction "}}}
 
