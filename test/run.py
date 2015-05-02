@@ -232,6 +232,7 @@ def load_test(case_name, case_path, testname):
              'logger': lg.make_logger(case_name, stdoutlvl=flags['stdoutlvl']),
 
              'vimarg': [],
+             'workingdir': [],
              'pre_vimrc': [],
              'setting': [],
              'localsetting': [],
@@ -279,7 +280,14 @@ def vim_start_cmdstring(test):
     for c in pre_vimrc_cmds:
         cmds += [ '--cmd', "'"+c.replace("'", "\"'\"")+"'" ]
 
-    return ' '.join(cmds)
+    rst = ' '.join(cmds)
+
+    if len(test['workingdir']) > 0:
+        wd = test['workingdir'][0]
+        wd = _path(test['case_path'], wd)
+        rst = 'cd ' + wd + '; ' + rst
+
+    return rst
 
 def vim_so_fn(test, fn):
     if not os.path.exists( fn ):
