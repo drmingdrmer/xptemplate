@@ -357,7 +357,6 @@ endfunction "}}}
 " ********* XXX *********
 fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
-    call XPTsnipScopePush()
     " @param String name			tempalte name
     " @param String context			[optional] context syntax name
     " @param String|List|FunCRef str		template string
@@ -368,29 +367,23 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
 
     " called from outside snippet file
     if a:0 == 0
-        let x.snipFileScope = s:GetTempSnipScope( x, &filetype )
         let snip = a:str_or_ctx
         let setting = {}
-
     else
-        if has_key( a:str_or_ctx, 'filetype' )
-            let x.snipFileScope = s:GetTempSnipScope(x, a:str_or_ctx.filetype )
-        else
-            let x.snipFileScope = s:GetTempSnipScope(x, &filetype )
-        endif
-
-
         let snip = a:1
         let setting = a:str_or_ctx
     endif
-
-    let ft = x.snipFileScope.filetype
+    let ft = get( setting, 'filetype', &filetype )
+    let ft = '' == ft ? 'unknown' : ft
 
     " special filetype may has not yet initialized by .xpt.vim
     call xpt#parser#loadSpecialFiletype(ft)
 
-    call XPTdefineSnippet( a:name, setting, snip )
+    call XPTsnipScopePush()
 
+    let x.snipFileScope = s:GetTempSnipScope(x, ft )
+
+    call XPTdefineSnippet( a:name, setting, snip )
 
     call XPTsnipScopePop()
 
