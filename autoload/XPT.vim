@@ -260,46 +260,6 @@ fun! XPT#LinesBetween( posList ) "{{{
 
 endfunction "}}}
 
-
-" OO support 
-fun! XPT#class( sid, proto ) "{{{
-    let clz = deepcopy( a:proto )
-
-    let funcs = split( XPT#getCmdOutput( 'silent function /' . a:sid ), "\n" )
-    call map( funcs, 'matchstr( v:val, "' . a:sid . '\\zs.*\\ze(" )' )
-
-    for name in funcs
-        " with verbose mode on:
-        " $ vim -V9vimlog
-        "
-        " :silent function /xxx
-        " get:
-        " >   function <SNR>145_New() dict
-        " >       Last set from ~/bash.xp/vim.xp/plg-git/xptdev/plugin/classes/FiletypeScope.vim
-        " the second line does not match <SNR>_*, thus we empty string should be skipped
-        if name != "" && name !~ '\V\^_'
-            let clz[ name ] = function( '<SNR>' . a:sid . name )
-        endif
-    endfor
-
-    " wrapper
-    let clz.__init__ = get( clz, 'New', function( 'XPT#classVoidInit' ) )
-    let clz.New = function( 'XPT#classNew' )
-
-    return clz
-endfunction "}}}
-
-fun! XPT#classNew( ... ) dict "{{{
-    let inst = copy( self )
-    call call( inst.__init__, a:000, inst )
-    let inst.__class__ = self
-    return inst
-endfunction "}}}
-
-fun! XPT#classVoidInit( ... ) dict "{{{
-endfunction "}}}
-
-
 fun! XPT#default(k, v) "{{{
     if !exists( a:k )
         exe "let" a:k "=" string( a:v )
