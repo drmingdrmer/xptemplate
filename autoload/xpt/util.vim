@@ -8,6 +8,19 @@ let s:log = xpt#debug#Logger( 'warn' )
 exe XPT#importConst
 let s:charsPatternTable = {}
 
+fun! xpt#util#Flatten(arr) "{{{
+    let r = []
+    for e in a:arr
+        " type([]) == 3
+        if type(e) == 3
+            call extend(r, xpt#util#Flatten(e))
+        else
+            let r += [e]
+        endif
+        unlet e
+    endfor
+    return r
+endfunction "}}}
 
 fun! xpt#util#SplitWith( str, char ) "{{{
     let s = split( a:str, '\V' . s:nonEscaped . a:char, 1 )

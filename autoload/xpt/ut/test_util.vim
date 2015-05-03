@@ -1,6 +1,18 @@
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
+fun! s:TestFlatten(t) "{{{
+    let cases = [
+          \ [ [], [] ],
+          \ [ [1, 2, 3], [1, 2, 3] ],
+          \ [ [[1, 2], 3], [1, 2, 3] ],
+          \ [ [[[1, 2], 3], 4], [1, 2, 3, 4] ],
+          \ ]
+    for [inp, outp] in cases
+        call a:t.Eq(outp, xpt#util#Flatten(inp), string([inp, outp]))
+    endfor
+endfunction "}}}
+
 fun! s:TestCharsePattern(t) "{{{
     " all visible ascii char
     let [i, len] = [0x21 - 1, 0x7e - 1]
