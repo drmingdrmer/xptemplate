@@ -279,55 +279,38 @@ endfunction "}}}
 
 
 fun! xpt#parser#Include(...) "{{{
-
-    let scope = b:xptemplateData.snipFileScope
-
-    let scope.inheritFT = 1
-
-    for v in a:000
-        if type(v) == type([])
-
-            for s in v
-                call xpt#parser#Include(s)
-            endfor
-
-        elseif type(v) == type('')
-
-            if xpt#ftsc#IsSnippetLoaded( b:xptemplateData.filetypes[ scope.filetype ], v )
-                continue
-            endif
-
-            call xpt#snipf#Push()
-            exe 'runtime! ftplugin/' . v . '.xpt.vim'
-            call xpt#parser#LoadFTSnippets(v)
-            call xpt#snipf#Pop()
-
-        endif
-    endfor
+    call xpt#parser#Load(a:000, 1)
 endfunction "}}}
-
 fun! xpt#parser#Embed(...) "{{{
+    call xpt#parser#Load(a:000, 0)
+endfunction "}}}
+fun! xpt#parser#Load(fns, inherit) "{{{
+
+    " filetype inheriting make it possible to check if loaded before actual
+    " loading a snippet file
 
     let scope = b:xptemplateData.snipFileScope
+    let ftscope = b:xptemplateData.filetypes[ scope.filetype ]
 
-    let scope.inheritFT = 0
+    let saved_inherit = scope.inheritFT
+    let scope.inheritFT = a:inherit
 
-    for v in a:000
-        if type(v) == type([])
+    let fns = xpt#util#Flatten(a:fns)
 
-            for s in v
-                call xpt#parser#Embed(s)
-            endfor
+    for f in fns
 
-        elseif type(v) == type('')
-
-            call xpt#snipf#Push()
-            exe 'runtime! ftplugin/' . v . '.xpt.vim'
-            call xpt#parser#LoadFTSnippets(v)
-            call xpt#snipf#Pop()
-
+        if a:inherit && xpt#ftscope#IsSnippetLoaded( ftscope, f )
+            continue
         endif
+
+        call xpt#snipfile#Push()
+        exe 'runtime! ftplugin/' . f . '.xpt.vim'
+        " disabled v2
+        " call xpt#parser#LoadFTSnippets(f)
+        call xpt#snipfile#Pop()
     endfor
+
+    let scope.inheritFT = saved_inherit
 endfunction "}}}
 
 fun! xpt#parser#SetVar( nameSpaceValue ) "{{{

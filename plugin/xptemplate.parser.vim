@@ -37,49 +37,16 @@ com! -nargs=* XPTemplateDef call s:XPTstartSnippetPart(expand("<sfile>")) | fini
 com! -nargs=* XPT           call s:XPTstartSnippetPart(expand("<sfile>")) | finish
 com! -nargs=* XPTvar        call xpt#parser#SetVar( <q-args> )
 com! -nargs=* XPTsnipSet    call xpt#parser#SnipSet( <q-args> )
-com! -nargs=+ XPTinclude    call XPTinclude(<f-args>)
-com! -nargs=+ XPTembed      call XPTembed(<f-args>)
+com! -nargs=+ XPTinclude    call xpt#parser#Include(<f-args>)
+com! -nargs=+ XPTembed      call xpt#parser#Embed(<f-args>)
 " com! -nargs=* XSET          call XPTbufferScopeSet( <q-args> )
 
 fun! XPTinclude(...) "{{{
-    let scope = XPTsnipScope()
-    let scope.inheritFT = 1
-    for v in a:000
-        if type(v) == type([])
-            for s in v
-                call XPTinclude(s)
-            endfor
-        elseif type(v) == type('') 
-
-            let ftscope = b:xptemplateData.filetypes[ scope.filetype ]
-            if xpt#ftscope#IsSnippetLoaded(ftscope, v)
-                continue
-            endif
-
-            call xpt#snipfile#Push()
-            exe 'runtime! ftplugin/' . v . '.xpt.vim'
-            call xpt#snipfile#Pop()
-
-        endif
-    endfor
+    call xpt#parser#Load(a:000, 1)
 endfunction "}}}
-
 fun! XPTembed(...) "{{{
-    let scope = XPTsnipScope()
-    let scope.inheritFT = 0
-    for v in a:000
-        if type(v) == type([])
-            for s in v
-                call XPTinclude(s)
-            endfor
-        elseif type(v) == type('')
-            call xpt#snipfile#Push()
-            exe 'runtime! ftplugin/' . v . '.xpt.vim'
-            call xpt#snipfile#Pop()
-        endif
-    endfor
+    call xpt#parser#Load(a:000, 0)
 endfunction "}}}
-
 
 
 " TODO refine me
