@@ -343,7 +343,8 @@ endfunction "}}}
 
 fun! s:GetTempSnipScope( x, ft ) "{{{
     if !has_key( a:x, '__tmp_snip_scope' )
-        let sc          = XPTnewSnipScope( '' )
+        let sc = xpt#snipfile#New('')
+        let b:xptemplateData.snipFileScope = sc
         let sc.priority = 0
 
         let a:x.__tmp_snip_scope = sc
@@ -379,13 +380,13 @@ fun! XPTemplate(name, str_or_ctx, ...) " {{{
     " special filetype may has not yet initialized by .xpt.vim
     call xpt#parser#loadSpecialFiletype(ft)
 
-    call XPTsnipScopePush()
+    call xpt#snipfile#Push()
 
     let x.snipFileScope = s:GetTempSnipScope(x, ft )
 
     call XPTdefineSnippet( a:name, setting, snip )
 
-    call XPTsnipScopePop()
+    call xpt#snipfile#Pop()
 
 endfunction " }}}
 
@@ -3898,23 +3899,6 @@ endfunction
 
 fun! XPTsnipScope()
   return b:xptemplateData.snipFileScope
-endfunction
-
-fun! XPTsnipScopePush()
-    let x = b:xptemplateData
-    let x.snipFileScopeStack += [x.snipFileScope]
-
-    unlet x.snipFileScope
-endfunction
-
-fun! XPTsnipScopePop()
-    let x = b:xptemplateData
-    if len(x.snipFileScopeStack) > 0
-        let x.snipFileScope = x.snipFileScopeStack[ -1 ]
-        call remove( x.snipFileScopeStack, -1 )
-    else
-        throw "snipFileScopeStack is empty"
-    endif
 endfunction
 
 fun! XPTemplateInit() "{{{
