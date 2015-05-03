@@ -56,9 +56,9 @@ fun! XPTinclude(...) "{{{
                 continue
             endif
 
-            call XPTsnipScopePush()
+            call xpt#snipfile#Push()
             exe 'runtime! ftplugin/' . v . '.xpt.vim'
-            call XPTsnipScopePop()
+            call xpt#snipfile#Pop()
 
         endif
     endfor
@@ -73,9 +73,9 @@ fun! XPTembed(...) "{{{
                 call XPTinclude(s)
             endfor
         elseif type(v) == type('')
-            call XPTsnipScopePush()
+            call xpt#snipfile#Push()
             exe 'runtime! ftplugin/' . v . '.xpt.vim'
-            call XPTsnipScopePop()
+            call xpt#snipfile#Pop()
         endif
     endfor
 endfunction "}}}
@@ -109,7 +109,7 @@ endfunction "}}}
 
 fun! DoParseSnippet( p ) "{{{
 
-    call XPTsnipScopePush()
+    call xpt#snipfile#Push()
 
     let x = b:xptemplateData
 
@@ -163,7 +163,7 @@ fun! DoParseSnippet( p ) "{{{
         call s:XPTemplateParseSnippet(lines[s : min([blk, i])])
     endif
 
-    call XPTsnipScopePop()
+    call xpt#snipfile#Pop()
 endfunction "}}}
 
 fun! s:XPTemplateParseSnippet(lines) "{{{

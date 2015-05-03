@@ -478,8 +478,10 @@ fun! xpt#parser#InitSnippetFile(filename, ...) "{{{
     let x = b:xptemplateData
     let filetypes = x.filetypes
 
-    let snipScope = XPTnewSnipScope( a:filename )
+    let snipScope = xpt#snipfile#New( a:filename )
     let snipScope.filetype = s:AssignSnipFT( a:filename )
+    let x.snipFileScope = snipScope
+
     let ft = snipScope.filetype
 
     if ft == 'not allowed'
