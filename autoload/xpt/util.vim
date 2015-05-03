@@ -1,34 +1,12 @@
-" File Description {{{
-" =============================================================================
-" Low level utilities which depend on nothing else
-"
-"                                                  by drdr.xp
-"                                                     drdr.xp@gmail.com
-" Usage :
-"
-" =============================================================================
-" }}}
-if exists("g:__UTIL_VIM__") && g:__UTIL_VIM__ >= XPT#ver
-    finish
-endif
-let g:__UTIL_VIM__ = XPT#ver
-
-
+exe xpt#once#init
 
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-
-
 let s:log = xpt#debug#Logger( 'warn' )
-" let s:log = xpt#debug#Logger( 'debug' )
-
-
 
 exe XPT#importConst
-
 let s:charsPatternTable = {}
-
 
 
 fun! xpt#util#SplitWith( str, char ) "{{{
