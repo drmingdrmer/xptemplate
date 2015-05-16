@@ -3690,10 +3690,6 @@ fun! s:EvalFilter( filter, closures ) "{{{
         endif
     endif
 
-    if ! has_key( r, 'marks' )
-        let r.marks = a:filter.marks
-    endif
-
     call s:LoadFilterActionSnippet( r )
 
     return r
