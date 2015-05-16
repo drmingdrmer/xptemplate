@@ -1,0 +1,30 @@
+setting:
+tabstop=4
+shiftwidth=2
+noexpandtab
+
+keys:
+finish-post-no-arg
+on_a	
+(at_end)
+
+finish-post-string
+on_a	
+(at_end)
+
+finish-post-string-inner
+on_a	
+(at_end)
+
+finish-post-string-outer
+on_a	
+(at_end)
+
+expected:
+  [on_a]=(at_end)
+  line-1
+	line-2=(at_end)
+  [line-1
+	line-2]=(at_end)
+  line-1
+	line-2=(at_end)

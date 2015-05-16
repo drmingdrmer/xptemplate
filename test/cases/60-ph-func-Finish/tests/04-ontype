@@ -1,0 +1,12 @@
+setting:
+tabstop=4
+shiftwidth=2
+noexpandtab
+
+keys:
+finish-ontype
+on_a_c
+(after-a)
+
+expected:
+[on_a_c](after-a)=
