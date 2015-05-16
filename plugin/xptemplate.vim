@@ -2837,25 +2837,26 @@ fun! s:ApplyPostFilter() "{{{
     " Thus, some place holder may be filtered twice.
     "
 
-    let renderContext = b:xptemplateData.renderContext
+    let rctx = b:xptemplateData.renderContext
 
-    let renderContext.activeLeaderMarks = 'mark'
 
-    let posts  = renderContext.snipSetting.postFilters
-    let name   = renderContext.item.name
-    let leader = renderContext.leadingPlaceHolder
-    let marks  = renderContext.leadingPlaceHolder[ renderContext.activeLeaderMarks ]
+    let rctx.activeLeaderMarks = 'mark'
 
-    let renderContext.phase = 'post'
+    let posts  = rctx.snipSetting.postFilters
+    let name   = rctx.item.name
+    let leader = rctx.leadingPlaceHolder
+    let marks  = rctx.leadingPlaceHolder[ rctx.activeLeaderMarks ]
+
+    let rctx.phase = 'post'
 
     let typed = xpt#util#TextBetween( XPMposStartEnd( marks ) )
 
     " NOTE: some post filter need the typed value
-    if renderContext.item.name != ''
-        let renderContext.namedStep[renderContext.item.name] = typed
+    if rctx.item.name != ''
+        let rctx.namedStep[rctx.item.name] = typed
     endif
 
-    call s:log.Log("before post filtering, tmpl:\n" . xpt#util#TextBetween( XPMposStartEnd( renderContext.marks.tmpl ) ) )
+    call s:log.Log("before post filtering, tmpl:\n" . xpt#util#TextBetween( XPMposStartEnd( rctx.marks.tmpl ) ) )
 
     let groupPostFilter  = get( posts, name, g:EmptyFilter )
     let leaderPostFilter = get( leader, 'postFilter', g:EmptyFilter )
@@ -2875,19 +2876,29 @@ fun! s:ApplyPostFilter() "{{{
     if filter isnot g:EmptyFilter
 
         let flt_rst = s:EvalPostFilter( filter, typed, leader )
+
+        " name of marks between which content should be replaced
+        let mark_name = s:GetReplaceMark(rctx, flt_rst)
+        let marks = rctx.leadingPlaceHolder[mark_name]
+
         let ori_flt_rst = copy( flt_rst )
         call s:log.Log( 'text=' . get(flt_rst, 'text') )
-
-        let [ start, end ] = XPMposStartEnd( marks )
 
         " TODO do not replace if no change made
         call XPMsetLikelyBetween( marks.start, marks.end )
         if flt_rst.rc != 0
             if has_key( flt_rst, 'text' )
+
                 if flt_rst.text !=# typed
+
+                    let [ start, end ] = XPMposStartEnd( marks )
                     call s:log.Debug( 'before replace, marks=' . XPMallMark() )
 
-                    call s:RemoveEditMark( leader )
+                    " if not innerMarks, repalcement covering marks would
+                    " destroy marks.
+                    if mark_name == 'mark'
+                        call s:RemoveEditMark( leader )
+                    endif
                     call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
 
                     let text = s:IndentFilterText(flt_rst, start)
@@ -2895,24 +2906,23 @@ fun! s:ApplyPostFilter() "{{{
                     call s:log.Debug( 'after replace, marks=' . XPMallMark() )
                 endif
             endif
-        endif
 
-        if flt_rst.rc != 0 && flt_rst.action == 'build'
-            " TODO extract to function
+            if flt_rst.action == 'build'
+                " TODO extract to function
 
-            let renderContext.firstList = []
-            let buildrc = s:BuildPlaceHolders( marks )
+                let rctx.firstList = []
+                let buildrc = s:BuildPlaceHolders( marks )
 
-            if 0 > buildrc
-                return [ s:Crash(), 1 ]
+                if 0 > buildrc
+                    return [ s:Crash(), 1 ]
+                endif
+
+                " bad name , 'alreadyBuilt' ?
+                let hadBuilt = 0 < buildrc
+
+                " change back the phase
+                let rctx.phase = 'post'
             endif
-
-            " bad name , 'alreadyBuilt' ?
-            let hadBuilt = 0 < buildrc
-
-            " change back the phase
-            let renderContext.phase = 'post'
-
         endif
     endif
 
@@ -3179,8 +3189,19 @@ fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
 
 endfunction "}}}
 
+fun! s:GetReplaceMark(rctx, flt_rst) "{{{
+    let mark_name = get(a:flt_rst, 'marks')
+    if mark_name is 0
+        let mark_name = xpt#rctx#DefaultMarks(a:rctx)
+    endif
+    return mark_name
+endfunction "}}}
+
 fun! s:ActionFinish( renderContext, flt_rst ) "{{{
-    let marks = a:renderContext.leadingPlaceHolder[ a:flt_rst.marks ]
+
+    let mark_name = s:GetReplaceMark(a:renderContext, a:flt_rst)
+
+    let marks = a:renderContext.leadingPlaceHolder[ mark_name ]
     let [ start, end ] = XPMposStartEnd( marks )
 
     call s:log.Debug( "start, end=" . string( [ start, end ] ) )
@@ -4112,12 +4133,7 @@ endfunction "}}}
 fun! s:HandleAction( renderContext, flt_rst ) "{{{
     " NOTE: handle only leader's action
 
-    if a:renderContext.phase == 'post'
-        let marks = a:renderContext.leadingPlaceHolder.mark
-    else
-        let marks = a:renderContext.leadingPlaceHolder.innerMarks
-    endif
-
+    let marks = s:GetReplaceMark(a:renderContext, a:flt_rst)
 
     let postaction = ''
     if a:flt_rst.action == 'next'
