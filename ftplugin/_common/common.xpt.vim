@@ -346,37 +346,46 @@ endfunction "}}}
 
 fun! s:f.Finish(...)
 
-    if empty( self._ctx.renderContext.itemList )
-
-        let o = { 'action' : 'finishTemplate' }
-
-        if a:0 > 0
-            let o.text = a:1
-        endif
-
-        return o
-
-    else
-        return a:0 > 0 ? a:1 : 0
+    let opt = {}
+    if a:0 > 0
+        let opt.text = a:1
     endif
+    return self.Fin(opt)
 endfunction
 
 fun! s:f.FinishOuter( ... )
 
-    if empty( self._ctx.renderContext.itemList )
+    let opt = {"marks" : "mark"}
+    if a:0 > 0
+        let opt.text = a:1
+    endif
+    return self.Fin(opt)
+endfunction
 
-        let o = { 'action' : 'finishTemplate', 'marks' : 'mark' }
+fun! s:f.FinishInner( ... )
 
-        if a:0 > 0
-            let o.text = a:1
-        endif
+    let opt = {"marks" : "innerMarks"}
+    if a:0 > 0
+        let opt.text = a:1
+    endif
+    return self.Fin(opt)
+endfunction
 
-        return o
-
-    else
-        return a:0 > 0 ? a:1 : 0
+fun! s:f.Fin(opt)
+    " there is still items left
+    if ! empty( self._ctx.renderContext.itemList )
+        return get(a:opt, 'text', 0)
     endif
 
+    let r = {'action' : 'finishTemplate'}
+    if has_key(a:opt, 'text')
+        let r.text = a:opt.text
+    endif
+    if has_key(a:opt, 'marks')
+        let r.marks = a:opt.marks
+    endif
+
+    return r
 endfunction
 
 fun! s:f.Next( ... )
