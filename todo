@@ -12,10 +12,14 @@ snippet handling current line text or else
 
 # add
 by default xpt use iskeyword as keyword
-support <ft>_xpt.vim?
+support `<ft>_xpt.vim`?
 
 # test
-test ActionFinish indent issue
+Finish updates following ph
+Finish ignores other ph
+marks:
+-   post filter use marks
+-   init-val, def, ontype, preset use edit marks
 
 # doc
 add FAQ of Choose
@@ -33,8 +37,12 @@ imap <expr> <Plug>xpt-trigger   contextedTrigger()
 imap        <Plug>xpt-trigger-with-xpt-pum      <Plug>xpt-trigger-snippet
 imap        <Plug>xpt-trigger-with-vim-pum      <C-n>
 
+# function and marks
+Building functions like `Build()` by default use `mark`.
+Because building destroys marks
 
 
+```
 E121: Undefined variable: groupPostFilter
 Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
 line   89:
@@ -57,11 +65,11 @@ E15: Invalid expression: built || a:action ==# 'clear'
 Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
 line   45:
 E488: Trailing characters:  a:action ==# 'clear'
+```
 
 
 
-
-
+```
 Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
 line    2:
 E716: Key not present in Dictionary: mark
@@ -106,12 +114,9 @@ line   20:
 E116: Invalid arguments for function xpt#util#TextBetween( XPMposStartEnd( marks ) )
 Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
 
+```
 
 
 
 <!-- vim: ft=markdown
 -->
-
-
-
-
