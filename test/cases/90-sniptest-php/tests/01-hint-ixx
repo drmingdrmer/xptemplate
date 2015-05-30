@@ -1,0 +1,12 @@
+cmd:
+set filetype=php
+
+keys:
+i
+
+expected:
+i
+
+screen:
+ibutton  *<input type=button ... />
+icheckbox  *<input type=checkbox ... />
