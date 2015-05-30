@@ -44,7 +44,8 @@ fun! xpt#eval#Eval( str, closures ) "{{{
 
     let xfunc = globals
     try
-        return eval(expr)
+        let r = eval(expr)
+        return r
     catch /.*/
         call XPT#warn(v:throwpoint)
         call XPT#warn(v:exception)
@@ -174,13 +175,14 @@ fun! s:DoCompile(s) "{{{
 
 
     let idx = 0
-    let expr = "''"
+    let expr = ''
     while 1
         let matches = matchlist( evalMask, '\V\(-\*\)\(+ \*\)\?', idx )
         if '' == matches[0]
             break
         endif
 
+        " string part
         if '' != matches[1]
             let part = str[ idx : idx + len(matches[1]) - 1 ]
             " if the following element is nonliteral, thus trailing back slash
@@ -191,17 +193,18 @@ fun! s:DoCompile(s) "{{{
             else
                 let part = xpt#util#UnescapeChar(part, '{$( ')
             endif
-            let expr .= '.' . string(part)
+            let expr .= ',' . string(part)
         endif
 
+        " expression part
         if '' != matches[2]
-            let expr .= '.' . str[ idx + len(matches[1]) : idx + len(matches[0]) - 1 ]
+            let expr .= ',' . str[ idx + len(matches[1]) : idx + len(matches[0]) - 1 ]
         endif
 
         let idx += len(matches[0])
     endwhile
 
-    let expr = matchstr(expr, "\\V\\^''.\\zs\\.\\*")
+    let expr = "xfunc.Concat(" . expr[ 1: ] . ')'
     call s:log.Log('expression to evaluate=' . string(expr))
 
     return expr
