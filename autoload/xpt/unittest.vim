@@ -18,7 +18,7 @@ fun! s:ctx.True( val, mes ) "{{{
     endif
 endfunction "}}}
 fun! s:ctx.Eq( a, b, mes ) "{{{
-    call self.True( a:a == a:b,
+    call self.True( type(a:a) == type(a:b) && a:a == a:b,
           \ "Expect " . string(a:a) . " But " . string(a:b) . " " .a:mes )
 endfunction "}}}
 fun! s:ctx.Ne( a, b, mes ) "{{{
