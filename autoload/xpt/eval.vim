@@ -18,7 +18,8 @@ fun! xpt#eval#Eval(str,closures)
 	let globals._ctx = { 'closures':a:closures, 'renderContext':x.renderContext, }
 	let xfunc = globals
 	try
-		return eval(expr)
+		let r = eval(expr)
+		return r
 	catch /.*/
 		call XPT#warn(v:throwpoint)
 		call XPT#warn(v:exception)
@@ -86,7 +87,7 @@ fun! s:DoCompile(s)
 		let str  = (matchedIndex == 0 ? "" :  str[:matchedIndex-1]) . matched . str[matchedIndex + matchedLen :]
 	endwhile
 	let idx = 0
-	let expr = "''"
+	let expr = ''
 	while 1
 		let matches = matchlist( evalMask, '\V\(-\*\)\(+ \*\)\?', idx )
 		if '' == matches[0]
@@ -100,14 +101,14 @@ fun! s:DoCompile(s)
 			else
 				let part = xpt#util#UnescapeChar(part, '{$( ')
 			endif
-			let expr .= '.' . string(part)
+			let expr .= ',' . string(part)
 		endif
 		if '' != matches[2]
-			let expr .= '.' . str[ idx + len(matches[1]) : idx + len(matches[0]) - 1 ]
+			let expr .= ',' . str[ idx + len(matches[1]) : idx + len(matches[0]) - 1 ]
 		endif
 		let idx += len(matches[0])
 	endwhile
-	let expr = matchstr(expr, "\\V\\^''.\\zs\\.\\*")
+	let expr = "xfunc.Concat(" . expr[ 1: ] . ')'
 	return expr
 endfunction
 fun! s:CreateStringMask(str)

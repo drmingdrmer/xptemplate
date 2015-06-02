@@ -150,27 +150,6 @@ fun! XPT#LinesBetween(posList)
 	endif
 	return r
 endfunction
-fun! XPT#class(sid,proto)
-	let clz = deepcopy(a:proto)
-	let funcs = split( XPT#getCmdOutput( 'silent function /' . a:sid ), "\n" )
-	call map( funcs, 'matchstr( v:val, "' . a:sid . '\\zs.*\\ze(" )' )
-	for name in funcs
-		if name != "" && name !~ '\V\^_'
-			let clz[ name ] = function( '<SNR>' . a:sid . name )
-		endif
-	endfor
-	let clz.__init__ = get( clz, 'New', function( 'XPT#classVoidInit' ) )
-	let clz.New = function( 'XPT#classNew' )
-	return clz
-endfunction
-fun! XPT#classNew(...) dict
-	let inst = copy(self)
-	call call(inst.__init__,a:000,inst)
-	let inst.__class__ = self
-	return inst
-endfunction
-fun! XPT#classVoidInit(...) dict
-endfunction
 fun! XPT#default(k,v)
 	if !exists(a:k)
 		exe "let" a:k "=" string( a:v )

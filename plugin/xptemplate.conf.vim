@@ -32,7 +32,6 @@ call s:def('g:xptemplate_highlight'	, 'next' )
 call s:def('g:xptemplate_highlight_nested'	, 0 )
 call s:def('g:xptemplate_brace_complete'	, 0 )
 call s:def('g:xptemplate_strip_left'	, 1 )
-call s:def('g:xptemplate_fix'	, 1 )
 call s:def('g:xptemplate_ph_pum_accept_empty'	, 1 )
 call s:def('g:xptemplate_hook_before_cr'	, '' )
 call s:def('g:xptemplate_debug_log'	, '' )
@@ -232,19 +231,4 @@ fun! XPTinfoStr(...)
 	endfor
 	return join(rst,fmt[1])
 endfunction
-let bs=&bs
-if bs != 2 && bs !~ "start"
-	if g:xptemplate_fix
-		set bs=2
-	else
-		echom "'backspace' option must be set with 'start'. set bs=2 or let g:xptemplate_fix=1 to fix it"
-	endif
-endif
-if &compatible == 1
-	if g:xptemplate_fix
-		set nocompatible
-	else
-		echom "'compatible' option must be set. set compatible or let g:xptemplate_fix=1 to fix it"
-	endif
-endif
 let &cpo = s:oldcpo

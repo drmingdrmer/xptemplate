@@ -1,10 +1,11 @@
 exec xpt#once#init
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
-let s:log = xpt#debug#Logger( 'warn' )
+let s:log = xpt#debug#Logger( 'debug' )
 exe XPT#importConst
 let s:KEYTYPE_MAP = { '.':'onfocus', '.def':'onfocus', '.ontype':'live', '.onchange':'live', }
 let s:KEYTYPE_TO_DICT = { 'pre':'preValues', 'live':'liveFilters', 'onfocus':'onfocusFilters', }
+runtime plugin/xptemplate.vim
 fun s:CompileSnippetFile(fn)
 	if a:fn =~ '\V.xpt.vimc\$' || !filereadable( a:fn )
 		return
@@ -141,39 +142,26 @@ fun! xpt#parser#CompileSnippet(lines)
 	endif
 endfunction
 fun! xpt#parser#Include(...)
-	let scope = b:xptemplateData.snipFileScope
-	let scope.inheritFT = 1
-	for v in a:000
-		if type(v) == type([])
-			for s in v
-				call xpt#parser#Include(s)
-			endfor
-		elseif type(v) == type('')
-			if xpt#ftsc#IsSnippetLoaded(b:xptemplateData.filetypes[scope.filetype],v)
-				continue
-			endif
-			call xpt#snipf#Push()
-			exe 'runtime! ftplugin/' . v . '.xpt.vim'
-			call xpt#parser#LoadFTSnippets(v)
-			call xpt#snipf#Pop()
-		endif
-	endfor
+	call xpt#parser#Load(a:000,1)
 endfunction
 fun! xpt#parser#Embed(...)
+	call xpt#parser#Load(a:000,0)
+endfunction
+fun! xpt#parser#Load(fns,inherit)
 	let scope = b:xptemplateData.snipFileScope
-	let scope.inheritFT = 0
-	for v in a:000
-		if type(v) == type([])
-			for s in v
-				call xpt#parser#Embed(s)
-			endfor
-		elseif type(v) == type('')
-			call xpt#snipf#Push()
-			exe 'runtime! ftplugin/' . v . '.xpt.vim'
-			call xpt#parser#LoadFTSnippets(v)
-			call xpt#snipf#Pop()
+	let ftscope = b:xptemplateData.filetypes[scope.filetype]
+	let saved_inherit = scope.inheritFT
+	let scope.inheritFT = a:inherit
+	let fns = xpt#util#Flatten(a:fns)
+	for f in fns
+		if a:inherit && xpt#ftscope#IsSnippetLoaded(ftscope,f)
+			continue
 		endif
+		call xpt#snipfile#Push()
+		exe 'runtime! ftplugin/' . f . '.xpt.vim'
+		call xpt#snipfile#Pop()
 	endfor
+	let scope.inheritFT = saved_inherit
 endfunction
 fun! xpt#parser#SetVar(nameSpaceValue)
 	let x = b:xptemplateData
@@ -210,13 +198,12 @@ fun! xpt#parser#loadSpecialFiletype(ft)
 	endif
 	if ft == 'unknown'
 		call xpt#parser#loadSnippetFile( 'unknown/unknown' )
-		call XPTparseSnippets()
 	else
-		call XPTsnippetFileInit( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
+		call xpt#parser#InitSnippetFile( '~~/xpt/pseudo/ftplugin/' . ft . '/' . ft . '.xpt.vim' )
 		call XPTinclude( '_common/common' )
 		call XPTfiletypeInit()
-		call XPTparseSnippets()
 	endif
+	call XPTparseSnippets()
 endfunction
 fun! xpt#parser#loadSnippetFile(rel_snip)
 	exe 'runtime! ftplugin/' . a:rel_snip . '.xpt.vim'
@@ -225,7 +212,7 @@ endfunction
 fun! s:AssignSnipFT(filename)
 	let x = b:xptemplateData
 	let filename = substitute( a:filename, '\\', '/', 'g' )
-	if filename =~ '\Vunknown.xpt.vimc\?\$'
+	if filename =~ 'unknown.xpt.vim$'
 		return 'unknown'
 	endif
 	let ftFolder = matchstr( filename, '\V/ftplugin/\zs\[^\\]\+\ze/' )
@@ -236,11 +223,11 @@ fun! s:AssignSnipFT(filename)
 		if &filetype =~ '\<' . ftFolder . '\>' " sub type like 'xpt.vim'
 			let ft = &filetype
 		else
-			let ft = 'NOT_ALLOWED'
+			let ft = 'not allowed'
 		endif
 	else
 		if x.snipFileScopeStack[-1].inheritFT || ftFolder =~ '\V\^_'
-			if ! has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
+			if !has_key( x.snipFileScopeStack[ -1 ], 'filetype' )
 				throw 'parent may has no XPTemplate command called :' . a:filename
 			endif
 			let ft = x.snipFileScopeStack[-1].filetype
@@ -250,23 +237,28 @@ fun! s:AssignSnipFT(filename)
 	endif
 	return ft
 endfunction
-fun! XPTDoSnippetFileInit(filename,...)
+fun! xpt#parser#InitSnippetFile(filename,...)
+	if ! xpt#option#lib_filter#Match(a:filename)
+		return 'finish'
+	endif
 	if !exists("b:xptemplateData")
 		call XPTemplateInit()
 	endif
 	let x = b:xptemplateData
 	let filetypes = x.filetypes
-	let snipScope = xpt#snipf#New(a:filename)
+	let snipScope = xpt#snipfile#New(a:filename)
 	let snipScope.filetype = s:AssignSnipFT(a:filename)
-	if snipScope.filetype == 'NOT_ALLOWED'
-		call s:log.Info(  "NOT_ALLOWED:" . a:filename )
+	let x.snipFileScope = snipScope
+	let ft = snipScope.filetype
+	if ft == 'not allowed'
+		call s:log.Info( "not allowed:" . a:filename )
 		return 'finish'
 	endif
-	if ! has_key(filetypes,snipScope.filetype)
-		let filetypes[snipScope.filetype] = xpt#ftsc#New()
+	if ! has_key(filetypes,ft)
+		let filetypes[ft] = xpt#ftscope#New()
 	endif
-	let ftScope = filetypes[snipScope.filetype]
-	if xpt#ftsc#CheckAndSetSnippetLoaded(ftScope,a:filename)
+	let ftScope = filetypes[ft]
+	if xpt#ftscope#CheckAndSetSnippetLoaded(ftScope,a:filename)
 		return 'finish'
 	endif
 	for pair in a:000
@@ -277,20 +269,22 @@ fun! XPTDoSnippetFileInit(filename,...)
 			call XPTemplatePriority(val)
 		elseif key =~ 'mark'
 			call XPTemplateMark(val[0 : 0],val[1 : 1])
+		elseif key =~ 'key\%[word]'
+			call XPTemplateKeyword(val)
 		endif
 	endfor
 	return 'doit'
 endfunction
-fun! xpt#parser#SnippetFileInit(filename,...)
+fun! xpt#parser#SnippetFileInit_for_compiled(filename,...)
 	if !filereadable(a:filename)
-		return call( function( 'XPTDoSnippetFileInit' ), [ a:filename ] + a:000 )
+		return call( function( 'xpt#parser#InitSnippetFile' ), [ a:filename ] + a:000 )
 	endif
 	if a:filename =~ '\V.xpt.vim\$'
 		call xpt#parser#Compile(a:filename)
 		exe 'so' a:filename . 'c'
 		return 'finish'
 	else
-		return call( function( 'XPTDoSnippetFileInit' ), [ a:filename ] + a:000 )
+		return call( function( 'xpt#parser#InitSnippetFile' ), [ a:filename ] + a:000 )
 	endif
 endfunction
 fun! xpt#parser#LoadSnippets()

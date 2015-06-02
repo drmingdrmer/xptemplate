@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.9.150420-69fdcc6
+" VERSION: 0.4.9.150602-dcea492
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
 	finish
 endif
@@ -11,7 +11,6 @@ runtime plugin/xptemplate.conf.vim
 runtime plugin/xpreplace.vim
 runtime plugin/xpmark.vim
 runtime plugin/xpopup.vim
-runtime plugin/classes/SettingSwitch.vim
 exec XPT#importConst
 let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
@@ -95,10 +94,7 @@ fun! XPTemplatePriority(...)
 	let x.snipFileScope.priority = xpt#priority#Parse(p)
 endfunction
 fun! XPTemplateMark(sl,sr)
-	let xp = b:xptemplateData.snipFileScope.ptn
-	let xp.l = a:sl
-	let xp.r = a:sr
-	call s:RedefinePattern()
+	let b:xptemplateData.snipFileScope.ptn = xpt#snipfile#GenPattern({'l':a:sl, 'r':a:sr})
 endfunction
 fun! XPTmark()
 	let renderContext = b:xptemplateData.renderContext
@@ -142,7 +138,8 @@ fun! g:GetSnipFileFtScope()
 endfunction
 fun! s:GetTempSnipScope(x,ft)
 	if !has_key( a:x, '__tmp_snip_scope' )
-		let sc          = XPTnewSnipScope( '' )
+		let sc = xpt#snipfile#New('')
+		let b:xptemplateData.snipFileScope = sc
 		let sc.priority = 0
 		let a:x.__tmp_snip_scope = sc
 	endif
@@ -150,25 +147,21 @@ fun! s:GetTempSnipScope(x,ft)
 	return a:x.__tmp_snip_scope
 endfunction
 fun! XPTemplate(name,str_or_ctx,...)
-	call XPTsnipScopePush()
 	let x = b:xptemplateData
 	if a:0 == 0
-		let x.snipFileScope = s:GetTempSnipScope(x,&filetype)
 		let snip = a:str_or_ctx
 		let setting = {}
 	else
-		if has_key( a:str_or_ctx, 'filetype' )
-			let x.snipFileScope = s:GetTempSnipScope(x,a:str_or_ctx.filetype)
-		else
-			let x.snipFileScope = s:GetTempSnipScope(x,&filetype)
-		endif
 		let snip = a:1
 		let setting = a:str_or_ctx
 	endif
-	let ft = x.snipFileScope.filetype
+	let ft = get( setting, 'filetype', &filetype )
+	let ft = '' == ft ? 'unknown' : ft
 	call xpt#parser#loadSpecialFiletype(ft)
+	call xpt#snipfile#Push()
+	let x.snipFileScope = s:GetTempSnipScope(x,ft)
 	call XPTdefineSnippet(a:name,setting,snip)
-	call XPTsnipScopePop()
+	call xpt#snipfile#Pop()
 endfunction
 fun! XPTdefineSnippet(name,setting,snip)
 	let name = a:name
@@ -358,7 +351,12 @@ fun! s:ParseTemplateSetting(tmpl)
 	if has_key(setting, 'rawHint')
 		let hint = xpt#eval#Eval(setting.rawHint, [x.filetypes[x.snipFileScope.filetype].funcs, setting.variables, ])
 		if type(hint) == type({})
-			let setting.hint = get(hint, 'text', '')
+			if get(hint, 'action', '') == 'pum'
+				let pum = get(hint, 'pum', [])
+				let setting.hint =  join( pum[ : 3 ], ' ' ) . ' ..'
+			else
+				let setting.hint = get(hint, 'text', '')
+			endif
 		elseif type(hint) == type([])
 			let setting.hint =  join( hint[ : 3 ], ' ' ) . ' ..'
 		elseif type(hint) == type(1)
@@ -899,7 +897,7 @@ fun! s:BuildSnippet(nameStartPosition,nameEndPosition)
 	call XPMupdate()
 	call XPMadd( ctx.marks.tmpl.start, a:nameStartPosition, g:XPMpreferLeft, '\Ve\$' )
 	call XPMadd( ctx.marks.tmpl.end, a:nameEndPosition, g:XPMpreferRight, '\Ve\$' )
-	call b:xptemplateData.settingWrap.Switch()
+	call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
 	call XPMsetLikelyBetween(ctx.marks.tmpl.start,ctx.marks.tmpl.end)
 	call XPreplace(a:nameStartPosition,a:nameEndPosition,snippetText)
 	let ctx.firstList = []
@@ -1181,12 +1179,13 @@ fun! s:NextLeftMark(markRange)
 	while 1
 		let end = XPMpos(a:markRange.end)
 		let nEnd = end[0] * 10000 + end[1]
-		let markPos = searchpos( '\V\\\*\[' . xp.l . xp.r . ']', 'cW' )
+		let ptn = xpt#util#CharsPattern(xp.l . xp.r)
+		let markPos = searchpos( '\V\\\*' . ptn, 'cW' )
 		if markPos == [0,0] || markPos[0] * 10000 + markPos[1] >= nEnd
 			break
 		endif
 		let content = getline(markPos[0])[markPos[1] - 1 :]
-		let char = matchstr( content, '[' . xp.l . xp.r . ']' )
+		let char = matchstr( content, '\V' . ptn )
 		let content = matchstr( content, '^\\*' )
 		let newEsc = repeat( '\', len( content ) / 2 )
 		call XPreplaceInternal( markPos, [ markPos[0], markPos[1] + len( content ) ], newEsc, { 'doPostJob' : 1 } )
@@ -1438,16 +1437,16 @@ fun! s:RemoveCurrentMarks()
 	endfor
 endfunction
 fun! s:ApplyPostFilter()
-	let renderContext = b:xptemplateData.renderContext
-	let renderContext.activeLeaderMarks = 'mark'
-	let posts = renderContext.snipSetting.postFilters
-	let name = renderContext.item.name
-	let leader = renderContext.leadingPlaceHolder
-	let marks = renderContext.leadingPlaceHolder[renderContext.activeLeaderMarks]
-	let renderContext.phase = 'post'
+	let rctx = b:xptemplateData.renderContext
+	let rctx.activeLeaderMarks = 'mark'
+	let posts = rctx.snipSetting.postFilters
+	let name = rctx.item.name
+	let leader = rctx.leadingPlaceHolder
+	let marks = rctx.leadingPlaceHolder[rctx.activeLeaderMarks]
+	let rctx.phase = 'post'
 	let typed = xpt#util#TextBetween(XPMposStartEnd(marks))
-	if renderContext.item.name != ''
-		let renderContext.namedStep[renderContext.item.name] = typed
+	if rctx.item.name != ''
+		let rctx.namedStep[rctx.item.name] = typed
 	endif
 	let groupPostFilter = get(posts,name,g:EmptyFilter)
 	let leaderPostFilter = get( leader, 'postFilter', g:EmptyFilter )
@@ -1455,27 +1454,31 @@ fun! s:ApplyPostFilter()
 	let hadBuilt = 0
 	if filter isnot g:EmptyFilter
 		let flt_rst = s:EvalPostFilter(filter,typed,leader)
+		let mark_name = s:GetReplaceMark(rctx,flt_rst)
+		let marks = rctx.leadingPlaceHolder[mark_name]
 		let ori_flt_rst = copy(flt_rst)
-		let [start,end] = XPMposStartEnd(marks)
 		call XPMsetLikelyBetween(marks.start,marks.end)
 		if flt_rst.rc != 0
 			if has_key( flt_rst, 'text' )
 				if flt_rst.text !=# typed
-					call s:RemoveEditMark(leader)
-					call b:xptemplateData.settingWrap.Switch()
+					let [start,end] = XPMposStartEnd(marks)
+					if mark_name == 'mark'
+					    call s:RemoveEditMark(leader)
+					endif
+					call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
 					let text = s:IndentFilterText(flt_rst,start)
 					call XPreplace(start,end,text)
 				endif
 			endif
-		endif
-		if flt_rst.rc != 0 && flt_rst.action == 'build'
-			let renderContext.firstList = []
-			let buildrc = s:BuildPlaceHolders(marks)
-			if 0 > buildrc
-				return [s:Crash(),1]
+			if flt_rst.action == 'build'
+				let rctx.firstList = []
+				let buildrc = s:BuildPlaceHolders(marks)
+				if 0 > buildrc
+					return [s:Crash(),1]
+				endif
+				let hadBuilt = 0 < buildrc
+				let rctx.phase = 'post'
 			endif
-			let hadBuilt = 0 < buildrc
-			let renderContext.phase = 'post'
 		endif
 	endif
 	if groupPostFilter is g:EmptyFilter
@@ -1507,7 +1510,7 @@ fun! s:EvalPostFilter(filter,typed,leader)
 endfunction
 fun! s:GotoNextItem()
 	let action = s:DoGotoNextItem()
-	call b:xptemplateData.settingWrap.Restore()
+	call xpt#settingswitch#Restore(b:xptemplateData.settingWrap)
 	return action
 endfunction
 fun! s:DoGotoNextItem()
@@ -1619,8 +1622,16 @@ fun! s:HandleDefaultValueAction(rctx,flt_rst)
 	endif
 	return -1
 endfunction
+fun! s:GetReplaceMark(rctx,flt_rst)
+	let mark_name = get(a:flt_rst, 'marks')
+	if mark_name is 0
+		let mark_name = xpt#rctx#DefaultMarks(a:rctx)
+	endif
+	return mark_name
+endfunction
 fun! s:ActionFinish(renderContext,flt_rst)
-	let marks = a:renderContext.leadingPlaceHolder[a:flt_rst.marks]
+	let mark_name = s:GetReplaceMark(a:renderContext,a:flt_rst)
+	let marks = a:renderContext.leadingPlaceHolder[mark_name]
 	let [start,end] = XPMposStartEnd(marks)
 	if start[0] != 0 && end[0] != 0
 		if a:flt_rst.rc isnot 0
@@ -1649,7 +1660,7 @@ fun! s:EmbedSnippetInLeadingPlaceHolder(ctx,snippet,flt_rst)
 		call s:Crash( 'leading place holder''s mark lost:' . string( marks ) )
 		return [s:NOTBUILT]
 	endif
-	call b:xptemplateData.settingWrap.Switch()
+	call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
 	let text = s:IndentFilterText(a:flt_rst,range[0])
 	call XPreplace(range[0],range[1],text)
 	if a:flt_rst.action == 'build'
@@ -1675,7 +1686,7 @@ fun! s:FillinLeadingPlaceHolderAndSelect(rctx,flt_rst)
 			return s:Crash()
 		endif
 		let str = s:IndentFilterText(a:flt_rst,start)
-		call b:xptemplateData.settingWrap.Switch()
+		call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
 		call XPreplace(start,_end,str)
 	endif
 	call s:XPTupdate()
@@ -1905,9 +1916,6 @@ fun! s:EvalFilter(filter,closures)
 			let r.action = 'text'
 		endif
 	endif
-	if ! has_key( r, 'marks' )
-		let r.marks = a:filter.marks
-	endif
 	call s:LoadFilterActionSnippet(r)
 	return r
 endfunction
@@ -1941,10 +1949,10 @@ fun! s:XPTinitMapping()
 	endif
 	let b:mapLiteral = xpt#msvr#New(1)
 	call xpt#msvr#AddList(b:mapLiteral,literalKeys)
-	let b:xptemplateData.settingSwitch = g:SettingSwitch.New()
-	call b:xptemplateData.settingSwitch.AddList( [ '&l:textwidth', '0' ], [ '&l:lazyredraw', '1' ], [ '&l:indentkeys', { 'exe' : 'setl indentkeys-=*<Return>' } ], [ '&l:cinkeys', { 'exe' : 'setl cinkeys-=*<Return>' } ], )
-	let b:xptemplateData.settingWrap = g:SettingSwitch.New()
-	call b:xptemplateData.settingWrap.Add( '&l:wrap', '1' )
+	let b:xptemplateData.settingSwitch = xpt#settingswitch#New()
+	call xpt#settingswitch#AddList(b:xptemplateData.settingSwitch, [ '&l:textwidth', '0' ], [ '&l:lazyredraw', '1' ], [ '&l:indentkeys', { 'exe' : 'setl indentkeys-=*<Return>' } ], [ '&l:cinkeys', { 'exe' : 'setl cinkeys-=*<Return>' } ], )
+	let b:xptemplateData.settingWrap = xpt#settingswitch#New()
+	call xpt#settingswitch#Add(b:xptemplateData.settingWrap, '&l:wrap', '1')
 endfunction
 fun! s:XPTCR()
 	let [ l, c ] = [ line( "." ), col( "." ) ]
@@ -1959,7 +1967,7 @@ endfunction
 fun! s:ApplyMap()
 	let x = b:xptemplateData
 	let renderContext = x.renderContext
-	call b:xptemplateData.settingSwitch.Switch()
+	call xpt#settingswitch#Switch(b:xptemplateData.settingSwitch)
 	call xpt#msvr#Save(b:mapSaver)
 	call xpt#msvr#Save(b:mapLiteral)
 	call xpt#msvr#UnmapAll(b:mapSaver)
@@ -1987,7 +1995,7 @@ fun! s:ApplyMap()
 	endif
 endfunction
 fun! s:ClearMap()
-	call b:xptemplateData.settingSwitch.Restore()
+	call xpt#settingswitch#Restore(b:xptemplateData.settingSwitch)
 	call xpt#msvr#Restore(b:mapLiteral)
 	call xpt#msvr#Restore(b:mapSaver)
 endfunction
@@ -1997,53 +2005,18 @@ fun! XPTbufData()
 	endif
 	return b:xptemplateData
 endfunction
-let s:snipScopePrototype = { 'filename':'', 'ptn':{'l':'`', 'r':'^'}, 'priority':xpt#priority#Get( 'default' ), 'filetype':'', 'inheritFT':0, }
 fun! XPTnewSnipScope(filename)
-  let x = b:xptemplateData
-  let x.snipFileScope = deepcopy(s:snipScopePrototype)
-  let x.snipFileScope.filename = a:filename
-  call s:RedefinePattern()
-  return x.snipFileScope
+	let sf = xpt#snipfile#New(a:filename)
+	let b:xptemplateData.snipFileScope = sf
+	return sf
 endfunction
 fun! XPTsnipScope()
   return b:xptemplateData.snipFileScope
-endfunction
-fun! XPTsnipScopePush()
-	let x = b:xptemplateData
-	let x.snipFileScopeStack += [x.snipFileScope]
-	unlet x.snipFileScope
-endfunction
-fun! XPTsnipScopePop()
-	let x = b:xptemplateData
-	if len(x.snipFileScopeStack) > 0
-		let x.snipFileScope = x.snipFileScopeStack[-1]
-		call remove(x.snipFileScopeStack,-1)
-	else
-		throw "snipFileScopeStack is empty"
-	endif
 endfunction
 fun! XPTemplateInit()
 	let x = xpt#buf#New()
 	call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
 	call s:XPTinitMapping()
-endfunction
-fun! s:RedefinePattern()
-	let xp = b:xptemplateData.snipFileScope.ptn
-	let xp.lft = s:nonEscaped . xp.l
-	let xp.rt = s:nonEscaped . xp.r
-	let xp.lft_e = s:nonEscaped . '\\'.xp.l
-	let xp.rt_e  = s:nonEscaped . '\\'.xp.r
-	let xp.item_var          = '$\w\+'
-	let xp.item_qvar         = '{$\w\+}'
-	let xp.item_func         = '\w\+(\.\*)'
-	let xp.item_qfunc        = '{\w\+(\.\*)}'
-	let xp.itemContent       = '\_.\{-}'
-	let xp.item              = xp.lft . '\%(' . xp.itemContent . '\)' . xp.rt
-	for [k,v] in items(xp)
-		if k != "l" && k != "r"
-			let xp[k] = '\V' . v
-		endif
-	endfor
 endfunction
 fun! s:SynNameStack(l,c)
 	if exists( '*synstack' )
@@ -2151,11 +2124,7 @@ fun! s:HandleOntypeAction(renderContext,flt_rst)
 	endif
 endfunction
 fun! s:HandleAction(renderContext,flt_rst)
-	if a:renderContext.phase == 'post'
-		let marks = a:renderContext.leadingPlaceHolder.mark
-	else
-		let marks = a:renderContext.leadingPlaceHolder.innerMarks
-	endif
+	let marks = s:GetReplaceMark(a:renderContext,a:flt_rst)
 	let postaction = ''
 	if a:flt_rst.action == 'next'
 		if has_key( a:flt_rst, 'text' )
@@ -2303,16 +2272,9 @@ fun! s:GetContextFTObj()
 	let ftScope = get(x.filetypes,ft,{})
 	return ftScope
 endfunction
-fun! s:LoadSnippetFile(snip)
-	exe 'runtime! ftplugin/' . a:snip . '.xpt.vim'
-	call XPTfiletypeInit()
-endfunction
-fun! s:XPTbufferInit()
-	call XPTemplateInit()
-endfunction
 augroup XPT
 	au!
-	au BufEnter * call <SID>XPTbufferInit()
+	au BufEnter * call XPTemplateInit()
 	au InsertEnter * call <SID>XPTcheck()
 	au CursorMovedI * call <SID>XPTupdateTyping()
 	if g:xptemplate_strict == 1

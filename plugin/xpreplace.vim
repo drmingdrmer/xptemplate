@@ -6,15 +6,14 @@ let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 runtime plugin/debug.vim
 runtime plugin/xpmark.vim
-runtime plugin/classes/SettingSwitch.vim
 let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )
 fun! s:InitBuffer()
 	if exists( 'b:__xpr_init' )
 		return
 	endif
-	let b:__xpr_init = { 'settingSwitch' : g:SettingSwitch.New() }
-	call b:__xpr_init.settingSwitch.AddList( [ '&l:textwidth', '0' ], [ '&l:virtualedit', 'onemore' ], [ '&l:whichwrap'  , 'b,s,h,l,<,>,~,[,]' ], [ '&l:selection'  , 'exclusive' ], [ '&l:selectmode' , '' ], )
+	let b:__xpr_init = { 'settingSwitch' : xpt#settingswitch#New() }
+	call xpt#settingswitch#AddList(b:__xpr_init.settingSwitch, [ '&l:textwidth', '0' ], [ '&l:virtualedit', 'onemore' ], [ '&l:whichwrap'  , 'b,s,h,l,<,>,~,[,]' ], [ '&l:selection'  , 'exclusive' ], [ '&l:selectmode' , '' ], )
 endfunction
 fun! XPRstartSession()
 	call s:InitBuffer()
@@ -23,7 +22,7 @@ fun! XPRstartSession()
 		return
 	endif
 	let b:_xpr_session = {}
-	call b:__xpr_init.settingSwitch.Switch()
+	call xpt#settingswitch#Switch(b:__xpr_init.settingSwitch)
 	let b:_xpr_session.savedReg = @"
 	let @" = 'XPreplaceInited'
 endfunction
@@ -33,7 +32,7 @@ fun! XPRendSession()
 		return
 	endif
 	let @" = b:_xpr_session.savedReg
-	call b:__xpr_init.settingSwitch.Restore()
+	call xpt#settingswitch#Restore(b:__xpr_init.settingSwitch)
 	unlet b:_xpr_session
 endfunction
 fun! XPreplaceByMarkInternal(startMark,endMark,replacement)

@@ -4,7 +4,7 @@ set cpo-=< cpo+=B
 let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
 let g:EmptyFilter = {}
-let s:proto = { 'marks':'innerMarks', 'force':0, }
+let s:proto = { 'force':0, }
 fun! xpt#flt#New(nIndent,text,...)
 	let flt = deepcopy(s:proto)
 	call extend(flt,{ 'nIndent':a:nIndent, 'text':a:text, 'force':a:0 == 1 && a:1, }, 'force' )
@@ -37,9 +37,6 @@ fun! xpt#flt#Eval(flt,closures)
 			call extend( r, rst, 'error' )
 		else
 			r.action = 'build'
-		endif
-		if ! has_key( r, 'marks' )
-			let r.marks = a:flt.marks
 		endif
 		if has_key( r, 'cursor' )
 			call xpt#flt#ParseCursorSpec(r)

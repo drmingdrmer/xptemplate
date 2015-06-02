@@ -5,7 +5,6 @@ let g:__XPOPUP_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 runtime plugin/debug.vim
-runtime plugin/classes/SettingSwitch.vim
 exe XPT#let_sid
 let s:log = CreateLogger( 'warn' )
 let s:log = CreateLogger( 'debug' )
@@ -207,13 +206,13 @@ fun! s:_InitBuffer()
 	endif
 	let b:_xpp_map_saver = xpt#msvr#New(1)
 	call xpt#msvr#AddList(b:_xpp_map_saver, 'i_<UP>',  'i_<DOWN>',   'i_<BS>',  'i_<TAB>',  'i_<S-TAB>',  'i_<CR>',   'i_<C-e>',  'i_<C-y>',  )
-	let b:_xpp_setting_switch = g:SettingSwitch.New()
+	let b:_xpp_setting_switch = xpt#settingswitch#New()
 	let co = {"menu":1, "menuone":1, "longest":1}
 	for k in split(&completeopt, ',')
 		let co[k] = 1
 	endfor
 	let new_completeopt = join( keys(co), ',' )
-	call b:_xpp_setting_switch.AddList( [ '&l:cinkeys', '' ],  [ '&l:indentkeys', '' ],  [ '&completeopt', new_completeopt ], )
+	call xpt#settingswitch#AddList(b:_xpp_setting_switch, [ '&l:cinkeys', '' ],  [ '&l:indentkeys', '' ],  [ '&completeopt', new_completeopt ], )
 	let b:__xpp_buffer_init = 1
 endfunction
 fun! XPPprocess(list)
@@ -488,7 +487,7 @@ fun! s:ApplyMapAndSetting()
 		au CursorMovedI * call s:CheckAndFinish()
 		au InsertEnter * call XPPend()
 	augroup END
-	call b:_xpp_setting_switch.Switch()
+	call xpt#settingswitch#Switch(b:_xpp_setting_switch)
 	if exists( ':AcpLock' )
 		AcpLock
 	endif
@@ -503,7 +502,7 @@ fun! s:ClearMapAndSetting()
 		au!
 	augroup END
 	call xpt#msvr#Restore(b:_xpp_map_saver)
-	call b:_xpp_setting_switch.Restore()
+	call xpt#settingswitch#Restore(b:_xpp_setting_switch)
 	if exists( ':AcpUnlock' )
 		try
 			AcpUnlock
