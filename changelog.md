@@ -1,3 +1,14 @@
+2015-06-02
+==========
+
+Fixed
+-----
+
+*   engine: support hint of pum in dictionary type
+*   engine: post-filter uses outer-marks
+
+*   eval: concat text and Echo(). fix #68
+
 2015-04-20
 ==========
 

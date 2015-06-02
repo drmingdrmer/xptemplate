@@ -10,7 +10,6 @@ let g:EmptyFilter = {}
 
 " rc:       1: right status. 0 means nothing should be updated.
 let s:proto = {
-      \ 'marks'   : 'innerMarks',
       \ 'force'   : 0,
       \ }
 
@@ -76,10 +75,6 @@ fun! xpt#flt#Eval( flt, closures ) "{{{
             call extend( r, rst, 'error' )
         else
             r.action = 'build'
-        endif
-
-        if ! has_key( r, 'marks' )
-            let r.marks = a:flt.marks
         endif
 
         " TODO fix cursor usage

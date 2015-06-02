@@ -1,0 +1,8 @@
+cmd:
+call XPTemplate('foo', {'filetype': 'bar'}, 'foo-ft-bar')
+
+keys:
+foo
+
+expected:
+foo-lang

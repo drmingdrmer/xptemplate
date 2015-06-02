@@ -50,12 +50,6 @@ compact() {
     mv .tmp $file
 }
 
-create_tgz() {
-    rm -rf $ParentDir/xpt && mkdir $ParentDir/xpt && cp -R ./* $ParentDir/xpt/
-    cd $ParentDir/xpt && tar -czf ../xpt-$ver.tgz *
-    cd $CurrentDir
-}
-
 build_for_release () {
     check_cur_branch \
         && create_build_branch \
@@ -65,7 +59,6 @@ build_for_release () {
         && remove_tests \
         && generate_version \
         && commit_build \
-        && create_tgz \
         && update_built_branch \
         && echo "Done"
 }

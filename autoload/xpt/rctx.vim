@@ -144,6 +144,14 @@ fun! xpt#rctx#AddDefaultPHFilters( rctx, ph ) "{{{
 
 endfunction "}}}
 
+fun! xpt#rctx#DefaultMarks(rctx) "{{{
+    if a:rctx.phase == s:phase.post
+        return 'mark'
+    else
+        return 'innerMarks'
+    endif
+endfunction "}}}
+
 fun! xpt#rctx#UserOut( rctx, text ) "{{{
     let a:rctx.nextStep = s:R_NEXT
     let a:rctx.userPostAction = a:text

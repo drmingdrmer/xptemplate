@@ -45,9 +45,8 @@ def fread( *args ):
 
     return content
 
-def delay():
-    # logger.debug( "delay 1 second" )
-    time.sleep( 1 )
+def delay(n=2):
+    time.sleep(n)
 
 def _path( *args ):
     return os.path.join( *args )

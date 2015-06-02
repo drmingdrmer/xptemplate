@@ -1,35 +1,26 @@
-" File Description {{{
-" =============================================================================
-" Low level utilities which depend on nothing else
-"
-"                                                  by drdr.xp
-"                                                     drdr.xp@gmail.com
-" Usage :
-"
-" =============================================================================
-" }}}
-if exists("g:__UTIL_VIM__") && g:__UTIL_VIM__ >= XPT#ver
-    finish
-endif
-let g:__UTIL_VIM__ = XPT#ver
-
-
+exe xpt#once#init
 
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
-
-
 let s:log = xpt#debug#Logger( 'warn' )
-" let s:log = xpt#debug#Logger( 'debug' )
-
-
 
 exe XPT#importConst
-
 let s:charsPatternTable = {}
 
-
+fun! xpt#util#Flatten(arr) "{{{
+    let r = []
+    for e in a:arr
+        " type([]) == 3
+        if type(e) == 3
+            call extend(r, xpt#util#Flatten(e))
+        else
+            let r += [e]
+        endif
+        unlet e
+    endfor
+    return r
+endfunction "}}}
 
 fun! xpt#util#SplitWith( str, char ) "{{{
     let s = split( a:str, '\V' . s:nonEscaped . a:char, 1 )
@@ -332,6 +323,22 @@ fun! xpt#util#NearestSynName() "{{{
 endfunction "}}}
 
 
+fun! xpt#util#CharsPattern(chars, ...) "{{{
+
+    " by default it is no magic pattern
+    let is_magic = 0
+    if a:0 > 0 && a:1 is 1
+        let is_magic = 1
+    endif
+
+    let esc = '\['
+    if is_magic
+        let esc = '['
+    endif
+
+    let pattern = esc . escape( a:chars, '\]-^' ) . ']'
+    return pattern
+endfunction "}}}
 
 fun! s:GetUnescapeCharPattern( chars ) "{{{
     " remove all '\'.

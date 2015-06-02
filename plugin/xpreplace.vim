@@ -9,7 +9,6 @@ set cpo-=< cpo+=B
 
 runtime plugin/debug.vim
 runtime plugin/xpmark.vim
-runtime plugin/classes/SettingSwitch.vim
 
 " TODO xpreplace line start with <tab> leaving a ';', ada:beg snippet
 " TODO use gp to paste and leave cursor after pasted content
@@ -35,10 +34,10 @@ fun! s:InitBuffer() "{{{
         return
     endif
 
-    let b:__xpr_init = { 'settingSwitch' : g:SettingSwitch.New() }
+    let b:__xpr_init = { 'settingSwitch' : xpt#settingswitch#New() }
     " NOTE: bug! if 'virtualedit'=all, and 'selection'=exclusive, visual mode
     " deletion leaves the last char in selection
-    call b:__xpr_init.settingSwitch.AddList( 
+    call xpt#settingswitch#AddList(b:__xpr_init.settingSwitch,
           \ [ '&l:textwidth', '0' ],
           \ [ '&l:virtualedit', 'onemore' ],
           \ [ '&l:whichwrap'  , 'b,s,h,l,<,>,~,[,]' ],
@@ -60,7 +59,7 @@ fun! XPRstartSession() "{{{
 
     let b:_xpr_session = {}
 
-    call b:__xpr_init.settingSwitch.Switch()
+    call xpt#settingswitch#Switch(b:__xpr_init.settingSwitch)
 
     let b:_xpr_session.savedReg = @"
     let @" = 'XPreplaceInited'
@@ -75,8 +74,8 @@ fun! XPRendSession() "{{{
 
     let @" = b:_xpr_session.savedReg
 
-    call b:__xpr_init.settingSwitch.Restore()
-    
+    call xpt#settingswitch#Restore(b:__xpr_init.settingSwitch)
+
     unlet b:_xpr_session
 endfunction "}}}
 

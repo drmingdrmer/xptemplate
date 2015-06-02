@@ -232,6 +232,7 @@ def load_test(case_name, case_path, testname):
              'logger': lg.make_logger(case_name, stdoutlvl=flags['stdoutlvl']),
 
              'vimarg': [],
+             'workingdir': [],
              'pre_vimrc': [],
              'setting': [],
              'localsetting': [],
@@ -279,7 +280,14 @@ def vim_start_cmdstring(test):
     for c in pre_vimrc_cmds:
         cmds += [ '--cmd', "'"+c.replace("'", "\"'\"")+"'" ]
 
-    return ' '.join(cmds)
+    rst = ' '.join(cmds)
+
+    if len(test['workingdir']) > 0:
+        wd = test['workingdir'][0]
+        wd = _path(test['case_path'], wd)
+        rst = 'cd ' + wd + '; ' + rst
+
+    return rst
 
 def vim_so_fn(test, fn):
     if not os.path.exists( fn ):
@@ -301,15 +309,18 @@ def vim_add_settings( test, settings ):
     if len( settings ) == 0:
         return
     vim_cmd( test, [ "set" ] + settings )
+    assert_no_err_on_screen(test)
 
 def vim_add_local_settings( test, settings ):
     if len( settings ) == 0:
         return
     vim_cmd( test, [ "setlocal" ] + settings )
+    assert_no_err_on_screen(test)
 
 def vim_add_cmd(test, cmds):
     for cmd in cmds:
         vim_cmd(test, [cmd])
+        assert_no_err_on_screen(test)
 
 def vim_cmd( test, elts ):
     s = ":" + ' '.join( elts )
@@ -375,12 +386,9 @@ def assert_no_err_on_screen(test):
     screen = test['tmux'].capture()
     test['screen_captured'] = screen
 
-    lines = screen.split("\n")
-    lines = [x for x in lines if x not in ('', )]
-
     err_patterns = (
             'Error',
-            '^E[0-9]{1,3}:',
+            r'\bE[0-9]{1,3}:',
     )
 
     for ptn in err_patterns:

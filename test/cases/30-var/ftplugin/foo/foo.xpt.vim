@@ -5,6 +5,7 @@ let s:f = g:XPTfuncs()
 XPTinclude
       \ _common/common
 
+XPTvar $PRIO in-low
 XPTvar $FOO var-foo
 XPTvar $BAR_QUOTE 'var-bar'
 
@@ -50,3 +51,5 @@ XPT set-func-to-var
 XSET $a=foo()
 `$a^
 
+XPT var-prio
+`$PRIO^

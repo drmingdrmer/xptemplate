@@ -71,6 +71,16 @@ fun! s:TestEval( t ) "{{{
           \ [ [ 'd($x)', {"d" : "dictfunc", "$x": 123}, {} ], 'dictfunc-123' ],
           \
           \ [ [ 'err()', {"err" : "err"}, {} ], '' ],
+          \ [ [ 'return_empty_dict()', {"return_empty_dict" : "return_empty_dict"}, {} ], {} ],
+          \ [ [ 'abc[return_empty_dict()]', {"return_empty_dict" : "return_empty_dict"}, {} ], "abc[]" ],
+          \ [ [ 'return_dict()', {"return_dict" : "return_dict"}, {} ], {"action":"build", "text": "123"} ],
+          \ [ [ 'abc[return_dict()]', {"return_dict" : "return_dict"}, {} ], {"action":"build", "text": "abc[123]"} ],
+          \ [ [ 'return_0()', {"return_0" : "return_0"}, {} ], 0 ],
+          \ [ [ 'abc[return_0()]', {"return_0" : "return_0"}, {} ], 0 ],
+          \ [ [ 'strlen("123")', {}, {} ], '3' ],
+          \ [ [ 'foo{strlen("123")}', {}, {} ], 'foo3' ],
+          \ [ [ '{strlen("123")}bar', {}, {} ], '3bar' ],
+          \ [ [ '{$foo}tr("ab", "a", "A")bla{strlen("123")}', {"$foo" : "bar"}, {} ], 'barAbbla3' ],
           \ ]
           " \ [ [ '', {}, {} ], '' ],
 
@@ -87,6 +97,8 @@ fun! s:TestEval( t ) "{{{
 
         let rst = xpt#eval#Eval( str, [scope, scope2] )
         call a:t.Eq( outp, rst, string([ inp,  outp ] ) )
+        unlet outp
+        unlet rst
     endfor
 
 endfunction "}}}
@@ -100,6 +112,16 @@ endfunction "}}}
 
 fun! xpt#ut#test_eval#err( ... ) "{{{
     throw 'err'
+endfunction "}}}
+
+fun! xpt#ut#test_eval#return_0( ... ) "{{{
+    return 0
+endfunction "}}}
+fun! xpt#ut#test_eval#return_dict( ... ) "{{{
+    return {'action' : 'build', 'text' : '123'}
+endfunction "}}}
+fun! xpt#ut#test_eval#return_empty_dict( ... ) "{{{
+    return {}
 endfunction "}}}
 
 fun! xpt#ut#test_eval#dictfunc( ... ) dict "{{{
