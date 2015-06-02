@@ -45,7 +45,7 @@ def fread( *args ):
 
     return content
 
-def delay(n=1):
+def delay(n=2):
     time.sleep(n)
 
 def _path( *args ):
