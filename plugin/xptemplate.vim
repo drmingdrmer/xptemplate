@@ -722,7 +722,12 @@ fun! s:ParseTemplateSetting( tmpl ) "{{{
               \ ] )
 
         if type(hint) == type({})
-            let setting.hint = get(hint, 'text', '')
+            if get(hint, 'action', '') == 'pum'
+                let pum = get(hint, 'pum', [])
+                let setting.hint =  join( pum[ : 3 ], ' ' ) . ' ..'
+            else
+                let setting.hint = get(hint, 'text', '')
+            endif
         elseif type(hint) == type([])
             let setting.hint =  join( hint[ : 3 ], ' ' ) . ' ..'
         elseif type(hint) == type(1)
