@@ -15,6 +15,7 @@ by default xpt use iskeyword as keyword
 support `<ft>_xpt.vim`?
 
 # test
+symbolic link file on windows? is it ok to copy all files to master?
 Finish updates following ph
 Finish ignores other ph
 marks:
