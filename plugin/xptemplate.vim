@@ -120,6 +120,7 @@ exec XPT#importConst
 let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
 
+let s:close_pum = "\<C-v>\<C-v>\<BS>"
 let s:renderPhase = xpt#rctx#phase
 
 call XPRaddPreJob( 'XPMupdateCursorStat' )
@@ -2700,9 +2701,7 @@ endfunction "}}}
 fun! s:ShiftForward( action ) " {{{
 
     let x = b:xptemplateData
-
     let renderContext = x.renderContext
-
 
     if pumvisible()
 
@@ -2711,7 +2710,7 @@ fun! s:ShiftForward( action ) " {{{
         else
 
             if g:xptemplate_move_even_with_pum
-                return "\<C-v>\<C-v>\<BS>\<C-r>" . '=XPTforceForward(' . string( a:action ) . ")\<CR>"
+                return s:close_pum . "\<C-r>" . '=XPTforceForward(' . string( a:action ) . ")\<CR>"
             else
                 if x.canNavFallback
                     let x.fallbacks = [ [ "\<Plug>XPTnavFallback", 'feed' ],
@@ -2722,8 +2721,6 @@ fun! s:ShiftForward( action ) " {{{
                 endif
             endif
         endif
-
-        return XPTforceForward( a:action )
 
     else
 
@@ -2736,7 +2733,7 @@ fun! s:ShiftForward( action ) " {{{
         "
         " In this case we have to force pum to close.
 
-        return "\<C-v>\<C-v>\<BS>\<C-r>" . '=XPTforceForward(' . string( a:action ) . ")\<CR>"
+        return s:close_pum . "\<C-r>" . '=XPTforceForward(' . string( a:action ) . ")\<CR>"
 
     endif
 
