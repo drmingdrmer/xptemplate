@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.9.150602-dcea492
+" VERSION: 0.4.9.150618-f245ff1
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
 	finish
 endif
@@ -14,6 +14,7 @@ runtime plugin/xpopup.vim
 exec XPT#importConst
 let s:log = xpt#debug#Logger( 'warn' )
 let s:log = xpt#debug#Logger( 'debug' )
+let s:close_pum = "\<C-v>\<C-v>\<BS>"
 let s:renderPhase = xpt#rctx#phase
 call XPRaddPreJob( 'XPMupdateCursorStat' )
 call XPRaddPostJob( 'XPMupdateSpecificChangedRange' )
@@ -1376,7 +1377,7 @@ fun! s:ShiftForward(action)
 			return XPPend() . "\<C-r>=<SNR>" . s:sid . 'ShiftForward(' . string( a:action ) . ")\<CR>"
 		else
 			if g:xptemplate_move_even_with_pum
-				return "\<C-v>\<C-v>\<BS>\<C-r>" . '=XPTforceForward(' . string( a:action ) . ")\<CR>"
+				return s:close_pum . "\<C-r>" . '=XPTforceForward(' . string( a:action ) . ")\<CR>"
 			else
 				if x.canNavFallback
 					let x.fallbacks = [ [ "\<Plug>XPTnavFallback", 'feed' ], [ "\<C-r>=XPTforceForward(" . string( a:action ) . ")\<CR>", 'expr' ], ]
@@ -1386,12 +1387,11 @@ fun! s:ShiftForward(action)
 				endif
 			endif
 		endif
-		return XPTforceForward(a:action)
 	else
 		if XPPhasSession()
 			call XPPend()
 		endif
-		return "\<C-v>\<C-v>\<BS>\<C-r>" . '=XPTforceForward(' . string( a:action ) . ")\<CR>"
+		return s:close_pum . "\<C-r>" . '=XPTforceForward(' . string( a:action ) . ")\<CR>"
 	endif
 endfunction
 fun! XPTforceForward(action)
@@ -2014,7 +2014,10 @@ fun! XPTsnipScope()
   return b:xptemplateData.snipFileScope
 endfunction
 fun! XPTemplateInit()
-	let x = xpt#buf#New()
+	if exists( 'b:xptemplateData' )
+		return
+	endif
+	call xpt#buf#New()
 	call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
 	call s:XPTinitMapping()
 endfunction
