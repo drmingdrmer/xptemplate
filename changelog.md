@@ -1,3 +1,11 @@
+2015-06-17
+==========
+
+Fixed
+-----
+
+*   engine: fix #69 mapping saver should not reinitiate when switching buffer
+
 2015-06-02
 ==========
 

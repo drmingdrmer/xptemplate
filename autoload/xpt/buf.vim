@@ -6,7 +6,7 @@ set cpo-=< cpo+=B
 fun! xpt#buf#New() "{{{
 
     if exists( 'b:xptemplateData' )
-        return
+        return b:xptemplateData
     endif
 
     let b:xptemplateData = {
