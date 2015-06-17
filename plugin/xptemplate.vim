@@ -3922,7 +3922,11 @@ endfunction
 
 fun! XPTemplateInit() "{{{
 
-    let x = xpt#buf#New()
+    if exists( 'b:xptemplateData' )
+        return
+    endif
+
+    call xpt#buf#New()
 
     " TODO is this the right place to do that?
     call XPMsetBufSortFunction( function( 'XPTmarkCompare' ) )
