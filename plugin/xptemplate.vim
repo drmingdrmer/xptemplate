@@ -22,10 +22,8 @@
 "
 " TODOLIST: "{{{
 " TODO bug: in *.css: type: "* {<CR>" prodcues another "* }" at the next line.
-" TODO duplicate snippet name check
 " in future
 " TODO efficiently loading long snippet file
-" TODO test vim 7.3
 " TODO lazy load of scripts
 " TODO add: be able to load textmate snippet or snipmate snippet.
 " TODO add: <BS> at ph start to shift backward.
@@ -33,14 +31,12 @@
 " TODO improve: 3 quotes in python
 " TODO fix: register handling when snippet expand
 " TODO goto next or trigger?
-" TODO add: visual mode trigger.
 " TODO fix: after undo, highlight is not cleared.
 " TODO with strict = 0/1 XPT does not work well
 " TODO add: XSET to set edge.
 " TODO add: short snippet syntax
 " TODO add: global shortcuts
 " TODO add: context detect
-" TODO fix: versionlize scripts
 " TODO doc of ontype filters, XSET what|map
 " TODO cross file support, .h and .cpp skeletion generator.
 " TODO bug in 114.74, ' and then <C-n> complete, and then <C-y> accept, now ' is between complete start and complete end
