@@ -3605,8 +3605,6 @@ fun! s:ClearItemMapping( rctx ) "{{{
 
 endfunction "}}}
 
-
-
 fun! s:SelectCurrent() "{{{
     let ph = b:xptemplateData.renderContext.leadingPlaceHolder
     let marks = ph.innerMarks
@@ -3659,62 +3657,10 @@ fun! s:EvalFilter( filter, closures ) "{{{
 
     " TODO EvalFilter might be called from non-rendering phase, is there a snipObject?
     let rctx = b:xptemplateData.renderContext
-    let snipptn = rctx.snipObject.ptn
+    let snip = rctx.snipObject
 
-    let r = { 'rc': 1, 'filter': a:filter }
-
-    let rst = xpt#eval#Eval( a:filter.text, a:closures )
-    call s:log.Debug( "rst after xpt#eval#Eval=" . string( rst ) )
-
-    if type( rst ) == type( 0 )
-        let r.rc = 0
-        return r
-    endif
-
-    if type( rst ) == type( '' )
-
-        " plain text is interpreted as plain text or snippet segment, depends
-        " on if there is mark in it.
-        "
-        " To explicitly use plain text or snippet segment, use Echo() and
-        " Build() respectively.
-        if rst =~ snipptn.lft
-            let r.action = 'build'
-        else
-            let r.action = 'text'
-        endif
-        let r.text = rst
-        return r
-    endif
-
-    if type( rst ) == type( [] )
-        let r.action = 'pum'
-        let r.pum = rst
-        return r
-
-    endif
-
-    " rst is dictionary
-    if has_key( rst, 'action' )
-        call extend( r, rst, 'error' )
-
-        " backward compatible
-        if r.action ==# 'embed'
-            let r.action = 'build'
-        endif
-    else
-        let text = get( r, 'text', '' )
-
-        " effective action is determined by if there is item pattern in text
-        if text =~ snipptn.lft
-            let r.action = 'build'
-        else
-            let r.action = 'text'
-        endif
-    endif
-
+    let r = xpt#flt#Eval( snip, a:filter, a:closures )
     call s:LoadFilterActionSnippet( r )
-
     return r
 
 endfunction "}}}
