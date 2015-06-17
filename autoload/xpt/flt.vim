@@ -49,8 +49,9 @@ fun! xpt#flt#Simplify( flt ) "{{{
     call filter( a:flt, 'v:val!=get(s:proto,v:key,-987654)' )
 endfunction "}}}
 
-fun! xpt#flt#Eval( flt, closures ) "{{{
+fun! xpt#flt#Eval( snip, flt, closures ) "{{{
 
+    let snipptn = a:snip.ptn
     let r = { 'rc' : 1 }
     let rst = xpt#eval#Eval( a:flt.text, a:closures )
 
@@ -59,29 +60,61 @@ fun! xpt#flt#Eval( flt, closures ) "{{{
     if type( rst ) == type( 0 )
 
         let r.rc = 0
+        return r
 
-    elseif type( rst ) == type( '' )
+    endif
 
-        call extend( r, { 'action': 'build', 'text' : rst } )
+    " plain text is interpreted as plain text or snippet segment, depends
+    " on if there is mark in it.
+    "
+    " To explicitly use plain text or snippet segment, use Echo() and
+    " Build() respectively.
+    if type( rst ) == type( '' )
 
-    elseif type( rst ) == type( [] )
+        if rst =~ snipptn.lft
+            let r.action = 'build'
+        else
+            let r.action = 'text'
+        endif
+        let r.text = rst
+        return r
 
-        call extend( r, { 'action' : 'pum', 'pum' : rst } )
+    endif
+
+    if type( rst ) == type( [] )
+
+        let r.action = 'pum'
+        let r.pum = rst
+        return r
+
+    endif
+
+    " rst is dictionary
+    if has_key( rst, 'action' )
+
+        call extend( r, rst, 'error' )
+
+        " backward compatible
+        if r.action ==# 'embed'
+            let r.action = 'build'
+        endif
 
     else
-        " rst is dictionary
 
-        if has_key( rst, 'action' )
-            call extend( r, rst, 'error' )
+        let text = get( r, 'text', '' )
+
+        " effective action is determined by if there is item pattern in text
+        if text =~ snipptn.lft
+            let r.action = 'build'
         else
-            r.action = 'build'
+            let r.action = 'text'
         endif
 
-        " TODO fix cursor usage
-        if has_key( r, 'cursor' )
-            call xpt#flt#ParseCursorSpec( r )
-        endif
+    endif
 
+    " TODO fix cursor usage
+    if has_key( r, 'cursor' )
+        call xpt#flt#ParseCursorSpec( r )
     endif
 
     return r
