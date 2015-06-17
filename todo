@@ -1,3 +1,5 @@
+use flt.vim
+
 press trigger key when <c-n> pum presents
 
 test from 'factor'
