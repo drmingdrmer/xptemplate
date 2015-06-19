@@ -1,14 +1,14 @@
 use xpt#parser
+use flt
 
 press trigger key when <c-n> pum presents
 
-test from 'factor'
-what's the right "test" snippet in 'factor'
 during rendering <CR> does not work the way super-tab setup, which is closing pum only.
 inclusion inside expandable should be parsed at runtime, or recursive inclusion is impossible.
 add functin to detect if it is expandable at current position
+
 check text before/after cursor as a condition to expand snippet
-mv-flt-here
+
 redefine `_if` should affect all snippet that includes it
 snippet handling current line text or else
 
@@ -23,6 +23,9 @@ Finish ignores other ph
 marks:
 -   post filter use marks
 -   init-val, def, ontype, preset use edit marks
+
+test from 'factor'
+what's the right "test" snippet in 'factor'
 
 # doc
 add FAQ of Choose
