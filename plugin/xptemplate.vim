@@ -4139,8 +4139,6 @@ fun! s:UpdateMarksAccordingToLeaderChanges( renderContext ) "{{{
         throw 'XPM:mark_lost:' . string( start[0] == 0 ? leaderMark.start : leaderMark.end )
     endif
 
-
-
     " call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
     if XPMhas( innerMarks.start, innerMarks.end )
         call XPMsetLikelyBetween( innerMarks.start, innerMarks.end )
@@ -4151,40 +4149,31 @@ fun! s:UpdateMarksAccordingToLeaderChanges( renderContext ) "{{{
     let rc = XPMupdate()
     call s:log.Log( 'rc=' . string(rc) . ' phase=' . string(a:renderContext.phase) . ' strict=' . g:xptemplate_strict )
 
-    if g:xptemplate_strict == 2
-                \&& a:renderContext.phase == 'fillin'
+    if a:renderContext.phase == 'fillin'
 
         if rc is g:XPM_RET.updated
               \ || ( type( rc ) == type( [] )
               \      && ( rc[ 0 ] != leaderMark.start && rc[ 0 ] != innerMarks.start
               \        || rc[ 1 ] != leaderMark.end && rc[ 1 ] != innerMarks.end ) )
 
-            throw 'XPT:changes outside of place holder'
+            if g:xptemplate_strict == 2
 
-        endif
+                throw 'XPT:changes outside of place holder'
 
-    endif
+            elseif g:xptemplate_strict == 1
 
-    if g:xptemplate_strict == 1
-                \&& a:renderContext.phase == 'fillin'
-                \&& rc is g:XPM_RET.updated
-        " g:XPM_RET.updated means update made but not in likely range
+                undo
+                call XPMupdate()
 
-        if rc is g:XPM_RET.updated
-              \ || ( type( rc ) == type( [] )
-              \      && ( rc[ 0 ] != leaderMark.start && rc[ 0 ] != innerMarks.start
-              \        || rc[ 1 ] != leaderMark.end && rc[ 1 ] != innerMarks.end ) )
+                " TODO better hint
+                " TODO allow user to move?
 
-            undo
-            call XPMupdate()
+                call XPT#warn( "editing OUTSIDE place holder is not allowed whne g:xptemplate_strict=1, use " . g:xptemplate_goback . " to go back" )
 
-            " TODO better hint
-            " TODO allow user to move?
-
-            call XPT#warn( "editing OUTSIDE place holder is not allowed whne g:xptemplate_strict=1, use " . g:xptemplate_goback . " to go back" )
-
-            return g:XPT_RC.canceled
-
+                return g:XPT_RC.canceled
+            else
+                 " == 0
+            endif
         endif
     endif
 
@@ -4234,17 +4223,14 @@ fun! s:DoUpdate( renderContext, changeType ) "{{{
 
     let contentTyped = xpt#util#TextBetween( XPMposStartEnd( renderContext.leadingPlaceHolder.mark ) )
 
-    if contentTyped ==# renderContext.lastContent
-        call s:log.Log( "nothing different typed" )
-        return
-    endif
+    " if contentTyped ==# renderContext.lastContent
+    "     call s:log.Log( "nothing different typed" )
+    "     return
+    " endif
 
     call s:log.Log( "typed:" . contentTyped )
 
-
     call s:CallPlugin("update", 'before')
-
-
 
     " update items
 
@@ -4254,14 +4240,10 @@ fun! s:DoUpdate( renderContext, changeType ) "{{{
     call s:log.Log( "lastContent=".renderContext.lastContent )
     call s:log.Log( "contentTyped=".contentTyped )
 
-
-
-
     " NOTE: sometimes, update is made before key mapping finished. Thus XPTupdate can not catch likely_matched result
     if type( a:changeType ) == type( [] )
           \ || a:changeType is g:XPM_RET.likely_matched
           \ || a:changeType is g:XPM_RET.no_updated_made
-
 
         call s:log.Log( "marks before updating following:\n" . XPMallMark() )
 
@@ -4271,14 +4253,9 @@ fun! s:DoUpdate( renderContext, changeType ) "{{{
         call s:UpdateFollowingPlaceHoldersWith( contentTyped, {} )
         call s:GotoRelativePosToMark( relPos, renderContext.leadingPlaceHolder.mark.start )
 
-
-
     else
         " TODO undo-redo handling
-
     endif
-
-
 
     call s:CallPlugin('update', 'after')
 
