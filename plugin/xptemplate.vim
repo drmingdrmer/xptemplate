@@ -4376,7 +4376,7 @@ augroup XPT "{{{
 
     au InsertEnter * call <SID>XPTcheck()
 
-    au CursorMovedI * call <SID>XPTupdateTyping()
+    au CursorMoved,CursorMovedI * call <SID>XPTupdateTyping()
 
     if g:xptemplate_strict == 1
         au CursorMovedI * call <SID>BreakUndo()
