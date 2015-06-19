@@ -1157,9 +1157,16 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
         " <keyword><non-keyword> is breakable: func( in c
 
         " search for valid snippet name or single non-keyword name
-        let snpt_name_ptn = '\V\^' . x.keyword . '\w\*\|\^\W'
+        let snpt_name_ptn = '\V\^\(' . x.keyword . '\|\k\)\k\*'
         while n != '' && !has_key( pre, n )
-            let n = substitute( n, snpt_name_ptn, '', '' )
+            let shorter = substitute( n, snpt_name_ptn, '', '' )
+
+            " no keyword or xpt-keyword stripted, strip one non-keyword
+            if shorter == n
+                let n = n[ 1 : ]
+            else
+                let n = shorter
+            endif
         endwhile
         let matched = n
 
