@@ -11,15 +11,20 @@ import re
 import lg
 import tmux
 
-from util import sh, fread, delay, _path, _thread
+import util
+from util import sh, fread, _path, _thread
 
 logger = None
 
 flags = {
         'stdoutlvl': 'info',
         'nthread': 8,
+        'delay_time' : 2 # sec
 }
 test_root_path = os.path.dirname(os.path.realpath(__file__))
+
+def delay():
+    util.delay(flags['delay_time'])
 
 class TestError( Exception ): pass
 
@@ -427,6 +432,13 @@ if __name__ == "__main__":
     if '-c' in args:
         i = args.index('-c')
         flags[ 'nthread' ] = int(args[i+1])
+        args.pop( i )
+        args.pop( i )
+
+    # delay time
+    if '-d' in args:
+        i = args.index('-d')
+        flags[ 'delay_time' ] = float(args[i+1])
         args.pop( i )
         args.pop( i )
 
