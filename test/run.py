@@ -78,8 +78,9 @@ def main( pattern, subpattern='*' ):
     logger.info("test: {0} {1}".format(pattern, subpattern))
     sess = {
             'q': Queue.Queue(1024),
-            'passed':[],
+            'passed': [],
             'failures': [],
+            'skipped': [],
     }
 
     case_root = os.path.join( test_root_path, "cases" )
@@ -123,6 +124,11 @@ def main( pattern, subpattern='*' ):
         mes, reason = f
         logger.info(mes)
         logger.info(reason)
+
+    if len(sess['skipped']):
+        logger.info("skipped:")
+        for t in sess['skipped']:
+            logger.info(' '.join([t['case_name'], t['name']]))
 
 def case_runner_safe(sess):
 
@@ -172,6 +178,7 @@ def _run_case( sess, cname, subpattern ):
         test = load_test(cname, case_path, testname)
         if test[None][:1] == ['TODO']:
             test['logger'].info("SKIP: " + testname)
+            sess['skipped'].append()
             continue
 
         t = test.copy()
