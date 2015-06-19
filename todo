@@ -1,3 +1,5 @@
+use xpt#parser
+
 press trigger key when <c-n> pum presents
 
 test from 'factor'
@@ -66,6 +68,18 @@ E15: Invalid expression: built || a:action ==# 'clear'
 Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
 line   45:
 E488: Trailing characters:  a:action ==# 'clear'
+```
+
+dbcool-vm, edit dbcool.lua, dd`<tab>` vim7.2
+
+```
+function XPTtgr..XPTemplateStart..<SNR>158_DoStart..<SNR>158_RenderSnippet..<SNR>158_BuildSnippet..<SNR>158_BuildPlaceHolders..<SNR>158_EvaluateEdge..<SNR>158_EvalAsFilter..<SNR>
+158_EvalFilter..xpt#eval#Eval, line 19
+Vim(let):E716: Key not present in Dictionary: Concat(xfunc.GetVar('$_xSnipName'),xfunc.GetVar('$SParg'))
+xfunc.Concat(xfunc.GetVar('$_xSnipName'),xfunc.GetVar('$SParg'))
+function XPTtgr..XPTemplateStart..<SNR>158_DoStart..<SNR>158_RenderSnippet..<SNR>158_BuildSnippet..<SNR>158_BuildPlaceHolders..<SNR>158_ApplyPreValues..<SNR>158_EvalFilter..xpt#e
+val#Eval, line 19
+Vim(let):E716: Key not present in Dictionary: Concat(xfunc.Call('Echo',['']))
 ```
 
 <!-- vim: ft=markdown
