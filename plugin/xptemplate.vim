@@ -15,11 +15,6 @@
 "     template
 " "}}}
 "
-" KNOWING BUG: "{{{
-"   sh: "else" snippet does not support 'indentkeys' setting.
-"
-" "}}}
-"
 " TODOLIST: "{{{
 " TODO bug: in *.css: type: "* {<CR>" prodcues another "* }" at the next line.
 " in future
@@ -243,7 +238,10 @@ endfunction "}}}
 
 " which letter can be used in template name other than 'iskeyword'
 fun! XPTemplateKeyword(val) "{{{
+
     let x = b:xptemplateData
+    let ftScope   = x.filetypes[ x.snipFileScope.filetype ]
+    let ftkeyword = ftScope.ftkeyword
 
     " word characters are already valid.
     let val = substitute(a:val, '\w', '', 'g')
@@ -251,12 +249,12 @@ fun! XPTemplateKeyword(val) "{{{
     let needEscape = '^\]-'
 
 
-    let x.keywordList += split( val, '\v\s*' )
-    call sort( x.keywordList )
-    let x.keywordList = split( substitute( join( x.keywordList, '' ), '\v(.)\1+', '\1', 'g' ), '\v\s*' )
+    let ftkeyword.list += split( val, '\v\s*' )
+    call sort( ftkeyword.list )
+    let ftkeyword.list = split( substitute( join( ftkeyword.list, '' ), '\v(.)\1+', '\1', 'g' ), '\v\s*' )
 
 
-    let x.keyword = '\[0-9A-Za-z_' . escape( join( x.keywordList, '' ), needEscape ) . ']'
+    let ftkeyword.regexp = '\[0-9A-Za-z_' . escape( join( ftkeyword.list, '' ), needEscape ) . ']'
 
 endfunction "}}}
 
@@ -1132,10 +1130,11 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
         " TODO codes below are dirty. clean it up lazy bone!!
 
-        call s:log.Log("x.keyword=" . x.keyword)
+        let ftScope = s:GetContextFTObj()
+        let ftkeyword = ftScope.ftkeyword
 
-        " TODO test escaping
-        "
+        call s:log.Log("ftkeyword.regexp=" . string(ftkeyword.regexp))
+
         " NOTE: The following statement hangs VIM if x.keyword == '\w'
         " let [startLineNr, startColumn] = searchpos('\V\%(\w\|'. x.keyword .'\)\+\%#', "bn", startLineNr )
 
@@ -1146,18 +1145,14 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
             let lineToCursor = ''
         endif
 
-        let ftScope = s:GetContextFTObj()
         let pre = ftScope.namePrefix
         let n = split( lineToCursor, '\s', 1 )[ -1 ]
-
-        " TODO use filetype.keyword
-        " TODO in php $se should not trigger snippet 'se'
 
         " <non-keyword><keyword> is not breakable: $var in php
         " <keyword><non-keyword> is breakable: func( in c
 
         " search for valid snippet name or single non-keyword name
-        let snpt_name_ptn = '\V\^\(' . x.keyword . '\|\k\)\k\*'
+        let snpt_name_ptn = '\V\^\(' . ftkeyword.regexp . '\|\k\)\k\*'
         while n != '' && !has_key( pre, n )
             let shorter = substitute( n, snpt_name_ptn, '', '' )
 
