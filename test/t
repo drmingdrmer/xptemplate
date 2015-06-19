@@ -29,7 +29,9 @@ echo test repo path: $tpath
 
 test_working_tree=0
 verbose=''
-while getopts wv opname; do
+concurrent=''
+delay=''
+while getopts wvc:d: opname; do
     case $opname in
         w)
             test_working_tree=1
@@ -37,6 +39,12 @@ while getopts wv opname; do
         v)
             # pass it to python
             verbose=' -v '
+            ;;
+        c)
+            concurrent=" -c $OPTARG "
+            ;;
+        d)
+            delay=" -d $OPTARG"
             ;;
     esac
 done
@@ -55,4 +63,4 @@ else
         && cd $tpath || exit 1
 fi
 
-$py test/run.py $verbose "$@"
+$py test/run.py $verbose $concurrent $delay "$@"

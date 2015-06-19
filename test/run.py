@@ -424,6 +424,9 @@ def _dump(test):
 
 if __name__ == "__main__":
     args = sys.argv
+
+    print 'arguments:', args
+
     if '-v' in args:
         flags[ 'stdoutlvl' ] = 'debug'
         args.remove( '-v' )
