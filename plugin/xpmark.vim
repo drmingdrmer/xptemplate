@@ -12,9 +12,9 @@ com! XPMgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPMgetSID
 delc XPMgetSID
 
+runtime plugin/xptemplate.conf.vim
 runtime plugin/debug.vim
-let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
 
 
 " probe mark
@@ -63,7 +63,7 @@ fun! XPMcheckStatusline() "{{{
     else
         call s:SetupStatusline()
     endif
-endfunction
+endfunction "}}}
 
 fun! s:SetupStatusline() "{{{
     if &statusline == ""
