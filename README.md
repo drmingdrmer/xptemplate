@@ -164,7 +164,8 @@ First of all, Enter VIM.
 
         :filetype
 
-    Make sure you get *"filetype detection:ON  plugin:ON ..."*. Or you need the following statement in you .vimrc:
+    Make sure you get *"filetype detection:ON  plugin:ON ..."*. Or you need
+    the following statement in you .vimrc:
 
         filetype plugin  on
 
@@ -173,7 +174,8 @@ First of all, Enter VIM.
 
         :scriptnames
 
-    You will get a list of scripts VIM has loaded. There should be some files with name started with "xpt", like this:
+    You will get a list of scripts VIM has loaded. There should be some files
+    with name started with "xpt", like this:
 
         97: /data/.../dist/plugin/xptemplate.vim
         98: /data/.../dist/plugin/xptemplate.conf.vim
@@ -181,7 +183,8 @@ First of all, Enter VIM.
 
     If not, you should check if you have XPTemplate installed correctly.
 
-    You should see files with name started with "xpt.." in folder ~/.vim/ (Unix-like OS) or in $VIMH/vimfiles/ (Windows). Like this:
+    You should see files with name started with "xpt.." in folder ~/.vim/
+    (Unix-like OS) or in $VIMH/vimfiles/ (Windows). Like this:
 
         |-- plugin
         ...
@@ -206,7 +209,8 @@ In VIM, type:
 
     This means your XPTemplate should work well.
     Or check if some other plugin has conflicting key-binding.
-    If so, solve it by adding the following statement into you .vimrc file to change XPTemplate key-binding:
+    If so, solve it by adding the following statement into you .vimrc file to
+    change XPTemplate key-binding:
 
         let g:xptemplate_key = '<Tab>'
 
@@ -304,7 +308,8 @@ Or you may just want to disable brackets complete:
 ## Adjust space and line-break
 
 Spaces and line-breaks are defined by some *variable*.
-Instead of rewrite snippet in your own coding style, modifying these *variable* is the easiest way.
+Instead of rewrite snippet in your own coding style, modifying these
+*variable* is the easiest way.
 
 For example by default "for" loop snippet in C lang is like:
 
@@ -389,27 +394,35 @@ fun! XPTwrapSuperTab(command) "{{{
 endfunction "}}}
 ```
 
-## With popup menu opened, `<TAB>` doesn't trigger Snippe
+## With popup menu opened, `<TAB>` doesn't trigger Snippet
 
-By default if popup menu is opened and `<TAB>` is used as trigger key, a `<TAB>` key press does not  trigger a snippet, according to convention in many other application user use `<TAB>`.
+By default if popup menu is opened and `<TAB>` is used as trigger key, a
+`<TAB>` key press does not  trigger a snippet, according to convention in many
+other application user use `<TAB>`.
 
-If you always want to trigger snippet with `<TAB>` no matter popup menu opened or not, add these lines to your .vimrc:
+If you always want to trigger snippet with `<TAB>` no matter popup menu opened
+or not, add these lines to your .vimrc:
 
     let g:xptemplate_key = '<Plug>triggerxpt'
     inoremap <Plug>closePUM <C-v><C-v><BS>
     imap <TAB> <Plug>closePUM<Plug>triggerxpt
-    " let g:xptemplate_fallback = 'nore:<TAB>' " Optional. Use this only when you have no other plugin like SuperTab to handle <TAB>.
+    " " Optional. Use this only when you have no other plugin like SuperTab to
+    " " handle <TAB>.
+    " let g:xptemplate_fallback = 'nore:<TAB>'
 
 It first forces popup menu to close and then trigger snippet.
 
-This fix issue that some plugin like AutoComplPop opens popup menu automatically.
+This fix issue that some plugin like AutoComplPop opens popup menu
+automatically.
 
 
 
 
 ## Set up personal info. XPTemplate complains: "author is not set .."
 
-You can set up your name and email for just one time, and use them everywhere, like that in a document comment block the name of the author(you) will be filled in.
+You can set up your name and email for just one time, and use them everywhere,
+like that in a document comment block the name of the author(you) will be
+filled in.
 
 Set up variable $author and $email in your .vimrc:
 
@@ -503,13 +516,16 @@ For example an extended "*for*" snippet looks like:
         )
 
 
-The header line declares a higher priority than priority "*lang*"( lower number means higher priority ):
+The header line declares a higher priority than priority "*lang*"(
+lower number means higher priority ):
 
     XPTemplate priority=lang-1
 
-All snippets in this file override snippets in *xpt-snippet-folder/ftplugin/c/c.xpt.vim* which declares with priority "*lang*".
+All snippets in this file override snippets in
+*xpt-snippet-folder/ftplugin/c/c.xpt.vim* which declares with priority "*lang*".
 
-Except that this file is with higher **priority**, **Personal-snippet-folder** has no differences from **xpt-snippet-folder**.
+Except that this file is with higher **priority**, **Personal-snippet-folder**
+has no differences from **xpt-snippet-folder**.
 
 ***If you use GIT to sync vim plugins and your own snippets,
 it's a good idea to place your snippet GIT folder somewhere outside XPTemplate
