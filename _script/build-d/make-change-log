@@ -30,7 +30,9 @@ for line in sys.stdin:
     tp = tp[:-1]
     sec = sec[:-1]
     mes = mes.strip()
-    logs[tp][sec] = logs[tp].get(sec, []) + [mes]
+    logs[tp][sec] = logs[tp].get(sec, [])
+    if mes not in logs[tp][sec]:
+        logs[tp][sec] += [mes]
     has_log = True
 
 if not has_log:
