@@ -631,6 +631,7 @@ fun! s:normalModeUpdate() dict "{{{
         " nothing to do, everything is ok in insert mode
         " }}}
 
+        return g:XPM_RET.no_updated_made
     else
         " change is taken in normal mode "{{{
         " delete, replace, paste 
