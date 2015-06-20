@@ -973,7 +973,7 @@ endfunction "}}}
 fun! XPTparseSnippets() "{{{
     let x = b:xptemplateData
     for p in x.snippetToParse
-        call DoParseSnippet(p)
+        call xpt#parser#ParseSnippet(p)
     endfor
 
     let x.snippetToParse = []
