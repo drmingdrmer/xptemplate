@@ -115,20 +115,19 @@ def main( pattern, subpattern='*' ):
 
         th.join()
 
-    if len(sess['failures']) == 0:
-        logger.info("all test passed")
-        return
-
-    logger.info("failures:")
-    for f in sess['failures']:
-        mes, reason = f
-        logger.info(mes)
-        logger.info(reason)
-
-    if len(sess['skipped']):
+    if len(sess['skipped']) > 0:
         logger.info("skipped:")
         for t in sess['skipped']:
             logger.info(' '.join([t['case_name'], t['name']]))
+
+    if len(sess['failures']) == 0:
+        logger.info("all test passed")
+    else:
+        logger.info("failures:")
+        for f in sess['failures']:
+            mes, reason = f
+            logger.info(mes)
+            logger.info(reason)
 
 def case_runner_safe(sess):
 
@@ -178,7 +177,7 @@ def _run_case( sess, cname, subpattern ):
         test = load_test(cname, case_path, testname)
         if test[None][:1] == ['TODO']:
             test['logger'].info("SKIP: " + testname)
-            sess['skipped'].append()
+            sess['skipped'].append(test)
             continue
 
         t = test.copy()
