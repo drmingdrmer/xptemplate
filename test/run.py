@@ -12,7 +12,7 @@ import lg
 import tmux
 
 import util
-from util import sh, fread, _path, _thread
+from util import fread, _path, _thread
 
 logger = None
 
@@ -23,8 +23,9 @@ flags = {
 }
 test_root_path = os.path.dirname(os.path.realpath(__file__))
 
-def delay():
-    util.delay(flags['delay_time'])
+def delay(time=None):
+    time = time or flags['delay_time']
+    util.delay(time)
 
 class TestError( Exception ): pass
 
@@ -68,7 +69,7 @@ def handle_test_err(sess, err):
     reason.append(test["screen_captured"])
     reason = "\n".join(reason)
 
-    sess['failures'].append((mes, reason))
+    sess['failures'].append((test, mes, reason))
 
     test['logger'].info(mes)
     test['logger'].info(reason)
@@ -90,12 +91,18 @@ def main( pattern, subpattern='*' ):
 
     cs = []
     for c in cases:
+
         if not os.path.isdir( os.path.join( case_root, c ) ):
             continue
 
-        if fnmatch.fnmatch( c, pattern ):
-            cs.append((sess, c, subpattern))
-            logger.info("to test: " + c)
+        if not fnmatch.fnmatch( c, pattern ):
+            continue
+
+        logger.info("to test: " + c)
+
+        tests = load_tests(sess, c, subpattern)
+        for test in tests:
+            cs.append(test)
 
     for what in cs:
         sess['q'].put(what)
@@ -111,7 +118,7 @@ def main( pattern, subpattern='*' ):
             time.sleep(1)
 
             for f in sess['failures']:
-                logger.info(f[0])
+                logger.info(f[1])
 
         th.join()
 
@@ -125,7 +132,7 @@ def main( pattern, subpattern='*' ):
     else:
         logger.info("failures:")
         for f in sess['failures']:
-            mes, reason = f
+            test, mes, reason = f
             logger.info(mes)
             logger.info(reason)
 
@@ -140,35 +147,37 @@ def case_runner(sess):
 
     while True:
         try:
-            args = sess['q'].get(block=False)
+            test = sess['q'].get(block=False)
         except Queue.Empty:
             break
-        run_case(*args)
+        run_case_test_protected(sess, test)
 
-def run_case(sess, casename, subpattern):
+def run_case_test_protected(sess, test):
 
-    try:
-        _run_case(sess, casename, subpattern)
-        return
-    except TestError as e:
-        handle_test_err(sess, e)
+    err = None
+    for ii in range(7):
+        try:
+            # Extend delay_time 1.5 times longer to let some time senstive
+            # test to pass
+            t = test.copy()
+            t['delay_time'] = t['delay_time'] * (1.5**ii)
+            if ii > 0:
+                test['logger'].info( ('set delay_time to %3.1fs and try again: ' % t['delay_time'])
+                                     + ' '.join([test['case_name'], test['name']]) )
+            run_case_test(t)
+            return
 
-    except Exception as e:
-        logger.exception(repr(e))
+        except TestError as e:
+            err = e
+            continue
 
-def _run_case( sess, cname, subpattern ):
+        except Exception as e:
+            logger.exception(repr(e))
+            return
+    else:
+        handle_test_err(sess, err)
 
-    logger.debug( " start: " + cname + " ..." )
-
-    tests = load_tests(cname, subpattern)
-
-    for test in tests:
-        t = test.copy()
-        run_case_test(t)
-
-    logger.info("case passed: " + cname)
-
-def load_tests(case_name, subpattern):
+def load_tests(sess, case_name, subpattern):
 
     testnames = list_case_test_names(case_name, subpattern)
     tests = []
@@ -207,7 +216,7 @@ def run_case_test(test):
 
     start_cmd = vim_start_cmdstring(test)
     tm.start(start_cmd)
-    delay()
+    delay(test['delay_time'])
     test['logger'].debug( "vim started with: " + repr(start_cmd) )
 
     assert_no_err_on_screen(test)
@@ -219,7 +228,7 @@ def run_case_test(test):
     vim_add_settings(test, test['setting'])
     vim_add_local_settings(test, test['localsetting'])
     vim_add_cmd(test, test['cmd'])
-    delay()
+    delay(test['delay_time'])
 
     _dump(test)
     test['tmux'].sendkeys('i')
@@ -251,6 +260,7 @@ def load_test(case_name, testname):
              'sess_name': sess_name,
              'logger': lg.make_logger(case_name, stdoutlvl=flags['stdoutlvl']),
              'rst_name' : '-'.join(['rst', case_name, testname]),
+             'delay_time' : flags['delay_time'],
 
              'vimarg': [],
              'workingdir': [],
@@ -315,7 +325,7 @@ def vim_so_fn(test, fn):
         return
 
     test['tmux'].sendkeys( ":so " + fn, key['cr'] )
-    delay()
+    delay(test['delay_time'])
     test['logger'].debug( "vim setting loaed: " + repr(fn) )
 
 def vim_add_rtp( test ):
@@ -355,7 +365,7 @@ def vim_set_default_ft(test):
     if os.path.isfile( ft_foo_path ):
         vim_add_settings( test, [ 'filetype=foo' ] )
         # changing setting may cause a lot ftplugin to load
-        delay()
+        delay(test['delay_time'])
 
 def vim_key_sequence_strings( test ):
 
@@ -366,7 +376,7 @@ def vim_key_sequence_strings( test ):
             continue
         test['logger'].debug("send keys: " + repr(line))
         test['tmux'].sendkeys(line)
-        delay()
+        delay(test['delay_time'])
         _dump(test)
         assert_no_err_on_screen(test)
 
@@ -377,7 +387,7 @@ def vim_dump_file_content( test ):
     fn = _path(test['case_path'], test['rst_name'])
 
     test['tmux'].sendkeys( key['esc']*4 )
-    delay()
+    delay(test['delay_time'])
     test['tmux'].sendkeys( ":w " + fn, key['cr'] )
 
     now = time.time()
