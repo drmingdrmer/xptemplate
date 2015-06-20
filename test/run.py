@@ -250,6 +250,7 @@ def load_test(case_name, testname):
              'name': testname,
              'sess_name': sess_name,
              'logger': lg.make_logger(case_name, stdoutlvl=flags['stdoutlvl']),
+             'rst_name' : '-'.join(['rst', case_name, testname]),
 
              'vimarg': [],
              'workingdir': [],
@@ -373,7 +374,7 @@ def vim_key_sequence_strings( test ):
 
 def vim_dump_file_content( test ):
 
-    fn = _path(test['case_path'], 'rst')
+    fn = _path(test['case_path'], test['rst_name'])
 
     test['tmux'].sendkeys( key['esc']*4 )
     delay()
