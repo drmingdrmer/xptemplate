@@ -37,7 +37,7 @@ def fread( *args ):
     try:
         with open(fn, 'r') as f:
             content = f.read()
-    except OSError:
+    except (OSError, IOError):
         return None
 
     if content.endswith('\n'):
