@@ -146,6 +146,7 @@ def case_runner(sess):
         run_case(*args)
 
 def run_case(sess, casename, subpattern):
+
     try:
         _run_case(sess, casename, subpattern)
         return
@@ -159,25 +160,38 @@ def _run_case( sess, cname, subpattern ):
 
     logger.debug( " start: " + cname + " ..." )
 
-    case_path = _path( test_root_path, "cases", cname )
-    case_tests_dir = _path(case_path, 'tests')
-    testnames = os.listdir(case_tests_dir)
+    tests = load_tests(cname, subpattern)
 
-    testnames = [x for x in testnames
-                 if fnmatch.fnmatch( x, subpattern )]
-
-    for testname in testnames:
-
-        test = load_test(cname, case_path, testname)
-        if test[None][:1] == ['TODO']:
-            test['logger'].info("SKIP: " + testname)
-            sess['skipped'].append(test)
-            continue
-
+    for test in tests:
         t = test.copy()
         run_case_test(t)
 
     logger.info("case passed: " + cname)
+
+def load_tests(case_name, subpattern):
+
+    testnames = list_case_test_names(case_name, subpattern)
+    tests = []
+
+    for testname in testnames:
+
+        test = load_test(case_name, testname)
+        if test[None][:1] == ['TODO']:
+            test['logger'].info("SKIP: " + testname)
+            sess['skipped'].append(test)
+        else:
+            tests.append(test)
+
+    return tests
+
+def list_case_test_names(cname, subpattern):
+
+    case_tests_dir = _path(test_root_path, "cases", cname, 'tests')
+    testnames = os.listdir(case_tests_dir)
+
+    testnames = [x for x in testnames
+                 if fnmatch.fnmatch( x, subpattern )]
+    return testnames
 
 def run_case_test(test):
 
@@ -222,9 +236,10 @@ def run_case_test(test):
     tm.kill()
 
 
-def load_test(case_name, case_path, testname):
+def load_test(case_name, testname):
 
-    test_path = _path(case_path, "tests", testname)
+    case_path = _path(test_root_path, "cases", case_name)
+    test_path = _path(test_root_path, "cases", case_name, "tests", testname)
 
     sess_name = 'xpt-test_{0}_{1}'.format(case_name, testname)
 
