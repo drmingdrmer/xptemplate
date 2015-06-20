@@ -19,7 +19,7 @@ logger = None
 flags = {
         'stdoutlvl': 'info',
         'nthread': 8,
-        'delay_time' : 2 # sec
+        'delay_time' : 0.5 # sec
 }
 test_root_path = os.path.dirname(os.path.realpath(__file__))
 
