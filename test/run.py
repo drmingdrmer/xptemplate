@@ -155,12 +155,6 @@ def run_case(sess, casename, subpattern):
     except Exception as e:
         logger.exception(repr(e))
 
-    # if flags[ 'keep' ]:
-    #     # wait for user to see what happened
-    #     logger.info( "Ctrl-c to quit" )
-    #     while True:
-    #         time.sleep( 10 )
-
 def _run_case( sess, cname, subpattern ):
 
     logger.debug( " start: " + cname + " ..." )
