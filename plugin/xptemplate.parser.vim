@@ -39,7 +39,6 @@ com! -nargs=* XPTvar        call xpt#parser#SetVar( <q-args> )
 com! -nargs=* XPTsnipSet    call xpt#parser#SnipSet( <q-args> )
 com! -nargs=+ XPTinclude    call xpt#parser#Include(<f-args>)
 com! -nargs=+ XPTembed      call xpt#parser#Embed(<f-args>)
-" com! -nargs=* XSET          call XPTbufferScopeSet( <q-args> )
 
 fun! XPTinclude(...) "{{{
     call xpt#parser#Load(a:000, 1)
@@ -295,13 +294,6 @@ fun! s:getXSETkeyAndValue(lines, start) "{{{
     return [ key, val, start ]
 
 endfunction "}}}
-
-" XXX
-" fun! s:XPTbufferScopeSet( str )
-    " let [ key, value, start ] = s:getXSETkeyAndValue( [ 'XSET ' . a:str ], 0 )
-    " let [ keyname, keytype ] = xpt#parser#GetKeyType( key )
-" 
-" endfunction
 
 fun! s:ParseMultiLineValues(lines, start) "{{{
     " @return  [ which_line_XSETm_ends, multi_line_text ]
