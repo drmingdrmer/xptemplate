@@ -717,6 +717,28 @@ fun! s:HandleXSETcommand( setting, command, cmdArgs ) "{{{
 
 endfunction "}}}
 
+fun! xpt#parser#LoadSnippetToParseList(fn) "{{{
+
+    call s:log.Log("parse file :".a:fn)
+    let lines = readfile(a:fn)
+
+
+    let i = match( lines, '\V\^XPTemplateDef' )
+    if i == -1
+        " so that XPT can not start at first line
+        let i = match( lines, '\V\^XPT\s' ) - 1
+    endif
+
+    if i < 0
+        return
+    endif
+
+    let lines = lines[ i : ]
+
+    let x = b:xptemplateData
+    let x.snippetToParse += [ { 'snipFileScope' : x.snipFileScope, 'lines' : lines } ]
+
+endfunction "}}}
 fun! xpt#parser#ParseSnippet( p ) "{{{
 
     call xpt#snipfile#Push()
