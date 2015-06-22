@@ -1,0 +1,12 @@
+pre_vimrc:
+let g:xptemplate_brace_complete = 1
+let g:xptemplate_vars = 'SParg= '
+
+keys:
+"
+abc
+
+
+expected:
+"abc
+"
