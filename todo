@@ -1,4 +1,3 @@
-use xpt#parser
 use flt
 
 press trigger key when <c-n> pum presents
