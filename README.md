@@ -701,9 +701,21 @@ Either of rep_before and rep_after is OK in this case.
 
 # Known Issues
 
-* Before VIM 7.4, during applying snippet, key-mapping saving/restoring does not support `<expr>` mapping well.
-[#43](../../issues/43)  
-Solution: upgrade to VIM 7.4
+-   Key mapping can not be saved/restored correctly.
+
+    Before VIM 7.4, during applying snippet, key-mapping saving/restoring does
+    not support `<expr>` mapping well.
+
+    [#43](../../issues/43) Solution: upgrade to VIM 7.4
+
+-   Mapping of `CTRL-L` does not work with popup menu opened.
+
+    Before VIM 7.4.653 mapping of `CTRL-L` does not work with xpt-pum opened.
+    `complete()` opens pum in `compl-whole-line` mode and it handles `CTRL-L`
+    in its own way without considering any mapping binded to it.
+
+    Fixed in 
+    [vim-7.4-patch-653](https://github.com/vim/vim/commit/cd2c1cda5803f5ef7bb71a4034d393b4872a019f)
 
 
 [xpt-github]: https://github.com/drmingdrmer/xptemplate
