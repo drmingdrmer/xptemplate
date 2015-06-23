@@ -1887,6 +1887,7 @@ fun! s:TextWithoutIndent(posRange) "{{{
     let nIndent = xpt#indent#IndentBefore(s)
     let text = xpt#indent#RemoveIndentStr(text, nIndent)
 
+    " text with first line removed but it is still on-screen indent
     return text
 endfunction "}}}
 
