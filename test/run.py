@@ -309,7 +309,8 @@ def vim_start_cmdstring(test):
     cmds = [ 'vim', '-u', vimrcfn, ]
     cmds += test['vimarg']
     for c in pre_vimrc_cmds:
-        cmds += [ '--cmd', "'"+c.replace("'", "\"'\"")+"'" ]
+        # make every single quote quoted with double quote
+        cmds += [ '--cmd', "'"+c.replace("'", "'\"'\"'")+"'" ]
 
     rst = ' '.join(cmds)
 
