@@ -48,7 +48,14 @@ def safe_elt(lst, i):
 
 def handle_test_err(sess, err):
 
-    # with TestError, stop and see what happened
+    test, mes, reason = create_failure_record(err)
+
+    sess['failures'].append((test, mes, reason))
+
+    test['logger'].info(mes)
+    test['logger'].info(reason)
+
+def create_failure_record(err):
     test, failuretype, ex, ac = err[0:4]
     case_name = test['case_name']
     testname = test['name']
@@ -68,11 +75,7 @@ def handle_test_err(sess, err):
     reason.append("screen:")
     reason.append(test["screen_captured"])
     reason = "\n".join(reason)
-
-    sess['failures'].append((test, mes, reason))
-
-    test['logger'].info(mes)
-    test['logger'].info(reason)
+    return test, mes, reason
 
 def main( pattern, subpattern='*' ):
 
@@ -168,6 +171,10 @@ def run_case_test_protected(sess, test):
             return
 
         except TestError as e:
+            _, mes, reason = create_failure_record(e)
+            test['logger'].info(mes)
+            test['logger'].info(reason)
+
             err = e
             continue
 
@@ -217,7 +224,7 @@ def run_case_test(test):
     start_cmd = vim_start_cmdstring(test)
     tm.start(start_cmd)
     delay(test['delay_time'])
-    test['logger'].debug( "vim started with: " + repr(start_cmd) )
+    test['logger'].debug( "vim started with: " + start_cmd )
 
     assert_no_err_on_screen(test)
 
