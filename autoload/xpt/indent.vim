@@ -119,4 +119,10 @@ fun! xpt#indent#SpaceToTab( text ) "{{{
     return join(lines, "\n")
 endfunction "}}}
 
+fun! xpt#indent#ActualToSnippetNr(n) "{{{
+    let n_one_indent = &shiftwidth
+    let n_indent = a:n / n_one_indent
+    return n_indent * 4 + a:n % n_one_indent
+endfunction "}}}
+
 let &cpo = s:oldcpo
