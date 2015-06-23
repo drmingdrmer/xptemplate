@@ -36,7 +36,7 @@ fun! s:f.BracketRightPart( leftReg )
 
     if v0 =~ '\V\n\s\*\$'
         let v = matchstr( v, '\V\S\+' )
-        return self.ResetIndent( -s:crIndent, "\n" . v )
+        return { "action" : "text", "nIndent" : -s:crIndent, "text" : "\n".v }
     else
         return v
     endif
@@ -76,7 +76,7 @@ fun! s:f.quote_ontype()
     else
         return v
     endif
-    
+
 endfunction
 
 fun! s:f.bkt_ontype()
@@ -101,15 +101,17 @@ fun! s:f.bkt_ontype()
             let s:crIndent = self.NIndent()
         endif
 
+        " create snippet indent. filter does not use actual indent string
+        let n_indent = xpt#indent#ActualToSnippetNr(s:crIndent)
+        let indent_str = repeat( ' ', n_indent )
+
         let v = substitute( v, '\V\s\*\n\.\*', "\n", 'g' )
 
-        return self.FinishOuter( v . repeat( ' ', s:crIndent ) )
+        return self.FinishOuter( v . indent_str )
 
     else
-
-        let pos = self.ItemPos()[ 0 ]
-        return self.ResetIndent( -XPT#getIndentNr( pos[ 0 ], pos[ 1 ] ), v )
-
+        " nothing todo
+        return 0
     endif
 
 endfunction
