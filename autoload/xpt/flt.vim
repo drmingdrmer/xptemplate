@@ -52,7 +52,7 @@ endfunction "}}}
 fun! xpt#flt#Eval( snip, flt, closures ) "{{{
 
     let snipptn = a:snip.ptn
-    let r = { 'rc' : 1 }
+    let r = { 'rc' : 1, 'parseIndent' : 1 }
     let rst = xpt#eval#Eval( a:flt.text, a:closures )
 
     call s:log.Debug( 'filter eval result=' . string( rst ) )
