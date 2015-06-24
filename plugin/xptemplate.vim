@@ -2439,8 +2439,18 @@ fun! s:EvalAsFilter( raw, start_pos ) "{{{
 endfunction "}}}
 
 fun! s:IndentFilterText( flt_rst, start ) "{{{
-    let indent = s:IndentAt(a:start, a:flt_rst)
-    return xpt#indent#ParseStr(a:flt_rst.text, indent)
+
+    " By default all text passed in is snippet text which takes 4 space as one
+    " indent.
+    " Unless user specifies text is copied from screen, thus it does not need
+    " to parse indent.
+
+    if get(a:flt_rst, 'parseIndent', 1)
+        let indent = s:IndentAt(a:start, a:flt_rst)
+        return xpt#indent#ParseStr(a:flt_rst.text, indent)
+    else
+        return a:flt_rst.text
+    endif
 endfunction "}}}
 
 fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
@@ -3660,6 +3670,7 @@ fun! s:EvalFilter( filter, closures ) "{{{
 
     let r = xpt#flt#Eval( snip, a:filter, a:closures )
     call s:LoadFilterActionSnippet( r )
+    call s:log.Debug("evaled filter rst: " . string(r))
     return r
 
 endfunction "}}}
