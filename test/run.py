@@ -85,6 +85,7 @@ def main( pattern, subpattern='*' ):
             'passed': [],
             'failures': [],
             'skipped': [],
+            'retried': [],
     }
 
     case_root = os.path.join( test_root_path, "cases" )
@@ -130,6 +131,11 @@ def main( pattern, subpattern='*' ):
         for t in sess['skipped']:
             logger.info(' '.join([t['case_name'], t['name']]))
 
+    if len(sess['retried']) > 0:
+        logger.info("retried:")
+        for t in sess['retried']:
+            logger.info(t)
+
     if len(sess['failures']) == 0:
         logger.info("all test passed")
     else:
@@ -165,8 +171,10 @@ def run_case_test_protected(sess, test):
             t = test.copy()
             t['delay_time'] = t['delay_time'] * (1.5**ii)
             if ii > 0:
+                test_ident = ' '.join([test['case_name'], test['name']])
                 test['logger'].info( ('set delay_time to %3.1fs and try again: ' % t['delay_time'])
-                                     + ' '.join([test['case_name'], test['name']]) )
+                                     + test_ident )
+                sess['retried'].append( ('retry delay=%3.1fs: ' % t['delay_time']) + test_ident )
             run_case_test(t)
             return
 
