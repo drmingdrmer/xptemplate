@@ -4066,18 +4066,10 @@ fun! s:HandleOntypeFilter( filter ) "{{{
 
     if 0 is flt_rst.rc
         return
+    endif
 
-    elseif has_key( flt_rst, 'action' )
+    if has_key( flt_rst, 'action' )
         call s:HandleOntypeAction( renderContext, flt_rst )
-
-    elseif has_key( flt_rst, 'text' )
-
-        if flt_rst.text != contentTyped
-            let [ start, end ] = XPMposStartEnd( leader.mark )
-            call XPreplace( start, end, flt_rst.text )
-            call s:XPTupdate()
-        endif
-
     endif
 
 endfunction "}}}
