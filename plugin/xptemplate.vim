@@ -803,18 +803,9 @@ fun! XPTemplatePreWrap( wrap ) "{{{
     let x = b:xptemplateData
     let x.wrap = a:wrap
 
-    " TODO simplify me
-    let ts  = &tabstop
-
-
-    let tabspaces = repeat( ' ', ts )
-
     " TODO is that ok?
     let x.wrap = substitute( x.wrap, '\V\n\$', '', '' )
-
-    " xpt use tab internally to represent an indent
     let x.wrap = xpt#indent#ToSpace( x.wrap )
-    let x.wrap = xpt#indent#SpaceToTab( x.wrap )
 
     if ( g:xptemplate_strip_left || x.wrap =~ '\n' )
           \ && visualmode() ==# 'V'
