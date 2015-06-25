@@ -92,7 +92,7 @@ fun! xpt#flt#Eval( snip, flt, closures ) "{{{
     " rst is dictionary
     if has_key( rst, 'action' )
 
-        call extend( r, rst, 'error' )
+        call extend( r, rst, 'force' )
 
         " backward compatible
         if r.action ==# 'embed'
