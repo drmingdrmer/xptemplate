@@ -2585,10 +2585,12 @@ fun! s:SetPreValue( placeHolder, flt_rst ) "{{{
         return
     end
 
-    let marks = a:placeHolder.innerMarks
+    let rctx = b:xptemplateData.renderContext
+    let mark_name = s:GetReplaceMark(rctx, a:flt_rst)
+    let marks = a:placeHolder[mark_name]
+
     let [ start, _end ] = XPMposStartEnd( marks )
-    let indent = s:IndentAt(start, a:flt_rst)
-    let text = xpt#indent#ToActualIndentStr(a:flt_rst.text, indent)
+    let text = s:IndentFilterText(a:flt_rst, start)
 
     call s:log.Log( 'preValue=' . text )
     " call XPRstartSession()
