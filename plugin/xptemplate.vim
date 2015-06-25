@@ -2209,10 +2209,6 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
         call s:log.Log( "building now" )
         call s:log.Log(" : end=".string(end))
 
-        let nn = [ line( "." ), col( "." ) ]
-        " let text = xpt#util#TextBetween([nn, end])
-        " let elts = xpt#snip#TextToPlaceholders(text, xp)
-
         let nameInfo = s:GetNameInfo(end)
         if nameInfo[0] == [0, 0]
             " no more items
@@ -2246,16 +2242,12 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
             let indent = repeat( ' ', virtcol( nameInfo[ 0 ] ) - 1 )
 
-
             let line = "\n" . indent . xp.l . placeHolder.leftEdge . xp.l . 'GetWrappedText()' . xp.l . placeHolder.rightEdge . xp.r
-            " let line = "\n" . indent . xp.l . placeHolder.leftEdge . 'GetWrappedText()' . placeHolder.rightEdge . xp.r
-
             let lines = repeat( line, n )
 
             let pos = copy( valueInfo[ -1 ] )
             let pos[ 1 ] += 1
             call XPreplaceInternal( pos, pos, lines )
-            " call XPreplace( pos, pos, lines )
 
         endif
 
