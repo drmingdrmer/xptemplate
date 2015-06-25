@@ -2436,12 +2436,15 @@ fun! s:IndentFilterText( flt_rst, start ) "{{{
     " Unless user specifies text is copied from screen, thus it does not need
     " to parse indent.
 
+    let lines = split( a:flt_rst.text, '\n', 1 )
+
     if get(a:flt_rst, 'parseIndent', 1)
-        let indent = s:IndentAt(a:start, a:flt_rst)
-        return xpt#indent#ParseStr(a:flt_rst.text, indent)
-    else
-        return a:flt_rst.text
+        call xpt#indent#IndentToTab( lines )
     endif
+
+    let indent = s:IndentAt(a:start, a:flt_rst)
+    call xpt#indent#ToActualIndent( lines, indent )
+    return join(lines, "\n")
 endfunction "}}}
 
 fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
