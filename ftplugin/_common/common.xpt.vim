@@ -91,6 +91,7 @@ fun! s:f.GetWrappedText()
     if l == '' && r == ''
         return { 'nIndent'  : wrap.indent,
               \  'action'   : 'text',
+              \  'parseIndent' : 0,
               \  'text'     : wrap.text }
     else
 
