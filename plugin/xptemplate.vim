@@ -3338,17 +3338,6 @@ fun! s:FillinLeadingPlaceHolderAndSelect( rctx, flt_rst ) "{{{
         call XPreplace( start, _end, str )
     endif
 
-    " TODO action should not be 'build' if it goes in to this function
-    " if flt_rst.action == 'build'
-    "     if 0 > s:BuildPlaceHolders( marks )
-    "         return s:Crash()
-    "     endif
-
-    "     call s:log.Log( 'rebuild default values' )
-    "     return s:GotoNextItem()
-    " endif
-
-
     call s:XPTupdate()
 
     let action = s:SelectCurrent()
