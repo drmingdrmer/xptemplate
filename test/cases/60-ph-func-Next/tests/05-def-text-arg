@@ -1,0 +1,7 @@
+keys:
+def-text-one
+at_end
+
+expected:
+(user-text)at_end
+

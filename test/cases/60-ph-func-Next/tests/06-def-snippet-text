@@ -1,0 +1,11 @@
+keys:
+def-snippet-text
+	
+at_end
+def-snippet-text
+on_a	
+at_end
+
+expected:
+(a-a)at_end
+(on_a-on_a)at_end
