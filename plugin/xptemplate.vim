@@ -2970,6 +2970,7 @@ fun! s:GotoNextItem() "{{{
     " restore 'wrap'
     call xpt#settingswitch#Restore(b:xptemplateData.settingWrap)
 
+    call s:log.Log("action=" . action)
     return action
 endfunction "}}}
 
@@ -3027,7 +3028,6 @@ fun! s:DoGotoNextItem() "{{{
 
 
     let postaction = s:InitItem()
-
 
     " InitItem may change template stack
     let renderContext = b:xptemplateData.renderContext
@@ -3153,15 +3153,16 @@ fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
 
     elseif a:flt_rst.action ==# 'next'
 
-        let postaction = ''
-        " Note: update following?
-        if has_key( a:flt_rst, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( rctx, a:flt_rst )
+        let rc = s:FillinLeader(a:flt_rst)
+        if rc is 0
+            return ''
         endif
+
         if x.renderContext.processing
-            return s:ShiftForward( '' )
-        else
+            let postaction =  s:ShiftForward( '' )
             return postaction
+        else
+            return ''
         endif
 
     elseif a:flt_rst.action ==# 'remove'
@@ -3278,6 +3279,33 @@ fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet, flt_rst ) "{{{
     return [ s:NOTBUILT ]
 endfunction "}}}
 
+fun! s:FillinLeader(flt_rst) "{{{
+    let x = b:xptemplateData
+    let rctx = x.renderContext
+
+    let mark_name = s:GetPHReplacingMarkName(a:flt_rst)
+    let marks = rctx.leadingPlaceHolder[ mark_name ]
+    let [ s, e ] = XPMposStartEnd( marks )
+
+    if s[0] == 0 || e[0] == 0
+        call s:Crash('leader marks not found:' . string(mark_name))
+        return 0
+    endif
+
+    if a:flt_rst.rc is 0
+        return 1
+    endif
+
+    if has_key( a:flt_rst, 'text' )
+        let text = s:IndentFilterText( a:flt_rst, s )
+        call s:log.Debug( "text to fillin leader=" . string( text ) . len( text ) )
+        call XPreplace( s, e, text )
+    endif
+
+    call s:XPTupdate()
+
+    return 1
+endfunction "}}}
 
 
 " TODO bad implementation. If further build or shifforward needed, return back a
@@ -3317,6 +3345,7 @@ fun! s:FillinLeadingPlaceHolderAndSelect( rctx, flt_rst ) "{{{
     let action = s:SelectCurrent()
 
     call XPMupdateStat()
+    call s:log.Log('action=' . action)
     return action
 
 endfunction "}}}
