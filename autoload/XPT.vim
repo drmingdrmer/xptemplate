@@ -38,6 +38,8 @@ let XPT#ptnRepetition = '\V'. '\^\w\*...\w\*\$'
 
 let XPT#ptnPreEvalFunc = '\v^%(Inc|Inline|ResetIndent|Pre)\('
 
+let XPT#NONE = 0x000
+
 let XPT#BUILT = 0x001
 let XPT#NOTBUILT = 0x002
 
@@ -69,6 +71,7 @@ let XPT#importConst = ''
       \ . 'let s:ptnIncSimp     = XPT#ptnIncSimp | '
       \ . 'let s:ptnRepetition  = XPT#ptnRepetition | '
       \ . 'let s:ptnPreEvalFunc = XPT#ptnPreEvalFunc | '
+      \ . 'let s:NONE           = XPT#NONE | '
       \ . 'let s:DONE           = XPT#DONE | '
       \ . 'let s:UNDONE         = XPT#UNDONE | '
       \ . 'let s:GOON           = XPT#GOON | '
