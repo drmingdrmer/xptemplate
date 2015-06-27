@@ -2577,8 +2577,7 @@ fun! s:SetPreValue( placeHolder, flt_rst ) "{{{
         return
     end
 
-    let rctx = b:xptemplateData.renderContext
-    let mark_name = s:GetReplaceMark(rctx, a:flt_rst)
+    let mark_name = s:GetPHReplacingMarkName(a:flt_rst)
     let marks = a:placeHolder[mark_name]
 
     let [ start, _end ] = XPMposStartEnd( marks )
@@ -2877,7 +2876,7 @@ fun! s:ApplyPostFilter() "{{{
         let flt_rst = s:EvalPostFilter( filter, typed, leader )
 
         " name of marks between which content should be replaced
-        let mark_name = s:GetReplaceMark(rctx, flt_rst)
+        let mark_name = s:GetPHReplacingMarkName(flt_rst)
         let marks = rctx.leadingPlaceHolder[mark_name]
 
         let ori_flt_rst = copy( flt_rst )
@@ -3188,17 +3187,19 @@ fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
 
 endfunction "}}}
 
-fun! s:GetReplaceMark(rctx, flt_rst) "{{{
+fun! s:GetPHReplacingMarkName(flt_rst) "{{{
+    let rctx = b:xptemplateData.renderContext
+
     let mark_name = get(a:flt_rst, 'marks')
     if mark_name is 0
-        let mark_name = xpt#rctx#DefaultMarks(a:rctx)
+        let mark_name = xpt#rctx#DefaultMarks(rctx)
     endif
     return mark_name
 endfunction "}}}
 
 fun! s:ActionFinish( renderContext, flt_rst ) "{{{
 
-    let mark_name = s:GetReplaceMark(a:renderContext, a:flt_rst)
+    let mark_name = s:GetPHReplacingMarkName(a:flt_rst)
 
     let marks = a:renderContext.leadingPlaceHolder[ mark_name ]
     let [ start, end ] = XPMposStartEnd( marks )
@@ -4075,7 +4076,7 @@ endfunction "}}}
 fun! s:HandleAction( renderContext, flt_rst ) "{{{
     " NOTE: handle only leader's action
 
-    let marks = s:GetReplaceMark(a:renderContext, a:flt_rst)
+    let marks = s:GetPHReplacingMarkName(a:flt_rst)
 
     let postaction = ''
     if a:flt_rst.action == 'next'
