@@ -3188,6 +3188,15 @@ fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
 
 endfunction "}}}
 
+fun! s:GetLeaderOpPos(flt_rst) "{{{
+    let rctx = b:xptemplateData.renderContext
+    let mark_name = s:GetPHReplacingMarkName(a:flt_rst)
+
+    let marks = rctx.leadingPlaceHolder[ mark_name ]
+    let [ s, e ] = XPMposStartEnd( marks )
+    return [ s, e ]
+endfunction "}}}
+
 fun! s:GetPHReplacingMarkName(flt_rst) "{{{
     let rctx = b:xptemplateData.renderContext
 
@@ -3200,10 +3209,9 @@ endfunction "}}}
 
 fun! s:ActionFinish( renderContext, flt_rst ) "{{{
 
-    let mark_name = s:GetPHReplacingMarkName(a:flt_rst)
+    let rctx = b:xptemplateData.renderContext
 
-    let marks = a:renderContext.leadingPlaceHolder[ mark_name ]
-    let [ start, end ] = XPMposStartEnd( marks )
+    let [ start, end ] = s:GetLeaderOpPos(a:flt_rst)
 
     call s:log.Debug( "start, end=" . string( [ start, end ] ) )
     call s:log.Debug( "start line=" . string( getline( start[0] ) ) )
@@ -3230,7 +3238,7 @@ fun! s:ActionFinish( renderContext, flt_rst ) "{{{
 
 
     " TODO bad
-    call cursor( XPMpos( a:renderContext.leadingPlaceHolder.mark.end ) )
+    call cursor( XPMpos( rctx.leadingPlaceHolder.mark.end ) )
 
     let xptObj = b:xptemplateData
 
