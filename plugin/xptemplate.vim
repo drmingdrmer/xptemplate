@@ -3146,16 +3146,23 @@ fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
 
     elseif a:flt_rst.action ==# 'build'
 
-        " building destory current item
-        " TODO what if flt_rst has no text?
-        let [ built ] =  s:EmbedSnippetInLeadingPlaceHolder( rctx, get(a:flt_rst, 'text', ''), a:flt_rst )
+        let rc = s:FillinLeader(a:flt_rst)
+        if rc is s:BROKEN
+            return s:BROKEN
+        endif
+
+        let rc = s:BuildLeaderText(a:flt_rst)
+        if rc is s:BROKEN
+            return s:BROKEN
+        endif
+
         return s:GotoNextItem()
 
     elseif a:flt_rst.action ==# 'next'
 
         let rc = s:FillinLeader(a:flt_rst)
-        if rc is 0
-            return ''
+        if rc is s:BROKEN
+            return s:BROKEN
         endif
 
         if x.renderContext.processing
@@ -3255,38 +3262,6 @@ fun! s:ActionFinish( renderContext, flt_rst ) "{{{
 
 endfunction "}}}
 
-fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet, flt_rst ) "{{{
-    " TODO remove needless marks
-    let ph = a:ctx.leadingPlaceHolder
-
-    let marks = ph.innerMarks
-    let range = [ XPMpos( marks.start ), XPMpos( marks.end ) ]
-    if range[0] == [0, 0] || range[1] == [0, 0]
-        call s:Crash( 'leading place holder''s mark lost:' . string( marks ) )
-        return [ s:NOTBUILT ]
-    endif
-
-    call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
-
-    let text = s:IndentFilterText(a:flt_rst, range[0])
-    call XPreplace( range[0], range[1], text )
-
-    if a:flt_rst.action == 'build'
-        let build_rc = s:BuildPlaceHolders( marks )
-        call s:log.Log( "build_rc=" . string( build_rc ) )
-        if build_rc < 0
-            call s:Crash('building place holder failed')
-            return [ s:NOTBUILT ]
-        else
-            if build_rc == s:BUILT
-                call s:RemoveCurrentMarks()
-            end
-            return [ build_rc ]
-        endif
-    end
-    return [ s:NOTBUILT ]
-endfunction "}}}
-
 fun! s:FillinLeader(flt_rst) "{{{
     let x = b:xptemplateData
     let rctx = x.renderContext
@@ -3297,14 +3272,17 @@ fun! s:FillinLeader(flt_rst) "{{{
 
     if s[0] == 0 || e[0] == 0
         call s:Crash('leader marks not found:' . string(mark_name))
-        return 0
+        return s:BROKEN
     endif
 
     if a:flt_rst.rc is 0
-        return 1
+        return s:NONE
     endif
 
     if has_key( a:flt_rst, 'text' )
+
+        call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
+
         let text = s:IndentFilterText( a:flt_rst, s )
         call s:log.Debug( "text to fillin leader=" . string( text ) . len( text ) )
         call XPreplace( s, e, text )
@@ -3312,7 +3290,30 @@ fun! s:FillinLeader(flt_rst) "{{{
 
     call s:XPTupdate()
 
-    return 1
+    return s:DONE
+endfunction "}}}
+
+fun! s:BuildLeaderText(flt_rst) "{{{
+
+    let rctx = b:xptemplateData.renderContext
+    let mark_name = s:GetPHReplacingMarkName(a:flt_rst)
+    let marks = rctx.leadingPlaceHolder[mark_name]
+
+    if a:flt_rst.action == 'build'
+
+        let build_rc = s:BuildPlaceHolders( marks )
+        call s:log.Log( "build_rc=" . string( build_rc ) )
+
+        if build_rc is s:BROKEN
+            call s:Crash('building place holder failed')
+
+        elseif build_rc is s:BUILT
+            call s:RemoveCurrentMarks()
+        end
+
+        return build_rc
+    end
+    return s:NONE
 endfunction "}}}
 
 
