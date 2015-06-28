@@ -398,7 +398,7 @@ fun! s:f.Next( ... )
 endfunction
 
 fun! s:f.Remove()
-    return { 'action' : 'remove' }
+    return { 'action' : 'text', 'nav' : 'next', 'text' : '' }
 endfunction
 
 
