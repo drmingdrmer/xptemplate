@@ -91,6 +91,7 @@ fun! s:f.GetWrappedText()
     if l == '' && r == ''
         return { 'nIndent'  : wrap.indent,
               \  'action'   : 'text',
+              \  'parseIndent' : 0,
               \  'text'     : wrap.text }
     else
 
@@ -390,14 +391,14 @@ endfunction
 
 fun! s:f.Next( ... )
   if a:0 == 0
-    return { 'action' : 'next' }
+    return { 'nav' : 'next' }
   else
-    return { 'action' : 'next', 'text' : join( a:000, '' ) }
+    return { 'nav' : 'next', 'text' : join( a:000, '' ) }
   endif
 endfunction
 
 fun! s:f.Remove()
-    return { 'action' : 'remove' }
+    return { 'action' : 'text', 'nav' : 'next', 'text' : '' }
 endfunction
 
 

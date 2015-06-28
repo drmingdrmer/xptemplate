@@ -22,6 +22,7 @@ let XPT#ptnIncFull = '\V' . '\^Include:' . '\zs' . '\(\.\{-}\)\$'
 let XPT#ptnIncSimp = '\V' . '\^:' . '\zs' . '\(\.\{-}\)' . '\ze' . ':\$'
 let XPT#ptnRepetition = '\V'. '\^\w\*...\w\*\$'
 let XPT#ptnPreEvalFunc = '\v^%(Inc|Inline|ResetIndent|Pre)\('
+let XPT#NONE = 0x000
 let XPT#BUILT = 0x001
 let XPT#NOTBUILT = 0x002
 let XPT#DONE = 0x100
@@ -29,7 +30,7 @@ let XPT#UNDONE = 0x200
 let XPT#GOON = 0x300
 let XPT#AGAIN = 0x400
 let XPT#BROKEN = -1
-let XPT#importConst = '' . 'let s:escapeHead     = XPT#escapeHead | ' . 'let s:unescapeHead   = XPT#unescapeHead | ' . 'let s:nonEscaped     = XPT#nonEscaped | ' . 'let s:regEval        = XPT#regEval | ' . 'let s:nonsafe        = XPT#nonsafe | ' . 'let s:nonsafeHint    = XPT#nonsafeHint | ' . 'let s:nullDict       = XPT#nullDict | ' . 'let s:nullList       = XPT#nullList | ' . 'let s:item_var       = XPT#item_var   | ' . 'let s:item_qvar      = XPT#item_qvar  | ' . 'let s:item_func      = XPT#item_func  | ' . 'let s:item_qfunc     = XPT#item_qfunc | ' . 'let s:ptnIncFull     = XPT#ptnIncFull | ' . 'let s:ptnIncSimp     = XPT#ptnIncSimp | ' . 'let s:ptnRepetition  = XPT#ptnRepetition | ' . 'let s:ptnPreEvalFunc = XPT#ptnPreEvalFunc | ' . 'let s:DONE           = XPT#DONE | ' . 'let s:UNDONE         = XPT#UNDONE | ' . 'let s:GOON           = XPT#GOON | ' . 'let s:AGAIN          = XPT#AGAIN | ' . 'let s:BROKEN         = XPT#BROKEN | ' . 'let s:BUILT          = XPT#BUILT | ' . 'let s:NOTBUILT       = XPT#NOTBUILT | '  . 'let s:R_NEXT = 0x008 | ' . 'let s:R_OUT  = 0x009 | ' . 'let s:R_     = 0x00A | ' . 'let s:R_FOO  = 0x00B | '  . 'let s:G_CRESTED   = 0x010 | ' . 'let s:G_INITED    = 0x020 | ' . 'let s:G_PROCESSED = 0x030 | ' . 'let s:G_REFOCUSED = 0x040 | '
+let XPT#importConst = '' . 'let s:escapeHead     = XPT#escapeHead | ' . 'let s:unescapeHead   = XPT#unescapeHead | ' . 'let s:nonEscaped     = XPT#nonEscaped | ' . 'let s:regEval        = XPT#regEval | ' . 'let s:nonsafe        = XPT#nonsafe | ' . 'let s:nonsafeHint    = XPT#nonsafeHint | ' . 'let s:nullDict       = XPT#nullDict | ' . 'let s:nullList       = XPT#nullList | ' . 'let s:item_var       = XPT#item_var   | ' . 'let s:item_qvar      = XPT#item_qvar  | ' . 'let s:item_func      = XPT#item_func  | ' . 'let s:item_qfunc     = XPT#item_qfunc | ' . 'let s:ptnIncFull     = XPT#ptnIncFull | ' . 'let s:ptnIncSimp     = XPT#ptnIncSimp | ' . 'let s:ptnRepetition  = XPT#ptnRepetition | ' . 'let s:ptnPreEvalFunc = XPT#ptnPreEvalFunc | ' . 'let s:NONE           = XPT#NONE | ' . 'let s:DONE           = XPT#DONE | ' . 'let s:UNDONE         = XPT#UNDONE | ' . 'let s:GOON           = XPT#GOON | ' . 'let s:AGAIN          = XPT#AGAIN | ' . 'let s:BROKEN         = XPT#BROKEN | ' . 'let s:BUILT          = XPT#BUILT | ' . 'let s:NOTBUILT       = XPT#NOTBUILT | '  . 'let s:R_NEXT = 0x008 | ' . 'let s:R_OUT  = 0x009 | ' . 'let s:R_     = 0x00A | ' . 'let s:R_FOO  = 0x00B | '  . 'let s:G_CRESTED   = 0x010 | ' . 'let s:G_INITED    = 0x020 | ' . 'let s:G_PROCESSED = 0x030 | ' . 'let s:G_REFOCUSED = 0x040 | '
 let XPT#priorities = {'all' : 192, 'spec' : 160, 'like' : 128, 'lang' : 96, 'sub' : 64, 'personal' : 32}
 let XPT#skipPattern = 'synIDattr(synID(line("."), col("."), 0), "name") =~? "\\vstring|comment"'
 fun! XPT#warn(msg)

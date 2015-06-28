@@ -5,7 +5,7 @@ let g:__AL_XPT_FTSCP_VIM__ = XPT#ver
 let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 fun! xpt#ftscope#New()
-	let inst = { 'filetype':'', 'allTemplates':{}, 'funcs':{ '$CURSOR_PH' : 'CURSOR' }, 'inited':0, 'varPriority':{}, 'loadedSnipFiles':{}, 'extensionTable':{}, 'snipPieces':[], }
+	let inst = { 'filetype':'', 'allTemplates':{}, 'ftkeyword':{ 'regexp' : '\w', 'list' : [] }, 'funcs':{ '$CURSOR_PH' : 'CURSOR' }, 'inited':0, 'varPriority':{}, 'loadedSnipFiles':{}, 'extensionTable':{}, 'snipPieces':[], }
 	return inst
 endfunction
 fun! xpt#ftscope#Init(ftscope)

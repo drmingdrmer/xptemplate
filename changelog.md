@@ -1,3 +1,21 @@
+2015-06-28
+==========
+
+Fixed
+-----
+
+*   bracket: fix incorrect indent with cr
+
+*   engine: fix wrapper indent
+*   engine: normal-mode "x" breaks xpt
+
+*   filter: pass test 60-ph-func-Next 05-def-text-arg. Next move focus to next ph
+
+*   snippet-matching: snippet key should be stored in filetype instead of buffer
+*   snippet-matching: use keyword instead of word
+
+*   syntax: correct escaping nested mark
+
 2015-06-17
 ==========
 
