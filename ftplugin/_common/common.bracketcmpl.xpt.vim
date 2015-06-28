@@ -62,7 +62,6 @@ fun! s:f.quote_cmpl()
 endfunction
 
 fun! s:f.quote_ontype()
-    let r = self._ctx.renderContext
 
     let v = self.V()
 
@@ -74,7 +73,7 @@ fun! s:f.quote_ontype()
         return self.FinishOuter( v )
 
     else
-        return v
+        return 0
     endif
 
 endfunction
