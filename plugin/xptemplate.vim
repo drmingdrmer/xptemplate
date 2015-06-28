@@ -3164,11 +3164,9 @@ fun! s:HandleDefaultValueAction( flt_rst ) "{{{
         else
             return ''
         endif
-    else
-        return s:SelectCurrent()
     endif
 
-    return -1
+    return s:SelectCurrent()
 
 endfunction "}}}
 
@@ -3293,34 +3291,6 @@ fun! s:BuildLeaderText(flt_rst) "{{{
     return s:NONE
 endfunction "}}}
 
-fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
-
-    let renderContext = a:renderContext
-    let leader = renderContext.leadingPlaceHolder
-
-    let renderContext.activeLeaderMarks = 'innerMarks'
-
-
-    let start = XPMpos( leader.mark.start )
-
-    call s:log.Debug( 'filter=' . string( a:filter ) )
-
-    let ph = renderContext.leadingPlaceHolder
-    let typed = xpt#util#TextBetween( XPMposStartEnd( ph.innerMarks ) )
-    let flt_rst = s:EvalFilter( a:filter, [
-          \     renderContext.ftScope.funcs,
-          \     renderContext.snipSetting.variables,
-          \     { '$UserInput': typed } ] )
-
-
-    if flt_rst.rc is 0
-        return s:SelectCurrent()
-    endif
-
-    return s:HandleDefaultValueAction( flt_rst )
-
-endfunction "}}}
-
 fun! s:DefaultValuePumHandler( renderContext, flt_rst ) "{{{
 
     let pumlen = len( a:flt_rst.pum )
@@ -3401,39 +3371,42 @@ endfunction " }}}
 fun! s:ApplyDefaultValue() "{{{
 
     " TODO place holder default value with higher priority!
-    let renderContext = b:xptemplateData.renderContext
-    let leader = renderContext.leadingPlaceHolder
-    let defs = renderContext.snipSetting.defaultValues
+    let rctx = b:xptemplateData.renderContext
+    let leader = rctx.leadingPlaceHolder
+    let defs = rctx.snipSetting.defaultValues
 
-    if has_key( defs, leader.name )
-          \ && defs[ leader.name ].force
-
-        let defValue = defs[ leader.name ]
-
+    if has_key( defs, leader.name ) && defs[ leader.name ].force
+        let filter = defs[ leader.name ]
     else
-
-        let defValue =
+        let filter =
               \ get( leader, 'ontimeFilter',
               \     get( defs, leader.name,
               \         g:EmptyFilter ) )
-
     endif
 
-
-    if defValue is g:EmptyFilter
-        " TODO needed to fill in?
-        let str = renderContext.item.name
-
+    if filter is g:EmptyFilter
         " to update the edge to following place holder
         call s:XPTupdate()
-
         return s:SelectCurrent()
-
-    else
-        let postaction = s:ApplyDefaultValueToPH( renderContext, defValue )
     endif
 
-    return postaction
+    let rctx.activeLeaderMarks = 'innerMarks'
+
+    call s:log.Debug( 'filter=' . string( filter ) )
+
+    let typed = xpt#util#TextBetween( XPMposStartEnd( leader.innerMarks ) )
+    let flt_rst = s:EvalFilter( filter, [
+          \     rctx.ftScope.funcs,
+          \     rctx.snipSetting.variables,
+          \     { '$UserInput': typed } ] )
+
+
+    if flt_rst.rc is 0
+        return s:SelectCurrent()
+    endif
+
+    return s:HandleDefaultValueAction( flt_rst )
+
 endfunction "}}}
 
 fun! XPTmappingEval( str ) "{{{
