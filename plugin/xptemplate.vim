@@ -3116,12 +3116,10 @@ fun! s:ExtractOneItem() "{{{
 
 endfunction "}}}
 
-fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
-    " @return   string  typing
-    "           -1      if this action can not be handled
+fun! s:HandleDefaultValueAction( flt_rst ) "{{{
 
     let x = b:xptemplateData
-    let rctx = a:rctx
+    let rctx = x.renderContext
     let leader = rctx.leadingPlaceHolder
 
     call s:log.Log( "type is " . type( a:flt_rst ). ' {} type is ' . type( {} ) )
@@ -3146,13 +3144,8 @@ fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
 
     elseif a:flt_rst.action ==# 'build'
 
-        let rc = s:FillinLeader(a:flt_rst)
-        if rc is s:BROKEN
-            return s:BROKEN
-        endif
-
-        let rc = s:BuildLeaderText(a:flt_rst)
-        if rc is s:BROKEN
+        if s:FillinLeader(a:flt_rst) is s:BROKEN
+              \ || s:BuildLeaderText(a:flt_rst) is s:BROKEN
             return s:BROKEN
         endif
 
@@ -3160,26 +3153,16 @@ fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
 
     elseif a:flt_rst.action ==# 'text'
 
-        let rc = s:FillinLeader(a:flt_rst)
-        if rc is s:BROKEN
+        if s:FillinLeader(a:flt_rst) is s:BROKEN
             return s:BROKEN
         endif
 
-        if a:flt_rst.nav == 'next'
-            if x.renderContext.processing
-                let postaction =  s:ShiftForward( '' )
-                return postaction
-            else
-                return ''
-            endif
-        else
-            let action = s:SelectCurrent()
-            call XPMupdateStat()
-            call s:log.Log('action=' . action)
-            return action
+    else
+        if s:FillinLeader(a:flt_rst) is s:BROKEN
+            return s:BROKEN
         endif
-
     endif
+
 
     if a:flt_rst.nav == 'next'
         if x.renderContext.processing
@@ -3188,6 +3171,11 @@ fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
         else
             return ''
         endif
+    else
+        let action = s:SelectCurrent()
+        call XPMupdateStat()
+        call s:log.Log('action=' . action)
+        return action
     endif
 
     return -1
@@ -3315,38 +3303,6 @@ fun! s:BuildLeaderText(flt_rst) "{{{
     return s:NONE
 endfunction "}}}
 
-
-" TODO bad implementation. If further build or shifforward needed, return back a
-" flag to inform caller to do this.  Do not do it silently itself
-fun! s:FillinLeadingPlaceHolderAndSelect( rctx, flt_rst ) "{{{
-    " TODO remove needless marks
-
-    if has_key( a:flt_rst, 'text' )
-
-        let ph = a:rctx.leadingPlaceHolder
-        let marks = ph.innerMarks
-        let [ start, _end ] = [ XPMpos( marks.start ), XPMpos( marks.end ) ]
-
-        if start == [0, 0] || _end == [0, 0]
-            return s:Crash()
-        endif
-
-        let str = s:IndentFilterText(a:flt_rst, start)
-
-        call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
-        call XPreplace( start, _end, str )
-    endif
-
-    call s:XPTupdate()
-
-    let action = s:SelectCurrent()
-
-    call XPMupdateStat()
-    call s:log.Log('action=' . action)
-    return action
-
-endfunction "}}}
-
 fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
 
     let renderContext = a:renderContext
@@ -3374,12 +3330,7 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
         return action
     endif
 
-    let rc = s:HandleDefaultValueAction( renderContext, flt_rst )
-    if rc is -1
-        return s:FillinLeadingPlaceHolderAndSelect( renderContext, flt_rst )
-    else
-        return rc
-    endif
+    return s:HandleDefaultValueAction( flt_rst )
 
 endfunction "}}}
 
@@ -3387,18 +3338,24 @@ fun! s:DefaultValuePumHandler( renderContext, flt_rst ) "{{{
 
     let pumlen = len( a:flt_rst.pum )
 
+    if pumlen > 1
+        return s:DefaultValueShowPum( a:renderContext, a:flt_rst )
+    endif
+
     if pumlen == 0
         let a:flt_rst.text = ''
-        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, a:flt_rst )
-
     elseif pumlen == 1
         let a:flt_rst.text = a:flt_rst.pum[0]
-        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, a:flt_rst )
-
-    else
-        return s:DefaultValueShowPum( a:renderContext, a:flt_rst )
-
     endif
+
+    if s:FillinLeader(a:flt_rst) is s:BROKEN
+        return s:BROKEN
+    endif
+
+    let action = s:SelectCurrent()
+    call XPMupdateStat()
+    call s:log.Log('action=' . action)
+    return action
 
 endfunction "}}}
 
