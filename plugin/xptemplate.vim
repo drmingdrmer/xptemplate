@@ -2671,11 +2671,7 @@ fun! s:ShiftBackward() "{{{
 
     call XPMsetLikelyBetween( leader.mark.start, leader.mark.end )
 
-    let action = s:SelectCurrent()
-
-
-    call XPMupdateStat()
-    return action
+    return s:SelectCurrent()
 
 endfunction "}}}
 
@@ -3017,10 +3013,7 @@ fun! s:DoGotoNextItem() "{{{
         let renderContext.phase = 'fillin'
         " TODO re-popup if needed
 
-        let action = s:SelectCurrent()
-
-        call XPMupdateStat()
-        return action
+        return s:SelectCurrent()
     endif
 
 
@@ -3172,10 +3165,7 @@ fun! s:HandleDefaultValueAction( flt_rst ) "{{{
             return ''
         endif
     else
-        let action = s:SelectCurrent()
-        call XPMupdateStat()
-        call s:log.Log('action=' . action)
-        return action
+        return s:SelectCurrent()
     endif
 
     return -1
@@ -3324,10 +3314,7 @@ fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
 
 
     if flt_rst.rc is 0
-        let action = s:SelectCurrent()
-
-        call XPMupdateStat()
-        return action
+        return s:SelectCurrent()
     endif
 
     return s:HandleDefaultValueAction( flt_rst )
@@ -3352,10 +3339,7 @@ fun! s:DefaultValuePumHandler( renderContext, flt_rst ) "{{{
         return s:BROKEN
     endif
 
-    let action = s:SelectCurrent()
-    call XPMupdateStat()
-    call s:log.Log('action=' . action)
-    return action
+    return s:SelectCurrent()
 
 endfunction "}}}
 
@@ -3443,9 +3427,7 @@ fun! s:ApplyDefaultValue() "{{{
         " to update the edge to following place holder
         call s:XPTupdate()
 
-        let postaction = s:SelectCurrent()
-
-        call XPMupdateStat()
+        return s:SelectCurrent()
 
     else
         let postaction = s:ApplyDefaultValueToPH( renderContext, defValue )
@@ -3586,6 +3568,7 @@ fun! s:SelectCurrent() "{{{
 
     if ctl == cbr
         call cursor( ctl )
+        call XPMupdateStat()
         return ''
     else
         call cursor( ctl )
@@ -3612,6 +3595,8 @@ fun! s:SelectCurrent() "{{{
         else
             call feedkeys( "\<esc>gv\<C-g>", 'nt' )
         endif
+
+        call XPMupdateStat()
         return ''
 
         " NOTE: Using <C-R>= output special chars like \<esc> \<C-v> cause
