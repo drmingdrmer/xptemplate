@@ -3158,18 +3158,6 @@ fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
 
         return s:GotoNextItem()
 
-    elseif a:flt_rst.action ==# 'remove'
-
-        let postaction = ''
-        if has_key( a:flt_rst, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( rctx, a:flt_rst )
-        endif
-        if x.renderContext.processing
-            return s:ShiftForward( 'clear' )
-        else
-            return postaction
-        endif
-
     elseif a:flt_rst.action ==# 'text'
 
         let rc = s:FillinLeader(a:flt_rst)
@@ -3190,9 +3178,6 @@ fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
             call s:log.Log('action=' . action)
             return action
         endif
-
-    else
-        " other action
 
     endif
 
