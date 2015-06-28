@@ -1,0 +1,14 @@
+snippet text would not be built during "pre" phase
+
+keys:
+pre-snippet-text
+	
+at_end
+pre-snippet-text
+on_x	
+at_end
+
+expected:
+(`a^-`a^)at_end
+(on_x)at_end
+

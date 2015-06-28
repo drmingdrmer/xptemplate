@@ -19,8 +19,6 @@ fun! xpt#buf#New() "{{{
           \     'fallbacks'         : [],
           \     'posStack'          : [],
           \     'stack'             : [],
-          \     'keyword'           : '\w',
-          \     'keywordList'       : [],
           \     'snipFileScope'     : {'inheritFT':0},
           \     'snipFileScopeStack': [],
           \ }

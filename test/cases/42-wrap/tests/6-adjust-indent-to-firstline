@@ -1,0 +1,19 @@
+vim: shiftwidth=4 tabstop=8
+
+setting:
+shiftwidth=4
+tabstop=8
+cindent
+
+keys:
+    make-next-line-indent-one
+4-space-auto-indented
+    8-space-indented
+Vk
+indent-wrapper
+
+expected:
+    make-next-line-indent-one
+    left-
+	4-space-auto-indented
+	    8-space-indented=right

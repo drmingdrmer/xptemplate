@@ -11,15 +11,21 @@ import re
 import lg
 import tmux
 
-from util import sh, fread, delay, _path, _thread
+import util
+from util import fread, _path, _thread
 
 logger = None
 
 flags = {
         'stdoutlvl': 'info',
         'nthread': 8,
+        'delay_time' : 0.5 # sec
 }
 test_root_path = os.path.dirname(os.path.realpath(__file__))
+
+def delay(time=None):
+    time = time or flags['delay_time']
+    util.delay(time)
 
 class TestError( Exception ): pass
 
@@ -42,7 +48,14 @@ def safe_elt(lst, i):
 
 def handle_test_err(sess, err):
 
-    # with TestError, stop and see what happened
+    test, mes, reason = create_failure_record(err)
+
+    sess['failures'].append((test, mes, reason))
+
+    test['logger'].info(mes)
+    test['logger'].info(reason)
+
+def create_failure_record(err):
     test, failuretype, ex, ac = err[0:4]
     case_name = test['case_name']
     testname = test['name']
@@ -62,19 +75,17 @@ def handle_test_err(sess, err):
     reason.append("screen:")
     reason.append(test["screen_captured"])
     reason = "\n".join(reason)
-
-    sess['failures'].append((mes, reason))
-
-    test['logger'].info(mes)
-    test['logger'].info(reason)
+    return test, mes, reason
 
 def main( pattern, subpattern='*' ):
 
     logger.info("test: {0} {1}".format(pattern, subpattern))
     sess = {
             'q': Queue.Queue(1024),
-            'passed':[],
+            'passed': [],
             'failures': [],
+            'skipped': [],
+            'retried': [],
     }
 
     case_root = os.path.join( test_root_path, "cases" )
@@ -84,12 +95,18 @@ def main( pattern, subpattern='*' ):
 
     cs = []
     for c in cases:
+
         if not os.path.isdir( os.path.join( case_root, c ) ):
             continue
 
-        if fnmatch.fnmatch( c, pattern ):
-            cs.append((sess, c, subpattern))
-            logger.info("to test: " + c)
+        if not fnmatch.fnmatch( c, pattern ):
+            continue
+
+        logger.info("to test: " + c)
+
+        tests = load_tests(sess, c, subpattern)
+        for test in tests:
+            cs.append(test)
 
     for what in cs:
         sess['q'].put(what)
@@ -105,19 +122,28 @@ def main( pattern, subpattern='*' ):
             time.sleep(1)
 
             for f in sess['failures']:
-                logger.info(f[0])
+                logger.info(f[1])
 
         th.join()
 
+    if len(sess['skipped']) > 0:
+        logger.info("skipped:")
+        for t in sess['skipped']:
+            logger.info(' '.join([t['case_name'], t['name']]))
+
+    if len(sess['retried']) > 0:
+        logger.info("retried:")
+        for t in sess['retried']:
+            logger.info(t)
+
     if len(sess['failures']) == 0:
         logger.info("all test passed")
-        return
-
-    logger.info("failures:")
-    for f in sess['failures']:
-        mes, reason = f
-        logger.info(mes)
-        logger.info(reason)
+    else:
+        logger.info("failures:")
+        for f in sess['failures']:
+            test, mes, reason = f
+            logger.info(mes)
+            logger.info(reason)
 
 def case_runner_safe(sess):
 
@@ -130,49 +156,66 @@ def case_runner(sess):
 
     while True:
         try:
-            args = sess['q'].get(block=False)
+            test = sess['q'].get(block=False)
         except Queue.Empty:
             break
-        run_case(*args)
+        run_case_test_protected(sess, test)
 
-def run_case(sess, casename, subpattern):
-    try:
-        _run_case(sess, casename, subpattern)
-        return
-    except TestError as e:
-        handle_test_err(sess, e)
+def run_case_test_protected(sess, test):
 
-    except Exception as e:
-        logger.exception(repr(e))
+    err = None
+    for ii in range(7):
+        try:
+            # Extend delay_time 1.5 times longer to let some time senstive
+            # test to pass
+            t = test.copy()
+            t['delay_time'] = t['delay_time'] * (1.5**ii)
+            if ii > 0:
+                test_ident = ' '.join([test['case_name'], test['name']])
+                test['logger'].info( ('set delay_time to %3.1fs and try again: ' % t['delay_time'])
+                                     + test_ident )
+                sess['retried'].append( ('retry delay=%3.1fs: ' % t['delay_time']) + test_ident )
+            run_case_test(t)
+            return
 
-    # if flags[ 'keep' ]:
-    #     # wait for user to see what happened
-    #     logger.info( "Ctrl-c to quit" )
-    #     while True:
-    #         time.sleep( 10 )
+        except TestError as e:
+            _, mes, reason = create_failure_record(e)
+            test['logger'].info(mes)
+            test['logger'].info(reason)
 
-def _run_case( sess, cname, subpattern ):
+            err = e
+            continue
 
-    logger.debug( " start: " + cname + " ..." )
+        except Exception as e:
+            logger.exception(repr(e))
+            return
+    else:
+        handle_test_err(sess, err)
 
-    case_path = _path( test_root_path, "cases", cname )
-    case_tests_dir = _path(case_path, 'tests')
+def load_tests(sess, case_name, subpattern):
+
+    testnames = list_case_test_names(case_name, subpattern)
+    tests = []
+
+    for testname in testnames:
+
+        test = load_test(case_name, testname)
+        if test[None][:1] == ['TODO']:
+            test['logger'].info("SKIP: " + testname)
+            sess['skipped'].append(test)
+        else:
+            tests.append(test)
+
+    return tests
+
+def list_case_test_names(cname, subpattern):
+
+    case_tests_dir = _path(test_root_path, "cases", cname, 'tests')
     testnames = os.listdir(case_tests_dir)
 
     testnames = [x for x in testnames
                  if fnmatch.fnmatch( x, subpattern )]
-
-    for testname in testnames:
-
-        test = load_test(cname, case_path, testname)
-        if test[None][:1] == ['TODO']:
-            test['logger'].info("SKIP: " + testname)
-            continue
-
-        t = test.copy()
-        run_case_test(t)
-
-    logger.info("case passed: " + cname)
+    return testnames
 
 def run_case_test(test):
 
@@ -188,8 +231,8 @@ def run_case_test(test):
 
     start_cmd = vim_start_cmdstring(test)
     tm.start(start_cmd)
-    delay()
-    test['logger'].debug( "vim started with: " + repr(start_cmd) )
+    delay(test['delay_time'])
+    test['logger'].debug( "vim started with: " + start_cmd )
 
     assert_no_err_on_screen(test)
 
@@ -200,7 +243,7 @@ def run_case_test(test):
     vim_add_settings(test, test['setting'])
     vim_add_local_settings(test, test['localsetting'])
     vim_add_cmd(test, test['cmd'])
-    delay()
+    delay(test['delay_time'])
 
     _dump(test)
     test['tmux'].sendkeys('i')
@@ -217,9 +260,10 @@ def run_case_test(test):
     tm.kill()
 
 
-def load_test(case_name, case_path, testname):
+def load_test(case_name, testname):
 
-    test_path = _path(case_path, "tests", testname)
+    case_path = _path(test_root_path, "cases", case_name)
+    test_path = _path(test_root_path, "cases", case_name, "tests", testname)
 
     sess_name = 'xpt-test_{0}_{1}'.format(case_name, testname)
 
@@ -230,6 +274,8 @@ def load_test(case_name, case_path, testname):
              'name': testname,
              'sess_name': sess_name,
              'logger': lg.make_logger(case_name, stdoutlvl=flags['stdoutlvl']),
+             'rst_name' : '-'.join(['rst', case_name, testname]),
+             'delay_time' : flags['delay_time'],
 
              'vimarg': [],
              'workingdir': [],
@@ -278,7 +324,8 @@ def vim_start_cmdstring(test):
     cmds = [ 'vim', '-u', vimrcfn, ]
     cmds += test['vimarg']
     for c in pre_vimrc_cmds:
-        cmds += [ '--cmd', "'"+c.replace("'", "\"'\"")+"'" ]
+        # make every single quote quoted with double quote
+        cmds += [ '--cmd', "'"+c.replace("'", "'\"'\"'")+"'" ]
 
     rst = ' '.join(cmds)
 
@@ -294,7 +341,7 @@ def vim_so_fn(test, fn):
         return
 
     test['tmux'].sendkeys( ":so " + fn, key['cr'] )
-    delay()
+    delay(test['delay_time'])
     test['logger'].debug( "vim setting loaed: " + repr(fn) )
 
 def vim_add_rtp( test ):
@@ -334,7 +381,7 @@ def vim_set_default_ft(test):
     if os.path.isfile( ft_foo_path ):
         vim_add_settings( test, [ 'filetype=foo' ] )
         # changing setting may cause a lot ftplugin to load
-        delay()
+        delay(test['delay_time'])
 
 def vim_key_sequence_strings( test ):
 
@@ -345,7 +392,7 @@ def vim_key_sequence_strings( test ):
             continue
         test['logger'].debug("send keys: " + repr(line))
         test['tmux'].sendkeys(line)
-        delay()
+        delay(test['delay_time'])
         _dump(test)
         assert_no_err_on_screen(test)
 
@@ -353,10 +400,10 @@ def vim_key_sequence_strings( test ):
 
 def vim_dump_file_content( test ):
 
-    fn = _path(test['case_path'], 'rst')
+    fn = _path(test['case_path'], test['rst_name'])
 
     test['tmux'].sendkeys( key['esc']*4 )
-    delay()
+    delay(test['delay_time'])
     test['tmux'].sendkeys( ":w " + fn, key['cr'] )
 
     now = time.time()
@@ -419,6 +466,9 @@ def _dump(test):
 
 if __name__ == "__main__":
     args = sys.argv
+
+    print 'arguments:', args
+
     if '-v' in args:
         flags[ 'stdoutlvl' ] = 'debug'
         args.remove( '-v' )
@@ -427,6 +477,13 @@ if __name__ == "__main__":
     if '-c' in args:
         i = args.index('-c')
         flags[ 'nthread' ] = int(args[i+1])
+        args.pop( i )
+        args.pop( i )
+
+    # delay time
+    if '-d' in args:
+        i = args.index('-d')
+        flags[ 'delay_time' ] = float(args[i+1])
         args.pop( i )
         args.pop( i )
 

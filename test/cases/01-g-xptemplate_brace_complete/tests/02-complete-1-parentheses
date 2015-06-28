@@ -1,0 +1,30 @@
+pre_vimrc:
+let g:xptemplate_brace_complete = 1
+let g:xptemplate_vars = 'SParg='
+
+keys:
+(
+)
+manual-close
+(
+	
+tab-close
+(
+ 
+)manual-close-with-space
+(
+ 	
+tab-close-with-space
+(
+
+cr-auto-indent
+
+
+expected:
+()manual-close
+()tab-close
+( )manual-close-with-space
+(  )tab-close-with-space
+(
+	cr-auto-indent
+)

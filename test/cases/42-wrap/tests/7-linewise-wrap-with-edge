@@ -1,0 +1,11 @@
+
+keys:
+abc
+Vkk
+
+linenumber-wrapper
+
+expected:
+1 - a *
+2 - b *
+3 - c *

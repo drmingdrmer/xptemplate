@@ -1,12 +1,13 @@
+use flt
+
 press trigger key when <c-n> pum presents
 
-test from 'factor'
-what's the right "test" snippet in 'factor'
 during rendering <CR> does not work the way super-tab setup, which is closing pum only.
 inclusion inside expandable should be parsed at runtime, or recursive inclusion is impossible.
 add functin to detect if it is expandable at current position
+
 check text before/after cursor as a condition to expand snippet
-mv-flt-here
+
 redefine `_if` should affect all snippet that includes it
 snippet handling current line text or else
 
@@ -15,12 +16,19 @@ by default xpt use iskeyword as keyword
 support `<ft>_xpt.vim`?
 
 # test
+
+-   XPreplace with small 'wrap'
+-   setting#Switch stack and restore
+
 symbolic link file on windows? is it ok to copy all files to master?
 Finish updates following ph
 Finish ignores other ph
 marks:
 -   post filter use marks
 -   init-val, def, ontype, preset use edit marks
+
+test from 'factor'
+what's the right "test" snippet in 'factor'
 
 # doc
 add FAQ of Choose
@@ -66,6 +74,18 @@ E15: Invalid expression: built || a:action ==# 'clear'
 Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
 line   45:
 E488: Trailing characters:  a:action ==# 'clear'
+```
+
+dbcool-vm, edit dbcool.lua, dd`<tab>` vim7.2
+
+```
+function XPTtgr..XPTemplateStart..<SNR>158_DoStart..<SNR>158_RenderSnippet..<SNR>158_BuildSnippet..<SNR>158_BuildPlaceHolders..<SNR>158_EvaluateEdge..<SNR>158_EvalAsFilter..<SNR>
+158_EvalFilter..xpt#eval#Eval, line 19
+Vim(let):E716: Key not present in Dictionary: Concat(xfunc.GetVar('$_xSnipName'),xfunc.GetVar('$SParg'))
+xfunc.Concat(xfunc.GetVar('$_xSnipName'),xfunc.GetVar('$SParg'))
+function XPTtgr..XPTemplateStart..<SNR>158_DoStart..<SNR>158_RenderSnippet..<SNR>158_BuildSnippet..<SNR>158_BuildPlaceHolders..<SNR>158_ApplyPreValues..<SNR>158_EvalFilter..xpt#e
+val#Eval, line 19
+Vim(let):E716: Key not present in Dictionary: Concat(xfunc.Call('Echo',['']))
 ```
 
 <!-- vim: ft=markdown

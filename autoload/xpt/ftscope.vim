@@ -47,6 +47,7 @@ fun! xpt#ftscope#New() "{{{
     let inst = {
           \ 'filetype'        : '',
           \ 'allTemplates'    : {},
+          \ 'ftkeyword'       : { 'regexp' : '\w', 'list' : [] },
           \ 'funcs'           : { '$CURSOR_PH' : 'CURSOR' },
           \ 'inited'          : 0,
           \ 'varPriority'     : {},

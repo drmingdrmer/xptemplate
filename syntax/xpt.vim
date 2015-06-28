@@ -17,10 +17,34 @@ fun! s:GetMark()
 
     call cursor ( cur )
     return [ marks[0:0], marks[1:1], marks ]
-    
+
 endfunction
 
+let s:m = s:GetMark()
 
+let s:escaped = '\%(\\\\\)\*\\'
+let s:nonEscaped =
+      \   '\%('
+      \ .     '\%(\[^\\]\|\^\)'
+      \ .     '\%(\\\\\)\*'
+      \ . '\)'
+      \ . '\@<='
+
+let s:lr_chars = escape(s:m[2], '\]-^')
+
+let s:l = s:nonEscaped . s:m[0]
+let s:r = s:nonEscaped . s:m[1]
+let s:lr = s:nonEscaped . '\[' . s:lr_chars . ']'
+let s:lq = '\%(' . s:l . '\)'
+let s:rq = '\%(' . s:r . '\)'
+
+let s:non_lr_chars = '\[^' . s:lr_chars . ']'
+
+let s:l_escaped = s:escaped . s:m[0]
+let s:r_escaped = s:escaped . s:m[1]
+let s:lr_escaped = s:escaped . '\[' . s:lr_chars . ']'
+
+let s:non_mark_any = '\%(' . s:lr_escaped . '\|' . s:non_lr_chars . '\)\*'
 
 
 setlocal foldmethod=syntax
@@ -60,10 +84,6 @@ syntax keyword  XptSnippetInclude     XPTembed   nextgroup=XptSnippetIncludeBody
 
 
 
-
-
-
-
 " TODO escaping
 syntax match XPTvariable /\$\w\+/ containedin=XPTmeta_value,XPTmeta_simpleHint,XPTxset_value
 syntax match XPTvariable_quote /{\$\w\+}/ containedin=XPTmeta_value,XPTmeta_simpleHint,XPTxset_value
@@ -71,19 +91,17 @@ syntax match XPTvariable_quote /{\$\w\+}/ containedin=XPTmeta_value,XPTmeta_simp
 " TODO escaping, quoted
 syntax region XPTfunction start=/\w\+(/ end=/)/ containedin=XPTmeta_value,XPTmeta_simpleHint,XPTxset_value
 
-" TODO mark may be need escaping in regexp
-let s:m = s:GetMark()
 
-exe 'syntax match XPTitemPost /\V\%(\[^' . s:m[2] . ']\|\(\\\*\)\1\\\[' . s:m[2] . ']\)\*\[^\\' . s:m[2] . ']' . s:m[1] . '\{1,2}/ contains=XPTmark contained containedin=XPTsnippetBody'
+exe 'syntax match XPTitemPost /\V' . s:non_mark_any . s:rq . '\{1,2}/ contains=XPTmark contained containedin=XPTsnippetBody'
 " XPTitemB for distinguish coherent item
-exe 'syntax match XPTitemB /\V' . s:m[0] . '\%(\_[^' . s:m[1] . ']\)\{-}' . s:m[1] . '/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost,XPTitem'
-exe 'syntax match XPTitem /\V' . s:m[0] . '\%(\_[^' . s:m[1] . ']\)\{-}' . s:m[1] . '/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost,XPTitemB'
-exe 'syntax match XPTinclusion /\VInclude:\zs\.\{-}\ze' . s:m[1] . '/	contained containedin=XPTitem,XPTitemB'
-exe 'syntax match XPTinclusion /\V:\zs\.\{-}\ze:' . s:m[1] . '/		contained containedin=XPTitem,XPTitemB'
-exe 'syntax match XPTcursor /\V' . s:m[0] . 'cursor' . s:m[1] . '/		contained containedin=XPTitem,XPTitemB'
+exe 'syntax match XPTitemB /\V' . s:l . '\_.\{-}' . s:r . '/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost,XPTitem'
+exe 'syntax match XPTitem  /\V' . s:l . '\_.\{-}' . s:r . '/ contains=XPTmark containedin=XPTsnippetBody nextgroup=XPTitemPost,XPTitemB'
+exe 'syntax match XPTinclusion /\VInclude:\zs\.\{-}\ze' . s:r . '/	contained containedin=XPTitem,XPTitemB'
+exe 'syntax match XPTinclusion /\V:\zs\.\{-}\ze:' . s:r . '/		contained containedin=XPTitem,XPTitemB'
+exe 'syntax match XPTcursor /\V' . s:l . 'cursor' . s:r . '/		contained containedin=XPTitem,XPTitemB'
 exe 'syntax match XPTvariable /\V' . '$\w\+' . '/		contained containedin=XPTitem,XPTitemB'
 exe 'syntax match XPTvariable_quote /\V{' . '$\w\+' . '}/		contained containedin=XPTitem,XPTitemB'
-exe 'syntax match XPTmark /\V' . s:m[1] .  '/ contains=XPTmark containedin=XPTitem,XPTitemB'
+exe 'syntax match XPTmark /\V' . s:r .  '/ contains=XPTmark containedin=XPTitem,XPTitemB'
 
 " the end pattern is weird.
 " \%(^$)^XPT\s does not work.

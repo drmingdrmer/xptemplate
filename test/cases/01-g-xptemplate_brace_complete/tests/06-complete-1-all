@@ -1,0 +1,19 @@
+pre_vimrc:
+let g:xptemplate_brace_complete = 1
+let g:xptemplate_vars = 'SParg= '
+
+keys:
+(
+[
+{
+"
+'
+center	
+after-single-quote	
+after-double-quote	
+after-brace	
+after-bracket	
+after-parentheses
+
+expected:
+( [ { "'center'after-single-quote"after-double-quote }after-brace ]after-bracket )after-parentheses

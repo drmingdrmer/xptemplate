@@ -14,5 +14,5 @@ wrapper
 
 expected:
 left-line1
-  
-  one_indent_to_two_space=right
+emptyline
+one_indent_to_two_space=right

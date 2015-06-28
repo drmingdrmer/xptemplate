@@ -49,9 +49,10 @@ fun! xpt#flt#Simplify( flt ) "{{{
     call filter( a:flt, 'v:val!=get(s:proto,v:key,-987654)' )
 endfunction "}}}
 
-fun! xpt#flt#Eval( flt, closures ) "{{{
+fun! xpt#flt#Eval( snip, flt, closures ) "{{{
 
-    let r = { 'rc' : 1 }
+    let snipptn = a:snip.ptn
+    let r = { 'rc' : 1, 'parseIndent' : 1, 'nav' : 'stay' }
     let rst = xpt#eval#Eval( a:flt.text, a:closures )
 
     call s:log.Debug( 'filter eval result=' . string( rst ) )
@@ -59,29 +60,59 @@ fun! xpt#flt#Eval( flt, closures ) "{{{
     if type( rst ) == type( 0 )
 
         let r.rc = 0
+        return r
 
-    elseif type( rst ) == type( '' )
+    endif
 
-        call extend( r, { 'action': 'build', 'text' : rst } )
+    " plain text is interpreted as plain text or snippet segment, depends
+    " on if there is mark in it.
+    "
+    " To explicitly use plain text or snippet segment, use Echo() and
+    " Build() respectively.
+    if type( rst ) == type( '' )
 
-    elseif type( rst ) == type( [] )
-
-        call extend( r, { 'action' : 'pum', 'pum' : rst } )
-
-    else
-        " rst is dictionary
-
-        if has_key( rst, 'action' )
-            call extend( r, rst, 'error' )
+        if rst =~ snipptn.lft
+            let r.action = 'build'
         else
-            r.action = 'build'
+            let r.action = 'text'
+        endif
+        let r.text = rst
+        return r
+
+    endif
+
+    if type( rst ) == type( [] )
+
+        let r.action = 'pum'
+        let r.pum = rst
+        return r
+
+    endif
+
+    " rst is dictionary
+    call extend( r, rst, 'force' )
+
+    if ! has_key( r, 'action' ) && has_key( r, 'text' )
+
+        " effective action is determined by if there is item pattern in text
+        if r.text =~ snipptn.lft
+            let r.action = 'build'
+        else
+            let r.action = 'text'
         endif
 
-        " TODO fix cursor usage
-        if has_key( r, 'cursor' )
-            call xpt#flt#ParseCursorSpec( r )
-        endif
+    endif
 
+    let r.action = get( r, 'action', '' )
+
+    " backward compatible
+    if r.action ==# 'embed'
+        let r.action = 'build'
+    endif
+
+    " TODO fix cursor usage
+    if has_key( r, 'cursor' )
+        call xpt#flt#ParseCursorSpec( r )
     endif
 
     return r

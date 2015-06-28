@@ -278,6 +278,7 @@ XPT p   alias=_tag
 XPT ul  alias=_tag
 XPT ol  alias=_tag
 XPT li  alias=_tag
+XPT span  alias=_tag
 
 
 

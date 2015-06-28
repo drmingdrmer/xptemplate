@@ -5,6 +5,8 @@ let s:f = g:XPTfuncs()
 XPTinclude
       \ _common/common
 
+XPTembed comment/comment
+
 XPT (
 (abc
 

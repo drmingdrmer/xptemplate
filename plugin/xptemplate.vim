@@ -15,17 +15,10 @@
 "     template
 " "}}}
 "
-" KNOWING BUG: "{{{
-"   sh: "else" snippet does not support 'indentkeys' setting.
-"
-" "}}}
-"
 " TODOLIST: "{{{
 " TODO bug: in *.css: type: "* {<CR>" prodcues another "* }" at the next line.
-" TODO duplicate snippet name check
 " in future
 " TODO efficiently loading long snippet file
-" TODO test vim 7.3
 " TODO lazy load of scripts
 " TODO add: be able to load textmate snippet or snipmate snippet.
 " TODO add: <BS> at ph start to shift backward.
@@ -33,14 +26,12 @@
 " TODO improve: 3 quotes in python
 " TODO fix: register handling when snippet expand
 " TODO goto next or trigger?
-" TODO add: visual mode trigger.
 " TODO fix: after undo, highlight is not cleared.
 " TODO with strict = 0/1 XPT does not work well
 " TODO add: XSET to set edge.
 " TODO add: short snippet syntax
 " TODO add: global shortcuts
 " TODO add: context detect
-" TODO fix: versionlize scripts
 " TODO doc of ontype filters, XSET what|map
 " TODO cross file support, .h and .cpp skeletion generator.
 " TODO bug in 114.74, ' and then <C-n> complete, and then <C-y> accept, now ' is between complete start and complete end
@@ -247,7 +238,10 @@ endfunction "}}}
 
 " which letter can be used in template name other than 'iskeyword'
 fun! XPTemplateKeyword(val) "{{{
+
     let x = b:xptemplateData
+    let ftScope   = x.filetypes[ x.snipFileScope.filetype ]
+    let ftkeyword = ftScope.ftkeyword
 
     " word characters are already valid.
     let val = substitute(a:val, '\w', '', 'g')
@@ -255,12 +249,12 @@ fun! XPTemplateKeyword(val) "{{{
     let needEscape = '^\]-'
 
 
-    let x.keywordList += split( val, '\v\s*' )
-    call sort( x.keywordList )
-    let x.keywordList = split( substitute( join( x.keywordList, '' ), '\v(.)\1+', '\1', 'g' ), '\v\s*' )
+    let ftkeyword.list += split( val, '\v\s*' )
+    call sort( ftkeyword.list )
+    let ftkeyword.list = split( substitute( join( ftkeyword.list, '' ), '\v(.)\1+', '\1', 'g' ), '\v\s*' )
 
 
-    let x.keyword = '\[0-9A-Za-z_' . escape( join( x.keywordList, '' ), needEscape ) . ']'
+    let ftkeyword.regexp = '\[0-9A-Za-z_' . escape( join( ftkeyword.list, '' ), needEscape ) . ']'
 
 endfunction "}}}
 
@@ -809,18 +803,9 @@ fun! XPTemplatePreWrap( wrap ) "{{{
     let x = b:xptemplateData
     let x.wrap = a:wrap
 
-    " TODO simplify me
-    let ts  = &tabstop
-
-
-    let tabspaces = repeat( ' ', ts )
-
     " TODO is that ok?
     let x.wrap = substitute( x.wrap, '\V\n\$', '', '' )
-
-    " xpt use tab internally to represent an indent
     let x.wrap = xpt#indent#ToSpace( x.wrap )
-    let x.wrap = xpt#indent#SpaceToTab( x.wrap )
 
     if ( g:xptemplate_strip_left || x.wrap =~ '\n' )
           \ && visualmode() ==# 'V'
@@ -979,7 +964,7 @@ endfunction "}}}
 fun! XPTparseSnippets() "{{{
     let x = b:xptemplateData
     for p in x.snippetToParse
-        call DoParseSnippet(p)
+        call xpt#parser#ParseSnippet(p)
     endfor
 
     let x.snippetToParse = []
@@ -1136,10 +1121,11 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
 
         " TODO codes below are dirty. clean it up lazy bone!!
 
-        call s:log.Log("x.keyword=" . x.keyword)
+        let ftScope = s:GetContextFTObj()
+        let ftkeyword = ftScope.ftkeyword
 
-        " TODO test escaping
-        "
+        call s:log.Log("ftkeyword.regexp=" . string(ftkeyword.regexp))
+
         " NOTE: The following statement hangs VIM if x.keyword == '\w'
         " let [startLineNr, startColumn] = searchpos('\V\%(\w\|'. x.keyword .'\)\+\%#', "bn", startLineNr )
 
@@ -1150,20 +1136,23 @@ fun! XPTemplateStart(pos_unused_any_more, ...) " {{{
             let lineToCursor = ''
         endif
 
-        let ftScope = s:GetContextFTObj()
         let pre = ftScope.namePrefix
         let n = split( lineToCursor, '\s', 1 )[ -1 ]
-
-        " TODO use filetype.keyword
-        " TODO in php $se should not trigger snippet 'se'
 
         " <non-keyword><keyword> is not breakable: $var in php
         " <keyword><non-keyword> is breakable: func( in c
 
         " search for valid snippet name or single non-keyword name
-        let snpt_name_ptn = '\V\^' . x.keyword . '\w\*\|\^\W'
+        let snpt_name_ptn = '\V\^\(' . ftkeyword.regexp . '\|\k\)\k\*'
         while n != '' && !has_key( pre, n )
-            let n = substitute( n, snpt_name_ptn, '', '' )
+            let shorter = substitute( n, snpt_name_ptn, '', '' )
+
+            " no keyword or xpt-keyword stripted, strip one non-keyword
+            if shorter == n
+                let n = n[ 1 : ]
+            else
+                let n = shorter
+            endif
         endwhile
         let matched = n
 
@@ -1889,6 +1878,7 @@ fun! s:TextWithoutIndent(posRange) "{{{
     let nIndent = xpt#indent#IndentBefore(s)
     let text = xpt#indent#RemoveIndentStr(text, nIndent)
 
+    " text with first line removed but it is still on-screen indent
     return text
 endfunction "}}}
 
@@ -2219,10 +2209,6 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
         call s:log.Log( "building now" )
         call s:log.Log(" : end=".string(end))
 
-        let nn = [ line( "." ), col( "." ) ]
-        " let text = xpt#util#TextBetween([nn, end])
-        " let elts = xpt#snip#TextToPlaceholders(text, xp)
-
         let nameInfo = s:GetNameInfo(end)
         if nameInfo[0] == [0, 0]
             " no more items
@@ -2256,16 +2242,12 @@ fun! s:BuildPlaceHolders( markRange ) "{{{
 
             let indent = repeat( ' ', virtcol( nameInfo[ 0 ] ) - 1 )
 
-
             let line = "\n" . indent . xp.l . placeHolder.leftEdge . xp.l . 'GetWrappedText()' . xp.l . placeHolder.rightEdge . xp.r
-            " let line = "\n" . indent . xp.l . placeHolder.leftEdge . 'GetWrappedText()' . placeHolder.rightEdge . xp.r
-
             let lines = repeat( line, n )
 
             let pos = copy( valueInfo[ -1 ] )
             let pos[ 1 ] += 1
             call XPreplaceInternal( pos, pos, lines )
-            " call XPreplace( pos, pos, lines )
 
         endif
 
@@ -2440,8 +2422,21 @@ fun! s:EvalAsFilter( raw, start_pos ) "{{{
 endfunction "}}}
 
 fun! s:IndentFilterText( flt_rst, start ) "{{{
+
+    " By default all text passed in is snippet text which takes 4 space as one
+    " indent.
+    " Unless user specifies text is copied from screen, thus it does not need
+    " to parse indent.
+
+    let lines = split( a:flt_rst.text, '\n', 1 )
+
+    if get(a:flt_rst, 'parseIndent', 1)
+        call xpt#indent#IndentToTab( lines )
+    endif
+
     let indent = s:IndentAt(a:start, a:flt_rst)
-    return xpt#indent#ParseStr(a:flt_rst.text, indent)
+    call xpt#indent#ToActualIndent( lines, indent )
+    return join(lines, "\n")
 endfunction "}}}
 
 fun! s:ApplyBuildTimeInclusion( placeHolder, nameInfo, valueInfo ) "{{{
@@ -2540,16 +2535,13 @@ endfunction "}}}
 " TODO simplify : if PH has preValue, replace it at once, without replacing with the name
 " TODO delay this to after template rendering
 fun! s:ApplyPreValues( placeHolder ) "{{{
-    let renderContext = b:xptemplateData.renderContext
-    let setting = renderContext.snipSetting
-
+    let rctx = b:xptemplateData.renderContext
+    let setting = rctx.snipSetting
     let name = a:placeHolder.name
 
-    let preValue = a:placeHolder.name == ''
+    let preValue = name == ''
           \ ? g:EmptyFilter
           \ : get( setting.preValues, name, g:EmptyFilter )
-
-
 
     if preValue is g:EmptyFilter
 
@@ -2563,38 +2555,27 @@ fun! s:ApplyPreValues( placeHolder ) "{{{
     endif
 
     let flt_rst = s:EvalFilter( preValue, [
-          \     renderContext.ftScope.funcs,
-          \     renderContext.snipSetting.variables,
+          \     rctx.ftScope.funcs,
+          \     rctx.snipSetting.variables,
           \ ] )
 
-
-    " TODO isnot 0? or is 0?
-    if flt_rst.rc isnot 0 && has_key( flt_rst, 'text' )
-        call s:SetPreValue( a:placeHolder, flt_rst )
+    if flt_rst.rc is 0 || ! has_key(flt_rst, 'text')
+        return
     endif
 
-endfunction "}}}
+    let mark_name = s:GetPHReplacingMarkName(flt_rst)
+    let marks = a:placeHolder[mark_name]
 
-fun! s:SetPreValue( placeHolder, flt_rst ) "{{{
-
-    if ! has_key( a:flt_rst, 'text' )
-        call s:log.Debug( "flt_rst has no text while SetPreValue" )
-        return
-    end
-
-    let marks = a:placeHolder.innerMarks
-    let [ start, _end ] = XPMposStartEnd( marks )
-    let indent = s:IndentAt(start, a:flt_rst)
-    let text = xpt#indent#ToActualIndentStr(a:flt_rst.text, indent)
+    let s = XPMpos(marks.start)
+    let text = s:IndentFilterText(flt_rst, s)
 
     call s:log.Log( 'preValue=' . text )
-    " call XPRstartSession()
     try
         call XPreplaceByMarkInternal( marks.start, marks.end, text )
     catch /.*/
-    finally
-        " call XPRendSession()
+        call s:Crash( v:exception . " while update preset text" )
     endtry
+
 endfunction "}}}
 
 fun! s:BuildItemForPlaceHolder( placeHolder ) "{{{
@@ -2675,11 +2656,7 @@ fun! s:ShiftBackward() "{{{
 
     call XPMsetLikelyBetween( leader.mark.start, leader.mark.end )
 
-    let action = s:SelectCurrent()
-
-
-    call XPMupdateStat()
-    return action
+    return s:SelectCurrent()
 
 endfunction "}}}
 
@@ -2880,7 +2857,7 @@ fun! s:ApplyPostFilter() "{{{
         let flt_rst = s:EvalPostFilter( filter, typed, leader )
 
         " name of marks between which content should be replaced
-        let mark_name = s:GetReplaceMark(rctx, flt_rst)
+        let mark_name = s:GetPHReplacingMarkName(flt_rst)
         let marks = rctx.leadingPlaceHolder[mark_name]
 
         let ori_flt_rst = copy( flt_rst )
@@ -2974,6 +2951,7 @@ fun! s:GotoNextItem() "{{{
     " restore 'wrap'
     call xpt#settingswitch#Restore(b:xptemplateData.settingWrap)
 
+    call s:log.Log("action=" . action)
     return action
 endfunction "}}}
 
@@ -3020,10 +2998,7 @@ fun! s:DoGotoNextItem() "{{{
         let renderContext.phase = 'fillin'
         " TODO re-popup if needed
 
-        let action = s:SelectCurrent()
-
-        call XPMupdateStat()
-        return action
+        return s:SelectCurrent()
     endif
 
 
@@ -3031,7 +3006,6 @@ fun! s:DoGotoNextItem() "{{{
 
 
     let postaction = s:InitItem()
-
 
     " InitItem may change template stack
     let renderContext = b:xptemplateData.renderContext
@@ -3120,12 +3094,10 @@ fun! s:ExtractOneItem() "{{{
 
 endfunction "}}}
 
-fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
-    " @return   string  typing
-    "           -1      if this action can not be handled
+fun! s:HandleDefaultValueAction( flt_rst ) "{{{
 
     let x = b:xptemplateData
-    let rctx = a:rctx
+    let rctx = x.renderContext
     let leader = rctx.leadingPlaceHolder
 
     call s:log.Log( "type is " . type( a:flt_rst ). ' {} type is ' . type( {} ) )
@@ -3150,61 +3122,68 @@ fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
 
     elseif a:flt_rst.action ==# 'build'
 
-        " building destory current item
-        " TODO what if flt_rst has no text?
-        let [ built ] =  s:EmbedSnippetInLeadingPlaceHolder( rctx, get(a:flt_rst, 'text', ''), a:flt_rst )
+        if s:FillinLeader(a:flt_rst) is s:BROKEN
+              \ || s:BuildLeaderText(a:flt_rst) is s:BROKEN
+            return s:BROKEN
+        endif
+
         return s:GotoNextItem()
 
-    elseif a:flt_rst.action ==# 'next'
-
-        let postaction = ''
-        " Note: update following?
-        if has_key( a:flt_rst, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( rctx, a:flt_rst )
-        endif
-        if x.renderContext.processing
-            return s:ShiftForward( '' )
-        else
-            return postaction
-        endif
-
-    elseif a:flt_rst.action ==# 'remove'
-
-        let postaction = ''
-        if has_key( a:flt_rst, 'text' )
-            let postaction = s:FillinLeadingPlaceHolderAndSelect( rctx, a:flt_rst )
-        endif
-        if x.renderContext.processing
-            return s:ShiftForward( 'clear' )
-        else
-            return postaction
-        endif
-
     elseif a:flt_rst.action ==# 'text'
-        return s:FillinLeadingPlaceHolderAndSelect( rctx, a:flt_rst )
-    else
-        " other action
 
+        if s:FillinLeader(a:flt_rst) is s:BROKEN
+            return s:BROKEN
+        endif
+
+    else
+        if s:FillinLeader(a:flt_rst) is s:BROKEN
+            return s:BROKEN
+        endif
     endif
 
-    return -1
+
+    if a:flt_rst.nav == 'next'
+        if x.renderContext.processing
+            let postaction =  s:ShiftForward( '' )
+            return postaction
+        else
+            return ''
+        endif
+    endif
+
+    return s:SelectCurrent()
 
 endfunction "}}}
 
-fun! s:GetReplaceMark(rctx, flt_rst) "{{{
+fun! s:GetLeaderOpPos(flt_rst) "{{{
+    let marks = s:GetLeaderOpMarks(a:flt_rst)
+    let [ s, e ] = XPMposStartEnd( marks )
+    return [ s, e ]
+endfunction "}}}
+
+fun! s:GetLeaderOpMarks(flt_rst) "{{{
+    " returns ph.innerMarks or marks
+    let rctx = b:xptemplateData.renderContext
+    let mark_name = s:GetPHReplacingMarkName(a:flt_rst)
+
+    return rctx.leadingPlaceHolder[ mark_name ]
+endfunction "}}}
+
+fun! s:GetPHReplacingMarkName(flt_rst) "{{{
+    let rctx = b:xptemplateData.renderContext
+
     let mark_name = get(a:flt_rst, 'marks')
     if mark_name is 0
-        let mark_name = xpt#rctx#DefaultMarks(a:rctx)
+        let mark_name = xpt#rctx#DefaultMarks(rctx)
     endif
     return mark_name
 endfunction "}}}
 
 fun! s:ActionFinish( renderContext, flt_rst ) "{{{
 
-    let mark_name = s:GetReplaceMark(a:renderContext, a:flt_rst)
+    let rctx = b:xptemplateData.renderContext
 
-    let marks = a:renderContext.leadingPlaceHolder[ mark_name ]
-    let [ start, end ] = XPMposStartEnd( marks )
+    let [ start, end ] = s:GetLeaderOpPos(a:flt_rst)
 
     call s:log.Debug( "start, end=" . string( [ start, end ] ) )
     call s:log.Debug( "start line=" . string( getline( start[0] ) ) )
@@ -3231,7 +3210,7 @@ fun! s:ActionFinish( renderContext, flt_rst ) "{{{
 
 
     " TODO bad
-    call cursor( XPMpos( a:renderContext.leadingPlaceHolder.mark.end ) )
+    call cursor( XPMpos( rctx.leadingPlaceHolder.mark.end ) )
 
     let xptObj = b:xptemplateData
 
@@ -3248,133 +3227,79 @@ fun! s:ActionFinish( renderContext, flt_rst ) "{{{
 
 endfunction "}}}
 
-fun! s:EmbedSnippetInLeadingPlaceHolder( ctx, snippet, flt_rst ) "{{{
-    " TODO remove needless marks
-    let ph = a:ctx.leadingPlaceHolder
+fun! s:FillinLeader(flt_rst) "{{{
+    let x = b:xptemplateData
+    let rctx = x.renderContext
 
-    let marks = ph.innerMarks
-    let range = [ XPMpos( marks.start ), XPMpos( marks.end ) ]
-    if range[0] == [0, 0] || range[1] == [0, 0]
-        call s:Crash( 'leading place holder''s mark lost:' . string( marks ) )
-        return [ s:NOTBUILT ]
+    let mark_name = s:GetPHReplacingMarkName(a:flt_rst)
+    let marks = rctx.leadingPlaceHolder[ mark_name ]
+    let [ s, e ] = XPMposStartEnd( marks )
+
+    if s[0] == 0 || e[0] == 0
+        call s:Crash('leader marks not found:' . string(mark_name))
+        return s:BROKEN
     endif
 
-    call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
-
-    let text = s:IndentFilterText(a:flt_rst, range[0])
-    call XPreplace( range[0], range[1], text )
-
-    if a:flt_rst.action == 'build'
-        let build_rc = s:BuildPlaceHolders( marks )
-        call s:log.Log( "build_rc=" . string( build_rc ) )
-        if build_rc < 0
-            call s:Crash('building place holder failed')
-            return [ s:NOTBUILT ]
-        else
-            if build_rc == s:BUILT
-                call s:RemoveCurrentMarks()
-            end
-            return [ build_rc ]
-        endif
-    end
-    return [ s:NOTBUILT ]
-endfunction "}}}
-
-
-
-" TODO bad implementation. If further build or shifforward needed, return back a
-" flag to inform caller to do this.  Do not do it silently itself
-fun! s:FillinLeadingPlaceHolderAndSelect( rctx, flt_rst ) "{{{
-    " TODO remove needless marks
+    if a:flt_rst.rc is 0
+        return s:NONE
+    endif
 
     if has_key( a:flt_rst, 'text' )
 
-        let ph = a:rctx.leadingPlaceHolder
-        let marks = ph.innerMarks
-        let [ start, _end ] = [ XPMpos( marks.start ), XPMpos( marks.end ) ]
-
-        if start == [0, 0] || _end == [0, 0]
-            return s:Crash()
-        endif
-
-        let str = s:IndentFilterText(a:flt_rst, start)
-
         call xpt#settingswitch#Switch(b:xptemplateData.settingWrap)
-        call XPreplace( start, _end, str )
+
+        let text = s:IndentFilterText( a:flt_rst, s )
+        call s:log.Debug( "text to fillin leader=" . string( text ) . len( text ) )
+        call XPreplace( s, e, text )
     endif
-
-    " TODO action should not be 'build' if it goes in to this function
-    " if flt_rst.action == 'build'
-    "     if 0 > s:BuildPlaceHolders( marks )
-    "         return s:Crash()
-    "     endif
-
-    "     call s:log.Log( 'rebuild default values' )
-    "     return s:GotoNextItem()
-    " endif
-
 
     call s:XPTupdate()
 
-    let action = s:SelectCurrent()
-
-    call XPMupdateStat()
-    return action
-
+    return s:DONE
 endfunction "}}}
 
-fun! s:ApplyDefaultValueToPH( renderContext, filter ) "{{{
+fun! s:BuildLeaderText(flt_rst) "{{{
 
-    let renderContext = a:renderContext
-    let leader = renderContext.leadingPlaceHolder
+    let rctx = b:xptemplateData.renderContext
+    let mark_name = s:GetPHReplacingMarkName(a:flt_rst)
+    let marks = rctx.leadingPlaceHolder[mark_name]
 
-    let renderContext.activeLeaderMarks = 'innerMarks'
+    if a:flt_rst.action == 'build'
 
+        let build_rc = s:BuildPlaceHolders( marks )
+        call s:log.Log( "build_rc=" . string( build_rc ) )
 
-    let start = XPMpos( leader.mark.start )
+        if build_rc is s:BROKEN
+            call s:Crash('building place holder failed')
 
-    call s:log.Debug( 'filter=' . string( a:filter ) )
+        elseif build_rc is s:BUILT
+            call s:RemoveCurrentMarks()
+        end
 
-    let ph = renderContext.leadingPlaceHolder
-    let typed = xpt#util#TextBetween( XPMposStartEnd( ph.innerMarks ) )
-    let flt_rst = s:EvalFilter( a:filter, [
-          \     renderContext.ftScope.funcs,
-          \     renderContext.snipSetting.variables,
-          \     { '$UserInput': typed } ] )
-
-
-    if flt_rst.rc is 0
-        let action = s:SelectCurrent()
-
-        call XPMupdateStat()
-        return action
-    endif
-
-    let rc = s:HandleDefaultValueAction( renderContext, flt_rst )
-    if rc is -1
-        return s:FillinLeadingPlaceHolderAndSelect( renderContext, flt_rst )
-    else
-        return rc
-    endif
-
+        return build_rc
+    end
+    return s:NONE
 endfunction "}}}
 
 fun! s:DefaultValuePumHandler( renderContext, flt_rst ) "{{{
 
     let pumlen = len( a:flt_rst.pum )
 
+    if pumlen > 1
+        return s:DefaultValueShowPum( a:renderContext, a:flt_rst )
+    endif
+
     if pumlen == 0
         let a:flt_rst.text = ''
-        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, a:flt_rst )
-
     elseif pumlen == 1
         let a:flt_rst.text = a:flt_rst.pum[0]
-        return s:FillinLeadingPlaceHolderAndSelect( a:renderContext, a:flt_rst )
-
-    else
-        return s:DefaultValueShowPum( a:renderContext, a:flt_rst )
-
     endif
+
+    if s:FillinLeader(a:flt_rst) is s:BROKEN
+        return s:BROKEN
+    endif
+
+    return s:SelectCurrent()
 
 endfunction "}}}
 
@@ -3436,41 +3361,42 @@ endfunction " }}}
 fun! s:ApplyDefaultValue() "{{{
 
     " TODO place holder default value with higher priority!
-    let renderContext = b:xptemplateData.renderContext
-    let leader = renderContext.leadingPlaceHolder
-    let defs = renderContext.snipSetting.defaultValues
+    let rctx = b:xptemplateData.renderContext
+    let leader = rctx.leadingPlaceHolder
+    let defs = rctx.snipSetting.defaultValues
 
-    if has_key( defs, leader.name )
-          \ && defs[ leader.name ].force
-
-        let defValue = defs[ leader.name ]
-
+    if has_key( defs, leader.name ) && defs[ leader.name ].force
+        let filter = defs[ leader.name ]
     else
-
-        let defValue =
+        let filter =
               \ get( leader, 'ontimeFilter',
               \     get( defs, leader.name,
               \         g:EmptyFilter ) )
-
     endif
 
-
-    if defValue is g:EmptyFilter
-        " TODO needed to fill in?
-        let str = renderContext.item.name
-
+    if filter is g:EmptyFilter
         " to update the edge to following place holder
         call s:XPTupdate()
-
-        let postaction = s:SelectCurrent()
-
-        call XPMupdateStat()
-
-    else
-        let postaction = s:ApplyDefaultValueToPH( renderContext, defValue )
+        return s:SelectCurrent()
     endif
 
-    return postaction
+    let rctx.activeLeaderMarks = 'innerMarks'
+
+    call s:log.Debug( 'filter=' . string( filter ) )
+
+    let typed = xpt#util#TextBetween( XPMposStartEnd( leader.innerMarks ) )
+    let flt_rst = s:EvalFilter( filter, [
+          \     rctx.ftScope.funcs,
+          \     rctx.snipSetting.variables,
+          \     { '$UserInput': typed } ] )
+
+
+    if flt_rst.rc is 0
+        return s:SelectCurrent()
+    endif
+
+    return s:HandleDefaultValueAction( flt_rst )
+
 endfunction "}}}
 
 fun! XPTmappingEval( str ) "{{{
@@ -3504,22 +3430,13 @@ fun! XPTmappingEval( str ) "{{{
     let flt_rst = s:EvalFilter( filter, [
           \     x.renderContext.ftScope.funcs,
           \     x.renderContext.snipSetting.variables,
-          \ { '$UserInput' : typed } ] )
+          \  { '$UserInput' : typed } ] )
 
-    if has_key( flt_rst, 'action' )
-
-        let act = flt_rst.action
-        if act == 'text'
-            let postAction = get(flt_rst, 'text', typed)
-        else
-            let postAction = s:HandleAction( x.renderContext, flt_rst )
-        endif
-
-    else
-        " TODO should not go to here
-        postAction = typed
+    if flt_rst.rc is 0
+        return ''
     endif
 
+    let postAction = s:HandleMapAction( flt_rst )
     call s:log.Log( 'postAction=' . postAction )
 
     return postAction
@@ -3605,8 +3522,6 @@ fun! s:ClearItemMapping( rctx ) "{{{
 
 endfunction "}}}
 
-
-
 fun! s:SelectCurrent() "{{{
     let ph = b:xptemplateData.renderContext.leadingPlaceHolder
     let marks = ph.innerMarks
@@ -3616,6 +3531,7 @@ fun! s:SelectCurrent() "{{{
 
     if ctl == cbr
         call cursor( ctl )
+        call XPMupdateStat()
         return ''
     else
         call cursor( ctl )
@@ -3642,6 +3558,8 @@ fun! s:SelectCurrent() "{{{
         else
             call feedkeys( "\<esc>gv\<C-g>", 'nt' )
         endif
+
+        call XPMupdateStat()
         return ''
 
         " NOTE: Using <C-R>= output special chars like \<esc> \<C-v> cause
@@ -3659,62 +3577,11 @@ fun! s:EvalFilter( filter, closures ) "{{{
 
     " TODO EvalFilter might be called from non-rendering phase, is there a snipObject?
     let rctx = b:xptemplateData.renderContext
-    let snipptn = rctx.snipObject.ptn
+    let snip = rctx.snipObject
 
-    let r = { 'rc': 1, 'filter': a:filter }
-
-    let rst = xpt#eval#Eval( a:filter.text, a:closures )
-    call s:log.Debug( "rst after xpt#eval#Eval=" . string( rst ) )
-
-    if type( rst ) == type( 0 )
-        let r.rc = 0
-        return r
-    endif
-
-    if type( rst ) == type( '' )
-
-        " plain text is interpreted as plain text or snippet segment, depends
-        " on if there is mark in it.
-        "
-        " To explicitly use plain text or snippet segment, use Echo() and
-        " Build() respectively.
-        if rst =~ snipptn.lft
-            let r.action = 'build'
-        else
-            let r.action = 'text'
-        endif
-        let r.text = rst
-        return r
-    endif
-
-    if type( rst ) == type( [] )
-        let r.action = 'pum'
-        let r.pum = rst
-        return r
-
-    endif
-
-    " rst is dictionary
-    if has_key( rst, 'action' )
-        call extend( r, rst, 'error' )
-
-        " backward compatible
-        if r.action ==# 'embed'
-            let r.action = 'build'
-        endif
-    else
-        let text = get( r, 'text', '' )
-
-        " effective action is determined by if there is item pattern in text
-        if text =~ snipptn.lft
-            let r.action = 'build'
-        else
-            let r.action = 'text'
-        endif
-    endif
-
+    let r = xpt#flt#Eval( snip, a:filter, a:closures )
     call s:LoadFilterActionSnippet( r )
-
+    call s:log.Debug("evaled filter rst: " . string(r))
     return r
 
 endfunction "}}}
@@ -4110,25 +3977,17 @@ fun! s:HandleOntypeFilter( filter ) "{{{
 
     if 0 is flt_rst.rc
         return
+    endif
 
-    elseif has_key( flt_rst, 'action' )
+    if has_key( flt_rst, 'action' )
         call s:HandleOntypeAction( renderContext, flt_rst )
-
-    elseif has_key( flt_rst, 'text' )
-
-        if flt_rst.text != contentTyped
-            let [ start, end ] = XPMposStartEnd( leader.mark )
-            call XPreplace( start, end, flt_rst.text )
-            call s:XPTupdate()
-        endif
-
     endif
 
 endfunction "}}}
 
 fun! s:HandleOntypeAction( renderContext, flt_rst ) "{{{
 
-    let postaction = s:HandleAction( a:renderContext, a:flt_rst )
+    let postaction = s:HandleAction( a:flt_rst )
 
     if '' != postaction
         call feedkeys( postaction, 'n' )
@@ -4136,30 +3995,62 @@ fun! s:HandleOntypeAction( renderContext, flt_rst ) "{{{
 
 endfunction "}}}
 
-fun! s:HandleAction( renderContext, flt_rst ) "{{{
+fun! s:HandleMapAction( flt_rst ) "{{{
+
+    let rctx = b:xptemplateData.renderContext
+
+    if a:flt_rst.action == 'finishTemplate'
+        let postaction = s:ActionFinish( rctx, a:flt_rst )
+        return postaction
+
+    elseif a:flt_rst.action == ''
+    endif
+
+    let postaction = get(a:flt_rst, 'text', '')
+
+    if a:flt_rst.nav == 'next'
+        if rctx.processing
+            let postaction .=  s:ShiftForward( '' )
+            return postaction
+        else
+            return ''
+        endif
+    endif
+
+    return postaction
+
+endfunction "}}}
+fun! s:HandleAction( flt_rst ) "{{{
     " NOTE: handle only leader's action
 
-    let marks = s:GetReplaceMark(a:renderContext, a:flt_rst)
+    let rctx = b:xptemplateData.renderContext
+    let [ s, e ] = s:GetLeaderOpPos(a:flt_rst)
 
     let postaction = ''
-    if a:flt_rst.action == 'next'
+    if a:flt_rst.action == 'text'
 
         if has_key( a:flt_rst, 'text' )
 
-            " TODO replace by mark
-            let [ start, end ] = XPMposList( marks.start, marks.end )
-            call XPreplace( start, end, a:flt_rst.text )
+            call XPreplace( s, e, a:flt_rst.text )
 
         endif
 
-        let postaction = s:ShiftForward( '' )
-
     elseif a:flt_rst.action == 'finishTemplate'
-        let postaction = s:ActionFinish( a:renderContext, a:flt_rst )
+        let postaction = s:ActionFinish( rctx, a:flt_rst )
+        return postaction
 
     elseif a:flt_rst.action == ''
         " TODO other actions
 
+    endif
+
+    if a:flt_rst.nav == 'next'
+        if rctx.processing
+            let postaction =  s:ShiftForward( '' )
+            return postaction
+        else
+            return ''
+        endif
     endif
 
     return postaction
@@ -4195,8 +4086,6 @@ fun! s:UpdateMarksAccordingToLeaderChanges( renderContext ) "{{{
         throw 'XPM:mark_lost:' . string( start[0] == 0 ? leaderMark.start : leaderMark.end )
     endif
 
-
-
     " call XPMsetLikelyBetween( leaderMark.start, leaderMark.end )
     if XPMhas( innerMarks.start, innerMarks.end )
         call XPMsetLikelyBetween( innerMarks.start, innerMarks.end )
@@ -4207,40 +4096,31 @@ fun! s:UpdateMarksAccordingToLeaderChanges( renderContext ) "{{{
     let rc = XPMupdate()
     call s:log.Log( 'rc=' . string(rc) . ' phase=' . string(a:renderContext.phase) . ' strict=' . g:xptemplate_strict )
 
-    if g:xptemplate_strict == 2
-                \&& a:renderContext.phase == 'fillin'
+    if a:renderContext.phase == 'fillin'
 
         if rc is g:XPM_RET.updated
               \ || ( type( rc ) == type( [] )
               \      && ( rc[ 0 ] != leaderMark.start && rc[ 0 ] != innerMarks.start
               \        || rc[ 1 ] != leaderMark.end && rc[ 1 ] != innerMarks.end ) )
 
-            throw 'XPT:changes outside of place holder'
+            if g:xptemplate_strict == 2
 
-        endif
+                throw 'XPT:changes outside of place holder'
 
-    endif
+            elseif g:xptemplate_strict == 1
 
-    if g:xptemplate_strict == 1
-                \&& a:renderContext.phase == 'fillin'
-                \&& rc is g:XPM_RET.updated
-        " g:XPM_RET.updated means update made but not in likely range
+                undo
+                call XPMupdate()
 
-        if rc is g:XPM_RET.updated
-              \ || ( type( rc ) == type( [] )
-              \      && ( rc[ 0 ] != leaderMark.start && rc[ 0 ] != innerMarks.start
-              \        || rc[ 1 ] != leaderMark.end && rc[ 1 ] != innerMarks.end ) )
+                " TODO better hint
+                " TODO allow user to move?
 
-            undo
-            call XPMupdate()
+                call XPT#warn( "editing OUTSIDE place holder is not allowed whne g:xptemplate_strict=1, use " . g:xptemplate_goback . " to go back" )
 
-            " TODO better hint
-            " TODO allow user to move?
-
-            call XPT#warn( "editing OUTSIDE place holder is not allowed whne g:xptemplate_strict=1, use " . g:xptemplate_goback . " to go back" )
-
-            return g:XPT_RC.canceled
-
+                return g:XPT_RC.canceled
+            else
+                 " == 0
+            endif
         endif
     endif
 
@@ -4290,17 +4170,14 @@ fun! s:DoUpdate( renderContext, changeType ) "{{{
 
     let contentTyped = xpt#util#TextBetween( XPMposStartEnd( renderContext.leadingPlaceHolder.mark ) )
 
-    if contentTyped ==# renderContext.lastContent
-        call s:log.Log( "nothing different typed" )
-        return
-    endif
+    " if contentTyped ==# renderContext.lastContent
+    "     call s:log.Log( "nothing different typed" )
+    "     return
+    " endif
 
     call s:log.Log( "typed:" . contentTyped )
 
-
     call s:CallPlugin("update", 'before')
-
-
 
     " update items
 
@@ -4310,14 +4187,10 @@ fun! s:DoUpdate( renderContext, changeType ) "{{{
     call s:log.Log( "lastContent=".renderContext.lastContent )
     call s:log.Log( "contentTyped=".contentTyped )
 
-
-
-
     " NOTE: sometimes, update is made before key mapping finished. Thus XPTupdate can not catch likely_matched result
     if type( a:changeType ) == type( [] )
           \ || a:changeType is g:XPM_RET.likely_matched
           \ || a:changeType is g:XPM_RET.no_updated_made
-
 
         call s:log.Log( "marks before updating following:\n" . XPMallMark() )
 
@@ -4327,14 +4200,9 @@ fun! s:DoUpdate( renderContext, changeType ) "{{{
         call s:UpdateFollowingPlaceHoldersWith( contentTyped, {} )
         call s:GotoRelativePosToMark( relPos, renderContext.leadingPlaceHolder.mark.start )
 
-
-
     else
         " TODO undo-redo handling
-
     endif
-
-
 
     call s:CallPlugin('update', 'after')
 
@@ -4432,7 +4300,7 @@ augroup XPT "{{{
 
     au InsertEnter * call <SID>XPTcheck()
 
-    au CursorMovedI * call <SID>XPTupdateTyping()
+    au CursorMoved,CursorMovedI * call <SID>XPTupdateTyping()
 
     if g:xptemplate_strict == 1
         au CursorMovedI * call <SID>BreakUndo()

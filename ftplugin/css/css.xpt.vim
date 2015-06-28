@@ -401,7 +401,7 @@ table-layout: `selec^;
 
 
 XPT textindent " text-indent
-text-indent: `^;`cursor^
+text-indent: `^;
 
 XPT textalign " text-align
 XSET selec=Choose(['left', 'right', 'center', 'justify'])

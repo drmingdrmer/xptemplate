@@ -1,0 +1,13 @@
+keys:
+pre-text
+	
+at_end
+pre-text
+on_x	
+at_end
+
+
+expected:
+(user-text)at_end
+(on_x)at_end
+
