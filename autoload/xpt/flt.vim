@@ -52,7 +52,7 @@ endfunction "}}}
 fun! xpt#flt#Eval( snip, flt, closures ) "{{{
 
     let snipptn = a:snip.ptn
-    let r = { 'rc' : 1, 'parseIndent' : 1 }
+    let r = { 'rc' : 1, 'parseIndent' : 1, 'nav' : 'stay' }
     let rst = xpt#eval#Eval( a:flt.text, a:closures )
 
     call s:log.Debug( 'filter eval result=' . string( rst ) )
@@ -90,26 +90,24 @@ fun! xpt#flt#Eval( snip, flt, closures ) "{{{
     endif
 
     " rst is dictionary
-    if has_key( rst, 'action' )
+    call extend( r, rst, 'force' )
 
-        call extend( r, rst, 'force' )
-
-        " backward compatible
-        if r.action ==# 'embed'
-            let r.action = 'build'
-        endif
-
-    else
-
-        let text = get( r, 'text', '' )
+    if ! has_key( r, 'action' ) && has_key( r, 'text' )
 
         " effective action is determined by if there is item pattern in text
-        if text =~ snipptn.lft
+        if r.text =~ snipptn.lft
             let r.action = 'build'
         else
             let r.action = 'text'
         endif
 
+    endif
+
+    let r.action = get( r, 'action', '' )
+
+    " backward compatible
+    if r.action ==# 'embed'
+        let r.action = 'build'
     endif
 
     " TODO fix cursor usage
