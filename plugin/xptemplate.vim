@@ -2535,16 +2535,13 @@ endfunction "}}}
 " TODO simplify : if PH has preValue, replace it at once, without replacing with the name
 " TODO delay this to after template rendering
 fun! s:ApplyPreValues( placeHolder ) "{{{
-    let renderContext = b:xptemplateData.renderContext
-    let setting = renderContext.snipSetting
-
+    let rctx = b:xptemplateData.renderContext
+    let setting = rctx.snipSetting
     let name = a:placeHolder.name
 
-    let preValue = a:placeHolder.name == ''
+    let preValue = name == ''
           \ ? g:EmptyFilter
           \ : get( setting.preValues, name, g:EmptyFilter )
-
-
 
     if preValue is g:EmptyFilter
 
@@ -2558,39 +2555,27 @@ fun! s:ApplyPreValues( placeHolder ) "{{{
     endif
 
     let flt_rst = s:EvalFilter( preValue, [
-          \     renderContext.ftScope.funcs,
-          \     renderContext.snipSetting.variables,
+          \     rctx.ftScope.funcs,
+          \     rctx.snipSetting.variables,
           \ ] )
 
-
-    " TODO isnot 0? or is 0?
-    if flt_rst.rc isnot 0 && has_key( flt_rst, 'text' )
-        call s:SetPreValue( a:placeHolder, flt_rst )
+    if flt_rst.rc is 0 || ! has_key(flt_rst, 'text')
+        return
     endif
 
-endfunction "}}}
-
-fun! s:SetPreValue( placeHolder, flt_rst ) "{{{
-
-    if ! has_key( a:flt_rst, 'text' )
-        call s:log.Debug( "flt_rst has no text while SetPreValue" )
-        return
-    end
-
-    let mark_name = s:GetPHReplacingMarkName(a:flt_rst)
+    let mark_name = s:GetPHReplacingMarkName(flt_rst)
     let marks = a:placeHolder[mark_name]
 
-    let [ start, _end ] = XPMposStartEnd( marks )
-    let text = s:IndentFilterText(a:flt_rst, start)
+    let s = XPMpos(marks.start)
+    let text = s:IndentFilterText(flt_rst, s)
 
     call s:log.Log( 'preValue=' . text )
-    " call XPRstartSession()
     try
         call XPreplaceByMarkInternal( marks.start, marks.end, text )
     catch /.*/
-    finally
-        " call XPRendSession()
+        call s:Crash( v:exception . " while update preset text" )
     endtry
+
 endfunction "}}}
 
 fun! s:BuildItemForPlaceHolder( placeHolder ) "{{{
@@ -3171,12 +3156,17 @@ fun! s:HandleDefaultValueAction( flt_rst ) "{{{
 endfunction "}}}
 
 fun! s:GetLeaderOpPos(flt_rst) "{{{
+    let marks = s:GetLeaderOpMarks(a:flt_rst)
+    let [ s, e ] = XPMposStartEnd( marks )
+    return [ s, e ]
+endfunction "}}}
+
+fun! s:GetLeaderOpMarks(flt_rst) "{{{
+    " returns ph.innerMarks or marks
     let rctx = b:xptemplateData.renderContext
     let mark_name = s:GetPHReplacingMarkName(a:flt_rst)
 
-    let marks = rctx.leadingPlaceHolder[ mark_name ]
-    let [ s, e ] = XPMposStartEnd( marks )
-    return [ s, e ]
+    return rctx.leadingPlaceHolder[ mark_name ]
 endfunction "}}}
 
 fun! s:GetPHReplacingMarkName(flt_rst) "{{{
