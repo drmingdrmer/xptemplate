@@ -3158,20 +3158,6 @@ fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
 
         return s:GotoNextItem()
 
-    elseif a:flt_rst.action ==# 'next'
-
-        let rc = s:FillinLeader(a:flt_rst)
-        if rc is s:BROKEN
-            return s:BROKEN
-        endif
-
-        if x.renderContext.processing
-            let postaction =  s:ShiftForward( '' )
-            return postaction
-        else
-            return ''
-        endif
-
     elseif a:flt_rst.action ==# 'remove'
 
         let postaction = ''
@@ -3185,10 +3171,38 @@ fun! s:HandleDefaultValueAction( rctx, flt_rst ) "{{{
         endif
 
     elseif a:flt_rst.action ==# 'text'
-        return s:FillinLeadingPlaceHolderAndSelect( rctx, a:flt_rst )
+
+        let rc = s:FillinLeader(a:flt_rst)
+        if rc is s:BROKEN
+            return s:BROKEN
+        endif
+
+        if a:flt_rst.nav == 'next'
+            if x.renderContext.processing
+                let postaction =  s:ShiftForward( '' )
+                return postaction
+            else
+                return ''
+            endif
+        else
+            let action = s:SelectCurrent()
+            call XPMupdateStat()
+            call s:log.Log('action=' . action)
+            return action
+        endif
+
     else
         " other action
 
+    endif
+
+    if a:flt_rst.nav == 'next'
+        if x.renderContext.processing
+            let postaction =  s:ShiftForward( '' )
+            return postaction
+        else
+            return ''
+        endif
     endif
 
     return -1
@@ -3529,22 +3543,13 @@ fun! XPTmappingEval( str ) "{{{
     let flt_rst = s:EvalFilter( filter, [
           \     x.renderContext.ftScope.funcs,
           \     x.renderContext.snipSetting.variables,
-          \ { '$UserInput' : typed } ] )
+          \  { '$UserInput' : typed } ] )
 
-    if has_key( flt_rst, 'action' )
-
-        let act = flt_rst.action
-        if act == 'text'
-            let postAction = get(flt_rst, 'text', typed)
-        else
-            let postAction = s:HandleAction( x.renderContext, flt_rst )
-        endif
-
-    else
-        " TODO should not go to here
-        postAction = typed
+    if flt_rst.rc is 0
+        return ''
     endif
 
+    let postAction = s:HandleMapAction( flt_rst )
     call s:log.Log( 'postAction=' . postAction )
 
     return postAction
@@ -4092,7 +4097,7 @@ endfunction "}}}
 
 fun! s:HandleOntypeAction( renderContext, flt_rst ) "{{{
 
-    let postaction = s:HandleAction( a:renderContext, a:flt_rst )
+    let postaction = s:HandleAction( a:flt_rst )
 
     if '' != postaction
         call feedkeys( postaction, 'n' )
@@ -4100,30 +4105,62 @@ fun! s:HandleOntypeAction( renderContext, flt_rst ) "{{{
 
 endfunction "}}}
 
-fun! s:HandleAction( renderContext, flt_rst ) "{{{
+fun! s:HandleMapAction( flt_rst ) "{{{
+
+    let rctx = b:xptemplateData.renderContext
+
+    if a:flt_rst.action == 'finishTemplate'
+        let postaction = s:ActionFinish( rctx, a:flt_rst )
+        return postaction
+
+    elseif a:flt_rst.action == ''
+    endif
+
+    let postaction = get(a:flt_rst, 'text', '')
+
+    if a:flt_rst.nav == 'next'
+        if rctx.processing
+            let postaction .=  s:ShiftForward( '' )
+            return postaction
+        else
+            return ''
+        endif
+    endif
+
+    return postaction
+
+endfunction "}}}
+fun! s:HandleAction( flt_rst ) "{{{
     " NOTE: handle only leader's action
 
-    let marks = s:GetPHReplacingMarkName(a:flt_rst)
+    let rctx = b:xptemplateData.renderContext
+    let [ s, e ] = s:GetLeaderOpPos(a:flt_rst)
 
     let postaction = ''
-    if a:flt_rst.action == 'next'
+    if a:flt_rst.action == 'text'
 
         if has_key( a:flt_rst, 'text' )
 
-            " TODO replace by mark
-            let [ start, end ] = XPMposList( marks.start, marks.end )
-            call XPreplace( start, end, a:flt_rst.text )
+            call XPreplace( s, e, a:flt_rst.text )
 
         endif
 
-        let postaction = s:ShiftForward( '' )
-
     elseif a:flt_rst.action == 'finishTemplate'
-        let postaction = s:ActionFinish( a:renderContext, a:flt_rst )
+        let postaction = s:ActionFinish( rctx, a:flt_rst )
+        return postaction
 
     elseif a:flt_rst.action == ''
         " TODO other actions
 
+    endif
+
+    if a:flt_rst.nav == 'next'
+        if rctx.processing
+            let postaction =  s:ShiftForward( '' )
+            return postaction
+        else
+            return ''
+        endif
     endif
 
     return postaction
