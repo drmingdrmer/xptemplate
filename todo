@@ -1,3 +1,5 @@
+in brace, type and if it exceeds textwidth and is auto wrapped, xpt breaks.
+
 use flt
 
 press trigger key when <c-n> pum presents
