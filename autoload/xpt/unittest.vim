@@ -30,10 +30,10 @@ fun! s:ctx.Is( a, b, mes ) "{{{
           \ "Expect is " . string(a:a) . " But " . string(a:b) . " " .a:mes )
 endfunction "}}}
 
-fun! xpt#unittest#Runall() "{{{
-    echom '...'
+fun! xpt#unittest#Runall(ptn) "{{{
+    echom 'Unittest: autoload/xpt/ut/' . a:ptn . '.vim'
     try
-        runtime! autoload/xpt/ut/*.vim
+        exe 'runtime!' 'autoload/xpt/ut/' . a:ptn . '.vim'
         echom "All tests passed"
     catch /.*/
         " bla
@@ -43,7 +43,7 @@ endfunction "}}}
 let xpt#unittest#run = 'exe XPT#let_sid | call xpt#unittest#Run(s:sid, expand("<sfile>"))'
 fun! xpt#unittest#Run( sid, fn ) "{{{
 
-    echom "Testing" . string(a:fn)
+    echom "Test: " . string(a:fn)
 
     let ff = s:GetTestFuncs( a:sid )
     let funcnames = keys( ff )
@@ -54,7 +54,7 @@ fun! xpt#unittest#Run( sid, fn ) "{{{
             continue
         endif
 
-        echom 'Testing ' . funcname
+        echom 'Case: ' . funcname
         let Func = ff[ funcname ]
 
         try
