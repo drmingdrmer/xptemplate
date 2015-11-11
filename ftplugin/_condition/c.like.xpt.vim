@@ -15,7 +15,7 @@ XPTvar $BRel     \n
 
 " int fun( ** arg ** )
 " if ( ** condition ** )
-XPTvar $SParg      ' '
+XPTvar $SParg      ''
 
 " if ** (
 XPTvar $SPcmd       ' '
@@ -23,56 +23,39 @@ XPTvar $SPcmd       ' '
 " a = a ** + ** 1
 XPTvar $SPop       ' '
 
-
 XPTvar $VOID_LINE      /* void */;
 XPTvar $CURSOR_PH      /* cursor */
-
-
-
-
-
-" ================================= Snippets ===================================
-
 
 XPT _if hidden
 if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
     `cursor^
 }
 
-
 XPT if wrap " if ( .. ) { .. }
 `Include:_if^
 
-
 XPT elif wrap " else if ( .. ) { .. }
 else `Include:_if^
-
 
 XPT else wrap " else { ... }
 else`$BRif^{
     `cursor^
 }
 
+XPT ifn  alias=if	" if (.. == $NULL) {..} else...
+XSET condition=Embed('`a^`$SPop^==`$SPop^`$NULL^')
 
-XPT ifn  alias=if	" if ($NULL == ..) {..} else...
-XSET condition=Embed('`$NULL^`$SPop^==`$SPop^`var^')
+XPT ifnn alias=if	" if (.. != $NULL) {..} else...
+XSET condition=Embed('`a^`$SPop^!=`$SPop^`$NULL^')
 
+XPT if0  alias=if	" if (.. == 0) {..} else...
+XSET condition=Embed('`a^`$SPop^==`$SPop^0')
 
-XPT ifnn alias=if	" if ($NULL != ..) {..} else...
-XSET condition=Embed('`$NULL^`$SPop^!=`$SPop^`var^')
-
-
-XPT if0  alias=if	" if (0 == ..) {..} else...
-XSET condition=Embed('0`$SPop^==`$SPop^`var^')
-
-
-XPT ifn0 alias=if	" if (0 != ..) {..} else...
-XSET condition=Embed('0`$SPop^!=`$SPop^`var^')
-
+XPT ifn0 alias=if	" if (.. != 0) {..} else...
+XSET condition=Embed('`a^`$SPop^!=`$SPop^0')
 
 XPT ifee		" if (..) {..} else if...
 `:_if:^` `else_if...{{^`$BRel^`Include:elif^` `else_if...^`}}^
-
 
 XPT switch wrap	" switch (..) {case..}
 switch (`$SParg^`var^`$SParg^)`$BRif^{
@@ -88,4 +71,3 @@ case `constant^:
 XPT default " default ..:
 default:
     `cursor^
-
