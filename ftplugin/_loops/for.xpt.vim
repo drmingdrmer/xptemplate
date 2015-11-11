@@ -9,7 +9,7 @@ XPTvar $NULL            NULL
 XPTvar $BRloop          ' '
 
 
-XPTvar $SParg      ' '
+XPTvar $SParg      ''
 XPTvar $SPcmd      ' '
 XPTvar $SPop       ' '
 
@@ -19,18 +19,19 @@ XPTvar $FOR_SCOPE       ''
 XPTinclude
       \ _common/common
 
-
-
-
+fun! s:f.c_strip_type()
+    let v = self.ItemValue()
+    return substitute(v, '\V\^\_.\*\s', '', 'g')
+endfunction
 
 XPT for wrap " for (..;..;++)
-for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{
+for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^c_strip_type()^`$SPop^<`$SPop^`len^; `i^c_strip_type()^++`$SParg^)`$BRloop^{
     `cursor^
 }
 
 
 XPT forr wrap " for (..;..;--)
-for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^`$SPop^>`=$SPop`end^; `i^--`$SParg^)`$BRloop^{
+for`$SPcmd^(`$SParg^`$FOR_SCOPE^`$VAR_PRE`i^`$SPop^=`$SPop^`0^; `i^c_strip_type()^`$SPop^>`=$SPop`end^; `i^c_strip_type()^--`$SParg^)`$BRloop^{
     `cursor^
 }
 
