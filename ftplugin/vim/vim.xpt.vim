@@ -159,16 +159,19 @@ exe 'map <Plug>xsid <SID>|let s:sid=matchstr(maparg("<Plug>xsid"), "\\d\\+_")|un
 ..XPT
 
 XPT bench " while 1000.. doit..
+let n = `100000^
 let i = 0
 let `t^_0 = reltime()
 
-while i < `100000^
+while i < n
     let i += 1
     `cursor^
 endwhile
 
-let `t^_1 = reltime( `t^_0 )
-echom reltimestr( reltime( `t^_0 ) )
+let `t^ = reltime( `t^_0 )
+let us = `t^[0] * 1000*1000 + `t^[1]
+echo 'spent:' reltimestr( `t^ )
+echo 'per-call(us):' us/n
 
 XPT call wraponly=param " ..\( .. )
 `vim_call()`name^(`$SParg^`param^`$SParg^)

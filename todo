@@ -1,3 +1,14 @@
+### add test:
+test latest main() in c: indent returned from for-snippet function should be
+always 4 space.
+
+
+
+in brace, type and if it exceeds textwidth and is auto wrapped, xpt breaks.
+
+x, (, ",w" to save, shift-A, delete, no crash happened.
+there should be a crash since editing happened outside place holder
+
 use flt
 
 press trigger key when <c-n> pum presents
@@ -49,6 +60,89 @@ imap        <Plug>xpt-trigger-with-vim-pum      <C-n>
 # function and marks
 Building functions like `Build()` by default use `mark`.
 Because building destroys marks
+
+```
+==
+# a == b
+{
+    $a == $b
+}
+
+=
+{
+    $a = $b
+}
+
+>
+{
+    $a > $b
+}
+
+{}
+{
+    {
+        $body
+    }
+}
+
+{
+{
+    ${x}${x/^[.*$/]/}
+}
+
+(==)
+{
+    $(condition $('=='))
+}
+
+condition
+{
+    ( $expr )
+}
+
+_while
+{
+    while $(condition)$('{}')
+}
+
+while=
+{
+    $(_while $('(==)'))
+}
+
+while1
+{
+    $(_while $('(==)' -- b=1))
+}
+
+_for
+{
+    for $(condition)$('{}')
+}
+
+loop {
+    $init; $cond; $step
+}
+
+for {
+    $(_for -- expr='$(= $i 0); $(< $i 10); $i++' )
+}
+
+--
+
+for ( $alp $op $alp; $alp $op $alp; $alp$op ) {
+    $any
+}
+
+for {
+    for($i=0;i<10; i++) {
+        
+    }
+}
+
+
+
+```
 
 
 ```
