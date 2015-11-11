@@ -1,3 +1,9 @@
+### add test:
+test latest main() in c: indent returned from for-snippet function should be
+always 4 space.
+
+
+
 in brace, type and if it exceeds textwidth and is auto wrapped, xpt breaks.
 
 x, (, ",w" to save, shift-A, delete, no crash happened.
