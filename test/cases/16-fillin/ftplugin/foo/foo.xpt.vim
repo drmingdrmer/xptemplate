@@ -4,4 +4,4 @@ XPTinclude
       \ _common/common
 
 XPT foo
-foo-bar
+(`x^-`x^)

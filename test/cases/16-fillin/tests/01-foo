@@ -1,5 +1,7 @@
 keys:
 foo
+on_x	
+at_end
 
 expected:
-foo-bar
+(on_x-on_x)at_end
