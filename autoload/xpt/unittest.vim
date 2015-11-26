@@ -30,14 +30,24 @@ fun! s:ctx.Is( a, b, mes ) "{{{
           \ "Expect is " . string(a:a) . " But " . string(a:b) . " " .a:mes )
 endfunction "}}}
 
-fun! xpt#unittest#Runall(ptn) "{{{
+let s:bench = 0
+fun! xpt#unittest#Runall(bench, ptn) "{{{
     echom 'Unittest: autoload/xpt/ut/' . a:ptn . '.vim'
     try
         exe 'runtime!' 'autoload/xpt/ut/' . a:ptn . '.vim'
         echom "All tests passed"
+
+        let s:bench = a:bench
+        echom 'Benchmark: autoload/xpt/ut/' . a:ptn . '.vim'
+        exe 'runtime!' 'autoload/xpt/ut/' . a:ptn . '.vim'
+        echom "All benchmark done"
+
     catch /.*/
         " bla
+        echom "    " v:throwpoint
+        echom "Failure" v:exception
     endtry
+
 endfunction "}}}
 
 let xpt#unittest#run = 'exe XPT#let_sid | call xpt#unittest#Run(s:sid, expand("<sfile>"))'
@@ -49,24 +59,71 @@ fun! xpt#unittest#Run( sid, fn ) "{{{
     let funcnames = keys( ff )
     sort( funcnames )
 
-    for funcname in funcnames
-        if funcname !~ '\V\<Test'
-            continue
-        endif
+    if s:bench == 0
+        for funcname in funcnames
+            if funcname !~ '\V\<Test'
+                continue
+            endif
 
-        echom 'Case: ' . funcname
-        let Func = ff[ funcname ]
+            echom 'Case: ' . funcname
+            let Func = ff[ funcname ]
 
-        try
-            call Func( s:ctx )
-        catch /.*/
-            echom "    " a:fn
-            echom "    " funcname
-            echom "    " v:throwpoint
-            echom "Failure" v:exception
-            throw "F"
-        endtry
-    endfor
+            try
+                call Func( s:ctx )
+            catch /.*/
+                echom "    " a:fn
+                echom "    " funcname
+                echom "    " v:throwpoint
+                echom "Failure" v:exception
+                throw "F"
+            endtry
+        endfor
+    else
+        for funcname in funcnames
+            if funcname !~ '\V\<Bench'
+                continue
+            endif
+
+            echom 'Bench: ' . funcname
+            let Func = ff[ funcname ]
+
+            let at_least = 2
+            let t = 0
+            let n = 100
+            while t < at_least
+
+                let ctx = {'n' : n}
+                let t_0 = reltime()
+
+                try
+                    call Func(ctx)
+                catch /.*/
+                    echom "    " a:fn
+                    echom "    " funcname
+                    echom "    " v:throwpoint
+                    echom "Failure" v:exception
+                    throw "F"
+                endtry
+
+                let t_1 = reltime( t_0 )
+                let us = t_1[0] * 1000 * 1000 + t_1[1]
+
+                echom funcname . ' spent: ' . string(reltimestr(t_1)) . ' on ' . n . ' calls'
+                echom funcname . ' per-call(us):' . string(us/n)
+
+                if us > at_least * 1000 * 1000
+                    break
+                endif
+                if us < 0.1 * 1000 * 1000
+                    let n = n * 2
+                else
+                    let n = n * at_least * 1000 * 1000 / us * 3 / 2
+                endif
+
+            endwhile
+
+        endfor
+    endif
 
 endfunction "}}}
 fun! s:GetTestFuncs( sid ) "{{{
