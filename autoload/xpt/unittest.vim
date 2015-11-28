@@ -31,13 +31,14 @@ fun! s:ctx.Is( a, b, mes ) "{{{
 endfunction "}}}
 
 let s:bench = 0
-fun! xpt#unittest#Runall(bench, ptn) "{{{
+fun! xpt#unittest#Runall(ptn) "{{{
     echom 'Unittest: autoload/xpt/ut/' . a:ptn . '.vim'
     try
+        let s:bench = 0
         exe 'runtime!' 'autoload/xpt/ut/' . a:ptn . '.vim'
         echom "All tests passed"
 
-        let s:bench = a:bench
+        let s:bench = $XPT_BENCH
         echom 'Benchmark: autoload/xpt/ut/' . a:ptn . '.vim'
         exe 'runtime!' 'autoload/xpt/ut/' . a:ptn . '.vim'
         echom "All benchmark done"
