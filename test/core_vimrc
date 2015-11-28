@@ -10,3 +10,10 @@ set noswapfile
 set list
 set listchars=tab:].,trail:\|,extends:<,precedes:>
 set number
+
+let s:profile = $XPT_PROFILE
+if s:profile == 1
+    let profile_path = $HOME . '/xpt-prof.txt'
+    exe 'profile start ' . profile_path
+    profile func xpt*
+endif
