@@ -8,9 +8,10 @@ let s:oldcpo = &cpo
 set cpo-=< cpo+=B
 
 let s:log = xpt#debug#Logger( 'warn' )
-let s:ctx = {}
+let s:ctx = {'n_assert': 0}
 
 fun! s:ctx.True( val, mes ) "{{{
+    let self.n_assert += 1
     if a:val
         " ok
     else
@@ -35,10 +36,15 @@ fun! xpt#unittest#Runall(ptn) "{{{
     echom 'Unittest: autoload/xpt/ut/' . a:ptn . '.vim'
     try
         let s:bench = 0
+        let s:ctx.n_assert = 0
         exe 'runtime!' 'autoload/xpt/ut/' . a:ptn . '.vim'
-        echom "All tests passed"
+        echom "All tests passed. nr of assert=" . s:ctx.n_assert
 
         let s:bench = $XPT_BENCH
+        if ! s:bench
+            return
+        endif
+
         echom 'Benchmark: autoload/xpt/ut/' . a:ptn . '.vim'
         exe 'runtime!' 'autoload/xpt/ut/' . a:ptn . '.vim'
         echom "All benchmark done"
