@@ -64,7 +64,7 @@ fun! xpt#unittest#Run( sid, fn ) "{{{
 
     let ff = s:GetTestFuncs( a:sid )
     let funcnames = keys( ff )
-    sort( funcnames )
+    let funcnames = sort( funcnames )
 
     if s:bench == 0
         for funcname in funcnames
