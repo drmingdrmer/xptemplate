@@ -308,7 +308,12 @@ fun! XPMupdate(...) " {{{
 
     let d = s:BufData()
 
-    let needUpdate = d.isUpdateNeeded()
+    let mode = a:0 > 0 ? a:000[0] : 'auto'
+    if mode == 'force'
+        let needUpdate = 1
+    else
+        let needUpdate = d.isUpdateNeeded()
+    endif
 
     if !needUpdate
         call d.snapshot()
@@ -320,10 +325,7 @@ fun! XPMupdate(...) " {{{
         return g:XPM_RET.no_updated_made
     endif
 
-
-
     call d.initCurrentStat()
-
 
     if d.lastMode =~ s:insertPattern && d.stat.mode =~ s:insertPattern
         " stays in insert mode 
