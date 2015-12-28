@@ -2718,6 +2718,25 @@ endfunction " }}}
 
 fun! XPTforceForward( action ) "{{{
 
+    " There is chance when forward is triggered, something is typed by user
+    " but CurosrMoved[I] does not triggered.
+    "
+    " So before moving to next place holder this is the last chance to update
+    " following place holders.
+    "
+    " To produce an issue like this:
+    " :inoreabbrev yy yy<C-o>echo 123<CR>
+    " When applying snippet:
+    " -     type "yy<Space>"
+    " -     VIM first insert "yy" and leaves insert mode and do the echo things.
+    " -     And then it go back to insert mode(cursor is placed after "yy").
+    " -     And then VIM fills in a space after "yy".
+    "       When the last space is inserted, NO event is triggered!!
+    call XPMupdate('force')
+    if s:XPTupdate() < 0
+        return ''
+    endif
+
     if s:FinishCurrent( a:action ) < 0
         return ''
     endif
@@ -3932,6 +3951,7 @@ fun! s:XPTupdateTyping() "{{{
         " return 0
     " endif
 
+    call s:log.Debug("start XPTupdateTyping")
     let rc = s:XPTupdate()
 
     if rc != 0
@@ -4299,6 +4319,9 @@ augroup XPT "{{{
     au BufEnter * call XPTemplateInit()
 
     au InsertEnter * call <SID>XPTcheck()
+
+    au InsertEnter * call s:log.Debug('InsertEnter: ' . string(getline(".")))
+    au InsertLeave * call s:log.Debug('InsertLeave: ' . string(getline(".")))
 
     au CursorMoved,CursorMovedI * call <SID>XPTupdateTyping()
 
