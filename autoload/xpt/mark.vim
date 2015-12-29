@@ -59,11 +59,10 @@ fun! xpt#mark#UpdateMarks(lines_a, lines_b, marks) "{{{
             if cb[0] == cb[1]
                 let ii = i
                 while ii < li && marks[ii][0] < cend
-                    let marks[ii] = [name, cstart[0] + line_offset, 0]
+                    let marks[ii] = [cstart[0] + line_offset, 0]
                     let ii += 1
                 endwhile
             else
-                " 'chg'
                 let ii = i
                 while ii < li && marks[ii][0] < cend
                     let ii += 1
