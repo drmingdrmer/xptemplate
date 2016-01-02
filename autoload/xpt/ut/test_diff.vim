@@ -133,6 +133,19 @@ fun! s:TestDiff(t) "{{{
           \ ],
           \ ]
 
+    " prefix and suffix are removed before compare.
+    let cases += [
+          \ [ 'xa', "xaba",
+          \   [[[2, 2], [2, 4]],
+          \   ]
+          \ ],
+          \ [ 'xay', "xcabay",
+          \   [[[1, 1], [1, 4]],
+          \   ]
+          \ ],
+          \ ]
+
+    " diff list
     let cases += [
           \ [ [], [],
           \   [],
