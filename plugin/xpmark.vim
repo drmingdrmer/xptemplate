@@ -180,7 +180,12 @@ fun! XPMupdate(...)
 		return ''
 	endif
 	let d = s:BufData()
-	let needUpdate = d.isUpdateNeeded()
+	let mode = a:0 > 0 ? a:000[0] : 'auto'
+	if mode == 'force'
+		let needUpdate = 1
+	else
+		let needUpdate = d.isUpdateNeeded()
+	endif
 	if !needUpdate
 		call d.snapshot()
 		call d.saveCurrentStat()
