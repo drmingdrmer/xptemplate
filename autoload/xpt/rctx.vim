@@ -78,6 +78,13 @@ fun! xpt#rctx#New( x ) "{{{
     " results in:
     "   "0,,0}"
     "
+    " And:
+    "   :set indentkeys=0\,0}
+    "   :echo &indentkeys
+    "
+    " results in:
+    "   "0,0}"
+    "
     " The backslash escaped chars can not be read correctly.
 
     let lst = split( &indentkeys, ',' )
@@ -99,7 +106,11 @@ fun! xpt#rctx#New( x ) "{{{
         if k[ 1 ] == '=' && len( k ) > 2
             let inst.oriIndentkeys[ k[ 2: ] ] = 1
         else
-            let inst.leadingCharToReindent[ k[ 1: ] ] = 1
+            let k = k[ 1: ]
+            if k == ''
+                let k = ','
+            endif
+            let inst.leadingCharToReindent[ k ] = 1
         endif
     endfor
 

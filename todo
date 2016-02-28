@@ -1,3 +1,8 @@
+### bug:
+for...int<space>i is broke by abbreviation: inorea int int<c-o>blabla;
+from Hint-blabla plugin.
+test xptemplate with abbreviation.
+
 ### add test:
 test latest main() in c: indent returned from for-snippet function should be
 always 4 space.
