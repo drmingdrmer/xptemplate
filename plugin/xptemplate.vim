@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.9.160228-bf527a6
+" VERSION: 0.4.9.160531-8c12bca
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
 	finish
 endif

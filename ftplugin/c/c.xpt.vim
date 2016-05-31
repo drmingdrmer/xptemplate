@@ -90,7 +90,7 @@ XSET cursor|pre=CURSOR
  *
  * <b>`function^</b>
  * @version : `1.0^
- * @since : `strftime("%Y %b %d")^
+ * @since : `date()^
  *
  * @description :
  *     `cursor^
