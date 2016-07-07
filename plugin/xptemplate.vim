@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.9.160531-8c12bca
+" VERSION: 0.4.9.160707-fffa0e7
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
 	finish
 endif
@@ -2154,6 +2154,7 @@ fun! s:UpdateMarksAccordingToLeaderChanges(renderContext)
 	return rc
 endfunction
 fun! s:XPTupdate()
+	call XPTemplateInit()
 	let renderContext = b:xptemplateData.renderContext
 	if !s:IsUpdateCondition(renderContext)
 		return 0

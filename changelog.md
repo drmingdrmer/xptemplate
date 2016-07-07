@@ -1,3 +1,11 @@
+2016-07-07
+==========
+
+Fixed
+-----
+
+*   engine: always try to init buf data for xptemplate before XPTupdate. fixed: #79
+
 2015-06-28
 ==========
 
