@@ -2,6 +2,7 @@ setting:
 noexpandtab
 shiftwidth=2
 tabstop=4
+iskeyword+=-
 
 keys:
 line1

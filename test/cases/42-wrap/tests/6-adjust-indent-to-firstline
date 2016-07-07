@@ -4,6 +4,7 @@ setting:
 shiftwidth=4
 tabstop=8
 cindent
+iskeyword+=-
 
 keys:
     make-next-line-indent-one
