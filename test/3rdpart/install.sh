@@ -10,9 +10,19 @@ else
 fi
 
 _3rd=test/3rdpart
-(
-url="https://github.com/ervandew/supertab.git"
 
-git fetch $url \
-    && git subtree $act --prefix $_3rd/supertab $url master --squash
-)
+echo '
+supertab    https://github.com/ervandew/supertab.git    master
+ctrlp       https://github.com/ctrlpvim/ctrlp.vim.git   master
+' | while read folder url branch
+do
+    if test -z "$folder"
+    then
+        continue
+    fi
+
+    (
+    git fetch $url \
+        && git subtree $act --prefix $_3rd/$folder $url $branch --squash
+    )
+done
