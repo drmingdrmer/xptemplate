@@ -4150,6 +4150,10 @@ endfunction "}}}
 
 fun! s:XPTupdate() "{{{
 
+    " NOTE: ctrlp plugin opens a window and XPTupdate will be triggered in new
+    " window and just before BufEnter event triggered.
+    call XPTemplateInit()
+
     let renderContext = b:xptemplateData.renderContext
 
     if !s:IsUpdateCondition( renderContext )

@@ -1,0 +1,2 @@
+so ./test/core_vimrc
+set runtimepath+=test/3rdpart/ctrlp
