@@ -54,7 +54,10 @@ let g:XPMpreferRight = 'r'
 augroup XPM
     au!
     au BufEnter * call <SID>InitBuf()
-    au BufEnter * call XPMcheckStatusline()
+
+    " NOTE: remove statusline init to prevent overriding lazy initialization
+    " of other plugin, such as flagship
+    " au BufEnter * call XPMcheckStatusline()
 augroup END
 
 fun! XPMcheckStatusline() "{{{
