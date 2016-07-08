@@ -21,7 +21,6 @@ let g:XPMpreferRight = 'r'
 augroup XPM
 	au!
 	au BufEnter * call <SID>InitBuf()
-	au BufEnter * call XPMcheckStatusline()
 augroup END
 fun! XPMcheckStatusline()
 	if stridx( &l:statusline, 'XPMautoUpdate' ) >= 0
