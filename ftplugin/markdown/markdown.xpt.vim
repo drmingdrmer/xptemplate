@@ -26,13 +26,6 @@ fun! s:f.QuitContition()
     endif
 endfunction
 
-fun! s:f.Reminder( field )
-    let txt = self.R( a:field )
-    " Memory leak?
-    let s:f[ '_markdown_snipp_' . a:field ] = txt
-    return ''
-endfunction
-
 fun! s:f.BuildRef()
     let title = ''
     let id = self.R( 'refId' )
@@ -84,15 +77,19 @@ XPT link " [...](...)
 XPT img " ![...](...)
 ![~alt-text^](~url^~ ~title?^)
 
-
 XPT ref " [...][...]
-XSET url|post=Reminder('url')
-XSET title|post=Reminder('title')
-XSET cursor=BuildRef()
-[~text^][~refId^]~url^~ title...{{^ ~title^~}}^~cursor^
+[~text^][~refid^]
 
+XPT def " [name]: url
+[~refid^]: ~url^
 
 XPT hr " -----
+---
 
 XPT ruler alias=hr
+
+XPT table " | header | ... |
+|     |     |
+| :-- | --: |
+|     |     |
 
