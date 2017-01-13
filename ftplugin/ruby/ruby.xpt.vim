@@ -23,7 +23,7 @@ endfunction "}}}
 " Multiple each snippet {{{
 "{{{ s:each_list
 let s:each_list = [ 'byte', 'char', 'cons', 'index', 'key',
-      \'line', 'pair', 'slice', 'value' ]
+      \'line', 'pair', 'slice', 'value' ,'with_index' ]
 "}}}
 
 fun! s:f.RubyEachPopup() "{{{
@@ -49,6 +49,8 @@ fun! s:f.RubyEachPair() "{{{
   let v = self.R('what')
   if v =~# 'pair'
     return '`el1^, `el2^'
+  elseif v =~# 'with_index'
+    return '`element^, `index^'
   elseif v == ''
     return '`el^'
   else
@@ -58,7 +60,15 @@ fun! s:f.RubyEachPair() "{{{
     return '`' . substitute(v,'[^a-z]','','g') . '^'
   endif
 endfunction "}}}
+
 " End multiple each snippet }}}
+
+fun! s:f.ERubyEmbed(embed)
+    if &filetype == 'eruby'
+        return a:embed
+    endif
+    return ''
+endfunction
 
 " Multiple assert snippet {{{
 "{{{ s:assert_map
@@ -298,17 +308,17 @@ end
 
 XPT case " case .. when .. end
 XSET block=# block
-case `target^`
-when `comparison^
+case `target^`ERubyEmbed(' %>')^
+`ERubyEmbed('<% ')^when `comparison^`ERubyEmbed(' %>')^
     `block^
 ``when...`
-{{^when `comparison^
+{{^`ERubyEmbed('<% ')^when `comparison^`ERubyEmbed(' %>')^
     `block^
 ``when...`
 ^`}}^``else...`
-{{^else
+{{^`ERubyEmbed('<% ')^else`ERubyEmbed(' %>')^
     `cursor^
-`}}^end
+`}}^`ERubyEmbed('<% ')^end
 
 
 XPT cfy " classify { |..| .. }
@@ -439,9 +449,9 @@ Dir.glob(`dir^) { |`file^| `cursor^ }
 
 XPT do " do |..| .. end
 XSET arg*|post=RepeatInsideEdges(', ')
-do` |`arg*`|^
+do` |`arg*`|^`ERubyEmbed(' %>')^
     `cursor^
-end
+`ERubyEmbed('<% ')^end
 
 
 XPT dow " downto\(..) { .. }
@@ -456,6 +466,13 @@ XSET what|post=RubyEachBrace()
 XSET vars=RubyEachPair()
 each`_`what^ { |`vars^| `cursor^ }
 
+XPT eachdo " each_** do .. end
+XSET what=RubyEachPopup()
+XSET what|post=RubyEachBrace()
+XSET vars=RubyEachPair()
+each`_`what^ do |`vars^|`ERubyEmbed(' %>')^
+    `cursor^
+`ERubyEmbed('<% ')^end
 
 XPT fdir " File.dirname\(..)
 File.dirname(`^)
@@ -501,30 +518,30 @@ XPT hash " Hash.new { ... }
 Hash.new { |`hash^,`key^| `hash^[`key^] = `cursor^ }
 
 XPT if " if .. end
-if `boolean exp^
+if `boolean exp^`ERubyEmbed(' %>')^
     `cursor^
-end
+`ERubyEmbed('<% ')^end
 
 XPT ife " if .. else .. end
 XSET block=# block
-if `boolean exp^
+if `boolean exp^`ERubyEmbed(' %>')^
     `block^
-else
+`ERubyEmbed('<% ')^else`ERubyEmbed(' %>')^
     `cursor^
-end
+`ERubyEmbed('<% ')^end
 
 XPT ifei " if .. elsif .. else .. end
 XSET block=# block
-if `boolean exp^`
+if `boolean exp^`ERubyEmbed(' %>')^`
     `block^
 ``elsif...`
-{{^elsif `comparison^
+{{^`ERubyEmbed('<% ')^elsif `comparison^`ERubyEmbed(' %>')^
     `block^
 ``elsif...`
 ^`}}^``else...`
-{{^else
+{{^`ERubyEmbed('<% ')^else`ERubyEmbed(' %>')^
     `cursor^
-`}}^end
+`}}^`ERubyEmbed('<% ')^end
 
 
 XPT inj " inject\(..) { |..| .. }
@@ -537,9 +554,9 @@ lambda {` |`arg*`|^ `cursor^ }
 
 
 XPT loop " loop do ... end
-loop do
+loop do`ERubyEmbed(' %>')^
     `cursor^
-end
+`ERubyEmbed('<% ')^end
 
 XPT map " map { |..| .. }
 map { |`arg^| `cursor^ }
@@ -718,15 +735,15 @@ end
 
 
 XPT unless " unless .. end
-unless `boolean cond^
+unless `boolean cond^`ERubyEmbed(' %>')^
     `cursor^
-end
+`ERubyEmbed('<% ')^end
 
 
 XPT until " until .. end
-until `boolean cond^
+until `boolean cond^`ERubyEmbed(' %>')^
     `cursor^
-end
+`ERubyEmbed('<% ')^end
 
 
 XPT upt " upto\(..) { .. }
@@ -748,9 +765,9 @@ end
 
 
 XPT while " while .. end
-while `boolean cond^
+while `boolean cond^`ERubyEmbed(' %>')^
     `cursor^
-end
+`ERubyEmbed('<% ')^end
 
 
 XPT wid " with_index { .. }
