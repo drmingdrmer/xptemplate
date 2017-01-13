@@ -23,7 +23,7 @@ endfunction "}}}
 " Multiple each snippet {{{
 "{{{ s:each_list
 let s:each_list = [ 'byte', 'char', 'cons', 'index', 'key',
-      \'line', 'pair', 'slice', 'value' ]
+      \'line', 'pair', 'slice', 'value' ,'with_index' ]
 "}}}
 
 fun! s:f.RubyEachPopup() "{{{
@@ -49,6 +49,8 @@ fun! s:f.RubyEachPair() "{{{
   let v = self.R('what')
   if v =~# 'pair'
     return '`el1^, `el2^'
+  elseif v =~# 'with_index'
+    return '`element^, `index^'
   elseif v == ''
     return '`el^'
   else
