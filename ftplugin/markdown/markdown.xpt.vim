@@ -83,8 +83,14 @@ XPT ref " [...][...]
 XPT def " [name]: url
 [~refid^]: ~url^
 
-XPT hr " -----
+XPT hr " ---
 ---
+
+XPT checkbox " [ ]
+[ ] ~cursor^
+
+XPT - " -   xxx
+-   ~cursor^
 
 XPT ruler alias=hr
 
