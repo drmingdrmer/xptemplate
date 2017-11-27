@@ -3736,7 +3736,7 @@ fun! s:ApplyMap() " {{{
     call xpt#msvr#UnmapAll( b:mapSaver )
     call xpt#msvr#Literalize( b:mapLiteral, { 'insertAsSelect' : 1 } )
 
-
+    exe 'imap <silent> <buffer> <CR>' g:xptemplate_hook_before_cr . '<Plug>XPT_map_CR'
 
     " TODO map should distinguish between 'selection'
     " <C-v><C-v><BS> force pum to close
@@ -3749,10 +3749,8 @@ fun! s:ApplyMap() " {{{
     exe 'nnoremap <silent> <buffer>' g:xptemplate_goback     'i<C-r>=<SID>Goback()<CR>'
     exe 'inoremap <silent> <buffer>' g:xptemplate_goback     ' <C-v><C-v><BS><C-r>=<SID>Goback()<CR>'
 
-    exe 'imap <silent> <buffer> <CR>' g:xptemplate_hook_before_cr . '<Plug>XPT_map_CR'
     snoremap <silent> <buffer> <Del> <Del>i
     snoremap <silent> <buffer> <BS> d<BS>
-
 
     if g:xptemplate_nav_next_2 != g:xptemplate_nav_next
         exe 'inoremap <silent> <buffer>' g:xptemplate_nav_next_2   '<C-v><C-v><BS><C-r>=<SID>ShiftForward("")<CR>'
