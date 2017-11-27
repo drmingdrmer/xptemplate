@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.9.170418-a11dd461
+" VERSION: 0.4.9.171127-79da9120
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
 	finish
 endif
@@ -1924,12 +1924,12 @@ fun! s:ApplyMap()
 	call xpt#msvr#Save(b:mapLiteral)
 	call xpt#msvr#UnmapAll(b:mapSaver)
 	call xpt#msvr#Literalize( b:mapLiteral, { 'insertAsSelect' : 1 } )
+	exe 'imap <silent> <buffer> <CR>' g:xptemplate_hook_before_cr . '<Plug>XPT_map_CR'
 	exe 'inoremap <silent> <buffer>' g:xptemplate_nav_prev   '<C-v><C-v><BS><C-r>=<SID>ShiftBackward()<CR>'
 	exe 'inoremap <silent> <buffer>' g:xptemplate_nav_next   '<C-r>=<SID>ShiftForward("")<CR>'
 	exe 'snoremap <silent> <buffer>' g:xptemplate_nav_cancel '<Esc>i<C-r>=<SID>ShiftForward("clear")<CR>'
 	exe 'nnoremap <silent> <buffer>' g:xptemplate_goback     'i<C-r>=<SID>Goback()<CR>'
 	exe 'inoremap <silent> <buffer>' g:xptemplate_goback     ' <C-v><C-v><BS><C-r>=<SID>Goback()<CR>'
-	exe 'imap <silent> <buffer> <CR>' g:xptemplate_hook_before_cr . '<Plug>XPT_map_CR'
 	snoremap <silent> <buffer> <Del> <Del>i
 	snoremap <silent> <buffer> <BS> d<BS>
 	if g:xptemplate_nav_next_2 != g:xptemplate_nav_next
