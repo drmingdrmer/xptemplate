@@ -78,7 +78,7 @@ XPT img " ![...](...)
 ![~alt-text^](~url^~ ~title?^)
 
 XPT ref " [...][...]
-[~text^][~refid^]
+[~text^][~text^]
 
 XPT def " [name]: url
 [~refid^]: ~url^
