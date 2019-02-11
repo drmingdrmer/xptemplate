@@ -1,5 +1,5 @@
 " GetLatestVimScripts: 2611 1 :AutoInstall: xpt.tgz
-" VERSION: 0.4.9.190211-1069d8f
+" VERSION: 0.4.9.190211-6cd5a53
 if exists( "g:__XPTEMPLATE_VIM__" ) && g:__XPTEMPLATE_VIM__ >= XPT#ver
 	finish
 endif
@@ -724,7 +724,7 @@ fun! s:Popup(pref,coln,opt)
 		endif
 		let hint = get( snipObj.setting, 'hint', '' )
 		if hint == ''
-			let hint = matchstr(snipObj.snipText, '\V\s\*\zs\.\*\ze\n')
+			let hint = matchstr(snipObj.snipText, '\V\s\*\zs\[^\n]\*')
 		endif
 		if key =~# '\V\^\[A-Z]'
 			call add( cmpl2, {'word' : key, 'menu' : hint } )
