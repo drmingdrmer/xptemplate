@@ -1409,7 +1409,8 @@ fun! s:Popup(pref, coln, opt) "{{{
         let hint = get( snipObj.setting, 'hint', '' )
         if hint == ''
             " the first line of snip body
-            let hint = matchstr(snipObj.snipText, '\V\s\*\zs\.\*\ze\n')
+            " TODO add test
+            let hint = matchstr(snipObj.snipText, '\V\s\*\zs\[^\n]\*')
         endif
 
         " buildins come last
