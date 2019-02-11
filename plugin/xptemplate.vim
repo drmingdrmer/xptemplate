@@ -1407,6 +1407,10 @@ fun! s:Popup(pref, coln, opt) "{{{
         endif
 
         let hint = get( snipObj.setting, 'hint', '' )
+        if hint == ''
+            " the first line of snip body
+            let hint = matchstr(snipObj.snipText, '\V\s\*\zs\.\*\ze\n')
+        endif
 
         " buildins come last
         if key =~# '\V\^\[A-Z]'
