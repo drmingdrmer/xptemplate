@@ -74,9 +74,9 @@ func main() {
 }
 
 XPT println " fmt.Println\()
-fmt.Println( `^ )
+fmt.Println(`^)
 XPT sprintf " fmt.Sprintf\()
-fmt.Sprintf( `^ )
+fmt.Sprintf(`^)
 
 XPT forever " for ;;
 for ;; {
@@ -101,7 +101,7 @@ if `^ {
     `cursor^
 }
 XPT iftype wrap " if _, ok := x.(type); ok { ... }
-if _, ok := `x^.( `tp^ ); ok {
+if _, ok := `x^.(`tp^); ok {
     `cursor^
 }
 XPT _ifeq wrap hidden " if x == $v {
@@ -167,13 +167,13 @@ default:
 
 XPT test " if .. t.Errorf
 if `^ {} else {
-    t.Errorf( `^ )
+    t.Errorf(`^)
 }
 XPT ttype " if _, ok := x.(type); ok { ... }
-if _, ok := `x^.( `tp^ ); ok {} else {
-    t.Errorf( "Expect `x^ to be `tp^ but: %v", `x^ )
+if _, ok := `x^.(`tp^); ok {} else {
+    t.Errorf("Expect `x^ to be `tp^ but: %v", `x^)
 }
 XPT assert " if .. t.Errorf
 if `^ {} else {
-    t.Fatalf( `^ )
+    t.Fatalf(`^)
 }
