@@ -85,8 +85,9 @@ fun! s:f.html_cont_ontype()
     let v = self.V()
     if v =~ '\V\n'
         let v = matchstr( v, '\V\.\*\ze\n' )
+        let ln = line(".")
         let s:nIndent = &indentexpr != ''
-              \ ? eval( substitute( &indentexpr, '\Vv:lnum', 'line(".")', '' ) ) - indent( line( "." ) - 1 )
+              \ ? eval( substitute( &indentexpr, '\Vv:lnum', ln, '' ) ) - indent( ln - 1 )
               \ : self.NIndent()
 
         return self.Finish( v . "\n" . repeat( ' ', s:nIndent ) )
