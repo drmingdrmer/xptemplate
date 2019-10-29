@@ -52,7 +52,7 @@ fun! XPT#fallback(fbs)
 		let [key,flag] = fbs[0]
 		call remove(fbs,0)
 		if flag == 'feed'
-			call feedkeys( key, 'mt' )
+			call feedkeys( key, 'm' )
 			return ''
 		else
 			return key
