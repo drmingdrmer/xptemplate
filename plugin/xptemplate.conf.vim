@@ -79,9 +79,6 @@ endif
 if g:xptemplate_fallback == g:xptemplate_key || g:xptemplate_fallback == g:xptemplate_key_force_pum
 	let g:xptemplate_fallback = 'nore:' . g:xptemplate_fallback
 endif
-if g:xptemplate_brace_complete is 1
-	let g:xptemplate_brace_complete = '([{"'''
-endif
 let s:path = expand( "<sfile>" )
 let s:filename = 'xptemplate.conf.vim'
 let s:path = substitute( s:path, '\', '/', 'g' )
@@ -175,26 +172,36 @@ fun! XPTfiletypeInit()
 			endif
 		endif
 	endfor
+	if !exists("b:xptemplate_brace_complete")
+		let b:xptemplate_brace_complete = g:xptemplate_brace_complete
+	endif
+	if b:xptemplate_brace_complete is 1
+		let b:xptemplate_brace_complete = '([{"'''
+	endif
+	let bc = b:xptemplate_brace_complete
+	if stridx( bc, '(' ) >= 0
+		inoremap <silent> ( <C-v><C-v><BS><C-r>=XPTtgr('(',{'noliteral':1,'k':'('})<cr>
+	endif
+	if stridx( bc, '[' ) >= 0
+		inoremap <silent> [ <C-v><C-v><BS><C-r>=XPTtgr('[',{'noliteral':1,'k':'['})<cr>
+	endif
+	if stridx( bc, '{' ) >= 0
+		inoremap <silent> { <C-v><C-v><BS><C-r>=XPTtgr('{',{'noliteral':1,'k':'{'})<cr>
+	endif
+	if stridx( bc, '''' ) >= 0
+		inoremap <silent> ' <C-v><C-v><BS><C-r>=XPTtgr('''',{'noliteral':1,'k':''''})<cr>
+	endif
+	if stridx( bc, '"' ) >= 0
+		inoremap <silent> " <C-v><C-v><BS><C-r>=XPTtgr('"',{'noliteral':1,'k':'"'})<cr>
+	endif
+	if stridx( bc, '<' ) >= 0
+		inoremap <silent> < <C-v><C-v><BS><C-r>=XPTtgr('<',{'noliteral':1,'k':'<'})<cr>
+	endif
 endfunction
 augroup XPTftInit
   au!
   au FileType * call XPTfiletypeInit()
 augroup END
-if stridx( g:xptemplate_brace_complete, '(' ) >= 0
-	inoremap <silent> ( <C-v><C-v><BS><C-r>=XPTtgr('(',{'noliteral':1,'k':'('})<cr>
-endif
-if stridx( g:xptemplate_brace_complete, '[' ) >= 0
-	inoremap <silent> [ <C-v><C-v><BS><C-r>=XPTtgr('[',{'noliteral':1,'k':'['})<cr>
-endif
-if stridx( g:xptemplate_brace_complete, '{' ) >= 0
-	inoremap <silent> { <C-v><C-v><BS><C-r>=XPTtgr('{',{'noliteral':1,'k':'{'})<cr>
-endif
-if stridx( g:xptemplate_brace_complete, '''' ) >= 0
-	inoremap <silent> ' <C-v><C-v><BS><C-r>=XPTtgr('''',{'noliteral':1,'k':''''})<cr>
-endif
-if stridx( g:xptemplate_brace_complete, '"' ) >= 0
-	inoremap <silent> " <C-v><C-v><BS><C-r>=XPTtgr('"',{'noliteral':1,'k':'"'})<cr>
-endif
 fun! XPTinfo()
 	if !exists( 'b:xptemplateData' )
 		return 0
