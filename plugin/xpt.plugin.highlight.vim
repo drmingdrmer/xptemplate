@@ -143,16 +143,20 @@ if exists( '*matchadd' )
         endif
     endfunction "}}}
 
-    fun! s:ClearHL(x, ctx) "{{{
+    fun! s:ClearHL(x,ctx)
         call s:HLinit()
+        let has_err = 0
         for id in b:__xptHLids
             try
-                call matchdelete( id )
+                call matchdelete(id)
             catch /.*/
+                let has_err = 1
             endtry
         endfor
-        let b:__xptHLids = []
-    endfunction "}}}
+        if has_err == 0
+            let b:__xptHLids = []
+        endif
+    endfunction
 
     fun! s:HL(grp, ptn) "{{{
         call s:HLinit()
