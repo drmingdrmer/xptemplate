@@ -10,7 +10,7 @@ XPTinclude
 
 
 
-XPTvar $CURSOR_PH 
+XPTvar $CURSOR_PH
 
 XPTvar $CL    <!--
 XPTvar $CM
@@ -407,7 +407,4 @@ XPT fieldset " <fieldset ..
 " datetime-local
 " number
 " range
-" color 
-
-
-
+" color
