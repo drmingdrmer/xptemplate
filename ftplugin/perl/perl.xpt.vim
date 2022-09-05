@@ -30,6 +30,7 @@ XPTinclude
 
 XPTinclude
       \ _loops/c.while.like
+	  \ _printf/c.like
 
 
 " ========================= Function and Variables =============================
@@ -47,105 +48,231 @@ XPT whilenn hidden=1
 XPT perl " #!/usr/bin/env perl
 #!/usr/bin/env perl
 
+use strict;
+use warnings;
+
+
 ..XPT
 
 
-XPT xif " .. if ..;
+XPT iif " .. if ..;
 `expr^ if `cond^;
 
+XPT wwhen " .. when ..;
+`expr^ when `cond^;
 
-XPT xwhile " .. while ..;
+XPT wwhile " .. while ..;
 `expr^ while `cond^;
 
 
-XPT xunless " .. unless ..;
+XPT uunless " .. unless ..;
 `expr^ unless `cond^;
 
 
-XPT xforeach " .. foreach ..;
-`expr^ foreach @`array^;
+XPT fforeach " .. foreach ..;
+`expr^ foreach `list^;
 
 
 XPT sub " sub .. { .. }
 sub `fun_name^`$BRfun^{
-    `cursor^
+	`cursor^
 }
 
+XPT ssub " sub .. ( .. ) { .. }
+XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
+sub `fun_name^(`$SParg^`arg*^`$SParg^)`$BRfun^{
+	`cursor^
+}
+
+XPT psub " sub :prototype( .. ) ( .. ) { .. }
+XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
+sub `fun_name^ :prototype(`proto^) (`$SParg^`arg*^`$SParg^)`$BRfun^{
+	`cursor^
+}
+
+XPT asub " sub {}
+sub {
+	`cursor^
+}
+
+XPT assub " sub ( .. ) { .. }
+XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
+sub (`arg*^) {
+	`cursor^
+}
+
+XPT proto " sub .. ();
+sub `fun_name^ (`proto^)
 
 XPT unless " unless ( .. ) { .. }
 unless`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
-    `cursor^
+	`cursor^
 }
-
 
 XPT eval wrap=risky " eval { .. };if...
 eval`$BRif^{
-    `risky^
+	`risky^
 };
 if`$SPcmd^(`$SParg^$@`$SParg^)`$BRif^{
-    `handle^
+	`handle^
 }
 
-XPT try alias=eval " eval { .. }; if ...
+XPT _finally hidden 
+finally`$BRif^{
+	`cursor^
+}
 
+XPT try wrap=risky " try ( .. ) { .. } ...
+try`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
+	`risky^
+}`
+catch`$SPcmd^(`$SParg^`except^`$SParg^)`$BRif^{
+    `throw^
+}
+`finally...{{^`Include:_finally^`}}^
+
+XPT defer " defer { .. }
+defer`$BRif^{
+	`cursor^
+}
+
+XPT block " d{ .. }
+{
+	`cursor^
+}
+
+XPT label " LABEL: { .. }
+`LABEL^:`$BRif^{
+	`cursor^
+}
+
+XPT _continue hidden
+continue`$BRif^{
+	`job^
+}
 
 XPT whileeach " while \( \( key, val ) = each\( %** ) )
 while`$SPcmd^(`$SParg^(`$SParg^$`key^,`$SPop^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRloop^{
+	`cursor^
+}
+`continue...{{^`Include:_continue^`}}^
+
+
+XPT whileline " while \( \$line = <FILE>  )
+while`$SPcmd^(`$SParg^$`line^`$SPop^=`$SPop^<`STDIN^>`$SParg^)`$BRloop^{
+	`cursor^
+}
+`continue...{{^`Include:_continue^`}}^
+
+XPT foreachx " foreach my .. ( .. ) { .. }
+foreach`$SPcmd^my $`var^ (`$SParg^`list^`$SParg^)`$BRloop^{
+	`cursor^
+}
+`continue...{{^`Include:_continue^`}}^
+
+XPT foreachi " foreach my .. ( .. ) { .. }
+foreach`$SPcmd^my (`$SParg^$`var^, $`var2^`$SParg^) (`$SParg^indexed `list^`$SParg^)`$BRloop^{
+	`cursor^
+}
+`continue...{{^`Include:_continue^`}}^
+
+XPT foreachy " foreach ( .. ) { .. } 
+foreach`$SPcmd^(`$SParg^`list^`$SParg^)`$BRloop^{
+	`cursor^
+}
+`continue...{{^`Include:_continue^`}}^
+
+XPT grep " grep { .. } ..
+grep`$BRloop^{ `block^ } `list^
+
+XPT sort " sort { .. } ..
+sort `$BRloop^{ `block^ }, `list^
+
+XPT map " map { .. } ..
+map`$BRloop^{ `block^ } `list^
+
+XPT split " split /../, ..
+split m/`regex^/, `string^
+
+XPT join " split .., ..
+join `string^, `list^
+
+XPT open wrap=path " open .., .., ..
+open $`fh^, "`mode^", $`path^ or die "open: $!\n";
+
+XPT opendir wrap=path " open .., .., ..
+opendir $`dh^, "`mode^", $`path^ or die "opendir: $!\n";
+
+XPT _printfElts hidden 
+XSET elts|pre=Echo('')
+XSET elts=c_printf_elts( R( 'pattern' ), ',' )
+"`pattern^"`elts^
+
+XPT printf	" printf\(...)
+printf `$SParg^`:_printfElts:^`$SParg^
+
+XPT sprintf	" sprintf\(...)
+sprintf `$SParg^`:_printfElts:^`$SParg^
+
+XPT _if hidden
+if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
+	`cursor^
+}
+
+XPT if wrap " if ( .. ) { .. }
+`Include:_if^
+
+XPT elif wrap " else if ( .. ) { .. }
+els`Include:_if^
+
+XPT else wrap " else { ... }
+else`$BRif^{
+	`cursor^
+}
+
+XPT ifee		" if (..) { .. } else if...
+`:_if:^` `else_if...{{^`$BRel^`Include:elif^``else_if...^`}}^
+`else...{{^`Include:else^`}}^
+
+XPT _when hidden
+when`$SPcmd^(`$SParg^$`var^`$SParg^)`$BRif^{
     `cursor^
 }
 
-XPT whileline " while \( defined\( \$line = <FILE> ) )
-while`$SPcmd^(`$SParg^defined(`$SParg^$`line^`$SPop^=`$SPop^<`STDIN^>`$SParg^)`$SParg^)`$BRloop^{
+XPT _default hidden
+default {
     `cursor^
 }
 
+XPT when " when (..) { .. } ...
+`:_when:^` `when...{{^`$BRel^`Include:_when^``when...^`}}^
+`default...{{^`Include:_default^`}}^
 
-XPT foreach " foreach my .. (..){}
-foreach`$SPcmd^my $`var^ (`$SParg^@`array^`$SParg^)`$BRloop^{
-    `cursor^
+XPT given wrap=job " given ( .. ) { .. }
+given`$SPcmd^(`$SParg^m/`regx^/^`$SParg^)`$BRif^{
+	`cursor^
 }
 
-
-XPT forkeys " foreach my var \( keys %** )
-foreach`$SPcmd^my $`var^ (`$SParg^keys @`array^`$SParg^)`$BRloop^{
-    `cursor^
-}
-
-
-XPT forvalues " foreach my var \( keys %** )
-foreach`$SPcmd^my $`var^ (`$SParg^values @`array^`$SParg^)`$BRloop^{
-    `cursor^
-}
-
-
-XPT if wrap=job " if ( .. ) { .. } ...
-XSET job=$CS job
-if`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
-    `job^
-}`
-`elsif...^`$BRel^elsif`$SPcmd^(`$SParg^`cond2^`$SParg^)`$BRif^{
-    `job^
-}`
-`elsif...^`
-`else...{{^`$BRel^else`$BRif^{
-    `cursor^
-}`}}^
+XPT use " use .. qw(...);
+use `module^ qw(`cursor^);
 
 XPT package " 
 package `className^;
 
-use base qw(`parent^);
+use strict;
+use warnings;
 
 sub new`$BRfun^{
-    my $class = shift;
-    $class = ref $class if ref $class;
-    my $self = bless {}, $class;
-    $self;
+	my $class = shift;
+	`my^
+	my $self  = {}; 
+
+	`body^
+	bless $self, $class;
+	return $self;
 }
 
 1;
 
 ..XPT
-
-
 
