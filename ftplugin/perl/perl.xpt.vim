@@ -58,17 +58,17 @@ use warnings;
 
 ..XPT
 
-XPT iif " .. if ..;
+XPT iff " if \( .. ) {{ .. }}
 if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{{
 	`cursor^
 }}
 
-XPT wwhen " .. when ..;
+XPT whenn " when \( .. ) {{ .. }}
 when`$SPcmd^(`$SParg^m/`regex^/`$SParg^)`$BRif^{{
 	`cursor^
 }}
 
-XPT uunless " .. unless ..;
+XPT unlesss " unless \( .. ) {{ .. }}
 unless`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{{
 	`cursor^
 }}
@@ -78,33 +78,33 @@ sub `fun_name^`$BRfun^{
 	`cursor^
 }
 
-XPT ssub " sub .. ( .. ) { .. }
+XPT subsigna " sub .. \( .. ) { .. }
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 sub `fun_name^(`$SParg^`arg*^`$SParg^)`$BRfun^{
 	`cursor^
 }
 
-XPT psub " sub :prototype( .. ) ( .. ) { .. }
+XPT subprotosigna " sub :prototype\( .. ) \( .. ) { .. }
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 sub `fun_name^ :prototype(`proto^) (`$SParg^`arg*^`$SParg^)`$BRfun^{
 	`cursor^
 }
 
-XPT asub " sub {}
+XPT subanony " sub { .. }
 sub {
 	`cursor^
 }
 
-XPT assub " sub ( .. ) { .. }
+XPT subanonysigna " sub \( .. ) { .. }
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 sub (`arg*^) {
 	`cursor^
 }
 
-XPT proto " sub .. ();
+XPT proto " sub .. \();
 sub `fun_name^ (`proto^);
 
-XPT unless " unless ( .. ) { .. }
+XPT unless " unless \( .. ) { .. }
 unless`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
 	`cursor^
 }
@@ -122,7 +122,7 @@ finally`$BRif^{
 	`cursor^
 }
 
-XPT try wrap=risky " try ( .. ) { .. } ...
+XPT try wrap=risky " try \( .. ) { .. } ...
 try`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
 	`risky^
 }`
@@ -136,7 +136,7 @@ defer`$BRif^{
 	`cursor^
 }
 
-XPT block " d{ .. }
+XPT block " { .. }
 {
 	`cursor^
 }
@@ -190,19 +190,19 @@ while`$SPcmd^(`$SParg^my $`line^`$SPop^=`$SPop^<`STDIN^>`$SParg^)`$BRloop^{
 }
 `continue...{{^`Include:_continue^`}}^
 
-XPT foreachx " foreach my .. ( .. ) { .. }
+XPT foreachx " foreach my .. \( .. ) { .. }
 foreach`$SPcmd^my $`var^ (`$SParg^`list^`$SParg^)`$BRloop^{
 	`cursor^
 }
 `continue...{{^`Include:_continue^`}}^
 
-XPT foreachi " foreach my .. ( .. ) { .. }
+XPT foreachi " foreach my .. \( .. ) { .. }
 foreach`$SPcmd^my (`$SParg^$`var^, $`var2^`$SParg^) (`$SParg^indexed `list^`$SParg^)`$BRloop^{
 	`cursor^
 }
 `continue...{{^`Include:_continue^`}}^
 
-XPT foreachy " foreach ( .. ) { .. } 
+XPT foreachy " foreach \( .. ) { .. } 
 foreach`$SPcmd^(`$SParg^`list^`$SParg^)`$BRloop^{
 	`cursor^
 }
@@ -234,10 +234,10 @@ XSET elts|pre=Echo('')
 XSET elts=c_printf_elts( R( 'pattern' ), ',' )
 "`pattern^"`elts^
 
-XPT printf	" printf\(...)
+XPT printf	" printf ...
 printf `:_printfElts:^
 
-XPT sprintf	" sprintf\(...)
+XPT sprintf	" sprintf ...
 sprintf `:_printfElts:^
 
 XPT _if hidden
@@ -245,10 +245,10 @@ if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
 	`cursor^
 }
 
-XPT if wrap " if ( .. ) { .. }
+XPT if wrap " if \( .. ) { .. }
 `Include:_if^
 
-XPT elif wrap " else if ( .. ) { .. }
+XPT elif wrap " else if \( .. ) { .. }
 els`Include:_if^
 
 XPT else wrap " else { ... }
@@ -256,7 +256,7 @@ else`$BRif^{
 	`cursor^
 }
 
-XPT ifee		" if (..) { .. } else if...
+XPT ifee		" if \( .. ) { .. } else if...
 `:_if:^` `else_if...{{^`$BRel^`Include:elif^``else_if...^`}}^
 `else...{{^`Include:else^`}}^
 
@@ -270,19 +270,19 @@ default {
     `cursor^
 }
 
-XPT when " when (..) { .. } ...
+XPT when " when \( .. ) { .. } ...
 `:_when:^` `when...{{^`$BRel^`Include:_when^``when...^`}}^
 `default...{{^`Include:_default^`}}^
 
-XPT given wrap=var " given ( .. ) { .. }
+XPT given wrap=var " given \( .. ) { .. }
 given`$SPcmd^(`$SParg^$`var^^`$SParg^)`$BRif^{
 	`cursor^
 }
 
-XPT use " use .. qw(...);
+XPT use " use .. qw\(...);
 use `module^ qw(`cursor^);
 
-XPT package " 
+XPT package " package
 package `className^;
 
 use strict;
