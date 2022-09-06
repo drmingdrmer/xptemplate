@@ -44,6 +44,10 @@ XPT fornn hidden=1
 
 XPT whilenn hidden=1
 
+" Not perl's way of doing things
+XPT while1 hidden=1
+XPT while0 hidden=1
+
 
 XPT perl " #!/usr/bin/env perl
 #!/usr/bin/env perl
@@ -54,24 +58,20 @@ use warnings;
 
 ..XPT
 
-
 XPT iif " .. if ..;
-`expr^ if `cond^;
+if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{{
+	`cursor^
+}}
 
 XPT wwhen " .. when ..;
-`expr^ when `cond^;
-
-XPT wwhile " .. while ..;
-`expr^ while `cond^;
-
+when`$SPcmd^(`$SParg^m/`regex^/`$SParg^)`$BRif^{{
+	`cursor^
+}}
 
 XPT uunless " .. unless ..;
-`expr^ unless `cond^;
-
-
-XPT fforeach " .. foreach ..;
-`expr^ foreach `list^;
-
+unless`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{{
+	`cursor^
+}}
 
 XPT sub " sub .. { .. }
 sub `fun_name^`$BRfun^{
@@ -102,7 +102,7 @@ sub (`arg*^) {
 }
 
 XPT proto " sub .. ();
-sub `fun_name^ (`proto^)
+sub `fun_name^ (`proto^);
 
 XPT unless " unless ( .. ) { .. }
 unless`$SPcmd^(`$SParg^`cond^`$SParg^)`$BRif^{
@@ -151,15 +151,41 @@ continue`$BRif^{
 	`job^
 }
 
-XPT whileeach " while \( \( key, val ) = each\( %** ) )
-while`$SPcmd^(`$SParg^(`$SParg^$`key^,`$SPop^$`val^`$SParg^) = each(`$SParg^%`array^`$SParg^)`$SParg^)`$BRloop^{
+XPT while " while \( \$line = <FILE>  )
+while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{
+	`cursor^
+}
+`continue...{{^`Include:_continue^`}}^
+
+XPT while " while \( .. ) { .. }
+while`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{
+	`cursor^
+}
+`continue...{{^`Include:_continue^`}}^
+
+XPT until " until \( ... ) { .. }
+until`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRloop^{
+	`cursor^
+}
+`continue...{{^`Include:_continue^`}}^
+
+XPT _while hidden
+`$BRloop^`while^ `condition^
+
+XPT do wrap " do { .. } while ( .. )
+do`$BRloop^{
+    `cursor^
+}`loop...{{^`Include:_while^`}}^;
+
+XPT whileeach " while \( my \( key, val ) = hash )
+while`$SPcmd^(`$SParg^my (`$SParg^$`key^,`$SPop^$`val^`$SParg^) = `hash^`$SParg^)`$BRloop^{
 	`cursor^
 }
 `continue...{{^`Include:_continue^`}}^
 
 
-XPT whileline " while \( \$line = <FILE>  )
-while`$SPcmd^(`$SParg^$`line^`$SPop^=`$SPop^<`STDIN^>`$SParg^)`$BRloop^{
+XPT whileline " while \( my \$line = <FILE>  )
+while`$SPcmd^(`$SParg^my $`line^`$SPop^=`$SPop^<`STDIN^>`$SParg^)`$BRloop^{
 	`cursor^
 }
 `continue...{{^`Include:_continue^`}}^
@@ -209,10 +235,10 @@ XSET elts=c_printf_elts( R( 'pattern' ), ',' )
 "`pattern^"`elts^
 
 XPT printf	" printf\(...)
-printf `$SParg^`:_printfElts:^`$SParg^
+printf `:_printfElts:^
 
 XPT sprintf	" sprintf\(...)
-sprintf `$SParg^`:_printfElts:^`$SParg^
+sprintf `:_printfElts:^
 
 XPT _if hidden
 if`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{
@@ -235,7 +261,7 @@ XPT ifee		" if (..) { .. } else if...
 `else...{{^`Include:else^`}}^
 
 XPT _when hidden
-when`$SPcmd^(`$SParg^$`var^`$SParg^)`$BRif^{
+when`$SPcmd^(`$SParg^m/`regex^/`$SParg^)`$BRif^{
     `cursor^
 }
 
@@ -248,8 +274,8 @@ XPT when " when (..) { .. } ...
 `:_when:^` `when...{{^`$BRel^`Include:_when^``when...^`}}^
 `default...{{^`Include:_default^`}}^
 
-XPT given wrap=job " given ( .. ) { .. }
-given`$SPcmd^(`$SParg^m/`regx^/^`$SParg^)`$BRif^{
+XPT given wrap=var " given ( .. ) { .. }
+given`$SPcmd^(`$SParg^$`var^^`$SParg^)`$BRif^{
 	`cursor^
 }
 
