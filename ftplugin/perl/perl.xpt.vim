@@ -73,31 +73,15 @@ unless`$SPcmd^(`$SParg^`condition^`$SParg^)`$BRif^{{
 	`cursor^
 }}
 
-XPT sub " sub .. { .. }
-sub `fun_name^`$BRfun^{
+XPT sub " sub \( .. ) { .. }
+XSET arg*|post=ExpandInsideEdge(', ', '')
+sub `fun_name^`(`arg*`)^ {
 	`cursor^
 }
 
-XPT subsigna " sub .. \( .. ) { .. }
-XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
-sub `fun_name^(`$SParg^`arg*^`$SParg^)`$BRfun^{
-	`cursor^
-}
-
-XPT subprotosigna " sub :prototype\( .. ) \( .. ) { .. }
+XPT subp " sub :prototype\( .. ) \( .. ) { .. }
 XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
 sub `fun_name^ :prototype(`proto^) (`$SParg^`arg*^`$SParg^)`$BRfun^{
-	`cursor^
-}
-
-XPT subanony " sub { .. }
-sub {
-	`cursor^
-}
-
-XPT subanonysigna " sub \( .. ) { .. }
-XSET arg*|post=ExpandIfNotEmpty(', ', 'arg*')
-sub (`arg*^) {
 	`cursor^
 }
 
@@ -223,11 +207,14 @@ split m/`regex^/, `string^
 XPT join " split .., ..
 join `string^, `list^
 
-XPT open wrap=path " open .., .., ..
-open $`fh^, "`mode^", $`path^ or die "open: $!\n";
+XPT bar " __XXX__
+__`cursor^__
 
-XPT opendir wrap=path " open .., .., ..
-opendir $`dh^, "`mode^", $`path^ or die "opendir: $!\n";
+XPT open wrap=path " open .., .., ..
+open my $`fh^, "`mode^", $`path^ or die "open: $!\n";
+
+XPT opendir wrap=path " opendir .., .., ..
+opendir my $`dh^, $`path^ or die "opendir: $!\n";
 
 XPT _printfElts hidden 
 XSET elts|pre=Echo('')
@@ -300,5 +287,6 @@ sub new`$BRfun^{
 
 1;
 
+`__END__^
 ..XPT
 
