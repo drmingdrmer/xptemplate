@@ -19,7 +19,7 @@ let s:crIndent = 0
 
 fun! s:f.BracketRightPart( leftReg )
 
-    if has_key( self.renderContext, 'bracketComplete' )
+    if has_key( self._ctx.renderContext, 'bracketComplete' )
         return ''
     endif
 
@@ -36,7 +36,7 @@ fun! s:f.BracketRightPart( leftReg )
 
     if v0 =~ '\V\n\s\*\$'
         let v = matchstr( v, '\V\S\+' )
-        return self.ResetIndent( -s:crIndent, "\n" . v )
+        return { "action" : "text", "nIndent" : -s:crIndent, "text" : "\n".v }
     else
         return v
     endif
@@ -44,11 +44,11 @@ fun! s:f.BracketRightPart( leftReg )
 endfunction
 
 fun! s:f.bkt_cmpl()
-    return self.BracketRightPart( self.renderContext.leftReg )
+    return self.BracketRightPart( self._ctx.renderContext.leftReg )
 endfunction
 
 fun! s:f.quote_cmpl()
-    let r = self.renderContext
+    let r = self._ctx.renderContext
     let v = self.V()
     let v = matchstr( v, r.leftReg )
 
@@ -62,7 +62,6 @@ fun! s:f.quote_cmpl()
 endfunction
 
 fun! s:f.quote_ontype()
-    let r = self.renderContext
 
     let v = self.V()
 
@@ -74,9 +73,9 @@ fun! s:f.quote_ontype()
         return self.FinishOuter( v )
 
     else
-        return v
+        return 0
     endif
-    
+
 endfunction
 
 fun! s:f.bkt_ontype()
@@ -101,21 +100,23 @@ fun! s:f.bkt_ontype()
             let s:crIndent = self.NIndent()
         endif
 
+        " create snippet indent. filter does not use actual indent string
+        let n_indent = xpt#indent#ActualToSnippetNr(s:crIndent)
+        let indent_str = repeat( ' ', n_indent )
+
         let v = substitute( v, '\V\s\*\n\.\*', "\n", 'g' )
 
-        return self.FinishOuter( v . repeat( ' ', s:crIndent ) )
+        return self.FinishOuter( v . indent_str )
 
     else
-
-        let pos = self.ItemPos()[ 0 ]
-        return self.ResetIndent( -XPT#getIndentNr( pos[ 0 ], pos[ 1 ] ), v )
-
+        " nothing todo
+        return 0
     endif
 
 endfunction
 
 fun! s:f.bkt_init( followingChar )
-    let r = self.renderContext
+    let r = self._ctx.renderContext
 
     let r.char = self.GetVar( '$_xSnipName' )
     let r.followingChar = a:followingChar
@@ -137,7 +138,7 @@ endfunction
 
 fun! s:f.bkt_finish( keyPressed )
 
-    let r = self.renderContext
+    let r = self._ctx.renderContext
 
     if a:keyPressed != r.charRight
         " may be outer snippet key bind

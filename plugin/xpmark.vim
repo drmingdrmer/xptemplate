@@ -12,9 +12,9 @@ com! XPMgetSID let s:sid =  matchstr("<SID>", '\zs\d\+_\ze')
 XPMgetSID
 delc XPMgetSID
 
+runtime plugin/xptemplate.conf.vim
 runtime plugin/debug.vim
-let s:log = CreateLogger( 'warn' )
-" let s:log = CreateLogger( 'debug' )
+let s:log = xpt#debug#Logger( 'warn' )
 
 
 " probe mark
@@ -54,7 +54,10 @@ let g:XPMpreferRight = 'r'
 augroup XPM
     au!
     au BufEnter * call <SID>InitBuf()
-    au BufEnter * call XPMcheckStatusline()
+
+    " NOTE: remove statusline init to prevent overriding lazy initialization
+    " of other plugin, such as flagship
+    " au BufEnter * call XPMcheckStatusline()
 augroup END
 
 fun! XPMcheckStatusline() "{{{
@@ -63,7 +66,7 @@ fun! XPMcheckStatusline() "{{{
     else
         call s:SetupStatusline()
     endif
-endfunction
+endfunction "}}}
 
 fun! s:SetupStatusline() "{{{
     if &statusline == ""
@@ -308,7 +311,12 @@ fun! XPMupdate(...) " {{{
 
     let d = s:BufData()
 
-    let needUpdate = d.isUpdateNeeded()
+    let mode = a:0 > 0 ? a:000[0] : 'auto'
+    if mode == 'force'
+        let needUpdate = 1
+    else
+        let needUpdate = d.isUpdateNeeded()
+    endif
 
     if !needUpdate
         call d.snapshot()
@@ -320,10 +328,7 @@ fun! XPMupdate(...) " {{{
         return g:XPM_RET.no_updated_made
     endif
 
-
-
     call d.initCurrentStat()
-
 
     if d.lastMode =~ s:insertPattern && d.stat.mode =~ s:insertPattern
         " stays in insert mode 
@@ -631,6 +636,7 @@ fun! s:normalModeUpdate() dict "{{{
         " nothing to do, everything is ok in insert mode
         " }}}
 
+        return g:XPM_RET.no_updated_made
     else
         " change is taken in normal mode "{{{
         " delete, replace, paste 

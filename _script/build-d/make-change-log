@@ -1,0 +1,57 @@
+#!/bin/sh
+
+onto_branch=dev
+from_branch=mix
+
+since_ts=$(git log -n1 --format="%at" $onto_branch)
+
+# <ts> <hash> <date> <time> +0008 <mes>
+git log --format="%at %h %ai %s" --no-merges $from_branch \
+    | sort -r \
+    | awk -v since=$since_ts '{
+        if ( int($1) > int(since) ) {
+            gsub(".", "", $1);
+            gsub(".", "", $4);
+            gsub(".", "", $5);
+            print $0;
+        }
+    }' \
+    | sed 's/^ //; s/  */ /g' \
+    | grep " Added: \| Changed: \| Deprecated: \| Removed: \| Fixed: " \
+    | python -c '
+import sys
+import datetime
+import time
+
+has_log = False
+logs = {"Added":{}, "Changed":{}, "Deprecated":{}, "Removed":{}, "Fixed":{}}
+for line in sys.stdin:
+    hsh, dt, tp, sec, mes = line.split(None, 4)
+    tp = tp[:-1]
+    sec = sec[:-1]
+    mes = mes.strip()
+    logs[tp][sec] = logs[tp].get(sec, [])
+    if mes not in logs[tp][sec]:
+        logs[tp][sec] += [mes]
+    has_log = True
+
+if not has_log:
+    sys.exit(0)
+
+now = datetime.datetime.utcfromtimestamp(int(time.time())).strftime("%Y-%m-%d")
+print now
+print "="*len(now)
+print ""
+for tp in ("Added", "Changed", "Deprecated", "Removed", "Fixed"):
+
+    if len(logs[tp]) == 0:
+        continue
+
+    print tp
+    print "-"*len(tp)
+    print ""
+    for sec in sorted(logs[tp].keys()):
+        for mes in logs[tp][sec]:
+            print "*   " + sec + ": " + mes
+        print ""
+'

@@ -1,0 +1,14 @@
+vim nginx.conf
+press '
+Messages maintainer: Bram Moolenaar <Bram@vim.org>                                                                                                                               
+Error detected while processing function XPTtgr..XPTemplateStart..<SNR>156_DoStart..<SNR>156_RenderSnippet..<SNR>156_BuildSnippet..<SNR>156_BuildPlaceHolders..<SNR>156_NextLeftM
+ark:                                                                                                                                                                             
+line   40:                                                                                                                                                                       
+E121: Undefined variable: content                                                                                                                                                
+Error detected while processing function XPTtgr..XPTemplateStart..<SNR>156_DoStart..<SNR>156_RenderSnippet..<SNR>156_BuildSnippet..<SNR>156_BuildPlaceHolders..<SNR>156_NextLeftM
+ark:                                                                                                                                                                             
+line   40:                                                                                                                                                                       
+E116: Invalid arguments for function len( content ) / 2 )                                                                                                                        
+Error detected while processing function XPTtgr..XPTemplateStart..<SNR>156_DoStart..<SNR>156_RenderSnippet..<SNR>156_BuildSnippet..<SNR>156_BuildPlaceHolders..<SNR>156_NextLeftM
+ark:                                                                                                                                                                             
+line   40:        

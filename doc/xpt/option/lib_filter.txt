@@ -1,0 +1,28 @@
+						     *g:xptemplate_lib_filter*
+								   {default:.}
+Value:  unset:	do not filter, load any snippet found.
+	string:	regular expression.
+	list:	list of regular expression.
+
+	If set, XPT loads only snippets(*.xpt.vim) from 'runtimepath' that
+	matches it or one of its elements.
+
+	NOTE:	This option tries to match actual path of a snippet file.
+		Symbolic link would be resolved.
+
+	NOTE:	Included snippet like "*/_common/common.xpt.vim" is essential
+		for other snippet to work thus it won't be affected by this
+		option.
+
+	For example: >
+		let g:xptemplate_lib_filter = [
+			\ '/my_snippets\>',
+			\ '/all_user_snippets/ftplugin/xml/' ]
+<	The above setting tells XPT to ignore snippet supplied by XPT but to
+	load only "*/my_snippets/ftplugin/*/*.xpt.vim", and use only "xml"
+	snippets from "*/all_user_snippets/ftplugin/xml/*.xpt.vim".
+
+	It would works the same as with: >
+		let g:xptemplate_lib_filter = '/my_snippets\>\|/all_user_snippets/ftplugin/xml/'
+<
+" vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:

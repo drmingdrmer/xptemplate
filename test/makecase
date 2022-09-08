@@ -1,0 +1,40 @@
+#!/bin/bash
+
+name=$1
+
+base=test/cases/$name
+
+if [ -d $base ]; then
+    echo $base exists >&2
+    exit 1
+fi
+
+mkdir -p \
+    $base/ftplugin/foo/ \
+    $base/tests/
+
+cat > $base/ftplugin/foo/foo.xpt.vim<<-END
+XPTemplate priority=lang
+let s:f = g:XPTfuncs()
+XPTinclude
+      \ _common/common
+
+XPT foo
+foo-bar
+END
+
+echo created: $base/ftplugin/foo/foo.xpt.vim
+
+cat >$base/tests/01-foo <<-END
+keys:
+foo
+
+expected:
+foo-bar
+END
+
+echo created: $base/tests/01-foo
+
+git branch t.$name root \
+    && git add $base \
+    && git bci -m "create $name" -b t.$name

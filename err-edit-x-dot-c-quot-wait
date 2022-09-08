@@ -1,0 +1,19 @@
+edit x.c
+type:
+"
+wait
+<space>
+
+following config makes it break to:
+"wait""
+but it should be:
+"wait "
+
+i  wait        * wait<C-O>:echoh HintHL|echo "pid_t wait(int * status)"|echoh None<CR>
+        Last set from ~/bash.xp/vim.xp/plg-git/Hints-for-C-Library-Functions/ftplugin/c/hints_man2.vim
+i  waitpid     * waitpid<C-O>:echoh HintHL|echo "pid_t waitpid(pid_t pid, int * status, int options)"|echoh None<CR>
+        Last set from ~/bash.xp/vim.xp/plg-git/Hints-for-C-Library-Functions/ftplugin/c/hints_man2.vim
+i  wait4       * wait4<C-O>:echoh HintHL|echo "pid_t wait4(pid_t pid, int * status, int options, struct rusage * rusage)"|echoh None<CR>
+        Last set from ~/bash.xp/vim.xp/plg-git/Hints-for-C-Library-Functions/ftplugin/c/hints_man2.vim
+i  wait3       * wait3<C-O>:echoh HintHL|echo "pid_t wait3(int * status, int options, struct rusage * rusage)"|echoh None<CR>
+        Last set from ~/bash.xp/vim.xp/plg-git/Hints-for-C-Library-Functions/ftplugin/c/hints_man2.vim

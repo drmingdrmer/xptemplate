@@ -258,7 +258,7 @@
 
 ==============================================================================
 
-						   *xpt-key-bind* *xpt-option*
+								*xpt-key-bind*
 	Options can be set in |.vimrc| to modify XPTemplate's behaviors.
 
 	Key mappings:
@@ -267,6 +267,7 @@
 		|g:xptemplate_key|
 		|g:xptemplate_key_pum_only|
 		|g:xptemplate_key_force_pum|
+		|g:xptemplate_key_visual|
 		|g:xptemplate_nav_next|
 		|g:xptemplate_nav_prev|
 		|g:xptemplate_nav_cancel|
@@ -274,29 +275,16 @@
 		|g:xptemplate_to_right|
 		|g:xptemplate_fallback|
 
-	Options:
-		|g:xptemplate_move_even_with_pum|
-		|g:xptemplate_always_show_pum|
-		|g:xptemplate_brace_complete|
-		|g:xptemplate_bundle|
-		|g:xptemplate_highlight|
-		|g:xptemplate_highlight_nested|
-		|g:xptemplate_minimal_prefix|
-		|g:xptemplate_ph_pum_accept_empty|
-		|g:xptemplate_pum_tab_nav|
-		|g:xptemplate_snippet_folders|
-		|g:xptemplate_strict|
-		|g:xptemplate_strip_left|
-		|g:xptemplate_vars|
+	See also: |xpt-option|.
 
 							     *<Plug>XPTrawKey*
 	Key mapping defined as: >
 		exe "inoremap <silent> <Plug>XPTrawKey " g:xptemplate_key
 <
 
-	    *i_<C-\>* *s_<C-\>* *v_<C-\>* *xpt-key-trigger* *g:xptemplate_key*
+	    *i_<C-\>* *v_<C-\>* *xpt-key-trigger* *g:xptemplate_key*
 							       {default:<C-\>}
-	The key to trigger snippets, in insert or visual mode.
+	The key to trigger snippets in insert mode.
 	Use |g:xptemplate_key| to change this mapping. Example: >
 		let g:xptemplate_key = '<Tab>'
 <
@@ -324,6 +312,14 @@
 	starts with the text before cursor.
 
 	See also: |g:xptemplate_always_show_pum|.
+
+
+			 *s_<C-\>* *xpt-key-visual* *g:xptemplate_visual
+					  {default:g:xptemplate_key}
+	The key to trigger snippets in visual mode.
+	Use |g:xptemplate_key_visual| to change this mapping. Example: >
+		let g:xptemplate_key_visual = '<Tab>'
+<
 
 
 	       *i_<tab>*  *s_<tab>* *xpt-key-navigate* *g:xptemplate_nav_next*
@@ -372,45 +368,6 @@
 		let g:xptemplate_fallback = '<C-n>'
 <
 
-					     *g:xptemplate_move_even_with_pum*
-								   {default:0}
-	If set to 1, |g:xptemplate_nav_next| does not care whether pop up menu
-	shown or not. It will always move cursor to next item.
-
-	Otherwise, |g:xptemplate_nav_next| fall back to original mapping. This
-	could be helpfull for xpt working with supertab together.
-
-
-						*g:xptemplate_always_show_pum*
-								   {default:0}
-	If set to 1, snippets is not triggered but popup menu shows even when
-	text user typed before cursor matches a snippet name.
-
-	For example, you have three snippets defined of names: "for", "forever"
-	and "forr". Typing "for<C-\>" results in a popup menu if
-	|g:xptemplate_always_show_pum| set to 1: >
-		for
-	       |for      |
-	       |forloop  |
-	       |forr     |
-<	Otherwise, "for<C-\>" triggers snippet "for".
-
-	See also: |g:xptemplate_key_force_pum|.
-
-
-						 *g:xptemplate_brace_complete*
-								   {default:1}
-	If set to 1, bracket characters are automatically expanded to bracket
-	pairs. For example typing "(" results in: >
-		(  )
-	          \______| cursor stops in mid of pairs of bracket
-<	"(", "[", "{", "'" and '"' are affected by this setting.
-	
-	If set to string, only bracket or quote chars included in this setting
-	will be mapped. For example: >
-		let g:xptemplate_brace_complete = '([{'
-<	With this setting, quotes are not mapped.
-
 
 		    *n_<C-g>* *i_<C-g>* *xpt-key-goback* *g:xptemplate_goback*
 							       {default:<C-g>}
@@ -421,92 +378,6 @@
 	Use |g:xptemplate_goback| to change this mapping. Example: >
 		let g:xptemplate_goback = '<C-g>'
 <
-						 *g:xptemplate_minimal_prefix*
-								   {default:0}
-	Posssible values: number or "full".
-
-	If set it to a number( N ), it means snippet is triggered( or pum
-	shows ) only when there are at least N |word| letters before cursor.
-
-	If set to "full", |g:xptemplate_key| searches for a snippet of name
-	matching exactly the word before cursor.
-
-	For example, you have only one snippet defined with name "xpt". The
-	following input will trigger "xpt" snippet, if
-	|g:xptemplate_minimal_prefix| set to 0 ( it also works with value 1 and
-	2, but not with 3 ): >
-		xp<C-\>
-<	"<C-\>" is the default trigger key.
-
-	If |g:xptemplate_minimal_prefix| set to "full", the above input can not
-	trigger "xpt" snippet.
-
-
-						    *g:xptemplate_pum_tab_nav*
-								   {default:0}
-	Set to 1 to use <tab>/<S-tab>( shift + tab ) to navigate through pop
-	up menu. <tab> behaves like <C-n> and <S-tab> behaves like <C-p>. And
-	<CR> expands snippet.
-
-
-							 *g:xptemplate_strict*
-								   {default:2}
-	Set to 0 to let XPTemplate do the best maintaining snippet rendering,
-	even if you have changed text outside of place holders.
-
-	Set to 1 to prevent incautious changing text outside place holders.
-	Otherwise you are free to change text outside of place holders.
-
-	Set to 2 to let XPTemplate stop rendering if ANY changes taken to text
-	outside of place holders.
-
-	Example : >
-		let g:xptemplate_strict = 1
-<
-
-						      *g:xptemplate_highlight*
-							      {default:'next'}
-	Specifies which place holders are high lighted. The value of
-	|g:xptemplate_highlight| is a comma separated string.
-
-	Possible values are: "current", "following" and "next". Example: >
-		let g:xptemplate_highlight = 'following,next'
-<
-	"current" lets XPTemplate highlight the place holder you are currently
-	editing. See |XPTcurrentPH|.
-	For example the first "i" in "for" snippet of C language: >
-		for ( i = 0; i < len; ++i ) {
-		       \__________________________ highlighted
-<
-	"following" lets XPTemplate highlight slave place holders which are
-	updated automatically. See |XPTfollowingPH|.
-	For example the second and third "i" in "for" snippet of C language: >
-		for ( i = 0; i < len; ++i ) {
-			      \__________\________ highlighted
-<
-	"next" lets XPTemplate highlight the place holders you are going to
-	edit. See |XPTnextItem|.
-	For example the "0" and "len" if "for" snippet of C language: >
-		for ( i = 0; i < len; ++i ) {
-			   \______\\\_____________ highlighted
-<
-	Set |g:xptemplate_highlight| to '' to disable highlight.
-
-
-					       *g:xptemplate_highlight_nested*
-								   {default:0}
-	If set to 1, highlight is also applied to outer snippet, not only the
-	deepest nested one. For example, If set to 1, the following positions
-	are highlighted: >
-				  ________________________| highlighted
-			        _/ _/        ___/
-		for ( call( me ) = 0; call < len; call++ ) {
-		    /* cursor */
-		    ~~~~~~~~~~~\__________________________| highlighted
-		}
-<	The first highlight position is from nested snippet "(". Others are
-	from outer snippet "for".
-
 
 						     *xpt-customize-highlight*
 	You can specify which highlight Group to use for each kind of
@@ -535,67 +406,12 @@
 	|XPTcurrentPH|.
 
 
-					    *g:xptemplate_ph_pum_accept_empty*
-								   {default:1}
-	When set to 1 popup menus for place holders accepts an empty input. So
-	when nothing typed pressing <Tab> closes the popup menu and sends the
-	cursor to the next place holder.
-	When not set <Tab> expands the text to the longest match and keeps the
-	popup menu open.
-
-
-						     *g:xptemplate_strip_left*
-								   {default:1}
-	When set to 1 wrapper snippets |xpt-wrapper-snippet| remove space
-	before the first line.
-
-
-				      *xpt-personal-var*   *g:xptemplate_vars*
-	g:xptemplate_vars sets personal information variables used in
-	snippets, like "author" and "email", see |xpt-snippet-variable|.
-
-	Variables set with g:xptemplate_vars have the highest priority and
-	override any other variables set in *.xpt.vim. Syntax: >
-	let g:xptemplate_vars = 'name=value&name=value...'
-<	Example: >
-	let g:xptemplate_vars = '$author=xp\ \&\\\&123&$email=bal@bla'
-	let g:xptemplate_vars = 'author=xp\ \&\\\&123&email=bal@bla'
-
-<	Both the 2 lines above result in: >
-		'xp\ &\&123' and 'bal@bla'
-
-<	Or: >
-		let g:xptemplate_vars = exists('g:xptemplate_vars') ?
-			\ g:xptemplate_vars . '&' . '$other=bla'
-			\ : '$other=bla'
-<
-	Entries are separated with '&'.
-
-	You can also set these settings in ftplugin/_common/personal.xpt.vim
-	in your runtime path using XPTvar |xpt-snippet-variable| (see also
-	|xpt-customize-variable|).
-
 								  *xpt-bundle*
 	A bundle is a collection of snippets for a certain purpose. For
 	example a library support bundle like
 	"ftplugin/javascript/jquery.xpt.vim".
 	XPTemplate supplies two ways to load bundles: |g:xptemplate_bundle|
 	and |g:XPTaddBundle()|.
-
-
-							 *g:xptemplate_bundle*
-
-	This option specifies what libraries will always be load to its file
-	type. For example: >
-		let g:xptemplate_bundle = 'javascript_jquery'
-<	This tells XPT to load jquery snippet to javascript language.
-	Or: >
-		let g:xptemplate_bundle = 'javascript_jquery,c_*'
-<	It tells XPT to load jquery, and all supplied library snippets for C
-	language.
-
-	Another way to load bundles is |g:XPTaddBundle()|.
-
 
 
 ==============================================================================
@@ -608,9 +424,6 @@
 							   *xpt-with-supertab*
 	If you want to use supertab's <TAB> but you have also set XPT to use
 	<TAB>.
-==============================================================================
-	NOTE: TODO 
-==============================================================================
 
 ==============================================================================
 
@@ -743,24 +556,6 @@
 
 	
 
-						*g:xptemplate_snippet_folders*
-								  {default:[]}
-	NOTE:	Unless you really want XPTemplate to touch your 'runtimepath',
-		do NOT use this. This setting changes 'runtimepath' and is
-		less recommended to use than 'runtimepath'. As you may already
-		know well about 'runtimepath' and 'ftplugin', it is better for
-		you to organize snippet files yourself, with 'runtimepath'.
-
-	A list to specify which other folders are used as snippet folders.
-	For example: >
-		let g:xptemplate_snippet_folders = [
-			\ $HOME . '/my_snippets',
-			\ '/all_user_snippets' ]
-<	Thus the snippet file "$HOME/my_snippets/ftplugin/c/my.c.xpt.vim" can
-	be loaded to C files.
-	And "/all_user_snippets/ftplugins/html/all.html.xpt.vim" can be loaded
-	to HTML files.
-
 
 				   *xpt-personal-folder*   *xpt-write-snippet*
 	Snippet file is actually |ftplugin| and with file extension
@@ -829,7 +624,6 @@
 		bla bla
 
 <	See |xpt-snippet-syntax| and |xpt-snippet-tutorial|.
-
 
 ==============================================================================
 " vim:tw=78:ts=8:sw=8:sts=8:noet:ft=help:norl:

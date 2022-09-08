@@ -1,0 +1,66 @@
+#!/bin/bash
+
+if which python2.6 >/dev/null; then
+    py=python2.6
+else
+    py=python2
+fi
+
+tmp_root=/tmp/xpt-ci
+
+branch=$(git symbolic-ref --short HEAD)
+hsh=$(git rev-parse HEAD)
+i=0
+while ``; do
+    tpath=$tmp_root/$branch-$hsh-$i
+    if [ -d $tpath ]; then
+        let i=i+1
+    else
+        break
+    fi
+done
+
+(
+cd $tmp_root \
+    && [ $(ls | wc -l) -gt 10 ] && rm -rf -- $(ls -tr | head -n2)
+)
+
+echo test repo path: $tpath
+
+test_working_tree=0
+verbose=''
+concurrent=''
+delay=''
+while getopts wvc:d: opname; do
+    case $opname in
+        w)
+            test_working_tree=1
+            ;;
+        v)
+            # pass it to python
+            verbose=' -v '
+            ;;
+        c)
+            concurrent=" -c $OPTARG "
+            ;;
+        d)
+            delay=" -d $OPTARG"
+            ;;
+    esac
+done
+
+shift $(($OPTIND - 1))
+
+mkdir -p $tpath || exit 1
+if [ "$test_working_tree" = "1" ]; then
+    index_hash=$(git write-tree) \
+        && git add -u \
+        && git checkout-index -af --prefix=$tpath/ \
+        && git read-tree $index_hash \
+        && cd $tpath || exit 1
+else
+    git checkout-index -af --prefix=$tpath/ \
+        && cd $tpath || exit 1
+fi
+
+$py test/run.py $verbose $concurrent $delay "$@"

@@ -1,4 +1,191 @@
-test from 'factor'
-what's the right "test" snippet in 'factor'
+### bug:
+for...int<space>i is broke by abbreviation: inorea int int<c-o>blabla;
+from Hint-blabla plugin.
+test xptemplate with abbreviation.
+
+### add test:
+test latest main() in c: indent returned from for-snippet function should be
+always 4 space.
+
+
+
+in brace, type and if it exceeds textwidth and is auto wrapped, xpt breaks.
+
+x, (, ",w" to save, shift-A, delete, no crash happened.
+there should be a crash since editing happened outside place holder
+
+use flt
+
+press trigger key when <c-n> pum presents
+
 during rendering <CR> does not work the way super-tab setup, which is closing pum only.
 inclusion inside expandable should be parsed at runtime, or recursive inclusion is impossible.
+add functin to detect if it is expandable at current position
+
+check text before/after cursor as a condition to expand snippet
+
+redefine `_if` should affect all snippet that includes it
+snippet handling current line text or else
+
+# add
+by default xpt use iskeyword as keyword
+support `<ft>_xpt.vim`?
+
+# test
+
+-   XPreplace with small 'wrap'
+-   setting#Switch stack and restore
+
+symbolic link file on windows? is it ok to copy all files to master?
+Finish updates following ph
+Finish ignores other ph
+marks:
+-   post filter use marks
+-   init-val, def, ontype, preset use edit marks
+
+test from 'factor'
+what's the right "test" snippet in 'factor'
+
+# doc
+add FAQ of Choose
+readme-add-choose-and-pum-hint
+
+# snippet
+latex
+
+# setting
+
+imap        <tab>               <Plug>xpt-trigger
+
+imap <expr> <Plug>xpt-trigger   contextedTrigger()
+
+imap        <Plug>xpt-trigger-with-xpt-pum      <Plug>xpt-trigger-snippet
+imap        <Plug>xpt-trigger-with-vim-pum      <C-n>
+
+# function and marks
+Building functions like `Build()` by default use `mark`.
+Because building destroys marks
+
+```
+==
+# a == b
+{
+    $a == $b
+}
+
+=
+{
+    $a = $b
+}
+
+>
+{
+    $a > $b
+}
+
+{}
+{
+    {
+        $body
+    }
+}
+
+{
+{
+    ${x}${x/^[.*$/]/}
+}
+
+(==)
+{
+    $(condition $('=='))
+}
+
+condition
+{
+    ( $expr )
+}
+
+_while
+{
+    while $(condition)$('{}')
+}
+
+while=
+{
+    $(_while $('(==)'))
+}
+
+while1
+{
+    $(_while $('(==)' -- b=1))
+}
+
+_for
+{
+    for $(condition)$('{}')
+}
+
+loop {
+    $init; $cond; $step
+}
+
+for {
+    $(_for -- expr='$(= $i 0); $(< $i 10); $i++' )
+}
+
+--
+
+for ( $alp $op $alp; $alp $op $alp; $alp$op ) {
+    $any
+}
+
+for {
+    for($i=0;i<10; i++) {
+        
+    }
+}
+
+
+
+```
+
+
+```
+E121: Undefined variable: groupPostFilter
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent..<SNR>154_ApplyPostFilter:
+line   89:
+E15: Invalid expression: groupPostFilter is g:EmptyFilter
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   33:
+E714: List required
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   39:
+E121: Undefined variable: name
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   39:
+E15: Invalid expression: name != ''
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   45:
+E121: Undefined variable: built
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   45:
+E15: Invalid expression: built || a:action ==# 'clear'
+Error detected while processing function XPTforceForward..<SNR>154_FinishCurrent:
+line   45:
+E488: Trailing characters:  a:action ==# 'clear'
+```
+
+dbcool-vm, edit dbcool.lua, dd`<tab>` vim7.2
+
+```
+function XPTtgr..XPTemplateStart..<SNR>158_DoStart..<SNR>158_RenderSnippet..<SNR>158_BuildSnippet..<SNR>158_BuildPlaceHolders..<SNR>158_EvaluateEdge..<SNR>158_EvalAsFilter..<SNR>
+158_EvalFilter..xpt#eval#Eval, line 19
+Vim(let):E716: Key not present in Dictionary: Concat(xfunc.GetVar('$_xSnipName'),xfunc.GetVar('$SParg'))
+xfunc.Concat(xfunc.GetVar('$_xSnipName'),xfunc.GetVar('$SParg'))
+function XPTtgr..XPTemplateStart..<SNR>158_DoStart..<SNR>158_RenderSnippet..<SNR>158_BuildSnippet..<SNR>158_BuildPlaceHolders..<SNR>158_ApplyPreValues..<SNR>158_EvalFilter..xpt#e
+val#Eval, line 19
+Vim(let):E716: Key not present in Dictionary: Concat(xfunc.Call('Echo',['']))
+```
+
+<!-- vim: ft=markdown
+-->
