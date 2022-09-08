@@ -85,8 +85,9 @@ fun! s:f.html_cont_ontype()
     let v = self.V()
     if v =~ '\V\n'
         let v = matchstr( v, '\V\.\*\ze\n' )
+        let ln = line(".")
         let s:nIndent = &indentexpr != ''
-              \ ? eval( substitute( &indentexpr, '\Vv:lnum', 'line(".")', '' ) ) - indent( line( "." ) - 1 )
+              \ ? eval( substitute( &indentexpr, '\Vv:lnum', ln, '' ) ) - indent( ln - 1 )
               \ : self.NIndent()
 
         return self.Finish( v . "\n" . repeat( ' ', s:nIndent ) )
@@ -201,7 +202,7 @@ XSET doctype|post=html_doctype_post( V() )
 
 
 XPT html " <html><head>..<head><body>...
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
     `:head:^
     <body>
@@ -278,6 +279,7 @@ XPT p   alias=_tag
 XPT ul  alias=_tag
 XPT ol  alias=_tag
 XPT li  alias=_tag
+XPT span  alias=_tag
 
 
 

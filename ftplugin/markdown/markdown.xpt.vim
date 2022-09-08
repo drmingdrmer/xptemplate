@@ -2,25 +2,28 @@ XPTemplate priority=lang mark=~^
 
 let s:f = g:XPTfuncs()
 
-" use snippet 'varConst' to generate contant variables
-" use snippet 'varFormat' to generate formatting variables
-" use snippet 'varSpaces' to generate spacing variables
-
-fun! s:f.ExpandMarkdownTitle( char )
-    let txt = self.R( 'sectionName' )
-    let bar = repeat( a:char, len( txt ) )
-    return txt . "\n" . bar . "\n"
+fun! s:f.HeaderPref()
+    let snipname = self.GetVar('$_xSnipName')
+    let nr = snipname[ 1 : 1 ] * 1
+    return repeat('#', nr)
 endfunction
 
-fun! s:f.ExpandMarkdownSubSection()
-    return "### " . self.R( 'sectionName' )
+fun! s:f.UnderLine(char)
+    let v = self.ItemValue()
+    if v == ''
+        return ''
+    else
+        " line break before "===" and after "==="
+        return "\n" . repeat(a:char, len(v)) . "\n"
+    endif
 endfunction
 
-fun! s:f.Reminder( field )
-    let txt = self.R( a:field )
-    " Memory leak?
-    let s:f[ '_markdown_snipp_' . a:field ] = txt
-    return ''
+fun! s:f.QuitContition()
+    let v = self.ItemValue()
+    if v == '' || v =~ '\V\n'
+        let q = self.Next(substitute(v, '\V\n', '', 'g'))
+        return q
+    endif
 endfunction
 
 fun! s:f.BuildRef()
@@ -42,31 +45,51 @@ endfunction
 XPTinclude
       \ _common/common
 
+XPT sharp_header hidden " HeaderPref() title
+~HeaderPref() ~t^
 
-XPT title synonym=h1 " ... ===
-XSET sectionName|post=ExpandMarkdownTitle('=')
-~sectionName^
+XPT h1 alias=sharp_header
+XPT h2 alias=sharp_header
+XPT h3 alias=sharp_header
+XPT h4 alias=sharp_header
+XPT h5 alias=sharp_header
+XPT h6 alias=sharp_header
 
-XPT section synonym=h2 " ... ---
-XSET sectionName|post=ExpandMarkdownTitle('-')
-~sectionName^
+XPT header_alt hidden " ... repeat($decoration,3)
+XSET $decoration==
+XSET t|ontype=QuitContition()
+~t^~t^UnderLine($decoration)^~^
 
-XPT subsection synonym=h3 " ### ...
-XSET sectionName|post=ExpandMarkdownSubSection()
-~sectionName^
+XPT ha1 alias=header_alt
+XSET $decoration==
 
-XPT link synonym=lnk " [...](...)
-[~textLink^](~url^~ title...{{^ ~title^~}}^)
+XPT ha2 alias=header_alt
+XSET $decoration=-
+
+XPT title alias=ha1
+XPT section alias=ha2
+XPT subsection alias=h3
+
+
+XPT link " [...](...)
+[~text^](~url^~ ~title?^)
 
 XPT img " ![...](...)
-![~alt text^](~url^~ title...{{^ ~title^~}}^)
+![~alt-text^](~url^~ ~title?^)
 
 XPT ref " [...][...]
-XSET url|post=Reminder('url')
-XSET title|post=Reminder('title')
-XSET cursor=BuildRef()
-[~text^][~refId^]~url^~ title...{{^ ~title^~}}^~cursor^
+[~text^][~text^]
 
-XPT ruler synonym=hr " -----------------
----------------------------------------
+XPT def " [name]: url
+[~refid^]: ~url^
+
+XPT checkbox " [ ]
+[ ] ~cursor^
+
+XPT ruler alias=hr
+
+XPT table " | header | ... |
+|     |     |
+| :-- | --: |
+|     |     |
 

@@ -8,7 +8,7 @@ XPTvar $NULL           NULL
 XPTvar $BRif           ' '
 XPTvar $BRloop         ' '
 XPTvar $BRstc          ' '
-XPTvar $BRfun          \n
+XPTvar $BRfun          ' '
 
 XPTvar $VOID_LINE      /* void */;
 XPTvar $CURSOR_PH      /* cursor */
@@ -90,7 +90,7 @@ XSET cursor|pre=CURSOR
  *
  * <b>`function^</b>
  * @version : `1.0^
- * @since : `strftime("%Y %b %d")^
+ * @since : `date()^
  *
  * @description :
  *     `cursor^

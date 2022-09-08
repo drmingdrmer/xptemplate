@@ -1,6 +1,5 @@
 XPTemplate priority=like
 
-
 XPTvar $BRloop        ' '
 
 " int fun( ** arg ** )
@@ -8,7 +7,7 @@ XPTvar $BRloop        ' '
 " for ( ** statement ** )
 " [ ** a, b ** ]
 " { ** 'k' : 'v' ** }
-XPTvar $SParg      ' '
+XPTvar $SParg      ''
 
 " if ** (
 " while ** (
@@ -19,19 +18,22 @@ XPTvar $SPcmd      ' '
 " (a, ** b, ** )
 XPTvar $SPop       ' '
 
-
+fun! s:f.c_strip_type()
+    let v = self.ItemValue()
+    echom v
+    echom substitute(v, '\V\^\_.*\s', 'g')
+    return substitute(v, '\V\^\_.*\s', 'g')
+endfunction
 
 XPT for wrap " for (..;..;++)
-for`$SPcmd^(`$SParg^`i^`$SPop^=`$SPop^`0^; `i^`$SPop^<`$SPop^`len^; `i^++`$SParg^)`$BRloop^{
+for`$SPcmd^(`$SParg^`i^`$SPop^=`$SPop^`0^; `i^c_strip_type()^`$SPop^<`$SPop^`len^; `i^c_strip_type()^++`$SParg^)`$BRloop^{
     `cursor^
 }
-
 
 XPT forr wrap " for (..;..;--)
 for`$SPcmd^(`$SParg^`i^`$SPop^=`$SPop^`n^; `i^`$SPop^>`=$SPop`0^; `i^--`$SParg^)`$BRloop^{
     `cursor^
 }
-
 
 XPT forever " for (;;) ..
 for`$SPcmd^(;;) `cursor^

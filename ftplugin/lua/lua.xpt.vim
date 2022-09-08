@@ -7,8 +7,8 @@ XPTvar $FALSE         0
 XPTvar $NULL          NULL
 XPTvar $UNDEFINED     NULL
 
-XPTvar $VOID_LINE  /* void */;
-XPTvar $CURSOR_PH      -- cursor
+XPTvar $VOID_LINE     -- void
+XPTvar $CURSOR_PH     --[[cursor]]
 
 XPTvar $BRif     \n
 XPTvar $BRloop    \n

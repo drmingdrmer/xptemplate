@@ -9,7 +9,7 @@ XPTvar $NULL           NULL
 XPTvar $BRif           ' '
 XPTvar $BRloop         ' '
 XPTvar $BRstc          ' '
-XPTvar $BRfun          \n
+XPTvar $BRfun          ' '
 
 XPTvar $VOID_LINE      /* void */;
 XPTvar $CURSOR_PH      /* cursor */
@@ -20,13 +20,10 @@ XPTvar $CR   */
 XPTinclude
       \ _common/common
 
-
-" ========================= Function and Variables =============================
-
 fun! s:f.c_fun_type_indent()
     if self[ '$BRfun' ] == "\n"
         " let sts = &softtabstop == 0 ? &tabstop : &softtabstop
-        return repeat( ' ', &shiftwidth )
+        return '    '
     else
         return ""
     endif
@@ -40,10 +37,6 @@ fun! s:f.c_fun_body_indent()
         return " "
     endif
 endfunction
-
-" ================================= Snippets ===================================
-
-
 
 XPT main hint=main\ (argc,\ argv)
 `c_fun_type_indent()^int`c_fun_body_indent()^main(`$SParg^int argc,`$SPop^char **argv`$SParg^)`$BRfun^{
