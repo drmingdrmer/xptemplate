@@ -3,6 +3,7 @@ Thanks to:
 Agassi
 Agassi Yu
 chen
+Federico Ramirez
 Florian Preinstorfer
 Gautier DI FOLCO
 grassofhust
@@ -13,7 +14,9 @@ Kirill Klenov
 liu
 Lowe Thiderman
 Restyled.io
+tcheukueppo
 twinside
 Vincent Berthoux
+张炎泼
 @bstaint
 胡晋
