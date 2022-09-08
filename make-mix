@@ -1,0 +1,21 @@
+#!/bin/bash
+
+f_branches="$(git branch | awk '{print $NF}' | grep "^f\.")"
+t_branches="$(git branch | awk '{print $NF}' | grep "^t\.")"
+snp_branches="$(git branch | awk '{print $NF}' | grep "^snp\.")"
+
+cur_branch=$(./_script/_git_branch)
+[ "$cur_branch" = "mix" ] \
+    && git tag -f mixbkp \
+    && git reset --hard root \
+    && git mc --no-edit --commit internal \
+    && git merge  --no-edit  --commit --no-ff \
+    -m 'merge f.*' $f_branches \
+    && git merge  --no-edit  --commit --no-ff \
+    -m 'merge t.*' $t_branches \
+    && git merge  --no-edit  --commit --no-ff \
+    -m 'merge snp.*' $snp_branches \
+    \
+    && vim -c "helptags ./doc" -c "qa!" \
+    && git commit --amend -a --no-edit \
+    && git tag -f mixdoc

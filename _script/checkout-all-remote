@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+branches=$(git branch -r | awk '{print $1}' | grep -v 'origin/HEAD' | awk -F/ '{print $2}')
+
+for b in $branches; do
+    echo $b
+    git checkout $b
+done

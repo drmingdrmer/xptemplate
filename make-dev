@@ -1,0 +1,56 @@
+#!/bin/bash
+
+commit_mes=$1
+
+if [ ".$commit_mes" = "." ]; then
+    echo "usage: $0 <commit-message>"
+    exit 1
+fi
+
+if [ ".$commit_mes" = '.-r' ]; then
+    git update-ref refs/heads/rc origin/rc
+    git update-ref refs/heads/dev origin/dev
+
+    echo "rc and dev reverted"
+    exit
+fi
+
+
+src_branch=mix
+dst_branch=dev
+
+cur_hash=$(git log -n1 --format="%H")
+cur_branch=$(./_script/_git_branch)
+if [ ".$cur_branch" = "." ]; then
+    echo "not on a branch"
+    exit 1
+fi
+
+src_tree_hash=$(git cat-file -p $src_branch | head -n1 | awk '{print $2}')
+
+changelog="$(./_script/build-d/make-change-log)"
+
+mes="$commit_mes
+
+$changelog
+
+x-update-from: $src_branch $cur_hash"
+
+new_commit_hash=$(echo "$mes" | git commit-tree $src_tree_hash -p $dst_branch)
+git checkout $dst_branch \
+    && \
+    if [ ".$changelog" = "." ]; then
+        all_changelog="$(cat changelog.md 2>/dev/null)"
+    else
+        all_changelog="$changelog
+
+$(cat changelog.md 2>/dev/null)"
+    fi \
+    && git merge --ff-only $new_commit_hash \
+    && echo "$all_changelog" >changelog.md \
+    && git add changelog.md \
+    && git commit --amend --no-edit -m "$mes" \
+    || git reset HEAD^
+
+./_script/build \
+    && git checkout $cur_branch
