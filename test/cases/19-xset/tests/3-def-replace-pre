@@ -1,0 +1,8 @@
+keys:
+def-as-pre
+	
+	
+at_end
+
+expected:
+-x-def-y-def=at_end

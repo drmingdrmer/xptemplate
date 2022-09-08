@@ -1,0 +1,11 @@
+pre_vimrc:
+let g:xptemplate_key_force_pum = '<tab>'
+let g:xptemplate_pum_tab_nav = 0
+
+
+keys:
+f	
+	
+
+expected:
+f-snip

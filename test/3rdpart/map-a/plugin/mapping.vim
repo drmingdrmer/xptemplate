@@ -1,0 +1,1 @@
+inoremap a a-mapped

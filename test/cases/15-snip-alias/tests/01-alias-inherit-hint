@@ -1,0 +1,9 @@
+keys:
+alias
+
+expected:
+alias
+
+screen:
+alias  *hint-origin
+alias-redefined  *hint-redefined

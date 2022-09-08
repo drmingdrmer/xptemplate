@@ -1,0 +1,24 @@
+vim: shiftwidth=2 tabstop=4
+
+pre_vimrc:
+let g:xptemplate_brace_complete = 1
+let g:xptemplate_vars = 'SParg='
+
+setting:
+shiftwidth=2 tabstop=4
+
+keys:
+(
+ 
+space-before-cursor-removed
+(
+ after-left-parentheses
+cr-auto-indent
+
+
+expected:
+(
+  space-before-cursor-removed( after-left-parentheses
+	cr-auto-indent
+  )
+)

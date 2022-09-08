@@ -1,0 +1,9 @@
+pre_vimrc:
+let g:xptemplate_key = 'trigger'
+let g:xptemplate_fallback = ''
+
+keys:
+is if itrigger
+
+expected:
+is if i

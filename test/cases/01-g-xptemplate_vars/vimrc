@@ -1,0 +1,2 @@
+let g:xptemplate_vars = 'author=iamauther&foo=bar\\&escaped=\&&what=ever&&&&'
+so ./test/core_vimrc

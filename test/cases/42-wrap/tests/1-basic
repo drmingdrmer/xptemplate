@@ -1,0 +1,15 @@
+setting:
+noexpandtab
+tabstop=4
+
+keys:
+line1
+    line2
+
+Vk
+
+wrapper	
+
+expected:
+left-line1
+	line2=right

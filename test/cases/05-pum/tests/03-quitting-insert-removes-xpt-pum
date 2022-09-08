@@ -1,0 +1,21 @@
+pre_vimrc:
+let g:xptemplate_key = '<tab>'
+
+setting:
+completeopt=longest,menu
+
+keys:
+f12 f34
+f	
+
+A
+
+expected:
+f12 f34
+f
+
+screen:
+f12 f34\n
+f\n
+f12\n
+f34\n

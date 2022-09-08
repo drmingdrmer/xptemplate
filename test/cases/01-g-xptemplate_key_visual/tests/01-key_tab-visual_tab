@@ -1,0 +1,12 @@
+pre_vimrc:
+let g:xptemplate_key = '<tab>'
+let g:xptemplate_key_visual = '<tab>'
+
+keys:
+foo	
+
+V	
+wrapper
+
+expected:
+(foo-bar)

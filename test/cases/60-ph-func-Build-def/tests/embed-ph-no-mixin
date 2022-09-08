@@ -1,0 +1,10 @@
+keys:
+embed-ph-no-mixin
+
+=col(".")
+	
+on_group	
+at_end
+
+expected:
+--3-3--on_group-on_group=at_end

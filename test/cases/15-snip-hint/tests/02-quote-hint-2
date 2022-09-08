@@ -1,0 +1,9 @@
+keys:
+quote-hint-2
+
+expected:
+quote-hint-2
+
+screen:
+quote-hint-2 [ ]*quote-hint
+

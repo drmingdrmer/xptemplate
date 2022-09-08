@@ -1,0 +1,12 @@
+keys:
++se
+
+# se
+
+# +se
+
+
+expected:
++--se
+# se in comment
+# +se

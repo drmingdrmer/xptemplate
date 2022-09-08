@@ -1,0 +1,8 @@
+cmd:
+call XPTemplate('foo', 'foo-instant')
+
+keys:
+foo
+
+expected:
+foo-instant

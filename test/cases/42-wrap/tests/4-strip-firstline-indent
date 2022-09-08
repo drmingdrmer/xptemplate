@@ -1,0 +1,18 @@
+setting:
+noexpandtab
+shiftwidth=2
+tabstop=4
+
+keys:
+  line1
+  
+  one_indent_to_two_space
+
+Vkk
+
+wrapper	
+
+expected:
+left-line1
+emptyline
+one_indent_to_two_space=right

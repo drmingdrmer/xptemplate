@@ -1,0 +1,19 @@
+pre_vimrc:
+let g:xptemplate_goback = 'back'
+
+keys:
+foo
+on_ph1
+
+A
+back
+ph1_from_insert_mode	
+on_ph2
+
+$
+back
+ph2_from_normal_mode	
+at_end
+
+expected:
+ph1_from_insert_mode-ph2_from_normal_mode=at_end

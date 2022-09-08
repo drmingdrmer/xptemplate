@@ -1,0 +1,11 @@
+cmd:
+inoreabbrev yy yy
+
+keys:
+foo
+yy yy	
+at_end
+
+expected:
+(yy yy-yy yy)at_end
+

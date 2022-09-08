@@ -1,0 +1,8 @@
+vimarg:
+-V9verboselog
+
+keys:
+foo
+
+expected:
+foo-bar

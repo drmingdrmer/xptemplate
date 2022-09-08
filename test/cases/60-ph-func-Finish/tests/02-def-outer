@@ -1,0 +1,25 @@
+setting:
+tabstop=4
+shiftwidth=2
+noexpandtab
+
+keys:
+finish-edge-def
+(after-a)
+OC
+
+finish-edge-inner-def
+(after-a)
+OC
+
+finish-edge-outer-def
+(after-a)
+
+
+expected:
+  xline-1
+	line-2x(after-a)=
+  xline-1
+	line-2x(after-a)=
+  line-1
+	line-2(after-a)=

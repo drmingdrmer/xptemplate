@@ -1,0 +1,15 @@
+pre_vimrc:
+let g:xptemplate_vars ="SParg="
+let g:xptemplate_brace_complete = '('
+let g:xptemplate_strict = 2
+
+keys:
+(
+
+$x
+
+expected:
+(
+
+screen:
+changes outside of place holder

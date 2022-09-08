@@ -1,0 +1,8 @@
+keys:
+alias-nohint
+
+expected:
+alias-nohint
+
+screen:
+alias-nohint  *3

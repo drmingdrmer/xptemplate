@@ -1,0 +1,17 @@
+pre_vimrc:
+let g:xptemplate_nav_prev = 'bb'
+let g:xptemplate_nav_next = 'ff'
+
+keys:
+foo
+on_ph1
+ff
+on_ph2
+bb
+on_ph1_again
+ff
+ff
+at_end
+
+expected:
+on_ph1_again-on_ph2=at_end

@@ -1,0 +1,7 @@
+keys:
+func_and_var
+	
+at_end
+
+expected:
+-$FOO-tr('aaa','a','b')=at_end

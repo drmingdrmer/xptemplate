@@ -1,0 +1,7 @@
+keys:
+pre
+on_x	
+at_end
+
+expected:
+(on_x)at_end

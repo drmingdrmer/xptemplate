@@ -1,0 +1,16 @@
+pre_vimrc:
+let g:xptemplate_key_force_pum = '<tab>'
+let g:xptemplate_pum_tab_nav = 1
+
+
+keys:
+f	
+	
+	
+
+on_ph1	
+on_ph2	
+at_end
+
+expected:
+on_ph1-on_ph2=at_end

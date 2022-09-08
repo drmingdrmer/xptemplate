@@ -1,0 +1,11 @@
+pre_vimrc:
+let g:xptemplate_nav_next = '<tab>'
+
+keys:
+foo
+	
+	
+at_end
+
+expected:
+ph1-ph2=at_end

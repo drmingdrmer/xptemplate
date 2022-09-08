@@ -1,0 +1,8 @@
+keys:
+escape
+
+expected:
+escape
+
+screen:
+escape  *tr[(]"a", "a", "A"[)] \\a [{] [$] \\\\a \\[{] \\bar

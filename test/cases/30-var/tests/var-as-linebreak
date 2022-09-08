@@ -1,0 +1,6 @@
+keys:
+    var-as-linebreak
+
+expected:
+    line1
+    line2

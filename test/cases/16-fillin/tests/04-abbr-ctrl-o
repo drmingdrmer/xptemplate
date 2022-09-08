@@ -1,0 +1,11 @@
+cmd:
+inoreabbrev yy yy<C-o>:echo 3<CR>
+
+keys:
+foo
+yy x	
+at_end
+
+expected:
+(yy x-yy x)at_end
+

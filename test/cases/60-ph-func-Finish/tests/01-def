@@ -1,0 +1,40 @@
+setting:
+tabstop=4
+shiftwidth=2
+noexpandtab
+
+keys:
+finish-def
+(after-a)
+OC
+
+finish-def-text
+(after-a)
+OC
+
+finish-def-indent
+(after-a)
+OC
+
+finish-def-tab-indent
+(after-a)
+OC
+
+finish-def-indent-3sp
+(after-a)
+OC
+
+finish-def-indent-after-3sp
+(after-a)
+
+expected:
+a(after-a)=
+foo(after-a)=
+  line-1
+	line-2(after-a)=
+  line-1
+	line-2(after-a)=
+  line-1
+	 line-2(after-a)=
+   line-1
+	 line-2(after-a)=

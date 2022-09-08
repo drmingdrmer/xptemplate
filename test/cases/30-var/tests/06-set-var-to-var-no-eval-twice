@@ -1,0 +1,6 @@
+keys:
+set-var-to-var
+
+expected:
+im-a
+$a

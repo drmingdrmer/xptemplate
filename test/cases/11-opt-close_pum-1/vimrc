@@ -1,0 +1,2 @@
+so ./test/core_vimrc
+let g:xptemplate_close_pum = 1

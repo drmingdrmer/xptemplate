@@ -1,0 +1,23 @@
+so ./test/core_vimrc
+set runtimepath+=test/3rdpart/supertab
+
+let g:xptemplate_key = '<tab>'
+
+" Prevent supertab from mapping <tab> to anything.
+let g:SuperTabMappingForward = '<Plug>xpt_void'
+
+" Tell XPTemplate what to fall back to, if nothing matches.
+" Original SuperTab() yields nothing if g:SuperTabMappingForward was set to
+" something it does not know.
+let g:xptemplate_fallback = '<C-r>=XPTwrapSuperTab("n")<CR>'
+
+fun! XPTwrapSuperTab(command) "{{{
+    let v = SuperTab(a:command)
+    if v == ''
+        " Change \<Tab> to whatever you want, when neither XPTemplate or
+        " supertab needs to do anything.
+        return "\<Tab>"
+    else
+        return v
+    end
+endfunction "}}}

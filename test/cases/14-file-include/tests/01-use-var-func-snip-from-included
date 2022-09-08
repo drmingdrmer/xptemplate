@@ -1,0 +1,30 @@
+keys:
+foo
+
+alias-foo
+
+bar
+
+call-func-in-bar
+
+call-var-in-bar
+
+diff-mark
+	
+	
+at_end
+
+diff-mark
+on_a	
+on_b	
+at_end
+
+expected:
+foo-in-bar
+foo-in-bar
+bar-in-foo
+FooFunc
+FooVar
+=a=--b-=at_end
+=on_a=-on_b=at_end
+

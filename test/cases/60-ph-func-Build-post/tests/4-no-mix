@@ -1,0 +1,11 @@
+keys:
+build-post-ph-no-mixin
+should_not_be_seen	
+
+=col(".")
+	
+type_on_group	
+at_end
+
+expected:
+--3-3--type_on_group-type_on_group=at_end

@@ -1,0 +1,12 @@
+pre_vimrc:
+let g:xptemplate_to_right = 'toright'
+
+keys:
+foo
+toright
+.on_ph1	
+on_ph2	
+at_end
+
+expected:
+ph1.on_ph1-on_ph2=at_end
